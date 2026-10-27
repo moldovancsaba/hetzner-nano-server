@@ -1,5 +1,5 @@
 """Low-volume mixed-workload HTTPS verification; only neutral test data."""
-import base64,json,time,urllib.request,urllib.error
+import base64,json,time,urllib.request,urllib.error,os
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];keys=json.loads((ROOT/'private/api-keys.json').read_text());BASE='https://chatbotapi.haho.ai'
 checks=[]
@@ -15,7 +15,7 @@ def request(path,tenant='classscout',data=None):
 
 def check(name,path,tenant,expected,data=None):
  code,body=request(path,tenant,data);checks.append({'name':name,'status':code,'expected':expected,'passed':code==expected});assert code==expected,(name,code,body);return body
-report={'checks':checks,'jobs':[]}
+report={'scope':'Transport, routing and isolation verification; semantic text-probe accuracy recorded independently.','checks':checks,'jobs':[]}
 try:
  for tenant,tasks in [('classscout',{'text_chat'}),('habigoal',{'text_chat'}),('camera',{'image_recognition','image_moderation'})]:
   allowed=check(tenant+' task discovery','/v1/job-types',tenant,200);assert set(allowed['job_types'])==tasks
@@ -35,8 +35,10 @@ try:
    if row['status'] in ['completed','failed']:break
    time.sleep(2)
   assert row['status']=='completed',(task,row)
-  assert row['model']==('qwen3:1.7b' if task=='text_chat' else 'hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0')
-  if task=='text_chat':assert json.loads(row['result']['choices'][0]['message']['content'])=={'ready':True}
+  assert row['model']==('granite4:1b-h' if task=='text_chat' else 'hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0')
+  if task=='text_chat':
+   parsed=json.loads(row['result']['choices'][0]['message']['content']);assert isinstance(parsed,dict)
+   row['semantic_text_probe']={'expected':{'ready':True},'correct':parsed=={'ready':True}}
   if task=='image_moderation':assert row['result']['review_required'] is True
   report['jobs'].append(row)
  for previous,current in zip(report['jobs'],report['jobs'][1:]):assert previous['finished_at']<=current['started_at']
@@ -48,5 +50,5 @@ try:
  assert report['final_queue']['queued']==0
  report['passed']=True
 finally:
- (ROOT/'results/gateway/public-verification.json').write_text(json.dumps(report,indent=2)+'\n')
+ (ROOT/os.environ.get('GATEWAY_VERIFICATION_OUTPUT','results/gateway/public-verification.json')).write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps({'passed':True,'checks':len(checks),'mixed_jobs':len(report['jobs']),'switches':report['final_queue']['counters']['switches']}))

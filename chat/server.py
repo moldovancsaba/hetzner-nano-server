@@ -54,10 +54,11 @@ class Handler(BaseHTTPRequestHandler):
   except Exception:return self.send(400,'{"error":"Please send a shorter message or start a new chat."}','application/json')
   if not WORKER.acquire(blocking=False):return self.send(429,'{"error":"Another reply is in progress. Try again shortly."}','application/json')
   try:
-   payload={'model':'qwen3:1.7b','messages':[{'role':'system','content':'You are Pandora, a helpful conversational assistant. Answer clearly and briefly. Say when you are unsure.'}]+recent,'reasoning_effort':'none','stream':False,'max_tokens':256,'temperature':0.4}
+   payload={'model':'auto','messages':[{'role':'system','content':'You are Pandora, a helpful assistant on a privately hosted AI service. Your name in this chat is Pandora: introduce yourself as Pandora when asked who you are. Distinguish your display name from the underlying model. Never invent the model developer or model identity. Answer clearly and briefly. Say when you are unsure.'}]+recent,'reasoning_effort':'none','stream':False,'max_tokens':256,'temperature':0.4}
    req=urllib.request.Request('http://127.0.0.1:8090/v1/chat/completions',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+GATEWAY_KEY})
-   with urllib.request.urlopen(req,timeout=110) as r:reply=json.load(r)['choices'][0]['message']['content']
-   self.send(200,json.dumps({'reply':reply}), 'application/json')
+   with urllib.request.urlopen(req,timeout=110) as r:completion=json.load(r)
+   reply=completion['choices'][0]['message']['content']
+   self.send(200,json.dumps({'reply':reply,'model':completion.get('model')}), 'application/json')
   except Exception:self.send(503,'{"error":"The chat is unavailable right now. Please try again shortly."}','application/json')
   finally:WORKER.release()
 ThreadingHTTPServer(('127.0.0.1',8088),Handler).serve_forever()

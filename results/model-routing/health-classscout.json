@@ -1,0 +1,28 @@
+[
+  {
+    "check": "missing_key",
+    "status": 401,
+    "expected": 401,
+    "seconds": 0.0946,
+    "passed": true,
+    "models": []
+  },
+  {
+    "check": "invalid_key",
+    "status": 401,
+    "expected": 401,
+    "seconds": 0.0916,
+    "passed": true,
+    "models": []
+  },
+  {
+    "check": "classscout",
+    "status": 200,
+    "expected": 200,
+    "seconds": 0.1017,
+    "passed": true,
+    "models": [
+      "granite4:1b-h"
+    ]
+  }
+]

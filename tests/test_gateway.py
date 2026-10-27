@@ -4,7 +4,7 @@ from PIL import Image
 from gateway.server import Scheduler,Server,Runner,ROUTES,UpstreamUncertain,text_input
 
 def completion():
- return {'id':'test','created':1,'model':'qwen3:1.7b','object':'chat.completion','choices':[{'index':0,'message':{'role':'assistant','content':'READY'},'finish_reason':'stop'}],'usage':{'prompt_tokens':1,'completion_tokens':1,'total_tokens':2}}
+ return {'id':'test','created':1,'model':'granite4:1b-h','object':'chat.completion','choices':[{'index':0,'message':{'role':'assistant','content':'READY'},'finish_reason':'stop'}],'usage':{'prompt_tokens':1,'completion_tokens':1,'total_tokens':2}}
 
 def wait(s,tenant,job):return s.wait(tenant,job,3)
 class Tests(unittest.TestCase):
@@ -48,11 +48,14 @@ class Tests(unittest.TestCase):
    if path=='/api/generate':return {'done':True}
    return completion()
   with patch('gateway.server.native',side_effect=native):
-   result,switch=Runner()('text_chat',{},'qwen3:1.7b')
+   result,switch=Runner()('text_chat',{},'granite4:1b-h')
   self.assertEqual([x[0] for x in calls],['/api/ps','/api/generate','/api/ps','/v1/chat/completions']);self.assertEqual(switch['unloaded_models'],['old-model'])
+ def test_legacy_model_is_alias_not_actual_route(self):
+  data=text_input({'model':'qwen3:1.7b','messages':[{'role':'user','content':'Hi'}]},ROUTES['text_chat']['model'])
+  self.assertEqual(data['model'],'granite4:1b-h')
  def test_text_limits(self):
   for data in [{'messages':[{'role':'user','content':[{'type':'image_url'}]}]}, {'messages':[]}, {'messages':[{'role':'user','content':'Hi'}],'model':'giant:70b'}, {'messages':[{'role':'user','content':'Hi'}],'max_tokens':513}]:
-   with self.assertRaises(ValueError):text_input(data,'qwen3:1.7b')
+   with self.assertRaises(ValueError):text_input(data,'granite4:1b-h')
  def test_http_permissions_async_chat_and_sse(self):
   s=Scheduler(lambda *args:(completion(),{'unloaded_models':[]}))
   http=Server(('127.0.0.1',0),{'camera':'c'*40,'classscout':'t'*40},s);threading.Thread(target=http.serve_forever,daemon=True).start()

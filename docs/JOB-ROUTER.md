@@ -8,9 +8,11 @@ All public text generation, Camera image processing, and Pandora chat now pass t
 
 | Job type | Services permitted | Assigned model | Result |
 | --- | --- | --- | --- |
-| `text_chat` | ClassScout, Habigoal, Pandora | `qwen3:1.7b` | OpenAI-compatible chat completion; JSON output and tool definitions supported |
+| `text_chat` | ClassScout, Habigoal, Pandora | `granite4:1b-h` | OpenAI-compatible chat completion; JSON output and tool definitions supported |
 | `image_moderation` | Camera | `hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0` | Nine-category experimental human-review signals |
 | `image_recognition` | Camera | same 450M vision model | Description, objects, readable visible text |
+
+ClassScout/Habigoal/Pandora now use Granite 4 1B Hybrid, the leader of our measured English structured-task checks (14/14). This does not certify all conversational or non-English tasks. `qwen3:1.7b` is retained only as an explicit legacy input alias and is mapped to Granite; it no longer selects Qwen. The actual completion `model` field and `/job-types` are authoritative.
 
 Task-to-model assignments live in [config/job-routes.json](../config/job-routes.json). Callers choose a permitted task, not an arbitrary downloaded model. Moderation's model remains coupled to its tested versioned policy. No non-English or movie capability has been approved. General image description is experimental, not a new accuracy certification.
 

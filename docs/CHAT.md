@@ -23,3 +23,7 @@ To deploy edits: copy chat sources to /opt/narimato-chat, retain readable mode 6
 Caddy routes for bearer-authenticated /v1/models and /v1/chat/completions remain intact. Pre-chat rollback configuration is at /opt/narimato-ai/Caddyfile.before-chat (sensitive). To remove chat, remove its @chat/handle route, validate/reload Caddy and disable/stop narimato-chat; preserve API routes.
 
 Verification uses real public HTTPS: login form, unauthenticated chat refusal, wrong password refusal, successful session login, generated response, logout, and existing project authentication. No full browser visual test has been performed. A password attempt delay is present but comprehensive login rate limiting is not implemented.
+
+The active text route is now Granite 4 1B Hybrid. Pandora submits `model: auto` and follows the server assignment. Its system instruction names the chat persona Pandora and asks it not to invent its developer/model identity. Natural-language self-identification is not a reliable model inventory; check `/v1/job-types` or the completion model field.
+
+The chat response now includes the actual gateway completion model, displayed below the composer after a reply. This footer comes from response metadata rather than the model’s self-description. Refresh the page to load updated UI code; old conversation history may contain previous Qwen replies.

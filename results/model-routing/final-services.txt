@@ -1,0 +1,5 @@
+NAME             ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL
+granite4:1b-h    7761ae79cab9    1.8 GB    100% CPU     2048       llamacpp    29 minutes from now
+active
+active
+active

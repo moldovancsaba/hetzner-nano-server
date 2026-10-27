@@ -14,7 +14,7 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 
 ## Shared text/image queue
 
-[Shared job router](docs/JOB-ROUTER.md): one FIFO queue routes ClassScout/Habigoal/Pandora text to Qwen3 and Camera images to LFM2.5-VL 450M. Discover assignments with `/v1/job-types`, submit async work at `/v1/jobs`, and inspect `/v1/queue`. Existing chat and moderation endpoints use the same scheduler.
+[Shared job router](docs/JOB-ROUTER.md): one FIFO queue routes ClassScout/Habigoal/Pandora text to Granite 4 1B Hybrid and Camera images to LFM2.5-VL 450M. Discover assignments with `/v1/job-types`, submit async work at `/v1/jobs`, and inspect `/v1/queue`. Existing chat and moderation endpoints use the same scheduler.
 
 ## Camera moderation API
 
@@ -34,7 +34,7 @@ Open https://chatbotapi.haho.ai/chat/ and enter the owner-selected secret (no us
 | Public IPv4 | 2.31.100.246 |
 | Selected image | Docker CE, Ubuntu 24.04 base |
 | API base URL | https://chatbotapi.haho.ai/v1 |
-| Model | qwen3:1.7b; model ID 8f68893c685c; quantized download about 1.4 GB |
+| Text model | granite4:1b-h (Granite 4 1B Hybrid); ID 7761ae79cab9; installed download about 1.6 GB |
 | Runtime | Ollama in Docker; Caddy on the host for HTTPS/authentication |
 | Runtime directory | /opt/narimato-ai |
 | Container | narimato-ollama |
@@ -90,13 +90,13 @@ Server, DNS, trusted HTTPS, both authentication keys, native inference, and Open
 
 Separate forbidden-content screening: [nine-category moderation test](benchmarks/moderation/REPORT.md). Its results do not enter the general image ranking. Research images and sensitive fixtures are excluded from Git.
 
-Latest expanded findings: [English ranking](benchmarks/rankings/ENGLISH.md), [image analytics ranking](benchmarks/rankings/IMAGES.md), and [new candidate test report](benchmarks/round3/REPORT.md). These are separate workstreams. Eleven additional model variants were attempted; candidate weights were removed after evaluation and Qwen3 remains deployed.
+Latest expanded findings: [English ranking](benchmarks/rankings/ENGLISH.md), [image analytics ranking](benchmarks/rankings/IMAGES.md), and [new candidate test report](benchmarks/round3/REPORT.md). These are separate workstreams. Eleven additional model variants were attempted; candidate weights were removed after evaluation. Those benchmark runs restored Qwen3; the subsequent shared text route now uses Granite 4 1B Hybrid.
 
 Non-English capabilities are managed independently: [language-specific evaluation](benchmarks/non-english/REPORT.md). English scores exclude non-English tests. Each language and task requires its own model choice and acceptance.
 
-Earlier round: [separate image and text/chat results](benchmarks/round2/REPORT.md). SmolVLM2 2.2B Q4 and Granite Vision passed the image checks under measured image-specific profiles. Granite 4 1B hybrid is a promising English structured-task candidate. Gemma 4 was attempted but could not complete image inference under the current limits. Qwen3 remains deployed.
+Earlier round: [separate image and text/chat results](benchmarks/round2/REPORT.md). SmolVLM2 2.2B Q4 and Granite Vision passed the image checks under measured image-specific profiles. Granite 4 1B hybrid is a promising English structured-task candidate. Gemma 4 was attempted but could not complete image inference under the current limits. These reports predate the switch to Granite for text.
 
-See [the measured model comparison](benchmarks/capabilities/REPORT.md) for seven candidate models, actual unload/load timings, real Atlas/OSM inputs, image tests, raw outputs and integration guidance. Qwen3 1.7B remains the default. Candidate models are also downloaded; they share the one-model memory limit.
+See [the measured model comparison](benchmarks/capabilities/REPORT.md) for seven candidate models, actual unload/load timings, real Atlas/OSM inputs, image tests, raw outputs and integration guidance. Granite 4 1B Hybrid is now the default text route. Candidate models are also downloaded; they share the one-model memory limit.
 
 ## File map
 

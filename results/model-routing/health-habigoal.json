@@ -1,0 +1,28 @@
+[
+  {
+    "check": "missing_key",
+    "status": 401,
+    "expected": 401,
+    "seconds": 0.0942,
+    "passed": true,
+    "models": []
+  },
+  {
+    "check": "invalid_key",
+    "status": 401,
+    "expected": 401,
+    "seconds": 0.0897,
+    "passed": true,
+    "models": []
+  },
+  {
+    "check": "habigoal",
+    "status": 200,
+    "expected": 200,
+    "seconds": 0.0925,
+    "passed": true,
+    "models": [
+      "granite4:1b-h"
+    ]
+  }
+]

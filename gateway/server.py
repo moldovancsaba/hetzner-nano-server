@@ -113,7 +113,7 @@ def text_input(data, model):
                'response_format', 'tools', 'tool_choice', 'reasoning_effort', 'stream_options'}
     if set(data) - allowed:
         raise ValueError('Unsupported chat fields')
-    if data.get('model', model) not in {model, 'auto', 'text_chat'}:
+    if data.get('model', model) not in {model, 'auto', 'text_chat', *ROUTES['text_chat'].get('aliases', [])}:
         raise ValueError('Model is not allowed for this job type')
     messages = data.get('messages')
     if not isinstance(messages, list) or not 1 <= len(messages) <= 32:
