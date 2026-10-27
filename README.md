@@ -1,6 +1,6 @@
 # Hetzner AI server: agent starting point
 
-Established 2026-10-26. Private GitHub repository: [hetzner-nano-server](https://github.com/moldovancsaba/hetzner-nano-server).
+Established 2026-10-26. Public GitHub repository: [hetzner-nano-server](https://github.com/moldovancsaba/hetzner-nano-server).
 
 Local documentation root: `/Users/Shared/Projects/hetzner`.
 
@@ -79,6 +79,8 @@ ClassScout's key was added to `/Users/Shared/Projects/classscout/.env.local` as 
 Server, DNS, trusted HTTPS, both authentication keys, native inference, and OpenAI-compatible chat were verified. Initial baseline synthetic benchmark: 5/5 valid JSON, 3/5 strict expected-value passes, median 1.37 s; see docs/MEASUREMENT.md for the wrong arithmetic answer and the underspecified language format. Automatic container restart and Caddy service startup are configured. Production application integration, application task evaluation, rate limiting, alerting, restore testing, and capacity testing remain separate work. A single small CPU model is not proven suitable for every project task.
 
 ## Capability benchmark
+
+Separate forbidden-content screening: [nine-category moderation test](benchmarks/moderation/REPORT.md). Its results do not enter the general image ranking. Research images and sensitive fixtures are excluded from Git.
 
 Latest expanded findings: [English ranking](benchmarks/rankings/ENGLISH.md), [image analytics ranking](benchmarks/rankings/IMAGES.md), and [new candidate test report](benchmarks/round3/REPORT.md). These are separate workstreams. Eleven additional model variants were attempted; candidate weights were removed after evaluation and Qwen3 remains deployed.
 

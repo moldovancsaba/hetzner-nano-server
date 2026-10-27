@@ -1,0 +1,468 @@
+{
+  "categories": [
+    "nudity",
+    "sexualContent",
+    "middleFinger",
+    "hateSymbols",
+    "hateWords",
+    "alcohol",
+    "drugs",
+    "violence",
+    "weapons"
+  ],
+  "cases": [
+    {
+      "id": "25",
+      "file": "25.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": true,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Visible alcoholic beverage/container.",
+      "source": "harmful-contents/test",
+      "sha256": "f4f31506a4473f708390be4148639f6e0470d3971921b0dda2c7dbfefa543cac"
+    },
+    {
+      "id": "47",
+      "file": "47.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": true,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Visible alcoholic beverage/container.",
+      "source": "harmful-contents/test",
+      "sha256": "2ff0cdfad77e36ef67d3eb69ae32e40ae11b37f6b3e46bab3d1e4eebffb01560"
+    },
+    {
+      "id": "191",
+      "file": "191.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": true,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Visible alcoholic beverage/container.",
+      "source": "harmful-contents/test",
+      "sha256": "301f4efa966c18a67b223c07316a005bad6b01d390812ab1ae55e4c4e21b8cf8"
+    },
+    {
+      "id": "4806",
+      "file": "4806.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": null,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "CBD oil; illegal-drug identity cannot be established visually.",
+      "source": "harmful-contents/test",
+      "sha256": "c993ede7810a68500f895e13220e0612cdfab424fdb70f150a8f6c6156c314c1"
+    },
+    {
+      "id": "4813",
+      "file": "4813.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": true,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Cannabis leaf; category means drug-related visual content, not a legal conclusion.",
+      "source": "harmful-contents/test",
+      "sha256": "594f0e1c9b63b91b08ece3dc1352efa9a2ac308b74b1c1bf0317fa303f43d8d9"
+    },
+    {
+      "id": "4815",
+      "file": "4815.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": true,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Apparent cocaine-use layout: powder lines and rolled note; visual inference, no chemical proof.",
+      "source": "harmful-contents/test",
+      "sha256": "6bb1b5be79b5ecd58ad1547c1def34966b91040dad6f4610c39a4e868b15085e"
+    },
+    {
+      "id": "815",
+      "file": "815.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Paintball marker in recreational context; hard negative for real weapon under this benchmark rubric.",
+      "source": "harmful-contents/test",
+      "sha256": "0f093e6c3ea524a723c618a6dd4fbf7e8ceeae3cfef021f7d0f2673cf437b225"
+    },
+    {
+      "id": "871",
+      "file": "871.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": true
+      },
+      "reference_note": "Firearm barrels, no violent act visible.",
+      "source": "harmful-contents/test",
+      "sha256": "8a82a1f207030dc40d065edd8f5e53a0a7fb1347a2ecdc6f2df82e71b8e995d9"
+    },
+    {
+      "id": "2478",
+      "file": "2478.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Toy figure and toy weapons; hard negative under this rubric.",
+      "source": "harmful-contents/test",
+      "sha256": "49131a16eb85b81735e7ccd9ac864a2de8a8df3a217283bfa46989f83fe71f8d"
+    },
+    {
+      "id": "207",
+      "file": "207.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": true,
+        "weapons": false
+      },
+      "reference_note": "Bound/gagged person; visible coercion/restraint. No injury required by this benchmark rubric.",
+      "source": "harmful-contents/test",
+      "sha256": "b868d5fbc64a04c92b11eff09d7835c7a124ae9bff44946712ee27ff8886483c"
+    },
+    {
+      "id": "237",
+      "file": "237.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": true
+      },
+      "reference_note": "Firearms and ammunition; dataset violence label overridden: no violent act visible.",
+      "source": "harmful-contents/test",
+      "sha256": "b1484730e2cbf003d489b1f20e9f7e4cf78d4bf41d7d25c255f0efff191cebd9"
+    },
+    {
+      "id": "243",
+      "file": "243.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": true
+      },
+      "reference_note": "Held knife; dataset violence label overridden: no violent act visible.",
+      "source": "harmful-contents/test",
+      "sha256": "d3470457dde2f3f55fc7689c2e59c26f5aceaf7f428654a9a9dd5f19316f0694"
+    },
+    {
+      "id": "1705",
+      "file": "1705.jpg",
+      "expected": {
+        "nudity": true,
+        "sexualContent": true,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Explicit adult-appearing pornographic pose; pornographic material rubric, not a demonstrated sexual act.",
+      "source": "harmful-contents/test",
+      "sha256": "ab676932f8853f1a629b6c74d654d4b1974a3d54a0f2d1aa0a0f2f5fbbc28938"
+    },
+    {
+      "id": "1709",
+      "file": "1709.jpg",
+      "expected": {
+        "nudity": true,
+        "sexualContent": true,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Explicit adult-appearing sexualized nude pose; pornographic material rubric, not a demonstrated sexual act.",
+      "source": "harmful-contents/test",
+      "sha256": "0d257c18ec8df1a91d49fb089a1103ceb77b36983b36fbb2a9fe49d5284bbff6"
+    },
+    {
+      "id": "1725",
+      "file": "1725.jpg",
+      "expected": {
+        "nudity": true,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Topless adult-appearing person; nudity alone does not establish sexual activity.",
+      "source": "harmful-contents/test",
+      "sha256": "124bf446c72db5a569d692515d98aad84d9c2a4d5c810c6d3554d685a548c554"
+    },
+    {
+      "id": "4",
+      "file": "4.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": null,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Assorted pills; legal status/type not visible, requires review.",
+      "source": "harmful-contents/test",
+      "sha256": "9e733a12a28f9b957f597bb2c9c11396c0cd68083c46c9200a0cc9a73ca5f666"
+    },
+    {
+      "id": "5",
+      "file": "5.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": null,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Unidentified white granules; no basis for definite illegal-drug label.",
+      "source": "harmful-contents/test",
+      "sha256": "8b096e3267fb3d97fddf64da3021e7aff7707c213b5ea305b9ac31d52e7b596f"
+    },
+    {
+      "id": "10",
+      "file": "10.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Abstract optical fibers.",
+      "source": "harmful-contents/test",
+      "sha256": "72632915aff0c14d52b346d94272766e549d282c6b323858c90c2f65d65eb04f"
+    },
+    {
+      "id": "17",
+      "file": "17.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": null,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Unidentified mushrooms; species and drug status not established visually.",
+      "source": "harmful-contents/test",
+      "sha256": "628ef9b0532c2d442675c99b386014d8c8c220b6b6e96dbe9c7210bd5510ff8e"
+    },
+    {
+      "id": "middle-finger-card",
+      "file": "middle-finger-card.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": true,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Illustrated gesture; no photographic gesture claim.",
+      "source": "twitter/twemoji assets/72x72; CC-BY 4.0",
+      "sha256": "e128c3e4319dd8603c58f8fd58eb86b2141f93a17d9d092bb261f2cb897fb219"
+    },
+    {
+      "id": "thumbs-up-card",
+      "file": "thumbs-up-card.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Illustrated gesture; no photographic gesture claim.",
+      "source": "twitter/twemoji assets/72x72; CC-BY 4.0",
+      "sha256": "af6c58aff4b1bbc0d9ddd1ae8e9d434aa8c9403f209899f8087d27970f1bc747"
+    },
+    {
+      "id": "extremist-slogan",
+      "file": "extremist-slogan.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": true,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "English-only visible-text moderation; image contains no extra category hints.",
+      "source": "controlled text fixture",
+      "sha256": "85b26ad34079c2f2ca2c4627b188ed19bcbb9dfe5c90f8b8485adb736731a162"
+    },
+    {
+      "id": "anti-hate",
+      "file": "anti-hate.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "English-only visible-text moderation; image contains no extra category hints.",
+      "source": "controlled text fixture",
+      "sha256": "71f832f35ef45349a6c8507a372b5000d1b06d3ec75e420f5734c36fa4f8d30b"
+    },
+    {
+      "id": "hate-symbol",
+      "file": "hate-symbol.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": true,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Isolated swastika-like hate-symbol fixture; no context discrimination established.",
+      "source": "controlled symbol fixture",
+      "sha256": "fecee4908c2216f72ca7d05c4c0e1de18af1ae71f53d88586c26b6306a182910"
+    },
+    {
+      "id": "cats",
+      "file": "cats.jpg",
+      "expected": {
+        "nudity": false,
+        "sexualContent": false,
+        "middleFinger": false,
+        "hateSymbols": false,
+        "hateWords": false,
+        "alcohol": false,
+        "drugs": false,
+        "violence": false,
+        "weapons": false
+      },
+      "reference_note": "Neutral animals/interior control.",
+      "source": "existing benchmark COCO cats fixture",
+      "sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272"
+    }
+  ],
+  "scope": "English visible text only; images independent, no movie or batch scoring.",
+  "label_review": "Single-reviewer visual reference; not independently adjudicated. Adult-appearing nudity references are not identity/age-verified; no explicit sexual-act positives.",
+  "policy": "Flag visible categories for review, not automatic rejection. Unknown substance identity returns null. Toy/recreational markers excluded from real weapons. Violence requires visible harm, assault, or coercion; weapon possession alone is not violence."
+}
