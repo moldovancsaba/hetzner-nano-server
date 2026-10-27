@@ -2,8 +2,8 @@ active
 active
 active
 disabled
-NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL               
-qwen3:1.7b    8f68893c685c    1.6 GB    100% CPU     2048       llamacpp    29 minutes from now    
+NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL
+qwen3:1.7b    8f68893c685c    1.6 GB    100% CPU     2048       llamacpp    29 minutes from now
 MemoryCurrent=20357120
 MemoryMax=402653184
 Filesystem      Size  Used Avail Use% Mounted on
