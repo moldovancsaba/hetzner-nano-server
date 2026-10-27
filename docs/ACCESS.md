@@ -34,3 +34,7 @@ No Hetzner API token, GoDaddy account credential, or SSH passphrase is stored he
 ## Rotation
 
 Generate a new project key on the server, stage Caddy acceptance of both old and new values, validate/reload Caddy, update the application's server-side secret, verify successful calls, then remove old-key acceptance and validate/reload again. Update the canonical JSON and restricted local snapshot. The current config does not automate this procedure; preserve rollback copies securely. Do not revoke both projects' keys together unless required.
+
+## Camera moderation credential
+
+The dedicated `camera` key in the canonical/local key JSON authenticates only the moderation worker. Root-only runtime environment: `/etc/narimato-moderation.env`; local handoff: `private/camera-moderation.env` (600, ignored). It is not accepted by chat routes. See [Camera moderation](CAMERA-MODERATION.md) for use and rotation. Existing Habigoal/ClassScout keys and paths are preserved.

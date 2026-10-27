@@ -79,3 +79,9 @@ At the owner’s instruction, separated non-English capability management entire
 ## Additional candidate tests — 2026-10-27
 
 Tested five additional English text variants and six additional image variants sequentially with the same server memory cap and no non-English tests. Downloaded candidate weights were removed after recording resolved metadata and results; original packages were preserved. Ran one separate larger-budget English check for each of two always-thinking candidates. Updated independent English/image rankings and the Round3 report. No model, public endpoint, application environment or routing selection was deployed.
+
+## 2026-10-27: Camera review-assistance API
+
+After independent nine-category testing, the owner accepted imperfect screening as human-review assistance. Added a dedicated LFM2.5-VL 450M worker on loopback 8089, exposed through authenticated `/v1/moderation/*` routes. Dedicated Camera credential stored in protected server/local files; existing project keys preserved. Asynchronous bounded in-memory jobs, input validation/resizing, explicit review-only results, nullable categories, failure states, idempotency and short retention were implemented. No image URL fetching or arbitrary prompt/model selection is exposed.
+
+Installed distribution `python3-pil` (Pillow 10.2.0 at deployment), native systemd worker with 384 MiB cap, and persisted the tested 450M model package. Caddy candidate validation passed before reload; other routes retain their 128 KB limit, moderation requests have a separate 6 MB proxy limit. Source and protected config snapshots refreshed. Unit and public HTTPS end-to-end checks recorded under `results/moderation-api/`; no Camera repository/Vercel integration was deployed. See `docs/CAMERA-MODERATION.md` for contract, examples, credentials, limits, failure handling and operations.

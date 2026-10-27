@@ -1,0 +1,4 @@
+{"chat_generation_succeeded": true, "reply_present": true, "model": "qwen3:1.7b"}
+active
+active
+active

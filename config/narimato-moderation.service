@@ -1,0 +1,18 @@
+[Unit]
+Description=Camera image moderation review signals
+After=network.target docker.service
+[Service]
+DynamicUser=yes
+EnvironmentFile=/etc/narimato-moderation.env
+ExecStart=/usr/bin/python3 /opt/narimato-moderation/server.py
+Restart=on-failure
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=384M
+CPUQuota=50%
+TasksMax=24
+UMask=0077
+[Install]
+WantedBy=multi-user.target

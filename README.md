@@ -12,6 +12,10 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 4. Run `python3 scripts/healthcheck.py --project classscout` or use `habigoal`.
 5. Read `docs/HISTORY.md`, `docs/MEASUREMENT.md`, and `docs/IMPROVEMENTS.md` for decisions, evidence, and outstanding work.
 
+## Camera moderation API
+
+[Camera integration guide](docs/CAMERA-MODERATION.md): dedicated authenticated background image checks using LFM2.5-VL 450M. Human review remains required; no automatic approval/rejection. Credentials stay in ignored local/server secret files.
+
 ## Personal chat
 
 Open https://chatbotapi.haho.ai/chat/ and enter the owner-selected secret (no username). See docs/CHAT.md; private/chat-access.txt stores access details.
@@ -65,7 +69,7 @@ ClassScout's key was added to `/Users/Shared/Projects/classscout/.env.local` as 
 
 ## Current behavior
 
-- Public bearer API routes: `/v1/models` and `/v1/chat/completions`. `/chat/` provides a separate password-only personal chat.
+- Public chat bearer API routes: `/v1/models` and `/v1/chat/completions`. Camera uses separately authenticated `/v1/moderation/*` jobs; see its integration guide. `/chat/` provides a separate password-only personal chat.
 - Every public API call requires `Authorization: Bearer <project key>`.
 - `/v1` by itself returns 401; this is not a health check or a user interface.
 - Ollama is bound to host loopback `127.0.0.1:11434`, not the public network.
