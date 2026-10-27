@@ -12,6 +12,10 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 4. Run `python3 scripts/healthcheck.py --project classscout` or use `habigoal`.
 5. Read `docs/HISTORY.md`, `docs/MEASUREMENT.md`, and `docs/IMPROVEMENTS.md` for decisions, evidence, and outstanding work.
 
+## Shared text/image queue
+
+[Shared job router](docs/JOB-ROUTER.md): one FIFO queue routes ClassScout/Habigoal/Pandora text to Qwen3 and Camera images to LFM2.5-VL 450M. Discover assignments with `/v1/job-types`, submit async work at `/v1/jobs`, and inspect `/v1/queue`. Existing chat and moderation endpoints use the same scheduler.
+
 ## Camera moderation API
 
 [Camera integration guide](docs/CAMERA-MODERATION.md): dedicated authenticated background image checks using LFM2.5-VL 450M. Human review remains required; no automatic approval/rejection. Credentials stay in ignored local/server secret files.

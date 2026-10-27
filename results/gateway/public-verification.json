@@ -1,0 +1,304 @@
+{
+  "checks": [
+    {
+      "name": "classscout task discovery",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "habigoal task discovery",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "camera task discovery",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Camera cannot submit text",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "name": "ClassScout cannot submit images",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "name": "Arbitrary model rejected",
+      "status": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "name": "Submit classscout text_chat",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Submit camera image_moderation",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Submit camera image_recognition",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Submit habigoal text_chat",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Shared queue visibility",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Cross-service result isolation",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "name": "FIFO timestamps prove no overlapping mixed jobs",
+      "passed": true
+    },
+    {
+      "name": "Buffered streaming compatibility",
+      "passed": true
+    },
+    {
+      "name": "Pandora uses the same authenticated queue",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Queue drained",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    }
+  ],
+  "jobs": [
+    {
+      "id": "aEI792UzpghVCwSXUGxxBHNxAnWONiSU",
+      "task": "text_chat",
+      "model": "qwen3:1.7b",
+      "status": "completed",
+      "created_at": 1793096077.1426291,
+      "started_at": 1793096077.1435435,
+      "model_switch": {
+        "target_model": "qwen3:1.7b",
+        "unloaded_models": [],
+        "unload_wait_seconds": 0.0372
+      },
+      "queue_wait_seconds": 0.0009,
+      "finished_at": 1793096082.0106437,
+      "result": {
+        "id": "chatcmpl-107",
+        "object": "chat.completion",
+        "created": 1793096082,
+        "model": "qwen3:1.7b",
+        "system_fingerprint": "fp_ollama",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"ready\": true}"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 27,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "completion_tokens": 6,
+          "total_tokens": 33
+        }
+      },
+      "queue_position": null
+    },
+    {
+      "id": "v9H0FarRyHevCXm45nwOLhFPyiB6IpZo",
+      "task": "image_moderation",
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": "completed",
+      "created_at": 1793096077.4085379,
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793096082.0106716,
+      "model_switch": {
+        "target_model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "unloaded_models": [
+          "qwen3:1.7b"
+        ],
+        "unload_wait_seconds": 0.1078
+      },
+      "queue_wait_seconds": 4.6021,
+      "finished_at": 1793096091.7236066,
+      "result": {
+        "schema_version": "camera-moderation.v1",
+        "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "review_required": true,
+        "automated_decision": "none",
+        "signal": "no_flags_detected",
+        "flags": [],
+        "categories": {
+          "nudity": "not_detected",
+          "sexualContent": "not_detected",
+          "middleFinger": "not_detected",
+          "hateSymbols": "not_detected",
+          "hateWords": "not_detected",
+          "alcohol": "not_detected",
+          "drugs": "not_detected",
+          "violence": "not_detected",
+          "weapons": "not_detected"
+        },
+        "evidence": "The image shows two cats lying on a pink surface, with remote controls nearby. There are no visible nudity, sexual content, middle fingers, hate symbols, hate words, alcohol, drugs, violence, or weapons present.",
+        "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+        "timing": {
+          "model_load_seconds": 1.5559,
+          "inference_seconds": 9.5987
+        }
+      },
+      "queue_position": null
+    },
+    {
+      "id": "bfqeQR431mRkej8PCSieNmseoeg7wHOO",
+      "task": "image_recognition",
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": "completed",
+      "created_at": 1793096077.6650674,
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793096091.7236352,
+      "model_switch": {
+        "target_model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "unloaded_models": [],
+        "unload_wait_seconds": 0.0041
+      },
+      "queue_wait_seconds": 14.0586,
+      "finished_at": 1793096098.1847742,
+      "result": {
+        "schema_version": "camera-recognition.v1",
+        "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "description": "Two cats lying on a pink blanket, one with a striped pattern and the other with a tabby pattern, both resting with their paws up. A remote control is visible on the left side of the image.",
+        "objects": [
+          "cat 1",
+          "cat 2",
+          "remote control",
+          "pink blanket",
+          "cat 1's paw",
+          "cat 2's paw",
+          "remote control's buttons"
+        ],
+        "visible_text": [
+          "remote control"
+        ],
+        "limitations": "Experimental visual description; verify details. Not a moderation decision."
+      },
+      "queue_position": null
+    },
+    {
+      "id": "u_Ytzqxx3JNNF2oCy_7w1xbHeyq3Jd4y",
+      "task": "text_chat",
+      "model": "qwen3:1.7b",
+      "status": "completed",
+      "created_at": 1793096077.7741814,
+      "started_at": 1793096098.1850317,
+      "model_switch": {
+        "target_model": "qwen3:1.7b",
+        "unloaded_models": [
+          "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+        ],
+        "unload_wait_seconds": 0.0472
+      },
+      "queue_wait_seconds": 20.4109,
+      "finished_at": 1793096102.6348746,
+      "result": {
+        "id": "chatcmpl-975",
+        "object": "chat.completion",
+        "created": 1793096102,
+        "model": "qwen3:1.7b",
+        "system_fingerprint": "fp_ollama",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"ready\": true}"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 27,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "completion_tokens": 6,
+          "total_tokens": 33
+        }
+      },
+      "queue_position": null
+    }
+  ],
+  "queue_during_work": {
+    "status": "ok",
+    "policy": "fifo",
+    "active_task": "text_chat",
+    "queued": 3,
+    "queue_capacity": 8,
+    "per_service_limit": 4,
+    "own_pending": 1,
+    "counters": {
+      "completed": 0,
+      "failed": 0,
+      "expired": 0,
+      "switches": 0
+    },
+    "last_model_switch": null,
+    "durability": "memory_only",
+    "result_retention_seconds": 900
+  },
+  "final_queue": {
+    "status": "ok",
+    "policy": "fifo",
+    "active_task": null,
+    "queued": 0,
+    "queue_capacity": 8,
+    "per_service_limit": 4,
+    "own_pending": 0,
+    "counters": {
+      "completed": 6,
+      "failed": 0,
+      "expired": 0,
+      "switches": 2
+    },
+    "last_model_switch": {
+      "target_model": "qwen3:1.7b",
+      "unloaded_models": [],
+      "unload_wait_seconds": 0.0018
+    },
+    "durability": "memory_only",
+    "result_retention_seconds": 900
+  },
+  "passed": true
+}

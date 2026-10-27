@@ -1,5 +1,9 @@
 # Operations and recovery
 
+## Shared inference gateway
+
+Text, Camera image jobs and Pandora now pass through `narimato-gateway`. See [job-router operations](JOB-ROUTER.md#operations-and-changing-assignments). The former standalone moderation service stays disabled. Drain queued work before maintenance; restart loses in-memory jobs. If the gateway opens its upstream-uncertain circuit, inspect/stop unfinished inference before restarting it. Direct native benchmark/generation calls bypass scheduling and should not run alongside production traffic.
+
 ## Inspect before changing
 
 ```sh

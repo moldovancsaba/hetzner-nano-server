@@ -60,12 +60,23 @@
     }
   ],
   "job": {
-    "id": "5uoyMv8Cr-tJrgcaXryEE39FW3xBnTRw",
+    "id": "Eur6R-aCa8nI7tioBGr19htNvwjZGrQQ",
+    "task": "image_moderation",
+    "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
     "status": "completed",
-    "created_at": 1793092023.8276377,
+    "created_at": 1793096205.0249412,
     "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
     "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
-    "started_at": 1793092023.8277934,
+    "started_at": 1793096205.0251815,
+    "model_switch": {
+      "target_model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "unloaded_models": [
+        "qwen3:1.7b"
+      ],
+      "unload_wait_seconds": 0.1141
+    },
+    "queue_wait_seconds": 0.0002,
+    "finished_at": 1793096214.4864495,
     "result": {
       "schema_version": "camera-moderation.v1",
       "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
@@ -87,16 +98,19 @@
       "evidence": "The image shows two cats lying on a pink surface, with remote controls nearby. There are no visible nudity, sexual content, middle fingers, hate symbols, hate words, alcohol, drugs, violence, or weapons present.",
       "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
       "timing": {
-        "model_load_seconds": 0.0042,
-        "inference_seconds": 3.0408
+        "model_load_seconds": 1.3011,
+        "inference_seconds": 9.3408
       }
     },
-    "finished_at": 1793092026.9035666
+    "queue_position": null
   },
   "poll_statuses": [
     "running",
     "running",
+    "running",
+    "running",
+    "running",
     "completed"
   ],
-  "wall_seconds": 4.527
+  "wall_seconds": 10.912
 }

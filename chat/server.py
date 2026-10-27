@@ -4,6 +4,7 @@ from http.cookies import SimpleCookie
 from pathlib import Path
 from urllib.parse import parse_qs
 ROOT=Path(__file__).parent
+GATEWAY_KEY=os.environ['GATEWAY_PANDORA_KEY']
 PASSWORD_HASH=os.environ['CHAT_PASSWORD_HASH']
 SESSION=secrets.token_urlsafe(48)
 WORKER=threading.BoundedSemaphore(1)
@@ -53,9 +54,9 @@ class Handler(BaseHTTPRequestHandler):
   except Exception:return self.send(400,'{"error":"Please send a shorter message or start a new chat."}','application/json')
   if not WORKER.acquire(blocking=False):return self.send(429,'{"error":"Another reply is in progress. Try again shortly."}','application/json')
   try:
-   payload={'model':'qwen3:1.7b','messages':[{'role':'system','content':'You are Pandora, a helpful conversational assistant. Answer clearly and briefly. Say when you are unsure.'}]+recent,'think':False,'stream':False,'options':{'num_ctx':2048,'num_predict':256,'temperature':0.4}}
-   req=urllib.request.Request('http://127.0.0.1:11434/api/chat',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json'})
-   with urllib.request.urlopen(req,timeout=100) as r:reply=json.load(r)['message']['content']
+   payload={'model':'qwen3:1.7b','messages':[{'role':'system','content':'You are Pandora, a helpful conversational assistant. Answer clearly and briefly. Say when you are unsure.'}]+recent,'reasoning_effort':'none','stream':False,'max_tokens':256,'temperature':0.4}
+   req=urllib.request.Request('http://127.0.0.1:8090/v1/chat/completions',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+GATEWAY_KEY})
+   with urllib.request.urlopen(req,timeout=110) as r:reply=json.load(r)['choices'][0]['message']['content']
    self.send(200,json.dumps({'reply':reply}), 'application/json')
   except Exception:self.send(503,'{"error":"The chat is unavailable right now. Please try again shortly."}','application/json')
   finally:WORKER.release()

@@ -38,3 +38,7 @@ Generate a new project key on the server, stage Caddy acceptance of both old and
 ## Camera moderation credential
 
 The dedicated `camera` key in the canonical/local key JSON authenticates only the moderation worker. Root-only runtime environment: `/etc/narimato-moderation.env`; local handoff: `private/camera-moderation.env` (600, ignored). It is not accepted by chat routes. See [Camera moderation](CAMERA-MODERATION.md) for use and rotation. Existing Habigoal/ClassScout keys and paths are preserved.
+
+## Shared job router credentials
+
+Active runtime keys are in `/etc/narimato-gateway.env` (600), separate `GATEWAY_CLASSSCOUT_KEY`, `GATEWAY_HABIGOAL_KEY`, `GATEWAY_CAMERA_KEY` and internal `GATEWAY_PANDORA_KEY`. Existing service keys are preserved; Pandora has a new dedicated backend-only key, also provisioned to its root-only chat env. The canonical/local key JSON now includes `pandora`; do not expose it in browser code. Caddy no longer embeds active bearer keys, but older private backups do. Rotate the intended field in the canonical store, gateway env and authorized consumer env; drain/restart the gateway. For Pandora also refresh/restart its chat backend. Retired moderation env is no longer the active credential source.

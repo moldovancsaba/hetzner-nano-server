@@ -1,5 +1,9 @@
 # Camera moderation API: human review signals
 
+## Shared queue update
+
+This API now runs through the [shared job router](JOB-ROUTER.md), together with ClassScout text and Pandora. Existing moderation submit/poll endpoints and the Camera key remain valid. The old standalone worker is stopped/disabled. The router supports general image recognition too, via `POST /v1/jobs` with task `image_recognition`. Queue limits, health shape, runtime credential location, lifecycle fields and switching behavior in the router guide supersede the original deployment details below.
+
 ## Purpose and status
 
 An experimental screening service using **LFM2.5-VL 450M Q8**, deployed on the existing 4 GB Hetzner server. It highlights possible concerns for Camera's existing human photo-vetting workflow. It never approves, rejects, publishes, emails, or changes Camera records. No Camera application code or Vercel variables were changed by this deployment.
@@ -19,7 +23,7 @@ CAMERA_MODERATION_API_KEY=<dedicated-camera-key>
 
 The key is in the canonical root-only server `/opt/narimato-ai/api-keys.json` under `camera`, the owner's ignored local `private/api-keys.json`, and `private/camera-moderation.env`. Authorized agents can copy it directly into Camera's ignored server environment. Do not put it in source, browser JavaScript, `NEXT_PUBLIC_*`, image metadata, logs or this public repository. It is separate from Habigoal/ClassScout keys and grants moderation routes only; it does not grant chat/model-management access. Habigoal/ClassScout bearer keys cannot access moderation. `private/` is not included in Git clones.
 
-The service reads `/etc/narimato-moderation.env`. Rotation: replace only the Camera key in the canonical JSON, securely refresh that env file/local snapshots and Camera's authorized server environments, then restart `narimato-moderation`. Old in-flight job IDs are lost by restart. Caddy forwards the bearer header to this service and contains no Camera key.
+The active gateway reads `/etc/narimato-gateway.env` (Camera field `GATEWAY_CAMERA_KEY`). The retired standalone worker used `/etc/narimato-moderation.env`. Rotation: replace only the Camera key in the canonical JSON, securely refresh that env file/local snapshots and Camera's authorized server environments, then drain/restart `narimato-gateway`. Old in-flight job IDs are lost by restart. Caddy forwards the bearer header to this service and contains no Camera key.
 
 ## Submit a still image
 
@@ -133,7 +137,11 @@ python3 scripts/camera_moderation.py /absolute/path/to/test-image.jpg
 
 The helper reads the dedicated key from the ignored local key file or `CAMERA_MODERATION_API_KEY`. It prints a result, never the key. Use non-sensitive test images in shared terminals. Do not share raw output containing private-photo evidence.
 
-## Operations and model switching
+## Original standalone deployment (superseded)
+
+The following records the initial implementation for rollback. **Use [shared-router operations](JOB-ROUTER.md#operations-and-changing-assignments) for the active deployment; do not start the retired worker alongside it.**
+
+### Original operations and model switching
 
 Service: `narimato-moderation`; code `/opt/narimato-moderation`; loopback `127.0.0.1:8089`; native inference loopback `127.0.0.1:11434`. Caddy exposes only the dedicated routes. Unit memory cap 384 MiB and CPUQuota 50%; Ollama remains capped at 2800 MiB/2 CPUs. One model and one generation at a time in Ollama; the moderation service processes one image at a time. Its HTTP connections are bounded to eight, with a single upload-normalization slot; simultaneous uploads can receive 429 before queue admission.
 

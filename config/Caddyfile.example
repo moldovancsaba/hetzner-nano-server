@@ -1,22 +1,10 @@
 chatbotapi.haho.ai {
-    @moderation path /v1/moderation/*
-    handle @moderation {
+    @gateway path /v1/models /v1/chat/completions /v1/jobs /v1/jobs/* /v1/job-types /v1/queue /v1/moderation/*
+    handle @gateway {
         request_body {
             max_size 6MB
         }
-        reverse_proxy 127.0.0.1:8089
-    }
-    @authorized {
-        expression `{http.request.header.Authorization} == "Bearer REPLACE_WITH_HABIGOAL_KEY" || {http.request.header.Authorization} == "Bearer REPLACE_WITH_CLASSSCOUT_KEY"`
-        path /v1/chat/completions /v1/models
-    }
-    handle @authorized {
-        request_body {
-            max_size 128KB
-        }
-        reverse_proxy 127.0.0.1:11434 {
-            header_up -Authorization
-        }
+        reverse_proxy 127.0.0.1:8090
     }
     @chat path /chat /chat/*
     handle @chat {

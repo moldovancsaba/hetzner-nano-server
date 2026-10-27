@@ -8,7 +8,7 @@ After login: type a message, press Send or Enter; Shift+Enter adds a newline. Ne
 
 Architecture: Caddy proxies /chat and /chat/* to a standard-library Python service on 127.0.0.1:8088. Source is in chat/ locally and /opt/narimato-chat remotely. The systemd unit is config/narimato-chat.service, deployed as /etc/systemd/system/narimato-chat.service. DynamicUser, restricted filesystem, and 128 MB service memory cap are set. Service restarts on failure and starts at boot. Restart clears in-memory sessions.
 
-Secure/HttpOnly/SameSite Strict cookie grants chat access for up to 30 days, or until server restart; no bearer project keys reach the browser. POST requests enforce same origin. Generation uses the private loopback native API with thinking disabled, 256 output-token cap, 2,048 context and bounded short messages. A single chat worker returns 429 if busy; this shares model capacity with the project APIs.
+Secure/HttpOnly/SameSite Strict cookie grants chat access for up to 30 days, or until server restart; no bearer project keys reach the browser. POST requests enforce same origin. Generation uses the authenticated shared gateway on loopback 8090 with reasoning disabled, a 256 output-token cap, 2,048 runtime context and bounded short messages. The internal `GATEWAY_PANDORA_KEY` stays in the root-only chat environment; no browser bearer key is used. A single chat worker returns 429 if busy; accepted replies join the same FIFO scheduler as project text and Camera images. See [job routing and queue operations](JOB-ROUTER.md).
 
 Commands:
 

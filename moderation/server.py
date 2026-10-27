@@ -15,7 +15,10 @@ import warnings
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from PIL import Image, ImageOps, UnidentifiedImageError
-from policy import CATEGORIES, MODEL, PROMPT, SCHEMA, VERSION
+try:
+    from .policy import CATEGORIES, MODEL, PROMPT, SCHEMA, VERSION
+except ImportError:
+    from policy import CATEGORIES, MODEL, PROMPT, SCHEMA, VERSION
 
 MAX_BODY = 6 * 1024 * 1024
 MAX_IMAGE = 4 * 1024 * 1024
