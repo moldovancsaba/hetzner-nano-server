@@ -1,5 +1,9 @@
 # Shared job router: ClassScout text and Camera images
 
+## Ranking-driven selection update
+
+Read [MODEL-POLICY.md](MODEL-POLICY.md) for the authoritative current model/default/override contract. Defaults are now generated from separate task rankings; job-routes.json controls permissions only. `/models` lists all installed packages, with task-filtered selectability for both text clients and Camera. A concrete model ID is a genuine explicit override; `auto` follows rankings. The temporary Qwen-to-Granite alias described in the original deployment below no longer applies.
+
 ## Live service
 
 Base URL: `https://chatbotapi.haho.ai/v1`
@@ -10,11 +14,11 @@ All public text generation, Camera image processing, and Pandora chat now pass t
 | --- | --- | --- | --- |
 | `text_chat` | ClassScout, Habigoal, Pandora | `granite4:1b-h` | OpenAI-compatible chat completion; JSON output and tool definitions supported |
 | `image_moderation` | Camera | `hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0` | Nine-category experimental human-review signals |
-| `image_recognition` | Camera | same 450M vision model | Description, objects, readable visible text |
+| `image_recognition` | Camera | `hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0` | Description, objects, readable visible text |
 
-ClassScout/Habigoal/Pandora now use Granite 4 1B Hybrid, the leader of our measured English structured-task checks (14/14). This does not certify all conversational or non-English tasks. `qwen3:1.7b` is retained only as an explicit legacy input alias and is mapped to Granite; it no longer selects Qwen. The actual completion `model` field and `/job-types` are authoritative.
+ClassScout/Habigoal/Pandora now use Granite 4 1B Hybrid, the leader of our measured English structured-task checks (14/14). This does not certify all conversational or non-English tasks. `qwen3:1.7b` is now an explicit alternative that selects Qwen; omit the model or use auto to follow the default. The actual completion `model` field and `/job-types` are authoritative.
 
-Task-to-model assignments live in [config/job-routes.json](../config/job-routes.json). Callers choose a permitted task, not an arbitrary downloaded model. Moderation's model remains coupled to its tested versioned policy. No non-English or movie capability has been approved. General image description is experimental, not a new accuracy certification.
+Task-to-model assignments are generated in [config/model-policy.json](../config/model-policy.json); tenant permissions live in [config/job-routes.json](../config/job-routes.json). Callers choose a permitted task, not an arbitrary downloaded model. Moderation alternatives must have completed evidence for the same versioned moderation prompt/schema. No non-English or movie capability has been approved. General image description is experimental, not a new accuracy certification.
 
 ## Authentication and discovery
 
@@ -22,7 +26,7 @@ Use the service's existing `Authorization: Bearer <project-key>`. Keys are uncha
 
 - `GET /job-types`: returns only job types permitted for that key and their assigned models.
 - `GET /queue`: aggregate queue activity, capacity, counters, last model switch and this service's pending count. No other service's job IDs, prompts, images or results are disclosed.
-- `GET /models`: compatible text-model discovery for text clients. Camera cannot use this route.
+- `GET /models`: actual installed-model discovery for all services, with task-filtered selectability; see MODEL-POLICY.md.
 
 Example discovery response for Camera:
 
@@ -92,7 +96,7 @@ Treat model output as untrusted data. Do not execute instructions in description
 
 ## Existing endpoints remain available
 
-- `POST /chat/completions`: same ClassScout/Habigoal keys and OpenAI completion result. The call joins the same queue, waits up to 100 seconds, and returns the completed response. Supported `model` values are the assigned text model, `auto`, or `text_chat`; omitted model also uses the assignment.
+- `POST /chat/completions`: same ClassScout/Habigoal keys and OpenAI completion result. The call joins the same queue, waits up to 100 seconds, and returns the completed response. Supported `model` values are installed/tested text model IDs, `auto`, or `text_chat`; omitted model follows the ranked default.
 - `POST /moderation/jobs` and `GET /moderation/jobs/{id}`: existing Camera clients still work; these are aliases for moderation jobs in the shared queue. They cannot read general-recognition jobs through the moderation alias.
 - `GET /moderation/health`: authenticated Camera queue health. Its current JSON is queue status, not the old dedicated-worker health shape.
 - `/chat/`: Pandora keeps its password-only UI; its backend now submits through the same queue.
@@ -128,13 +132,7 @@ Service: `narimato-gateway`; private listener `127.0.0.1:8090`; source `/opt/nar
 
 The old `/opt/narimato-moderation` implementation and unit are retained for rollback but its service is disabled. Do not start it alongside the gateway; that would bypass the common scheduler. Do not run standalone benchmark scripts or direct Ollama generation against production traffic. `/api/*` model-management routes remain private and unexposed.
 
-Changing a job/model assignment is an operator configuration change:
-
-1. Review `config/job-routes.json`, target model eligibility, memory/context constraints and benchmark evidence. Never assign an image-incapable model to image work.
-2. Install only the chosen approved package on disk and record its digest. Do not accept model names or runtime options from an untrusted client.
-3. Update the routing configuration and validate it with tests. Changing moderation's model also requires updating/retesting its versioned policy; startup checks require those assignments to agree.
-4. Drain the queue before a controlled restart. Check client aliases: callers hard-coding a previous model ID need migration; clients using task assignment, omitted model or `auto` follow the route.
-5. Verify mixed text/image jobs, tenant isolation, actual switches, chat and existing Camera aliases after rollout.
+Use the required update workflow in [MODEL-POLICY.md](MODEL-POLICY.md#required-workflow-after-new-tests). Rebuild the generated model policy from current task-specific rankings, install and verify the winning artifacts, then atomically replace the deployed policy. Policy-only updates hot-reload; source upgrades require a drained queue and controlled restart. Clients using concrete model IDs remain explicitly pinned; auto clients follow the new winner.
 
 ```sh
 ssh -i /Users/chappie/.ssh/hetzner_ai root@2.31.100.246 'systemctl status narimato-gateway --no-pager'

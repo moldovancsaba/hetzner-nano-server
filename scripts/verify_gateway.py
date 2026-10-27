@@ -35,7 +35,7 @@ try:
    if row['status'] in ['completed','failed']:break
    time.sleep(2)
   assert row['status']=='completed',(task,row)
-  assert row['model']==('granite4:1b-h' if task=='text_chat' else 'hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0')
+  assert row['model']=={'text_chat':'granite4:1b-h','image_recognition':'hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0','image_moderation':'hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0'}[task]
   if task=='text_chat':
    parsed=json.loads(row['result']['choices'][0]['message']['content']);assert isinstance(parsed,dict)
    row['semantic_text_probe']={'expected':{'ready':True},'correct':parsed=={'ready':True}}

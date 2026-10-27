@@ -4,7 +4,7 @@ Both applications run on Vercel. Call the service from a server-side function wi
 
 ```dotenv
 LOCAL_AI_BASE_URL=https://chatbotapi.haho.ai/v1
-LOCAL_AI_MODEL=qwen3:1.7b
+LOCAL_AI_MODEL=auto
 LOCAL_AI_API_KEY=<correct-project-key>
 ```
 
@@ -14,7 +14,7 @@ Example request body:
 
 ```json
 {
-  "model": "qwen3:1.7b",
+  "model": "auto",
   "messages": [{"role": "user", "content": "Summarize this short text in one sentence: ..."}],
   "reasoning_effort": "none",
   "temperature": 0.2,
@@ -38,3 +38,7 @@ Native `/api/chat` accepted `think:false` locally, but native management routes 
 ## Agent handoff
 
 Inspect the target repository's AGENTS.md and existing conventions. Read LOCAL_AI_API_KEY from its local ignored environment file or intended deployment environment. Use its own project key, never an unrelated OLLAMA_API_KEY. Implement a reusable server-side client, small prompts, schema checks, graceful failures, and meaningful tests. Report whether only local integration is complete or the actual Vercel deployment was verified. A passing local API check does not prove a Vercel function can reach the service.
+
+## Ranked default or deliberate model choice
+
+Use `auto` to follow the best current model for the job. A concrete installed/tested model ID is a real explicit override, not a default alias. `GET /v1/models` and `/v1/job-types` expose available alternatives. See [model policy](MODEL-POLICY.md) for the canonical selection/update contract. ClassScout’s ignored local model setting is now auto; deployed environments must set it independently when authorized.

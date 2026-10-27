@@ -22,7 +22,7 @@ try:
  check('classscout key excluded','/v1/moderation/health',keys['classscout'],401)
  check('habigoal key excluded','/v1/moderation/health',keys['habigoal'],401)
  check('camera key health','/v1/moderation/health',keys['camera'],200)
- check('camera key not chat','/v1/models',keys['camera'],401)
+ check('camera key not chat','/v1/chat/completions',keys['camera'],401,{})
  check('URL input rejected','/v1/moderation/jobs',keys['camera'],400,{'image_url':'https://example.org/a.jpg'})
  check('invalid image rejected','/v1/moderation/jobs',keys['camera'],400,{'image_base64':base64.b64encode(b'not image').decode()})
  payload={'image_base64':base64.b64encode((ROOT/'benchmarks/round3/cats.png').read_bytes()).decode()}

@@ -8,7 +8,7 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = os.environ.get('LOCAL_AI_BASE_URL', 'https://chatbotapi.haho.ai/v1').rstrip('/')
-MODEL = os.environ.get('LOCAL_AI_MODEL', 'granite4:1b-h')
+MODEL = os.environ.get('LOCAL_AI_MODEL', 'auto')
 
 def key_for(project):
     # Explicit project selection always uses its own credential, not an ambiguous shell key.

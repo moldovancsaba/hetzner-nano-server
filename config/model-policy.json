@@ -1,0 +1,845 @@
+{
+  "version": "ranked-model-policy.v1",
+  "selection": "first model in each independent task ranking; no silent lower-ranked fallback",
+  "scope_notes": {
+    "text_chat": "English structured-task ranking is the current text proxy; not a broad chat or non-English certification.",
+    "image_recognition": "Small controlled still-image ranking, timing tie-breaks descriptive only.",
+    "image_moderation": "Rank by positive detections, known correct decisions, false positives then latency; no standalone safety certification."
+  },
+  "sources": [
+    {
+      "path": "benchmarks/round3/rankings.json",
+      "sha256": "c3acc8cd2d35a7e6d9883bde528bce2074394ef6b8d2c07574166b296c040981"
+    },
+    {
+      "path": "benchmarks/moderation/summary.json",
+      "sha256": "c9d17439a0514fb6c71fe7e3a7a473d0bf44e63d1626dd037ec19bfc7db48afe"
+    },
+    {
+      "path": "benchmarks/moderation/results.json",
+      "sha256": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e"
+    },
+    {
+      "path": "benchmarks/capabilities/results.json",
+      "sha256": "39024ab647e59de81218c22145f6ba670428aa7b1a6796af5bfee35759078073"
+    },
+    {
+      "path": "benchmarks/round2/results.json",
+      "sha256": "3334932e6b872ddc9f1a8d9ee2fac7d5124a305aaf1c0e021a60bfe0644f2047"
+    },
+    {
+      "path": "benchmarks/round2/supplement-text.json",
+      "sha256": "4939047786e1065553243b0b829c79fdd74e049f9d520a842f5eda24df92700c"
+    },
+    {
+      "path": "benchmarks/round3/results.json",
+      "sha256": "3b5e6038a6469d540b66e07d6b90753dbc308c4269711ec66412ffc3c5f2cce6"
+    },
+    {
+      "path": "benchmarks/round3/results-extra.json",
+      "sha256": "79d86eebf60311b1608f5c6828467735c84ca9e07b2172eb562c4b5ed340494a"
+    }
+  ],
+  "defaults": {
+    "text_chat": "granite4:1b-h",
+    "image_recognition": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+    "image_moderation": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+  },
+  "models": {
+    "granite4:1b-h": {
+      "id": "granite4:1b-h",
+      "tested_digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "tasks": {
+        "text_chat": {
+          "rank": 1,
+          "metrics": {
+            "model": "granite4:1b-h",
+            "passed": 14,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 3.028
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "qwen3:0.6b": {
+      "id": "qwen3:0.6b",
+      "tested_digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+      "tasks": {
+        "text_chat": {
+          "rank": 2,
+          "metrics": {
+            "model": "qwen3:0.6b",
+            "passed": 12,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 1.11
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "qwen3:1.7b": {
+      "id": "qwen3:1.7b",
+      "tested_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+      "tasks": {
+        "text_chat": {
+          "rank": 3,
+          "metrics": {
+            "model": "qwen3:1.7b",
+            "passed": 12,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 2.01
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M": {
+      "id": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+      "tested_digest": "5791ac70d52d5f30f115beed78283c13f5715b262bd33da417f545b7259fb1e2",
+      "tasks": {
+        "text_chat": {
+          "rank": 4,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+            "passed": 10,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 1.256
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "granite3.3:2b": {
+      "id": "granite3.3:2b",
+      "tested_digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+      "tasks": {
+        "text_chat": {
+          "rank": 5,
+          "metrics": {
+            "model": "granite3.3:2b",
+            "passed": 10,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 3.107
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "granite4:350m": {
+      "id": "granite4:350m",
+      "tested_digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+      "tasks": {
+        "text_chat": {
+          "rank": 6,
+          "metrics": {
+            "model": "granite4:350m",
+            "passed": 10,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 3.36
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "qwen2.5:1.5b": {
+      "id": "qwen2.5:1.5b",
+      "tested_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "tasks": {
+        "text_chat": {
+          "rank": 7,
+          "metrics": {
+            "model": "qwen2.5:1.5b",
+            "passed": 8,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 2.066
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "llama3.2:1b": {
+      "id": "llama3.2:1b",
+      "tested_digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+      "tasks": {
+        "text_chat": {
+          "rank": 8,
+          "metrics": {
+            "model": "llama3.2:1b",
+            "passed": 8,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": false,
+            "median_seconds": 1.633
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "smollm2:1.7b": {
+      "id": "smollm2:1.7b",
+      "tested_digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+      "tasks": {
+        "text_chat": {
+          "rank": 9,
+          "metrics": {
+            "model": "smollm2:1.7b",
+            "passed": 8,
+            "total": 14,
+            "json_valid": 12,
+            "native_tool_passed": true,
+            "median_seconds": 2.14
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "granite3.1-moe:1b": {
+      "id": "granite3.1-moe:1b",
+      "tested_digest": "3269ce3e31ea68da5ddb7926628b5bb1d25146d4f32424f35e748dd17e4013a0",
+      "tasks": {
+        "text_chat": {
+          "rank": 10,
+          "metrics": {
+            "model": "granite3.1-moe:1b",
+            "passed": 6,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": false,
+            "median_seconds": 0.903
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M": {
+      "id": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+      "tested_digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+      "tasks": {
+        "text_chat": {
+          "rank": 11,
+          "metrics": {
+            "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+            "passed": 5,
+            "total": 14,
+            "json_valid": 12,
+            "native_tool_passed": false,
+            "median_seconds": 2.237
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "gemma3:1b": {
+      "id": "gemma3:1b",
+      "tested_digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+      "tasks": {
+        "text_chat": {
+          "rank": 12,
+          "metrics": {
+            "model": "gemma3:1b",
+            "passed": 4,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": false,
+            "median_seconds": 2.683
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0": {
+      "id": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "tested_digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+      "tasks": {
+        "image_recognition": {
+          "rank": 1,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+            "schema_passed": 5,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 10,
+            "raw_total": 12,
+            "first_photo_seconds": 5.6756,
+            "first_poster_seconds": 4.5614
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0": {
+      "id": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "tested_digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+      "tasks": {
+        "image_recognition": {
+          "rank": 2,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+            "schema_passed": 5,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 10,
+            "raw_total": 12,
+            "first_photo_seconds": 6.0521,
+            "first_poster_seconds": 4.6066
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        },
+        "image_moderation": {
+          "rank": 1,
+          "metrics": {
+            "true_positives": 8,
+            "known_correct": 211,
+            "false_positives": 1,
+            "median_seconds": 7.3082,
+            "categories": {
+              "nudity": {
+                "positive": 3,
+                "negative": 22,
+                "unknown": 0,
+                "tp": 3,
+                "fn": 0,
+                "fp": 0,
+                "tn": 22,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "sexualContent": {
+                "positive": 2,
+                "negative": 23,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 2,
+                "fp": 0,
+                "tn": 23,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "middleFinger": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 1,
+                "fn": 0,
+                "fp": 0,
+                "tn": 24,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "hateSymbols": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 1,
+                "fp": 0,
+                "tn": 24,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "hateWords": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 1,
+                "fp": 0,
+                "tn": 24,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "alcohol": {
+                "positive": 3,
+                "negative": 22,
+                "unknown": 0,
+                "tp": 3,
+                "fn": 0,
+                "fp": 0,
+                "tn": 22,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "drugs": {
+                "positive": 2,
+                "negative": 19,
+                "unknown": 4,
+                "tp": 0,
+                "fn": 2,
+                "fp": 0,
+                "tn": 19,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "violence": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 1,
+                "fp": 0,
+                "tn": 24,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "weapons": {
+                "positive": 3,
+                "negative": 22,
+                "unknown": 0,
+                "tp": 1,
+                "fn": 2,
+                "fp": 1,
+                "tn": 21,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0
+              }
+            }
+          },
+          "evidence": "benchmarks/moderation/summary.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0": {
+      "id": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+      "tested_digest": "942c9f3baca05146bd56376163253408bb8af441611e08e9d15ecc1b8776536f",
+      "tasks": {
+        "image_recognition": {
+          "rank": 3,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+            "schema_passed": 5,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 12,
+            "raw_total": 12,
+            "first_photo_seconds": 19.1467,
+            "first_poster_seconds": 16.6778
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M": {
+      "id": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+      "tested_digest": "e75aa8e82ccd4ff5da882944ba851c8d1e7c3254800a1798e012758fb0cc2ccd",
+      "tasks": {
+        "image_recognition": {
+          "rank": 4,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+            "schema_passed": 5,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 12,
+            "raw_total": 12,
+            "first_photo_seconds": 19.5999,
+            "first_poster_seconds": 17.4117
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        },
+        "image_moderation": {
+          "rank": 2,
+          "metrics": {
+            "true_positives": 4,
+            "known_correct": 4,
+            "false_positives": 0,
+            "median_seconds": 23.9922,
+            "categories": {
+              "nudity": {
+                "positive": 3,
+                "negative": 22,
+                "unknown": 0,
+                "tp": 2,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 1,
+                "review_negative": 22,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "sexualContent": {
+                "positive": 2,
+                "negative": 23,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 2,
+                "review_negative": 23,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "middleFinger": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 1,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 0,
+                "review_negative": 24,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "hateSymbols": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 1,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 0,
+                "review_negative": 24,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "hateWords": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 1,
+                "review_negative": 24,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "alcohol": {
+                "positive": 3,
+                "negative": 22,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 3,
+                "review_negative": 22,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "drugs": {
+                "positive": 2,
+                "negative": 19,
+                "unknown": 4,
+                "tp": 0,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 2,
+                "review_negative": 19,
+                "review_unknown": 4,
+                "invalid": 0
+              },
+              "violence": {
+                "positive": 1,
+                "negative": 24,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 1,
+                "review_negative": 24,
+                "review_unknown": 0,
+                "invalid": 0
+              },
+              "weapons": {
+                "positive": 3,
+                "negative": 22,
+                "unknown": 0,
+                "tp": 0,
+                "fn": 0,
+                "fp": 0,
+                "tn": 0,
+                "review_positive": 3,
+                "review_negative": 22,
+                "review_unknown": 0,
+                "invalid": 0
+              }
+            }
+          },
+          "evidence": "benchmarks/moderation/summary.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M": {
+      "id": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+      "tested_digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+      "tasks": {
+        "image_recognition": {
+          "rank": 5,
+          "metrics": {
+            "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+            "schema_passed": 5,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 12,
+            "raw_total": 12,
+            "first_photo_seconds": 45.7948,
+            "first_poster_seconds": 36.7059
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "granite3.2-vision:2b": {
+      "id": "granite3.2-vision:2b",
+      "tested_digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+      "tasks": {
+        "image_recognition": {
+          "rank": 6,
+          "metrics": {
+            "model": "granite3.2-vision:2b",
+            "schema_passed": 5,
+            "schema_total": 5,
+            "max_image_dimension": 320,
+            "raw_passed": 12,
+            "raw_total": 12,
+            "first_photo_seconds": 55.8249,
+            "first_poster_seconds": 53.0938
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 320,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0": {
+      "id": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+      "tested_digest": "d1e7873eebe6f0309b4a8e99f144fb14eb3a432f7a33c234c0eeeb0bb23eadab",
+      "tasks": {
+        "image_recognition": {
+          "rank": 7,
+          "metrics": {
+            "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+            "schema_passed": 4,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 8,
+            "raw_total": 12,
+            "first_photo_seconds": 8.9096,
+            "first_poster_seconds": 8.0074
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0": {
+      "id": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+      "tested_digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+      "tasks": {
+        "image_recognition": {
+          "rank": 8,
+          "metrics": {
+            "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+            "schema_passed": 3,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 4,
+            "raw_total": 12,
+            "first_photo_seconds": 11.6969,
+            "first_poster_seconds": 8.7731
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0": {
+      "id": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+      "tested_digest": "ba5a88b6808eb60b20549468b67b79902e2c482949b94824b7e20b4e29fed444",
+      "tasks": {
+        "image_recognition": {
+          "rank": 9,
+          "metrics": {
+            "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+            "schema_passed": 2,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 4,
+            "raw_total": 12,
+            "first_photo_seconds": 7.7136,
+            "first_poster_seconds": 7.7336
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "moondream:1.8b": {
+      "id": "moondream:1.8b",
+      "tested_digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+      "tasks": {
+        "image_recognition": {
+          "rank": 10,
+          "metrics": {
+            "model": "moondream:1.8b",
+            "schema_passed": 2,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 0,
+            "raw_total": 12,
+            "first_photo_seconds": 30.0797,
+            "first_poster_seconds": 26.5006
+          },
+          "evidence": "benchmarks/round3/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    }
+  },
+  "policy_id": "b27ff44e215bbc75a76068ab500b4442286cb8d30020d89a8addaafd7eb3134a"
+}

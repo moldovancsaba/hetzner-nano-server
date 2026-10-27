@@ -1,5 +1,9 @@
 # Camera moderation API: human review signals
 
+## Model selection update
+
+Use `model: auto` or omit model for the best currently tested moderation model. A selectable tested override can be supplied as `model` beside `image_base64` on the existing submit route. Camera can now call `/v1/models` and `/v1/job-types` for installed alternatives. General image recognition uses a separate ranking/default. See [ranked model policy](MODEL-POLICY.md) for the authoritative selection contract.
+
 ## Shared queue update
 
 This API now runs through the [shared job router](JOB-ROUTER.md), together with ClassScout text and Pandora. Existing moderation submit/poll endpoints and the Camera key remain valid. The old standalone worker is stopped/disabled. The router supports general image recognition too, via `POST /v1/jobs` with task `image_recognition`. Queue limits, health shape, runtime credential location, lifecycle fields and switching behavior in the router guide supersede the original deployment details below.

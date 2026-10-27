@@ -16,3 +16,7 @@ Read README.md first, then the guide for your task. Server access and credential
 ## Independent capability evaluation
 
 English chat, English structured tasks, image analytics, and non-English capabilities are separate workstreams. Never penalize or approve an English model based on non-English results, or average languages into a combined score. Keep non-English evidence in benchmarks/non-english/, with per-language and per-task approval. English OCR does not establish other-language OCR. Read that workstream’s report before any language-specific routing change.
+
+## Ranking-driven default services (owner directive 2026-10-27)
+
+Default jobs must always follow the best eligible model in their current task-specific ranking. Read docs/MODEL-POLICY.md. Every new test round is unfinished until ranking sources, generated config/model-policy.json, installed winning artifacts, deployed policy, API discovery, actual auto jobs and documentation agree. Run scripts/promote_rankings.py --write and --check; do not maintain hard-coded defaults elsewhere or leave the previous winner active. Keep moderation separate from general image ranking and all non-English scores separate. Explicit client model IDs are real deliberate overrides, never secretly remapped; default clients use auto. Only installed, successfully tested matching digests are selectable; list other installed packages as blocked. Never expose public model installation/management or publish secrets.

@@ -1,0 +1,13 @@
+{
+  "english_and_images": "benchmarks/round3/rankings.json",
+  "moderation": "benchmarks/moderation/summary.json",
+  "moderation_raw": "benchmarks/moderation/results.json",
+  "digest_evidence": [
+    "benchmarks/capabilities/results.json",
+    "benchmarks/round2/results.json",
+    "benchmarks/round2/supplement-text.json",
+    "benchmarks/round3/results.json",
+    "benchmarks/round3/results-extra.json",
+    "benchmarks/moderation/results.json"
+  ]
+}

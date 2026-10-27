@@ -3,12 +3,12 @@ import base64
 import collections
 import copy
 import hashlib
+import io
 import hmac
 import json
 import os
 from pathlib import Path
 import secrets
-import socket
 import sys
 import threading
 import time
@@ -18,11 +18,15 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from moderation.server import normalize_image, infer as moderation_infer
-from moderation.policy import MODEL as VISION_MODEL
+from gateway.catalog import ModelCatalog, SelectionError
+from PIL import Image
 
 TTL = 900
 QUEUE_TTL = 180
 ROUTES = json.loads((Path(__file__).resolve().parents[1] / 'config/job-routes.json').read_text())['routes']
+POLICY_PATH = Path(__file__).resolve().parents[1] / 'config/model-policy.json'
+for _task, _spec in ROUTES.items():
+    _spec['model'] = json.loads(POLICY_PATH.read_text())['defaults'][_task]
 
 
 class UpstreamUncertain(Exception):
@@ -46,9 +50,13 @@ def native(path, body=None, timeout=120):
         raise UpstreamUncertain('Upstream generation state is unknown') from None
 
 
+CATALOG = ModelCatalog(POLICY_PATH, lambda: native('/api/tags', timeout=5))
+
+
 class Runner:
-    def __init__(self):
+    def __init__(self, catalog=None):
         self.last_switch = None
+        self.catalog = catalog
 
     def switch(self, model):
         start = time.monotonic()
@@ -71,6 +79,12 @@ class Runner:
         return copy.deepcopy(self.last_switch)
 
     def __call__(self, task, payload, model):
+        profile = self.catalog.profile(task, model) if self.catalog else {'max_image_edge': 640}
+        if isinstance(payload, bytes) and profile['max_image_edge'] < 640:
+            with Image.open(io.BytesIO(payload)) as image:
+                image.thumbnail((profile['max_image_edge'], profile['max_image_edge']))
+                output = io.BytesIO(); image.convert('RGB').save(output, format='JPEG', quality=88)
+                payload = output.getvalue()
         switch = self.switch(model)
         if task == 'text_chat':
             result = native('/v1/chat/completions', payload)
@@ -79,7 +93,7 @@ class Runner:
         elif task == 'image_moderation':
             # The versioned moderation prompt/schema and decision semantics are unchanged.
             try:
-                result = moderation_infer(payload)
+                result = moderation_infer(payload, model=model)
             except urllib.error.HTTPError:
                 raise UpstreamError('Image analysis failed') from None
             except (OSError, urllib.error.URLError, TimeoutError):
@@ -113,7 +127,7 @@ def text_input(data, model):
                'response_format', 'tools', 'tool_choice', 'reasoning_effort', 'stream_options'}
     if set(data) - allowed:
         raise ValueError('Unsupported chat fields')
-    if data.get('model', model) not in {model, 'auto', 'text_chat', *ROUTES['text_chat'].get('aliases', [])}:
+    if data.get('model', model) not in {model, 'auto', 'text_chat'}:
         raise ValueError('Model is not allowed for this job type')
     messages = data.get('messages')
     if not isinstance(messages, list) or not 1 <= len(messages) <= 32:
@@ -149,7 +163,7 @@ def text_input(data, model):
 
 class Scheduler:
     def __init__(self, runner=None):
-        self.runner = runner or Runner()
+        self.runner = runner or Runner(CATALOG)
         self.cv = threading.Condition()
         self.rows = {}
         self.queue = collections.deque()
@@ -183,9 +197,9 @@ class Scheduler:
                 row['review_required'] = True
         row['_event'].set()
 
-    def submit(self, tenant, task, payload, idempotency=None, metadata=None):
+    def submit(self, tenant, task, payload, idempotency=None, metadata=None, selected_model=None):
         content = payload if isinstance(payload, bytes) else json.dumps(payload, sort_keys=True).encode()
-        fingerprint = hashlib.sha256(content + json.dumps(metadata or {}, sort_keys=True).encode()).hexdigest()
+        fingerprint = hashlib.sha256(content + json.dumps(metadata or {}, sort_keys=True).encode() + (selected_model or ROUTES[task]['model']).encode()).hexdigest()
         with self.cv:
             self.clean()
             if idempotency:
@@ -202,7 +216,7 @@ class Scheduler:
             if tenant_pending >= 4:
                 return None, 'busy'
             job_id = secrets.token_urlsafe(24)
-            self.rows[job_id] = {'id': job_id, 'task': task, 'model': ROUTES[task]['model'],
+            self.rows[job_id] = {'id': job_id, 'task': task, 'model': selected_model or ROUTES[task]['model'],
                 'status': 'queued', 'created_at': time.time(), '_tenant': tenant, '_payload': payload,
                 '_event': threading.Event(), '_idempotency': idempotency, '_fingerprint': fingerprint, **(metadata or {})}
             self.queue.append(job_id)
@@ -315,16 +329,18 @@ class Handler(BaseHTTPRequestHandler):
         tenant = self.auth()
         if not tenant:
             return
-        if self.path == '/v1/models':
-            if not self.route_allowed(tenant, 'text_chat'):
-                return self.send(401, {'error': {'code': 'unauthorized'}})
-            return self.send(200, {'object': 'list', 'data': [{'id': ROUTES['text_chat']['model'], 'object': 'model', 'owned_by': 'local'}]})
-        if self.path in {'/v1/job-types', '/v1/queue', '/v1/moderation/health'}:
+        if self.path in {'/v1/models', '/v1/job-types'}:
+            try:
+                tasks=[task for task in ROUTES if self.route_allowed(tenant,task)]
+                policy,models=self.server.catalog.records(tasks)
+            except SelectionError as error:
+                return self.send(error.status, {'error': {'code': error.code}})
+            if self.path=='/v1/models':
+                return self.send(200, {'object':'list','data':models,'policy_id':policy['policy_id'],'defaults':{task:policy['defaults'][task] for task in tasks}})
+            return self.send(200, {'version':'job-router.v2','policy_id':policy['policy_id'],'job_types':{task:{'model':policy['defaults'][task],'selection':'ranking_default','available_models':[m['id'] for m in models if task in m['selectable_for']]} for task in tasks}})
+        if self.path in {'/v1/queue', '/v1/moderation/health'}:
             if self.path == '/v1/moderation/health' and tenant != 'camera':
                 return self.send(401, {'error': {'code': 'unauthorized'}})
-            if self.path == '/v1/job-types':
-                return self.send(200, {'version': 'job-router.v1', 'job_types': {task: {'model': spec['model']}
-                    for task, spec in ROUTES.items() if self.route_allowed(tenant, task)}})
             return self.send(200, self.server.scheduler.status(tenant))
         for prefix in ['/v1/jobs/', '/v1/moderation/jobs/']:
             if self.path.startswith(prefix):
@@ -362,28 +378,39 @@ class Handler(BaseHTTPRequestHandler):
             data = json.loads(raw)
             if self.path == '/v1/chat/completions':
                 task, value = 'text_chat', data
+                requested = data.get('model') if isinstance(data,dict) else None
             elif self.path == '/v1/moderation/jobs':
                 task, value = 'image_moderation', data
+                requested = data.get('model') if isinstance(data,dict) else None
+                if isinstance(data,dict): value={k:v for k,v in data.items() if k!='model'}
             else:
-                if not isinstance(data, dict) or set(data) != {'task', 'input'}:
+                if not isinstance(data, dict) or not {'task','input'} <= set(data) or set(data)-{'task','input','model'}:
                     raise ValueError('Provide task and input')
                 task, value = data['task'], data['input']
+                requested=data.get('model')
+                if isinstance(value,dict) and 'model' in value:
+                    if requested is not None and requested!=value['model']: raise ValueError('Conflicting model choices')
+                    requested=value['model']
             if not isinstance(task, str) or not self.route_allowed(tenant, task):
                 return self.send(403, {'error': {'code': 'job_type_not_allowed'}})
-            metadata = {}
+            if requested is not None and not isinstance(requested,str): raise ValueError('Model must be a string')
+            selection=self.server.catalog.select(task,requested)
+            metadata = dict(selection)
             stream = False
             if task == 'text_chat':
-                payload = text_input(value, ROUTES[task]['model'])
+                payload = text_input({**value,'model':selection['model']}, selection['model'])
                 stream = value.get('stream', False)
             else:
-                if not isinstance(value, dict) or set(value) != {'image_base64'}:
+                if not isinstance(value, dict) or set(value)-{'image_base64','model'} or 'image_base64' not in value:
                     raise ValueError('Provide image_base64 only')
                 payload, original_hash, normalized_hash = normalize_image(value['image_base64'])
-                metadata = {'image_sha256': original_hash, 'normalized_sha256': normalized_hash}
+                metadata.update(image_sha256=original_hash, normalized_sha256=normalized_hash)
             idempotency = self.headers.get('Idempotency-Key')
             if idempotency and (len(idempotency) > 128 or not idempotency.isascii()):
                 raise ValueError('Invalid idempotency key')
-            job_id, error = self.server.scheduler.submit(tenant, task, payload, idempotency, metadata)
+            job_id, error = self.server.scheduler.submit(tenant, task, payload, idempotency, metadata, selected_model=selection['model'])
+        except SelectionError as error:
+            return self.send(error.status, {'error': {'code': error.code}})
         except (ValueError, TypeError, RecursionError) as exc:
             return self.send(400, {'error': {'code': 'invalid_request', 'message': str(exc)[:150]}})
         finally:
@@ -436,8 +463,9 @@ class Handler(BaseHTTPRequestHandler):
 
 class Server(ThreadingHTTPServer):
     daemon_threads = True
-    def __init__(self, address, keys, scheduler=None):
+    def __init__(self, address, keys, scheduler=None, catalog=None):
         self.keys = keys
+        self.catalog = catalog or CATALOG
         self.scheduler = scheduler or Scheduler()
         self.slots = threading.BoundedSemaphore(24)
         self.upload_slot = threading.BoundedSemaphore(1)
@@ -464,6 +492,4 @@ if __name__ == '__main__':
     keys = {tenant: os.environ['GATEWAY_' + tenant.upper() + '_KEY'] for tenant in ['classscout', 'habigoal', 'camera', 'pandora']}
     if len(set(keys.values())) != len(keys) or any(len(key) < 32 for key in keys.values()):
         raise RuntimeError('Distinct strong service keys are required')
-    if ROUTES['image_moderation']['model'] != VISION_MODEL:
-        raise RuntimeError('Moderation route must match its versioned policy model')
     Server(('127.0.0.1', 8090), keys).serve_forever()

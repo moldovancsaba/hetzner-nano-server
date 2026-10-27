@@ -1,7 +1,12 @@
 import base64,io,json,threading,time,unittest,urllib.request,urllib.error
 from unittest.mock import patch
 from PIL import Image
-from gateway.server import Scheduler,Server,Runner,ROUTES,UpstreamUncertain,text_input
+from gateway.server import Scheduler,Server,Runner,ROUTES,UpstreamUncertain,text_input,POLICY_PATH
+from gateway.catalog import ModelCatalog,SelectionError
+
+def catalog():
+ policy=json.loads(POLICY_PATH.read_text())
+ return ModelCatalog(POLICY_PATH,lambda:{"models":[{"name":name,"digest":entry["tested_digest"]} for name,entry in policy["models"].items()]})
 
 def completion():
  return {'id':'test','created':1,'model':'granite4:1b-h','object':'chat.completion','choices':[{'index':0,'message':{'role':'assistant','content':'READY'},'finish_reason':'stop'}],'usage':{'prompt_tokens':1,'completion_tokens':1,'total_tokens':2}}
@@ -50,15 +55,16 @@ class Tests(unittest.TestCase):
   with patch('gateway.server.native',side_effect=native):
    result,switch=Runner()('text_chat',{},'granite4:1b-h')
   self.assertEqual([x[0] for x in calls],['/api/ps','/api/generate','/api/ps','/v1/chat/completions']);self.assertEqual(switch['unloaded_models'],['old-model'])
- def test_legacy_model_is_alias_not_actual_route(self):
-  data=text_input({'model':'qwen3:1.7b','messages':[{'role':'user','content':'Hi'}]},ROUTES['text_chat']['model'])
-  self.assertEqual(data['model'],'granite4:1b-h')
+ def test_explicit_model_is_real_choice(self):
+  selected=catalog().select('text_chat','qwen3:1.7b')
+  self.assertEqual(selected['model'],'qwen3:1.7b')
+  self.assertEqual(catalog().select('text_chat','auto')['model'],'granite4:1b-h')
  def test_text_limits(self):
   for data in [{'messages':[{'role':'user','content':[{'type':'image_url'}]}]}, {'messages':[]}, {'messages':[{'role':'user','content':'Hi'}],'model':'giant:70b'}, {'messages':[{'role':'user','content':'Hi'}],'max_tokens':513}]:
    with self.assertRaises(ValueError):text_input(data,'granite4:1b-h')
  def test_http_permissions_async_chat_and_sse(self):
   s=Scheduler(lambda *args:(completion(),{'unloaded_models':[]}))
-  http=Server(('127.0.0.1',0),{'camera':'c'*40,'classscout':'t'*40},s);threading.Thread(target=http.serve_forever,daemon=True).start()
+  http=Server(('127.0.0.1',0),{'camera':'c'*40,'classscout':'t'*40},s,catalog=catalog());threading.Thread(target=http.serve_forever,daemon=True).start()
   def req(path,body=None,key='t'*40):
    request=urllib.request.Request('http://127.0.0.1:'+str(http.server_port)+path,headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'},data=json.dumps(body).encode() if body is not None else None)
    try:
@@ -66,7 +72,7 @@ class Tests(unittest.TestCase):
    except urllib.error.HTTPError as r:return r.code,r.read().decode()
   try:
    self.assertEqual(req('/v1/queue',key='wrong')[0],401)
-   self.assertEqual(req('/v1/models',key='c'*40)[0],401)
+   self.assertEqual(req('/v1/models',key='c'*40)[0],200)
    self.assertEqual(req('/v1/moderation/health')[0],401)
    self.assertEqual(req('/v1/jobs',{'task':'image_recognition','input':{'image_base64':'a'}})[0],403)
    self.assertEqual(json.loads(req('/v1/job-types',key='c'*40)[1])['job_types'].keys(),{'image_recognition','image_moderation'})

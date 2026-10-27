@@ -61,8 +61,8 @@ def normalize_image(encoded):
     return normalized, hashlib.sha256(raw).hexdigest(), hashlib.sha256(normalized).hexdigest()
 
 
-def infer(image):
-    body = {'model': MODEL, 'prompt': PROMPT,
+def infer(image, model=MODEL):
+    body = {'model': model, 'prompt': PROMPT,
             'images': [base64.b64encode(image).decode()], 'format': SCHEMA,
             'stream': False, 'keep_alive': '1m',
             'options': {'num_ctx': 2048, 'num_batch': 32, 'num_predict': 256, 'temperature': 0}}
@@ -84,7 +84,7 @@ def infer(image):
     if not isinstance(parsed['evidence'], str) or len(parsed['evidence']) > 2000:
         raise ValueError('Invalid evidence')
     flags = [category for category in CATEGORIES if cats[category] is True]
-    return {'schema_version': VERSION, 'model': MODEL, 'review_required': True,
+    return {'schema_version': VERSION, 'model': model, 'review_required': True,
             'automated_decision': 'none',
             'signal': 'flagged' if flags else 'uncertain' if None in cats.values() else 'no_flags_detected',
             'flags': flags,

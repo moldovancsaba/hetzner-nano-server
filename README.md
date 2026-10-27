@@ -12,9 +12,13 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 4. Run `python3 scripts/healthcheck.py --project classscout` or use `habigoal`.
 5. Read `docs/HISTORY.md`, `docs/MEASUREMENT.md`, and `docs/IMPROVEMENTS.md` for decisions, evidence, and outstanding work.
 
+## Default model policy
+
+[Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses LFM2-VL 450M; moderation uses its separate LFM2.5-VL 450M winner.
+
 ## Shared text/image queue
 
-[Shared job router](docs/JOB-ROUTER.md): one FIFO queue routes ClassScout/Habigoal/Pandora text to Granite 4 1B Hybrid and Camera images to LFM2.5-VL 450M. Discover assignments with `/v1/job-types`, submit async work at `/v1/jobs`, and inspect `/v1/queue`. Existing chat and moderation endpoints use the same scheduler.
+[Shared job router](docs/JOB-ROUTER.md): one FIFO queue routes ClassScout/Habigoal/Pandora text to Granite 4 1B Hybrid and Camera images to their task-specific ranked vision models. Discover assignments with `/v1/job-types`, submit async work at `/v1/jobs`, and inspect `/v1/queue`. Existing chat and moderation endpoints use the same scheduler.
 
 ## Camera moderation API
 
@@ -90,7 +94,7 @@ Server, DNS, trusted HTTPS, both authentication keys, native inference, and Open
 
 Separate forbidden-content screening: [nine-category moderation test](benchmarks/moderation/REPORT.md). Its results do not enter the general image ranking. Research images and sensitive fixtures are excluded from Git.
 
-Latest expanded findings: [English ranking](benchmarks/rankings/ENGLISH.md), [image analytics ranking](benchmarks/rankings/IMAGES.md), and [new candidate test report](benchmarks/round3/REPORT.md). These are separate workstreams. Eleven additional model variants were attempted; candidate weights were removed after evaluation. Those benchmark runs restored Qwen3; the subsequent shared text route now uses Granite 4 1B Hybrid.
+Latest expanded findings: [English ranking](benchmarks/rankings/ENGLISH.md), [image analytics ranking](benchmarks/rankings/IMAGES.md), [moderation ranking](benchmarks/rankings/MODERATION.md), and [new candidate test report](benchmarks/round3/REPORT.md). These are separate workstreams. Eleven additional model variants were attempted; candidate weights were removed after evaluation. Those benchmark runs restored Qwen3; the subsequent shared text route now uses Granite 4 1B Hybrid.
 
 Non-English capabilities are managed independently: [language-specific evaluation](benchmarks/non-english/REPORT.md). English scores exclude non-English tests. Each language and task requires its own model choice and acceptance.
 
