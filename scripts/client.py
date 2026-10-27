@@ -14,8 +14,8 @@ def key_for(project):
     # Explicit project selection always uses its own credential, not an ambiguous shell key.
     return json.loads((ROOT / 'private/api-keys.json').read_text())[project]
 
-def request(path, key=None, payload=None):
-    headers = {'Content-Type': 'application/json'}
+def request(path, key=None, payload=None, purpose='production'):
+    headers = {'Content-Type': 'application/json','X-Request-Purpose':purpose}
     if key:
         headers['Authorization'] = 'Bearer ' + key
     req = urllib.request.Request(BASE + path, headers=headers,

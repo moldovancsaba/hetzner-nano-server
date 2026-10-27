@@ -17,7 +17,7 @@ Owner policy confirmed 2026-10-27: **retain only curated, explicitly approved da
 | Model discovery metadata | Restricted server registry; bounded discovery snapshots | Metadata only; snapshots 30 days/50 MiB, registry 10,000 records |
 | Tested/declined model metadata and benchmark evidence | Versioned repository and approved metadata backup | Keep source, revision/digest, settings, failure, decision and scores even after weights are removed |
 | Current winning weights | Ollama persistent model store | Pin every task default; keep verified digests |
-| Registered alternatives / rollback weights | Reviewed model cache | Explicit pins retained; previous-winner rollback target seven days, then review use/budget |
+| Other installed model weights | Automatic hourly retention | Keep top five per job or admitted non-test demand within 14 days; initial history grace and active-work safeguards apply |
 | Declined weights | Remove after evidence capture and safety checks | Keep decline metadata and re-test condition, not the binary |
 | Approved training datasets and labels | Separate access-controlled dataset store, outside public Git and request storage | Require provenance/approval/version/split/retention manifest; do not silently reuse live traffic |
 | Approved adapters/training outputs | Separate artifact store with run manifest | Keep only explicitly approved artifacts; link dataset version, config, digest and holdout results |
@@ -60,15 +60,15 @@ Keep run configuration, code revision, approved dataset version, adapter/model h
 
 ## Model-weight storage policy
 
-Machine-readable targets are in [config/model-storage-policy.json](../config/model-storage-policy.json): 8 GiB target free space, 4 GiB hard floor, 16 GiB target weight-cache budget, all ranked defaults protected, plus explicit Qwen 0.6B/1.7B alternative pins. These targets are reviewed operating limits, not a deployed automatic LRU eviction service.
+The owner’s current rule is implemented by the [automatic model cleaner](AUTO-MODEL-CLEANUP.md): keep top five **per task** plus models selected by admitted non-test inference requests during the last 14 days. This supersedes permanent alternative pins and the previous seven-day rollback target. Existing weights have one initial 14-day history grace because past non-test use was not tracked. Defaults, resident models and queued/running work are protected. Cleanup runs hourly with up to five minutes jitter and no public model-install endpoint.
 
-Before downloading a candidate, account for the artifact, projector/encoder and temporary copy. If projected free space crosses the hard floor, clean reviewed cache items or defer the test; never delete an active/default/pinned model to make a benchmark fit. Keep one approved candidate at a time and remove newly declined packages after recording results.
+`config/model-storage-policy.json` records this policy. The 8 GiB target free space, 4 GiB hard download floor and 16 GiB target cache budget remain capacity-planning targets, not permission to delete recently used/protected models. If protected weights exceed budget, defer new downloads and review capacity rather than breaking retention rules.
 
-Daily discovery reports disk/inventory metadata and known decline decisions. Automatic weight deletion is disabled. `scripts/retire_declined_models.py` defaults to a dry run and removes only explicitly declined models with `--apply`, refusing current defaults, pins or loaded models. It writes a metadata audit before/after; it does not prune arbitrary installed alternatives or inference data.
+Production-use metadata now persists separately: model name, digest, aggregate admitted production-request count and last timestamp only. No content, identity or per-request payload is stored. Tests must send `X-Request-Purpose: test`; repository verification/benchmark helpers do so. Health checks, polling and discovery never extend retention. Unmarked inference counts as production; the server does not inspect content to guess whether it is a test.
 
-Applied cleanup: Qwen3-VL 2B and Ministral 3B had failed current-environment eligibility and were not selectable for production jobs. Their weights were removed after capturing exact digests/decisions; the audit is [here](../results/retention/declined-model-cleanup.json). Free disk rose from about 6.5 GiB to about 11 GiB. Other installed alternatives remain available; use telemetry and a reviewed cache plan before removing them.
+Daily discovery continues to report disk/inventory metadata; it does not delete weights itself. The separate privileged cleaner acquires an idle gateway maintenance lease, writes metadata decisions before deleting, rechecks eligibility and releases the lease. It fails closed if trustworthy policy/usage/lease data is unavailable. Approved training/evaluation data and all historical model evidence are outside the cleaner’s deletion scope.
 
-A future LRU tool must protect client-registered pins and defaults, honor rollback windows, emit a dry-run plan and preserve all test/decline metadata. Model names alone are not versions: a changed artifact or runtime can justify a reviewed re-test, never a silent reintroduction.
+Historical cleanup removed Qwen3-VL 2B and Ministral 3B after their eligibility failures; the [original audit](../results/retention/declined-model-cleanup.json) remains. The old retire-declined helper now refuses deletion under policy v2. The hourly cleaner owns removal decisions. Pause the cleanup timer before native benchmark experiments and re-enable it after restoring production; unranked temporary downloads otherwise have no production-use protection.
 
 ## Backups and verification
 

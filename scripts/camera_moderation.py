@@ -8,7 +8,7 @@ key=os.environ.get('CAMERA_MODERATION_API_KEY')
 if not key:key=json.loads((root/'private/api-keys.json').read_text())['camera']
 base=os.environ.get('CAMERA_MODERATION_BASE_URL','https://chatbotapi.haho.ai/v1/moderation').rstrip('/')
 def request(path,payload=None,idempotency=None):
- headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'}
+ headers={'Authorization':'Bearer '+key,'Content-Type':'application/json','X-Request-Purpose':'test'}
  if idempotency:headers['Idempotency-Key']=idempotency
  req=urllib.request.Request(base+path,data=json.dumps(payload).encode() if payload is not None else None,headers=headers)
  with urllib.request.urlopen(req,timeout=20) as response:return json.load(response)

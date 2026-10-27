@@ -103,7 +103,7 @@ def collect(state,config,tested):
   db.execute('DELETE FROM models WHERE key IN (SELECT key FROM models ORDER BY last_seen ASC LIMIT ?)',(count-config['max_registry_records'],));db.commit()
  shortlist=sorted((row for row in records.values() if row['test_status']=='not_in_test_index' and row['screening_score']>=30),key=lambda row:(-row['screening_score'],-row.get('likes',0),row['key']))[:config['shortlist_limit']]
  successful=sum(s['status']=='ok' for s in sources);report={'generated_utc':now,'status':'ok' if successful==len(sources) else 'degraded' if successful else 'failed','sources':sources,'observed_models':len(records),'registry_models':db.execute('SELECT COUNT(*) FROM models').fetchone()[0],'revision_changes':changes,'runtime_releases':runtime,'shortlist':shortlist,'limitations':['Scores are metadata heuristics, not model quality or RAM benchmarks.','Bounded discovery feeds are not exhaustive; popularity and context length do not prove local suitability.','Already-tested family matching is heuristic; inspect model variant, revision, projector and quantization before testing.','No weights downloaded, no generation performed, no production requests captured.']};db.close()
- report['storage']={'disk_free_gib':round(shutil.disk_usage('/').free/1024**3,2),'automatic_weight_deletion':False}
+ report['storage']={'disk_free_gib':round(shutil.disk_usage('/').free/1024**3,2),'collector_deletes_weights':False,'weight_cleanup_service':'narimato-model-cleanup.service'}
  try:
   req=urllib.request.Request('http://127.0.0.1:11434/api/tags')
   with urllib.request.urlopen(req,timeout=5) as response:installed=json.load(response)['models']

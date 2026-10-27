@@ -24,7 +24,7 @@ try:
  apply(maintenance.read_text());subprocess.run(['systemctl','stop','narimato-chat'],check=True)
  for _ in range(180):
   state=get('/v1/queue')
-  if not state['queued'] and not state['active_task']:break
+  if not state['queued'] and not state['active_task'] and not state.get('model_storage_maintenance',False):break
   time.sleep(1)
  else:raise RuntimeError('Queue not drained')
  if state['status']!='ok':raise RuntimeError('Recover upstream before update')

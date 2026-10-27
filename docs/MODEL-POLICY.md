@@ -93,7 +93,7 @@ Selection errors include `model_not_tested_for_job`, `model_not_installed`, `def
 1. Run task-specific eligibility and quality tests under the actual server limits. Keep English, image recognition, moderation and each non-English language separate. Record exact artifact digests, errors, schemas, profiles and latency. A failed/unfinished model never becomes a winner.
 2. Update the appropriate canonical ranking. Preserve category-specific moderation evidence and old raw results. Update `config/ranking-sources.json` when a newer ranking supersedes the old source.
 3. Run `python3 scripts/promote_rankings.py --write`, inspect winner changes, then `--check` and the unit suite. Missing digest evidence is an error requiring evidence, not permission to invent a digest.
-4. Ensure every new default is installed on Hetzner and its digest matches. Stage the reviewed generated policy on the server and atomically replace `/opt/narimato-gateway/config/model-policy.json`. No restart is needed for a policy-only update. Deploy source changes with a drained queue and controlled restart, using the staged update helper when applicable.
+4. Pause the automatic model-cleanup timer before pulling/testing unranked temporary candidates. Ensure every new default is installed on Hetzner and its digest matches. Stage the reviewed generated policy on the server and atomically replace `/opt/narimato-gateway/config/model-policy.json`. No restart is needed for a policy-only update. Deploy source changes with a drained queue and controlled restart, using the staged update helper when applicable. Restore/verify production and re-enable cleanup after the test/update window.
 5. Verify `/v1/models`, `/v1/job-types`, actual auto completions, explicit alternatives and mixed-job serialization. Confirm the actual response model, not natural-language self-identification. Check Pandora and existing client routes. Document limitations and deploy the documentation with the change.
 6. Commit and push the reviewed evidence, generated policy, source-pointer changes and documentation to this repository. Do not include private images, keys or live secret configuration.
 
@@ -102,3 +102,7 @@ A daily server-side metadata-discovery timer is now active; no unattended benchm
 ## Verification
 
 [Live model-policy verification](../results/model-policy/public-verification.json) records actual discovery and model choices. [Shared queue guide](JOB-ROUTER.md) covers retention, FIFO limits, circuit recovery, polling and client timeout constraints. `scripts/deploy_gateway_update.py` is the server-side staged source-upgrade helper; it drains the queue, backs up replaced files privately, validates Caddy maintenance and rolls back on readiness failure.
+
+## Weight retention
+
+Installed alternatives are now automatically managed by [top-five-per-task plus 14-day production use](AUTO-MODEL-CLEANUP.md). Tests must mark X-Request-Purpose: test and do not extend retention. API model discovery reflects evictions; evidence remains in the registry/repository. Missing alternatives are not downloaded automatically.

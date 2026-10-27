@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];keys=json.loads((ROOT/'private/api-keys.json').read_text());BASE='https://chatbotapi.haho.ai'
 checks=[]
 def request(path,tenant='classscout',data=None):
- req=urllib.request.Request(BASE+path,data=json.dumps(data).encode() if data is not None else None,headers={'Authorization':'Bearer '+keys[tenant],'Content-Type':'application/json'})
+ req=urllib.request.Request(BASE+path,data=json.dumps(data).encode() if data is not None else None,headers={'Authorization':'Bearer '+keys[tenant],'Content-Type':'application/json','X-Request-Purpose':'test'})
  try:
   with urllib.request.urlopen(req,timeout=115) as r:
    raw=r.read().decode();return r.status,raw if r.headers.get('Content-Type','').startswith('text/event-stream') else json.loads(raw)

@@ -27,7 +27,7 @@ for i in range(a.runs):
     name, prompt, validate = tests[i % len(tests)]
     payload={'model':MODEL,'messages':[{'role':'user','content':prompt}], 'reasoning_effort':'none',
              'response_format':{'type':'json_object'},'temperature':0,'max_tokens':96,'stream':False}
-    status, data, seconds = request('/chat/completions', key, payload)
+    status, data, seconds = request('/chat/completions', key, payload, purpose='test')
     content = data.get('choices',[{}])[0].get('message',{}).get('content','')
     valid=False; passed=False
     try:

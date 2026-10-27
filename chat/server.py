@@ -55,7 +55,9 @@ class Handler(BaseHTTPRequestHandler):
   if not WORKER.acquire(blocking=False):return self.send(429,'{"error":"Another reply is in progress. Try again shortly."}','application/json')
   try:
    payload={'model':'auto','messages':[{'role':'system','content':'You are Pandora, a helpful assistant on a privately hosted AI service. Your name in this chat is Pandora: introduce yourself as Pandora when asked who you are. Distinguish your display name from the underlying model. Never invent the model developer or model identity. Answer clearly and briefly. Say when you are unsure.'}]+recent,'reasoning_effort':'none','stream':False,'max_tokens':256,'temperature':0.4}
-   req=urllib.request.Request('http://127.0.0.1:8090/v1/chat/completions',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+GATEWAY_KEY})
+   purpose=self.headers.get('X-Request-Purpose','production')
+   if purpose not in ['production','test']:raise ValueError('Invalid request purpose')
+   req=urllib.request.Request('http://127.0.0.1:8090/v1/chat/completions',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+GATEWAY_KEY,'X-Request-Purpose':purpose})
    with urllib.request.urlopen(req,timeout=110) as r:completion=json.load(r)
    reply=completion['choices'][0]['message']['content']
    self.send(200,json.dumps({'reply':reply,'model':completion.get('model')}), 'application/json')

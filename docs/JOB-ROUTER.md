@@ -146,3 +146,7 @@ Verification: [mixed-workload measurements](../results/gateway/public-verificati
 ## Minimal data retention
 
 Terminal results now expire after 300 seconds even when idle. Clients should DELETE their job after consumption; queued jobs may be cancelled/deleted, active inference returns 409. See [data retention](DATA-RETENTION.md) and [continuous evaluation](CONTINUOUS-EVALUATION.md). No live image/text traffic becomes training material.
+
+## Production demand and safe model cleanup
+
+The gateway records content-free demand metadata only for authenticated, validated, admitted inference jobs. Default request purpose is production; tests must send `X-Request-Purpose: test`. This metadata protects recently used weights for 14 days. No prompt/image/answer/user identity is retained in it. During an idle cleanup lease new submissions receive retryable 503 `model_storage_maintenance`; usage-store failures return 503 `usage_tracking_unavailable` rather than untracked admission. See [automatic cleanup](AUTO-MODEL-CLEANUP.md).

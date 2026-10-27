@@ -3,7 +3,7 @@ import base64,json,time,urllib.request,urllib.error
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];keys=json.loads((ROOT/'private/api-keys.json').read_text());base='https://chatbotapi.haho.ai/v1';checks=[]
 def req(path,tenant='classscout',data=None,method=None):
- request=urllib.request.Request(base+path,data=json.dumps(data).encode() if data is not None else None,method=method,headers={'Content-Type':'application/json','Authorization':'Bearer '+keys[tenant]})
+ request=urllib.request.Request(base+path,data=json.dumps(data).encode() if data is not None else None,method=method,headers={'Content-Type':'application/json','X-Request-Purpose':'test','Authorization':'Bearer '+keys[tenant]})
  try:
   with urllib.request.urlopen(request,timeout=20) as r:return r.status,json.load(r)
  except urllib.error.HTTPError as r:return r.code,json.load(r)

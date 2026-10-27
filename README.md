@@ -12,6 +12,10 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 4. Run `python3 scripts/healthcheck.py --project classscout` or use `habigoal`.
 5. Read `docs/HISTORY.md`, `docs/MEASUREMENT.md`, and `docs/IMPROVEMENTS.md` for decisions, evidence, and outstanding work.
 
+## Automatic model storage
+
+[Hourly cleanup policy](docs/AUTO-MODEL-CLEANUP.md): keep top five per job plus models used by admitted non-test requests in the last 14 days. Initial installed weights have a one-time history grace; active/queued models and all metadata/evidence are protected. Tests must send X-Request-Purpose: test.
+
 ## Research backlog and retention
 
 - [Backlog](BACKLOG.md) and [continuous discovery/testing plan](docs/CONTINUOUS-EVALUATION.md)

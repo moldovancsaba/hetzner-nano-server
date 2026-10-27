@@ -1,0 +1,174 @@
+{
+  "started_utc": "2026-10-27T11:17:52.778165+00:00",
+  "apply": true,
+  "status": "completed",
+  "models": [
+    {
+      "model": "nano-cleanup-probe:latest",
+      "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+      "size_bytes": 522653767,
+      "keep_reasons": [],
+      "decision": "remove",
+      "removed": true
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+      "size_bytes": 483116964,
+      "keep_reasons": [
+        "current_default",
+        "top_five:image_recognition",
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+      "size_bytes": 482045956,
+      "keep_reasons": [
+        "current_default",
+        "top_five:image_recognition",
+        "top_five:image_moderation",
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+      "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+      "size_bytes": 1705126334,
+      "keep_reasons": [
+        "top_five:image_recognition",
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+      "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+      "size_bytes": 545590747,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "granite3.2-vision:2b",
+      "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+      "size_bytes": 2437852465,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+      "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+      "size_bytes": 1045157764,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "granite4:1b-h",
+      "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "size_bytes": 1558945427,
+      "keep_reasons": [
+        "current_default",
+        "top_five:text_chat",
+        "initial_14_day_history_grace",
+        "resident_model"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "granite4:350m",
+      "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+      "size_bytes": 708458314,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "granite3.3:2b",
+      "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+      "size_bytes": 1545321637,
+      "keep_reasons": [
+        "top_five:text_chat",
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "moondream:1.8b",
+      "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+      "size_bytes": 1738451197,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "smollm2:1.7b",
+      "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+      "size_bytes": 1820428533,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "llama3.2:1b",
+      "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+      "size_bytes": 1321098329,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "gemma3:1b",
+      "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+      "size_bytes": 806067407,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "size_bytes": 986061892,
+      "keep_reasons": [
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "qwen3:0.6b",
+      "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+      "size_bytes": 522653767,
+      "keep_reasons": [
+        "top_five:text_chat",
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    },
+    {
+      "model": "qwen3:1.7b",
+      "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+      "size_bytes": 1359293444,
+      "keep_reasons": [
+        "top_five:text_chat",
+        "initial_14_day_history_grace"
+      ],
+      "decision": "keep"
+    }
+  ],
+  "usage_tracking_started_at": 1793099773.5821831,
+  "policy_id": "b27ff44e215bbc75a76068ab500b4442286cb8d30020d89a8addaafd7eb3134a",
+  "finished_utc": "2026-10-27T11:17:53.984357+00:00"
+}

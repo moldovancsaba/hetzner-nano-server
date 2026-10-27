@@ -14,6 +14,9 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 | DR-02 | P0 | Minimize transient job data | Five-minute memory result TTL, active periodic expiry and authenticated DELETE acknowledgement for result/queued-job removal |
 | TR-01 | P0 | Define training boundary | Owner approved curated, explicitly approved datasets and labels only; never capture live Camera inputs or conversations |
 
+| ST-01 | P1 | Content-free production model-demand tracking | Persistent model/digest/count/last-valid-request metadata; tests explicitly excluded |
+| ST-02 | P1 | Automatic top-five / 14-day weight cleanup | Hourly timer, idle gateway lease, initial history grace, deletion audit and real disposable-alias verification |
+
 ## Ready / next
 
 | ID | Priority | Work | Definition of done |
@@ -22,7 +25,6 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 | EV-01 | P1 | Build approved unseen project holdouts | Versioned manifests, provenance/approval and labels; English structured tasks, general images and each moderation category scored separately; no training contamination |
 | EV-02 | P1 | Standardize maintenance-window benchmark runner | Drain public queue, isolate native testing, pin resource limits, capture real peaks/OOM/load/switch times, enforce download/time/disk limits, restore and verify all services |
 | EV-03 | P1 | Expand moderation validation | Enough positive, negative and ambiguous examples per category, independent label review, explicit-act/photographic gesture/hate-symbol/violence coverage gaps addressed; never auto-clear images |
-| ST-01 | P1 | Add content-free per-model usage statistics | Only model/task/count/last-used/timing buckets; no text, images, user IDs, evidence sentences or input hashes; use it to review the alternative-weight cache |
 | OP-01 | P1 | Add meaningful failure notification | Alert only on repeated source failures, timer failure, low disk or benchmark restore failure; choose/authorize a destination before sending external messages |
 | CL-01 | P1 | Integrate result acknowledgement in clients | Camera/ClassScout poll, consume and DELETE terminal results; preserve source revision and manual-review behavior; update client contracts in their own repositories |
 
@@ -32,7 +34,6 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 | --- | --- | --- | --- |
 | MR-05 | P2 | Improve artifact-family identity and revision matching | Distinguish architecture, base model, fine-tune, quantization, encoder/projector and revision; changed artifact/runtime triggers reviewed retest, not repetitive unchanged tests |
 | EV-04 | P2 | Use weekly review and fortnightly approved test windows | Operator checklist followed; no unattended benchmark/generation schedule added until queue isolation and recovery are proven |
-| ST-02 | P2 | Manage alternatives by measured use and budget | Protect all current defaults, registered client pins and rollback period; dry-run eviction report; remove only reviewed expired/unused weights, preserve metadata |
 | TR-02 | P2 | Create an approved dataset/training registry | Each version has provenance, permissions, approval, split, labels, checksum, retention/revocation and access controls; raw files outside public Git and inference request storage |
 | TR-03 | P2 | Plan actual training separately | Off-server compute/storage/run manifests, approved dataset version, adapter/weight provenance, holdout evaluation and rollback; never train on the production queue |
 | OP-02 | P2 | Test metadata/config backup and restore | Encrypted off-host backup of approved metadata/config manifests and separately protected secrets; exclude transient requests and job results |

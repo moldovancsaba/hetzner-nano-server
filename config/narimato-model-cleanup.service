@@ -1,0 +1,18 @@
+[Unit]
+Description=Retain ranked and recently used model weights
+After=narimato-gateway.service docker.service
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/narimato-model-cleanup.env
+StateDirectory=narimato-model-cleanup
+StateDirectoryMode=0700
+ExecStart=/usr/bin/python3 /opt/narimato-model-cleanup/cleaner.py --apply
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=96M
+CPUQuota=10%
+Nice=15
+TimeoutStartSec=4min
+UMask=0077

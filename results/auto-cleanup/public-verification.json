@@ -1,0 +1,7 @@
+{
+  "tagged_test_does_not_update_usage": true,
+  "tracking_initialized": true,
+  "initial_grace_survives_restart": true,
+  "lease_blocks_new_requests": true,
+  "normal_project_key_cannot_manage_cleanup": true
+}

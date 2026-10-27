@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];keys=json.loads((ROOT/'private/api-keys.json').read_text());BASE='https://chatbotapi.haho.ai'
 checks=[]
 def request(path,key=None,data=None,headers=None):
- h={'Content-Type':'application/json',**(headers or {})}
+ h={'Content-Type':'application/json','X-Request-Purpose':'test',**(headers or {})}
  if key:h['Authorization']='Bearer '+key
  req=urllib.request.Request(BASE+path,data=json.dumps(data).encode() if data is not None else None,headers=h)
  try:

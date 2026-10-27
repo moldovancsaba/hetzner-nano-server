@@ -19,6 +19,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from moderation.server import normalize_image, infer as moderation_infer
 from gateway.catalog import ModelCatalog, SelectionError
+from gateway.usage import UsageStore, LeaseStore
 from PIL import Image
 
 TTL = 300
@@ -162,7 +163,11 @@ def text_input(data, model):
 
 
 class Scheduler:
-    def __init__(self, runner=None):
+    def __init__(self, runner=None, usage=None, maintenance_store=None):
+        self.usage = usage
+        self.maintenance_store = maintenance_store
+        self.maintenance = maintenance_store.load() if maintenance_store else None
+        self.storage_epoch = 0
         self.runner = runner or Runner(CATALOG)
         self.cv = threading.Condition()
         self.rows = {}
@@ -175,6 +180,10 @@ class Scheduler:
 
     def clean(self):
         now = time.time()
+        if self.maintenance and now >= self.maintenance['expires_at']:
+            if self.maintenance_store:self.maintenance_store.save(None)
+            self.maintenance = None
+            self.storage_epoch += 1
         for job_id in list(self.queue):
             row = self.rows[job_id]
             if now - row['created_at'] > QUEUE_TTL:
@@ -197,9 +206,9 @@ class Scheduler:
                 row['review_required'] = True
         row['_event'].set()
 
-    def submit(self, tenant, task, payload, idempotency=None, metadata=None, selected_model=None):
+    def submit(self, tenant, task, payload, idempotency=None, metadata=None, selected_model=None, purpose='production', expected_epoch=None):
         content = payload if isinstance(payload, bytes) else json.dumps(payload, sort_keys=True).encode()
-        fingerprint = hashlib.sha256(content + json.dumps(metadata or {}, sort_keys=True).encode() + (selected_model or ROUTES[task]['model']).encode()).hexdigest()
+        fingerprint = hashlib.sha256(content + json.dumps(metadata or {}, sort_keys=True).encode() + (selected_model or ROUTES[task]['model']).encode() + purpose.encode()).hexdigest()
         with self.cv:
             self.clean()
             if idempotency:
@@ -208,6 +217,8 @@ class Scheduler:
                         if row['_fingerprint'] != fingerprint or row['task'] != task:
                             return None, 'conflict'
                         return row['id'], None
+            if self.maintenance or (expected_epoch is not None and expected_epoch != self.storage_epoch):
+                return None, 'model_storage_maintenance'
             if self.circuit_open:
                 return None, 'upstream_unavailable'
             if len(self.rows) >= 64 or len(self.queue) >= 8:
@@ -215,9 +226,13 @@ class Scheduler:
             tenant_pending = sum(row['_tenant'] == tenant and row['status'] in {'queued', 'running'} for row in self.rows.values())
             if tenant_pending >= 4:
                 return None, 'busy'
+            model = selected_model or ROUTES[task]['model']
+            if self.usage:
+                try: self.usage.record(model,(metadata or {}).get('model_digest'),purpose)
+                except Exception: return None,'usage_tracking_unavailable'
             job_id = secrets.token_urlsafe(24)
             self.rows[job_id] = {'id': job_id, 'task': task, 'model': selected_model or ROUTES[task]['model'],
-                'status': 'queued', 'created_at': time.time(), '_tenant': tenant, '_payload': payload,
+                'status': 'queued', 'request_purpose': purpose, 'created_at': time.time(), '_tenant': tenant, '_payload': payload,
                 '_event': threading.Event(), '_idempotency': idempotency, '_fingerprint': fingerprint, **(metadata or {})}
             self.queue.append(job_id)
             self.cv.notify_all()
@@ -267,13 +282,37 @@ class Scheduler:
                     'queued': len(self.queue), 'queue_capacity': 8, 'per_service_limit': 4,
                     'own_pending': sum(r['_tenant'] == tenant and r['status'] in {'queued', 'running'} for r in self.rows.values()),
                     'counters': dict(self.counts), 'last_model_switch': copy.deepcopy(self.last_switch),
-                    'durability': 'memory_only', 'result_retention_seconds': TTL}
+                    'durability': 'memory_only', 'result_retention_seconds': TTL,
+                    'model_storage_maintenance': bool(self.maintenance)}
+
+    def storage_lease(self,action,lease=None):
+        with self.cv:
+            self.clean()
+            if action=='acquire':
+                if self.maintenance or self.active or self.queue or self.circuit_open:
+                    return None
+                self.storage_epoch += 1
+                value={'lease':secrets.token_urlsafe(32),'expires_at':time.time()+300}
+                if self.maintenance_store:self.maintenance_store.save(value)
+                self.maintenance=value
+            elif not self.maintenance or not hmac.compare_digest(str(lease),self.maintenance['lease']):
+                return None
+            elif action=='renew':
+                value={**self.maintenance,'expires_at':time.time()+300}
+                if self.maintenance_store:self.maintenance_store.save(value)
+                self.maintenance=value
+            elif action=='release':
+                if self.maintenance_store:self.maintenance_store.save(None)
+                self.storage_epoch += 1
+                self.maintenance=None;self.cv.notify_all();return {'released':True}
+            else:return None
+            return dict(self.maintenance)
 
     def work(self):
         while True:
             with self.cv:
                 self.clean()
-                while not self.queue or self.circuit_open:
+                while not self.queue or self.circuit_open or self.maintenance:
                     self.cv.wait(timeout=5)
                     self.clean()
                 job_id = self.queue.popleft()
@@ -389,6 +428,22 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(404, {'error': {'code': 'not_found'}})
 
     def do_POST(self):
+        if self.path=='/internal/model-storage':
+            if not self.server.maintenance_key or self.client_address[0] not in {'127.0.0.1','::1'} or not hmac.compare_digest(self.headers.get('Authorization','').encode(),('Bearer '+self.server.maintenance_key).encode()):
+                return self.send(401,{'error':{'code':'unauthorized'}})
+            try:
+                length=int(self.headers.get('Content-Length','0'))
+                if not 0<length<=1024:raise ValueError()
+                data=json.loads(self.rfile.read(length))
+                if data.get('action') not in {'acquire','renew','release'}:raise ValueError()
+                with self.server.scheduler.cv:
+                    lease=self.server.scheduler.storage_lease(data['action'],data.get('lease'))
+                    if lease and data['action']=='release':
+                        with self.server.catalog.lock:
+                            self.server.catalog.cached=None
+                            self.server.catalog.cached_at=0
+                return self.send(200,lease) if lease else self.send(409,{'error':{'code':'busy_or_invalid_lease'}})
+            except (ValueError,TypeError,AttributeError):return self.send(400,{'error':{'code':'invalid_request'}})
         tenant = self.auth()
         if not tenant:
             return
@@ -403,6 +458,10 @@ class Handler(BaseHTTPRequestHandler):
         if not self.server.upload_slot.acquire(blocking=False):
             return self.send(429, {'error': {'code': 'busy'}}, **{'Retry-After': '2'})
         try:
+            with self.server.scheduler.cv:
+                epoch=self.server.scheduler.storage_epoch
+                if self.server.scheduler.maintenance:
+                    return self.send(503,{'error':{'code':'model_storage_maintenance'}},**{'Retry-After':'10'})
             length = int(self.headers.get('Content-Length', '0'))
             limit = 6 * 1024 * 1024 if tenant == 'camera' else 128 * 1024
             if self.headers.get('Transfer-Encoding') or not 0 < length <= limit:
@@ -440,10 +499,12 @@ class Handler(BaseHTTPRequestHandler):
                     raise ValueError('Provide image_base64 only')
                 payload, original_hash, normalized_hash = normalize_image(value['image_base64'])
                 metadata.update(image_sha256=original_hash, normalized_sha256=normalized_hash)
+            purpose=self.headers.get('X-Request-Purpose','production')
+            if purpose not in {'production','test'}:raise ValueError('Invalid request purpose')
             idempotency = self.headers.get('Idempotency-Key')
             if idempotency and (len(idempotency) > 128 or not idempotency.isascii()):
                 raise ValueError('Invalid idempotency key')
-            job_id, error = self.server.scheduler.submit(tenant, task, payload, idempotency, metadata, selected_model=selection['model'])
+            job_id, error = self.server.scheduler.submit(tenant, task, payload, idempotency, metadata, selected_model=selection['model'],purpose=purpose,expected_epoch=epoch)
         except SelectionError as error:
             return self.send(error.status, {'error': {'code': error.code}})
         except (ValueError, TypeError, RecursionError) as exc:
@@ -451,7 +512,7 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             self.server.upload_slot.release()
         if error:
-            status = 409 if error == 'conflict' else 503 if error == 'upstream_unavailable' else 429
+            status = 409 if error == 'conflict' else 503 if error in {'upstream_unavailable','usage_tracking_unavailable','model_storage_maintenance'} else 429
             return self.send(status, {'error': {'code': error}}, **{'Retry-After': '10'})
         if self.path == '/v1/chat/completions':
             row = self.server.scheduler.wait(tenant, job_id)
@@ -498,8 +559,9 @@ class Handler(BaseHTTPRequestHandler):
 
 class Server(ThreadingHTTPServer):
     daemon_threads = True
-    def __init__(self, address, keys, scheduler=None, catalog=None):
+    def __init__(self, address, keys, scheduler=None, catalog=None, maintenance_key=None):
         self.keys = keys
+        self.maintenance_key = maintenance_key
         self.catalog = catalog or CATALOG
         self.scheduler = scheduler or Scheduler()
         self.slots = threading.BoundedSemaphore(24)
@@ -527,4 +589,7 @@ if __name__ == '__main__':
     keys = {tenant: os.environ['GATEWAY_' + tenant.upper() + '_KEY'] for tenant in ['classscout', 'habigoal', 'camera', 'pandora']}
     if len(set(keys.values())) != len(keys) or any(len(key) < 32 for key in keys.values()):
         raise RuntimeError('Distinct strong service keys are required')
-    Server(('127.0.0.1', 8090), keys).serve_forever()
+    usage=UsageStore(os.environ['MODEL_USAGE_PATH'],native('/api/tags',timeout=10).get('models',[]))
+    maintenance_key=os.environ['GATEWAY_MAINTENANCE_KEY']
+    if len(maintenance_key)<32:raise RuntimeError('Strong maintenance key required')
+    Server(('127.0.0.1',8090),keys,scheduler=Scheduler(usage=usage,maintenance_store=LeaseStore(Path(os.environ['MODEL_USAGE_PATH']).with_name('storage-maintenance.json'))),maintenance_key=maintenance_key).serve_forever()

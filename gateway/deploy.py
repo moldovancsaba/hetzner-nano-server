@@ -6,6 +6,8 @@ if 'pandora' not in keys:
     keys['pandora']=secrets.token_urlsafe(36)
     tmp=keysfile.with_suffix('.tmp');tmp.write_text(json.dumps(keys,indent=2)+'\n');tmp.chmod(0o600);tmp.replace(keysfile)
 assert all(isinstance(keys.get(t),str) and len(keys[t])>=32 for t in ['classscout','habigoal','camera','pandora'])
+secret=pathlib.Path('/etc/narimato-model-cleanup.env')
+if not secret.exists():secret.write_text('GATEWAY_MAINTENANCE_KEY='+secrets.token_urlsafe(40)+'\n');secret.chmod(0o600)
 env=pathlib.Path('/etc/narimato-gateway.env');env.write_text(''.join('GATEWAY_'+t.upper()+'_KEY='+keys[t]+'\n' for t in ['classscout','habigoal','camera','pandora']));env.chmod(0o600)
 config=pathlib.Path('/etc/caddy/Caddyfile');original=config.read_text()
 if '@gateway' in original:raise RuntimeError('Already cut over; use controlled source update instead')

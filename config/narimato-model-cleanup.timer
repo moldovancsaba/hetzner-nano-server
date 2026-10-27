@@ -1,0 +1,9 @@
+[Unit]
+Description=Hourly cleanup of unused lower-ranked model weights
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=5min
+Persistent=true
+Unit=narimato-model-cleanup.service
+[Install]
+WantedBy=timers.target

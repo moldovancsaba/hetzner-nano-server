@@ -3,7 +3,11 @@ Description=Shared text and image job router
 After=network.target docker.service
 [Service]
 DynamicUser=yes
+StateDirectory=narimato-gateway
+StateDirectoryMode=0700
+Environment=MODEL_USAGE_PATH=/var/lib/narimato-gateway/model-usage.json
 EnvironmentFile=/etc/narimato-gateway.env
+EnvironmentFile=/etc/narimato-model-cleanup.env
 ExecStart=/usr/bin/python3 /opt/narimato-gateway/gateway/server.py
 Restart=on-failure
 NoNewPrivileges=yes

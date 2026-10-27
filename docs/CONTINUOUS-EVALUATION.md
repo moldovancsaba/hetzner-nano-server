@@ -6,6 +6,8 @@ A server-side systemd timer collects **public metadata only** every day at **03:
 
 Units: `narimato-model-discovery.timer` and `narimato-model-discovery.service`. Code/config: `/opt/narimato-discovery`. Metadata state: `/var/lib/narimato-model-discovery` (restricted service directory). The first verified run used all 12 configured feeds and observed 658 unique source/model records, with 24 candidates remaining after the current shortlist/scope filters. See the dated [initial report](../results/discovery/initial-report.json); counts can change on subsequent runs.
 
+An independent hourly [model cleaner](AUTO-MODEL-CLEANUP.md) now retains top-five-per-task or 14-day production-used weights. It is not part of discovery. Pause it before operator download/native benchmark experiments, then restore/verify production and re-enable it.
+
 The collector is a low-priority, restricted service with no Docker privileges or API keys, 10% CPU quota, 160 MiB memory cap and eight-minute execution timeout. Public outbound reads are bounded to allowlisted source hosts, 20 seconds/request and 16 MiB/response. Local Ollama inventory is read-only metadata. No remote code, README instruction, model binary, dataset or script is downloaded/executed.
 
 ## Sources and confidence
@@ -34,7 +36,7 @@ A metadata match against `config/tested-models.json` suppresses unchanged known 
 
 ## Proposed human review/test cadence
 
-Only discovery is automatically scheduled. The following is an operating plan, not an enabled unattended benchmark timer:
+Discovery and safe weight cleanup are automatically scheduled; model inference tests are not. The following is an operating plan, not an enabled unattended benchmark timer:
 
 - **Weekly:** review the latest shortlist and source health; select at most two candidates for a stated job. Reserve roughly 30–45 minutes for provenance/license/artifact review.
 - **Fortnightly:** use an approved low-traffic maintenance window for eligible candidates. Drain/disable public generation first; one candidate at a time, bounded time/download budget, restore all services afterward.

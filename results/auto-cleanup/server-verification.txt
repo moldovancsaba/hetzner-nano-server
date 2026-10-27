@@ -1,0 +1,11 @@
+active
+active
+active
+enabled
+NEXT                         LEFT LAST                        PASSED UNIT                         ACTIVATES
+Tue 2026-10-27 12:02:24 UTC 32min Tue 2026-10-27 11:17:54 UTC      - narimato-model-cleanup.timer narimato-model-cleanup.service
+
+1 timers listed.
+Pass --all to see loaded but inactive timers, too.
+Result=success
+ExecMainStatus=0
