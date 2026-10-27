@@ -1,0 +1,105 @@
+{
+  "timestamp_utc": "2026-10-26T19:22:29.762173+00:00",
+  "project": "classscout",
+  "model": "qwen3:1.7b",
+  "method": "sequential synthetic smoke tests; cache/load state uncontrolled; not production accuracy",
+  "runs": [
+    {
+      "test": "classification",
+      "iteration": 1,
+      "http_status": 200,
+      "seconds": 1.5226,
+      "json_valid": true,
+      "passed": true,
+      "response": "{\"category\": \"learning\"}",
+      "usage": {
+        "prompt_tokens": 37,
+        "prompt_tokens_details": {
+          "cached_tokens": 1
+        },
+        "completion_tokens": 7,
+        "total_tokens": 44
+      },
+      "error_type": null
+    },
+    {
+      "test": "extraction",
+      "iteration": 2,
+      "http_status": 200,
+      "seconds": 1.3734,
+      "json_valid": true,
+      "passed": true,
+      "response": "{\"minutes\": 15}",
+      "usage": {
+        "prompt_tokens": 35,
+        "prompt_tokens_details": {
+          "cached_tokens": 7
+        },
+        "completion_tokens": 8,
+        "total_tokens": 43
+      },
+      "error_type": null
+    },
+    {
+      "test": "arithmetic",
+      "iteration": 3,
+      "http_status": 200,
+      "seconds": 1.4531,
+      "json_valid": true,
+      "passed": false,
+      "response": "{\"total\": 2}",
+      "usage": {
+        "prompt_tokens": 41,
+        "prompt_tokens_details": {
+          "cached_tokens": 7
+        },
+        "completion_tokens": 7,
+        "total_tokens": 48
+      },
+      "error_type": null
+    },
+    {
+      "test": "classification",
+      "iteration": 4,
+      "http_status": 200,
+      "seconds": 1.0873,
+      "json_valid": true,
+      "passed": true,
+      "response": "{\"category\": \"fitness\"}",
+      "usage": {
+        "prompt_tokens": 38,
+        "prompt_tokens_details": {
+          "cached_tokens": 20
+        },
+        "completion_tokens": 7,
+        "total_tokens": 45
+      },
+      "error_type": null
+    },
+    {
+      "test": "extraction",
+      "iteration": 5,
+      "http_status": 200,
+      "seconds": 1.3576,
+      "json_valid": true,
+      "passed": false,
+      "response": "{\"language\": \"fr\"}",
+      "usage": {
+        "prompt_tokens": 34,
+        "prompt_tokens_details": {
+          "cached_tokens": 7
+        },
+        "completion_tokens": 7,
+        "total_tokens": 41
+      },
+      "error_type": null
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "passed": 3,
+    "json_valid": 5,
+    "p50_seconds": 1.3734,
+    "p95_seconds_nearest_rank": 1.5226
+  }
+}

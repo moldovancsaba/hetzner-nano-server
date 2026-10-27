@@ -1,0 +1,15 @@
+[Unit]
+Description=Pandora private chat
+After=network.target docker.service
+[Service]
+DynamicUser=yes
+EnvironmentFile=/etc/narimato-chat.env
+ExecStart=/usr/bin/python3 /opt/narimato-chat/server.py
+Restart=on-failure
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=128M
+[Install]
+WantedBy=multi-user.target

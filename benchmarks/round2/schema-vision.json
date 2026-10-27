@@ -1,0 +1,347 @@
+{
+  "started_utc": "2026-10-26T22:54:08.192169+00:00",
+  "phase": "JSON schema constrained outputs; expected answer values are NOT encoded in grammar",
+  "models": [
+    {
+      "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+      "max_image_dimension": 640,
+      "context": 2048,
+      "num_batch": 32,
+      "tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 9.796,
+          "load_seconds": 1.9007,
+          "prompt_tokens": 168,
+          "output_tokens": 14,
+          "generation_seconds": 0.3479,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 0.5476,
+          "load_seconds": 0.0111,
+          "prompt_tokens": 161,
+          "output_tokens": 14,
+          "generation_seconds": 0.3346,
+          "done_reason": "stop",
+          "response": "{\n    \"remote_count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 8.2319,
+          "load_seconds": 0.001,
+          "prompt_tokens": 170,
+          "output_tokens": 35,
+          "generation_seconds": 0.7973,
+          "done_reason": "stop",
+          "response": "{\n    \"venue\": \"PANDORA\",\n    \"room\": 12,\n    \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 0.9947,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 175,
+          "output_tokens": 34,
+          "generation_seconds": 0.765,
+          "done_reason": "stop",
+          "response": "{\n    \"red_shape\": \"\u25b3\",\n    \"blue_shape\": \"\u25b3\",\n    \"green_shape\": \"\u25b3\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 0.5624,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 180,
+          "output_tokens": 14,
+          "generation_seconds": 0.3053,
+          "done_reason": "stop",
+          "response": "{ \"street_address\": \"PANDORA\" }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        }
+      ],
+      "summary": {
+        "passed": 3,
+        "total": 5,
+        "json_valid": 5
+      }
+    },
+    {
+      "model": "moondream:1.8b",
+      "max_image_dimension": 640,
+      "context": 2048,
+      "num_batch": 32,
+      "tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 30.554,
+          "load_seconds": 3.1016,
+          "prompt_tokens": 763,
+          "output_tokens": 12,
+          "generation_seconds": 1.2099,
+          "done_reason": "stop",
+          "response": "{\"animal\": \"cat\", \"count\": 2}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 1.8132,
+          "load_seconds": 0.0149,
+          "prompt_tokens": 754,
+          "output_tokens": 10,
+          "generation_seconds": 0.8991,
+          "done_reason": "stop",
+          "response": "{\"remote_count\": 2}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 37.7654,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 766,
+          "output_tokens": 96,
+          "generation_seconds": 11.2717,
+          "done_reason": "length",
+          "response": "{\"venue\": \"PANDORA\", \"room\": 12, \"opening_time\": \"09:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00",
+          "json_valid": false,
+          "keys_match": false,
+          "passed": false
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 4.5241,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 769,
+          "output_tokens": 28,
+          "generation_seconds": 3.085,
+          "done_reason": "stop",
+          "response": "{\"red_shape\": \"circle\", \"blue_shape\": \"triangle\", \"green_shape\": \"triangle\" }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 3.868,
+          "load_seconds": 0.001,
+          "prompt_tokens": 774,
+          "output_tokens": 20,
+          "generation_seconds": 2.2298,
+          "done_reason": "stop",
+          "response": "{\"street_address\": \"Someplace with a street address. Not a room number.\"}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        }
+      ],
+      "summary": {
+        "passed": 2,
+        "total": 5,
+        "json_valid": 4
+      }
+    },
+    {
+      "model": "granite3.2-vision:2b",
+      "max_image_dimension": 320,
+      "context": 2048,
+      "num_batch": 32,
+      "tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 59.6948,
+          "load_seconds": 6.4851,
+          "prompt_tokens": 803,
+          "output_tokens": 13,
+          "generation_seconds": 1.962,
+          "done_reason": "stop",
+          "response": "{\"animal\": \"cat\", \"count\": 2}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 3.7262,
+          "load_seconds": 0.006,
+          "prompt_tokens": 796,
+          "output_tokens": 12,
+          "generation_seconds": 1.7384,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 54.4606,
+          "load_seconds": 0.0018,
+          "prompt_tokens": 803,
+          "output_tokens": 34,
+          "generation_seconds": 5.4905,
+          "done_reason": "stop",
+          "response": "{\n  \"venue\": \"PANDORA\",\n  \"room\": 12,\n  \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 7.1322,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 810,
+          "output_tokens": 25,
+          "generation_seconds": 3.924,
+          "done_reason": "stop",
+          "response": "{\"red_shape\": \"circle\", \"blue_shape\": \"square\", \"green_shape\": \"triangle\"}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 5.3402,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 814,
+          "output_tokens": 11,
+          "generation_seconds": 1.6764,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        }
+      ],
+      "summary": {
+        "passed": 5,
+        "total": 5,
+        "json_valid": 5
+      }
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+      "max_image_dimension": 640,
+      "context": 2048,
+      "num_batch": 32,
+      "tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 41.3177,
+          "load_seconds": 4.7396,
+          "prompt_tokens": 285,
+          "output_tokens": 17,
+          "generation_seconds": 1.6636,
+          "done_reason": "stop",
+          "response": "{\n    \"animal\": \"cat\",\n    \"count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 1.6427,
+          "load_seconds": 0.0148,
+          "prompt_tokens": 278,
+          "output_tokens": 8,
+          "generation_seconds": 0.7219,
+          "done_reason": "stop",
+          "response": "{\"remote_count\":2}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 37.6599,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 287,
+          "output_tokens": 24,
+          "generation_seconds": 2.467,
+          "done_reason": "stop",
+          "response": "{\"venue\":\"PANDORA\",\"room\":12,\"opening_time\":\"09:00\"}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 4.7613,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 292,
+          "output_tokens": 32,
+          "generation_seconds": 3.4538,
+          "done_reason": "stop",
+          "response": "{\n  \"red_shape\": \"circle\",\n  \"blue_shape\": \"square\",\n  \"green_shape\": \"triangle\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 2.5924,
+          "load_seconds": 0.0017,
+          "prompt_tokens": 297,
+          "output_tokens": 11,
+          "generation_seconds": 1.0823,
+          "done_reason": "stop",
+          "response": "{\n    \"street_address\": null\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        }
+      ],
+      "summary": {
+        "passed": 5,
+        "total": 5,
+        "json_valid": 5
+      }
+    }
+  ],
+  "restored_original": {
+    "ok": true,
+    "seconds": 5.4652,
+    "load_seconds": 4.006,
+    "prompt_tokens": 19,
+    "output_tokens": 12,
+    "generation_seconds": 0.9445,
+    "done_reason": "stop"
+  }
+}

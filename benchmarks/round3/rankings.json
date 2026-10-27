@@ -1,0 +1,218 @@
+{
+  "generated_utc": "2026-10-27T05:04:11.850082+00:00",
+  "scope": "Measured on our 4 GB CPU server; separate English and image model-variant rankings",
+  "english_policy": "Common 14 checks only; correctness, JSON validity, native tool call, then median latency. Non-English excluded.",
+  "english": [
+    {
+      "model": "granite4:1b-h",
+      "passed": 14,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": true,
+      "median_seconds": 3.028
+    },
+    {
+      "model": "qwen3:0.6b",
+      "passed": 12,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": true,
+      "median_seconds": 1.11
+    },
+    {
+      "model": "qwen3:1.7b",
+      "passed": 12,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": true,
+      "median_seconds": 2.01
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+      "passed": 10,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": true,
+      "median_seconds": 1.256
+    },
+    {
+      "model": "granite3.3:2b",
+      "passed": 10,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": true,
+      "median_seconds": 3.107
+    },
+    {
+      "model": "granite4:350m",
+      "passed": 10,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": true,
+      "median_seconds": 3.36
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "passed": 8,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": true,
+      "median_seconds": 2.066
+    },
+    {
+      "model": "llama3.2:1b",
+      "passed": 8,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": false,
+      "median_seconds": 1.633
+    },
+    {
+      "model": "smollm2:1.7b",
+      "passed": 8,
+      "total": 14,
+      "json_valid": 12,
+      "native_tool_passed": true,
+      "median_seconds": 2.14
+    },
+    {
+      "model": "granite3.1-moe:1b",
+      "passed": 6,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": false,
+      "median_seconds": 0.903
+    },
+    {
+      "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+      "passed": 5,
+      "total": 14,
+      "json_valid": 12,
+      "native_tool_passed": false,
+      "median_seconds": 2.237
+    },
+    {
+      "model": "gemma3:1b",
+      "passed": 4,
+      "total": 14,
+      "json_valid": 14,
+      "native_tool_passed": false,
+      "median_seconds": 2.683
+    }
+  ],
+  "english_budget_limited": [
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+      "empty_length_limited_cases": 12,
+      "total": 14
+    },
+    {
+      "model": "deepseek-r1:1.5b",
+      "empty_length_limited_cases": 14,
+      "total": 14
+    }
+  ],
+  "image_policy": "Same five schema checks; within equal counts use tested image resolution then mean first-photo/first-poster time. Small sample, descriptive ordering.",
+  "image": [
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "schema_passed": 5,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 10,
+      "raw_total": 12,
+      "first_photo_seconds": 5.6756,
+      "first_poster_seconds": 4.5614
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "schema_passed": 5,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 10,
+      "raw_total": 12,
+      "first_photo_seconds": 6.0521,
+      "first_poster_seconds": 4.6066
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+      "schema_passed": 5,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 12,
+      "raw_total": 12,
+      "first_photo_seconds": 19.1467,
+      "first_poster_seconds": 16.6778
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+      "schema_passed": 5,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 12,
+      "raw_total": 12,
+      "first_photo_seconds": 19.5999,
+      "first_poster_seconds": 17.4117
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+      "schema_passed": 5,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 12,
+      "raw_total": 12,
+      "first_photo_seconds": 45.7948,
+      "first_poster_seconds": 36.7059
+    },
+    {
+      "model": "granite3.2-vision:2b",
+      "schema_passed": 5,
+      "schema_total": 5,
+      "max_image_dimension": 320,
+      "raw_passed": 12,
+      "raw_total": 12,
+      "first_photo_seconds": 55.8249,
+      "first_poster_seconds": 53.0938
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+      "schema_passed": 4,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 8,
+      "raw_total": 12,
+      "first_photo_seconds": 8.9096,
+      "first_poster_seconds": 8.0074
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+      "schema_passed": 3,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 4,
+      "raw_total": 12,
+      "first_photo_seconds": 11.6969,
+      "first_poster_seconds": 8.7731
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+      "schema_passed": 2,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 4,
+      "raw_total": 12,
+      "first_photo_seconds": 7.7136,
+      "first_poster_seconds": 7.7336
+    },
+    {
+      "model": "moondream:1.8b",
+      "schema_passed": 2,
+      "schema_total": 5,
+      "max_image_dimension": 640,
+      "raw_passed": 0,
+      "raw_total": 12,
+      "first_photo_seconds": 30.0797,
+      "first_poster_seconds": 26.5006
+    }
+  ]
+}

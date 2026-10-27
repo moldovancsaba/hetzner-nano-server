@@ -1,0 +1,26 @@
+{
+  "scope": {
+    "text": "English only",
+    "vision": "Separate image analytics with English OCR",
+    "non_english": "excluded; independent workstream"
+  },
+  "text": [],
+  "vision": [
+    "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+    "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0"
+  ],
+  "cleanup": "Remove only models downloaded by this run, after recording metadata/results. Existing models untouched.",
+  "settings": {
+    "context": 2048,
+    "num_batch": 32,
+    "temperature": 0,
+    "memory_cap_mib": 2800,
+    "cpu": 2,
+    "disk_reserve_gib": 4
+  },
+  "sources": [
+    "https://huggingface.co/LiquidAI/LFM2-VL-450M-GGUF",
+    "https://huggingface.co/LiquidAI/LFM2-VL-1.6B-GGUF"
+  ],
+  "purpose": "Previous-generation small vision comparisons; expand eligibility evidence toward ten working image candidates."
+}

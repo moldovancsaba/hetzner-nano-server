@@ -1,0 +1,33 @@
+PRETTY_NAME="Ubuntu 24.04.1 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.1 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+Docker version 27.5.1, build 9f9e405
+Docker Compose version v2.32.4
+ollama version is 0.40.11
+2.6.2
+NAME          ID              SIZE      MODIFIED       
+qwen3:1.7b    8f68893c685c    1.4 GB    35 minutes ago    
+Netid State  Recv-Q Send-Q     Local Address:Port  Peer Address:PortProcess                                                
+udp   UNCONN 0      0             127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=484,fd=16))             
+udp   UNCONN 0      0          127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=484,fd=14))             
+udp   UNCONN 0      0      2.31.100.246%eth0:68         0.0.0.0:*    users:(("systemd-network",pid=725,fd=22))             
+udp   UNCONN 0      0                      *:443              *:*    users:(("caddy",pid=3379,fd=8))                       
+tcp   LISTEN 0      4096           127.0.0.1:11434      0.0.0.0:*    users:(("docker-proxy",pid=1879,fd=4))                
+tcp   LISTEN 0      4096           127.0.0.1:2019       0.0.0.0:*    users:(("caddy",pid=3379,fd=3))                       
+tcp   LISTEN 0      4096          127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=484,fd=17))             
+tcp   LISTEN 0      4096       127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=484,fd=15))             
+tcp   LISTEN 0      4096                   *:443              *:*    users:(("caddy",pid=3379,fd=7))                       
+tcp   LISTEN 0      4096                   *:22               *:*    users:(("sshd",pid=1140,fd=3),("systemd",pid=1,fd=88))
+tcp   LISTEN 0      4096                   *:80               *:*    users:(("caddy",pid=3379,fd=9))                       
+enabled
+enabled

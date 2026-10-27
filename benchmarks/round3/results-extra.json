@@ -1,0 +1,1475 @@
+{
+  "started_utc": "2026-10-27T04:53:23.465483+00:00",
+  "scope": {
+    "text": "English only",
+    "vision": "Separate image analytics with English OCR",
+    "non_english": "excluded; independent workstream"
+  },
+  "settings": {
+    "context": 2048,
+    "num_batch": 32,
+    "temperature": 0,
+    "memory_cap_mib": 2800,
+    "cpu": 2,
+    "disk_reserve_gib": 4
+  },
+  "text": [],
+  "vision": [
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "tests": [
+        {
+          "name": "photo_animals",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.4572,
+          "load_seconds": 0.0114,
+          "prompt_tokens": 271,
+          "output_tokens": 18,
+          "generation_seconds": 0.3602,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": \"cat\",\n  \"count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_animals",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.4728,
+          "load_seconds": 0.0112,
+          "prompt_tokens": 271,
+          "output_tokens": 18,
+          "generation_seconds": 0.3638,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": \"cat\",\n  \"count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.0086,
+          "load_seconds": 0.0124,
+          "prompt_tokens": 257,
+          "output_tokens": 2,
+          "generation_seconds": 0.0213,
+          "done_reason": "stop",
+          "response": "2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.1228,
+          "load_seconds": 0.0163,
+          "prompt_tokens": 257,
+          "output_tokens": 2,
+          "generation_seconds": 0.021,
+          "done_reason": "stop",
+          "response": "2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.2548,
+          "load_seconds": 0.0111,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.2131,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.3243,
+          "load_seconds": 0.0154,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.2154,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.5614,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 270,
+          "output_tokens": 27,
+          "generation_seconds": 0.5586,
+          "done_reason": "stop",
+          "response": "{\"venue\": \"PANDORA\", \"room\": 12, \"opening_time\": \"09:00\"}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.5945,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 270,
+          "output_tokens": 27,
+          "generation_seconds": 0.5552,
+          "done_reason": "stop",
+          "response": "{\"venue\": \"PANDORA\", \"room\": 12, \"opening_time\": \"09:00\"}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.3938,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 278,
+          "output_tokens": 17,
+          "generation_seconds": 0.3373,
+          "done_reason": "stop",
+          "response": "{\"shape_names\": [\"circle\", \"square\", \"triangle\"]}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.377,
+          "load_seconds": 0.001,
+          "prompt_tokens": 278,
+          "output_tokens": 17,
+          "generation_seconds": 0.33,
+          "done_reason": "stop",
+          "response": "{\"shape_names\": [\"circle\", \"square\", \"triangle\"]}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.2075,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.186,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.2222,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.1852,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 10.308,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "completion",
+        "vision"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "lfm2",
+        "families": [
+          "lfm2"
+        ],
+        "parameter_size": "354M",
+        "quantization_level": "Q8_0"
+      },
+      "tag": {
+        "name": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "modified_at": "2026-10-27T04:53:33.840252173Z",
+        "size": 483116964,
+        "digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "lfm2",
+          "families": [
+            "lfm2"
+          ],
+          "parameter_size": "354M",
+          "quantization_level": "Q8_0",
+          "context_length": 128000,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      "image_attempts": [
+        {
+          "max_image_dimension": 640,
+          "ok": true,
+          "seconds": 5.6756,
+          "load_seconds": 1.3094,
+          "prompt_tokens": 257,
+          "output_tokens": 18,
+          "generation_seconds": 0.3704,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": \"cat\",\n  \"count\": 2\n}"
+        }
+      ],
+      "max_image_dimension": 640,
+      "schema_tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 4.3812,
+          "load_seconds": 0.0155,
+          "prompt_tokens": 271,
+          "output_tokens": 18,
+          "generation_seconds": 0.3571,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": \"cat\",\n  \"count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 4.2459,
+          "load_seconds": 0.0132,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.2131,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 4.5787,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 270,
+          "output_tokens": 27,
+          "generation_seconds": 0.5518,
+          "done_reason": "stop",
+          "response": "{\"venue\": \"PANDORA\", \"room\": 12, \"opening_time\": \"09:00\"}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 4.7998,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 278,
+          "output_tokens": 28,
+          "generation_seconds": 0.5993,
+          "done_reason": "stop",
+          "response": "{\"red_shape\": \"circle\", \"blue_shape\": \"square\", \"green_shape\": \"triangle\"}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 4.2779,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.2006,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        }
+      ],
+      "summary": {
+        "passed": 10,
+        "total": 12,
+        "json_valid": 10,
+        "median_seconds": 2.30155
+      },
+      "schema_summary": {
+        "passed": 5,
+        "total": 5
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+      "tests": [
+        {
+          "name": "photo_animals",
+          "trial": 1,
+          "ok": true,
+          "seconds": 15.6399,
+          "load_seconds": 0.0124,
+          "prompt_tokens": 271,
+          "output_tokens": 15,
+          "generation_seconds": 0.8594,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_animals",
+          "trial": 2,
+          "ok": true,
+          "seconds": 1.0303,
+          "load_seconds": 0.0161,
+          "prompt_tokens": 271,
+          "output_tokens": 15,
+          "generation_seconds": 0.8717,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 1,
+          "ok": true,
+          "seconds": 14.6205,
+          "load_seconds": 0.012,
+          "prompt_tokens": 257,
+          "output_tokens": 2,
+          "generation_seconds": 0.0624,
+          "done_reason": "stop",
+          "response": "2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.2287,
+          "load_seconds": 0.0126,
+          "prompt_tokens": 257,
+          "output_tokens": 2,
+          "generation_seconds": 0.0657,
+          "done_reason": "stop",
+          "response": "2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 15.472,
+          "load_seconds": 0.0126,
+          "prompt_tokens": 262,
+          "output_tokens": 9,
+          "generation_seconds": 0.5113,
+          "done_reason": "stop",
+          "response": "{ \"remote_count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.6668,
+          "load_seconds": 0.012,
+          "prompt_tokens": 262,
+          "output_tokens": 9,
+          "generation_seconds": 0.5063,
+          "done_reason": "stop",
+          "response": "{ \"remote_count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 1,
+          "ok": true,
+          "seconds": 16.6778,
+          "load_seconds": 0.0019,
+          "prompt_tokens": 270,
+          "output_tokens": 31,
+          "generation_seconds": 1.8827,
+          "done_reason": "stop",
+          "response": "{\n  \"venue\": \"PANDORA\",\n  \"room\": 12,\n  \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 2,
+          "ok": true,
+          "seconds": 1.9797,
+          "load_seconds": 0.001,
+          "prompt_tokens": 270,
+          "output_tokens": 31,
+          "generation_seconds": 1.8845,
+          "done_reason": "stop",
+          "response": "{\n  \"venue\": \"PANDORA\",\n  \"room\": 12,\n  \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 17.519,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 278,
+          "output_tokens": 32,
+          "generation_seconds": 1.9437,
+          "done_reason": "stop",
+          "response": "{\n  \"red_shape\": \"circle\",\n  \"blue_shape\": \"square\",\n  \"green_shape\": \"triangle\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 2.0957,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 278,
+          "output_tokens": 32,
+          "generation_seconds": 1.9982,
+          "done_reason": "stop",
+          "response": "{\n  \"red_shape\": \"circle\",\n  \"blue_shape\": \"square\",\n  \"green_shape\": \"triangle\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 1,
+          "ok": true,
+          "seconds": 15.7554,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.5685,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.6423,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.5549,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 16.685,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "completion",
+        "vision"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "lfm2",
+        "families": [
+          "lfm2"
+        ],
+        "parameter_size": "1.17B",
+        "quantization_level": "Q8_0"
+      },
+      "tag": {
+        "name": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+        "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+        "modified_at": "2026-10-27T04:54:46.838960616Z",
+        "size": 1810379783,
+        "digest": "942c9f3baca05146bd56376163253408bb8af441611e08e9d15ecc1b8776536f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "lfm2",
+          "families": [
+            "lfm2"
+          ],
+          "parameter_size": "1.17B",
+          "quantization_level": "Q8_0",
+          "context_length": 128000,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      "image_attempts": [
+        {
+          "max_image_dimension": 640,
+          "ok": true,
+          "seconds": 19.1467,
+          "load_seconds": 3.5736,
+          "prompt_tokens": 257,
+          "output_tokens": 14,
+          "generation_seconds": 0.799,
+          "done_reason": "stop",
+          "response": "{\"animal\": \"cat\", \"count\": 2}"
+        }
+      ],
+      "max_image_dimension": 640,
+      "schema_tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 16.03,
+          "load_seconds": 0.0137,
+          "prompt_tokens": 271,
+          "output_tokens": 15,
+          "generation_seconds": 1.0062,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2 }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 16.1222,
+          "load_seconds": 0.0139,
+          "prompt_tokens": 262,
+          "output_tokens": 9,
+          "generation_seconds": 0.646,
+          "done_reason": "stop",
+          "response": "{ \"remote_count\": 2 }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 17.5355,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 270,
+          "output_tokens": 31,
+          "generation_seconds": 1.9116,
+          "done_reason": "stop",
+          "response": "{\n  \"venue\": \"PANDORA\",\n  \"room\": 12,\n  \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 16.9387,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 278,
+          "output_tokens": 32,
+          "generation_seconds": 1.9514,
+          "done_reason": "stop",
+          "response": "{\n  \"red_shape\": \"circle\",\n  \"blue_shape\": \"square\",\n  \"green_shape\": \"triangle\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 16.1707,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.5669,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        }
+      ],
+      "summary": {
+        "passed": 12,
+        "total": 12,
+        "json_valid": 10,
+        "median_seconds": 8.3581
+      },
+      "schema_summary": {
+        "passed": 5,
+        "total": 5
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    }
+  ],
+  "notes": [
+    "Two controlled images and a small synthetic English case set, not general production accuracy.",
+    "English and image analytics ranked independently; no non-English data.",
+    "num_batch=32 used for all new requests; some earlier text runs used the runtime default.",
+    "Disk-first policy: record metadata then remove only packages newly downloaded here.",
+    "Original model restored after the run; no production routing/config change."
+  ],
+  "initial_inventory": {
+    "models": [
+      {
+        "name": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:34:27.516310273Z",
+        "size": 1705126334,
+        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.81B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-26T22:30:33.284076407Z",
+        "size": 545590747,
+        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "409M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 960,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "ministral-3:3b",
+        "model": "ministral-3:3b",
+        "modified_at": "2026-10-26T22:30:26.227009185Z",
+        "size": 2953840808,
+        "digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "mistral3",
+          "families": [
+            "mistral3"
+          ],
+          "parameter_size": "3.8B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 3072,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.2-vision:2b",
+        "model": "granite3.2-vision:2b",
+        "modified_at": "2026-10-26T22:30:07.874834398Z",
+        "size": 2437852465,
+        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+        "details": {
+          "parent_model": "/Users/administrator/.ollama/models/blobs/sha256-1aefcd9a8a15091b670951963b5f8a7e6653bb1350345e9621e179685ac9bc5f",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite",
+            "clip"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 16384,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "qwen3-vl:2b",
+        "model": "qwen3-vl:2b",
+        "modified_at": "2026-10-26T22:29:47.905644254Z",
+        "size": 1889519687,
+        "digest": "0635d9d857d497aeadba3d7d27485746c50554446f9f6ec01ef39788221adbe8",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3vl",
+          "families": [
+            "qwen3vl"
+          ],
+          "parameter_size": "2.1B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:29:36.075531632Z",
+        "size": 1045157764,
+        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.66B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "modified_at": "2026-10-26T22:29:23.542412336Z",
+        "size": 1558945427,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-f29248184ca766350e56e6d161c2a637ad302a6d595e15d4a62cd58327a0ac0e",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0",
+          "context_length": 1048576,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite4:350m",
+        "model": "granite4:350m",
+        "modified_at": "2026-10-26T22:29:13.078312749Z",
+        "size": 708458314,
+        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-431e956cac90a7e4d36a9b37bb086c413491c598bb51f90ada8e0c75d0219645",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "352.38M",
+          "quantization_level": "BF16",
+          "context_length": 32768,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.3:2b",
+        "model": "granite3.3:2b",
+        "modified_at": "2026-10-26T22:29:06.699252046Z",
+        "size": 1545321637,
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "details": {
+          "parent_model": "/Users/ollama/.ollama/models/blobs/sha256-ac71e9e32c0bea919b409c5918f69ca74339854b0319c5065e4e9fb6d95c4852",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "moondream:1.8b",
+        "model": "moondream:1.8b",
+        "modified_at": "2026-10-26T22:11:16.101235218Z",
+        "size": 1738451197,
+        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi2",
+          "families": [
+            "phi2",
+            "clip"
+          ],
+          "parameter_size": "1B",
+          "quantization_level": "Q4_0",
+          "context_length": 2048,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "smollm2:1.7b",
+        "model": "smollm2:1.7b",
+        "modified_at": "2026-10-26T22:10:57.730069264Z",
+        "size": 1820428533,
+        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.7B",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "llama3.2:1b",
+        "model": "llama3.2:1b",
+        "modified_at": "2026-10-26T22:10:43.807943745Z",
+        "size": 1321098329,
+        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.2B",
+          "quantization_level": "Q8_0",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "gemma3:1b",
+        "model": "gemma3:1b",
+        "modified_at": "2026-10-26T22:10:34.477859748Z",
+        "size": 806067407,
+        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+        "details": {
+          "parent_model": "dhiltgen/gemma3:1b-it-q4_K_M-llamacpp",
+          "format": "gguf",
+          "family": "gemma3",
+          "families": [
+            "gemma3"
+          ],
+          "parameter_size": "999.89M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1152,
+          "runner": "llamacpp"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "qwen2.5:1.5b",
+        "model": "qwen2.5:1.5b",
+        "modified_at": "2026-10-26T22:10:27.072793152Z",
+        "size": 986061892,
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "qwen3:0.6b",
+        "model": "qwen3:0.6b",
+        "modified_at": "2026-10-26T22:10:20.249731847Z",
+        "size": 522653767,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "751.63M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "qwen3:1.7b",
+        "model": "qwen3:1.7b",
+        "modified_at": "2026-10-26T18:46:35.138995628Z",
+        "size": 1359293444,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "2.0B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      }
+    ]
+  },
+  "runtime_version": {
+    "version": "0.40.11"
+  },
+  "initial_memory": {
+    "memory_limit": 2936012800,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 1003193,
+      "oom": 90,
+      "oom_kill": 9,
+      "oom_group_kill": 0
+    }
+  },
+  "restored_original": {
+    "ok": true,
+    "seconds": 5.2081,
+    "load_seconds": 3.8536,
+    "prompt_tokens": 19,
+    "output_tokens": 12,
+    "generation_seconds": 0.8772,
+    "done_reason": "stop"
+  },
+  "completed_utc": "2026-10-27T04:58:16.757468+00:00",
+  "final_memory": {
+    "memory_limit": 2936012800,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 1009465,
+      "oom": 90,
+      "oom_kill": 9,
+      "oom_group_kill": 0
+    }
+  },
+  "final_inventory": {
+    "models": [
+      {
+        "name": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:34:27.516310273Z",
+        "size": 1705126334,
+        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.81B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-26T22:30:33.284076407Z",
+        "size": 545590747,
+        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "409M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 960,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "ministral-3:3b",
+        "model": "ministral-3:3b",
+        "modified_at": "2026-10-26T22:30:26.227009185Z",
+        "size": 2953840808,
+        "digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "mistral3",
+          "families": [
+            "mistral3"
+          ],
+          "parameter_size": "3.8B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 3072,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.2-vision:2b",
+        "model": "granite3.2-vision:2b",
+        "modified_at": "2026-10-26T22:30:07.874834398Z",
+        "size": 2437852465,
+        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+        "details": {
+          "parent_model": "/Users/administrator/.ollama/models/blobs/sha256-1aefcd9a8a15091b670951963b5f8a7e6653bb1350345e9621e179685ac9bc5f",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite",
+            "clip"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 16384,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "qwen3-vl:2b",
+        "model": "qwen3-vl:2b",
+        "modified_at": "2026-10-26T22:29:47.905644254Z",
+        "size": 1889519687,
+        "digest": "0635d9d857d497aeadba3d7d27485746c50554446f9f6ec01ef39788221adbe8",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3vl",
+          "families": [
+            "qwen3vl"
+          ],
+          "parameter_size": "2.1B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:29:36.075531632Z",
+        "size": 1045157764,
+        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.66B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "modified_at": "2026-10-26T22:29:23.542412336Z",
+        "size": 1558945427,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-f29248184ca766350e56e6d161c2a637ad302a6d595e15d4a62cd58327a0ac0e",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0",
+          "context_length": 1048576,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite4:350m",
+        "model": "granite4:350m",
+        "modified_at": "2026-10-26T22:29:13.078312749Z",
+        "size": 708458314,
+        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-431e956cac90a7e4d36a9b37bb086c413491c598bb51f90ada8e0c75d0219645",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "352.38M",
+          "quantization_level": "BF16",
+          "context_length": 32768,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.3:2b",
+        "model": "granite3.3:2b",
+        "modified_at": "2026-10-26T22:29:06.699252046Z",
+        "size": 1545321637,
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "details": {
+          "parent_model": "/Users/ollama/.ollama/models/blobs/sha256-ac71e9e32c0bea919b409c5918f69ca74339854b0319c5065e4e9fb6d95c4852",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "moondream:1.8b",
+        "model": "moondream:1.8b",
+        "modified_at": "2026-10-26T22:11:16.101235218Z",
+        "size": 1738451197,
+        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi2",
+          "families": [
+            "phi2",
+            "clip"
+          ],
+          "parameter_size": "1B",
+          "quantization_level": "Q4_0",
+          "context_length": 2048,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "smollm2:1.7b",
+        "model": "smollm2:1.7b",
+        "modified_at": "2026-10-26T22:10:57.730069264Z",
+        "size": 1820428533,
+        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.7B",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "llama3.2:1b",
+        "model": "llama3.2:1b",
+        "modified_at": "2026-10-26T22:10:43.807943745Z",
+        "size": 1321098329,
+        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.2B",
+          "quantization_level": "Q8_0",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "gemma3:1b",
+        "model": "gemma3:1b",
+        "modified_at": "2026-10-26T22:10:34.477859748Z",
+        "size": 806067407,
+        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+        "details": {
+          "parent_model": "dhiltgen/gemma3:1b-it-q4_K_M-llamacpp",
+          "format": "gguf",
+          "family": "gemma3",
+          "families": [
+            "gemma3"
+          ],
+          "parameter_size": "999.89M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1152,
+          "runner": "llamacpp"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "qwen2.5:1.5b",
+        "model": "qwen2.5:1.5b",
+        "modified_at": "2026-10-26T22:10:27.072793152Z",
+        "size": 986061892,
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "qwen3:0.6b",
+        "model": "qwen3:0.6b",
+        "modified_at": "2026-10-26T22:10:20.249731847Z",
+        "size": 522653767,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "751.63M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "qwen3:1.7b",
+        "model": "qwen3:1.7b",
+        "modified_at": "2026-10-26T18:46:35.138995628Z",
+        "size": 1359293444,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "2.0B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      }
+    ]
+  }
+}

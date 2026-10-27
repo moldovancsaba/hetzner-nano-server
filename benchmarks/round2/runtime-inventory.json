@@ -1,0 +1,428 @@
+{
+  "version": {
+    "version": "0.40.11"
+  },
+  "loaded": {
+    "models": [
+      {
+        "name": "qwen3:1.7b",
+        "model": "qwen3:1.7b",
+        "size": 1649651219,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "2.0B",
+          "quantization_level": "Q4_K_M"
+        },
+        "expires_at": "2026-10-26T23:29:30.715821745Z",
+        "size_vram": 0,
+        "context_length": 2048,
+        "runner": "llamacpp"
+      }
+    ]
+  },
+  "models": {
+    "models": [
+      {
+        "name": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:34:27.516310273Z",
+        "size": 1705126334,
+        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.81B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-26T22:30:33.284076407Z",
+        "size": 545590747,
+        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "409M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 960,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "ministral-3:3b",
+        "model": "ministral-3:3b",
+        "modified_at": "2026-10-26T22:30:26.227009185Z",
+        "size": 2953840808,
+        "digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "mistral3",
+          "families": [
+            "mistral3"
+          ],
+          "parameter_size": "3.8B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 3072,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.2-vision:2b",
+        "model": "granite3.2-vision:2b",
+        "modified_at": "2026-10-26T22:30:07.874834398Z",
+        "size": 2437852465,
+        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+        "details": {
+          "parent_model": "/Users/administrator/.ollama/models/blobs/sha256-1aefcd9a8a15091b670951963b5f8a7e6653bb1350345e9621e179685ac9bc5f",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite",
+            "clip"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 16384,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "qwen3-vl:2b",
+        "model": "qwen3-vl:2b",
+        "modified_at": "2026-10-26T22:29:47.905644254Z",
+        "size": 1889519687,
+        "digest": "0635d9d857d497aeadba3d7d27485746c50554446f9f6ec01ef39788221adbe8",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3vl",
+          "families": [
+            "qwen3vl"
+          ],
+          "parameter_size": "2.1B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:29:36.075531632Z",
+        "size": 1045157764,
+        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.66B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "modified_at": "2026-10-26T22:29:23.542412336Z",
+        "size": 1558945427,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-f29248184ca766350e56e6d161c2a637ad302a6d595e15d4a62cd58327a0ac0e",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0",
+          "context_length": 1048576,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite4:350m",
+        "model": "granite4:350m",
+        "modified_at": "2026-10-26T22:29:13.078312749Z",
+        "size": 708458314,
+        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-431e956cac90a7e4d36a9b37bb086c413491c598bb51f90ada8e0c75d0219645",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "352.38M",
+          "quantization_level": "BF16",
+          "context_length": 32768,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.3:2b",
+        "model": "granite3.3:2b",
+        "modified_at": "2026-10-26T22:29:06.699252046Z",
+        "size": 1545321637,
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "details": {
+          "parent_model": "/Users/ollama/.ollama/models/blobs/sha256-ac71e9e32c0bea919b409c5918f69ca74339854b0319c5065e4e9fb6d95c4852",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "moondream:1.8b",
+        "model": "moondream:1.8b",
+        "modified_at": "2026-10-26T22:11:16.101235218Z",
+        "size": 1738451197,
+        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi2",
+          "families": [
+            "phi2",
+            "clip"
+          ],
+          "parameter_size": "1B",
+          "quantization_level": "Q4_0",
+          "context_length": 2048,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "smollm2:1.7b",
+        "model": "smollm2:1.7b",
+        "modified_at": "2026-10-26T22:10:57.730069264Z",
+        "size": 1820428533,
+        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.7B",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "llama3.2:1b",
+        "model": "llama3.2:1b",
+        "modified_at": "2026-10-26T22:10:43.807943745Z",
+        "size": 1321098329,
+        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.2B",
+          "quantization_level": "Q8_0",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "gemma3:1b",
+        "model": "gemma3:1b",
+        "modified_at": "2026-10-26T22:10:34.477859748Z",
+        "size": 806067407,
+        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+        "details": {
+          "parent_model": "dhiltgen/gemma3:1b-it-q4_K_M-llamacpp",
+          "format": "gguf",
+          "family": "gemma3",
+          "families": [
+            "gemma3"
+          ],
+          "parameter_size": "999.89M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1152,
+          "runner": "llamacpp"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "qwen2.5:1.5b",
+        "model": "qwen2.5:1.5b",
+        "modified_at": "2026-10-26T22:10:27.072793152Z",
+        "size": 986061892,
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "qwen3:0.6b",
+        "model": "qwen3:0.6b",
+        "modified_at": "2026-10-26T22:10:20.249731847Z",
+        "size": 522653767,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "751.63M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "qwen3:1.7b",
+        "model": "qwen3:1.7b",
+        "modified_at": "2026-10-26T18:46:35.138995628Z",
+        "size": 1359293444,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "2.0B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      }
+    ]
+  },
+  "memory_limit_bytes": 2936012800,
+  "memory_events": "low 0\nhigh 0\nmax 981130\noom 89\noom_kill 8\noom_group_kill 0\n",
+  "docker_state": "restarts=0 oom=true",
+  "services": "active\nactive",
+  "disk": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        38G   29G  7.6G  79% /\n"
+}

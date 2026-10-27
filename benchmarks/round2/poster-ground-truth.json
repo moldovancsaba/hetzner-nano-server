@@ -1,0 +1,20 @@
+{
+  "venue": "PANDORA",
+  "room": 12,
+  "opening_time": "09:00",
+  "shapes": [
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "triangle"
+    }
+  ],
+  "street_address": null
+}

@@ -1,0 +1,6 @@
+{
+  "origin": "Hetzner server",
+  "tcp_reachable": 3,
+  "tested": 3,
+  "authenticated": false
+}

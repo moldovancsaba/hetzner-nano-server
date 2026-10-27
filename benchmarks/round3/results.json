@@ -1,0 +1,3550 @@
+{
+  "started_utc": "2026-10-27T04:33:07.918895+00:00",
+  "scope": {
+    "text": "English only",
+    "vision": "Separate image analytics with English OCR",
+    "non_english": "excluded; independent workstream"
+  },
+  "settings": {
+    "context": 2048,
+    "num_batch": 32,
+    "temperature": 0,
+    "memory_cap_mib": 2800,
+    "cpu": 2,
+    "disk_reserve_gib": 4
+  },
+  "text": [
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+      "tests": [
+        {
+          "name": "listing_soccer",
+          "trial": 1,
+          "ok": true,
+          "seconds": 10.4135,
+          "load_seconds": 0.0018,
+          "prompt_tokens": 611,
+          "output_tokens": 9,
+          "generation_seconds": 0.4189,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"L1\"]}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_soccer",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.5333,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 611,
+          "output_tokens": 9,
+          "generation_seconds": 0.429,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"L1\"]}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 1,
+          "ok": true,
+          "seconds": 1.1301,
+          "load_seconds": 0.0033,
+          "prompt_tokens": 613,
+          "output_tokens": 9,
+          "generation_seconds": 0.4269,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"L2\"]}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.5484,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 613,
+          "output_tokens": 9,
+          "generation_seconds": 0.4377,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"L2\"]}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 1,
+          "ok": true,
+          "seconds": 1.0048,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 618,
+          "output_tokens": 6,
+          "generation_seconds": 0.2573,
+          "done_reason": "stop",
+          "response": "{\"ids\": []}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.36,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 618,
+          "output_tokens": 6,
+          "generation_seconds": 0.2564,
+          "done_reason": "stop",
+          "response": "{\"ids\": []}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 1,
+          "ok": true,
+          "seconds": 1.6066,
+          "load_seconds": 0.0008,
+          "prompt_tokens": 624,
+          "output_tokens": 17,
+          "generation_seconds": 0.8358,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"L2\", \"L3\", \"L5\"]}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.966,
+          "load_seconds": 0.0008,
+          "prompt_tokens": 624,
+          "output_tokens": 17,
+          "generation_seconds": 0.8551,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"L2\", \"L3\", \"L5\"]}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 1,
+          "ok": true,
+          "seconds": 2.2458,
+          "load_seconds": 0.0041,
+          "prompt_tokens": 60,
+          "output_tokens": 28,
+          "generation_seconds": 1.2909,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "query_plan",
+          "trial": 2,
+          "ok": true,
+          "seconds": 1.3824,
+          "load_seconds": 0.001,
+          "prompt_tokens": 60,
+          "output_tokens": 28,
+          "generation_seconds": 1.2905,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "osm_facts",
+          "trial": 1,
+          "ok": true,
+          "seconds": 7.1055,
+          "load_seconds": 0.0018,
+          "prompt_tokens": 264,
+          "output_tokens": 60,
+          "generation_seconds": 2.9863,
+          "done_reason": "stop",
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"latitude\": 40.8493045,\n  \"longitude\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "osm_facts",
+          "trial": 2,
+          "ok": true,
+          "seconds": 3.0631,
+          "load_seconds": 0.0017,
+          "prompt_tokens": 264,
+          "output_tokens": 60,
+          "generation_seconds": 2.9712,
+          "done_reason": "stop",
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"latitude\": 40.8493045,\n  \"longitude\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 1,
+          "ok": true,
+          "seconds": 1.5764,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 80,
+          "output_tokens": 8,
+          "generation_seconds": 0.3305,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"A\"]}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.4269,
+          "load_seconds": 0.0008,
+          "prompt_tokens": 80,
+          "output_tokens": 8,
+          "generation_seconds": 0.3301,
+          "done_reason": "stop",
+          "response": "{\"ids\": [\"A\"]}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "chat_followup",
+          "trial": 1,
+          "ok": true,
+          "seconds": 1.3081,
+          "load_seconds": 0.0008,
+          "prompt_tokens": 47,
+          "output_tokens": 12,
+          "generation_seconds": 0.5221,
+          "done_reason": "stop",
+          "response": "{\n  \"project\": \"ClassScout\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "chat_followup",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.6253,
+          "load_seconds": 0.0008,
+          "prompt_tokens": 47,
+          "output_tokens": 12,
+          "generation_seconds": 0.5282,
+          "done_reason": "stop",
+          "response": "{\n  \"project\": \"ClassScout\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 1,
+          "ok": true,
+          "seconds": 1.3923,
+          "load_seconds": 0.001,
+          "prompt_tokens": 45,
+          "output_tokens": 15,
+          "generation_seconds": 0.666,
+          "done_reason": "stop",
+          "response": "{\n  \"known\": true,\n  \"password\": null\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.7552,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 45,
+          "output_tokens": 15,
+          "generation_seconds": 0.6645,
+          "done_reason": "stop",
+          "response": "{\n  \"known\": true,\n  \"password\": null\n}",
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 8.493,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "tools",
+        "thinking",
+        "completion"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "lfm2",
+        "families": [
+          "lfm2"
+        ],
+        "parameter_size": "1.17B",
+        "quantization_level": "Q4_K_M"
+      },
+      "tag": {
+        "name": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-27T04:39:20.754845455Z",
+        "size": 730906680,
+        "digest": "5791ac70d52d5f30f115beed78283c13f5715b262bd33da417f545b7259fb1e2",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "lfm2",
+          "families": [
+            "lfm2"
+          ],
+          "parameter_size": "1.17B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 128000,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "thinking",
+          "completion"
+        ]
+      },
+      "load": {
+        "ok": true,
+        "seconds": 2.5615,
+        "load_seconds": 1.7955,
+        "prompt_tokens": 13,
+        "output_tokens": 12,
+        "generation_seconds": 0.5272,
+        "done_reason": "length",
+        "response": "READY. I'm here to help you with any questions"
+      },
+      "tool_call": {
+        "ok": true,
+        "seconds": 2.4816,
+        "load_seconds": 0.0012,
+        "prompt_tokens": 98,
+        "output_tokens": 20,
+        "generation_seconds": 0.9227,
+        "done_reason": "stop",
+        "calls": [
+          {
+            "id": "VrBafCYL05rYpUdfsKHe4i1jbU4WPVbG",
+            "function": {
+              "index": 0,
+              "name": "search_listings",
+              "arguments": {
+                "borough": "Brooklyn",
+                "activity": "Swimming"
+              }
+            }
+          }
+        ],
+        "passed": true
+      },
+      "english_chat_sample": {
+        "ok": true,
+        "seconds": 1.6985,
+        "load_seconds": 0.0008,
+        "prompt_tokens": 25,
+        "output_tokens": 28,
+        "generation_seconds": 1.2757,
+        "done_reason": "stop",
+        "response": "Start by setting a specific goal, like walking a certain distance each day. Consistency and tracking your progress can help reinforce the habit."
+      },
+      "summary": {
+        "passed": 12,
+        "total": 18,
+        "json_valid": 18,
+        "median_seconds": 1.2191
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+      "tests": [
+        {
+          "name": "listing_soccer",
+          "trial": 1,
+          "ok": true,
+          "seconds": 41.0479,
+          "load_seconds": 0.0018,
+          "prompt_tokens": 558,
+          "output_tokens": 180,
+          "generation_seconds": 20.0923,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_soccer",
+          "trial": 2,
+          "ok": true,
+          "seconds": 20.4549,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 558,
+          "output_tokens": 180,
+          "generation_seconds": 20.2476,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 1,
+          "ok": true,
+          "seconds": 21.5129,
+          "load_seconds": 0.001,
+          "prompt_tokens": 560,
+          "output_tokens": 180,
+          "generation_seconds": 20.0436,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 2,
+          "ok": true,
+          "seconds": 20.2997,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 560,
+          "output_tokens": 180,
+          "generation_seconds": 20.0922,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 1,
+          "ok": true,
+          "seconds": 20.9263,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 565,
+          "output_tokens": 175,
+          "generation_seconds": 19.3666,
+          "done_reason": "stop",
+          "response": "{\"ids\":[]}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 2,
+          "ok": true,
+          "seconds": 19.828,
+          "load_seconds": 0.001,
+          "prompt_tokens": 565,
+          "output_tokens": 175,
+          "generation_seconds": 19.6199,
+          "done_reason": "stop",
+          "response": "{\"ids\":[]}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 1,
+          "ok": true,
+          "seconds": 21.5175,
+          "load_seconds": 0.001,
+          "prompt_tokens": 571,
+          "output_tokens": 180,
+          "generation_seconds": 19.8949,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 2,
+          "ok": true,
+          "seconds": 20.7398,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 571,
+          "output_tokens": 180,
+          "generation_seconds": 20.5307,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 1,
+          "ok": true,
+          "seconds": 22.3295,
+          "load_seconds": 0.0008,
+          "prompt_tokens": 60,
+          "output_tokens": 180,
+          "generation_seconds": 20.0969,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 2,
+          "ok": true,
+          "seconds": 20.3775,
+          "load_seconds": 0.0015,
+          "prompt_tokens": 60,
+          "output_tokens": 180,
+          "generation_seconds": 20.1769,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 1,
+          "ok": true,
+          "seconds": 30.1548,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 259,
+          "output_tokens": 180,
+          "generation_seconds": 20.5662,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 2,
+          "ok": true,
+          "seconds": 21.1428,
+          "load_seconds": 0.0021,
+          "prompt_tokens": 259,
+          "output_tokens": 180,
+          "generation_seconds": 20.9397,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 1,
+          "ok": true,
+          "seconds": 25.66,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 76,
+          "output_tokens": 180,
+          "generation_seconds": 22.6672,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 2,
+          "ok": true,
+          "seconds": 21.3563,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 76,
+          "output_tokens": 180,
+          "generation_seconds": 21.1533,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_followup",
+          "trial": 1,
+          "ok": true,
+          "seconds": 11.3123,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 48,
+          "output_tokens": 87,
+          "generation_seconds": 9.4912,
+          "done_reason": "stop",
+          "response": "{\n  \"project\": \"ClassScout\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "chat_followup",
+          "trial": 2,
+          "ok": true,
+          "seconds": 10.0532,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 48,
+          "output_tokens": 87,
+          "generation_seconds": 9.8502,
+          "done_reason": "stop",
+          "response": "{\n  \"project\": \"ClassScout\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 1,
+          "ok": true,
+          "seconds": 22.1035,
+          "load_seconds": 0.001,
+          "prompt_tokens": 45,
+          "output_tokens": 180,
+          "generation_seconds": 20.3652,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 2,
+          "ok": true,
+          "seconds": 20.3684,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 45,
+          "output_tokens": 180,
+          "generation_seconds": 20.1703,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 12.411,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "tools",
+        "thinking",
+        "completion"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "lfm2",
+        "families": [
+          "lfm2"
+        ],
+        "parameter_size": "2.7B",
+        "quantization_level": "Q4_K_M"
+      },
+      "tag": {
+        "name": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+        "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+        "modified_at": "2026-10-27T04:40:16.751409698Z",
+        "size": 1674466581,
+        "digest": "26d07caa2ddb76ed45e54f71deb656b7ff5b9c8978feabfa84407d69022c9198",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "lfm2",
+          "families": [
+            "lfm2"
+          ],
+          "parameter_size": "2.7B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "thinking",
+          "completion"
+        ]
+      },
+      "load": {
+        "ok": true,
+        "seconds": 7.3594,
+        "load_seconds": 5.1305,
+        "prompt_tokens": 14,
+        "output_tokens": 12,
+        "generation_seconds": 1.6088,
+        "done_reason": "length",
+        "response": "\nThe user is asking me to \"Reply READY.\""
+      },
+      "tool_call": {
+        "ok": true,
+        "seconds": 13.1748,
+        "load_seconds": 0.0012,
+        "prompt_tokens": 96,
+        "output_tokens": 86,
+        "generation_seconds": 9.4838,
+        "done_reason": "stop",
+        "calls": [
+          {
+            "id": "sUKKB1m1J9bjNS3R3gcBhIXiw76TqzIB",
+            "function": {
+              "index": 0,
+              "name": "search_listings",
+              "arguments": {
+                "borough": "Brooklyn",
+                "activity": "Swimming"
+              }
+            }
+          }
+        ],
+        "passed": true
+      },
+      "english_chat_sample": {
+        "ok": true,
+        "seconds": 16.4465,
+        "load_seconds": 0.0011,
+        "prompt_tokens": 26,
+        "output_tokens": 140,
+        "generation_seconds": 15.4001,
+        "done_reason": "length",
+        "response": ""
+      },
+      "summary": {
+        "passed": 4,
+        "total": 18,
+        "json_valid": 4,
+        "median_seconds": 21.034550000000003
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "granite3.1-moe:1b",
+      "tests": [
+        {
+          "name": "listing_soccer",
+          "trial": 1,
+          "ok": true,
+          "seconds": 7.8933,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 694,
+          "output_tokens": 12,
+          "generation_seconds": 0.4354,
+          "done_reason": "stop",
+          "response": "{\n  \"ids\": [\"L1\"]\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_soccer",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.2986,
+          "load_seconds": 0.0018,
+          "prompt_tokens": 694,
+          "output_tokens": 7,
+          "generation_seconds": 0.2366,
+          "done_reason": "stop",
+          "response": "{\"ids\":[\"L1\"]}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.8895,
+          "load_seconds": 0.001,
+          "prompt_tokens": 697,
+          "output_tokens": 12,
+          "generation_seconds": 0.4395,
+          "done_reason": "stop",
+          "response": "{\n  \"ids\": [\"L6\"]\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.4832,
+          "load_seconds": 0.001,
+          "prompt_tokens": 697,
+          "output_tokens": 12,
+          "generation_seconds": 0.4298,
+          "done_reason": "stop",
+          "response": "{\n  \"ids\": [\"L6\"]\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.8836,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 703,
+          "output_tokens": 9,
+          "generation_seconds": 0.3138,
+          "done_reason": "stop",
+          "response": "{\n  \"ids\": []\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.3665,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 703,
+          "output_tokens": 9,
+          "generation_seconds": 0.3102,
+          "done_reason": "stop",
+          "response": "{\n  \"ids\": []\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.7348,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 710,
+          "output_tokens": 97,
+          "generation_seconds": 4.0085,
+          "done_reason": "stop",
+          "response": "{\n  \"L1\": \"South Bronx United\",\n  \"L2\": \"Bronx Zoo\",\n  \"L3\": \"Uptown Rec Room\",\n  \"L4\": \"TCR The Club of Riverdale\",\n  \"L5\": \"Dodge YMCA\",\n  \"L6\": \"Movement LIC/Brooklyn climbing\",\n  \"L7\": \"Shipwrecked New York\"\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 2,
+          "ok": true,
+          "seconds": 1.9556,
+          "load_seconds": 0.001,
+          "prompt_tokens": 710,
+          "output_tokens": 50,
+          "generation_seconds": 1.896,
+          "done_reason": "stop",
+          "response": "{\n  \"L1\": \"South Bronx United Clubhouse \\u2014 Kids Soccer Birthday Party\",\n  \"L3\": \"Uptown Rec Room Birthday Parties\"\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 1,
+          "ok": true,
+          "seconds": 1.357,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 102,
+          "output_tokens": 31,
+          "generation_seconds": 0.7793,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "query_plan",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.8225,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 102,
+          "output_tokens": 31,
+          "generation_seconds": 0.787,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "osm_facts",
+          "trial": 1,
+          "ok": true,
+          "seconds": 5.0552,
+          "load_seconds": 0.001,
+          "prompt_tokens": 348,
+          "output_tokens": 68,
+          "generation_seconds": 2.2412,
+          "done_reason": "stop",
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"lat\": 40.8493045,\n  \"lon\": \"-73.8771379\",\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 2,
+          "ok": true,
+          "seconds": 2.2668,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 348,
+          "output_tokens": 68,
+          "generation_seconds": 2.2254,
+          "done_reason": "stop",
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"lat\": 40.8493045,\n  \"lon\": \"-73.8771379\",\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.9157,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 112,
+          "output_tokens": 11,
+          "generation_seconds": 0.2584,
+          "done_reason": "stop",
+          "response": "{\n  \"ids\": [\"B\"]\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.2897,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 112,
+          "output_tokens": 11,
+          "generation_seconds": 0.2555,
+          "done_reason": "stop",
+          "response": "{\n  \"ids\": [\"B\"]\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "chat_followup",
+          "trial": 1,
+          "ok": true,
+          "seconds": 5.2769,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 83,
+          "output_tokens": 180,
+          "generation_seconds": 4.883,
+          "done_reason": "length",
+          "response": "{\n  \"project\": \"ClassScout\",\n  \"description\": \"A platform that helps families find educational and entertaining activities for their children.\",\n  \"features\": [\n    {\n      \"feature\": \"Activity Database\",\n      \"description\": \"A comprehensive database of educational and entertaining activities for children of various ages.\"\n    },\n    {\n      \"feature\": \"User-Friendly Interface\",\n      \"description\": \"An intuitive and easy-to-navigate interface for both parents and children.\"\n    },\n    {\n      \"feature\": \"Parental Controls\",\n      \"description\": \"Allow parents to set time limits, monitor activity progress, and manage content.\"\n    },\n    {\n      \"feature\": \"Community Features\",\n      \"description\": \"A platform for families to connect, share experiences, and collaborate on activities.\"\n    },\n    {\n      \"feature",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_followup",
+          "trial": 2,
+          "ok": true,
+          "seconds": 4.9746,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 83,
+          "output_tokens": 180,
+          "generation_seconds": 4.9277,
+          "done_reason": "length",
+          "response": "{\n  \"project\": \"ClassScout\",\n  \"description\": \"A platform that helps families find educational and entertaining activities for their children.\",\n  \"features\": [\n    {\n      \"feature\": \"Activity Database\",\n      \"description\": \"A comprehensive database of educational and entertaining activities for children of various ages.\"\n    },\n    {\n      \"feature\": \"User-Friendly Interface\",\n      \"description\": \"An intuitive and easy-to-navigate website or mobile app that allows parents to search for activities based on their children's interests and age groups.\"\n    },\n    {\n      \"feature\": \"Parental Controls\",\n      \"description\": \"Features to allow parents to set time limits, monitor activity progress, and manage their children's activity profiles.\"\n    },\n    {\n      \"feature\": \"Community Forum\",\n      \"description\": \"A space",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.7561,
+          "load_seconds": 0.0017,
+          "prompt_tokens": 78,
+          "output_tokens": 16,
+          "generation_seconds": 0.3965,
+          "done_reason": "stop",
+          "response": "{\n  \"knownPassword\": false,\n  \"password\": null\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.4138,
+          "load_seconds": 0.0026,
+          "prompt_tokens": 78,
+          "output_tokens": 16,
+          "generation_seconds": 0.3797,
+          "done_reason": "stop",
+          "response": "{\n  \"knownPassword\": false,\n  \"password\": null\n}",
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 7.503,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "completion",
+        "tools"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "granitemoe",
+        "families": [
+          "granitemoe"
+        ],
+        "parameter_size": "1.3B",
+        "quantization_level": "Q8_0"
+      },
+      "tag": {
+        "name": "granite3.1-moe:1b",
+        "model": "granite3.1-moe:1b",
+        "modified_at": "2026-10-27T04:47:33.025733444Z",
+        "size": 1422253082,
+        "digest": "3269ce3e31ea68da5ddb7926628b5bb1d25146d4f32424f35e748dd17e4013a0",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "granitemoe",
+          "families": [
+            "granitemoe"
+          ],
+          "parameter_size": "1.3B",
+          "quantization_level": "Q8_0",
+          "context_length": 131072,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      "load": {
+        "ok": true,
+        "seconds": 3.5028,
+        "load_seconds": 2.7971,
+        "prompt_tokens": 48,
+        "output_tokens": 12,
+        "generation_seconds": 0.2842,
+        "done_reason": "length",
+        "response": "I'm ready to assist you. Please proceed with your questions"
+      },
+      "tool_call": {
+        "ok": true,
+        "seconds": 1.4591,
+        "load_seconds": 0.0012,
+        "prompt_tokens": 110,
+        "output_tokens": 29,
+        "generation_seconds": 0.7387,
+        "done_reason": "stop",
+        "calls": [],
+        "passed": false
+      },
+      "english_chat_sample": {
+        "ok": true,
+        "seconds": 1.8615,
+        "load_seconds": 0.001,
+        "prompt_tokens": 60,
+        "output_tokens": 66,
+        "generation_seconds": 1.6619,
+        "done_reason": "stop",
+        "response": "1. Set a specific, achievable goal, such as walking for 30 minutes a day, to make it easier to commit to daily walks.\n2. Create a routine by scheduling your walks at the same time each day, perhaps in the morning or evening, to make them a habit."
+      },
+      "summary": {
+        "passed": 6,
+        "total": 18,
+        "json_valid": 16,
+        "median_seconds": 0.9026
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "deepseek-r1:1.5b",
+      "tests": [
+        {
+          "name": "listing_soccer",
+          "trial": 1,
+          "ok": true,
+          "seconds": 25.8914,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 525,
+          "output_tokens": 180,
+          "generation_seconds": 14.2091,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_soccer",
+          "trial": 2,
+          "ok": true,
+          "seconds": 13.5181,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 525,
+          "output_tokens": 180,
+          "generation_seconds": 13.4282,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 1,
+          "ok": true,
+          "seconds": 13.6718,
+          "load_seconds": 0.001,
+          "prompt_tokens": 527,
+          "output_tokens": 180,
+          "generation_seconds": 13.2159,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 2,
+          "ok": true,
+          "seconds": 13.3417,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 527,
+          "output_tokens": 180,
+          "generation_seconds": 13.2585,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 1,
+          "ok": true,
+          "seconds": 14.0671,
+          "load_seconds": 0.001,
+          "prompt_tokens": 532,
+          "output_tokens": 180,
+          "generation_seconds": 13.4368,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 2,
+          "ok": true,
+          "seconds": 13.7057,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 532,
+          "output_tokens": 180,
+          "generation_seconds": 13.6208,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 1,
+          "ok": true,
+          "seconds": 14.0419,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 540,
+          "output_tokens": 180,
+          "generation_seconds": 13.2435,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 2,
+          "ok": true,
+          "seconds": 13.2632,
+          "load_seconds": 0.001,
+          "prompt_tokens": 540,
+          "output_tokens": 180,
+          "generation_seconds": 13.1741,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 1,
+          "ok": true,
+          "seconds": 13.5552,
+          "load_seconds": 0.002,
+          "prompt_tokens": 53,
+          "output_tokens": 180,
+          "generation_seconds": 12.4142,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 2,
+          "ok": true,
+          "seconds": 12.3433,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 53,
+          "output_tokens": 180,
+          "generation_seconds": 12.2595,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 1,
+          "ok": true,
+          "seconds": 18.7667,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 281,
+          "output_tokens": 180,
+          "generation_seconds": 12.8194,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 2,
+          "ok": true,
+          "seconds": 12.9066,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 281,
+          "output_tokens": 180,
+          "generation_seconds": 12.827,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 1,
+          "ok": true,
+          "seconds": 13.5208,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 66,
+          "output_tokens": 180,
+          "generation_seconds": 12.1937,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 2,
+          "ok": true,
+          "seconds": 12.3014,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 66,
+          "output_tokens": 180,
+          "generation_seconds": 12.223,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_followup",
+          "trial": 1,
+          "ok": true,
+          "seconds": 12.8911,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 34,
+          "output_tokens": 180,
+          "generation_seconds": 12.2219,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_followup",
+          "trial": 2,
+          "ok": true,
+          "seconds": 12.2431,
+          "load_seconds": 0.0008,
+          "prompt_tokens": 34,
+          "output_tokens": 180,
+          "generation_seconds": 12.1638,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 1,
+          "ok": true,
+          "seconds": 13.0708,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 37,
+          "output_tokens": 180,
+          "generation_seconds": 12.2877,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "chat_unknown_secret",
+          "trial": 2,
+          "ok": true,
+          "seconds": 12.4797,
+          "load_seconds": 0.001,
+          "prompt_tokens": 37,
+          "output_tokens": 180,
+          "generation_seconds": 12.4,
+          "done_reason": "length",
+          "response": "",
+          "json_valid": false,
+          "passed": false
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 6.442,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "tools",
+        "thinking",
+        "completion"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "qwen2",
+        "families": [
+          "qwen2"
+        ],
+        "parameter_size": "1.8B",
+        "quantization_level": "Q4_K_M"
+      },
+      "tag": {
+        "name": "deepseek-r1:1.5b",
+        "model": "deepseek-r1:1.5b",
+        "modified_at": "2026-10-27T04:48:26.422256457Z",
+        "size": 1117322768,
+        "digest": "e0979632db5a88d1a53884cb2a941772d10ff5d055aabaa6801c4e36f3a6c2d7",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "1.8B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "thinking",
+          "completion"
+        ]
+      },
+      "load": {
+        "ok": true,
+        "seconds": 3.5366,
+        "load_seconds": 2.598,
+        "prompt_tokens": 6,
+        "output_tokens": 12,
+        "generation_seconds": 0.7487,
+        "done_reason": "length",
+        "response": "<think>\n\n</think>\n\nReady to respond? Let me know how"
+      },
+      "tool_call": {
+        "ok": true,
+        "seconds": 7.1974,
+        "load_seconds": 0.0011,
+        "prompt_tokens": 13,
+        "output_tokens": 100,
+        "generation_seconds": 6.9038,
+        "done_reason": "length",
+        "calls": [],
+        "passed": false
+      },
+      "english_chat_sample": {
+        "ok": true,
+        "seconds": 9.9385,
+        "load_seconds": 0.0015,
+        "prompt_tokens": 19,
+        "output_tokens": 140,
+        "generation_seconds": 9.5425,
+        "done_reason": "length",
+        "response": ""
+      },
+      "summary": {
+        "passed": 0,
+        "total": 18,
+        "json_valid": 0,
+        "median_seconds": 13.4299
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "phi3.5:3.8b",
+      "tests": [],
+      "status": "load_failed",
+      "pull_seconds": 9.614,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "completion"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "phi3",
+        "families": [
+          "phi3"
+        ],
+        "parameter_size": "3.8B",
+        "quantization_level": "Q4_0"
+      },
+      "tag": {
+        "name": "phi3.5:3.8b",
+        "model": "phi3.5:3.8b",
+        "modified_at": "2026-10-27T04:53:12.864048432Z",
+        "size": 2176178843,
+        "digest": "61819fb370a3c1a9be6694869331e5f85f867a079e9271d66cb223acb81d04ba",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi3",
+          "families": [
+            "phi3"
+          ],
+          "parameter_size": "3.8B",
+          "quantization_level": "Q4_0",
+          "context_length": 131072,
+          "embedding_length": 3072,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      "load": {
+        "ok": false,
+        "seconds": 3.6957,
+        "error": "{\"error\":\"llama-server process has terminated: signal: killed\"}",
+        "status": 500,
+        "load_seconds": 0.0,
+        "prompt_tokens": null,
+        "output_tokens": null,
+        "generation_seconds": 0.0,
+        "done_reason": null,
+        "response": ""
+      },
+      "oom_kill_delta": 1,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    }
+  ],
+  "vision": [
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "tests": [
+        {
+          "name": "photo_animals",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.4651,
+          "load_seconds": 0.0145,
+          "prompt_tokens": 271,
+          "output_tokens": 19,
+          "generation_seconds": 0.393,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": [\"cat\"],\n  \"count\": 2\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "photo_animals",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.5146,
+          "load_seconds": 0.0114,
+          "prompt_tokens": 271,
+          "output_tokens": 19,
+          "generation_seconds": 0.3797,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": [\"cat\"],\n  \"count\": 2\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 1,
+          "ok": true,
+          "seconds": 3.9912,
+          "load_seconds": 0.0128,
+          "prompt_tokens": 257,
+          "output_tokens": 2,
+          "generation_seconds": 0.0214,
+          "done_reason": "stop",
+          "response": "2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.117,
+          "load_seconds": 0.0113,
+          "prompt_tokens": 257,
+          "output_tokens": 2,
+          "generation_seconds": 0.0212,
+          "done_reason": "stop",
+          "response": "2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.2002,
+          "load_seconds": 0.0134,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.2089,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.3213,
+          "load_seconds": 0.0106,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.2059,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.6066,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 270,
+          "output_tokens": 31,
+          "generation_seconds": 0.6269,
+          "done_reason": "stop",
+          "response": "{\n  \"venue\": \"PANDORA\",\n  \"room\": 12,\n  \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.6778,
+          "load_seconds": 0.0009,
+          "prompt_tokens": 270,
+          "output_tokens": 31,
+          "generation_seconds": 0.6292,
+          "done_reason": "stop",
+          "response": "{\n  \"venue\": \"PANDORA\",\n  \"room\": 12,\n  \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.6864,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 278,
+          "output_tokens": 32,
+          "generation_seconds": 0.6647,
+          "done_reason": "stop",
+          "response": "{\n  \"red_shape\": \"circle\",\n  \"blue_shape\": \"square\",\n  \"green_shape\": \"triangle\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.7158,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 278,
+          "output_tokens": 32,
+          "generation_seconds": 0.6667,
+          "done_reason": "stop",
+          "response": "{\n  \"red_shape\": \"circle\",\n  \"blue_shape\": \"square\",\n  \"green_shape\": \"triangle\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 1,
+          "ok": true,
+          "seconds": 4.2308,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.1914,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.2437,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.1931,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 9.499,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "tools",
+        "thinking",
+        "completion",
+        "vision"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "lfm2",
+        "families": [
+          "lfm2"
+        ],
+        "parameter_size": "354M",
+        "quantization_level": "Q8_0"
+      },
+      "tag": {
+        "name": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "modified_at": "2026-10-27T04:33:17.471095764Z",
+        "size": 482045956,
+        "digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "lfm2",
+          "families": [
+            "lfm2"
+          ],
+          "parameter_size": "354M",
+          "quantization_level": "Q8_0",
+          "context_length": 128000,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "thinking",
+          "completion",
+          "vision"
+        ]
+      },
+      "image_attempts": [
+        {
+          "max_image_dimension": 640,
+          "ok": true,
+          "seconds": 6.0521,
+          "load_seconds": 1.3055,
+          "prompt_tokens": 257,
+          "output_tokens": 29,
+          "generation_seconds": 0.5932,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": [\n    {\n      \"name\": \"cat\",\n      \"count\": 2\n    }\n  ]\n}"
+        }
+      ],
+      "max_image_dimension": 640,
+      "schema_tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 4.4325,
+          "load_seconds": 0.0108,
+          "prompt_tokens": 271,
+          "output_tokens": 18,
+          "generation_seconds": 0.3649,
+          "done_reason": "stop",
+          "response": "{\n  \"animal\": \"cat\",\n  \"count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 4.2197,
+          "load_seconds": 0.0115,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.2106,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 4.5848,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 270,
+          "output_tokens": 31,
+          "generation_seconds": 0.6297,
+          "done_reason": "stop",
+          "response": "{\n  \"venue\": \"PANDORA\",\n  \"room\": 12,\n  \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 4.6665,
+          "load_seconds": 0.001,
+          "prompt_tokens": 278,
+          "output_tokens": 32,
+          "generation_seconds": 0.6515,
+          "done_reason": "stop",
+          "response": "{\n  \"red_shape\": \"circle\",\n  \"blue_shape\": \"square\",\n  \"green_shape\": \"triangle\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 4.224,
+          "load_seconds": 0.001,
+          "prompt_tokens": 282,
+          "output_tokens": 10,
+          "generation_seconds": 0.1891,
+          "done_reason": "stop",
+          "response": "{\n  \"street_address\": null\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        }
+      ],
+      "summary": {
+        "passed": 10,
+        "total": 12,
+        "json_valid": 10,
+        "median_seconds": 2.3535
+      },
+      "schema_summary": {
+        "passed": 5,
+        "total": 5
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+      "tests": [
+        {
+          "name": "photo_animals",
+          "trial": 1,
+          "ok": true,
+          "seconds": 16.9621,
+          "load_seconds": 0.0165,
+          "prompt_tokens": 271,
+          "output_tokens": 15,
+          "generation_seconds": 0.7665,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_animals",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.9316,
+          "load_seconds": 0.013,
+          "prompt_tokens": 271,
+          "output_tokens": 15,
+          "generation_seconds": 0.7655,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 1,
+          "ok": true,
+          "seconds": 16.2097,
+          "load_seconds": 0.0115,
+          "prompt_tokens": 257,
+          "output_tokens": 3,
+          "generation_seconds": 0.1066,
+          "done_reason": "stop",
+          "response": "2.",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.2649,
+          "load_seconds": 0.0118,
+          "prompt_tokens": 257,
+          "output_tokens": 3,
+          "generation_seconds": 0.1067,
+          "done_reason": "stop",
+          "response": "2.",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 16.545,
+          "load_seconds": 0.0152,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.5216,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.6865,
+          "load_seconds": 0.0122,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.5173,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 1,
+          "ok": true,
+          "seconds": 17.4117,
+          "load_seconds": 0.001,
+          "prompt_tokens": 270,
+          "output_tokens": 27,
+          "generation_seconds": 1.3425,
+          "done_reason": "stop",
+          "response": "{\"venue\": \"PANDORA\", \"room\": 12, \"opening_time\": \"09:00\"}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 2,
+          "ok": true,
+          "seconds": 1.4573,
+          "load_seconds": 0.001,
+          "prompt_tokens": 270,
+          "output_tokens": 27,
+          "generation_seconds": 1.3576,
+          "done_reason": "stop",
+          "response": "{\"venue\": \"PANDORA\", \"room\": 12, \"opening_time\": \"09:00\"}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 17.7544,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 278,
+          "output_tokens": 25,
+          "generation_seconds": 1.2547,
+          "done_reason": "stop",
+          "response": "{\"red_shape\":\"circle\", \"blue_shape\":\"square\", \"green_shape\":\"triangle\"}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 1.3698,
+          "load_seconds": 0.0036,
+          "prompt_tokens": 278,
+          "output_tokens": 25,
+          "generation_seconds": 1.2642,
+          "done_reason": "stop",
+          "response": "{\"red_shape\":\"circle\", \"blue_shape\":\"square\", \"green_shape\":\"triangle\"}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 1,
+          "ok": true,
+          "seconds": 16.6554,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 282,
+          "output_tokens": 7,
+          "generation_seconds": 0.3124,
+          "done_reason": "stop",
+          "response": "{\"street_address\": null}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.419,
+          "load_seconds": 0.001,
+          "prompt_tokens": 282,
+          "output_tokens": 7,
+          "generation_seconds": 0.3061,
+          "done_reason": "stop",
+          "response": "{\"street_address\": null}",
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 12.031,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "tools",
+        "thinking",
+        "completion",
+        "vision"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "lfm2",
+        "families": [
+          "lfm2"
+        ],
+        "parameter_size": "1.17B",
+        "quantization_level": "Q4_K_M"
+      },
+      "tag": {
+        "name": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+        "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+        "modified_at": "2026-10-27T04:34:26.791826163Z",
+        "size": 1314017830,
+        "digest": "e75aa8e82ccd4ff5da882944ba851c8d1e7c3254800a1798e012758fb0cc2ccd",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "lfm2",
+          "families": [
+            "lfm2"
+          ],
+          "parameter_size": "1.17B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 128000,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "thinking",
+          "completion",
+          "vision"
+        ]
+      },
+      "image_attempts": [
+        {
+          "max_image_dimension": 640,
+          "ok": true,
+          "seconds": 19.5999,
+          "load_seconds": 2.3176,
+          "prompt_tokens": 257,
+          "output_tokens": 20,
+          "generation_seconds": 0.9958,
+          "done_reason": "stop",
+          "response": "{\"animals\": [{\"animal\": \"cat\", \"count\": 2}]}"
+        }
+      ],
+      "max_image_dimension": 640,
+      "schema_tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 16.6705,
+          "load_seconds": 0.0124,
+          "prompt_tokens": 271,
+          "output_tokens": 15,
+          "generation_seconds": 0.7059,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2 }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 17.4294,
+          "load_seconds": 0.0128,
+          "prompt_tokens": 262,
+          "output_tokens": 11,
+          "generation_seconds": 0.5018,
+          "done_reason": "stop",
+          "response": "{\n  \"remote_count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 28.6773,
+          "load_seconds": 11.5626,
+          "prompt_tokens": 270,
+          "output_tokens": 27,
+          "generation_seconds": 1.3064,
+          "done_reason": "stop",
+          "response": "{\"venue\": \"PANDORA\", \"room\": 12, \"opening_time\": \"09:00\"}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 17.2372,
+          "load_seconds": 0.0028,
+          "prompt_tokens": 278,
+          "output_tokens": 25,
+          "generation_seconds": 1.2434,
+          "done_reason": "stop",
+          "response": "{\"red_shape\":\"circle\", \"blue_shape\":\"square\", \"green_shape\":\"triangle\"}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 16.8361,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 282,
+          "output_tokens": 7,
+          "generation_seconds": 0.3174,
+          "done_reason": "stop",
+          "response": "{\"street_address\": null}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        }
+      ],
+      "summary": {
+        "passed": 12,
+        "total": 12,
+        "json_valid": 10,
+        "median_seconds": 8.8335
+      },
+      "schema_summary": {
+        "passed": 5,
+        "total": 5
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+      "tests": [
+        {
+          "name": "photo_animals",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.2965,
+          "load_seconds": 0.0128,
+          "prompt_tokens": 168,
+          "output_tokens": 16,
+          "generation_seconds": 0.1443,
+          "done_reason": "stop",
+          "response": "{\"animal\":[\"cat\", \"1\"], \"count\":2}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "photo_animals",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.2314,
+          "load_seconds": 0.011,
+          "prompt_tokens": 168,
+          "output_tokens": 16,
+          "generation_seconds": 0.1384,
+          "done_reason": "stop",
+          "response": "{\"animal\":[\"cat\", \"1\"], \"count\":2}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.1404,
+          "load_seconds": 0.0114,
+          "prompt_tokens": 155,
+          "output_tokens": 4,
+          "generation_seconds": 0.0282,
+          "done_reason": "stop",
+          "response": " 2.",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.1078,
+          "load_seconds": 0.0118,
+          "prompt_tokens": 155,
+          "output_tokens": 4,
+          "generation_seconds": 0.0274,
+          "done_reason": "stop",
+          "response": " 2.",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.2226,
+          "load_seconds": 0.0133,
+          "prompt_tokens": 161,
+          "output_tokens": 10,
+          "generation_seconds": 0.0857,
+          "done_reason": "stop",
+          "response": "{ \"remote_count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.1747,
+          "load_seconds": 0.0125,
+          "prompt_tokens": 161,
+          "output_tokens": 10,
+          "generation_seconds": 0.0832,
+          "done_reason": "stop",
+          "response": "{ \"remote_count\": 2 }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 1,
+          "ok": true,
+          "seconds": 7.7336,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 170,
+          "output_tokens": 96,
+          "generation_seconds": 0.9428,
+          "done_reason": "length",
+          "response": "{\n    \"menu\": [\n        {\n            \"nm\": \"PANDORA\",\n            \"unitprice\": \"12.00\",\n            \"cnt\": \"12\",\n            \"price\": \"09:00\"\n        },\n        {\n            \"nm\": \"ROOM 12\",\n            \"unitprice\": \"12\",\n            \"cnt\": \"12\",\n            \"price\": \"09:00\"\n        }\n    ],",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.9664,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 170,
+          "output_tokens": 96,
+          "generation_seconds": 0.9255,
+          "done_reason": "length",
+          "response": "{\n    \"menu\": [\n        {\n            \"nm\": \"PANDORA\",\n            \"unitprice\": \"12.00\",\n            \"cnt\": \"12\",\n            \"price\": \"09:00\"\n        },\n        {\n            \"nm\": \"ROOM 12\",\n            \"unitprice\": \"12\",\n            \"cnt\": \"12\",\n            \"price\": \"09:00\"\n        }\n    ],",
+          "json_valid": false,
+          "passed": false
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.9591,
+          "load_seconds": 0.003,
+          "prompt_tokens": 175,
+          "output_tokens": 88,
+          "generation_seconds": 0.8454,
+          "done_reason": "stop",
+          "response": "{\n    \"red_shape\": {\n        \"color\": \"red\",\n        \"open_time\": \"09:00\",\n        \"shape_name\": \"ROOM 12\"\n    },\n    \"blue_shape\": {\n        \"color\": \"blue\",\n        \"open_time\": \"09:00\",\n        \"shape_name\": \"ROOM 12\"\n    }\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.8861,
+          "load_seconds": 0.0015,
+          "prompt_tokens": 175,
+          "output_tokens": 88,
+          "generation_seconds": 0.8491,
+          "done_reason": "stop",
+          "response": "{\n    \"red_shape\": {\n        \"color\": \"red\",\n        \"open_time\": \"09:00\",\n        \"shape_name\": \"ROOM 12\"\n    },\n    \"blue_shape\": {\n        \"color\": \"blue\",\n        \"open_time\": \"09:00\",\n        \"shape_name\": \"ROOM 12\"\n    }\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.5216,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 180,
+          "output_tokens": 43,
+          "generation_seconds": 0.4001,
+          "done_reason": "stop",
+          "response": "{\n    \"street_address\": \"PANDORA ROOM 12\",\n    \"street\": \"ROOM 12\",\n    \"open\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.4347,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 180,
+          "output_tokens": 43,
+          "generation_seconds": 0.3966,
+          "done_reason": "stop",
+          "response": "{\n    \"street_address\": \"PANDORA ROOM 12\",\n    \"street\": \"ROOM 12\",\n    \"open\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 5.684,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "completion",
+        "vision"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "llama",
+        "families": [
+          "llama"
+        ],
+        "parameter_size": "163M",
+        "quantization_level": "Q8_0"
+      },
+      "tag": {
+        "name": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-27T04:38:16.012189379Z",
+        "size": 278824859,
+        "digest": "ba5a88b6808eb60b20549468b67b79902e2c482949b94824b7e20b4e29fed444",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "163M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 576,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      "image_attempts": [
+        {
+          "max_image_dimension": 640,
+          "ok": true,
+          "seconds": 7.7136,
+          "load_seconds": 0.8003,
+          "prompt_tokens": 154,
+          "output_tokens": 9,
+          "generation_seconds": 0.0886,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cats\" }"
+        }
+      ],
+      "max_image_dimension": 640,
+      "schema_tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 0.2743,
+          "load_seconds": 0.0123,
+          "prompt_tokens": 168,
+          "output_tokens": 13,
+          "generation_seconds": 0.1192,
+          "done_reason": "stop",
+          "response": "{\"animal\":\"cat\", \"count\":2}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 0.2193,
+          "load_seconds": 0.0129,
+          "prompt_tokens": 161,
+          "output_tokens": 10,
+          "generation_seconds": 0.0832,
+          "done_reason": "stop",
+          "response": "{ \"remote_count\": 2 }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 0.4573,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 170,
+          "output_tokens": 35,
+          "generation_seconds": 0.3498,
+          "done_reason": "stop",
+          "response": "{\n    \"venue\": \"PANDORA\",\n    \"room\": 12,\n    \"opening_time\": \"09:00,\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 0.5919,
+          "load_seconds": 0.001,
+          "prompt_tokens": 175,
+          "output_tokens": 48,
+          "generation_seconds": 0.4773,
+          "done_reason": "stop",
+          "response": "{\n    \"red_shape\": \"ROOM 12\",\n    \"blue_shape\": \"OPEN 09:00\",\"green_shape\": \"OPEN 09:00\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 0.4239,
+          "load_seconds": 0.0017,
+          "prompt_tokens": 180,
+          "output_tokens": 30,
+          "generation_seconds": 0.3016,
+          "done_reason": "stop",
+          "response": "{\n    \"street_address\": \"PANDORA ROOM 12, OPN 09:00\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "total": 12,
+        "json_valid": 8,
+        "median_seconds": 0.3656
+      },
+      "schema_summary": {
+        "passed": 2,
+        "total": 5
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+      "tests": [
+        {
+          "name": "photo_animals",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.2928,
+          "load_seconds": 0.0134,
+          "prompt_tokens": 168,
+          "output_tokens": 2,
+          "generation_seconds": 0.0218,
+          "done_reason": "stop",
+          "response": "{}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "photo_animals",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.1291,
+          "load_seconds": 0.012,
+          "prompt_tokens": 168,
+          "output_tokens": 2,
+          "generation_seconds": 0.0214,
+          "done_reason": "stop",
+          "response": "{}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.2102,
+          "load_seconds": 0.0109,
+          "prompt_tokens": 155,
+          "output_tokens": 3,
+          "generation_seconds": 0.0428,
+          "done_reason": "stop",
+          "response": " 2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_count_plain",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.1439,
+          "load_seconds": 0.0145,
+          "prompt_tokens": 155,
+          "output_tokens": 3,
+          "generation_seconds": 0.0418,
+          "done_reason": "stop",
+          "response": " 2",
+          "json_valid": null,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.4306,
+          "load_seconds": 0.0126,
+          "prompt_tokens": 161,
+          "output_tokens": 12,
+          "generation_seconds": 0.2385,
+          "done_reason": "stop",
+          "response": "{\n    \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.3549,
+          "load_seconds": 0.0151,
+          "prompt_tokens": 161,
+          "output_tokens": 12,
+          "generation_seconds": 0.2432,
+          "done_reason": "stop",
+          "response": "{\n    \"remote_count\": 2\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 1,
+          "ok": true,
+          "seconds": 8.0074,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 170,
+          "output_tokens": 35,
+          "generation_seconds": 0.7354,
+          "done_reason": "stop",
+          "response": "{\n    \"venue\": \"PANDORA\",\n    \"room\": 12,\n    \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.7922,
+          "load_seconds": 0.001,
+          "prompt_tokens": 170,
+          "output_tokens": 35,
+          "generation_seconds": 0.7392,
+          "done_reason": "stop",
+          "response": "{\n    \"venue\": \"PANDORA\",\n    \"room\": 12,\n    \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.8076,
+          "load_seconds": 0.001,
+          "prompt_tokens": 175,
+          "output_tokens": 28,
+          "generation_seconds": 0.5843,
+          "done_reason": "stop",
+          "response": "{ \"red_shape\": \"circle\", \"blue_shape\": \"square\", \"green_shape\": \"triangle\" }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.6352,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 175,
+          "output_tokens": 28,
+          "generation_seconds": 0.5869,
+          "done_reason": "stop",
+          "response": "{ \"red_shape\": \"circle\", \"blue_shape\": \"square\", \"green_shape\": \"triangle\" }",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 1,
+          "ok": true,
+          "seconds": 0.8581,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 180,
+          "output_tokens": 29,
+          "generation_seconds": 0.6104,
+          "done_reason": "stop",
+          "response": "{ \"name\": \"PANDORA\", \"address\": \"12\", \"open\": \"09:00\" }",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "poster_missing_address",
+          "trial": 2,
+          "ok": true,
+          "seconds": 0.6753,
+          "load_seconds": 0.0011,
+          "prompt_tokens": 180,
+          "output_tokens": 29,
+          "generation_seconds": 0.6251,
+          "done_reason": "stop",
+          "response": "{ \"name\": \"PANDORA\", \"address\": \"12\", \"open\": \"09:00\" }",
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "status": "ran",
+      "pull_seconds": 7.293,
+      "pull_exit_code": 0,
+      "capabilities": [
+        "completion",
+        "vision"
+      ],
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "llama",
+        "families": [
+          "llama"
+        ],
+        "parameter_size": "409M",
+        "quantization_level": "Q8_0"
+      },
+      "tag": {
+        "name": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-27T04:38:45.939493174Z",
+        "size": 545594363,
+        "digest": "d1e7873eebe6f0309b4a8e99f144fb14eb3a432f7a33c234c0eeeb0bb23eadab",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "409M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 960,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      "image_attempts": [
+        {
+          "max_image_dimension": 640,
+          "ok": true,
+          "seconds": 8.9096,
+          "load_seconds": 1.0502,
+          "prompt_tokens": 154,
+          "output_tokens": 26,
+          "generation_seconds": 0.5396,
+          "done_reason": "stop",
+          "response": "{\n    \"name\": \"Cat1\",\n    \"name\": \"Cat2\",\n    \"count\": 2\n}"
+        }
+      ],
+      "max_image_dimension": 640,
+      "schema_tests": [
+        {
+          "name": "photo_animals",
+          "ok": true,
+          "seconds": 0.5336,
+          "load_seconds": 0.0113,
+          "prompt_tokens": 168,
+          "output_tokens": 14,
+          "generation_seconds": 0.2859,
+          "done_reason": "stop",
+          "response": "{ \"animal\": \"cat\", \"count\": 2}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "photo_remotes",
+          "ok": true,
+          "seconds": 0.4507,
+          "load_seconds": 0.0154,
+          "prompt_tokens": 161,
+          "output_tokens": 12,
+          "generation_seconds": 0.2369,
+          "done_reason": "stop",
+          "response": "{\n    \"remote_count\": 2\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_ocr",
+          "ok": true,
+          "seconds": 0.9309,
+          "load_seconds": 0.0016,
+          "prompt_tokens": 170,
+          "output_tokens": 35,
+          "generation_seconds": 0.7408,
+          "done_reason": "stop",
+          "response": "{\n    \"venue\": \"PANDORA\",\n    \"room\": 12,\n    \"opening_time\": \"09:00\"\n}",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_shapes",
+          "ok": true,
+          "seconds": 0.8246,
+          "load_seconds": 0.001,
+          "prompt_tokens": 175,
+          "output_tokens": 28,
+          "generation_seconds": 0.5953,
+          "done_reason": "stop",
+          "response": "{ \"red_shape\": \"circle\", \"blue_shape\": \"square\", \"green_shape\": \"triangle\" }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": true
+        },
+        {
+          "name": "poster_missing_address",
+          "ok": true,
+          "seconds": 0.9655,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 180,
+          "output_tokens": 12,
+          "generation_seconds": 0.6947,
+          "done_reason": "stop",
+          "response": "{ \"street_address\": \"12\" }",
+          "json_valid": true,
+          "keys_match": true,
+          "passed": false
+        }
+      ],
+      "summary": {
+        "passed": 8,
+        "total": 12,
+        "json_valid": 10,
+        "median_seconds": 0.5328999999999999
+      },
+      "schema_summary": {
+        "passed": 4,
+        "total": 5
+      },
+      "oom_kill_delta": 0,
+      "new_package_removed": true,
+      "disk_free_gib": 7.56
+    }
+  ],
+  "notes": [
+    "Two controlled images and a small synthetic English case set, not general production accuracy.",
+    "English and image analytics ranked independently; no non-English data.",
+    "num_batch=32 used for all new requests; some earlier text runs used the runtime default.",
+    "Disk-first policy: record metadata then remove only packages newly downloaded here.",
+    "Original model restored after the run; no production routing/config change."
+  ],
+  "initial_inventory": {
+    "models": [
+      {
+        "name": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:34:27.516310273Z",
+        "size": 1705126334,
+        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.81B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-26T22:30:33.284076407Z",
+        "size": 545590747,
+        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "409M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 960,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "ministral-3:3b",
+        "model": "ministral-3:3b",
+        "modified_at": "2026-10-26T22:30:26.227009185Z",
+        "size": 2953840808,
+        "digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "mistral3",
+          "families": [
+            "mistral3"
+          ],
+          "parameter_size": "3.8B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 3072,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.2-vision:2b",
+        "model": "granite3.2-vision:2b",
+        "modified_at": "2026-10-26T22:30:07.874834398Z",
+        "size": 2437852465,
+        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+        "details": {
+          "parent_model": "/Users/administrator/.ollama/models/blobs/sha256-1aefcd9a8a15091b670951963b5f8a7e6653bb1350345e9621e179685ac9bc5f",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite",
+            "clip"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 16384,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "qwen3-vl:2b",
+        "model": "qwen3-vl:2b",
+        "modified_at": "2026-10-26T22:29:47.905644254Z",
+        "size": 1889519687,
+        "digest": "0635d9d857d497aeadba3d7d27485746c50554446f9f6ec01ef39788221adbe8",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3vl",
+          "families": [
+            "qwen3vl"
+          ],
+          "parameter_size": "2.1B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:29:36.075531632Z",
+        "size": 1045157764,
+        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.66B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "modified_at": "2026-10-26T22:29:23.542412336Z",
+        "size": 1558945427,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-f29248184ca766350e56e6d161c2a637ad302a6d595e15d4a62cd58327a0ac0e",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0",
+          "context_length": 1048576,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite4:350m",
+        "model": "granite4:350m",
+        "modified_at": "2026-10-26T22:29:13.078312749Z",
+        "size": 708458314,
+        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-431e956cac90a7e4d36a9b37bb086c413491c598bb51f90ada8e0c75d0219645",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "352.38M",
+          "quantization_level": "BF16",
+          "context_length": 32768,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.3:2b",
+        "model": "granite3.3:2b",
+        "modified_at": "2026-10-26T22:29:06.699252046Z",
+        "size": 1545321637,
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "details": {
+          "parent_model": "/Users/ollama/.ollama/models/blobs/sha256-ac71e9e32c0bea919b409c5918f69ca74339854b0319c5065e4e9fb6d95c4852",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "moondream:1.8b",
+        "model": "moondream:1.8b",
+        "modified_at": "2026-10-26T22:11:16.101235218Z",
+        "size": 1738451197,
+        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi2",
+          "families": [
+            "phi2",
+            "clip"
+          ],
+          "parameter_size": "1B",
+          "quantization_level": "Q4_0",
+          "context_length": 2048,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "smollm2:1.7b",
+        "model": "smollm2:1.7b",
+        "modified_at": "2026-10-26T22:10:57.730069264Z",
+        "size": 1820428533,
+        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.7B",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "llama3.2:1b",
+        "model": "llama3.2:1b",
+        "modified_at": "2026-10-26T22:10:43.807943745Z",
+        "size": 1321098329,
+        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.2B",
+          "quantization_level": "Q8_0",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "gemma3:1b",
+        "model": "gemma3:1b",
+        "modified_at": "2026-10-26T22:10:34.477859748Z",
+        "size": 806067407,
+        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+        "details": {
+          "parent_model": "dhiltgen/gemma3:1b-it-q4_K_M-llamacpp",
+          "format": "gguf",
+          "family": "gemma3",
+          "families": [
+            "gemma3"
+          ],
+          "parameter_size": "999.89M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1152,
+          "runner": "llamacpp"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "qwen2.5:1.5b",
+        "model": "qwen2.5:1.5b",
+        "modified_at": "2026-10-26T22:10:27.072793152Z",
+        "size": 986061892,
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "qwen3:0.6b",
+        "model": "qwen3:0.6b",
+        "modified_at": "2026-10-26T22:10:20.249731847Z",
+        "size": 522653767,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "751.63M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "qwen3:1.7b",
+        "model": "qwen3:1.7b",
+        "modified_at": "2026-10-26T18:46:35.138995628Z",
+        "size": 1359293444,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "2.0B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      }
+    ]
+  },
+  "runtime_version": {
+    "version": "0.40.11"
+  },
+  "initial_memory": {
+    "memory_limit": 2936012800,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 981636,
+      "oom": 89,
+      "oom_kill": 8,
+      "oom_group_kill": 0
+    }
+  },
+  "restored_original": {
+    "ok": true,
+    "seconds": 5.2454,
+    "load_seconds": 3.8584,
+    "prompt_tokens": 19,
+    "output_tokens": 12,
+    "generation_seconds": 0.8921,
+    "done_reason": "stop"
+  },
+  "completed_utc": "2026-10-27T04:53:22.154166+00:00",
+  "final_memory": {
+    "memory_limit": 2936012800,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 1003192,
+      "oom": 90,
+      "oom_kill": 9,
+      "oom_group_kill": 0
+    }
+  },
+  "final_inventory": {
+    "models": [
+      {
+        "name": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:34:27.516310273Z",
+        "size": 1705126334,
+        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.81B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-26T22:30:33.284076407Z",
+        "size": 545590747,
+        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "409M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 960,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "ministral-3:3b",
+        "model": "ministral-3:3b",
+        "modified_at": "2026-10-26T22:30:26.227009185Z",
+        "size": 2953840808,
+        "digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "mistral3",
+          "families": [
+            "mistral3"
+          ],
+          "parameter_size": "3.8B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 3072,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.2-vision:2b",
+        "model": "granite3.2-vision:2b",
+        "modified_at": "2026-10-26T22:30:07.874834398Z",
+        "size": 2437852465,
+        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+        "details": {
+          "parent_model": "/Users/administrator/.ollama/models/blobs/sha256-1aefcd9a8a15091b670951963b5f8a7e6653bb1350345e9621e179685ac9bc5f",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite",
+            "clip"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 16384,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "tools",
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "qwen3-vl:2b",
+        "model": "qwen3-vl:2b",
+        "modified_at": "2026-10-26T22:29:47.905644254Z",
+        "size": 1889519687,
+        "digest": "0635d9d857d497aeadba3d7d27485746c50554446f9f6ec01ef39788221adbe8",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3vl",
+          "families": [
+            "qwen3vl"
+          ],
+          "parameter_size": "2.1B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 262144,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-26T22:29:36.075531632Z",
+        "size": 1045157764,
+        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.66B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "modified_at": "2026-10-26T22:29:23.542412336Z",
+        "size": 1558945427,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-f29248184ca766350e56e6d161c2a637ad302a6d595e15d4a62cd58327a0ac0e",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0",
+          "context_length": 1048576,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite4:350m",
+        "model": "granite4:350m",
+        "modified_at": "2026-10-26T22:29:13.078312749Z",
+        "size": 708458314,
+        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-431e956cac90a7e4d36a9b37bb086c413491c598bb51f90ada8e0c75d0219645",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "352.38M",
+          "quantization_level": "BF16",
+          "context_length": 32768,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "granite3.3:2b",
+        "model": "granite3.3:2b",
+        "modified_at": "2026-10-26T22:29:06.699252046Z",
+        "size": 1545321637,
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "details": {
+          "parent_model": "/Users/ollama/.ollama/models/blobs/sha256-ac71e9e32c0bea919b409c5918f69ca74339854b0319c5065e4e9fb6d95c4852",
+          "format": "gguf",
+          "family": "granite",
+          "families": [
+            "granite"
+          ],
+          "parameter_size": "2.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "moondream:1.8b",
+        "model": "moondream:1.8b",
+        "modified_at": "2026-10-26T22:11:16.101235218Z",
+        "size": 1738451197,
+        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi2",
+          "families": [
+            "phi2",
+            "clip"
+          ],
+          "parameter_size": "1B",
+          "quantization_level": "Q4_0",
+          "context_length": 2048,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      {
+        "name": "smollm2:1.7b",
+        "model": "smollm2:1.7b",
+        "modified_at": "2026-10-26T22:10:57.730069264Z",
+        "size": 1820428533,
+        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.7B",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "llama3.2:1b",
+        "model": "llama3.2:1b",
+        "modified_at": "2026-10-26T22:10:43.807943745Z",
+        "size": 1321098329,
+        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "1.2B",
+          "quantization_level": "Q8_0",
+          "context_length": 131072,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "gemma3:1b",
+        "model": "gemma3:1b",
+        "modified_at": "2026-10-26T22:10:34.477859748Z",
+        "size": 806067407,
+        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+        "details": {
+          "parent_model": "dhiltgen/gemma3:1b-it-q4_K_M-llamacpp",
+          "format": "gguf",
+          "family": "gemma3",
+          "families": [
+            "gemma3"
+          ],
+          "parameter_size": "999.89M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1152,
+          "runner": "llamacpp"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      {
+        "name": "qwen2.5:1.5b",
+        "model": "qwen2.5:1.5b",
+        "modified_at": "2026-10-26T22:10:27.072793152Z",
+        "size": 986061892,
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      {
+        "name": "qwen3:0.6b",
+        "model": "qwen3:0.6b",
+        "modified_at": "2026-10-26T22:10:20.249731847Z",
+        "size": 522653767,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "751.63M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "qwen3:1.7b",
+        "model": "qwen3:1.7b",
+        "modified_at": "2026-10-26T18:46:35.138995628Z",
+        "size": 1359293444,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "2.0B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      }
+    ]
+  }
+}

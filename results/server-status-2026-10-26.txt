@@ -1,0 +1,24 @@
+narimato-chatbot
+aarch64
+ 19:22:32 up 39 min,  1 user,  load average: 0.15, 0.05, 0.04
+               total        used        free      shared  buff/cache   available
+Mem:           3.7Gi       2.1Gi       117Mi       5.1Mi       1.7Gi       1.6Gi
+Swap:             0B          0B          0B
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        38G  8.0G   28G  23% /
+CONTAINER ID   IMAGE           COMMAND               CREATED          STATUS          PORTS                        NAMES
+6c2570ba60ac   ollama/ollama   "/bin/ollama serve"   36 minutes ago   Up 36 minutes   127.0.0.1:11434->11434/tcp   narimato-ollama
+CONTAINER ID   NAME              CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O        PIDS
+6c2570ba60ac   narimato-ollama   0.00%     1.751GiB / 2.734GiB   64.05%    1.37GB / 1.07MB   184MB / 1.36GB   31
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere                  
+80/tcp                     ALLOW       Anywhere                  
+443/tcp                    ALLOW       Anywhere                  
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+443/tcp (v6)               ALLOW       Anywhere (v6)             
+
+active

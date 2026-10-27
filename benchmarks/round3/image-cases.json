@@ -1,0 +1,38 @@
+[
+  {
+    "name": "photo_animals",
+    "image": "cats.png",
+    "prompt": "Return JSON only with exactly animal and count. Identify the main animal species in singular lowercase English and count how many are visible.",
+    "json_format": true
+  },
+  {
+    "name": "photo_count_plain",
+    "image": "cats.png",
+    "prompt": "How many cats are visible? Answer with the number only.",
+    "json_format": false
+  },
+  {
+    "name": "photo_remotes",
+    "image": "cats.png",
+    "prompt": "How many television remote controls are visible? Return JSON with remote_count as an integer.",
+    "json_format": true
+  },
+  {
+    "name": "poster_ocr",
+    "image": "poster.png",
+    "prompt": "Read the printed text. Return JSON with venue (uppercase name), room (integer), opening_time (HH:MM).",
+    "json_format": true
+  },
+  {
+    "name": "poster_shapes",
+    "image": "poster.png",
+    "prompt": "There are colored geometric shapes below the text. Return JSON with exactly red_shape, blue_shape, green_shape. Values must be lowercase shape names.",
+    "json_format": true
+  },
+  {
+    "name": "poster_missing_address",
+    "image": "poster.png",
+    "prompt": "Extract the street address if explicitly visible. Return JSON with street_address. If there is no street address, its value must be null. A room number is not a street address.",
+    "json_format": true
+  }
+]

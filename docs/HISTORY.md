@@ -1,0 +1,81 @@
+# Setup history — 2026-10-26 (Europe/Budapest)
+
+## Decisions and actions
+
+1. Goal: self-host a small LLM API for Habigoal and ClassScout.
+2. Selected Hetzner CAX11, 2 ARM64 shared vCPUs, 4 GB RAM, 40 GB disk, Falkenstein. CAX21/8 GB was suggested for headroom; owner explicitly chose 4 GB for now.
+3. Selected Apps -> Docker CE; Hetzner's documented base was Ubuntu 24.04, Docker and Compose preinstalled. Observed Docker 27.5.1 and Compose v2.32.4.
+4. Owner generated an Ed25519 key named hetzner_ai and added the public key in Hetzner. Mac IPv6 test using `curl -6 --connect-timeout 10 https://api64.ipify.org` succeeded. Its address is not a fixed allowlist value.
+5. Added IPv4 as well as IPv6 because outbound IPv6 from the actual Vercel deployments was not established. IPv4 was a compatibility choice, not proof that Vercel never supports IPv6.
+6. Owner created narimato-chatbot at 2.31.100.246. A selected SSH key was visible. No additional volume was needed. Backups were suggested off for initial tests; current provider backup/firewall state was not independently verified via Hetzner's API.
+7. Terminal execution initially failed due to local defaults. Using `/bin/sh`, login disabled, cwd `/` restored Mac terminal access. No app terminal was attached; SSH was launched as a fresh local command.
+8. SSH public key was accepted but signing needed unlocking. Owner ran `ssh-add --apple-use-keychain ~/.ssh/hetzner_ai`; connection then worked.
+9. Inspected memory, disk, listeners, Docker, Compose and running containers. Available memory was about 3.4 GiB, no swap, about 34 GB free before install; ARM64 confirmed.
+10. Created /opt/narimato-ai; pulled Ollama image; pinned the downloaded image digest in compose.yaml. Configured loopback port, memory/CPU caps, sequential requests, bounded queue, persistent model volume and rotated container logs.
+11. Downloaded qwen3:1.7b and ran native and OpenAI-compatible tests. Installed Caddy from Ubuntu's apt repository. System unattended-upgrades was observed enabled; actual recent patch status was not audited.
+12. Enabled UFW allowing TCP 22, 80, 443 for IPv4 and IPv6. Existing SSH continued to work. Docker service itself remains loopback-only; do not assume UFW alone protects future Docker-published public ports.
+13. Generated independent random project bearer keys and configured Caddy to permit only models and chat routes with either key. An initial header matcher failed validation; replaced it with a validated expression matcher before reloading. Sanitized current template is in config/.
+14. Owner chose chatbotapi.haho.ai and manually created its GoDaddy A record. Observed nameservers ns21.domaincontrol.com / ns22.domaincontrol.com. Early results differed across nameservers/caches. A trusted certificate was issued; direct-IP SNI override tests worked while some name lookups still failed. Later standard hostname tests succeeded.
+15. Verified both keys returned HTTP 200 for model inventory, missing auth returned 401, and public authenticated chat returned READY.
+16. Created this local operations folder. Copied secrets to restricted private storage without printing them; SSH private identity remains in ~/.ssh.
+17. Added only LOCAL_AI_API_KEY with the ClassScout-specific value to its existing ignored .env.local; verified it untracked and file mode 600. Vercel Production was not changed.
+
+## Historical commands
+
+The deployed configuration files capture the current runtime. These were the principal setup commands; do not run them blindly on an already configured server:
+
+```sh
+ssh-keygen -t ed25519 -f ~/.ssh/hetzner_ai -C hetzner-ai
+cat ~/.ssh/hetzner_ai.pub
+ssh-add --apple-use-keychain ~/.ssh/hetzner_ai
+ssh -i ~/.ssh/hetzner_ai root@2.31.100.246
+mkdir -p /opt/narimato-ai
+chmod 700 /opt/narimato-ai
+docker pull ollama/ollama:latest
+cd /opt/narimato-ai
+docker compose up -d
+docker exec narimato-ollama ollama pull qwen3:1.7b
+apt-get update -qq
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq caddy
+ufw allow 22/tcp
+ufw --force enable
+ufw allow 80/tcp
+ufw allow 443/tcp
+caddy validate --config /etc/caddy/Caddyfile
+systemctl reload caddy
+systemctl enable caddy
+```
+
+The image initially used latest only to obtain an actual digest. The saved deployment uses that digest, not a floating latest tag. Keys and Caddy config were written programmatically; no secret values belong in command history. Do not recreate or overwrite the SSH identity.
+
+## Sources checked during setup
+
+- https://docs.hetzner.com/cloud/apps/list/docker-ce/
+- https://docs.docker.com/engine/install/ubuntu/
+- https://github.com/ollama/ollama/blob/main/docs/docker.mdx
+- https://github.com/ollama/ollama/blob/main/docs/faq.mdx
+- https://ollama.com/library/qwen3:1.7b
+- https://github.com/ollama/ollama/blob/main/docs/api/openai-compatibility.mdx
+- https://vercel.com/kb/guide/how-to-allowlist-deployment-ip-address
+
+This is a reconstructed operational history with observed results, not a verbatim terminal transcript. No exact billing total is asserted: screenshots showed EUR 5.99/month before VAT for the plan before later IPv4 selection; verify actual invoice and add-ons in Hetzner.
+
+## Personal chat addition
+
+Added Pandora at /chat/ with the prototype site’s password-only Open flow, at the owner’s request. Dedicated loopback Python service and session cookie protect chat; no project bearer key is embedded in browser code. See CHAT.md for service and validation details.
+
+## Capability benchmark
+
+At the owner’s request, downloaded and evaluated qwen3:0.6b, qwen2.5:1.5b, gemma3:1b, llama3.2:1b, smollm2:1.7b and moondream:1.8b alongside qwen3:1.7b. Kept the existing CPU/memory/context limits, used read-only Atlas access and a single cached attributed OSM lookup, tested one public photo, and restored the original model. Candidate weights remain on disk. See ../benchmarks/capabilities/REPORT.md for full measured outcomes and limits. No production application configuration was changed.
+
+## Separate image analytics and chat evaluation — completed 2026-10-27 Europe/Budapest
+
+At the owner’s clarification, evaluated image analytics independently of chat. Attempted two Gemma 4 E2B packages, then tested and tuned alternative vision candidates within the existing memory cap. SmolVLM2 and Granite Vision completed the image/JSON checks. Ran separate Granite/EuroLLM/Qwen text and language tests and a text-only Ministral attempt. Preserved raw failures, cgroup evidence, settings, scripts, and findings in ../benchmarks/round2/. Failed Gemma weights were removed after metadata preservation; other model weights remain. The original model was restored; public project authentication and services were checked. No image endpoint or production application model change was deployed.
+
+## Language workstream separation
+
+At the owner’s instruction, separated non-English capability management entirely from English chat, structured-task and image recommendations. Preserved original observations and mixed historical runners; created independent English results and Hungarian evidence, a dedicated non-English runner, per-language acceptance guidance and updated agent instructions. No new inference run or production routing/model change was performed for this documentation/scoring correction.
+
+## Additional candidate tests — 2026-10-27
+
+Tested five additional English text variants and six additional image variants sequentially with the same server memory cap and no non-English tests. Downloaded candidate weights were removed after recording resolved metadata and results; original packages were preserved. Ran one separate larger-budget English check for each of two always-thinking candidates. Updated independent English/image rankings and the Round3 report. No model, public endpoint, application environment or routing selection was deployed.

@@ -1,0 +1,58 @@
+{
+  "scope": "Separate English reasoning smoke checks; NOT part of short-output accuracy ranking",
+  "max_output_tokens": 1024,
+  "context": 2048,
+  "num_batch": 32,
+  "think": true,
+  "started_utc": "2026-10-27T04:58:17.228707+00:00",
+  "models": [
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+      "status": "completed",
+      "case": "listing_soccer",
+      "ok": true,
+      "seconds": 123.205,
+      "load_seconds": 5.2363,
+      "prompt_tokens": 558,
+      "output_tokens": 756,
+      "generation_seconds": 96.652,
+      "done_reason": "stop",
+      "response": "{\"ids\":[\"L1\"]}",
+      "json_valid": true,
+      "correct": true,
+      "thinking_present": true,
+      "thinking_characters": 3052,
+      "new_package_removed": true
+    },
+    {
+      "model": "deepseek-r1:1.5b",
+      "status": "completed",
+      "case": "listing_soccer",
+      "ok": true,
+      "seconds": 29.9419,
+      "load_seconds": 2.9431,
+      "prompt_tokens": 525,
+      "output_tokens": 206,
+      "generation_seconds": 15.3766,
+      "done_reason": "stop",
+      "response": "{\"ids\":[\"L1\"]}",
+      "json_valid": true,
+      "correct": true,
+      "thinking_present": true,
+      "thinking_characters": 864,
+      "new_package_removed": true
+    }
+  ],
+  "source": "https://huggingface.co/LiquidAI/LFM2.5-2.6B#chat-template",
+  "note": "One case per selected budget-limited model. Reasoning text is not saved, only presence/length; larger budget result is not comparable with the 180-token suite.",
+  "restored_original": {
+    "ok": true,
+    "seconds": 5.2504,
+    "load_seconds": 3.8647,
+    "prompt_tokens": 19,
+    "output_tokens": 12,
+    "generation_seconds": 0.8946,
+    "done_reason": "stop"
+  },
+  "completed_utc": "2026-10-27T05:01:15.828427+00:00"
+}

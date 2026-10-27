@@ -1,0 +1,56 @@
+{
+  "source_url": "https://nominatim.openstreetmap.org/search?q=Bronx+Zoo%2C+New+York&format=jsonv2&addressdetails=1&extratags=1&limit=1",
+  "attribution": "\u00a9 OpenStreetMap contributors, ODbL",
+  "usage_policy": "https://operations.osmfoundation.org/policies/nominatim/",
+  "seconds": 0.20740429200000002,
+  "results": [
+    {
+      "place_id": 360189608,
+      "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+      "osm_type": "way",
+      "osm_id": 38839347,
+      "lat": "40.8493045",
+      "lon": "-73.8771379",
+      "category": "tourism",
+      "type": "zoo",
+      "place_rank": 30,
+      "importance": 0.47925162105540714,
+      "addresstype": "tourism",
+      "name": "Bronx Zoo",
+      "display_name": "Bronx Zoo, 2300, Southern Boulevard, Belmont, The Bronx, Bronx County, New York, 10460, United States",
+      "address": {
+        "tourism": "Bronx Zoo",
+        "house_number": "2300",
+        "road": "Southern Boulevard",
+        "neighbourhood": "Belmont",
+        "suburb": "The Bronx",
+        "county": "Bronx County",
+        "city": "New York",
+        "state": "New York",
+        "ISO3166-2-lvl4": "US-NY",
+        "postcode": "10460",
+        "country": "United States",
+        "country_code": "us"
+      },
+      "extratags": {
+        "ele": "21",
+        "phone": "+1 718-220-5100",
+        "website": "https://bronxzoo.com/",
+        "wikidata": "Q739792",
+        "wikipedia": "en:Bronx Zoo",
+        "check_date": "2026-09-23",
+        "wheelchair": "yes",
+        "payment:visa": "yes",
+        "opening_hours": "Mo-Fr 10:00-17:00; Sa-Su 10:00-17:30",
+        "payment:mastercard": "yes",
+        "check_date:opening_hours": "2026-09-23"
+      },
+      "boundingbox": [
+        "40.8417018",
+        "40.8566128",
+        "-73.8827331",
+        "-73.8716059"
+      ]
+    }
+  ]
+}

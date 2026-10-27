@@ -1,0 +1,21 @@
+chatbotapi.haho.ai {
+    request_body {
+        max_size 128KB
+    }
+    @authorized {
+        expression `{http.request.header.Authorization} == "Bearer REPLACE_WITH_HABIGOAL_KEY" || {http.request.header.Authorization} == "Bearer REPLACE_WITH_CLASSSCOUT_KEY"`
+        path /v1/chat/completions /v1/models
+    }
+    handle @authorized {
+        reverse_proxy 127.0.0.1:11434 {
+            header_up -Authorization
+        }
+    }
+    @chat path /chat /chat/*
+    handle @chat {
+        reverse_proxy 127.0.0.1:8088
+    }
+    handle {
+        respond "Unauthorized" 401
+    }
+}

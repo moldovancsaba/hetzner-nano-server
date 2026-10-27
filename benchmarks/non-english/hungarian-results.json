@@ -1,0 +1,242 @@
+{
+  "source": "../round2/results.json and supplement-text.json; immutable historical observations",
+  "language": "hu",
+  "status": "preliminary; not accepted for production",
+  "models": [
+    {
+      "model": "granite3.3:2b",
+      "tests": [
+        {
+          "name": "hungarian_extraction",
+          "trial": 1,
+          "ok": true,
+          "seconds": 5.6189,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 100,
+          "output_tokens": 30,
+          "generation_seconds": 3.1639,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": 2,\n  \"activity\": \"swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "hungarian_extraction",
+          "trial": 2,
+          "ok": true,
+          "seconds": 3.217,
+          "load_seconds": 0.0012,
+          "prompt_tokens": 100,
+          "output_tokens": 30,
+          "generation_seconds": 3.1017,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": 2,\n  \"activity\": \"swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "chat_samples": [
+        {
+          "language": "hu",
+          "ok": true,
+          "seconds": 17.0106,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 79,
+          "output_tokens": 140,
+          "generation_seconds": 15.3897,
+          "done_reason": "length",
+          "response": "1. Napi s\u00e9t\u00e9k k\u00fcldeinek: A napi s\u00e9t\u00e9k k\u00fcldeinek, hogy k\u00fcldet\u00e9sre van szereznek, \u00e9s ezek a s\u00e9t\u00e9knek sz\u00fcletett\u00e9k a napi s\u00e9t\u00e9k k\u00fcldeinek.\n\n2. Napi s\u00e9t\u00e9k k\u00fcldet\u00e9s: A napi s\u00e9t\u00e9k k\u00fcldet\u00e9s\u00e9nek, hogy a s\u00e9t\u00e9knek szereznek, hogy kellene \u00e9lvek a napi s\u00e9t\u00e9k k\u00fcldeinek, \u00e9s ezek a s\u00e9t\u00e9knek"
+        }
+      ]
+    },
+    {
+      "model": "granite4:350m",
+      "tests": [
+        {
+          "name": "hungarian_extraction",
+          "trial": 1,
+          "ok": true,
+          "seconds": 7.6067,
+          "load_seconds": 0.0015,
+          "prompt_tokens": 82,
+          "output_tokens": 22,
+          "generation_seconds": 2.6951,
+          "done_reason": "stop",
+          "response": "{\"Budapest\": 2, \"children\": 1, \"activity\": \"swimming\"}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "hungarian_extraction",
+          "trial": 2,
+          "ok": true,
+          "seconds": 2.8485,
+          "load_seconds": 0.0013,
+          "prompt_tokens": 82,
+          "output_tokens": 22,
+          "generation_seconds": 2.7081,
+          "done_reason": "stop",
+          "response": "{\"Budapest\": 2, \"children\": 1, \"activity\": \"swimming\"}",
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "chat_samples": [
+        {
+          "language": "hu",
+          "ok": true,
+          "seconds": 21.7294,
+          "load_seconds": 0.0054,
+          "prompt_tokens": 65,
+          "output_tokens": 140,
+          "generation_seconds": 18.2517,
+          "done_reason": "length",
+          "response": "A napi s\u00e9t\u00e1ra, a k\u00e9t r\u00f6vid mondatban, a t\u00f6bb sz\u00e1m\u00fa szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint\u0171 szint"
+        }
+      ]
+    },
+    {
+      "model": "granite4:1b-h",
+      "tests": [
+        {
+          "name": "hungarian_extraction",
+          "trial": 1,
+          "ok": true,
+          "seconds": 3.9653,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 82,
+          "output_tokens": 27,
+          "generation_seconds": 2.2978,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": 2,\n  \"activity\": \"swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "hungarian_extraction",
+          "trial": 2,
+          "ok": true,
+          "seconds": 2.5374,
+          "load_seconds": 0.0017,
+          "prompt_tokens": 82,
+          "output_tokens": 27,
+          "generation_seconds": 2.368,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": 2,\n  \"activity\": \"swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "chat_samples": [
+        {
+          "language": "hu",
+          "ok": true,
+          "seconds": 5.1056,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 65,
+          "output_tokens": 39,
+          "generation_seconds": 3.4317,
+          "done_reason": "stop",
+          "response": "1. Szentp\u00e9ter ter\u00e9n a napi s\u00e9t\u00e1ra a legjobb hely, mert a terben sok szemben\u00e9z\u00e9si pont van."
+        }
+      ]
+    },
+    {
+      "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+      "tests": [
+        {
+          "name": "hungarian_extraction",
+          "trial": 1,
+          "ok": true,
+          "seconds": 5.9702,
+          "load_seconds": 0.0017,
+          "prompt_tokens": 59,
+          "output_tokens": 71,
+          "generation_seconds": 4.9012,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": [\n    {\n      \"name\": \"Kriszti\u00e1n\",\n      \"age\": 10\n    },\n    {\n      \"name\": \"Lilla\",\n      \"age\": 8\n    }\n  ]\n}",
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "hungarian_extraction",
+          "trial": 2,
+          "ok": true,
+          "seconds": 5.0725,
+          "load_seconds": 0.001,
+          "prompt_tokens": 59,
+          "output_tokens": 71,
+          "generation_seconds": 4.9679,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": [\n    {\n      \"name\": \"Kriszti\u00e1n\",\n      \"age\": 10\n    },\n    {\n      \"name\": \"Lilla\",\n      \"age\": 8\n    }\n  ]\n}",
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "chat_samples": [
+        {
+          "language": "hu",
+          "ok": true,
+          "seconds": 2.334,
+          "load_seconds": 0.002,
+          "prompt_tokens": 35,
+          "output_tokens": 27,
+          "generation_seconds": 1.7282,
+          "done_reason": "stop",
+          "response": "A napi s\u00e9t\u00e1ra szok\u00e1ss\u00e1 kell v\u00e1lnia.\n\nA napi s\u00e9t\u00e1ra szok\u00e1ss\u00e1 kell v\u00e1lni."
+        }
+      ]
+    },
+    {
+      "model": "qwen3:1.7b",
+      "tests": [
+        {
+          "name": "hungarian_extraction",
+          "trial": 1,
+          "ok": true,
+          "seconds": 3.4162,
+          "load_seconds": 0.0014,
+          "prompt_tokens": 68,
+          "output_tokens": 22,
+          "generation_seconds": 1.8884,
+          "done_reason": "stop",
+          "response": "{\"city\": \"Budapest\", \"children\": 2, \"activity\": \"swimming\"}",
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "hungarian_extraction",
+          "trial": 2,
+          "ok": true,
+          "seconds": 2.4566,
+          "load_seconds": 0.0034,
+          "prompt_tokens": 68,
+          "output_tokens": 27,
+          "generation_seconds": 2.3557,
+          "done_reason": "stop",
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": 2,\n  \"activity\": \"swimming\"\n}",
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "chat_samples": [
+        {
+          "language": "hu",
+          "ok": true,
+          "seconds": 6.3031,
+          "load_seconds": 0.0024,
+          "prompt_tokens": 51,
+          "output_tokens": 58,
+          "generation_seconds": 5.1997,
+          "done_reason": "stop",
+          "response": "Szokhatok r\u00e1 a napi s\u00e9t\u00e1ra \u00fagy, hogy el\u0151k\u00e9sz\u00fcletekben elv\u00e9gzi a sz\u00fcks\u00e9ges felk\u00e9sz\u00fcl\u00e9st, \u00e9s a s\u00e9t\u00e1ra ut\u00e1n meg\u00e9rzi a j\u00f6v\u0151t."
+        }
+      ]
+    },
+    {
+      "model": "ministral-3:3b",
+      "tests": [],
+      "chat_samples": []
+    }
+  ]
+}

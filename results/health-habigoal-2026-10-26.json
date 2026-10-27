@@ -1,0 +1,28 @@
+[
+  {
+    "check": "missing_key",
+    "status": 401,
+    "expected": 401,
+    "seconds": 0.0983,
+    "passed": true,
+    "models": []
+  },
+  {
+    "check": "invalid_key",
+    "status": 401,
+    "expected": 401,
+    "seconds": 0.0993,
+    "passed": true,
+    "models": []
+  },
+  {
+    "check": "habigoal",
+    "status": 200,
+    "expected": 200,
+    "seconds": 0.106,
+    "passed": true,
+    "models": [
+      "qwen3:1.7b"
+    ]
+  }
+]

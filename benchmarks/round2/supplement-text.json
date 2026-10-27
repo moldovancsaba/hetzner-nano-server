@@ -1,0 +1,49 @@
+{
+  "started_utc": "2026-10-26T22:46:46.384626+00:00",
+  "hardware": "Hetzner CAX11, 2 ARM64 CPU, 4 GB RAM",
+  "container_cap_mib": 2800,
+  "context": 2048,
+  "prefill_batch": 32,
+  "vision": [],
+  "text": [
+    {
+      "model": "ministral-3:3b",
+      "capabilities": [
+        "completion",
+        "vision",
+        "tools"
+      ],
+      "tests": [],
+      "load": {
+        "ok": false,
+        "seconds": 9.2589,
+        "error": "{\"error\":\"llama-server process has terminated: signal: killed\"}",
+        "status": 500,
+        "load_seconds": 0.0,
+        "prompt_tokens": null,
+        "output_tokens": null,
+        "generation_seconds": 0.0,
+        "done_reason": null,
+        "response": ""
+      },
+      "status": "load_failed"
+    }
+  ],
+  "notes": [
+    "Separate image analytics and text/chat evaluations; no requirement for one combined model.",
+    "Model load failure is not a quality score.",
+    "Fixed 2048 context and 2800 MiB container cap maintained.",
+    "Repeated examples are not independent accuracy samples.",
+    "Previous round supplies cached public Atlas and OSM facts; no new external database queries."
+  ],
+  "restored_original": {
+    "ok": true,
+    "seconds": 5.3587,
+    "load_seconds": 3.8849,
+    "prompt_tokens": 19,
+    "output_tokens": 12,
+    "generation_seconds": 0.9667,
+    "done_reason": "stop"
+  },
+  "completed_utc": "2026-10-26T22:47:01.084742+00:00"
+}

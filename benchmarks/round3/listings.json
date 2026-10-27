@@ -1,0 +1,117 @@
+{
+  "source": "MongoDB Atlas live read, listingsServing",
+  "readOnly": true,
+  "filter": {
+    "renderable": true,
+    "city": "nyc"
+  },
+  "limit": 8,
+  "elapsedMs": 1198,
+  "listings": [
+    {
+      "id": "prov-south-bronx-united-clubhouse-birthday-parties",
+      "activityTypes": [
+        "Soccer",
+        "Birthday Entertainment",
+        "Sports"
+      ],
+      "borough": "Bronx",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "South Bronx United Clubhouse — Kids Soccer Birthday Party",
+      "priceFloor": null,
+      "shortDescription": "South Bronx United offers a Kids Soccer Birthday Party package including 60-minute soccer and 30-minute activities."
+    },
+    {
+      "id": "prov-bronx-zoo-birthday-parties-fordham",
+      "activityTypes": [
+        "Birthday Entertainment",
+        "Outdoor Activities"
+      ],
+      "borough": "Bronx",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "Bronx Zoo Birthday Parties",
+      "priceFloor": 1400,
+      "shortDescription": "Bronx Zoo weekend birthday packages, Expedition for ages 4+ or all-ages Zoofari with animal encounters."
+    },
+    {
+      "id": "prov-uptown-rec-room-mott-haven-birthday",
+      "activityTypes": [
+        "Indoor Play",
+        "Birthday Entertainment"
+      ],
+      "borough": "Bronx",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "Uptown Rec Room Birthday Parties",
+      "priceFloor": null,
+      "shortDescription": "Uptown Rec Room is a customizable children's party center with two large funhouse floors and a dedicated party room — Mott Haven, Bronx."
+    },
+    {
+      "id": "prov-tcr-riverdale-toddler-sing-along-party",
+      "activityTypes": [
+        "Music",
+        "Birthday Entertainment"
+      ],
+      "borough": "Bronx",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "TCR The Club of Riverdale - Toddler Sing Along Birthday Party",
+      "priceFloor": null,
+      "shortDescription": "Weekend toddler birthday package in Riverdale with interactive sing-along music, instruments, games, food, cupcakes, and party hosts."
+    },
+    {
+      "id": "prov-dodge-ymca-birthday-parties",
+      "activityTypes": [
+        "Swimming",
+        "Birthday Entertainment",
+        "Indoor Play"
+      ],
+      "borough": "Brooklyn",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "Dodge YMCA — Birthday Parties",
+      "priceFloor": null,
+      "shortDescription": "Kids’ birthday parties at Dodge YMCA, gym or pool packages with staff-led play in Brooklyn Heights."
+    },
+    {
+      "id": "prov-drive-sheets-movement-lic-brooklyn-climbing-prospect",
+      "activityTypes": [
+        "Climbing",
+        "Birthday Entertainment"
+      ],
+      "borough": "Brooklyn",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "Movement LIC/Brooklyn climbing",
+      "priceFloor": null,
+      "shortDescription": "Movement LIC/Brooklyn climbing prospect. Movement looks to transform both people and the planet through climbing, yoga, and fitness - a giving community that brings out the best in its members, Brooklyn-wide, Brooklyn."
+    },
+    {
+      "id": "prov-shipwrecked-new-york",
+      "activityTypes": [
+        "Mini-Golf"
+      ],
+      "borough": "Brooklyn",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "Shipwrecked New York",
+      "priceFloor": null,
+      "shortDescription": "Carroll Gardens indoor pirate mini-golf, arcade, and escape rooms—family daytime play plus birthday packages."
+    },
+    {
+      "id": "prov-brooklearn-carroll-gardens-birthday",
+      "activityTypes": [
+        "Indoor Play",
+        "Birthday Entertainment"
+      ],
+      "borough": "Brooklyn",
+      "category": "Birthday Parties",
+      "city": "nyc",
+      "name": "Brooklearn Birthday Parties",
+      "priceFloor": null,
+      "shortDescription": "Carroll Gardens playspace birthday parties for ages about 1–5, private padded gym time with party helpers."
+    }
+  ]
+}
