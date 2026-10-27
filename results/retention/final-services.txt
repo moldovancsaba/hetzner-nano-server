@@ -1,0 +1,8 @@
+active
+active
+active
+enabled
+NAME             ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL
+granite4:1b-h    7761ae79cab9    1.8 GB    100% CPU     2048       llamacpp    29 minutes from now
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        38G   25G   11G  70% /

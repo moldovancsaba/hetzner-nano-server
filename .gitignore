@@ -5,3 +5,8 @@ private/
 __pycache__/
 .DS_Store
 *.pyc
+
+/research/state/
+/private-training/
+*.sqlite3
+*.sqlite3-*

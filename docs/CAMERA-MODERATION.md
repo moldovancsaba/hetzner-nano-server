@@ -1,5 +1,9 @@
 # Camera moderation API: human review signals
 
+## Retention update
+
+The active shared gateway retains terminal results in RAM for at most five minutes, with periodic expiry. Call DELETE /v1/jobs/{id} or DELETE /v1/moderation/jobs/{id} after consumption. The original standalone 15-minute/lazy-cleanup details below are historical. No live image or conversation is captured for training. See [retention policy](DATA-RETENTION.md).
+
 ## Model selection update
 
 Use `model: auto` or omit model for the best currently tested moderation model. A selectable tested override can be supplied as `model` beside `image_base64` on the existing submit route. Camera can now call `/v1/models` and `/v1/job-types` for installed alternatives. General image recognition uses a separate ranking/default. See [ranked model policy](MODEL-POLICY.md) for the authoritative selection contract.

@@ -1,0 +1,19 @@
+{
+  "version": "model-decisions.v1",
+  "decisions": {
+    "qwen3-vl:2b": {
+      "state": "declined_current_environment",
+      "reason": "Image inference failed under the 2800 MiB runtime cap, including lower-size retry. Preserve evidence; remove weights. Reconsider only after a changed runtime/artifact/profile.",
+      "evidence": "benchmarks/round2/REPORT.md",
+      "artifact_digest": "0635d9d857d497aeadba3d7d27485746c50554446f9f6ec01ef39788221adbe8",
+      "weights_removed_utc": "2026-10-27T11:00:16.910497+00:00"
+    },
+    "ministral-3:3b": {
+      "state": "declined_current_environment",
+      "reason": "Text/image eligibility failed under the current runtime cap. Preserve evidence; remove weights. Reconsider only with a documented changed condition.",
+      "evidence": "benchmarks/round2/REPORT.md",
+      "artifact_digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+      "weights_removed_utc": "2026-10-27T11:00:16.910497+00:00"
+    }
+  }
+}

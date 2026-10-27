@@ -21,7 +21,7 @@ from moderation.server import normalize_image, infer as moderation_infer
 from gateway.catalog import ModelCatalog, SelectionError
 from PIL import Image
 
-TTL = 900
+TTL = 300
 QUEUE_TTL = 180
 ROUTES = json.loads((Path(__file__).resolve().parents[1] / 'config/job-routes.json').read_text())['routes']
 POLICY_PATH = Path(__file__).resolve().parents[1] / 'config/model-policy.json'
@@ -235,6 +235,21 @@ class Scheduler:
                 result['queue_wait_seconds'] = round(row['started_at'] - row['created_at'], 4)
             return result
 
+    def delete(self, tenant, job_id):
+        with self.cv:
+            self.clean()
+            row = self.rows.get(job_id)
+            if not row or row['_tenant'] != tenant:
+                return 'not_found'
+            if row['status'] == 'running':
+                return 'running'
+            if job_id in self.queue:
+                self.queue.remove(job_id)
+                self.finish(row, 'failed', error='cancelled')
+            del self.rows[job_id]
+            self.cv.notify_all()
+            return 'deleted'
+
     def wait(self, tenant, job_id, timeout=100):
         with self.cv:
             row = self.rows.get(job_id)
@@ -292,6 +307,8 @@ class Scheduler:
                 with self.cv:
                     self.active = None
                     self.cv.notify_all()
+                row = None
+                result = None
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -352,6 +369,24 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send(404, {'error': {'code': 'job_not_found'}})
                 return self.send(200, row)
         self.send(404, {'error': {'code': 'not_found'}})
+
+    def do_DELETE(self):
+        tenant = self.auth()
+        if not tenant:
+            return
+        for prefix in ['/v1/jobs/', '/v1/moderation/jobs/']:
+            if self.path.startswith(prefix):
+                job_id = self.path[len(prefix):]
+                row = self.server.scheduler.read(tenant, job_id)
+                if not row or (prefix.startswith('/v1/moderation') and (tenant != 'camera' or row['task'] != 'image_moderation')):
+                    return self.send(404, {'error': {'code': 'job_not_found'}})
+                status = self.server.scheduler.delete(tenant, job_id)
+                if status == 'running':
+                    return self.send(409, {'error': {'code': 'job_running', 'message': 'Cannot safely cancel active inference; delete after it finishes.'}})
+                if status == 'not_found':
+                    return self.send(404, {'error': {'code': 'job_not_found'}})
+                return self.send(200, {'deleted': True})
+        return self.send(404, {'error': {'code': 'not_found'}})
 
     def do_POST(self):
         tenant = self.auth()

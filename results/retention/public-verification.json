@@ -1,0 +1,101 @@
+{
+  "checks": [
+    {
+      "name": "five-minute memory TTL",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "text submit",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "poll classscout",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "poll classscout",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "other service cannot delete",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "name": "owner deletes result",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "result gone",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "name": "camera submit",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "poll camera",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "poll camera",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "poll camera",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "poll camera",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "poll camera",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "poll camera",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "camera deletes via compatibility route",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "camera result gone",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

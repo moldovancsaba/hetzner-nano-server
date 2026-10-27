@@ -1,0 +1,17 @@
+{
+  "dataset_id": "example-not-an-approved-dataset",
+  "version": "v1",
+  "purpose": ["evaluation"],
+  "approval": {"status": "pending", "reference": null, "approved_by": null, "approved_at": null},
+  "training_allowed": false,
+  "production_request_capture": false,
+  "provenance": [],
+  "license_or_consent_reference": null,
+  "storage_reference": "private controlled store, no embedded credentials",
+  "split_manifest": {"train": [], "validation": [], "holdout": []},
+  "label_rubric_version": null,
+  "files": [],
+  "retention_review_date": null,
+  "deletion_and_revocation_process": null,
+  "used_by_training_runs": []
+}

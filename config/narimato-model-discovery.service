@@ -1,0 +1,23 @@
+[Unit]
+Description=Public model metadata discovery and shortlist
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=oneshot
+DynamicUser=yes
+StateDirectory=narimato-model-discovery
+StateDirectoryMode=0700
+WorkingDirectory=/opt/narimato-discovery
+ExecStart=/usr/bin/python3 /opt/narimato-discovery/collect.py --state-dir /var/lib/narimato-model-discovery --config /opt/narimato-discovery/model-discovery.json --tested-index /opt/narimato-discovery/tested-models.json
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+MemoryMax=160M
+CPUQuota=10%
+Nice=15
+IOSchedulingClass=idle
+TasksMax=16
+TimeoutStartSec=8min
+UMask=0077

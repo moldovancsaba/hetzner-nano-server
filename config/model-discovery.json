@@ -1,0 +1,12 @@
+{
+  "trusted_hf_authors": ["LiquidAI", "ibm-granite", "Qwen", "google", "mistralai", "HuggingFaceTB"],
+  "hf_author_limit": 8,
+  "hf_recent_gguf_limit": 60,
+  "hf_recent_vision_limit": 30,
+  "max_response_bytes": 16777216,
+  "snapshot_days": 30,
+  "snapshot_budget_bytes": 52428800,
+  "shortlist_limit": 30,
+  "max_registry_records": 10000,
+  "retention_note": "Metadata only. No weights, prompts, customer images or conversations."
+}

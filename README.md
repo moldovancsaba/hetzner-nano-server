@@ -12,6 +12,14 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 4. Run `python3 scripts/healthcheck.py --project classscout` or use `habigoal`.
 5. Read `docs/HISTORY.md`, `docs/MEASUREMENT.md`, and `docs/IMPROVEMENTS.md` for decisions, evidence, and outstanding work.
 
+## Research backlog and retention
+
+- [Backlog](BACKLOG.md) and [continuous discovery/testing plan](docs/CONTINUOUS-EVALUATION.md)
+- [Data retention, model storage and approved training material](docs/DATA-RETENTION.md)
+- [Dated candidate shortlist](research/SHORTLIST.md)
+
+Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It does not download/test models automatically. Production inputs are never captured for training; terminal job results expire after five minutes or explicit client deletion.
+
 ## Default model policy
 
 [Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses LFM2-VL 450M; moderation uses its separate LFM2.5-VL 450M winner.

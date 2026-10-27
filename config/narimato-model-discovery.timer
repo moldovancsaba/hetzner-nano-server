@@ -1,0 +1,9 @@
+[Unit]
+Description=Daily small-model metadata discovery
+[Timer]
+OnCalendar=*-*-* 03:30:00 Europe/Budapest
+RandomizedDelaySec=15min
+Persistent=true
+Unit=narimato-model-discovery.service
+[Install]
+WantedBy=timers.target

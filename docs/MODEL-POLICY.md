@@ -97,7 +97,7 @@ Selection errors include `model_not_tested_for_job`, `model_not_installed`, `def
 5. Verify `/v1/models`, `/v1/job-types`, actual auto completions, explicit alternatives and mixed-job serialization. Confirm the actual response model, not natural-language self-identification. Check Pandora and existing client routes. Document limitations and deploy the documentation with the change.
 6. Commit and push the reviewed evidence, generated policy, source-pointer changes and documentation to this repository. Do not include private images, keys or live secret configuration.
 
-No scheduled benchmark or recurring automation was created. This is the mandatory completion workflow whenever the owner authorizes a new test round.
+A daily server-side metadata-discovery timer is now active; no unattended benchmark/inference schedule was created. See CONTINUOUS-EVALUATION.md. This remains the mandatory completion workflow for every authorized test round. Rebuild config/tested-models.json after tests and refresh the deployed discovery index so known/declined artifacts are not repeatedly shortlisted.
 
 ## Verification
 

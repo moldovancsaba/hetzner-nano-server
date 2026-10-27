@@ -45,6 +45,31 @@ class Tests(unittest.TestCase):
   b,_=s.submit('classscout','text_chat',{},'repeat');self.assertNotEqual(a,b)
   with s.cv:s.rows[b]['created_at']-=181
   self.assertEqual(s.read('classscout',b)['error']['code'],'queue_deadline_exceeded');gate.set()
+ def test_delete_isolated_cancels_queued_and_purges_result(self):
+  gate=threading.Event();begun=threading.Event();seen=[]
+  def run(task,payload,model):
+   seen.append(payload);begun.set();gate.wait(2);return completion(),{}
+  s=Scheduler(run);a,_=s.submit('classscout','text_chat',{'first':True});begun.wait(1);b,_=s.submit('camera','image_recognition',b'image')
+  self.assertEqual(s.delete('habigoal',a),'not_found');self.assertEqual(s.delete('classscout',a),'running')
+  self.assertEqual(s.delete('camera',b),'deleted');self.assertIsNone(s.read('camera',b));gate.set()
+  self.assertEqual(wait(s,'classscout',a)['status'],'completed');self.assertEqual(s.delete('classscout',a),'deleted');self.assertIsNone(s.read('classscout',a));self.assertEqual(len(seen),1)
+ def test_deleted_last_result_has_no_idle_worker_reference(self):
+  import gc,weakref
+  references=[]
+  class Content(dict):pass
+  def run(*args):
+   value=Content(answer='test-only');references.append(weakref.ref(value));return value,{}
+  s=Scheduler(run);job,_=s.submit('classscout','text_chat',{})
+  with s.cv:event=s.rows[job]['_event']
+  event.wait(2)
+  for _ in range(100):
+   if s.status('classscout')['active_task'] is None:break
+   time.sleep(.005)
+  self.assertEqual(s.delete('classscout',job),'deleted');gc.collect();self.assertIsNone(references[0]())
+ def test_terminal_expiry(self):
+  s=Scheduler(lambda *args:({},{}));job,_=s.submit('classscout','text_chat',{});wait(s,'classscout',job)
+  with s.cv:s.rows[job]['finished_at']-=301
+  self.assertIsNone(s.read('classscout',job))
  def test_switch_unloads_before_inference(self):
   calls=[]
   def native(path,body=None,timeout=None):
@@ -65,8 +90,8 @@ class Tests(unittest.TestCase):
  def test_http_permissions_async_chat_and_sse(self):
   s=Scheduler(lambda *args:(completion(),{'unloaded_models':[]}))
   http=Server(('127.0.0.1',0),{'camera':'c'*40,'classscout':'t'*40},s,catalog=catalog());threading.Thread(target=http.serve_forever,daemon=True).start()
-  def req(path,body=None,key='t'*40):
-   request=urllib.request.Request('http://127.0.0.1:'+str(http.server_port)+path,headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'},data=json.dumps(body).encode() if body is not None else None)
+  def req(path,body=None,key='t'*40,method=None):
+   request=urllib.request.Request('http://127.0.0.1:'+str(http.server_port)+path,headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'},data=json.dumps(body).encode() if body is not None else None,method=method)
    try:
     with urllib.request.urlopen(request) as r:return r.status,r.read().decode()
    except urllib.error.HTTPError as r:return r.code,r.read().decode()
@@ -80,5 +105,6 @@ class Tests(unittest.TestCase):
    code,data=req('/v1/jobs',{'task':'text_chat','input':body});self.assertEqual(code,202);job=json.loads(data)['id'];self.assertEqual(req('/v1/jobs/'+job,key='c'*40)[0],404)
    self.assertEqual(req('/v1/chat/completions',body)[0],200)
    code,data=req('/v1/chat/completions',{**body,'stream':True});self.assertEqual(code,200);self.assertIn('data: [DONE]',data);self.assertIn('chat.completion.chunk',data)
+   self.assertEqual(req('/v1/jobs/'+job,method='DELETE')[0],200);self.assertEqual(req('/v1/jobs/'+job)[0],404)
   finally:http.shutdown();http.server_close()
 if __name__=='__main__':unittest.main()

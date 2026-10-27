@@ -113,7 +113,7 @@ Source inspection found ClassScout's `src/lib/localAi/openAiCompatibleClient.ts`
 
 - One global FIFO worker; **no concurrent text/image inference** through service routes.
 - Eight waiting jobs globally, at most four queued/running jobs per service (including that service's active job).
-- Up to 64 retained job records; results retained for 15 minutes after terminal status, lazily expired.
+- Up to 64 retained job records; results retained for five minutes after terminal status, lazily expired.
 - Waiting jobs expire after 180 seconds. Expired jobs fail explicitly rather than generating late.
 - Per-job native inference timeout 120 seconds. Model unload has bounded checks before inference.
 - Images and text payloads are held in memory until processing/expiry, then discarded. Results/hashes/evidence remain until retention expires. Restart loses queued work, results and idempotency records. This is **not a durable queue**.
@@ -142,3 +142,7 @@ ssh -i /Users/chappie/.ssh/hetzner_ai root@2.31.100.246 'journalctl -u narimato-
 The initial cutover helper `gateway/deploy.py` stages private backups, briefly places the public hostname into maintenance, stops direct callers, drains loaded models, validates/reloads Caddy, and starts the shared gateway plus updated Pandora backend. It refuses a second initial cutover. Subsequent updates should copy reviewed sources/config and perform a controlled restart, not rerun the initial helper. Rollback must restore Caddy, old chat source/env and the old moderation service together; restoring just one component can bypass the queue or fail authentication. Private cutover backups are under `/opt/narimato-ai/gateway-backup-*`.
 
 Verification: [mixed-workload measurements](../results/gateway/public-verification.json). Run `scripts/verify_gateway.py` only as a bounded operator test; it submits neutral test images and short text jobs. No model-quality ranking is changed by routing verification.
+
+## Minimal data retention
+
+Terminal results now expire after 300 seconds even when idle. Clients should DELETE their job after consumption; queued jobs may be cancelled/deleted, active inference returns 409. See [data retention](DATA-RETENTION.md) and [continuous evaluation](CONTINUOUS-EVALUATION.md). No live image/text traffic becomes training material.

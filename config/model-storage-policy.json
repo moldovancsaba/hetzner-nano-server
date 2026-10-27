@@ -1,0 +1,25 @@
+{
+  "version": "model-storage.v1",
+  "hard_free_disk_floor_gib": 4,
+  "target_free_disk_gib": 8,
+  "target_weight_cache_gib": 16,
+  "pin_all_ranked_defaults": true,
+  "pinned_alternatives": [
+    "qwen3:0.6b",
+    "qwen3:1.7b"
+  ],
+  "previous_winner_rollback_days": 7,
+  "unused_alternative_review_days": 30,
+  "automatic_weight_deletion": false,
+  "discovery_snapshot_days": 30,
+  "discovery_snapshot_budget_mib": 50,
+  "retention": {
+    "production_input_disk": "never",
+    "production_result_memory_seconds": 300,
+    "training_capture_from_production": false,
+    "benchmark_and_decline_metadata": "retain_versioned",
+    "approved_training_artifacts": "separate_access_controlled_store_with_manifest",
+    "training_requires_explicit_dataset_approval": true,
+    "training_and_holdout_must_be_separate": true
+  }
+}

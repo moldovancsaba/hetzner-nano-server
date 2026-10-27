@@ -1,0 +1,12 @@
+NEXT                        LEFT LAST PASSED UNIT                           ACTIVATES
+Wed 2026-10-28 02:43:31 UTC  15h -         - narimato-model-discovery.timer narimato-model-discovery.service
+
+1 timers listed.
+Pass --all to see loaded but inactive timers, too.
+Result=success
+ExecMainStatus=0
+Oct 27 10:57:58 narimato-chatbot systemd[1]: Finished narimato-model-discovery.service - Public model metadata discovery and shortlist.
+Oct 27 11:00:18 narimato-chatbot systemd[1]: Starting narimato-model-discovery.service - Public model metadata discovery and shortlist...
+Oct 27 11:00:24 narimato-chatbot python3[103988]: {"status": "ok", "observed_models": 658, "shortlist": 24, "sources_ok": 12, "sources_total": 12}
+Oct 27 11:00:25 narimato-chatbot systemd[1]: narimato-model-discovery.service: Deactivated successfully.
+Oct 27 11:00:25 narimato-chatbot systemd[1]: Finished narimato-model-discovery.service - Public model metadata discovery and shortlist.

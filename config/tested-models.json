@@ -1,0 +1,408 @@
+{
+  "version": "tested-model-index.v1",
+  "models": [
+    {
+      "model": "qwen3:1.7b",
+      "canonical": "qwen317b",
+      "evidence": [
+        "benchmarks/capabilities/results.json",
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen3:0.6b",
+      "canonical": "qwen306b",
+      "evidence": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "outcomes": [],
+      "tested_digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "canonical": "qwen2515b",
+      "evidence": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "outcomes": [],
+      "tested_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "gemma3:1b",
+      "canonical": "gemma31b",
+      "evidence": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "outcomes": [],
+      "tested_digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "llama3.2:1b",
+      "canonical": "llama321b",
+      "evidence": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "outcomes": [],
+      "tested_digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "smollm2:1.7b",
+      "canonical": "smollm217b",
+      "evidence": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "outcomes": [],
+      "tested_digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "moondream:1.8b",
+      "canonical": "moondream18b",
+      "evidence": [
+        "benchmarks/capabilities/results.json",
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "gemma4:e2b-it-qat",
+      "canonical": "gemma4e2bqat",
+      "evidence": [
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "image_load_or_inference_failed"
+      ]
+    },
+    {
+      "model": "ministral-3:3b",
+      "canonical": "ministral33b",
+      "evidence": [
+        "benchmarks/round2/results.json",
+        "benchmarks/round2/supplement-text.json",
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "outcomes": [
+        "image_load_or_inference_failed",
+        "load_failed",
+        "failed"
+      ],
+      "decision": {
+        "state": "declined_current_environment",
+        "reason": "Text/image eligibility failed under the current runtime cap. Preserve evidence; remove weights. Reconsider only with a documented changed condition.",
+        "evidence": "benchmarks/round2/REPORT.md",
+        "artifact_digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+        "weights_removed_utc": "2026-10-27T11:00:16.910497+00:00"
+      }
+    },
+    {
+      "model": "granite3.2-vision:2b",
+      "canonical": "granite32vision2b",
+      "evidence": [
+        "benchmarks/round2/results.json",
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "outcomes": [
+        "image_load_or_inference_failed",
+        "failed",
+        "ran"
+      ],
+      "tested_digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "qwen3-vl:2b",
+      "canonical": "qwen3vl2b",
+      "evidence": [
+        "benchmarks/round2/results.json",
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "outcomes": [
+        "image_load_or_inference_failed",
+        "failed"
+      ],
+      "decision": {
+        "state": "declined_current_environment",
+        "reason": "Image inference failed under the 2800 MiB runtime cap, including lower-size retry. Preserve evidence; remove weights. Reconsider only after a changed runtime/artifact/profile.",
+        "evidence": "benchmarks/round2/REPORT.md",
+        "artifact_digest": "0635d9d857d497aeadba3d7d27485746c50554446f9f6ec01ef39788221adbe8",
+        "weights_removed_utc": "2026-10-27T11:00:16.910497+00:00"
+      }
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+      "canonical": "smolvlm500m",
+      "evidence": [
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "granite3.3:2b",
+      "canonical": "granite332b",
+      "evidence": [
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "granite4:350m",
+      "canonical": "granite4350m",
+      "evidence": [
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "granite4:1b-h",
+      "canonical": "granite41bh",
+      "evidence": [
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+      "canonical": "eurollm17b",
+      "evidence": [
+        "benchmarks/round2/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+      "canonical": "smolvlm222b",
+      "evidence": [
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+      "canonical": "lfm2512b",
+      "evidence": [
+        "benchmarks/round3/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "5791ac70d52d5f30f115beed78283c13f5715b262bd33da417f545b7259fb1e2",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+      "canonical": "lfm2526b",
+      "evidence": [
+        "benchmarks/round3/results.json",
+        "benchmarks/round3/reasoning-check.json"
+      ],
+      "outcomes": [
+        "ran",
+        "completed"
+      ]
+    },
+    {
+      "model": "granite3.1-moe:1b",
+      "canonical": "granite31moe1b",
+      "evidence": [
+        "benchmarks/round3/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "3269ce3e31ea68da5ddb7926628b5bb1d25146d4f32424f35e748dd17e4013a0",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "deepseek-r1:1.5b",
+      "canonical": "deepseekr115b",
+      "evidence": [
+        "benchmarks/round3/results.json",
+        "benchmarks/round3/reasoning-check.json"
+      ],
+      "outcomes": [
+        "ran",
+        "completed"
+      ]
+    },
+    {
+      "model": "phi3.5:3.8b",
+      "canonical": "phi3538b",
+      "evidence": [
+        "benchmarks/round3/results.json"
+      ],
+      "outcomes": [
+        "load_failed"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "canonical": "lfm25vl450m",
+      "evidence": [
+        "benchmarks/round3/results.json",
+        "benchmarks/moderation/results.json"
+      ],
+      "outcomes": [
+        "ran",
+        "completed"
+      ],
+      "tested_digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+      "canonical": "lfm25vl16b",
+      "evidence": [
+        "benchmarks/round3/results.json",
+        "benchmarks/moderation/results.json"
+      ],
+      "outcomes": [
+        "ran",
+        "completed"
+      ],
+      "tested_digest": "e75aa8e82ccd4ff5da882944ba851c8d1e7c3254800a1798e012758fb0cc2ccd",
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+      "canonical": "smolvlm256m",
+      "evidence": [
+        "benchmarks/round3/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "ba5a88b6808eb60b20549468b67b79902e2c482949b94824b7e20b4e29fed444",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+      "canonical": "smolvlm2500mvideo",
+      "evidence": [
+        "benchmarks/round3/results.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "d1e7873eebe6f0309b4a8e99f144fb14eb3a432f7a33c234c0eeeb0bb23eadab",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "canonical": "lfm2vl450m",
+      "evidence": [
+        "benchmarks/round3/results-extra.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+      "canonical": "lfm2vl16b",
+      "evidence": [
+        "benchmarks/round3/results-extra.json"
+      ],
+      "outcomes": [
+        "ran"
+      ],
+      "tested_digest": "942c9f3baca05146bd56376163253408bb8af441611e08e9d15ecc1b8776536f",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    }
+  ],
+  "source_hashes": {
+    "benchmarks/capabilities/results.json": "39024ab647e59de81218c22145f6ba670428aa7b1a6796af5bfee35759078073",
+    "benchmarks/round2/results.json": "3334932e6b872ddc9f1a8d9ee2fac7d5124a305aaf1c0e021a60bfe0644f2047",
+    "benchmarks/round2/supplement-text.json": "4939047786e1065553243b0b829c79fdd74e049f9d520a842f5eda24df92700c",
+    "benchmarks/round2/vision-retries.json": "8711f08a190df69927e07660a4e4a9204266a745151ca3d96aaee3a4f9cf5d53",
+    "benchmarks/round3/results.json": "3b5e6038a6469d540b66e07d6b90753dbc308c4269711ec66412ffc3c5f2cce6",
+    "benchmarks/round3/results-extra.json": "79d86eebf60311b1608f5c6828467735c84ca9e07b2172eb562c4b5ed340494a",
+    "benchmarks/round3/reasoning-check.json": "bad7701654bdce04be1427e2299747130267b9109908d98a04b7e46bc00b5ea1",
+    "benchmarks/moderation/results.json": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e"
+  }
+}
