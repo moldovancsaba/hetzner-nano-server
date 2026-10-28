@@ -1,0 +1,38 @@
+[
+  {
+    "versus": "qwen3.5:0.8b",
+    "point_delta": 0.007415674603174716,
+    "paired_bootstrap_95": [
+      -0.16050099206349208,
+      0.17887400793650793
+    ],
+    "note": "Descriptive stratified paired resampling on this selected cohort; no multiple-comparison adjustment or production guarantee."
+  },
+  {
+    "versus": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+    "point_delta": 0.10262400793650805,
+    "paired_bootstrap_95": [
+      -0.05468253968253968,
+      0.26505456349206347
+    ],
+    "note": "Descriptive stratified paired resampling on this selected cohort; no multiple-comparison adjustment or production guarantee."
+  },
+  {
+    "versus": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+    "point_delta": 0.4072420634920636,
+    "paired_bootstrap_95": [
+      0.23062500000000002,
+      0.5775694444444444
+    ],
+    "note": "Descriptive stratified paired resampling on this selected cohort; no multiple-comparison adjustment or production guarantee."
+  },
+  {
+    "versus": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+    "point_delta": 0.5196031746031747,
+    "paired_bootstrap_95": [
+      0.3530753968253968,
+      0.6885119047619048
+    ],
+    "note": "Descriptive stratified paired resampling on this selected cohort; no multiple-comparison adjustment or production guarantee."
+  }
+]

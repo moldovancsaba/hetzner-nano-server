@@ -50,7 +50,11 @@ def text_match(outputs,accepted):
     for answer in accepted:
         target=normalize(answer)
         if not target:continue
-        if len(target.replace(' ',''))<=3:
+        if target.isdigit():
+            # Missing space before a unit is not a different number; 6 still
+            # must not match 16, and 75 must not match 175 or 750.
+            if re.search(r'(?<!\d)'+re.escape(target)+r'(?!\d)',text):return True
+        elif len(target.replace(' ',''))<=3:
             if re.search(r'(?<![a-z0-9])'+re.escape(target)+r'(?![a-z0-9])',text):return True
         elif target.replace(' ','') in compact:return True
     return False

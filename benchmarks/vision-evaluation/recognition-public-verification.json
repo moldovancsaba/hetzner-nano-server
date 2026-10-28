@@ -1,0 +1,165 @@
+{
+  "policy_id": "6fdf9883dc05885147eaa6524a844cf67f1dc438a5a59c01687c0897a041d043",
+  "checks": [
+    {
+      "name": "Missing key refused",
+      "passed": true
+    },
+    {
+      "name": "classscout authenticated discovery",
+      "passed": true
+    },
+    {
+      "name": "classscout matching policy",
+      "passed": true
+    },
+    {
+      "name": "classscout default text_chat",
+      "passed": true
+    },
+    {
+      "name": "Verified default text context preserved",
+      "passed": true
+    },
+    {
+      "name": "habigoal authenticated discovery",
+      "passed": true
+    },
+    {
+      "name": "habigoal matching policy",
+      "passed": true
+    },
+    {
+      "name": "habigoal default text_chat",
+      "passed": true
+    },
+    {
+      "name": "camera authenticated discovery",
+      "passed": true
+    },
+    {
+      "name": "camera matching policy",
+      "passed": true
+    },
+    {
+      "name": "camera default image_moderation",
+      "passed": true
+    },
+    {
+      "name": "camera default image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Legacy evidence is not a current quality rank",
+      "passed": true
+    },
+    {
+      "name": "ClassScout image access refused",
+      "passed": true
+    },
+    {
+      "name": "Camera text access refused",
+      "passed": true
+    },
+    {
+      "name": "Auto image admission",
+      "passed": true
+    },
+    {
+      "name": "Mixed text admission",
+      "passed": true
+    },
+    {
+      "name": "Mixed work serialized",
+      "passed": true
+    },
+    {
+      "name": "Job completed image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Actual ranked model image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Delete synthetic image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Job completed text_chat",
+      "passed": true
+    },
+    {
+      "name": "Actual ranked model text_chat",
+      "passed": true
+    },
+    {
+      "name": "Delete synthetic text_chat",
+      "passed": true
+    },
+    {
+      "name": "Shared queue healthy",
+      "passed": true
+    }
+  ],
+  "jobs": [
+    {
+      "task": "image_recognition",
+      "model": "minicpm-v4.6:1b",
+      "status": "completed",
+      "created_at": 1793160947.290678,
+      "started_at": 1793160947.290862,
+      "finished_at": 1793160960.7527862,
+      "queue_wait_seconds": 0.0002,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32
+      }
+    },
+    {
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "status": "completed",
+      "created_at": 1793160947.4049017,
+      "started_at": 1793160960.7528105,
+      "finished_at": 1793160966.3146217,
+      "queue_wait_seconds": 13.3479,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    }
+  ],
+  "queue": {
+    "status": "ok",
+    "policy": "fifo",
+    "active_task": null,
+    "queued": 0,
+    "queue_capacity": 8,
+    "per_service_limit": 4,
+    "own_pending": 0,
+    "counters": {
+      "completed": 42,
+      "failed": 3,
+      "expired": 0,
+      "switches": 3
+    },
+    "last_model_switch": {
+      "target_model": "granite4:1b-h",
+      "unloaded_models": [
+        "minicpm-v4.6:1b"
+      ],
+      "unload_wait_seconds": 0.1311
+    },
+    "durability": "memory_only",
+    "result_retention_seconds": 300,
+    "model_storage_maintenance": true
+  },
+  "passed": true
+}

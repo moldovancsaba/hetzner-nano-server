@@ -16,6 +16,11 @@ class ScoringTests(unittest.TestCase):
         self.assertTrue(text_match(['LG'],['lg']))
         self.assertFalse(text_match(['16'],['6']))
         self.assertFalse(text_match(['Amato Cielo'],['amato gelato']))
+    def test_numeric_ocr_keeps_digit_identity_with_attached_units(self):
+        self.assertTrue(text_match(['75anos'],['75']))
+        self.assertTrue(text_match(['Player16'],['16']))
+        self.assertFalse(text_match(['175'],['75']))
+        self.assertFalse(text_match(['750'],['75']))
     def test_invalid_service_response_does_not_get_absence_credit(self):
         case={'id':'x','task':'recognition','present_categories':['cat'],'allowed_categories':['cat'],'absent_categories':['dog']}
         row=recognition_case(case,{'status':'failed'})

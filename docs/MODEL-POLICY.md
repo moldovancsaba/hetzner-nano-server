@@ -9,10 +9,10 @@ Rankings remain separate. Current defaults:
 | Job | Ranking | Default |
 | --- | --- | --- |
 | English text / ClassScout / Pandora | English structured-task ranking | `granite4:1b-h` |
-| General Camera image recognition | General image ranking | `hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0` |
+| General Camera image recognition | Broader actual-service image ranking | `minicpm-v4.6:1b` |
 | Camera forbidden-content assistance | Moderation-specific ranking | `hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0` |
 
-The older LFM2 vision model comes first in the general image table by its descriptive timing tie-break. That does not establish statistically superior visual quality over the tied LFM2.5 model. Moderation uses its own evidence, not general image scores: its ordering uses positive detections, known correct decisions, false positives, then latency. Per-category results remain visible, and neither tested model was approved for automatic enforcement. English structured-task results are the current text selection proxy; they do not certify broad conversation quality. Non-English and movies remain independent, unapproved workstreams.
+Recognition follows the broader actual-service cohort described below. Moderation keeps its independent category evidence and human-review-only semantics. English structured-task results remain a text-selection proxy; non-English and movies are separate unapproved workstreams.
 
 ## One machine-readable policy
 
@@ -106,3 +106,13 @@ A daily server-side metadata-discovery timer is now active; no unattended benchm
 ## Weight retention
 
 Installed alternatives are now automatically managed by [top-five-per-task plus 14-day production use](AUTO-MODEL-CLEANUP.md). Tests must mark X-Request-Purpose: test and do not extend retention. API model discovery reflects evictions; evidence remains in the registry/repository. Missing alternatives are not downloaded automatically.
+
+## Broader recognition comparison (28 October 2026)
+
+The current recognition ranking uses 32 real service-contract image cases, nine paired robustness variants and eight separate count probes. MiniCPM-V 4.6 1B is the current default: cohort readiness score 0.807, 29/32 usable responses and 7/8 OCR targets, with median inference about 24 seconds. Qwen3.5 0.8B is close in measured score and about twice as slow; paired uncertainty intervals overlap. These are cohort-specific results, not general accuracy or standalone safety certification. See [the completed recognition report](../benchmarks/vision-evaluation/REPORT-RECOGNITION.md).
+
+Current comparable image rows expose ranking_tier=broader_service_evaluation and current_rank. Older screening variants remain explicit alternatives with ranking_tier=legacy_screening_not_comparable, current_rank=null, and a rank sentinel above 1000 so they cannot be mistaken for current top-five results or retained solely by an old score. Exact tested digests still apply.
+
+Qwen image jobs use the tested think=false profile. Its earlier nine failing as-is-profile requests are diagnostic evidence, excluded from the corrected-profile comparison. Bounded image JSON jobs must not spend their response allowance on reasoning.
+
+Moderation remains on its independent existing ranking while its broader evaluation runs. Recognition scores never choose the moderation default. Counting probes are not a count API: six one-object and two two-object scenes give an always-one baseline of 6/8; MiniCPM scored 5/8, so no broad counting claim follows from the recognition win.

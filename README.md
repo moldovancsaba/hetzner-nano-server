@@ -26,7 +26,7 @@ Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It doe
 
 ## Default model policy
 
-[Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses LFM2-VL 450M; moderation uses its separate LFM2.5-VL 450M winner.
+[Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses MiniCPM-V 4.6 1B; moderation uses its separate LFM2.5-VL 450M winner.
 
 ## Shared text/image queue
 
@@ -130,3 +130,7 @@ This repository includes documentation, source, sanitized configuration, benchma
 ## Additional candidate tests — 28 October 2026
 
 [Round 4: ten new candidates](benchmarks/round4/REPORT.md) adds five English text and five general still-image candidates, with fresh winner controls, correctness/format scores, sampled memory, OOM counters and compatibility failures. Moderation and non-English remain separate. Current deployments preserve the verified 8K default text profiles; the comparable cross-model benchmark still uses 2048 tokens. See [generated runtime profiles](config/runtime-context-profiles.json) and [current rankings](benchmarks/round4/rankings.json).
+
+## Broader Camera recognition results — 28 October 2026
+
+[The completed broader recognition comparison](benchmarks/vision-evaluation/REPORT-RECOGNITION.md) replaces the two-image screening for general recognition. The default is now **MiniCPM-V 4.6 1B**. It returned usable responses on 29/32 images, with a median near 24 seconds. Qwen3.5 is a close measured alternative at roughly twice the latency; LFM2.5-VL 450M remains a faster explicit option. Scores are cohort-specific, and counting/moderation are separate. The broader moderation evaluation is still running.

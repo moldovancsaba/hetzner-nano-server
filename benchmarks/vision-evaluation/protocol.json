@@ -21,7 +21,7 @@
     "recognition-manifest.json": "8bba84f63b5b01a7fc848595d33b0c00547ffcb1003e3f97b6574cbf71529ef9",
     "moderation-manifest.json": "8d491c7cd5fd286b1fb4312e63b92bc5e6704860c0ab55c8e60e33ad9a9ea6ad"
   },
-  "scorer_sha256": "e248f08b6c94cee339ddf071f09fab50bcb9344d929e3be53ee8ea999c4b56f9",
+  "scorer_sha256": "771cd115f825122d59b9eb5fbc94d847538748d243ed896ebe761cf7e556dfd9",
   "owner_data_choice": "Use public research datasets for now (user reply, 2026-10-28). Evaluation only, no training approval.",
   "scorer_revisions": [
     {
@@ -31,6 +31,10 @@
     {
       "previous_sha256": "51a4d334bbbc38de84fedfd32d2eac23036779b2a3490ba620c086c8b7e9b993",
       "reason": "Pre-final-scoring robustness: malformed nonobject outputs remain invalid instead of crashing; metrics with no applicable denominator remain null. Covered by unit tests; no reference/weight changes."
+    },
+    {
+      "previous_sha256": "e248f08b6c94cee339ddf071f09fab50bcb9344d929e3be53ee8ea999c4b56f9",
+      "reason": "Normalization unit review: numeric OCR retains digit identity when a unit/label has an omitted space (75anos, Player16); 6 never matches 16 and 75 never matches 175/750. No reference, weight, or model-specific adjustment."
     }
   ],
   "reference_revisions": [

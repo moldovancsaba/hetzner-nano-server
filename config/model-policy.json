@@ -3,13 +3,13 @@
   "selection": "first model in each independent task ranking; no silent lower-ranked fallback",
   "scope_notes": {
     "text_chat": "English structured-task ranking is the current text proxy; not a broad chat or non-English certification.",
-    "image_recognition": "Small controlled still-image ranking, timing tie-breaks descriptive only.",
+    "image_recognition": "Broader actual-service public-image cohort; cohort-specific object/OCR readiness, not general accuracy. Historical screening is explicit-only and not comparable.",
     "image_moderation": "Rank by positive detections, known correct decisions, false positives then latency; no standalone safety certification."
   },
   "sources": [
     {
-      "path": "benchmarks/round4/rankings.json",
-      "sha256": "772f5fd69a89fef4a428bea250c2f98829d26aac8526d744d268d3120ca825e8"
+      "path": "benchmarks/vision-evaluation/rankings.json",
+      "sha256": "64dc2414ee7fcfe02cd1799e172bac9e1c61a4743d74df2772f9016445fe72a6"
     },
     {
       "path": "benchmarks/moderation/summary.json",
@@ -44,6 +44,14 @@
       "sha256": "990ec3bd70af4da91819a16f230abb859330a41fe3fd819de08d240f45611722"
     },
     {
+      "path": "benchmarks/vision-evaluation/recognition-results.json",
+      "sha256": "d10d669fef865f00758523c69ace7c201de0602f02bb20d634a0d40a1646278d"
+    },
+    {
+      "path": "benchmarks/round4/rankings.json",
+      "sha256": "772f5fd69a89fef4a428bea250c2f98829d26aac8526d744d268d3120ca825e8"
+    },
+    {
       "path": "config/runtime-context-profiles.json",
       "sha256": "7bf84daf42ab369071e5a68faf0d6b5fa22affc2aa8f9618b88d70cdc67134bc"
     },
@@ -70,7 +78,7 @@
   ],
   "defaults": {
     "text_chat": "granite4:1b-h",
-    "image_recognition": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+    "image_recognition": "minicpm-v4.6:1b",
     "image_moderation": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
   },
   "models": {
@@ -88,7 +96,7 @@
             "native_tool_passed": true,
             "median_seconds": 3.028
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -155,7 +163,7 @@
             "native_tool_passed": true,
             "median_seconds": 1.11
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -178,7 +186,7 @@
             "native_tool_passed": true,
             "median_seconds": 2.01
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -202,7 +210,7 @@
             "median_seconds": 0.829,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -225,7 +233,7 @@
             "native_tool_passed": true,
             "median_seconds": 1.256
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -248,7 +256,7 @@
             "native_tool_passed": true,
             "median_seconds": 3.107
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -271,7 +279,7 @@
             "native_tool_passed": true,
             "median_seconds": 3.36
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -295,7 +303,7 @@
             "median_seconds": 0.796,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -318,7 +326,7 @@
             "native_tool_passed": true,
             "median_seconds": 2.066
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -341,7 +349,7 @@
             "native_tool_passed": false,
             "median_seconds": 1.633
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -364,7 +372,7 @@
             "native_tool_passed": true,
             "median_seconds": 2.14
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -387,7 +395,7 @@
             "native_tool_passed": false,
             "median_seconds": 0.903
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -410,7 +418,7 @@
             "native_tool_passed": false,
             "median_seconds": 2.237
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -433,7 +441,7 @@
             "native_tool_passed": false,
             "median_seconds": 2.683
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -457,7 +465,7 @@
             "median_seconds": 4.469,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -481,7 +489,7 @@
             "median_seconds": 2.548,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -490,28 +498,94 @@
         }
       }
     },
-    "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0": {
-      "id": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
-      "tested_digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+    "minicpm-v4.6:1b": {
+      "id": "minicpm-v4.6:1b",
+      "tested_digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
       "tasks": {
         "image_recognition": {
           "rank": 1,
           "metrics": {
-            "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
-            "schema_passed": 5,
-            "schema_total": 5,
+            "model": "minicpm-v4.6:1b",
+            "readiness_score": 0.8070337301587303,
+            "valid": 29,
+            "total_images": 32,
+            "valid_rate": 0.90625,
+            "object_reference_f1": 0.770436507936508,
+            "object_recall": 0.75,
+            "ocr_target_recall": 0.875,
+            "ocr_correct": 7.0,
+            "ocr_total": 8,
+            "count_correct": 5,
+            "count_total": 8,
+            "median_seconds": 24.1478,
+            "p95_seconds": 30.6779,
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
             "max_image_dimension": 640,
-            "raw_passed": 10,
-            "raw_total": 12,
-            "first_photo_seconds": 5.6756,
-            "first_poster_seconds": 4.5614
+            "benchmark_version": "vision-evaluation.v1",
+            "evidence": "benchmarks/vision-evaluation/recognition-results.json"
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "broader_service_evaluation",
+          "current_rank": 1
+        }
+      }
+    },
+    "qwen3.5:0.8b": {
+      "id": "qwen3.5:0.8b",
+      "tested_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+      "tasks": {
+        "image_recognition": {
+          "rank": 2,
+          "metrics": {
+            "model": "qwen3.5:0.8b",
+            "readiness_score": 0.7996180555555555,
+            "valid": 29,
+            "total_images": 32,
+            "valid_rate": 0.90625,
+            "object_reference_f1": 0.7590277777777777,
+            "object_recall": 0.7395833333333334,
+            "ocr_target_recall": 0.875,
+            "ocr_correct": 7.0,
+            "ocr_total": 8,
+            "count_correct": 8,
+            "count_total": 8,
+            "median_seconds": 47.6412,
+            "p95_seconds": 56.5382,
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "max_image_dimension": 640,
+            "benchmark_version": "vision-evaluation.v1",
+            "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+          },
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32,
+            "think": false
+          },
+          "ranking_tier": "broader_service_evaluation",
+          "current_rank": 2,
+          "benchmark_profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32,
+            "think": false
+          },
+          "profile_evidence": "config/runtime-context-profiles.json"
         }
       }
     },
@@ -520,23 +594,39 @@
       "tested_digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
       "tasks": {
         "image_recognition": {
-          "rank": 2,
+          "rank": 3,
           "metrics": {
             "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
-            "schema_passed": 5,
-            "schema_total": 5,
+            "readiness_score": 0.7044097222222222,
+            "valid": 26,
+            "total_images": 32,
+            "valid_rate": 0.8125,
+            "object_reference_f1": 0.6798611111111111,
+            "object_recall": 0.6875,
+            "ocr_target_recall": 0.75,
+            "ocr_correct": 6.0,
+            "ocr_total": 8,
+            "count_correct": 8,
+            "count_total": 8,
+            "median_seconds": 6.8347,
+            "p95_seconds": 10.1194,
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
             "max_image_dimension": 640,
-            "raw_passed": 10,
-            "raw_total": 12,
-            "first_photo_seconds": 6.0521,
-            "first_poster_seconds": 4.6066
+            "benchmark_version": "vision-evaluation.v1",
+            "evidence": "benchmarks/vision-evaluation/recognition-results.json"
           },
-          "evidence": "benchmarks/round4/rankings.json",
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "broader_service_evaluation",
+          "current_rank": 3
         },
         "image_moderation": {
           "rank": 1,
@@ -674,12 +764,94 @@
         }
       }
     },
+    "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0": {
+      "id": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "tested_digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+      "tasks": {
+        "image_recognition": {
+          "rank": 4,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+            "readiness_score": 0.39979166666666666,
+            "valid": 14,
+            "total_images": 32,
+            "valid_rate": 0.4375,
+            "object_reference_f1": 0.3458333333333333,
+            "object_recall": 0.3333333333333333,
+            "ocr_target_recall": 0.5,
+            "ocr_correct": 4.0,
+            "ocr_total": 8,
+            "count_correct": 3,
+            "count_total": 8,
+            "median_seconds": 9.667850000000001,
+            "p95_seconds": 10.1803,
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "max_image_dimension": 640,
+            "benchmark_version": "vision-evaluation.v1",
+            "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+          },
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          },
+          "ranking_tier": "broader_service_evaluation",
+          "current_rank": 4
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0": {
+      "id": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+      "tested_digest": "bebf3b8c9418105b21f65f8914b1f898b449ec04a033589b88c2db38e1916d99",
+      "tasks": {
+        "image_recognition": {
+          "rank": 5,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+            "readiness_score": 0.2874305555555555,
+            "valid": 10,
+            "total_images": 32,
+            "valid_rate": 0.3125,
+            "object_reference_f1": 0.24027777777777778,
+            "object_recall": 0.22916666666666666,
+            "ocr_target_recall": 0.375,
+            "ocr_correct": 3.0,
+            "ocr_total": 8,
+            "count_correct": 2,
+            "count_total": 8,
+            "median_seconds": 9.68775,
+            "p95_seconds": 10.465,
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "max_image_dimension": 640,
+            "benchmark_version": "vision-evaluation.v1",
+            "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+          },
+          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          },
+          "ranking_tier": "broader_service_evaluation",
+          "current_rank": 5
+        }
+      }
+    },
     "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0": {
       "id": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
       "tested_digest": "942c9f3baca05146bd56376163253408bb8af441611e08e9d15ecc1b8776536f",
       "tasks": {
         "image_recognition": {
-          "rank": 3,
+          "rank": 1003,
           "metrics": {
             "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
             "schema_passed": 5,
@@ -695,7 +867,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     },
@@ -704,7 +878,7 @@
       "tested_digest": "e75aa8e82ccd4ff5da882944ba851c8d1e7c3254800a1798e012758fb0cc2ccd",
       "tasks": {
         "image_recognition": {
-          "rank": 4,
+          "rank": 1004,
           "metrics": {
             "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
             "schema_passed": 5,
@@ -720,7 +894,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         },
         "image_moderation": {
           "rank": 2,
@@ -858,38 +1034,12 @@
         }
       }
     },
-    "minicpm-v4.6:1b": {
-      "id": "minicpm-v4.6:1b",
-      "tested_digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
-      "tasks": {
-        "image_recognition": {
-          "rank": 5,
-          "metrics": {
-            "model": "minicpm-v4.6:1b",
-            "schema_passed": 5,
-            "schema_total": 5,
-            "max_image_dimension": 640,
-            "raw_passed": 12,
-            "raw_total": 12,
-            "first_photo_seconds": 22.1375,
-            "first_poster_seconds": 20.3348,
-            "evidence": "benchmarks/round4/results.json"
-          },
-          "evidence": "benchmarks/round4/rankings.json",
-          "profile": {
-            "max_image_edge": 640,
-            "num_ctx": 2048,
-            "num_batch": 32
-          }
-        }
-      }
-    },
     "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M": {
       "id": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
       "tested_digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
       "tasks": {
         "image_recognition": {
-          "rank": 6,
+          "rank": 1006,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
             "schema_passed": 5,
@@ -905,7 +1055,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     },
@@ -914,7 +1066,7 @@
       "tested_digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
       "tasks": {
         "image_recognition": {
-          "rank": 7,
+          "rank": 1007,
           "metrics": {
             "model": "granite3.2-vision:2b",
             "schema_passed": 5,
@@ -930,7 +1082,9 @@
             "max_image_edge": 320,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     },
@@ -939,7 +1093,7 @@
       "tested_digest": "d1e7873eebe6f0309b4a8e99f144fb14eb3a432f7a33c234c0eeeb0bb23eadab",
       "tasks": {
         "image_recognition": {
-          "rank": 8,
+          "rank": 1008,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
             "schema_passed": 4,
@@ -955,7 +1109,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     },
@@ -964,7 +1120,7 @@
       "tested_digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
       "tasks": {
         "image_recognition": {
-          "rank": 9,
+          "rank": 1009,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
             "schema_passed": 3,
@@ -980,66 +1136,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
-        }
-      }
-    },
-    "qwen3.5:0.8b": {
-      "id": "qwen3.5:0.8b",
-      "tested_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
-      "tasks": {
-        "image_recognition": {
-          "rank": 10,
-          "metrics": {
-            "model": "qwen3.5:0.8b",
-            "schema_passed": 3,
-            "schema_total": 5,
-            "max_image_dimension": 640,
-            "raw_passed": 6,
-            "raw_total": 12,
-            "first_photo_seconds": 47.6757,
-            "first_poster_seconds": 44.5117,
-            "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/round4/rankings.json",
-          "profile": {
-            "max_image_edge": 640,
-            "num_ctx": 2048,
-            "num_batch": 32,
-            "think": false
-          },
-          "benchmark_profile": {
-            "max_image_edge": 640,
-            "num_ctx": 2048,
-            "num_batch": 32
-          },
-          "profile_evidence": "config/runtime-context-profiles.json"
-        }
-      }
-    },
-    "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0": {
-      "id": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
-      "tested_digest": "bebf3b8c9418105b21f65f8914b1f898b449ec04a033589b88c2db38e1916d99",
-      "tasks": {
-        "image_recognition": {
-          "rank": 11,
-          "metrics": {
-            "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
-            "schema_passed": 2,
-            "schema_total": 5,
-            "max_image_dimension": 640,
-            "raw_passed": 6,
-            "raw_total": 12,
-            "first_photo_seconds": 5.8458,
-            "first_poster_seconds": 4.6079,
-            "evidence": "benchmarks/round4/results.json"
-          },
-          "evidence": "benchmarks/round4/rankings.json",
-          "profile": {
-            "max_image_edge": 640,
-            "num_ctx": 2048,
-            "num_batch": 32
-          }
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     },
@@ -1048,7 +1147,7 @@
       "tested_digest": "ba5a88b6808eb60b20549468b67b79902e2c482949b94824b7e20b4e29fed444",
       "tasks": {
         "image_recognition": {
-          "rank": 12,
+          "rank": 1012,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
             "schema_passed": 2,
@@ -1064,7 +1163,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     },
@@ -1073,7 +1174,7 @@
       "tested_digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
       "tasks": {
         "image_recognition": {
-          "rank": 13,
+          "rank": 1013,
           "metrics": {
             "model": "moondream:1.8b",
             "schema_passed": 2,
@@ -1089,7 +1190,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     }
@@ -1108,5 +1211,5 @@
       "text_chat": 8192
     }
   },
-  "policy_id": "f1dd0dc1f49dd331c57edede04f913427cb076baed7e1b9acb2e8961e4e3b6f9"
+  "policy_id": "6fdf9883dc05885147eaa6524a844cf67f1dc438a5a59c01687c0897a041d043"
 }

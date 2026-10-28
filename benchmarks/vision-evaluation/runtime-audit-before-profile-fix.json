@@ -1,0 +1,14 @@
+{
+  "captured_utc": "2026-10-28T03:10:59.950830+00:00",
+  "memory_limit_bytes": 2936012800,
+  "nano_cpus": 2000000000,
+  "image_id": "sha256:f4e42c4bd3364c4a7b28141a93dbcccbf36bdde70ff6440bf4d1b7422c5fef6b",
+  "cgroup_memory_max": "2936012800",
+  "cgroup_cpu_max": "200000 100000",
+  "memory_events": "low 0\nhigh 0\nmax 25304\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "source_sha256": {
+    "/opt/narimato-gateway/gateway/server.py": "7d1d0800c66ed3f579a24ec073fc2107b2c7a520a182f05d886a3ab61237d699",
+    "/opt/narimato-gateway/moderation/policy.py": "c712e498f7f43f81e225c14ed574799b00c833e0380427aa1cc8fb9a55e57819",
+    "/opt/narimato-ai/compose.yaml": "890a02dd2762489c8a220746639e77cfaa1c927b732e8f1aea13482c46970e93"
+  }
+}
