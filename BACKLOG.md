@@ -7,7 +7,7 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 | ID | Priority | Item | Acceptance evidence |
 | --- | --- | --- | --- |
 | MR-01 | P0 | Daily server-side metadata discovery | Enabled systemd timer, 03:30–03:45 Europe/Budapest; first run fetched all 12 feeds successfully |
-| MR-02 | P0 | Preserve tested/declined model information | 28 attempted variants indexed; failure sources, decisions and removed artifact digests versioned |
+| MR-02 | P0 | Preserve tested/declined model information | 38 attempted variants indexed after round 4; failure sources, decisions and removed artifact digests versioned |
 | MR-03 | P0 | Separate discovery from inference | Collector performs metadata-only reads; no weight installation, inference, customer-request access or default changes |
 | MD-01 | P0 | Ranking-based defaults and installed alternatives | Existing model policy, API discovery, exact-digest gates and shared queue |
 | DR-01 | P0 | Remove declined weights, retain evidence | Qwen3-VL 2B and Ministral 3B removed; metadata audit retained; about 11 GiB free afterward |
@@ -16,6 +16,8 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 
 | ST-01 | P1 | Content-free production model-demand tracking | Persistent model/digest/count/last-valid-request metadata; tests explicitly excluded |
 | ST-02 | P1 | Automatic top-five / 14-day weight cleanup | Hourly timer, idle gateway lease, initial history grace, deletion audit and real disposable-alias verification |
+
+| EV-05 | P1 | Ten additional text/image candidates (owner-requested round 4) | Five English text and five general image candidates attempted under an exclusive maintenance lease; results and independent rankings in [round 4](benchmarks/round4/REPORT.md) |
 
 ## Ready / next
 
@@ -32,6 +34,8 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 
 | ID | Priority | Work | Definition of done |
 | --- | --- | --- | --- |
+| RT-01 | P2 | Evaluate LFM3 runtime support in isolation | Current runtime reports unknown lfm3 architecture for text and vision; test a pinned compatible runtime with regression, memory, 8K context and rollback evidence before any production upgrade |
+| RT-02 | P2 | Investigate decision-model API separately | d1-omni-600M does not support the generation endpoint; design and benchmark its decision/scoring contract before treating it as image recognition or moderation |
 | MR-05 | P2 | Improve artifact-family identity and revision matching | Distinguish architecture, base model, fine-tune, quantization, encoder/projector and revision; changed artifact/runtime triggers reviewed retest, not repetitive unchanged tests |
 | EV-04 | P2 | Use weekly review and fortnightly approved test windows | Operator checklist followed; no unattended benchmark/generation schedule added until queue isolation and recovery are proven |
 | TR-02 | P2 | Create an approved dataset/training registry | Each version has provenance, permissions, approval, split, labels, checksum, retention/revocation and access controls; raw files outside public Git and inference request storage |

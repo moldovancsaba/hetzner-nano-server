@@ -2,7 +2,7 @@
 import hashlib,json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-SOURCES=['benchmarks/capabilities/results.json','benchmarks/round2/results.json','benchmarks/round2/supplement-text.json','benchmarks/round2/vision-retries.json','benchmarks/round3/results.json','benchmarks/round3/results-extra.json','benchmarks/round3/reasoning-check.json','benchmarks/moderation/results.json']
+SOURCES=['benchmarks/capabilities/results.json','benchmarks/round2/results.json','benchmarks/round2/supplement-text.json','benchmarks/round2/vision-retries.json','benchmarks/round3/results.json','benchmarks/round3/results-extra.json','benchmarks/round3/reasoning-check.json','benchmarks/moderation/results.json','benchmarks/round4/results.json']
 def canonical(name):
  name=name.lower().removeprefix('hf.co/').removeprefix('https://huggingface.co/')
  if '/' in name:name=name.rsplit('/',1)[-1].split(':')[0]
@@ -17,6 +17,7 @@ def build():
     row=records.setdefault(model,{'model':model,'canonical':canonical(model),'evidence':[],'outcomes':[]})
     if source not in row['evidence']:row['evidence'].append(source)
     if value.get('status') and value['status'] not in row['outcomes']:row['outcomes'].append(value['status'])
+    if isinstance(value.get('tag'),dict) and value['tag'].get('digest'):row['tested_digest']=value['tag']['digest']
    for child in value.values():walk(child,source)
   elif isinstance(value,list):
    for child in value:walk(child,source)

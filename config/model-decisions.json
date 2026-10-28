@@ -14,6 +14,30 @@
       "evidence": "benchmarks/round2/REPORT.md",
       "artifact_digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
       "weights_removed_utc": "2026-10-27T11:00:16.910497+00:00"
+    },
+    "hf.co/LiquidAI/LFM3-1.7B-GGUF:Q4_K_M": {
+      "state": "deferred_runtime_or_endpoint_compatibility",
+      "reason": "{\"error\":\"llama-server process has terminated: exit status 1: error loading model: unknown model architecture: 'lfm3'\\nerror loading model: unknown model architecture: 'lfm3'\"}",
+      "evidence": "benchmarks/round4/results.json",
+      "artifact_digest": "6adbd51f10db2d188766dcf4b8c61ee965ae59070bff81da33f5e3da19de0391",
+      "weights_removed": true,
+      "retest_only_if": "Pinned compatible runtime or separately tested decision endpoint; no unchanged repeat."
+    },
+    "hf.co/LiquidAI/LFM3-VL-2B-GGUF:Q4_K_M": {
+      "state": "deferred_runtime_or_endpoint_compatibility",
+      "reason": "{\"error\":\"llama-server process has terminated: exit status 1: error: Failed to load CLIP model from /root/.ollama/models/blobs/sha256-c5c5b58d544a18da919172d2d0368090ea1a4a351b6feb7f8a326a264a5918ab\\nerror loading model: unknown model architecture: 'lfm3'\\nerror loading model: unknown model architecture: 'lfm3'\"}",
+      "evidence": "benchmarks/round4/results.json",
+      "artifact_digest": "28d70520a0106d67c1db1b2547ebce2fe95f48596f278e22c46b50754a64e1fb",
+      "weights_removed": true,
+      "retest_only_if": "Pinned compatible runtime or separately tested decision endpoint; no unchanged repeat."
+    },
+    "hf.co/LiquidAI/d1-omni-600M-GGUF:Q8_0": {
+      "state": "deferred_runtime_or_endpoint_compatibility",
+      "reason": "{\"error\":\"\\\"hf.co/LiquidAI/d1-omni-600M-GGUF:Q8_0\\\" does not support generate\"}",
+      "evidence": "benchmarks/round4/results.json",
+      "artifact_digest": "9e37f553eb2ffa6b1273ad4b9fde988973fb8568111a4cf5addefabe37c9b3c8",
+      "weights_removed": true,
+      "retest_only_if": "Pinned compatible runtime or separately tested decision endpoint; no unchanged repeat."
     }
   }
 }

@@ -1,22 +1,21 @@
-# Image analytics ranking
+# General still-image recognition ranking
 
-Ten completed model variants on two controlled fixtures. These are not ten independent architectures or a worldwide leaderboard. Order uses the five schema-constrained checks, then tested resolution and mean first-photo/poster time. Small time differences within accuracy ties are descriptive, not evidence of broad statistical superiority.
+Updated with [round 4](../round4/REPORT.md). Small controlled screening, not a global leaderboard. Moderation and non-English remain independent.
 
-| Rank | Model | Correct schema values | Input dimension | First photo seconds | First poster seconds |
-| --- | --- | --- | --- | --- | --- |
-| 1 | LFM2-VL-450M Q8 | 5/5 | 640 | 5.68 | 4.56 |
-| 2 | LFM2.5-VL-450M Q8 | 5/5 | 640 | 6.05 | 4.61 |
-| 3 | LFM2-VL-1.6B Q8 | 5/5 | 640 | 19.15 | 16.68 |
-| 4 | LFM2.5-VL-1.6B Q4 | 5/5 | 640 | 19.60 | 17.41 |
-| 5 | SmolVLM2-2.2B Q4 | 5/5 | 640 | 45.79 | 36.71 |
-| 6 | granite3.2-vision:2b | 5/5 | 320 | 55.82 | 53.09 |
-| 7 | SmolVLM2-500M-Video Q8 | 4/5 | 640 | 8.91 | 8.01 |
-| 8 | SmolVLM-500M Q8 | 3/5 | 640 | 11.70 | 8.77 |
-| 9 | SmolVLM-256M Q8 | 2/5 | 640 | 7.71 | 7.73 |
-| 10 | moondream:1.8b | 2/5 | 640 | 30.08 | 26.50 |
+| Rank | Model | Correct schema | Raw checks | Image edge | First photo seconds | First poster seconds |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0 | 5/5 | 10/12 | 640 | 5.6756 | 4.5614 |
+| 2 | hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0 | 5/5 | 10/12 | 640 | 6.0521 | 4.6066 |
+| 3 | hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0 | 5/5 | 12/12 | 640 | 19.1467 | 16.6778 |
+| 4 | hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M | 5/5 | 12/12 | 640 | 19.5999 | 17.4117 |
+| 5 | minicpm-v4.6:1b | 5/5 | 12/12 | 640 | 22.1375 | 20.3348 |
+| 6 | hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M | 5/5 | 12/12 | 640 | 45.7948 | 36.7059 |
+| 7 | granite3.2-vision:2b | 5/5 | 12/12 | 320 | 55.8249 | 53.0938 |
+| 8 | hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0 | 4/5 | 8/12 | 640 | 8.9096 | 8.0074 |
+| 9 | hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0 | 3/5 | 4/12 | 640 | 11.6969 | 8.7731 |
+| 10 | qwen3.5:0.8b | 3/5 | 6/12 | 640 | 47.6757 | 44.5117 |
+| 11 | hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0 | 2/5 | 6/12 | 640 | 5.8458 | 4.6079 |
+| 12 | hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0 | 2/5 | 4/12 | 640 | 7.7136 | 7.7336 |
+| 13 | moondream:1.8b | 2/5 | 0/12 | 640 | 30.0797 | 26.5006 |
 
-The 450M Liquid variants tie on correctness and process the first photo in about 6 seconds. LFM2.5-VL-450M is a strong current-generation pilot candidate; the small timing advantage of the older variant alone does not establish a better general model. Use explicit output schemas. Most of these tests are large-font OCR, simple counting and shapes; validate on unseen real project photos before production acceptance.
-
-Gemma 4, Qwen3-VL and Ministral did not complete the prior eligibility tests under our limits; they have no image-quality rank here. These are different findings from low-quality outputs.
-
-[Full results and method](../round3/REPORT.md). No image upload endpoint was deployed by this benchmark. New candidate weights were removed after recording results to preserve disk.
+Correctness determines ranking first. Timing tie-breaks are descriptive and sensitive to cache/runtime conditions; they do not establish statistical quality superiority. Current defaults must match the generated task policy and verified context requirements.

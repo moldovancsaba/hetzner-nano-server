@@ -126,3 +126,7 @@ See [the measured model comparison](benchmarks/capabilities/REPORT.md) for seven
 - `docs/`: history, access, integration, operations, measurements, improvements.
 
 This repository includes documentation, source, sanitized configuration, benchmark fixtures, and measured results. Actual credentials and live sensitive configuration remain local in the ignored `private/` directory; they are not included in a clone. Authorized agents must obtain the correct project credentials from the owner or the canonical server files described in [Access](docs/ACCESS.md). The SSH private key stays on the owner’s Mac. `.gitignore` does not encrypt credentials or prevent manual upload.
+
+## Additional candidate tests — 28 October 2026
+
+[Round 4: ten new candidates](benchmarks/round4/REPORT.md) adds five English text and five general still-image candidates, with fresh winner controls, correctness/format scores, sampled memory, OOM counters and compatibility failures. Moderation and non-English remain separate. Current deployments preserve the verified 8K default text profiles; the comparable cross-model benchmark still uses 2048 tokens. See [generated runtime profiles](config/runtime-context-profiles.json) and [current rankings](benchmarks/round4/rankings.json).

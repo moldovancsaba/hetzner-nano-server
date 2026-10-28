@@ -1,0 +1,159 @@
+{
+  "checks": [
+    {
+      "name": "Unauthenticated request refused",
+      "passed": true
+    },
+    {
+      "name": "classscout discovery",
+      "passed": true
+    },
+    {
+      "name": "classscout policy version",
+      "passed": true
+    },
+    {
+      "name": "classscout ranked text_chat",
+      "passed": true
+    },
+    {
+      "name": "Existing default 8K preserved",
+      "passed": true
+    },
+    {
+      "name": "habigoal discovery",
+      "passed": true
+    },
+    {
+      "name": "habigoal policy version",
+      "passed": true
+    },
+    {
+      "name": "habigoal ranked text_chat",
+      "passed": true
+    },
+    {
+      "name": "camera discovery",
+      "passed": true
+    },
+    {
+      "name": "camera policy version",
+      "passed": true
+    },
+    {
+      "name": "camera ranked image_moderation",
+      "passed": true
+    },
+    {
+      "name": "camera ranked image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Submit text_chat",
+      "passed": true
+    },
+    {
+      "name": "Submit image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Submit image_moderation",
+      "passed": true
+    },
+    {
+      "name": "Completed text_chat",
+      "passed": true
+    },
+    {
+      "name": "Actual text_chat model",
+      "passed": true
+    },
+    {
+      "name": "Delete test text_chat",
+      "passed": true
+    },
+    {
+      "name": "Completed image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Actual image_recognition model",
+      "passed": true
+    },
+    {
+      "name": "Delete test image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Completed image_moderation",
+      "passed": true
+    },
+    {
+      "name": "Actual image_moderation model",
+      "passed": true
+    },
+    {
+      "name": "Delete test image_moderation",
+      "passed": true
+    },
+    {
+      "name": "Chat compatibility and restore text",
+      "passed": true
+    },
+    {
+      "name": "Queue healthy",
+      "passed": true
+    },
+    {
+      "name": "https://chatbotapi.haho.ai/chat/",
+      "passed": true
+    },
+    {
+      "name": "https://paperclip.haho.ai/",
+      "passed": true
+    }
+  ],
+  "jobs": [
+    {
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "status": "completed"
+    },
+    {
+      "task": "image_recognition",
+      "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "status": "completed"
+    },
+    {
+      "task": "image_moderation",
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": "completed"
+    }
+  ],
+  "queue": {
+    "status": "ok",
+    "policy": "fifo",
+    "active_task": null,
+    "queued": 0,
+    "queue_capacity": 8,
+    "per_service_limit": 4,
+    "own_pending": 0,
+    "counters": {
+      "completed": 80,
+      "failed": 0,
+      "expired": 0,
+      "switches": 6
+    },
+    "last_model_switch": {
+      "target_model": "granite4:1b-h",
+      "unloaded_models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+      ],
+      "unload_wait_seconds": 0.0471
+    },
+    "durability": "memory_only",
+    "result_retention_seconds": 300,
+    "model_storage_maintenance": false
+  },
+  "passed": true
+}

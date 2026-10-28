@@ -12,7 +12,10 @@ def build(root=ROOT):
    for v in value.values():walk(v)
   elif isinstance(value,list):
    for v in value:walk(v)
- paths=list(dict.fromkeys([sources['english_and_images'],sources['moderation'],sources['moderation_raw']]+sources['digest_evidence']))
+ runtime_paths=[]
+ if sources.get('runtime_profiles'):
+  runtime_paths=[sources['runtime_profiles']]+json.loads((root/sources['runtime_profiles']).read_text()).get('evidence_files',[])
+ paths=list(dict.fromkeys([sources['english_and_images'],sources['moderation'],sources['moderation_raw']]+sources['digest_evidence']+runtime_paths))
  for name in paths:
   data=(root/name).read_bytes();evidence.append({'path':name,'sha256':hashlib.sha256(data).hexdigest()});walk(json.loads(data))
  ranked=json.loads((root/sources['english_and_images']).read_text());models={};defaults={}
@@ -36,9 +39,30 @@ def build(root=ROOT):
  if not moderation:raise ValueError('No complete moderation evidence')
  for rank,(model,metrics) in enumerate(moderation,1):add('image_moderation',model,rank,metrics,sources['moderation'])
  defaults['image_moderation']=moderation[0][0]
+ if sources.get('runtime_profiles'):
+  overrides=json.loads((root/sources['runtime_profiles']).read_text())
+  for override in overrides['profiles']:
+   model,task=override['model'],override['task']
+   if override['status']!='passed' or override['digest']!=models[model]['tested_digest']:raise ValueError('Unverified runtime profile')
+   meta=models[model]['tasks'][task]
+   if override.get('tenant'):
+    meta.setdefault('tenant_profiles',{})[override['tenant']]={**meta['profile'],**override['profile']}
+    meta.setdefault('tenant_profile_evidence',{})[override['tenant']]=sources['runtime_profiles']
+   else:
+    meta['benchmark_profile']=dict(meta['profile'])
+    meta['profile'].update(override['profile'])
+    meta['profile_evidence']=sources['runtime_profiles']
  payload={'version':'ranked-model-policy.v1','selection':'first model in each independent task ranking; no silent lower-ranked fallback',
           'scope_notes':{'text_chat':'English structured-task ranking is the current text proxy; not a broad chat or non-English certification.','image_recognition':'Small controlled still-image ranking, timing tie-breaks descriptive only.','image_moderation':'Rank by positive detections, known correct decisions, false positives then latency; no standalone safety certification.'},
           'sources':evidence,'defaults':defaults,'models':models}
+ if sources.get('runtime_profiles'):
+  minimums=overrides.get('tenant_context_minimums',{})
+  for tenant,tasks in minimums.items():
+   for task,minimum in tasks.items():
+    if not isinstance(minimum,int) or minimum<1:raise ValueError('Invalid required context')
+    profile=models[defaults[task]]['tasks'][task].get('tenant_profiles',{}).get(tenant,{})
+    if profile.get('num_ctx',0)<minimum:raise ValueError('Current ranking winner lacks verified context for '+tenant)
+  payload['tenant_context_minimums']=minimums
  payload['policy_id']=hashlib.sha256(json.dumps(payload,sort_keys=True).encode()).hexdigest()
  return payload
 if __name__=='__main__':

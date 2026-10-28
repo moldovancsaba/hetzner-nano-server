@@ -1,0 +1,94 @@
+{
+  "scope": "Measured Granite 8K context capacity reused for Paperclip and chatbotapi text tenants on the same runtime; model ranking unchanged.",
+  "evidence_files": [
+    "benchmarks/paperclip-context/results-8k-bounded-cache.json",
+    "benchmarks/paperclip-context/compatibility-8k-bounded-cache.json",
+    "benchmarks/paperclip-context/bounded-cache-runtime.json"
+  ],
+  "checks": {
+    "short_structured_passed": 14,
+    "short_structured_total": 14,
+    "oom_kill_delta": 0,
+    "long_input_tokens": 6892,
+    "long_seconds": 143.26,
+    "long_codes_found": true,
+    "long_code_values_exact": false,
+    "minimum_host_available_bytes": 1457360896
+  },
+  "profiles": [
+    {
+      "tenant": "paperclip",
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "status": "passed",
+      "profile": {
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    },
+    {
+      "tenant": "classscout",
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "status": "passed",
+      "profile": {
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    },
+    {
+      "tenant": "habigoal",
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "status": "passed",
+      "profile": {
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    },
+    {
+      "tenant": "pandora",
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "status": "passed",
+      "profile": {
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    }
+  ],
+  "tenant_context_minimums": {
+    "paperclip": {
+      "text_chat": 8192
+    },
+    "classscout": {
+      "text_chat": 8192
+    },
+    "habigoal": {
+      "text_chat": 8192
+    },
+    "pandora": {
+      "text_chat": 8192
+    }
+  }
+}

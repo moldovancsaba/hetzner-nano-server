@@ -204,10 +204,12 @@
       "model": "granite4:1b-h",
       "canonical": "granite41bh",
       "evidence": [
-        "benchmarks/round2/results.json"
+        "benchmarks/round2/results.json",
+        "benchmarks/round4/results.json"
       ],
       "outcomes": [
-        "ran"
+        "ran",
+        "completed"
       ],
       "tested_digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
       "ranked_tasks": [
@@ -266,7 +268,8 @@
       "outcomes": [
         "ran",
         "completed"
-      ]
+      ],
+      "tested_digest": "26d07caa2ddb76ed45e54f71deb656b7ff5b9c8978feabfa84407d69022c9198"
     },
     {
       "model": "granite3.1-moe:1b",
@@ -292,7 +295,8 @@
       "outcomes": [
         "ran",
         "completed"
-      ]
+      ],
+      "tested_digest": "e0979632db5a88d1a53884cb2a941772d10ff5d055aabaa6801c4e36f3a6c2d7"
     },
     {
       "model": "phi3.5:3.8b",
@@ -302,7 +306,8 @@
       ],
       "outcomes": [
         "load_failed"
-      ]
+      ],
+      "tested_digest": "61819fb370a3c1a9be6694869331e5f85f867a079e9271d66cb223acb81d04ba"
     },
     {
       "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
@@ -370,10 +375,12 @@
       "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
       "canonical": "lfm2vl450m",
       "evidence": [
-        "benchmarks/round3/results-extra.json"
+        "benchmarks/round3/results-extra.json",
+        "benchmarks/round4/results.json"
       ],
       "outcomes": [
-        "ran"
+        "ran",
+        "completed"
       ],
       "tested_digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
       "ranked_tasks": [
@@ -393,6 +400,161 @@
       "ranked_tasks": [
         "image_recognition"
       ]
+    },
+    {
+      "model": "smollm2:135m",
+      "canonical": "smollm2135m",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "9077fe9d2ae1a4a41a868836b56b8163731a8fe16621397028c2c76f838c6907",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "smollm2:360m",
+      "canonical": "smollm2360m",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "297281b699fc51376006233ca400cd664c4f7b80ed88a47ef084f1e4b089803b",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen2.5:0.5b",
+      "canonical": "qwen2505b",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen2.5-coder:0.5b",
+      "canonical": "qwen25coder05b",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "4ff64a7f502a08b7616edb8ca0a79eb1853fc363d842b7df4b46915d11a3fb09",
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM3-1.7B-GGUF:Q4_K_M",
+      "canonical": "lfm317b",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "load_failed"
+      ],
+      "tested_digest": "6adbd51f10db2d188766dcf4b8c61ee965ae59070bff81da33f5e3da19de0391",
+      "decision": {
+        "state": "deferred_runtime_or_endpoint_compatibility",
+        "reason": "{\"error\":\"llama-server process has terminated: exit status 1: error loading model: unknown model architecture: 'lfm3'\\nerror loading model: unknown model architecture: 'lfm3'\"}",
+        "evidence": "benchmarks/round4/results.json",
+        "artifact_digest": "6adbd51f10db2d188766dcf4b8c61ee965ae59070bff81da33f5e3da19de0391",
+        "weights_removed": true,
+        "retest_only_if": "Pinned compatible runtime or separately tested decision endpoint; no unchanged repeat."
+      }
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM3-VL-2B-GGUF:Q4_K_M",
+      "canonical": "lfm3vl2b",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "image_inference_failed"
+      ],
+      "tested_digest": "28d70520a0106d67c1db1b2547ebce2fe95f48596f278e22c46b50754a64e1fb",
+      "decision": {
+        "state": "deferred_runtime_or_endpoint_compatibility",
+        "reason": "{\"error\":\"llama-server process has terminated: exit status 1: error: Failed to load CLIP model from /root/.ollama/models/blobs/sha256-c5c5b58d544a18da919172d2d0368090ea1a4a351b6feb7f8a326a264a5918ab\\nerror loading model: unknown model architecture: 'lfm3'\\nerror loading model: unknown model architecture: 'lfm3'\"}",
+        "evidence": "benchmarks/round4/results.json",
+        "artifact_digest": "28d70520a0106d67c1db1b2547ebce2fe95f48596f278e22c46b50754a64e1fb",
+        "weights_removed": true,
+        "retest_only_if": "Pinned compatible runtime or separately tested decision endpoint; no unchanged repeat."
+      }
+    },
+    {
+      "model": "hf.co/LiquidAI/d1-omni-600M-GGUF:Q8_0",
+      "canonical": "d1omni600m",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "image_inference_failed"
+      ],
+      "tested_digest": "9e37f553eb2ffa6b1273ad4b9fde988973fb8568111a4cf5addefabe37c9b3c8",
+      "decision": {
+        "state": "deferred_runtime_or_endpoint_compatibility",
+        "reason": "{\"error\":\"\\\"hf.co/LiquidAI/d1-omni-600M-GGUF:Q8_0\\\" does not support generate\"}",
+        "evidence": "benchmarks/round4/results.json",
+        "artifact_digest": "9e37f553eb2ffa6b1273ad4b9fde988973fb8568111a4cf5addefabe37c9b3c8",
+        "weights_removed": true,
+        "retest_only_if": "Pinned compatible runtime or separately tested decision endpoint; no unchanged repeat."
+      }
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+      "canonical": "lfm25vl450mextract",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "bebf3b8c9418105b21f65f8914b1f898b449ec04a033589b88c2db38e1916d99",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "qwen3.5:0.8b",
+      "canonical": "qwen3508b",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "minicpm-v4.6:1b",
+      "canonical": "minicpmv461b",
+      "evidence": [
+        "benchmarks/round4/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
+      "ranked_tasks": [
+        "image_recognition"
+      ]
     }
   ],
   "source_hashes": {
@@ -403,6 +565,7 @@
     "benchmarks/round3/results.json": "3b5e6038a6469d540b66e07d6b90753dbc308c4269711ec66412ffc3c5f2cce6",
     "benchmarks/round3/results-extra.json": "79d86eebf60311b1608f5c6828467735c84ca9e07b2172eb562c4b5ed340494a",
     "benchmarks/round3/reasoning-check.json": "bad7701654bdce04be1427e2299747130267b9109908d98a04b7e46bc00b5ea1",
-    "benchmarks/moderation/results.json": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e"
+    "benchmarks/moderation/results.json": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e",
+    "benchmarks/round4/results.json": "990ec3bd70af4da91819a16f230abb859330a41fe3fd819de08d240f45611722"
   }
 }

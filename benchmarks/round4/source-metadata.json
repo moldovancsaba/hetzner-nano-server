@@ -1,0 +1,32 @@
+{
+  "Qwen/Qwen2.5-0.5B-Instruct": {
+    "sha": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "license": "apache-2.0",
+    "pipeline": "text-generation",
+    "source": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct"
+  },
+  "Qwen/Qwen2.5-Coder-0.5B-Instruct": {
+    "sha": "ea3f2471cf1b1f0db85067f1ef93848e38e88c25",
+    "license": "apache-2.0",
+    "pipeline": "text-generation",
+    "source": "https://huggingface.co/Qwen/Qwen2.5-Coder-0.5B-Instruct"
+  },
+  "HuggingFaceTB/SmolLM2-135M-Instruct": {
+    "sha": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
+    "license": "apache-2.0",
+    "pipeline": "text-generation",
+    "source": "https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct"
+  },
+  "HuggingFaceTB/SmolLM2-360M-Instruct": {
+    "sha": "a10cc1512eabd3dde888204e902eca88bddb4951",
+    "license": "apache-2.0",
+    "pipeline": "text-generation",
+    "source": "https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct"
+  },
+  "Qwen/Qwen3.5-0.8B": {
+    "sha": "2fc06364715b967f1860aea9cf38778875588b17",
+    "license": "apache-2.0",
+    "pipeline": "image-text-to-text",
+    "source": "https://huggingface.co/Qwen/Qwen3.5-0.8B"
+  }
+}

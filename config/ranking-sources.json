@@ -1,5 +1,5 @@
 {
-  "english_and_images": "benchmarks/round3/rankings.json",
+  "english_and_images": "benchmarks/round4/rankings.json",
   "moderation": "benchmarks/moderation/summary.json",
   "moderation_raw": "benchmarks/moderation/results.json",
   "digest_evidence": [
@@ -8,6 +8,8 @@
     "benchmarks/round2/supplement-text.json",
     "benchmarks/round3/results.json",
     "benchmarks/round3/results-extra.json",
-    "benchmarks/moderation/results.json"
-  ]
+    "benchmarks/moderation/results.json",
+    "benchmarks/round4/results.json"
+  ],
+  "runtime_profiles": "config/runtime-context-profiles.json"
 }

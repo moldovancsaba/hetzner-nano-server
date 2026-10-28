@@ -1,0 +1,55 @@
+{
+  "jobs": [
+    {
+      "task": "text_chat",
+      "model": "qwen2.5:0.5b",
+      "status": "completed",
+      "result": {
+        "id": "chatcmpl-849",
+        "object": "chat.completion",
+        "created": 1793151067,
+        "model": "qwen2.5:0.5b",
+        "system_fingerprint": "fp_ollama",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "READY."
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 32,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "completion_tokens": 3,
+          "total_tokens": 35
+        }
+      }
+    },
+    {
+      "task": "image_recognition",
+      "model": "minicpm-v4.6:1b",
+      "status": "completed",
+      "result": {
+        "schema_version": "camera-recognition.v1",
+        "model": "minicpm-v4.6:1b",
+        "description": "Two cats are lying on a pink blanket. One cat is on the left, and the other is on the right. There are remote controls on the left side, near the cat on the left. The cat on the left has a visible tail, and the cat on the right has its body curled up. The background includes a red couch.",
+        "objects": [
+          "cat",
+          "blanket",
+          "remote control",
+          "cat tail",
+          "couch"
+        ],
+        "visible_text": [],
+        "limitations": "Experimental visual description; verify details. Not a moderation decision."
+      }
+    }
+  ],
+  "passed": true,
+  "restored_default": true
+}

@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-28",
+  "scope": "10 previously untested candidates: five English text, five general still-image. Moderation and non-English unchanged. New to our benchmark, not necessarily newly released.",
+  "settings": {
+    "num_ctx": 2048,
+    "num_batch": 32,
+    "memory_mib": 2800,
+    "temperature": 0,
+    "timeout_seconds": 120
+  },
+  "candidates": [
+    {
+      "task": "text",
+      "model": "smollm2:135m",
+      "source": "https://ollama.com/library/smollm2:135m"
+    },
+    {
+      "task": "text",
+      "model": "smollm2:360m",
+      "source": "https://ollama.com/library/smollm2:360m"
+    },
+    {
+      "task": "text",
+      "model": "qwen2.5:0.5b",
+      "source": "https://ollama.com/library/qwen2.5:0.5b"
+    },
+    {
+      "task": "text",
+      "model": "qwen2.5-coder:0.5b",
+      "source": "https://ollama.com/library/qwen2.5-coder:0.5b"
+    },
+    {
+      "task": "text",
+      "model": "hf.co/LiquidAI/LFM3-1.7B-GGUF:Q4_K_M",
+      "source": "https://huggingface.co/LiquidAI/LFM3-1.7B-GGUF",
+      "revision": "b3f2ae5d73cd3c91bf40e8ba752c648aa05dffdf",
+      "license": "other",
+      "license_name": "lfm1.0",
+      "license_link": "LICENSE"
+    },
+    {
+      "task": "vision",
+      "model": "hf.co/LiquidAI/LFM3-VL-2B-GGUF:Q4_K_M",
+      "source": "https://huggingface.co/LiquidAI/LFM3-VL-2B-GGUF",
+      "revision": "7c3b4a43c9023e80bf234fec5e826a3365c8dda8",
+      "license": "other",
+      "license_name": "lfm1.0",
+      "license_link": "LICENSE"
+    },
+    {
+      "task": "vision",
+      "model": "hf.co/LiquidAI/d1-omni-600M-GGUF:Q8_0",
+      "source": "https://huggingface.co/LiquidAI/d1-omni-600M-GGUF",
+      "revision": "8eb2d2a1c5404bba8a34a88bd8e159c242197d51",
+      "license": "other",
+      "license_name": "lfm1.0",
+      "license_link": "LICENSE"
+    },
+    {
+      "task": "vision",
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+      "source": "https://huggingface.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF",
+      "revision": "be9e242e7c37db9ddbf9f88d7df939159fdfa186",
+      "license": "other",
+      "license_name": "lfm1.0",
+      "license_link": "LICENSE"
+    },
+    {
+      "task": "vision",
+      "model": "qwen3.5:0.8b",
+      "source": "https://ollama.com/library/qwen3.5:0.8b"
+    },
+    {
+      "task": "vision",
+      "model": "minicpm-v4.6:1b",
+      "source": "https://ollama.com/library/minicpm-v4.6:1b"
+    }
+  ]
+}

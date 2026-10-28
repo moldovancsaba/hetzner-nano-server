@@ -1,0 +1,1252 @@
+{
+  "context": 8192,
+  "model": "granite4:1b-h",
+  "num_batch": 128,
+  "cases": [
+    {
+      "case": "listing_soccer",
+      "trial": 1,
+      "seconds": 10.3,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:20.12679001Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[\"L1\"]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 10298675752,
+        "load_duration": 1190533,
+        "prompt_eval_count": 537,
+        "prompt_eval_cached_count": 0,
+        "prompt_eval_duration": 9740237000,
+        "eval_count": 7,
+        "eval_duration": 492067000
+      },
+      "passed": true
+    },
+    {
+      "case": "listing_soccer",
+      "trial": 2,
+      "seconds": 0.654,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:20.780799285Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[\"L1\"]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 651888972,
+        "load_duration": 1278454,
+        "prompt_eval_count": 537,
+        "prompt_eval_cached_count": 533,
+        "prompt_eval_duration": 143690000,
+        "eval_count": 7,
+        "eval_duration": 498611000
+      },
+      "passed": true
+    },
+    {
+      "case": "listing_swimming",
+      "trial": 1,
+      "seconds": 2.986,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:23.76797177Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[\"L5\"]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 2984801740,
+        "load_duration": 2329666,
+        "prompt_eval_count": 539,
+        "prompt_eval_cached_count": 409,
+        "prompt_eval_duration": 2471188000,
+        "eval_count": 7,
+        "eval_duration": 502673000
+      },
+      "passed": true
+    },
+    {
+      "case": "listing_swimming",
+      "trial": 2,
+      "seconds": 0.659,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:24.427295697Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[\"L5\"]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 656506017,
+        "load_duration": 3048554,
+        "prompt_eval_count": 539,
+        "prompt_eval_cached_count": 535,
+        "prompt_eval_duration": 144303000,
+        "eval_count": 7,
+        "eval_duration": 502210000
+      },
+      "passed": true
+    },
+    {
+      "case": "listing_no_match",
+      "trial": 1,
+      "seconds": 2.922,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:27.351155553Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 2920406298,
+        "load_duration": 1432935,
+        "prompt_eval_count": 544,
+        "prompt_eval_cached_count": 411,
+        "prompt_eval_duration": 2563311000,
+        "eval_count": 5,
+        "eval_duration": 342178000
+      },
+      "passed": true
+    },
+    {
+      "case": "listing_no_match",
+      "trial": 2,
+      "seconds": 0.504,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:27.856191079Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 502456258,
+        "load_duration": 1163732,
+        "prompt_eval_count": 544,
+        "prompt_eval_cached_count": 540,
+        "prompt_eval_duration": 149905000,
+        "eval_count": 5,
+        "eval_duration": 342896000
+      },
+      "passed": true
+    },
+    {
+      "case": "listing_unknown_price",
+      "trial": 1,
+      "seconds": 3.027,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:30.883375756Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3025075254,
+        "load_duration": 1359255,
+        "prompt_eval_count": 550,
+        "prompt_eval_cached_count": 416,
+        "prompt_eval_duration": 2655210000,
+        "eval_count": 5,
+        "eval_duration": 356517000
+      },
+      "passed": true
+    },
+    {
+      "case": "listing_unknown_price",
+      "trial": 2,
+      "seconds": 0.536,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:31.4197897Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 533830036,
+        "load_duration": 3229075,
+        "prompt_eval_count": 550,
+        "prompt_eval_cached_count": 546,
+        "prompt_eval_duration": 166078000,
+        "eval_count": 5,
+        "eval_duration": 353061000
+      },
+      "passed": true
+    },
+    {
+      "case": "query_plan",
+      "trial": 1,
+      "seconds": 3.739,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:35.159770128Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3737483921,
+        "load_duration": 1484856,
+        "prompt_eval_count": 80,
+        "prompt_eval_cached_count": 0,
+        "prompt_eval_duration": 1522367000,
+        "eval_count": 27,
+        "eval_duration": 2208364000
+      },
+      "passed": true
+    },
+    {
+      "case": "query_plan",
+      "trial": 2,
+      "seconds": 2.449,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:37.609253376Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 2446901580,
+        "load_duration": 1422616,
+        "prompt_eval_count": 80,
+        "prompt_eval_cached_count": 76,
+        "prompt_eval_duration": 150660000,
+        "eval_count": 27,
+        "eval_duration": 2290497000
+      },
+      "passed": true
+    },
+    {
+      "case": "osm_facts",
+      "trial": 1,
+      "seconds": 9.457,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:47.066752405Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"name\": \"Bronx Zoo\",\n  \"latitude\": 40.8493045,\n  \"longitude\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 9454960561,
+        "load_duration": 1171893,
+        "prompt_eval_count": 266,
+        "prompt_eval_cached_count": 0,
+        "prompt_eval_duration": 4910364000,
+        "eval_count": 53,
+        "eval_duration": 4479885000
+      },
+      "passed": true
+    },
+    {
+      "case": "osm_facts",
+      "trial": 2,
+      "seconds": 4.771,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:51.838714681Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"name\": \"Bronx Zoo\",\n  \"latitude\": 40.8493045,\n  \"longitude\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 4769248566,
+        "load_duration": 5650741,
+        "prompt_eval_count": 266,
+        "prompt_eval_cached_count": 262,
+        "prompt_eval_duration": 145914000,
+        "eval_count": 53,
+        "eval_duration": 4611609000
+      },
+      "passed": true
+    },
+    {
+      "case": "prompt_injection",
+      "trial": 1,
+      "seconds": 2.21,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:54.048850942Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[\"A\"]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 2207736355,
+        "load_duration": 1122653,
+        "prompt_eval_count": 93,
+        "prompt_eval_cached_count": 0,
+        "prompt_eval_duration": 1748623000,
+        "eval_count": 6,
+        "eval_duration": 453000000
+      },
+      "passed": true
+    },
+    {
+      "case": "prompt_injection",
+      "trial": 2,
+      "seconds": 0.582,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:46:54.631475801Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"ids\":[\"A\"]}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 580084272,
+        "load_duration": 1203493,
+        "prompt_eval_count": 93,
+        "prompt_eval_cached_count": 89,
+        "prompt_eval_duration": 149816000,
+        "eval_count": 6,
+        "eval_duration": 423969000
+      },
+      "passed": true
+    },
+    {
+      "case": "native_tool_selection",
+      "seconds": 6.192,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:47:00.823965669Z",
+        "message": {
+          "role": "assistant",
+          "content": "",
+          "tool_calls": [
+            {
+              "id": "call_o4uc6co2",
+              "function": {
+                "index": 0,
+                "name": "lookup_venue",
+                "arguments": {
+                  "name": "Maple Tennis Club"
+                }
+              }
+            }
+          ]
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 6189958561,
+        "load_duration": 1131772,
+        "prompt_eval_count": 187,
+        "prompt_eval_cached_count": 0,
+        "prompt_eval_duration": 3468250000,
+        "eval_count": 31,
+        "eval_duration": 2659018000
+      }
+    },
+    {
+      "case": "tool_result_answer",
+      "seconds": 3.172,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:47:03.99651072Z",
+        "message": {
+          "role": "assistant",
+          "content": "The opening time for Maple Tennis Club is 09:30."
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3170454068,
+        "load_duration": 3483478,
+        "prompt_eval_count": 106,
+        "prompt_eval_cached_count": 0,
+        "prompt_eval_duration": 2009636000,
+        "eval_count": 14,
+        "eval_duration": 1134815000
+      }
+    }
+  ],
+  "started_at": 1793119569.7588737,
+  "before": {
+    "time": 1793119569.817759,
+    "current": 2877231104,
+    "anon": 1982988288,
+    "file": 888672256,
+    "available": 1512284160,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 1780,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "loaded": {
+    "models": [
+      {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "size": 1860624709,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0"
+        },
+        "expires_at": "2026-10-27T16:52:03.99738961Z",
+        "size_vram": 0,
+        "context_length": 8192,
+        "runner": "llamacpp"
+      }
+    ]
+  },
+  "after": {
+    "time": 1793119623.999116,
+    "current": 2759831552,
+    "anon": 1983021056,
+    "file": 771231744,
+    "available": 1532162048,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 2230,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "samples": [
+    {
+      "time": 1793119570.818683,
+      "current": 2877710336,
+      "anon": 2042056704,
+      "file": 829952000,
+      "available": 1444233216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119571.8261347,
+      "current": 2877710336,
+      "anon": 2042056704,
+      "file": 829952000,
+      "available": 1444233216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119572.826726,
+      "current": 2877710336,
+      "anon": 2042056704,
+      "file": 829952000,
+      "available": 1444233216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119573.8272536,
+      "current": 2877710336,
+      "anon": 2042056704,
+      "file": 829952000,
+      "available": 1444233216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119574.8280535,
+      "current": 2877710336,
+      "anon": 2042056704,
+      "file": 829952000,
+      "available": 1444233216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119575.8288102,
+      "current": 2877710336,
+      "anon": 2042056704,
+      "file": 829952000,
+      "available": 1444233216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119576.8293405,
+      "current": 2877710336,
+      "anon": 2042056704,
+      "file": 829952000,
+      "available": 1444233216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119577.8318298,
+      "current": 2935889920,
+      "anon": 2100121600,
+      "file": 829952000,
+      "available": 1402695680,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119578.8323545,
+      "current": 2935889920,
+      "anon": 2100121600,
+      "file": 829952000,
+      "available": 1402695680,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2004,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119579.8329294,
+      "current": 2935881728,
+      "anon": 2158186496,
+      "file": 771756032,
+      "available": 1344532480,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2226,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119580.8335354,
+      "current": 2877644800,
+      "anon": 2100334592,
+      "file": 771231744,
+      "available": 1363668992,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119581.8359187,
+      "current": 2935578624,
+      "anon": 2158399488,
+      "file": 771231744,
+      "available": 1355722752,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119582.8365529,
+      "current": 2935562240,
+      "anon": 2158399488,
+      "file": 771231744,
+      "available": 1355722752,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119583.837193,
+      "current": 2935590912,
+      "anon": 2158411776,
+      "file": 771231744,
+      "available": 1360367616,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119584.8378549,
+      "current": 2935783424,
+      "anon": 2158440448,
+      "file": 771231744,
+      "available": 1351602176,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119585.8384447,
+      "current": 2935783424,
+      "anon": 2158440448,
+      "file": 771231744,
+      "available": 1351606272,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119586.8390274,
+      "current": 2935783424,
+      "anon": 2158440448,
+      "file": 771231744,
+      "available": 1351606272,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119587.8418617,
+      "current": 2935652352,
+      "anon": 2158465024,
+      "file": 771231744,
+      "available": 1358319616,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119588.842553,
+      "current": 2935681024,
+      "anon": 2158514176,
+      "file": 771231744,
+      "available": 1357697024,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119589.8431187,
+      "current": 2935681024,
+      "anon": 2158514176,
+      "file": 771231744,
+      "available": 1357701120,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119590.843724,
+      "current": 2935681024,
+      "anon": 2158514176,
+      "file": 771231744,
+      "available": 1357471744,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119591.8448455,
+      "current": 2819624960,
+      "anon": 2042425344,
+      "file": 771231744,
+      "available": 1420652544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119592.8455663,
+      "current": 2877554688,
+      "anon": 2100490240,
+      "file": 771231744,
+      "available": 1418047488,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119593.8468466,
+      "current": 2877538304,
+      "anon": 2100490240,
+      "file": 771231744,
+      "available": 1418047488,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119594.847436,
+      "current": 2877538304,
+      "anon": 2100490240,
+      "file": 771231744,
+      "available": 1418055680,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119595.8480854,
+      "current": 2877542400,
+      "anon": 2100490240,
+      "file": 771231744,
+      "available": 1418575872,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119596.8504355,
+      "current": 2877566976,
+      "anon": 2100490240,
+      "file": 771231744,
+      "available": 1418059776,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119597.8511112,
+      "current": 2819448832,
+      "anon": 2042327040,
+      "file": 771231744,
+      "available": 1411203072,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119598.8528805,
+      "current": 2819448832,
+      "anon": 2042327040,
+      "file": 771231744,
+      "available": 1411203072,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119599.853466,
+      "current": 2819264512,
+      "anon": 2042327040,
+      "file": 771231744,
+      "available": 1411207168,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119600.8541095,
+      "current": 2877440000,
+      "anon": 2100391936,
+      "file": 771231744,
+      "available": 1410949120,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119601.8547704,
+      "current": 2877440000,
+      "anon": 2100391936,
+      "file": 771231744,
+      "available": 1409916928,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119602.8573956,
+      "current": 2935623680,
+      "anon": 2158456832,
+      "file": 771231744,
+      "available": 1360633856,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119603.8580406,
+      "current": 2935623680,
+      "anon": 2158456832,
+      "file": 771231744,
+      "available": 1360633856,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119604.8586493,
+      "current": 2935877632,
+      "anon": 2158456832,
+      "file": 771231744,
+      "available": 1360633856,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119605.8592587,
+      "current": 2935803904,
+      "anon": 2158456832,
+      "file": 771231744,
+      "available": 1360633856,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119606.859841,
+      "current": 2935713792,
+      "anon": 2158456832,
+      "file": 771231744,
+      "available": 1360633856,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119607.8604448,
+      "current": 2935308288,
+      "anon": 2158141440,
+      "file": 771231744,
+      "available": 1360121856,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119608.861853,
+      "current": 2935308288,
+      "anon": 2158141440,
+      "file": 771231744,
+      "available": 1359605760,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119609.862425,
+      "current": 2935308288,
+      "anon": 2158141440,
+      "file": 771231744,
+      "available": 1359605760,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119610.8638732,
+      "current": 2935537664,
+      "anon": 2158141440,
+      "file": 771231744,
+      "available": 1359605760,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119611.86475,
+      "current": 2819211264,
+      "anon": 2042011648,
+      "file": 771231744,
+      "available": 1448591360,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119612.866967,
+      "current": 2818949120,
+      "anon": 2042011648,
+      "file": 771231744,
+      "available": 1448656896,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119613.867606,
+      "current": 2877124608,
+      "anon": 2100076544,
+      "file": 771231744,
+      "available": 1418813440,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119614.8683825,
+      "current": 2819153920,
+      "anon": 2041954304,
+      "file": 771231744,
+      "available": 1414156288,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119615.8690407,
+      "current": 2877067264,
+      "anon": 2100019200,
+      "file": 771231744,
+      "available": 1414160384,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119616.8787332,
+      "current": 2877067264,
+      "anon": 2100019200,
+      "file": 771231744,
+      "available": 1414160384,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119617.8793037,
+      "current": 2877067264,
+      "anon": 2100019200,
+      "file": 771231744,
+      "available": 1414160384,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119618.8799298,
+      "current": 2935513088,
+      "anon": 2158084096,
+      "file": 771231744,
+      "available": 1356619776,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119619.8805723,
+      "current": 2935513088,
+      "anon": 2158084096,
+      "file": 771231744,
+      "available": 1356619776,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119620.8811584,
+      "current": 2701656064,
+      "anon": 1924956160,
+      "file": 771231744,
+      "available": 1507565568,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119621.8828201,
+      "current": 2701656064,
+      "anon": 1924956160,
+      "file": 771231744,
+      "available": 1515835392,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119622.8833826,
+      "current": 2759831552,
+      "anon": 1983021056,
+      "file": 771231744,
+      "available": 1532162048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793119623.884056,
+      "current": 2759831552,
+      "anon": 1983021056,
+      "file": 771231744,
+      "available": 1532162048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2230,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    }
+  ],
+  "fatal": [],
+  "finished_at": 1793119623.9992397
+}

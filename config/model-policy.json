@@ -8,8 +8,8 @@
   },
   "sources": [
     {
-      "path": "benchmarks/round3/rankings.json",
-      "sha256": "c3acc8cd2d35a7e6d9883bde528bce2074394ef6b8d2c07574166b296c040981"
+      "path": "benchmarks/round4/rankings.json",
+      "sha256": "772f5fd69a89fef4a428bea250c2f98829d26aac8526d744d268d3120ca825e8"
     },
     {
       "path": "benchmarks/moderation/summary.json",
@@ -38,6 +38,26 @@
     {
       "path": "benchmarks/round3/results-extra.json",
       "sha256": "79d86eebf60311b1608f5c6828467735c84ca9e07b2172eb562c4b5ed340494a"
+    },
+    {
+      "path": "benchmarks/round4/results.json",
+      "sha256": "990ec3bd70af4da91819a16f230abb859330a41fe3fd819de08d240f45611722"
+    },
+    {
+      "path": "config/runtime-context-profiles.json",
+      "sha256": "fd482a126a91fedefb12e965a56c8de546b6c56429a60c3de70677ecdbc1355a"
+    },
+    {
+      "path": "benchmarks/paperclip-context/results-8k-bounded-cache.json",
+      "sha256": "4746bea1a74c56215bbdcecc911ca59d9b1a873528373e8034443bd4ce07d300"
+    },
+    {
+      "path": "benchmarks/paperclip-context/compatibility-8k-bounded-cache.json",
+      "sha256": "2b8e738e0ff91aa3a479b710269779ff8843ef1039c06c41cb931a93b152339a"
+    },
+    {
+      "path": "benchmarks/paperclip-context/bounded-cache-runtime.json",
+      "sha256": "5c00ee1b9bbd0c2bfc2dddc532fcbed327eab8c84d48df072861e4c1b3d2a403"
     }
   ],
   "defaults": {
@@ -60,11 +80,55 @@
             "native_tool_passed": true,
             "median_seconds": 3.028
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
+          },
+          "tenant_profiles": {
+            "paperclip": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
+            },
+            "classscout": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
+            },
+            "habigoal": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
+            },
+            "pandora": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
+            }
+          },
+          "tenant_profile_evidence": {
+            "paperclip": "config/runtime-context-profiles.json",
+            "classscout": "config/runtime-context-profiles.json",
+            "habigoal": "config/runtime-context-profiles.json",
+            "pandora": "config/runtime-context-profiles.json"
           }
         }
       }
@@ -83,7 +147,7 @@
             "native_tool_passed": true,
             "median_seconds": 1.11
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -106,7 +170,31 @@
             "native_tool_passed": true,
             "median_seconds": 2.01
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "qwen2.5:0.5b": {
+      "id": "qwen2.5:0.5b",
+      "tested_digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+      "tasks": {
+        "text_chat": {
+          "rank": 4,
+          "metrics": {
+            "model": "qwen2.5:0.5b",
+            "passed": 10,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 0.829,
+            "evidence": "benchmarks/round4/results.json"
+          },
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -120,7 +208,7 @@
       "tested_digest": "5791ac70d52d5f30f115beed78283c13f5715b262bd33da417f545b7259fb1e2",
       "tasks": {
         "text_chat": {
-          "rank": 4,
+          "rank": 5,
           "metrics": {
             "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
             "passed": 10,
@@ -129,7 +217,7 @@
             "native_tool_passed": true,
             "median_seconds": 1.256
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -143,7 +231,7 @@
       "tested_digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
       "tasks": {
         "text_chat": {
-          "rank": 5,
+          "rank": 6,
           "metrics": {
             "model": "granite3.3:2b",
             "passed": 10,
@@ -152,7 +240,7 @@
             "native_tool_passed": true,
             "median_seconds": 3.107
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -166,7 +254,7 @@
       "tested_digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
       "tasks": {
         "text_chat": {
-          "rank": 6,
+          "rank": 7,
           "metrics": {
             "model": "granite4:350m",
             "passed": 10,
@@ -175,7 +263,31 @@
             "native_tool_passed": true,
             "median_seconds": 3.36
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "qwen2.5-coder:0.5b": {
+      "id": "qwen2.5-coder:0.5b",
+      "tested_digest": "4ff64a7f502a08b7616edb8ca0a79eb1853fc363d842b7df4b46915d11a3fb09",
+      "tasks": {
+        "text_chat": {
+          "rank": 8,
+          "metrics": {
+            "model": "qwen2.5-coder:0.5b",
+            "passed": 10,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": false,
+            "median_seconds": 0.796,
+            "evidence": "benchmarks/round4/results.json"
+          },
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -189,7 +301,7 @@
       "tested_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
       "tasks": {
         "text_chat": {
-          "rank": 7,
+          "rank": 9,
           "metrics": {
             "model": "qwen2.5:1.5b",
             "passed": 8,
@@ -198,7 +310,7 @@
             "native_tool_passed": true,
             "median_seconds": 2.066
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -212,7 +324,7 @@
       "tested_digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
       "tasks": {
         "text_chat": {
-          "rank": 8,
+          "rank": 10,
           "metrics": {
             "model": "llama3.2:1b",
             "passed": 8,
@@ -221,7 +333,7 @@
             "native_tool_passed": false,
             "median_seconds": 1.633
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -235,7 +347,7 @@
       "tested_digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
       "tasks": {
         "text_chat": {
-          "rank": 9,
+          "rank": 11,
           "metrics": {
             "model": "smollm2:1.7b",
             "passed": 8,
@@ -244,7 +356,7 @@
             "native_tool_passed": true,
             "median_seconds": 2.14
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -258,7 +370,7 @@
       "tested_digest": "3269ce3e31ea68da5ddb7926628b5bb1d25146d4f32424f35e748dd17e4013a0",
       "tasks": {
         "text_chat": {
-          "rank": 10,
+          "rank": 12,
           "metrics": {
             "model": "granite3.1-moe:1b",
             "passed": 6,
@@ -267,7 +379,7 @@
             "native_tool_passed": false,
             "median_seconds": 0.903
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -281,7 +393,7 @@
       "tested_digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
       "tasks": {
         "text_chat": {
-          "rank": 11,
+          "rank": 13,
           "metrics": {
             "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
             "passed": 5,
@@ -290,7 +402,7 @@
             "native_tool_passed": false,
             "median_seconds": 2.237
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -304,7 +416,7 @@
       "tested_digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
       "tasks": {
         "text_chat": {
-          "rank": 12,
+          "rank": 14,
           "metrics": {
             "model": "gemma3:1b",
             "passed": 4,
@@ -313,7 +425,55 @@
             "native_tool_passed": false,
             "median_seconds": 2.683
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "smollm2:360m": {
+      "id": "smollm2:360m",
+      "tested_digest": "297281b699fc51376006233ca400cd664c4f7b80ed88a47ef084f1e4b089803b",
+      "tasks": {
+        "text_chat": {
+          "rank": 15,
+          "metrics": {
+            "model": "smollm2:360m",
+            "passed": 0,
+            "total": 14,
+            "json_valid": 10,
+            "native_tool_passed": false,
+            "median_seconds": 4.469,
+            "evidence": "benchmarks/round4/results.json"
+          },
+          "evidence": "benchmarks/round4/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "smollm2:135m": {
+      "id": "smollm2:135m",
+      "tested_digest": "9077fe9d2ae1a4a41a868836b56b8163731a8fe16621397028c2c76f838c6907",
+      "tasks": {
+        "text_chat": {
+          "rank": 16,
+          "metrics": {
+            "model": "smollm2:135m",
+            "passed": 0,
+            "total": 14,
+            "json_valid": 8,
+            "native_tool_passed": false,
+            "median_seconds": 2.548,
+            "evidence": "benchmarks/round4/results.json"
+          },
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -338,7 +498,7 @@
             "first_photo_seconds": 5.6756,
             "first_poster_seconds": 4.5614
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -363,7 +523,7 @@
             "first_photo_seconds": 6.0521,
             "first_poster_seconds": 4.6066
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -522,7 +682,7 @@
             "first_photo_seconds": 19.1467,
             "first_poster_seconds": 16.6778
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -547,7 +707,7 @@
             "first_photo_seconds": 19.5999,
             "first_poster_seconds": 17.4117
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -690,12 +850,38 @@
         }
       }
     },
+    "minicpm-v4.6:1b": {
+      "id": "minicpm-v4.6:1b",
+      "tested_digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
+      "tasks": {
+        "image_recognition": {
+          "rank": 5,
+          "metrics": {
+            "model": "minicpm-v4.6:1b",
+            "schema_passed": 5,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 12,
+            "raw_total": 12,
+            "first_photo_seconds": 22.1375,
+            "first_poster_seconds": 20.3348,
+            "evidence": "benchmarks/round4/results.json"
+          },
+          "evidence": "benchmarks/round4/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
     "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M": {
       "id": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
       "tested_digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
       "tasks": {
         "image_recognition": {
-          "rank": 5,
+          "rank": 6,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
             "schema_passed": 5,
@@ -706,7 +892,7 @@
             "first_photo_seconds": 45.7948,
             "first_poster_seconds": 36.7059
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -720,7 +906,7 @@
       "tested_digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
       "tasks": {
         "image_recognition": {
-          "rank": 6,
+          "rank": 7,
           "metrics": {
             "model": "granite3.2-vision:2b",
             "schema_passed": 5,
@@ -731,7 +917,7 @@
             "first_photo_seconds": 55.8249,
             "first_poster_seconds": 53.0938
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 320,
             "num_ctx": 2048,
@@ -745,7 +931,7 @@
       "tested_digest": "d1e7873eebe6f0309b4a8e99f144fb14eb3a432f7a33c234c0eeeb0bb23eadab",
       "tasks": {
         "image_recognition": {
-          "rank": 7,
+          "rank": 8,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
             "schema_passed": 4,
@@ -756,7 +942,7 @@
             "first_photo_seconds": 8.9096,
             "first_poster_seconds": 8.0074
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -770,7 +956,7 @@
       "tested_digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
       "tasks": {
         "image_recognition": {
-          "rank": 8,
+          "rank": 9,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
             "schema_passed": 3,
@@ -781,7 +967,59 @@
             "first_photo_seconds": 11.6969,
             "first_poster_seconds": 8.7731
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "qwen3.5:0.8b": {
+      "id": "qwen3.5:0.8b",
+      "tested_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+      "tasks": {
+        "image_recognition": {
+          "rank": 10,
+          "metrics": {
+            "model": "qwen3.5:0.8b",
+            "schema_passed": 3,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 6,
+            "raw_total": 12,
+            "first_photo_seconds": 47.6757,
+            "first_poster_seconds": 44.5117,
+            "evidence": "benchmarks/round4/results.json"
+          },
+          "evidence": "benchmarks/round4/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0": {
+      "id": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+      "tested_digest": "bebf3b8c9418105b21f65f8914b1f898b449ec04a033589b88c2db38e1916d99",
+      "tasks": {
+        "image_recognition": {
+          "rank": 11,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+            "schema_passed": 2,
+            "schema_total": 5,
+            "max_image_dimension": 640,
+            "raw_passed": 6,
+            "raw_total": 12,
+            "first_photo_seconds": 5.8458,
+            "first_poster_seconds": 4.6079,
+            "evidence": "benchmarks/round4/results.json"
+          },
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -795,7 +1033,7 @@
       "tested_digest": "ba5a88b6808eb60b20549468b67b79902e2c482949b94824b7e20b4e29fed444",
       "tasks": {
         "image_recognition": {
-          "rank": 9,
+          "rank": 12,
           "metrics": {
             "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
             "schema_passed": 2,
@@ -806,7 +1044,7 @@
             "first_photo_seconds": 7.7136,
             "first_poster_seconds": 7.7336
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -820,7 +1058,7 @@
       "tested_digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
       "tasks": {
         "image_recognition": {
-          "rank": 10,
+          "rank": 13,
           "metrics": {
             "model": "moondream:1.8b",
             "schema_passed": 2,
@@ -831,7 +1069,7 @@
             "first_photo_seconds": 30.0797,
             "first_poster_seconds": 26.5006
           },
-          "evidence": "benchmarks/round3/rankings.json",
+          "evidence": "benchmarks/round4/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -841,5 +1079,19 @@
       }
     }
   },
-  "policy_id": "b27ff44e215bbc75a76068ab500b4442286cb8d30020d89a8addaafd7eb3134a"
+  "tenant_context_minimums": {
+    "paperclip": {
+      "text_chat": 8192
+    },
+    "classscout": {
+      "text_chat": 8192
+    },
+    "habigoal": {
+      "text_chat": 8192
+    },
+    "pandora": {
+      "text_chat": 8192
+    }
+  },
+  "policy_id": "d96018af615057a87d0ff625a6c888a123f67b5532e59f05ea2baf7b8ad2d6d0"
 }
