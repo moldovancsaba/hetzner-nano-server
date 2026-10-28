@@ -1,0 +1,12 @@
+{
+  "source": "qwen3.5:2b-q4_K_M",
+  "source_manifest_digest": "1e2d21a4f03ab9e4a9c1976a4b7e88f21de61d65f2c5485d8fde8942be73f1e7",
+  "model": "hungarian-qwen35-2b:q4_k_m",
+  "text_weight_blob": "sha256:20cb277f0967ace47b0b5d5658e5e494a88937f7378b74b5a266496400938f4c",
+  "template_preserved": true,
+  "renderer": "qwen3.5",
+  "parser": "qwen3.5",
+  "text_smoke_completed": true,
+  "source_package_removed": true,
+  "reason": "Hungarian text only: remove unused projector; evaluate this exact derivative manifest in full."
+}

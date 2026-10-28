@@ -1,0 +1,20 @@
+{
+  "model": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+  "weight_sha256": "9c6e0763577125a994a9bea0bbd7a737ac4498b8a6a4e0f788727553af1806c9",
+  "matches_reviewed_upstream_lfs": true,
+  "capabilities": [
+    "completion",
+    "tools",
+    "thinking"
+  ],
+  "details": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+      "qwen3"
+    ],
+    "parameter_size": "4.02B",
+    "quantization_level": "Q3_K_M"
+  }
+}

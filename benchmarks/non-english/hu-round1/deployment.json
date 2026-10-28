@@ -1,0 +1,12 @@
+{
+  "deployed": true,
+  "policy_id": "feecd620d33c8a7c643ccbfe76363917efad925c47da4f539347a6e37e759561",
+  "defaults": {
+    "text_chat": "granite4:1b-h",
+    "image_recognition": "minicpm-v4.6:q5_K_M",
+    "text_chat_hu": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+    "image_moderation": "qwen3.5:0.8b"
+  },
+  "backup": "/opt/narimato-benchmarks/hu-round1/backup-20261028T122548Z",
+  "guarded_idle_restart": true
+}

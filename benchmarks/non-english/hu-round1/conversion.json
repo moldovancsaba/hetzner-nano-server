@@ -1,0 +1,22 @@
+{
+  "model": "alphaedge-ai/Qwen3.5-0.8B-hun-16384",
+  "revision": "4cb74afbb6a731b51e8a18f6bd04e21d9bb712bc",
+  "converter_revision": "5d7793d6fcce4eb4b11ab5be856dfa4e4c8fde9b",
+  "verified_pipeline_fields": [
+    "pre_tokenizer",
+    "normalizer",
+    "decoder",
+    "post_processor"
+  ],
+  "trimmed_tokenizer_sha256": "284904b853f2e45a084d4484ff33fe4df5788b7feab1a0f62030d49583e89dfb",
+  "converter_patch_sha256": "cfd8bddc072eb75a9d139752c06ada43f73c7e4e83ffdff7a123bdf6251febe1",
+  "gguf_sha256": "a16330dfa523536ed263f205c055f3e876c9270ac225bcbff7fd0eaab2607355",
+  "gguf_bytes": 549056320,
+  "license": "Apache-2.0 upstream; source metadata retained",
+  "initial_conversion_issue": "Vocabulary-reindexed tokenizer fingerprint unrecognized; validated identical pipeline before adding exact fingerprint.",
+  "finite_source_tensors_checked": 473,
+  "nonfinite_source_tensors": [],
+  "original_tokenizer_repository": "Qwen/Qwen3.5-0.8B",
+  "original_tokenizer_revision": "2fc06364715b967f1860aea9cf38778875588b17",
+  "gguf_token_ids_verified": 16384
+}

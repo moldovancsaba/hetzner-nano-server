@@ -6,10 +6,12 @@
       "canonical": "qwen317b",
       "evidence": [
         "benchmarks/capabilities/results.json",
-        "benchmarks/round2/results.json"
+        "benchmarks/round2/results.json",
+        "benchmarks/non-english/hu-round1/results.json"
       ],
       "outcomes": [
-        "ran"
+        "ran",
+        "completed"
       ],
       "tested_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
       "ranked_tasks": [
@@ -44,9 +46,12 @@
       "model": "gemma3:1b",
       "canonical": "gemma31b",
       "evidence": [
-        "benchmarks/capabilities/results.json"
+        "benchmarks/capabilities/results.json",
+        "benchmarks/non-english/hu-round1/results.json"
       ],
-      "outcomes": [],
+      "outcomes": [
+        "completed"
+      ],
       "tested_digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
       "ranked_tasks": [
         "text_chat"
@@ -208,7 +213,8 @@
         "benchmarks/round4/results.json",
         "benchmarks/vision-evaluation/recognition-results.json",
         "benchmarks/vision-evaluation/moderation-results.json",
-        "benchmarks/round5/results.json"
+        "benchmarks/round5/results.json",
+        "benchmarks/non-english/hu-round1/results.json"
       ],
       "outcomes": [
         "ran",
@@ -223,10 +229,12 @@
       "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
       "canonical": "eurollm17b",
       "evidence": [
-        "benchmarks/round2/results.json"
+        "benchmarks/round2/results.json",
+        "benchmarks/non-english/hu-round1/results.json"
       ],
       "outcomes": [
-        "ran"
+        "ran",
+        "completed"
       ],
       "tested_digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
       "ranked_tasks": [
@@ -548,7 +556,8 @@
       "evidence": [
         "benchmarks/round4/results.json",
         "benchmarks/vision-evaluation/recognition-results.json",
-        "benchmarks/vision-evaluation/moderation-results.json"
+        "benchmarks/vision-evaluation/moderation-results.json",
+        "benchmarks/non-english/hu-round1/results.json"
       ],
       "outcomes": [
         "completed",
@@ -636,6 +645,43 @@
       "ranked_tasks": [
         "image_recognition"
       ]
+    },
+    {
+      "model": "hungarian-qwen35-trimmed:q8_0",
+      "canonical": "hungarianqwen35trimmedq80",
+      "evidence": [
+        "benchmarks/non-english/hu-round1/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "44973df369daeb71dbf6751ef72d7c0bb538c3fe0ec7d31ddf9a5b40b7e7714f"
+    },
+    {
+      "model": "hungarian-qwen35-2b:q4_k_m",
+      "canonical": "hungarianqwen352bq4km",
+      "evidence": [
+        "benchmarks/non-english/hu-round1/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "8f6a89ac097ae62bbc66cbe9e61e8bb311a6a64edeb83c22ee67a5e5222f5e7c"
+    },
+    {
+      "model": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+      "canonical": "qwen34b2507",
+      "evidence": [
+        "benchmarks/non-english/hu-round1/results.json"
+      ],
+      "outcomes": [
+        "failed",
+        "completed"
+      ],
+      "tested_digest": "a4981cf368a06e6ad0d6e1c3117c468297e613b1fae864f50be6bb88e1b66eeb",
+      "ranked_tasks": [
+        "text_chat_hu"
+      ]
     }
   ],
   "source_hashes": {
@@ -650,6 +696,7 @@
     "benchmarks/round4/results.json": "990ec3bd70af4da91819a16f230abb859330a41fe3fd819de08d240f45611722",
     "benchmarks/vision-evaluation/recognition-results.json": "d10d669fef865f00758523c69ace7c201de0602f02bb20d634a0d40a1646278d",
     "benchmarks/vision-evaluation/moderation-results.json": "37b7dd662fca33cc989a1a635d1aa8448ab65e5b4527e086e583b7b164337a9b",
-    "benchmarks/round5/results.json": "e490ddf44092c30798c4d4c752748ca8840736bf419d2661111bdc895d1e7eca"
+    "benchmarks/round5/results.json": "e490ddf44092c30798c4d4c752748ca8840736bf419d2661111bdc895d1e7eca",
+    "benchmarks/non-english/hu-round1/results.json": "4e54e7becd3c3146799e372c5768c5c78c10bd85802e959c052ee0d7e1ad5f65"
   }
 }

@@ -1,0 +1,30 @@
+{
+  "scope": "Hungarian text only; synthetic 24 structured cases and 6 separately reviewed chat cases per candidate; no change to English/image rankings.",
+  "settings": {
+    "num_ctx": 2048,
+    "num_batch": 32,
+    "num_predict": 192,
+    "temperature": 0,
+    "think": false,
+    "memory_mib": 2800
+  },
+  "models": [
+    "granite4:1b-h",
+    "qwen3:1.7b",
+    "gemma3:1b",
+    "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+    "qwen3.5:0.8b",
+    "hungarian-qwen35-trimmed:q8_0",
+    "hungarian-qwen35-2b:q4_k_m",
+    "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M"
+  ],
+  "supplement_reason": "Original small candidates failed initial Hungarian structured checks; add a 2B Q4 text-only artifact with the same frozen cases and resource cap.",
+  "final_fallback_reason": "All original candidates and the 2B candidate failed the unchanged full acceptance gate; final commercial-license-compatible 4B Q3 text-only test under the same memory cap.",
+  "model_profiles": {
+    "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M": {
+      "num_ctx": 1024,
+      "num_batch": 8
+    }
+  },
+  "profile_retest_reason": "One OOM at context2048/batch32. Single changed-condition retest at context1024/batch8; stop this model if resource failure repeats. Frozen fixtures and scoring unchanged."
+}

@@ -16,7 +16,7 @@ def build(root=ROOT):
  if sources.get('runtime_profiles'):
   runtime_paths=[sources['runtime_profiles']]+json.loads((root/sources['runtime_profiles']).read_text()).get('evidence_files',[])
  legacy_paths=[sources[key] for key in ['legacy_screening','legacy_moderation','legacy_moderation_raw'] if sources.get(key)]
- paths=list(dict.fromkeys([sources['english_and_images'],sources['moderation'],sources['moderation_raw']]+sources['digest_evidence']+legacy_paths+runtime_paths))
+ paths=list(dict.fromkeys([sources['english_and_images'],sources['moderation'],sources['moderation_raw']]+sources['digest_evidence']+legacy_paths+runtime_paths+[sources[k] for k in ['hungarian','hungarian_raw'] if sources.get(k)]))
  for name in paths:
   data=(root/name).read_bytes();evidence.append({'path':name,'sha256':hashlib.sha256(data).hexdigest()});walk(json.loads(data))
  ranked=json.loads((root/sources['english_and_images']).read_text());models={};defaults={}
@@ -37,6 +37,15 @@ def build(root=ROOT):
    add(task,row['model'],rank,row,sources['english_and_images'],row.get('max_image_dimension',640))
    if row.get('benchmark_version')=='vision-evaluation.v1':models[row['model']]['tasks'][task].update(ranking_tier='broader_service_evaluation',current_rank=rank)
   defaults[task]=rows[0]['model']
+ if sources.get('hungarian'):
+  hu=json.loads((root/sources['hungarian']).read_text())
+  assert hu['language']=='hu' and hu.get('pilot_winner'), 'Hungarian selection requires independently recorded evidence'
+  eligible=[row for row in hu['rows'] if row['api_eligible']]
+  assert eligible and eligible[0]['model']==hu['pilot_winner']
+  for rank,row in enumerate(eligible,1):
+   add('text_chat_hu',row['model'],rank,row,sources['hungarian'])
+   models[row['model']]['tasks']['text_chat_hu'].update(ranking_tier='hungarian_experimental',current_rank=rank,language='hu',experimental=not hu['production_accepted'],quality_gate_passed=row['ranking_eligible'],tenant_profiles={'paperclip':dict(models[row['model']]['tasks']['text_chat_hu']['profile'])})
+  defaults['text_chat_hu']=hu['pilot_winner']
  if sources.get('legacy_screening'):
   failed={row['model'] for row in ranked.get('image_service_ineligible',[])}
   for index,row in enumerate(json.loads((root/sources['legacy_screening']).read_text())['image'],1):
@@ -96,6 +105,9 @@ def build(root=ROOT):
     profile=models[defaults[task]]['tasks'][task].get('tenant_profiles',{}).get(tenant,{})
     if profile.get('num_ctx',0)<minimum:raise ValueError('Current ranking winner lacks verified context for '+tenant)
   payload['tenant_context_minimums']=minimums
+ if sources.get('hungarian'):
+  payload['scope_notes']['text_chat_hu']='Experimental Hungarian short text/JSON: initial quality gate not met; human review required, no unattended factual decisions. Assistant-reviewed synthetic cases are not a native-speaker or fluency certification. No tools or Hungarian OCR approval.'
+  payload.setdefault('tenant_context_minimums',{}).setdefault('paperclip',{})['text_chat_hu']=models[defaults['text_chat_hu']]['tasks']['text_chat_hu']['profile']['num_ctx']
  payload['policy_id']=hashlib.sha256(json.dumps(payload,sort_keys=True).encode()).hexdigest()
  return payload
 if __name__=='__main__':

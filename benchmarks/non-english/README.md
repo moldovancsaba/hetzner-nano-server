@@ -1,5 +1,7 @@
 # Independent non-English workstream
 
+Current explicit [Hungarian experimental API](../../docs/HUNGARIAN.md) and [30-case evaluation](hu-round1/REPORT.md) are available; no model met the production gate. The following two-sample evidence is historical.
+
 Start with REPORT.md. Current evidence covers only preliminary Hungarian examples. No language has production acceptance.
 
 - Hungarian evidence: hungarian-results.json, extracted without changing original observations.

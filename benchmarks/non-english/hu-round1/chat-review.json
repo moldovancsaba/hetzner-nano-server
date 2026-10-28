@@ -1,0 +1,455 @@
+{
+  "reviewer": "assistant",
+  "method": "Anonymized model codes, frozen per-case criteria; not an independent native-speaker review. All three criteria and non-truncation required for usable.",
+  "not_independent_human_review": true,
+  "models": {
+    "granite4:1b-h": {
+      "hu-advice": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Truncated and semantically incoherent walking advice."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          false,
+          true,
+          true
+        ],
+        "usable": false,
+        "reason": "Does not ask for city, age or interest."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Correct amounts/durations, no invented comparison; understandable despite typo."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Preserves source facts; Hungarian remains understandable despite inflection error."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Missing-information statement only; no useful next step."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Changes meaning from requesting the class time to sending the class."
+      }
+    },
+    "qwen3:1.7b": {
+      "hu-advice": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Truncated; second recommendation becomes nonsensical."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Asks city, age and interest; awkward but understandable Hungarian."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Preserves numbers but comparison sentence is unclear Hungarian."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Keeps place, time and price without invented facts; minor awkwardness."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Correctly notes missing fields but provides no requested useful next step."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          false,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Retains the impatient wording instead of producing the requested polite rewrite."
+      }
+    },
+    "gemma3:1b": {
+      "hu-advice": {
+        "criteria_met": [
+          false,
+          false,
+          true
+        ],
+        "usable": false,
+        "reason": "Garbled language and advice contradicting its own start-small framing."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          false,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Omits city/interest and asks about emotions instead."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          false,
+          false,
+          true
+        ],
+        "usable": false,
+        "reason": "Invents amounts and nonsensical calculations."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          false,
+          true,
+          true
+        ],
+        "usable": false,
+        "reason": "Omits required city; retains time and price with awkward Hungarian."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          false,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Acknowledgement only, no explanation of missing facts or next step."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          true,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Polite token present but changes the temporal request and introduces garbled wording."
+      }
+    },
+    "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M": {
+      "hu-advice": {
+        "criteria_met": [
+          true,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Irrelevant invented green-flag rule and suggestion to ask police instead of two walking tips."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Invents preferences and never asks the required questions; truncated repetition."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          false,
+          false,
+          true
+        ],
+        "usable": false,
+        "reason": "Says B is 60 minutes longer rather than 15 minutes longer."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Accurate grounded Hungarian summary."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          false,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Incorrectly treats request as asking to write an advertisement."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          false,
+          true,
+          true
+        ],
+        "usable": false,
+        "reason": "Understandable but not the requested polite rewrite."
+      }
+    },
+    "qwen3.5:0.8b": {
+      "hu-advice": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Truncated and semantically incoherent walking advice."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          false,
+          false,
+          true
+        ],
+        "usable": false,
+        "reason": "Changes child activity search into adult employment search."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Misstates the duration comparison and gives an unclear explanation."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "All requested source facts retained; awkward but understandable Hungarian."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Notes missing information but gives no actionable next step and unclear follow-up."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Does not preserve the time-request meaning."
+      }
+    },
+    "hungarian-qwen35-trimmed:q8_0": {
+      "hu-advice": {
+        "criteria_met": [
+          true,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "One repetitive recommendation presented as several items; no useful second distinct tip."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Three topics present but Hungarian is badly formed."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Repetitive truncated restatement, not a useful comparison."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Preserves place, time, price and age range naturally enough."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "No next step offered."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          false,
+          false,
+          true
+        ],
+        "usable": false,
+        "reason": "Invents a prohibition instead of politely asking for the time."
+      }
+    },
+    "hungarian-qwen35-2b:q4_k_m": {
+      "hu-advice": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Two practical tips but adds an ungrounded quick-adaptation claim and awkward advice."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          false,
+          false,
+          true
+        ],
+        "usable": false,
+        "reason": "Misses the city, substitutes household questions and is truncated."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          false,
+          false,
+          true
+        ],
+        "usable": false,
+        "reason": "Swaps A and B labels."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Accurate concise Hungarian summary."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "No useful next step."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          true,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Changes a request for the time into asking to be sent away when class starts."
+      }
+    },
+    "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M": {
+      "hu-advice": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Two practical suggestions; Hungarian is awkward but understandable, no factual invention required for these suggestions."
+      },
+      "hu-clarify": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Requests city, child age and interests; understandable despite awkward inflection."
+      },
+      "hu-compare": {
+        "criteria_met": [
+          false,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Lists the correct data but reverses the price/duration direction in the comparison parentheses."
+      },
+      "hu-grounded-summary": {
+        "criteria_met": [
+          true,
+          true,
+          true
+        ],
+        "usable": true,
+        "reason": "Accurate concise grounded Hungarian summary."
+      },
+      "hu-no-invention": {
+        "criteria_met": [
+          true,
+          true,
+          false
+        ],
+        "usable": false,
+        "reason": "Does not provide the frozen rubric useful next step."
+      },
+      "hu-rewrite": {
+        "criteria_met": [
+          false,
+          false,
+          false
+        ],
+        "usable": false,
+        "reason": "Keeps the impatient wording and changes the time question."
+      }
+    }
+  }
+}

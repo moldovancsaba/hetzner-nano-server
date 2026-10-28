@@ -21,6 +21,7 @@ from moderation.server import normalize_image, infer as moderation_infer
 from gateway.catalog import ModelCatalog, SelectionError
 from gateway.usage import UsageStore, LeaseStore
 from gateway.metrics import open_metrics, route_name
+from gateway.hungarian import request as hungarian_request, completion as hungarian_completion
 from urllib.parse import urlsplit, parse_qs
 from PIL import Image
 
@@ -99,8 +100,11 @@ class Runner:
         started = time.monotonic()
         _NATIVE_TIMING.load_seconds = None
         try:
-            if task == 'text_chat':
-                result = native('/v1/chat/completions', payload)
+            if task in {'text_chat','text_chat_hu'}:
+                if task == 'text_chat_hu':
+                    result = hungarian_completion(native('/api/chat', hungarian_request(payload,profile), timeout=120))
+                else:
+                    result = native('/v1/chat/completions', payload)
                 if not isinstance(result, dict) or not result.get('choices'):
                     raise ValueError('Invalid upstream chat response')
             elif task == 'image_moderation':
@@ -179,6 +183,29 @@ def text_input(data, model):
     for key in ['max_completion_tokens', 'stream_options']:
         result.pop(key, None)
     result.update(model=model, stream=False, max_tokens=tokens, temperature=temp, reasoning_effort='none')
+    return result
+
+def hungarian_text_input(data, model, profile):
+    if not isinstance(data,dict):
+        raise ValueError('Expected Hungarian chat object')
+    data = copy.deepcopy(data)
+    if 'max_tokens' not in data and 'max_completion_tokens' not in data:
+        data['max_tokens'] = 128
+    if len(json.dumps(data.get('response_format',{}),ensure_ascii=False).encode('utf-8')) > 1536:
+        raise ValueError('Hungarian response schema exceeds 1536 bytes')
+    messages = data.get('messages')
+    if isinstance(messages,list) and all(isinstance(m,dict) for m in messages) and not any(m.get('role')=='system' for m in messages):
+        data['messages'] = [{'role':'system','content':'Segítőkész magyar nyelvű asszisztens vagy. Magyarul válaszolj. Csak a megadott adatokból dolgozz; ismeretlen adatot ne találj ki.'}] + messages
+    if any(data.get(key) for key in ['tools','tool_choice']):
+        raise ValueError('Hungarian tool calling has not been evaluated')
+    result = text_input(data, model)
+    # Conservative byte budget bounds byte-level BPE input without applying the
+    # English-only Granite tokenizer to another model. Reserve template/output.
+    budget = min(1000,profile.get('num_ctx',2048)-result['max_tokens']-256)
+    if len(json.dumps(result['messages'],ensure_ascii=False).encode('utf-8')) > budget:
+        raise ValueError(f'Hungarian input exceeds the {budget}-byte message budget; split sources')
+    if result['max_tokens'] > 192:
+        raise ValueError('Hungarian output limit is 192 tokens')
     return result
 
 
@@ -473,7 +500,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(error.status, {'error': {'code': error.code}})
             if self.path=='/v1/models':
                 return self.send(200, {'object':'list','data':models,'policy_id':policy['policy_id'],'defaults':{task:policy['defaults'][task] for task in tasks}})
-            return self.send(200, {'version':'job-router.v2','policy_id':policy['policy_id'],'job_types':{task:{'model':policy['defaults'][task],'selection':'ranking_default','available_models':[m['id'] for m in models if task in m['selectable_for']]} for task in tasks}})
+            return self.send(200, {'version':'job-router.v2','policy_id':policy['policy_id'],'job_types':{task:{'model':policy['defaults'][task],'selection':'ranking_default','experimental':policy['models'][policy['defaults'][task]]['tasks'][task].get('experimental',False),'available_models':[m['id'] for m in models if task in m['selectable_for']]} for task in tasks}})
         if self.path in {'/v1/queue', '/v1/moderation/health'}:
             if self.path == '/v1/moderation/health' and tenant != 'camera':
                 return self.send(401, {'error': {'code': 'unauthorized'}})
@@ -572,8 +599,11 @@ class Handler(BaseHTTPRequestHandler):
             selection=self.server.catalog.select(task,requested)
             metadata = dict(selection)
             stream = False
-            if task == 'text_chat':
-                payload = text_input({**value,'model':selection['model']}, selection['model'])
+            if task in {'text_chat','text_chat_hu'}:
+                if task == 'text_chat_hu':
+                    payload = hungarian_text_input({**value,'model':selection['model']}, selection['model'],selection['model_profile'])
+                else:
+                    payload = text_input({**value,'model':selection['model']}, selection['model'])
                 stream = value.get('stream', False)
             else:
                 if not isinstance(value, dict) or set(value)-{'image_base64','model'} or 'image_base64' not in value:

@@ -1,0 +1,1216 @@
+{
+  "version": "hungarian-ranking.v1",
+  "language": "hu",
+  "scope": "Synthetic Hungarian text pilot; separate from English, vision and moderation. Assistant chat review is not independent native-speaker certification.",
+  "ranking_policy": "Eligibility: >=20/24 strict structured cases, >=5/6 usable assistant-reviewed chat cases, complete suite and no OOM; rank correctness, chat usability, latency.",
+  "generated_utc": "2026-10-28T12:05:09.120106+00:00",
+  "rows": [
+    {
+      "model": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx1024/batch8",
+      "correct": 17,
+      "total": 24,
+      "json_valid": 24,
+      "chat_usable": 3,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 15.231,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 1024,
+        "num_batch": 8,
+        "think": false
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "book-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": true
+        }
+      ],
+      "api_eligible": true
+    },
+    {
+      "model": "qwen3:1.7b",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx2048/batch32",
+      "correct": 10,
+      "total": 24,
+      "json_valid": 24,
+      "chat_usable": 2,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 3.55,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": true
+        }
+      ],
+      "api_eligible": false
+    },
+    {
+      "model": "granite4:1b-h",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx2048/batch32",
+      "correct": 10,
+      "total": 24,
+      "json_valid": 21,
+      "chat_usable": 2,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 4.514,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": true
+        }
+      ],
+      "api_eligible": false
+    },
+    {
+      "model": "hungarian-qwen35-2b:q4_k_m",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx2048/batch32",
+      "correct": 8,
+      "total": 24,
+      "json_valid": 22,
+      "chat_usable": 1,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 5.16,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": true
+        }
+      ],
+      "api_eligible": false
+    },
+    {
+      "model": "gemma3:1b",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx2048/batch32",
+      "correct": 5,
+      "total": 24,
+      "json_valid": 24,
+      "chat_usable": 0,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 4.693,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": true
+        }
+      ],
+      "api_eligible": false
+    },
+    {
+      "model": "qwen3.5:0.8b",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx2048/batch32",
+      "correct": 4,
+      "total": 24,
+      "json_valid": 24,
+      "chat_usable": 1,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 2.73,
+      "peak_cgroup_bytes": 2936008704,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": false
+        }
+      ],
+      "api_eligible": false
+    },
+    {
+      "model": "hungarian-qwen35-trimmed:q8_0",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx2048/batch32",
+      "correct": 3,
+      "total": 24,
+      "json_valid": 18,
+      "chat_usable": 1,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 3.378,
+      "peak_cgroup_bytes": 2457436160,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "case-ending",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "price-intent",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": false
+        }
+      ],
+      "api_eligible": false
+    },
+    {
+      "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+      "language": "hu",
+      "status": "completed",
+      "profile": "ctx2048/batch32",
+      "correct": 3,
+      "total": 24,
+      "json_valid": 16,
+      "chat_usable": 1,
+      "chat_total": 6,
+      "chat_reviewed": 6,
+      "median_seconds": 5.69,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negated-count",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "opening",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": false
+        }
+      ],
+      "api_eligible": false
+    },
+    {
+      "model": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+      "language": "hu",
+      "status": "failed",
+      "profile": "ctx2048/batch32",
+      "correct": 3,
+      "total": 24,
+      "json_valid": 3,
+      "chat_usable": 0,
+      "chat_total": 6,
+      "chat_reviewed": 0,
+      "median_seconds": 11.039,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "tested_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "ages",
+          "json_valid": false,
+          "correct": false
+        }
+      ],
+      "api_eligible": false
+    }
+  ],
+  "winner": null,
+  "pilot_winner": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+  "deployment_stage": "experimental_only",
+  "production_accepted": false,
+  "pilot_selection_note": "No quality gate was lowered. If no model passes, the best complete resource-valid profile is exposed only as the explicitly selected experimental Hungarian job for owner-requested testing/feedback; human review required."
+}

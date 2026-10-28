@@ -94,6 +94,10 @@ Text job `result` is the standard chat completion object (`choices`, `usage`, et
 
 Treat model output as untrusted data. Do not execute instructions in descriptions, let images change task selection, or use a description as a moderation approval. Validate schema before storing. Retain Camera source revision/eligibility checks and human vetting controls.
 
+## Experimental Hungarian job
+
+Use `text_chat_hu` with `model: auto` for explicit short Hungarian tests. Discover its experimental flag and profile; no model passed the Hungarian production gate. Follow [the separate API guide](HUNGARIAN.md) and [agent prompt](AGENT-PROMPT-HU.md). It shares FIFO scheduling and result deletion but has a much smaller context than English.
+
 ## Existing endpoints remain available
 
 - `POST /chat/completions`: same ClassScout/Habigoal keys and OpenAI completion result. The call joins the same queue, waits up to 100 seconds, and returns the completed response. Supported `model` values are installed/tested text model IDs, `auto`, or `text_chat`; omitted model follows the ranked default.

@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 ROOT=Path(__file__).resolve().parents[1]
 BASE='https://github.com/moldovancsaba/hetzner-nano-server/blob/main/'
-FIELDS={'model','status','passed','total','json_valid','native_tool_passed','median_seconds','p95_seconds','valid','total_images','valid_rate','readiness_score','object_reference_f1','object_recall','ocr_target_recall','ocr_correct','ocr_total','count_correct','count_total','macro_f2','macro_specificity','macro_detection_recall','true_positives','false_positives','known_correct','benchmark_version','correct','score'}
+FIELDS={'model','status','passed','total','json_valid','native_tool_passed','median_seconds','p95_seconds','valid','total_images','valid_rate','readiness_score','object_reference_f1','object_recall','ocr_target_recall','ocr_correct','ocr_total','count_correct','count_total','macro_f2','macro_specificity','macro_detection_recall','true_positives','false_positives','known_correct','benchmark_version','correct','score','chat_usable','chat_total','ranking_eligible','profile','api_eligible'}
 def read(p):return json.loads((ROOT/p).read_text())
 def safe(row):return {k:v for k,v in row.items() if k in FIELDS and isinstance(v,(str,int,float,bool,type(None)))}
 def build():
@@ -18,6 +18,11 @@ def build():
    if r.get(key):data['cohorts'].append({'label':label+' · '+task,'date':r.get('generated_utc'),'policy':r.get('english_policy' if key.startswith('english') else 'image_policy',''),'source':path,'rows':[safe(x) for x in r[key]]})
  for path,label in [('benchmarks/moderation/summary.json','Moderation · preliminary 25-image set'),('benchmarks/vision-evaluation/moderation-summary.json','Moderation · broader 41-image set')]:
   data['cohorts'].append({'label':label,'date':None,'policy':'Human review required. Valid JSON is not detection accuracy. Small category samples; see source for confidence intervals and category breakdowns.','source':path,'rows':[safe(x) for x in read(path)]})
+ hu_path='benchmarks/non-english/hu-round1/rankings.json'
+ if (ROOT/hu_path).exists():
+  hu=read(hu_path)
+  data['cohorts'].append({'label':'Hungarian · independent text pilot','date':hu.get('generated_utc'),'policy':hu['ranking_policy']+' '+hu['scope'],'source':hu_path,'rows':[safe(x) for x in hu['rows']]})
+ data['experimental_tasks']=[task for task,model in data['defaults'].items() if read('config/model-policy.json')['models'][model]['tasks'][task].get('experimental')]
  (ROOT/'dashboard/results.json').write_text(json.dumps(data,indent=2)+'\n')
  print(f"Built {data['model_variants_attempted']} variants, {len(data['cohorts'])} historical cohorts")
  return data

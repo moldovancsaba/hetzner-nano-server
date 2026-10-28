@@ -34,6 +34,10 @@ Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It doe
 
 [Round 5 results](benchmarks/round5/REPORT.md) add three tested variants (41 total attempts). Q5_K_M now leads recognition on the frozen 32-image cohort; Granite remains the English leader.
 
+## Experimental Hungarian text
+
+[Hungarian API and limitations](docs/HUNGARIAN.md) · [Copy the agent prompt](docs/AGENT-PROMPT-HU.md). The best measured short-context profile is available for explicit testing and human feedback; it did not pass the quality gate. English/image defaults are unchanged.
+
 ## Default model policy
 
 [Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses MiniCPM-V 4.6 Q5_K_M; moderation uses its separate Qwen3.5 0.8B winner.

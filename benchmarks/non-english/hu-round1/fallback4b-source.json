@@ -1,0 +1,16 @@
+{
+  "repository": "unsloth/Qwen3-4B-Instruct-2507-GGUF",
+  "revision": "a06e946bb6b655725eafa393f4a9745d460374c9",
+  "license": "apache-2.0",
+  "file": {
+    "rfilename": "Qwen3-4B-Instruct-2507-Q3_K_M.gguf",
+    "blobId": "14cab3ec948c4449ab866635dd84e0fda7474998",
+    "size": 2075618400,
+    "lfs": {
+      "sha256": "9c6e0763577125a994a9bea0bbd7a737ac4498b8a6a4e0f788727553af1806c9",
+      "size": 2075618400,
+      "pointerSize": 135
+    }
+  },
+  "reason": "Contingency if the 2B candidate fails the fixed Hungarian acceptance gate; 1.933 GiB text-only weight file may fit the existing cap, not yet tested."
+}

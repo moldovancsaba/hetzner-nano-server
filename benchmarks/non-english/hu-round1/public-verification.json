@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "policy_id": "feecd620d33c8a7c643ccbfe76363917efad925c47da4f539347a6e37e759561",
+  "experimental": true,
+  "checks": [
+    {
+      "name": "Missing key refused",
+      "passed": true
+    },
+    {
+      "name": "classscout Hungarian discovery",
+      "passed": true
+    },
+    {
+      "name": "classscout experimental flag",
+      "passed": true
+    },
+    {
+      "name": "habigoal Hungarian discovery",
+      "passed": true
+    },
+    {
+      "name": "habigoal experimental flag",
+      "passed": true
+    },
+    {
+      "name": "paperclip Hungarian discovery",
+      "passed": true
+    },
+    {
+      "name": "paperclip experimental flag",
+      "passed": true
+    },
+    {
+      "name": "pandora Hungarian discovery",
+      "passed": true
+    },
+    {
+      "name": "pandora experimental flag",
+      "passed": true
+    },
+    {
+      "name": "Camera cannot invoke Hungarian text",
+      "passed": true
+    },
+    {
+      "name": "Admission classscout text_chat_hu",
+      "passed": true
+    },
+    {
+      "name": "Completed classscout text_chat_hu",
+      "passed": true
+    },
+    {
+      "name": "Consumed result deleted",
+      "passed": true
+    },
+    {
+      "name": "Deleted result unavailable",
+      "passed": true
+    },
+    {
+      "name": "Ranked experimental model honored",
+      "passed": true
+    },
+    {
+      "name": "Measured low-memory profile honored",
+      "passed": true
+    },
+    {
+      "name": "Schema-constrained synthetic example correct",
+      "passed": true
+    },
+    {
+      "name": "Admission paperclip text_chat_hu",
+      "passed": true
+    },
+    {
+      "name": "Completed paperclip text_chat_hu",
+      "passed": true
+    },
+    {
+      "name": "Consumed result deleted",
+      "passed": true
+    },
+    {
+      "name": "Deleted result unavailable",
+      "passed": true
+    },
+    {
+      "name": "Paperclip Hungarian profile stays short",
+      "passed": true
+    },
+    {
+      "name": "Admission classscout text_chat",
+      "passed": true
+    },
+    {
+      "name": "Completed classscout text_chat",
+      "passed": true
+    },
+    {
+      "name": "Consumed result deleted",
+      "passed": true
+    },
+    {
+      "name": "Deleted result unavailable",
+      "passed": true
+    },
+    {
+      "name": "English default/context preserved",
+      "passed": true
+    },
+    {
+      "name": "Oversized Hungarian input refused",
+      "passed": true
+    }
+  ]
+}

@@ -7,7 +7,7 @@ import threading
 import time
 
 TENANTS = {'classscout', 'habigoal', 'camera', 'pandora', 'paperclip', 'unknown', 'operator'}
-TASKS = {'text_chat', 'image_recognition', 'image_moderation'}
+TASKS = {'text_chat_hu', 'text_chat', 'image_recognition', 'image_moderation'}
 EVENTS = {'http', 'admitted', 'finished', 'acknowledged', 'cancelled', 'result_expired'}
 COLUMNS = ('at', 'event', 'tenant', 'purpose', 'task', 'model', 'status', 'http_status',
            'route', 'method', 'error_code', 'queue_ms', 'switch_ms', 'load_ms',

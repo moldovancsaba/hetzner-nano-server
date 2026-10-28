@@ -1,0 +1,12 @@
+[
+  {
+    "model": "hungarian-qwen35-trimmed:q8_0",
+    "digest": "44973df369daeb71dbf6751ef72d7c0bb538c3fe0ec7d31ddf9a5b40b7e7714f",
+    "reason": "Failed fixed Hungarian acceptance gate; remove this run temporary weights only."
+  },
+  {
+    "model": "hungarian-qwen35-2b:q4_k_m",
+    "digest": "8f6a89ac097ae62bbc66cbe9e61e8bb311a6a64edeb83c22ee67a5e5222f5e7c",
+    "reason": "Failed fixed Hungarian acceptance gate; remove this run temporary weights only."
+  }
+]

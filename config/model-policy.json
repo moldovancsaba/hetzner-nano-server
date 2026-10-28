@@ -4,7 +4,8 @@
   "scope_notes": {
     "text_chat": "English structured-task ranking is the current text proxy; not a broad chat or non-English certification.",
     "image_recognition": "Broader actual-service public-image cohort; cohort-specific object/OCR readiness, not general accuracy. Historical screening is explicit-only and not comparable.",
-    "image_moderation": "Broader nine-category human-review assistance ranking by macro F2; invalid/abstained positives count as missed detection. Sparse positives and no standalone safety certification."
+    "image_moderation": "Broader nine-category human-review assistance ranking by macro F2; invalid/abstained positives count as missed detection. Sparse positives and no standalone safety certification.",
+    "text_chat_hu": "Experimental Hungarian short text/JSON: initial quality gate not met; human review required, no unattended factual decisions. Assistant-reviewed synthetic cases are not a native-speaker or fluency certification. No tools or Hungarian OCR approval."
   },
   "sources": [
     {
@@ -86,11 +87,20 @@
     {
       "path": "benchmarks/vision-evaluation/qwen-service-diagnostics.json",
       "sha256": "bd5989f1a34c7264ae9c7f798a2c76c88cfc0a76937f819ae4c72587a6f03e96"
+    },
+    {
+      "path": "benchmarks/non-english/hu-round1/rankings.json",
+      "sha256": "7475687ec40eea84fc1f3a727b3aa39ee4a655be18978968be5164a352b6f694"
+    },
+    {
+      "path": "benchmarks/non-english/hu-round1/results.json",
+      "sha256": "4e54e7becd3c3146799e372c5768c5c78c10bd85802e959c052ee0d7e1ad5f65"
     }
   ],
   "defaults": {
     "text_chat": "granite4:1b-h",
     "image_recognition": "minicpm-v4.6:q5_K_M",
+    "text_chat_hu": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
     "image_moderation": "qwen3.5:0.8b"
   },
   "models": {
@@ -2002,6 +2012,180 @@
         }
       }
     },
+    "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M": {
+      "id": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+      "tested_digest": "a4981cf368a06e6ad0d6e1c3117c468297e613b1fae864f50be6bb88e1b66eeb",
+      "tasks": {
+        "text_chat_hu": {
+          "rank": 1,
+          "metrics": {
+            "model": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+            "language": "hu",
+            "status": "completed",
+            "profile": "ctx1024/batch8",
+            "correct": 17,
+            "total": 24,
+            "json_valid": 24,
+            "chat_usable": 3,
+            "chat_total": 6,
+            "chat_reviewed": 6,
+            "median_seconds": 15.231,
+            "peak_cgroup_bytes": 2936012800,
+            "oom_kill_delta": 0,
+            "ranking_eligible": false,
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 1024,
+              "num_batch": 8,
+              "think": false
+            },
+            "checks": [
+              {
+                "id": "city-number",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "case-ending",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "negated-count",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "ages",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "missing-price",
+                "json_valid": true,
+                "correct": false
+              },
+              {
+                "id": "accents",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "number-words",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "negative-activity",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "price-intent",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "time-intent",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "cancel-intent",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "place-intent",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "book-intent",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "unknown-intent",
+                "json_valid": true,
+                "correct": false
+              },
+              {
+                "id": "listing-match",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "listing-abstain",
+                "json_valid": true,
+                "correct": false
+              },
+              {
+                "id": "listing-budget",
+                "json_valid": true,
+                "correct": false
+              },
+              {
+                "id": "capacity",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "date",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "opening",
+                "json_valid": true,
+                "correct": false
+              },
+              {
+                "id": "injection",
+                "json_valid": true,
+                "correct": false
+              },
+              {
+                "id": "unknown-address",
+                "json_valid": true,
+                "correct": false
+              },
+              {
+                "id": "cancellation",
+                "json_valid": true,
+                "correct": true
+              },
+              {
+                "id": "consent",
+                "json_valid": true,
+                "correct": true
+              }
+            ],
+            "api_eligible": true
+          },
+          "evidence": "benchmarks/non-english/hu-round1/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 1024,
+            "num_batch": 8,
+            "think": false
+          },
+          "ranking_tier": "hungarian_experimental",
+          "current_rank": 1,
+          "language": "hu",
+          "experimental": true,
+          "quality_gate_passed": false,
+          "tenant_profiles": {
+            "paperclip": {
+              "max_image_edge": 640,
+              "num_ctx": 1024,
+              "num_batch": 8,
+              "think": false
+            }
+          }
+        }
+      }
+    },
     "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0": {
       "id": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
       "tested_digest": "942c9f3baca05146bd56376163253408bb8af441611e08e9d15ecc1b8776536f",
@@ -2357,7 +2541,8 @@
   },
   "tenant_context_minimums": {
     "paperclip": {
-      "text_chat": 8192
+      "text_chat": 8192,
+      "text_chat_hu": 1024
     },
     "classscout": {
       "text_chat": 8192
@@ -2369,5 +2554,5 @@
       "text_chat": 8192
     }
   },
-  "policy_id": "94fd64780e8bf6b8f8946611fb37d4ce80816b93b2771cf7d1e009ec28dc853d"
+  "policy_id": "feecd620d33c8a7c643ccbfe76363917efad925c47da4f539347a6e37e759561"
 }

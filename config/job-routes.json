@@ -20,6 +20,15 @@
         "camera"
       ],
       "ranking_task": "image_recognition"
+    },
+    "text_chat_hu": {
+      "tenants": [
+        "classscout",
+        "habigoal",
+        "pandora",
+        "paperclip"
+      ],
+      "ranking_task": "text_chat_hu"
     }
   }
 }

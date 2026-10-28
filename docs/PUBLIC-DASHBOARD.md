@@ -6,9 +6,9 @@ The static page contains historical aggregate benchmark results, current configu
 
 ## Counting and comparisons
 
-At publication on 28 October 2026, the evidence registry contains **41 distinct model IDs**, including unsuccessful load/inference attempts. Repeated runs count once; sizes and quantization variants count separately. This is neither the count of model families nor installed weights.
+At publication on 28 October 2026, the evidence registry contains **44 distinct model IDs**, including unsuccessful load/inference attempts. Repeated runs count once; sizes and quantization variants count separately. This is neither the count of model families nor installed weights.
 
-Fourteen separate historical tables cover Round 3, Round 4, Round 5 merged rankings and broader English/image evaluations, budget-limited English attempts, and preliminary/broader moderation. Do not combine scores across these cohorts. Earlier attempts remain represented in the full registry with their source links. Non-English evidence stays separate and is linked from the page.
+Fifteen separate historical tables cover Round 3, Round 4, Round 5 merged rankings and broader English/image evaluations, budget-limited English attempts, and preliminary/broader moderation. Do not combine scores across these cohorts. Earlier attempts remain represented in the full registry with their source links. Hungarian has a separate experimental cohort in the selector, including all failed gates and profile attempts. Other non-English evidence stays separate.
 
 A valid response is not necessarily a correct answer. Recognition uses 32 images in the broader set; moderation uses 41 with small per-category positive samples and mandatory human review. Historical latency is workload/profile specific. See source reports for category confidence intervals, failures and limitations.
 

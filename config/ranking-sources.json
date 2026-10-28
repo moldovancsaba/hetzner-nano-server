@@ -17,5 +17,7 @@
   "runtime_profiles": "config/runtime-context-profiles.json",
   "legacy_screening": "benchmarks/round4/rankings.json",
   "legacy_moderation": "benchmarks/moderation/summary.json",
-  "legacy_moderation_raw": "benchmarks/moderation/results.json"
+  "legacy_moderation_raw": "benchmarks/moderation/results.json",
+  "hungarian": "benchmarks/non-english/hu-round1/rankings.json",
+  "hungarian_raw": "benchmarks/non-english/hu-round1/results.json"
 }
