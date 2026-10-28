@@ -1,17 +1,17 @@
 # Automatic model-weight cleanup
 
-Owner policy, 2026-10-27: retain **the top five models in each current job-specific ranking**, plus models used by valid non-test inference requests in the last **14 days**. This replaces the previous permanent alternative pins and seven-day rollback-cache target.
+Owner policy, updated 2026-10-28: retain **the top three models in each current job-specific ranking**, plus models used by valid non-test inference requests in the last **14 days**. This replaces the previous permanent alternative pins and seven-day rollback-cache target.
 
 ## What stays
 
 For every installed model, retain it if any condition applies:
 
-1. It is a current default, or has rank 1–5 in **any** current job ranking (English text, general image recognition, moderation separately).
+1. It is a current default, or has rank 1–3 in **any** current job ranking (English text, general image recognition, moderation and experimental Hungarian text separately).
 2. An authenticated, validated, successfully admitted **production** inference request selected it within the past 14 × 24 hours.
 3. It is resident in Ollama, or service work is active/queued. Cleanup waits/skips rather than disrupting work.
 4. During the initial migration only: it was in the initial installed inventory and tracking started less than 14 days ago. This avoids pretending we know the previous two weeks of usage.
 
-The union is intentional: a rank-six text model can still be a top-five image model. There are currently only two moderation-ranked candidates, so both qualify by that ranking. Missing top-five weights are **not downloaded automatically**; this is an eviction policy, not an installation job. Uninstalled artifacts and previous outcomes remain in the model-policy/test index and versioned reports.
+The union is intentional: a rank-six text model can still be a top-three image model. Missing top-three weights are **not downloaded automatically**; this is an eviction policy, not an installation job. Uninstalled artifacts and previous outcomes remain in the model-policy/test index and versioned reports.
 
 Everything else is eligible for removal of its **weights only**. No benchmark evidence, declined-model metadata, rankings, training datasets, labels, approved adapters, credentials or application data is deleted by this cleaner.
 
@@ -54,7 +54,7 @@ No cleaner can safely coordinate arbitrary direct native calls made outside the 
 
 ## Initial grace period
 
-We had no trustworthy non-test production-use ledger before this rollout. Existing weights therefore get one initial 14-day history grace period. Current top-five/default models remain protected afterward. Lower-ranked existing models without admitted production use will become eligible once that grace expires; tests do not restart or extend it. Newly installed models do not inherit the initial inventory grace.
+We had no trustworthy non-test production-use ledger before this rollout. Existing weights therefore get one initial 14-day history grace period. Current top-three/default models remain protected afterward. Lower-ranked existing models without admitted production use will become eligible once that grace expires; tests do not restart or extend it. Newly installed models do not inherit the initial inventory grace.
 
 The cleaner was verified using a disposable unranked model alias created **after** tracking initialized. It removed that alias while preserving the source model and all current installed weights covered by rank, residency or initial grace. No genuine production use was manufactured to test retention.
 
@@ -80,3 +80,7 @@ Disable with `systemctl disable --now narimato-model-cleanup.timer`. Before chan
 To restore an evicted alternative, an authorized operator must pull the exact tested artifact, verify its digest and eligibility, and let API discovery refresh. There is no public model-install endpoint. A lower-ranked model without recent production use may be evicted again; a legitimate admitted request restarts its 14-day demand window.
 
 See [verification](../results/auto-cleanup/README.md), [retention policy](DATA-RETENTION.md) and [model-selection policy](MODEL-POLICY.md).
+
+## Top-three rollout, 2026-10-28
+
+The hourly cleaner now retains ranks 1–3 in each of the four routes: English text, image recognition, image moderation and experimental Hungarian text. Hungarian currently has only one eligible experimental profile; this does not imply three approved Hungarian models. The first run completed, removing two unprotected packages (LFM2.5-VL-450M Extract Q8 and Qwen2.5 0.5B), leaving 20 installed packages. Older inventory still has its original history grace; recent non-test demand remains protected. No history or benchmark results were removed.

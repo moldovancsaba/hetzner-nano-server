@@ -7,12 +7,14 @@ from storage.cleaner import reasons,validate_usage
 class Tests(unittest.TestCase):
  def setUp(self):
   self.now=2_000_000_000
-  self.policy={'defaults':{'text_chat':'winner'},'models':{'winner':{'tasks':{'text_chat':{'rank':1}}},'fifth':{'tasks':{'image_recognition':{'rank':5}}},'old':{'tasks':{'text_chat':{'rank':6}}}}}
+  self.policy={'defaults':{'text_chat':'winner'},'models':{'winner':{'tasks':{'text_chat':{'rank':1}}},'third':{'tasks':{'image_recognition':{'rank':3}}},'old':{'tasks':{'text_chat':{'rank':6}}}}}
   self.usage={'version':'model-usage.v1','tracking_started_at':self.now-15*86400,'bootstrap_inventory':{'old':'digest'},'models':{}}
  def test_ranked_recent_and_resident(self):
   self.assertIn('current_default',reasons({'name':'winner'},self.policy,self.usage,set(),self.now))
-  self.assertIn('top_five:image_recognition',reasons({'name':'fifth'},self.policy,self.usage,set(),self.now))
+  self.assertIn('top_three:image_recognition',reasons({'name':'third'},self.policy,self.usage,set(),self.now))
   self.assertEqual(reasons({'name':'old','digest':'digest'},self.policy,self.usage,set(),self.now),[])
+  self.policy['models']['fourth']={'tasks':{'text_chat':{'rank':4}}}
+  self.assertEqual(reasons({'name':'fourth'},self.policy,self.usage,set(),self.now),[])
   self.usage['models']['old']={'last_valid_request_at':self.now-14*86400}
   self.assertIn('production_request_within_14_days',reasons({'name':'old'},self.policy,self.usage,set(),self.now))
   self.assertIn('resident_model',reasons({'name':'other'},self.policy,self.usage,{'other'},self.now))

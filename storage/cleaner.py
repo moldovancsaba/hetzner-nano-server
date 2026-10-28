@@ -1,16 +1,16 @@
-"""Retain per-task top five and 14-day real demand; delete only under gateway lease."""
+"""Retain per-task top three and 14-day real demand; delete only under gateway lease."""
 import argparse,datetime,json,math,os,subprocess,time,urllib.error,urllib.request
 from pathlib import Path
 
 DAYS=14
 
 def reasons(model,policy,usage,loaded,now,storage=None):
-    storage=storage or {};days=storage.get("keep_production_request_days",14);top=storage.get("keep_top_per_task",5);grace=storage.get("initial_inventory_history_grace_days",14)
+    storage=storage or {};days=storage.get("keep_production_request_days",14);top=storage.get("keep_top_per_task",3);grace=storage.get("initial_inventory_history_grace_days",14)
     name=model['name'];keep=[]
     if name in policy['defaults'].values():keep.append('current_default')
     entry=next((v for k,v in policy['models'].items() if k.lower()==name.lower()),{})
     for task,rank in entry.get('tasks',{}).items():
-        if rank['rank']<=top:keep.append('top_five:'+task)
+        if rank['rank']<=top:keep.append('top_three:'+task)
     recent=next((v for k,v in usage['models'].items() if k.lower()==name.lower()),None)
     if recent and recent['last_valid_request_at']>=now-days*86400:keep.append('production_request_within_14_days')
     if usage['tracking_started_at']>=now-grace*86400 and usage['bootstrap_inventory'].get(name)==model.get('digest'):
@@ -50,7 +50,7 @@ def main(apply=False,state=Path('/var/lib/narimato-model-cleanup')):
         policy_path=Path('/opt/narimato-gateway/config/model-policy.json');policy=json.loads(policy_path.read_text())
         storage=json.loads(Path('/opt/narimato-ai/model-storage-policy.json').read_text())
         assert storage['version']=='model-storage.v2' and storage['automatic_weight_deletion'] is True
-        assert storage['keep_top_per_task']==5 and storage['keep_production_request_days']==14
+        assert storage['keep_top_per_task']==3 and storage['keep_production_request_days']==14
         if not policy.get('defaults') or not policy.get('models'):raise ValueError('Missing ranked policy')
         inventory=request('http://127.0.0.1:11434/api/tags')['models']
         report['usage_tracking_started_at']=usage['tracking_started_at'];report['policy_id']=policy['policy_id']

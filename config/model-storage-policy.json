@@ -16,7 +16,7 @@
     "training_requires_explicit_dataset_approval": true,
     "training_and_holdout_must_be_separate": true
   },
-  "keep_top_per_task": 5,
+  "keep_top_per_task": 3,
   "keep_production_request_days": 14,
   "exclude_test_requests": true,
   "initial_inventory_history_grace_days": 14,

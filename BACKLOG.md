@@ -15,7 +15,7 @@ Owner: platform operator. Updated 2026-10-28. This is the repository's task back
 | TR-01 | P0 | Define training boundary | Owner approved curated, explicitly approved datasets and labels only; never capture live Camera inputs or conversations |
 
 | ST-01 | P1 | Content-free production model-demand tracking | Persistent model/digest/count/last-valid-request metadata; tests explicitly excluded |
-| ST-02 | P1 | Automatic top-five / 14-day weight cleanup | Hourly timer, idle gateway lease, initial history grace, deletion audit and real disposable-alias verification |
+| ST-02 | P1 | Automatic top-three / 14-day weight cleanup | Hourly timer, idle gateway lease, initial history grace, deletion audit and real disposable-alias verification |
 
 | EV-05 | P1 | Ten additional text/image candidates (owner-requested round 4) | Five English text and five general image candidates attempted under an exclusive maintenance lease; results and independent rankings in [round 4](benchmarks/round4/REPORT.md) |
 
