@@ -29,7 +29,7 @@ CAMERA_MODERATION_BASE_URL=https://chatbotapi.haho.ai/v1/moderation
 CAMERA_MODERATION_API_KEY=<dedicated-camera-key>
 ```
 
-The key is in the canonical root-only server `/opt/narimato-ai/api-keys.json` under `camera`, the owner's ignored local `private/api-keys.json`, and `private/camera-moderation.env`. Authorized agents can copy it directly into Camera's ignored server environment. Do not put it in source, browser JavaScript, `NEXT_PUBLIC_*`, image metadata, logs or this public repository. It is separate from Habigoal/ClassScout keys and grants moderation routes only; it does not grant chat/model-management access. Habigoal/ClassScout bearer keys cannot access moderation. `private/` is not included in Git clones.
+The key is in the canonical root-only server `/opt/narimato-ai/api-keys.json` under `camera`, the owner's ignored local `private/api-keys.json`, and `private/camera-moderation.env`. Authorized agents can copy it directly into Camera's ignored server environment. Do not put it in source, browser JavaScript, `NEXT_PUBLIC_*`, image metadata, logs or this public repository. It is separate from Habigoal/ClassScout keys and grants Camera moderation, recognition, task/model discovery and queue routes; it does not grant text inference or model-management access. Habigoal/ClassScout bearer keys cannot access moderation. `private/` is not included in Git clones.
 
 The active gateway reads `/etc/narimato-gateway.env` (Camera field `GATEWAY_CAMERA_KEY`). The retired standalone worker used `/etc/narimato-moderation.env`. Rotation: replace only the Camera key in the canonical JSON, securely refresh that env file/local snapshots and Camera's authorized server environments, then drain/restart `narimato-gateway`. Old in-flight job IDs are lost by restart. Caddy forwards the bearer header to this service and contains no Camera key.
 
@@ -41,7 +41,7 @@ The active gateway reads `/etc/narimato-gateway.env` (Camera field `GATEWAY_CAME
 {"image_base64":"<standard base64 image bytes, without data: prefix>"}
 ```
 
-Only this property is accepted. No URL fetching, personal identifiers, event names, email addresses, EXIF fields, prompts or model overrides. Read private image bytes inside Camera's trusted server code; do not make pending photos public for this API. Preserve Camera's source permissions, revision and deletion/consent rules.
+The image property and optional `model` are accepted; use `model: "auto"` for the ranked default or a selectable exact model ID from `/v1/models`. No URL fetching, personal identifiers, event names, email addresses, EXIF fields or arbitrary prompts. Read private image bytes inside Camera's trusted server code; do not make pending photos public for this API. Preserve Camera's source permissions, revision and deletion/consent rules.
 
 Limits: JPEG/PNG/WebP still images only; 4 MiB decoded file, 16 megapixels, 6 MiB JSON request. Animated images and movies are rejected. Input is EXIF-oriented, resized to maximum edge 640, flattened onto white if transparent and re-encoded as JPEG without metadata. Client-side/server-side preparation to 640 pixels reduces transfer time, but retain an original source revision and use original details for human review. Small details may disappear at this size.
 
@@ -122,9 +122,9 @@ Additional lifecycle/hash fields may be present. Invalid, truncated, absent or f
 | 429 | Queue or retained-result capacity reached | Honor Retry-After: 10; exponential backoff with jitter |
 | 5xx / network / TLS / timeout | Service unavailable | Keep manual review available and retry later |
 
-Three waiting jobs plus one active worker; at most 32 retained jobs. Results expire 15 minutes after completion/failure and are removed lazily on requests. Jobs/results exist only in memory and disappear at restart. Images are kept only in the bounded in-memory queue/worker, never written to disk by this service. Input bytes are discarded after inference. Minimal metadata, hashes and evidence remain until expiry/restart; Camera chooses its own authorized retention and must not keep results after source deletion/withdrawal. Model/service logs do not intentionally contain image bytes or results. Infrastructure administrators still control the host; this is not an encrypted enclave.
+One shared active worker, eight waiting jobs globally, at most four queued/running per service and 64 retained job records. Results expire five minutes after completion/failure with periodic expiry. Jobs/results exist only in memory and disappear at restart. Images are kept only in the bounded in-memory queue/worker, never written to disk by this service. Input bytes are discarded after inference. Minimal metadata, hashes and evidence remain until expiry/restart; Camera chooses its own authorized retention and must not keep results after source deletion/withdrawal. Model/service logs do not intentionally contain image bytes or results. Infrastructure administrators still control the host; this is not an encrypted enclave.
 
-There is no durable queue, cancellation endpoint, webhook or deletion endpoint in v1. If the source loses eligibility while a job runs, Camera must discard its result and perform its own cleanup. Never retry a deleted/ineligible source. A job expiring is not proof that Camera has deleted its copy.
+There is no durable queue or webhook. Authenticated `DELETE /jobs/{id}` acknowledges/removes a terminal result or cancels queued work; active inference returns 409. If the source loses eligibility while a job runs, Camera must discard its result and perform its own cleanup. Never retry a deleted/ineligible source. A job expiring is not proof that Camera has deleted its copy.
 
 ## Camera integration workflow
 

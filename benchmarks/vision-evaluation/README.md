@@ -47,3 +47,25 @@ A separate non-scoring native diagnostic confirmed one baseline failure hit the 
 Before any moderation inference, full-resolution review corrected one scene label and added a public-domain nonsexual classical-sculpture contrast. The initial manifest remains in Git history; protocol.json records the amendment and hashes. No model outputs drove the correction.
 
 The as-is Qwen profile consumed its response budget on reasoning. A native diagnostic retained only reasoning length (never reasoning content). The operator added an explicit think=false vision profile, verified a real API response, preserved nine failed-profile diagnostic cases separately, and restarted Qwen on the entire cohort. The other four completed models are unchanged. Profile-control regression tests and checkpoint/resume handling were added; labels and score weights were not tuned to Qwen answers.
+
+## Reproduce the analysis or run a reviewed successor
+
+From the repository root, recompute the completed recognition report without source images or credentials:
+
+```sh
+python3 benchmarks/vision-evaluation/test_scoring.py -q
+python3 benchmarks/vision-evaluation/report.py --recognition-only
+python3 scripts/promote_rankings.py --check
+```
+
+After both cohorts finish, `python3 benchmarks/vision-evaluation/report.py` rebuilds both task reports from versioned raw results. The report refuses changed manifest/scorer hashes, missing cases and different artifacts between tasks. It does not call inference or deploy a default. Public Git intentionally excludes the source photographs and restricted raw source downloads.
+
+For a successor run, obtain/review permitted source files and their licenses in an ignored private evaluation directory; freeze case IDs, labels, hashes, rubric and splits before inference. Retain references and known limitations. Explicitly approve any label revision before outputs are seen. Do not silently alter this completed cohort or use it as a private/unseen Camera holdout.
+
+`run_recognition.py` and `run_moderation.py` are server operator runners for `/opt/narimato-benchmarks/vision-evaluation`, not public client endpoints. They require the documented root-only project/maintenance credentials, exact runtime/resources and curated inputs. Pause the cleanup timer, serialize native work with the gateway lease, use `X-Request-Purpose: test` on every API request, yield to production, capture failures/OOMs, and restore/verify services and the timer. Inspect existing systemd benchmark units first; never launch a second runner over active inference or overwrite a run still in progress. Keep training approval separate.
+
+After scoring, follow [the required ranking deployment workflow](../../docs/MODEL-POLICY.md#required-workflow-after-new-tests). Update canonical ranking sources and the tested-model index; install/verify exact winning digests; atomically deploy the policy under the idle lease; verify authenticated actual `auto` jobs and explicit alternatives. Publish metrics and metadata, remove temporary server evaluation inputs, and preserve protected weights under the normal top-five/14-day cleaner. Do not retain live request content.
+
+The final bounded API check is `python3 benchmarks/vision-evaluation/verify.py --with-moderation`, run locally with authorized ignored project credentials and private neutral test bytes. It checks tenant permissions, current policy, serialized mixed work, automatic defaults, an explicit moderation override, human-review semantics, result deletion and text restoration. It is not a quality or load test.
+
+After both server units stop successfully, run `audit_runtime.py --clean-inputs` in the server's dedicated evaluation directory to remove only `inputs/` and `moderation-inputs/`, retaining manifests/results. It refuses incomplete runs, active benchmark units and symlink input roots, and writes a content-free health/cleanup audit. Normal production request bodies are never written into those test folders.

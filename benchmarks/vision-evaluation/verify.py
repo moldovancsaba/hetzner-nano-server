@@ -49,6 +49,12 @@ try:
     if args.with_moderation:
         code,job=call('/jobs','camera',{'task':'image_moderation','model':'auto','input':{'image_base64':image}});check('Auto moderation admission',code==202)
         row=poll('camera',job['id']);check('Moderation remains human review',row.get('result',{}).get('review_required') is True and row['result']['automated_decision']=='none');consume('camera',row)
+        explicit='hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0'
+        code,job=call('/jobs','camera',{'task':'image_moderation','model':explicit,'input':{'image_base64':image}});check('Explicit tested moderation admitted',code==202)
+        row=poll('camera',job['id']);check('Explicit model remains a deliberate override',row['status']=='completed' and row['model']==row['result']['model']==explicit)
+        check('Explicit moderation remains human review',row['result']['review_required'] is True and row['result']['automated_decision']=='none')
+        report['jobs'].append({key:row.get(key) for key in ['task','model','status','created_at','started_at','finished_at','queue_wait_seconds','model_profile']})
+        code,_=call('/jobs/'+row['id'],'camera',method='DELETE');check('Delete explicit synthetic result',code==200)
         code,job=call('/jobs','classscout',{'task':'text_chat','model':'auto','input':{'messages':[{'role':'user','content':'Reply READY.'}],'max_tokens':16}});check('Default text restoration admitted',code==202);consume('classscout',poll('classscout',job['id']))
     code,queue=call('/queue');check('Shared queue healthy',code==200 and queue['status']=='ok');report['queue']=queue
     report['passed']=True

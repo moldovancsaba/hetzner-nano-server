@@ -1,5 +1,5 @@
 """Publish comparable completed-cohort metrics, keeping separate jobs and old evidence apart."""
-import argparse,datetime,json,random,statistics
+import argparse,datetime,hashlib,json,random,statistics
 from pathlib import Path
 from scoring import recognition_summary,moderation_summary
 ROOT=Path(__file__).resolve().parent
@@ -10,6 +10,22 @@ assert r['status']=='completed' and len(r['models'])==5,'Recognition must finish
 if not recognition_only:assert m['status']=='completed' and len(m['models'])==5,'Moderation must finish before its leaderboard'
 assert all(x['status']=='completed' and len(x['tests'])==32 and len(x['robustness'])==9 and len(x['counts'])==8 for x in r['models'])
 assert all(x['status']=='completed' and len(x['tests'])==len(mm['cases']) and len(x['robustness'])==1 for x in m['models'])
+protocol=json.loads((ROOT/'protocol.json').read_text())
+for filename in ['recognition-manifest.json','moderation-manifest.json']:
+    actual=hashlib.sha256((ROOT/filename).read_bytes()).hexdigest()
+    assert actual==protocol['manifest_sha256'][filename], 'Reference manifest changed: '+filename
+assert r['manifest_sha256']==protocol['manifest_sha256']['recognition-manifest.json']
+assert hashlib.sha256((ROOT/'scoring.py').read_bytes()).hexdigest()==protocol['scorer_sha256'], 'Unversioned scorer change'
+for entry in r['models']:
+    for field,cases in [('tests',rm['recognition']),('robustness',rm['robustness']),('counts',[case for case in rm['recognition'] if case.get('count_probe')])]:
+        assert {row['id'] for row in entry[field]}=={case['id'] for case in cases}, 'Missing/duplicate recognition cases'
+if not recognition_only:
+    assert m['manifest_sha256']==protocol['manifest_sha256']['moderation-manifest.json']
+    for entry in m['models']:
+        for field,cases in [('tests',mm['cases']),('robustness',mm['robustness'])]:
+            assert {row['id'] for row in entry[field]}=={case['id'] for case in cases}, 'Missing/duplicate moderation cases'
+        same=next(row for row in r['models'] if row['model']==entry['model'])
+        assert entry['tag']['digest']==same['tag']['digest'], 'Artifact changed between task evaluations'
 rec=[recognition_summary(x,rm) for x in r['models']];mod=[moderation_summary(x,mm) for x in m['models']]
 rec.sort(key=lambda x:(-x['readiness_score'],-x['valid_rate'],x['median_seconds'],x['model']))
 mod.sort(key=lambda x:(-x['macro_f2'],-x['macro_specificity'],-x['valid']/x['total'],x['median_seconds'],x['model']))
@@ -54,16 +70,43 @@ if recognition_only:
     print(json.dumps({'recognition_winner':rankings['image'][0]['model'],'recognition_models':len(rec),'moderation':'separate, not yet published'}));raise SystemExit(0)
 lines+=['','## Moderation: independent nine-category comparison','','41 distinct images: 34 photographic/photo-like images, two source illustrations and five controlled English text/shape probes. A further paired instruction-in-image challenge is separate. Primary order: equal-category macro F2, specificity, valid-response rate, then latency. Positive-reference abstentions/invalid outputs count as missed detections. Unknown references are not negative labels. No flags never means approval.','','| Model | Macro F2 | Macro detection recall | Macro specificity | Valid outputs | Median seconds |','| --- | --- | --- | --- | --- | --- |']
 for x in mod:lines.append(f"| {x['model']} | {percent(x['macro_f2'])} | {percent(x['macro_detection_recall'])} | {percent(x['macro_specificity'])} | {x['valid']}/{x['total']} | {x['median_seconds']:.2f} |")
+# Transparent trivial baselines expose class imbalance without extra inference.
+baselines=[]
+for label,value in [('always_negative',False),('always_positive',True),('always_uncertain',None)]:
+    synthetic={'model':label,'status':'completed','tests':[{'id':case['id'],'valid':True,'seconds':0,'parsed':{'categories':dict.fromkeys(mm['categories'],value)}} for case in mm['cases']]}
+    summary=moderation_summary(synthetic,mm)
+    baselines.append({key:summary[key] for key in ['model','macro_f2','macro_detection_recall','macro_specificity']})
+(ROOT/'moderation-baselines.json').write_text(json.dumps(baselines,indent=2)+'\n')
+lines+=['','Trivial reference baselines (no inference): '+ '; '.join(row['model']+' macro F2 '+percent(row['macro_f2']) for row in baselines)+'. The mostly negative dataset makes raw Boolean accuracy misleading; it is not the selection metric.']
 lines+=['','### Per-category findings','','Recall intervals are Wilson 95% intervals. Small positive counts produce wide uncertainty even if every positive is detected. Invalid/abstained positive references are included in the recall denominator.','']
 for x in mod:
     lines+=['#### '+x['model'],'','| Category | Positives | Detected | Missed false | Positive abstentions / invalid | False positives | Recall 95% interval |','| --- | --- | --- | --- | --- | --- | --- |']
     for category,c in x['categories'].items():lines.append(f"| {category} | {c['positive']} | {c['tp']} | {c['fn']} | {c['review_positive']} / {c['invalid_positive']} | {c['fp']} | {str([round(v,3) for v in c['recall_wilson_95']])} |")
+lines+=['','### Paired instruction-in-image challenge','','A museum/archive flag photograph was also tested with a visible instruction overlay. This is one paired case per model, not an independent image cohort or comprehensive prompt-injection certification. Category changes can also reflect visual interference.','', '| Model | Base valid | Base hateSymbols | Overlay valid | Overlay hateSymbols |', '| --- | --- | --- | --- | --- |']
+robust=[]
+for entry in m['models']:
+    for case in mm['robustness']:
+        base=next(row for row in entry['tests'] if row['id']==case['base_case'])
+        variant=next(row for row in entry['robustness'] if row['id']==case['id'])
+        def hate(row):
+            parsed=row.get('parsed');categories=parsed.get('categories',{}) if isinstance(parsed,dict) else {}
+            return categories.get('hateSymbols') if isinstance(categories,dict) and row.get('valid') else 'invalid'
+        item={'model':entry['model'],'base_id':base['id'],'variant_id':variant['id'],'base_valid':base['valid'],'variant_valid':variant['valid'],'base_hateSymbols':hate(base),'variant_hateSymbols':hate(variant)}
+        robust.append(item)
+        lines.append('| '+entry['model']+' | '+str(base['valid'])+' | '+str(hate(base))+' | '+str(variant['valid'])+' | '+str(hate(variant))+' |')
+(ROOT/'moderation-robustness.json').write_text(json.dumps(robust,indent=2)+'\n')
 lines+=['','### Photographs versus controlled text probes','','Hate-word positives are controlled English text probes; no photographic/multilingual hate-word recall is established. The photograph-only macro score excludes categories without photographic positives and is therefore not interchangeable with the nine-category primary score.','']
 photo_manifest={**mm,'cases':[c for c in mm['cases'] if c['medium']=='photograph']};photo_ids={c['id'] for c in photo_manifest['cases']}
 photo=[]
 for entry in m['models']:
     subset={**entry,'tests':[t for t in entry['tests'] if t['id'] in photo_ids]};row=moderation_summary(subset,photo_manifest);photo.append(row);lines.append('- '+row['model']+': photograph-only macro F2 '+percent(row['macro_f2'])+' over '+str(sum(c['positive']>0 for c in row['categories'].values()))+' categories with photographic positives.')
 (ROOT/'moderation-photo-summary.json').write_text(json.dumps(photo,indent=2)+'\n')
+lines+=['','## Resource evidence','','All candidates used the same 2800 MiB / two-CPU container cap, no GPU and no swap. The figures below are sampled cgroup memory (including cache), not exact model-only RAM or a guarantee that no shorter spike occurred. See [runtime audit](runtime-audit-before-profile-fix.json).','','| Model | Recognition sampled peak MiB | Moderation sampled peak MiB | Recognition / moderation OOM kills |','| --- | --- | --- | --- |']
+for entry in r['models']:
+    other=next(row for row in m['models'] if row['model']==entry['model'])
+    recognition_peak=max((row.get('peak_cgroup_bytes',0) for field in ['tests','robustness','counts'] for row in entry[field]),default=0)
+    moderation_peak=max((row.get('peak_cgroup_bytes',0) for field in ['tests','robustness'] for row in other[field]),default=0)
+    lines.append('| '+entry['model']+' | '+str(round(recognition_peak/1048576,1))+' | '+str(round(moderation_peak/1048576,1))+' | '+str(entry.get('oom_kill_delta',0))+' / '+str(other.get('oom_kill_delta',0))+' |')
 lines+=['','## What this establishes and what it does not','','Across the primary cohorts there are 70 distinct source images (63 photographic/photo-like images, two source illustrations and five controlled probes); three benign COCO photos are shared between tasks. Ten paired variants, repeated model calls, and eight reused count probes are not inflated into independent image counts.','','Public annotations/answer consensus plus one assistant visual review form the reference. No two-human adjudication or representative Camera/customer cohort was available. The owner chose public research data only. Labels were frozen before inference; the scorer received a documented, equally applied compound-noun bug fix before final scoring. No model-as-judge or model-specific answer adjustment was used. Public validation images may have appeared in model pretraining.','','Moderation coverage gaps remain explicit: two clear adult-appearing sexual-act images, no independently certified identity/age provenance, English controlled hate words, and limited injury/depicted-harm coverage. Ambiguous/young-appearing sexual candidates were excluded and their local derivatives removed. These results do not certify autonomous moderation, broad gore/assault detection, movies, multi-image reasoning, training, or any non-English capability. Human review remains mandatory.','','Recognition calls used the actual authenticated Camera API and one outstanding FIFO test job, so production could interleave. Waiting and inference time are separate. Moderation used the identical live prompt/schema under a renewable idle lease per image and yielded between cases. Resource limits/runtime were unchanged. Cgroup peaks include cache and can miss sub-sample spikes; no GPU/host-cold/load-test claim is made.','','[Protocol](protocol.json), [recognition labels](recognition-manifest.json), [moderation labels](moderation-manifest.json), [recognition detail](recognition-summary.json), [moderation detail](moderation-summary.json), [raw recognition run](recognition-results.json), and [raw moderation run](moderation-results.json). Source images stay private and are not training-approved.']
 if (ROOT/'service-diagnostics.json').exists():lines+=['','## Service failure diagnostic','','A separate non-scoring replay confirmed a baseline response exhausted the 256-token output limit, ending with incomplete JSON and repeated non-text object names in visible_text. Raising a token limit alone would not establish truthful OCR. See [the exact diagnostic](service-diagnostics.json). This proves that failure cause for the replayed case, not every failed response.']
 (ROOT/'REPORT.md').write_text('\n'.join(lines)+'\n')

@@ -1,6 +1,6 @@
 # Hetzner model research and data-management backlog
 
-Owner: platform operator. Updated 2026-10-27. This is the repository's task backlog; [the operating plan](docs/CONTINUOUS-EVALUATION.md) defines execution and [retention policy](docs/DATA-RETENTION.md) defines data boundaries.
+Owner: platform operator. Updated 2026-10-28. This is the repository's task backlog; [the operating plan](docs/CONTINUOUS-EVALUATION.md) defines execution and [retention policy](docs/DATA-RETENTION.md) defines data boundaries.
 
 ## Delivered
 
@@ -19,6 +19,10 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 
 | EV-05 | P1 | Ten additional text/image candidates (owner-requested round 4) | Five English text and five general image candidates attempted under an exclusive maintenance lease; results and independent rankings in [round 4](benchmarks/round4/REPORT.md) |
 
+## Broader Camera evaluation — in progress
+
+Recognition is complete on 32 public research photographs, with nine paired robustness variants and eight separate counting probes. MiniCPM-V 4.6 1B is the deployed recognition default; [results and limits](benchmarks/vision-evaluation/REPORT-RECOGNITION.md). The separate 41-image, nine-category moderation comparison is still running. No live Camera data is used or retained for training.
+
 ## Ready / next
 
 | ID | Priority | Work | Definition of done |
@@ -26,7 +30,7 @@ Owner: platform operator. Updated 2026-10-27. This is the repository's task back
 | MR-04 | P1 | Review the initial shortlist and choose at most two candidates | Verify publisher, license, precise artifact/quantization/projector size, ARM64/runtime compatibility, changed condition versus prior attempts, intended task and test budget |
 | EV-01 | P1 | Build approved unseen project holdouts | Versioned manifests, provenance/approval and labels; English structured tasks, general images and each moderation category scored separately; no training contamination |
 | EV-02 | P1 | Standardize maintenance-window benchmark runner | Drain public queue, isolate native testing, pin resource limits, capture real peaks/OOM/load/switch times, enforce download/time/disk limits, restore and verify all services |
-| EV-03 | P1 | Expand moderation validation | Enough positive, negative and ambiguous examples per category, independent label review, explicit-act/photographic gesture/hate-symbol/violence coverage gaps addressed; never auto-clear images |
+| EV-03 | P1 | Extend public moderation testing with representative unseen holdouts | Enough positive, negative and ambiguous examples per category, independent label review, explicit-act/photographic gesture/hate-symbol/violence coverage gaps addressed; never auto-clear images |
 | OP-01 | P1 | Add meaningful failure notification | Alert only on repeated source failures, timer failure, low disk or benchmark restore failure; choose/authorize a destination before sending external messages |
 | CL-01 | P1 | Integrate result acknowledgement in clients | Camera/ClassScout poll, consume and DELETE terminal results; preserve source revision and manual-review behavior; update client contracts in their own repositories |
 

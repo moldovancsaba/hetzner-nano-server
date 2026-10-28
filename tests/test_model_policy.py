@@ -22,7 +22,7 @@ class Tests(unittest.TestCase):
   self.assertEqual(c.select('text_chat','qwen3:0.6b')['model'],'qwen3:0.6b')
  def test_wrong_job_unknown_and_changed_digest_blocked(self):
   c=ModelCatalog(POLICY_PATH,lambda:{'models':self.inventory})
-  for task,model in [('text_chat','random:70b'),('image_moderation','granite4:1b-h'),('image_moderation','hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0')]:
+  for task,model in [('text_chat','random:70b'),('image_moderation','granite4:1b-h'),('image_moderation','qwen3:0.6b')]:
    with self.assertRaises(SelectionError):c.select(task,model)
   changed=copy.deepcopy(self.inventory);changed[0]['digest']='changed'
   c=ModelCatalog(POLICY_PATH,lambda:{'models':changed})
