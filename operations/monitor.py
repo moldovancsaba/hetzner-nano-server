@@ -83,14 +83,44 @@ def snapshot():
         data=json.loads(subprocess.check_output(['docker','inspect','narimato-ollama'],text=True,timeout=10))[0]
         result['oom_killed']=data['State']['OOMKilled']
         result['services']['native_container']=data['State']['Running']
+        result['runtime_id']=data['Id']
+        try:
+            pid=data['State']['Pid'];group=Path('/proc/'+str(pid)+'/cgroup').read_text().strip().split('::')[-1]
+            events={k:int(v) for k,v in (line.split() for line in (Path('/sys/fs/cgroup'+group)/'memory.events').read_text().splitlines())}
+            result['oom_kill_count']=events.get('oom_kill',0)
+        except (OSError,ValueError,KeyError):
+            result['oom_kill_count']=None
     except (OSError, ValueError, subprocess.SubprocessError):
         result['services']['native_container']=False
     return result
 
 
+def track_oom(previous, data, now):
+    """Docker's OOMKilled flag can stay true while the container is running.
+    Track new cgroup events and retain a five-minute incident window instead.
+    """
+    old=previous.get('snapshot',{})
+    historical=bool(data.get('oom_killed'))
+    last=old.get('last_oom_at',previous.get('active_alerts',{}).get('runtime_oom',{}).get('first_seen_at',0))
+    count=data.get('oom_kill_count');oldcount=old.get('oom_kill_count')
+    if count is not None:
+        if oldcount is not None and data.get('runtime_id')==old.get('runtime_id') and count>oldcount:
+            last=now
+        elif data.get('runtime_id')!=old.get('runtime_id') and count>0 and not last:
+            last=now
+    elif historical and not data.get('services',{}).get('native_container'):
+        last=now
+    elif historical and not last:
+        last=now
+    data['historical_oom_killed']=historical
+    data['last_oom_at']=last
+    data['oom_killed']=bool(last and now-last<300)
+    return data
+
+
 def check(path):
     path=Path(path);previous=json.loads(path.read_text()) if path.exists() else {}
-    data=snapshot();state=advance(previous,evaluate(data),time.time())
+    data=track_oom(previous,snapshot(),time.time());state=advance(previous,evaluate(data),time.time())
     state['snapshot']={key:value for key,value in data.items() if key!='usage'}
     deliver_pending(state, previous)
     path.parent.mkdir(parents=True,exist_ok=True)

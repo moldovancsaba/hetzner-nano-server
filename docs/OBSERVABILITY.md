@@ -75,3 +75,7 @@ Keep the existing CAX11/4 GB inference host, two-CPU/2800 MiB container cap, one
 Unit checks cover test/production separation, per-project isolation, fixed-column privacy, normalized routes, retention/truncation, restart persistence, idempotent admission/outcomes, acknowledgment, failure-tolerant recording, debounced alert/recovery behavior, no healthy-status mail and stable notification retries. No deliberate production outage or disk fill is needed to test the alert logic.
 
 Deployment uses the existing idle maintenance lease, checks source hashes, validates Caddy, backs up only changed code/configuration, preserves model policy and runtime profiles, and restores the cleanup timer. Roll back the recorded observability backup as a reviewed idle update; do not delete the independent model-demand ledger or expose SQLite publicly. Stop only the watchdog unit to disable monitoring; doing so does not stop inference or Paperclip.
+
+## OOM incident recency
+
+The Docker OOMKilled flag can remain true while the container is running. Monitoring now reads the native container cgroup oom_kill counter, compares consecutive snapshots and retains a five-minute incident window for new events. Historical flags remain in private snapshots for audit; an old flag alone does not imply a current outage. A stopped OOM-affected container still alerts. Normal three-sample debounce/recovery applies. No inference restart or counter deletion is needed to acknowledge an old benchmark incident.

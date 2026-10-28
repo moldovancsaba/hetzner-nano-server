@@ -2,7 +2,7 @@ import unittest
 import io
 import urllib.error
 from unittest.mock import patch
-from operations.monitor import evaluate, advance
+from operations.monitor import evaluate, advance, track_oom
 from operations.external_watchdog import reachable
 
 
@@ -35,6 +35,20 @@ class MonitorTests(unittest.TestCase):
         data['usage']['projects']=[{'project':'classscout','purpose':'production','completed':2,'failed':3,
             'errors':{'analysis_unavailable':3},'timings':{'duration_ms':{'p95_ms':90000}}}]
         self.assertEqual(set(evaluate(data)),{'queue_delay','failures_classscout'})
+
+    def test_historical_oom_flag_expires_but_new_counter_events_alert(self):
+        previous={'active_alerts':{'runtime_oom':{'first_seen_at':100}},'snapshot':{'runtime_id':'same','oom_kill_count':1}}
+        data=healthy();data.update(runtime_id='same',oom_kill_count=1,oom_killed=True);data['services']['native_container']=True
+        result=track_oom(previous,data,1000)
+        self.assertFalse(result['oom_killed']);self.assertTrue(result['historical_oom_killed'])
+        data=healthy();data.update(runtime_id='same',oom_kill_count=2,oom_killed=True)
+        result=track_oom(previous,data,1000);self.assertTrue(result['oom_killed'])
+        next_data=healthy();next_data.update(runtime_id='same',oom_kill_count=2,oom_killed=True)
+        self.assertFalse(track_oom({'snapshot':result},next_data,1301)['oom_killed'])
+
+    def test_stopped_oom_container_does_not_look_recovered(self):
+        data=healthy();data.update(oom_killed=True,oom_kill_count=None);data['services']['native_container']=False
+        self.assertTrue(track_oom({},data,1000)['oom_killed'])
 
     def test_healthy_service_has_no_alert(self):self.assertEqual(evaluate(healthy()),{})
 
