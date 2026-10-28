@@ -4,6 +4,10 @@ Established 2026-10-26. Public GitHub repository: [hetzner-nano-server](https://
 
 Local documentation root: `/Users/Shared/Projects/hetzner`.
 
+## Public benchmark dashboard
+
+[Open the shareable results dashboard](https://chatbotapi.haho.ai/benchmarks/) — historical rankings, all attempted model variants, failures and source evidence. No login required. See [refresh and measurement notes](docs/PUBLIC-DASHBOARD.md).
+
 ## Start here
 
 1. Read this file and `docs/ACCESS.md` before running commands.

@@ -1,0 +1,1173 @@
+{
+  "generated_utc": "2026-10-28T10:05:34.696446+00:00",
+  "model_variants_attempted": 38,
+  "hardware": "Hetzner CAX11 \u00b7 2 shared ARM64 CPU \u00b7 4 GB RAM \u00b7 no GPU",
+  "defaults": {
+    "text_chat": "granite4:1b-h",
+    "image_recognition": "minicpm-v4.6:1b",
+    "image_moderation": "qwen3.5:0.8b"
+  },
+  "models": [
+    {
+      "model": "qwen3:1.7b",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/capabilities/results.json",
+        "benchmarks/round2/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen3:0.6b",
+      "outcomes": [],
+      "sources": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen2.5:1.5b",
+      "outcomes": [],
+      "sources": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "gemma3:1b",
+      "outcomes": [],
+      "sources": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "llama3.2:1b",
+      "outcomes": [],
+      "sources": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "smollm2:1.7b",
+      "outcomes": [],
+      "sources": [
+        "benchmarks/capabilities/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "moondream:1.8b",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/capabilities/results.json",
+        "benchmarks/round2/results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "gemma4:e2b-it-qat",
+      "outcomes": [
+        "image_load_or_inference_failed"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "ministral-3:3b",
+      "outcomes": [
+        "image_load_or_inference_failed",
+        "load_failed",
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json",
+        "benchmarks/round2/supplement-text.json",
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "granite3.2-vision:2b",
+      "outcomes": [
+        "image_load_or_inference_failed",
+        "failed",
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json",
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "qwen3-vl:2b",
+      "outcomes": [
+        "image_load_or_inference_failed",
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json",
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "granite3.3:2b",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "granite4:350m",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "granite4:1b-h",
+      "outcomes": [
+        "ran",
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json",
+        "benchmarks/round4/results.json",
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round2/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round2/vision-retries.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+      "outcomes": [
+        "ran",
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json",
+        "benchmarks/round3/reasoning-check.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "granite3.1-moe:1b",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "deepseek-r1:1.5b",
+      "outcomes": [
+        "ran",
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json",
+        "benchmarks/round3/reasoning-check.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "phi3.5:3.8b",
+      "outcomes": [
+        "load_failed"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "outcomes": [
+        "ran",
+        "completed",
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json",
+        "benchmarks/moderation/results.json",
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+      "outcomes": [
+        "ran",
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json",
+        "benchmarks/moderation/results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round3/results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "outcomes": [
+        "ran",
+        "completed",
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/round3/results-extra.json",
+        "benchmarks/round4/results.json",
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0",
+      "outcomes": [
+        "ran"
+      ],
+      "sources": [
+        "benchmarks/round3/results-extra.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition"
+      ]
+    },
+    {
+      "model": "smollm2:135m",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "smollm2:360m",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen2.5:0.5b",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "qwen2.5-coder:0.5b",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json"
+      ],
+      "ranked_tasks": [
+        "text_chat"
+      ]
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM3-1.7B-GGUF:Q4_K_M",
+      "outcomes": [
+        "load_failed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM3-VL-2B-GGUF:Q4_K_M",
+      "outcomes": [
+        "image_inference_failed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "hf.co/LiquidAI/d1-omni-600M-GGUF:Q8_0",
+      "outcomes": [
+        "image_inference_failed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+      "outcomes": [
+        "completed",
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json",
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    },
+    {
+      "model": "qwen3.5:0.8b",
+      "outcomes": [
+        "completed",
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json",
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    },
+    {
+      "model": "minicpm-v4.6:1b",
+      "outcomes": [
+        "completed",
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/round4/results.json",
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
+      ],
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
+    }
+  ],
+  "cohorts": [
+    {
+      "label": "Round 3 screening \u00b7 English structured tasks",
+      "date": "2026-10-27T05:04:11.850082+00:00",
+      "policy": "Common 14 checks only; correctness, JSON validity, native tool call, then median latency. Non-English excluded.",
+      "source": "benchmarks/round3/rankings.json",
+      "rows": [
+        {
+          "model": "granite4:1b-h",
+          "passed": 14,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.028
+        },
+        {
+          "model": "qwen3:0.6b",
+          "passed": 12,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 1.11
+        },
+        {
+          "model": "qwen3:1.7b",
+          "passed": 12,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 2.01
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 1.256
+        },
+        {
+          "model": "granite3.3:2b",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.107
+        },
+        {
+          "model": "granite4:350m",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.36
+        },
+        {
+          "model": "qwen2.5:1.5b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 2.066
+        },
+        {
+          "model": "llama3.2:1b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 1.633
+        },
+        {
+          "model": "smollm2:1.7b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 12,
+          "native_tool_passed": true,
+          "median_seconds": 2.14
+        },
+        {
+          "model": "granite3.1-moe:1b",
+          "passed": 6,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 0.903
+        },
+        {
+          "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+          "passed": 5,
+          "total": 14,
+          "json_valid": 12,
+          "native_tool_passed": false,
+          "median_seconds": 2.237
+        },
+        {
+          "model": "gemma3:1b",
+          "passed": 4,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 2.683
+        }
+      ]
+    },
+    {
+      "label": "Round 3 screening \u00b7 English: output-budget limited",
+      "date": "2026-10-27T05:04:11.850082+00:00",
+      "policy": "Common 14 checks only; correctness, JSON validity, native tool call, then median latency. Non-English excluded.",
+      "source": "benchmarks/round3/rankings.json",
+      "rows": [
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+          "total": 14
+        },
+        {
+          "model": "deepseek-r1:1.5b",
+          "total": 14
+        }
+      ]
+    },
+    {
+      "label": "Round 3 screening \u00b7 Image recognition",
+      "date": "2026-10-27T05:04:11.850082+00:00",
+      "policy": "Same five schema checks; within equal counts use tested image resolution then mean first-photo/first-poster time. Small sample, descriptive ordering.",
+      "source": "benchmarks/round3/rankings.json",
+      "rows": [
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M"
+        },
+        {
+          "model": "granite3.2-vision:2b"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0"
+        },
+        {
+          "model": "moondream:1.8b"
+        }
+      ]
+    },
+    {
+      "label": "Round 4 screening \u00b7 English structured tasks",
+      "date": "2026-10-28T01:29:51.551265+00:00",
+      "policy": "Common 14 checks only; correctness, JSON validity, native tool call, then median latency. Non-English excluded.",
+      "source": "benchmarks/round4/rankings.json",
+      "rows": [
+        {
+          "model": "granite4:1b-h",
+          "passed": 14,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.028
+        },
+        {
+          "model": "qwen3:0.6b",
+          "passed": 12,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 1.11
+        },
+        {
+          "model": "qwen3:1.7b",
+          "passed": 12,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 2.01
+        },
+        {
+          "model": "qwen2.5:0.5b",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 0.829
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 1.256
+        },
+        {
+          "model": "granite3.3:2b",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.107
+        },
+        {
+          "model": "granite4:350m",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.36
+        },
+        {
+          "model": "qwen2.5-coder:0.5b",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 0.796
+        },
+        {
+          "model": "qwen2.5:1.5b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 2.066
+        },
+        {
+          "model": "llama3.2:1b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 1.633
+        },
+        {
+          "model": "smollm2:1.7b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 12,
+          "native_tool_passed": true,
+          "median_seconds": 2.14
+        },
+        {
+          "model": "granite3.1-moe:1b",
+          "passed": 6,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 0.903
+        },
+        {
+          "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+          "passed": 5,
+          "total": 14,
+          "json_valid": 12,
+          "native_tool_passed": false,
+          "median_seconds": 2.237
+        },
+        {
+          "model": "gemma3:1b",
+          "passed": 4,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 2.683
+        },
+        {
+          "model": "smollm2:360m",
+          "passed": 0,
+          "total": 14,
+          "json_valid": 10,
+          "native_tool_passed": false,
+          "median_seconds": 4.469
+        },
+        {
+          "model": "smollm2:135m",
+          "passed": 0,
+          "total": 14,
+          "json_valid": 8,
+          "native_tool_passed": false,
+          "median_seconds": 2.548
+        }
+      ]
+    },
+    {
+      "label": "Round 4 screening \u00b7 English: output-budget limited",
+      "date": "2026-10-28T01:29:51.551265+00:00",
+      "policy": "Common 14 checks only; correctness, JSON validity, native tool call, then median latency. Non-English excluded.",
+      "source": "benchmarks/round4/rankings.json",
+      "rows": [
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+          "total": 14
+        },
+        {
+          "model": "deepseek-r1:1.5b",
+          "total": 14
+        }
+      ]
+    },
+    {
+      "label": "Round 4 screening \u00b7 Image recognition",
+      "date": "2026-10-28T01:29:51.551265+00:00",
+      "policy": "Same five schema checks; within equal counts use tested image resolution then mean first-photo/first-poster time. Small sample, descriptive ordering.",
+      "source": "benchmarks/round4/rankings.json",
+      "rows": [
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-1.6B-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M"
+        },
+        {
+          "model": "minicpm-v4.6:1b"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M"
+        },
+        {
+          "model": "granite3.2-vision:2b"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM2-500M-Video-Instruct-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0"
+        },
+        {
+          "model": "qwen3.5:0.8b"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM-256M-Instruct-GGUF:Q8_0"
+        },
+        {
+          "model": "moondream:1.8b"
+        }
+      ]
+    },
+    {
+      "label": "Broader evaluation \u00b7 English structured tasks",
+      "date": "2026-10-28T04:06:23.440184+00:00",
+      "policy": "Common 14 checks only; correctness, JSON validity, native tool call, then median latency. Non-English excluded.",
+      "source": "benchmarks/vision-evaluation/rankings.json",
+      "rows": [
+        {
+          "model": "granite4:1b-h",
+          "passed": 14,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.028
+        },
+        {
+          "model": "qwen3:0.6b",
+          "passed": 12,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 1.11
+        },
+        {
+          "model": "qwen3:1.7b",
+          "passed": 12,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 2.01
+        },
+        {
+          "model": "qwen2.5:0.5b",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 0.829
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF:Q4_K_M",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 1.256
+        },
+        {
+          "model": "granite3.3:2b",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.107
+        },
+        {
+          "model": "granite4:350m",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 3.36
+        },
+        {
+          "model": "qwen2.5-coder:0.5b",
+          "passed": 10,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 0.796
+        },
+        {
+          "model": "qwen2.5:1.5b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": true,
+          "median_seconds": 2.066
+        },
+        {
+          "model": "llama3.2:1b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 1.633
+        },
+        {
+          "model": "smollm2:1.7b",
+          "passed": 8,
+          "total": 14,
+          "json_valid": 12,
+          "native_tool_passed": true,
+          "median_seconds": 2.14
+        },
+        {
+          "model": "granite3.1-moe:1b",
+          "passed": 6,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 0.903
+        },
+        {
+          "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+          "passed": 5,
+          "total": 14,
+          "json_valid": 12,
+          "native_tool_passed": false,
+          "median_seconds": 2.237
+        },
+        {
+          "model": "gemma3:1b",
+          "passed": 4,
+          "total": 14,
+          "json_valid": 14,
+          "native_tool_passed": false,
+          "median_seconds": 2.683
+        },
+        {
+          "model": "smollm2:360m",
+          "passed": 0,
+          "total": 14,
+          "json_valid": 10,
+          "native_tool_passed": false,
+          "median_seconds": 4.469
+        },
+        {
+          "model": "smollm2:135m",
+          "passed": 0,
+          "total": 14,
+          "json_valid": 8,
+          "native_tool_passed": false,
+          "median_seconds": 2.548
+        }
+      ]
+    },
+    {
+      "label": "Broader evaluation \u00b7 English: output-budget limited",
+      "date": "2026-10-28T04:06:23.440184+00:00",
+      "policy": "Common 14 checks only; correctness, JSON validity, native tool call, then median latency. Non-English excluded.",
+      "source": "benchmarks/vision-evaluation/rankings.json",
+      "rows": [
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+          "total": 14
+        },
+        {
+          "model": "deepseek-r1:1.5b",
+          "total": 14
+        }
+      ]
+    },
+    {
+      "label": "Broader evaluation \u00b7 Image recognition",
+      "date": "2026-10-28T04:06:23.440184+00:00",
+      "policy": "65% mean reference-supported object F1 + 35% OCR target recall, with invalid service responses scoring zero. Then valid response rate, then median inference wall time. Counts and paired robustness separate.",
+      "source": "benchmarks/vision-evaluation/rankings.json",
+      "rows": [
+        {
+          "model": "minicpm-v4.6:1b",
+          "readiness_score": 0.8070337301587303,
+          "valid": 29,
+          "total_images": 32,
+          "valid_rate": 0.90625,
+          "object_reference_f1": 0.770436507936508,
+          "object_recall": 0.75,
+          "ocr_target_recall": 0.875,
+          "ocr_correct": 7.0,
+          "ocr_total": 8,
+          "count_correct": 5,
+          "count_total": 8,
+          "median_seconds": 24.1478,
+          "p95_seconds": 30.6779,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "qwen3.5:0.8b",
+          "readiness_score": 0.7996180555555555,
+          "valid": 29,
+          "total_images": 32,
+          "valid_rate": 0.90625,
+          "object_reference_f1": 0.7590277777777777,
+          "object_recall": 0.7395833333333334,
+          "ocr_target_recall": 0.875,
+          "ocr_correct": 7.0,
+          "ocr_total": 8,
+          "count_correct": 8,
+          "count_total": 8,
+          "median_seconds": 47.6412,
+          "p95_seconds": 56.5382,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+          "readiness_score": 0.7044097222222222,
+          "valid": 26,
+          "total_images": 32,
+          "valid_rate": 0.8125,
+          "object_reference_f1": 0.6798611111111111,
+          "object_recall": 0.6875,
+          "ocr_target_recall": 0.75,
+          "ocr_correct": 6.0,
+          "ocr_total": 8,
+          "count_correct": 8,
+          "count_total": 8,
+          "median_seconds": 6.8347,
+          "p95_seconds": 10.1194,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+          "readiness_score": 0.39979166666666666,
+          "valid": 14,
+          "total_images": 32,
+          "valid_rate": 0.4375,
+          "object_reference_f1": 0.3458333333333333,
+          "object_recall": 0.3333333333333333,
+          "ocr_target_recall": 0.5,
+          "ocr_correct": 4.0,
+          "ocr_total": 8,
+          "count_correct": 3,
+          "count_total": 8,
+          "median_seconds": 9.667850000000001,
+          "p95_seconds": 10.1803,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+          "readiness_score": 0.2874305555555555,
+          "valid": 10,
+          "total_images": 32,
+          "valid_rate": 0.3125,
+          "object_reference_f1": 0.24027777777777778,
+          "object_recall": 0.22916666666666666,
+          "ocr_target_recall": 0.375,
+          "ocr_correct": 3.0,
+          "ocr_total": 8,
+          "count_correct": 2,
+          "count_total": 8,
+          "median_seconds": 9.68775,
+          "p95_seconds": 10.465,
+          "benchmark_version": "vision-evaluation.v1"
+        }
+      ]
+    },
+    {
+      "label": "Moderation \u00b7 preliminary 25-image set",
+      "date": null,
+      "policy": "Human review required. Valid JSON is not detection accuracy. Small category samples; see source for confidence intervals and category breakdowns.",
+      "source": "benchmarks/moderation/summary.json",
+      "rows": [
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+          "status": "completed",
+          "valid": 25,
+          "total": 25
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+          "status": "completed",
+          "valid": 25,
+          "total": 25
+        }
+      ]
+    },
+    {
+      "label": "Moderation \u00b7 broader 41-image set",
+      "date": null,
+      "policy": "Human review required. Valid JSON is not detection accuracy. Small category samples; see source for confidence intervals and category breakdowns.",
+      "source": "benchmarks/vision-evaluation/moderation-summary.json",
+      "rows": [
+        {
+          "model": "qwen3.5:0.8b",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.6942988785094049,
+          "macro_detection_recall": 0.737037037037037,
+          "macro_specificity": 0.9487924865633844,
+          "median_seconds": 37.889,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "minicpm-v4.6:1b",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.6896775728297467,
+          "macro_detection_recall": 0.7648148148148148,
+          "macro_specificity": 0.7798999761848059,
+          "median_seconds": 22.441,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.45015316067947647,
+          "macro_detection_recall": 0.43148148148148147,
+          "macro_specificity": 1.0,
+          "median_seconds": 7.3328,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+          "status": "completed",
+          "total": 41,
+          "valid": 36,
+          "macro_f2": 0.3406986373332332,
+          "macro_detection_recall": 0.8425925925925926,
+          "macro_specificity": 0.27081725688536834,
+          "median_seconds": 7.3964,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+          "status": "completed",
+          "total": 41,
+          "valid": 40,
+          "macro_f2": 0.2183811277001241,
+          "macro_detection_recall": 0.5833333333333334,
+          "macro_specificity": 0.49910595792948736,
+          "median_seconds": 6.6178,
+          "benchmark_version": "vision-evaluation.v1"
+        }
+      ]
+    }
+  ]
+}

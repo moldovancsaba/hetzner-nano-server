@@ -32,3 +32,7 @@ Never capture live Camera images or conversations for training. Only curated, ex
 Read docs/AUTO-MODEL-CLEANUP.md. Retain installed top five per task ranking plus models with admitted non-test inference demand in the last 14 days. This replaces earlier permanent alternative pins and seven-day rollback-cache policy; defaults and active/queued work remain protected, and pre-tracking inventory gets a one-time 14-day history grace. Metadata, test evidence, approved training data and labels are never cleaner targets.
 
 Every benchmark, smoke test, operator verification and automated UI test must send X-Request-Purpose: test through the gateway (Pandora forwards the marker). Native benchmarks do not count as production use. Never manufacture production traffic to keep a model. Pause the cleanup timer before temporary/native model experiments, drain service work, then restore/verify and re-enable the timer. Cleanup requires the gateway maintenance lease; do not bypass it with Docker removal scripts or delete/alter the usage ledger to force eviction.
+
+## Public benchmark dashboard
+
+After each benchmark round, rebuild and publish the public aggregate snapshot with `python3 scripts/deploy_dashboard.py`, and commit `dashboard/results.json` alongside the evidence. Read docs/PUBLIC-DASHBOARD.md. Keep failed attempts visible, cohorts and languages separate, and export no raw inputs, answers, credentials or private usage.
