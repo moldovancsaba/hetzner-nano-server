@@ -23,6 +23,10 @@ Owner policy confirmed 2026-10-27: **retain only curated, explicitly approved da
 | Approved adapters/training outputs | Separate artifact store with run manifest | Keep only explicitly approved artifacts; link dataset version, config, digest and holdout results |
 | Credentials and private config backups | Restricted secret store | Never public Git, discovery reports or training material; separate rotation/backup rules |
 
+## Operational metadata
+
+Owner-authorized usage reporting now stores project/task/model identifiers, test/production purpose, normalized route/status/error codes and timings for 30 days, capped at 200,000 events and a 64 MiB database-page ceiling. It contains no payloads, answers, image hashes, job IDs, idempotency keys, IPs, raw URLs or credentials. This is separate from the model-retention ledger and training material. See [reporting and alert details](OBSERVABILITY.md). Email was explicitly deferred; in-chat alerts and the two host watchdogs are active.
+
 ## Client acknowledgement and deletion
 
 After consuming a result, call:

@@ -1,0 +1,22 @@
+[Unit]
+Description=Private operational health watchdog
+After=network.target docker.service narimato-gateway.service
+[Service]
+Type=simple
+EnvironmentFile=-/etc/narimato-monitor.env
+ExecStart=/opt/narimato-gateway-venv/bin/python /opt/narimato-gateway/operations/monitor.py
+Restart=on-failure
+RestartSec=10
+StateDirectory=narimato-monitor
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=128M
+CPUQuota=10%
+TasksMax=12
+[Install]
+WantedBy=multi-user.target

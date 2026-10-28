@@ -1,0 +1,141 @@
+{
+  "server_telemetry_started_at": 1793177605.9469092,
+  "full_12_hours_already_available": false,
+  "test_projects": [
+    {
+      "project": "camera",
+      "purpose": "test",
+      "admitted": 1,
+      "completed": 1,
+      "failed": 0,
+      "acknowledged": 1,
+      "cancelled": 0,
+      "unacknowledged_expired_results": 0,
+      "model_switches": 1,
+      "http_requests": 9,
+      "http_statuses": {
+        "200": 7,
+        "202": 1,
+        "404": 1
+      },
+      "errors": {
+        "job_not_found": 1
+      },
+      "models": {
+        "qwen3.5:0.8b": 1
+      },
+      "tasks": {
+        "image_moderation": 1
+      },
+      "client_disconnects": 0,
+      "timings": {
+        "queue_ms": {
+          "samples": 1,
+          "p50_ms": 5.01,
+          "p95_ms": 5.01,
+          "max_ms": 5.01
+        },
+        "switch_ms": {
+          "samples": 1,
+          "p50_ms": 146.6,
+          "p95_ms": 146.6,
+          "max_ms": 146.6
+        },
+        "load_ms": {
+          "samples": 1,
+          "p50_ms": 5555.4,
+          "p95_ms": 5555.4,
+          "max_ms": 5555.4
+        },
+        "inference_ms": {
+          "samples": 1,
+          "p50_ms": 23359.2,
+          "p95_ms": 23359.2,
+          "max_ms": 23359.2
+        },
+        "duration_ms": {
+          "samples": 1,
+          "p50_ms": 23514.79,
+          "p95_ms": 23514.79,
+          "max_ms": 23514.79
+        }
+      },
+      "latest_event_at": 1793178753.2682683
+    },
+    {
+      "project": "classscout",
+      "purpose": "test",
+      "admitted": 1,
+      "completed": 1,
+      "failed": 0,
+      "acknowledged": 1,
+      "cancelled": 0,
+      "unacknowledged_expired_results": 0,
+      "model_switches": 1,
+      "http_requests": 82,
+      "http_statuses": {
+        "200": 81,
+        "202": 1
+      },
+      "errors": {},
+      "models": {
+        "granite4:1b-h": 1
+      },
+      "tasks": {
+        "text_chat": 1
+      },
+      "client_disconnects": 0,
+      "timings": {
+        "queue_ms": {
+          "samples": 1,
+          "p50_ms": 22434.75,
+          "p95_ms": 22434.75,
+          "max_ms": 22434.75
+        },
+        "switch_ms": {
+          "samples": 1,
+          "p50_ms": 145.2,
+          "p95_ms": 145.2,
+          "max_ms": 145.2
+        },
+        "load_ms": {
+          "samples": 1,
+          "p50_ms": 4585.35,
+          "p95_ms": 4585.35,
+          "max_ms": 4585.35
+        },
+        "inference_ms": {
+          "samples": 1,
+          "p50_ms": 5741.5,
+          "p95_ms": 5741.5,
+          "max_ms": 5741.5
+        },
+        "duration_ms": {
+          "samples": 1,
+          "p50_ms": 28347.71,
+          "p95_ms": 28347.71,
+          "max_ms": 28347.71
+        }
+      },
+      "latest_event_at": 1793179653.3336575
+    }
+  ],
+  "camera_real_client": {
+    "purpose": "test",
+    "discovery": "passed",
+    "status": "completed",
+    "acknowledged": true,
+    "reviewRequired": true,
+    "automatedDecision": "none",
+    "categoryCount": 9,
+    "elapsedMs": 315
+  },
+  "classscout_real_client": {
+    "discovery": "passed",
+    "synthetic_json_contract": "passed",
+    "transport": "async_jobs",
+    "purpose": "test",
+    "catalog_or_transcript_reads": false
+  },
+  "deployed_application_e2e": "pending protected application releases; provider-client checks are not browser/event checks"
+}

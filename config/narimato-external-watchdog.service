@@ -1,0 +1,23 @@
+[Unit]
+Description=External inference gateway reachability watchdog
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+EnvironmentFile=/etc/narimato-external-watchdog.env
+ExecStart=/usr/bin/python3 /opt/narimato-external-watchdog/operations/external_watchdog.py
+Restart=on-failure
+RestartSec=10
+StateDirectory=narimato-external-watchdog
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+MemoryMax=64M
+CPUQuota=5%
+TasksMax=8
+[Install]
+WantedBy=multi-user.target

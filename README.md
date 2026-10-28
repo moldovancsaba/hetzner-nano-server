@@ -12,6 +12,10 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 4. Run `python3 scripts/healthcheck.py --project classscout` or use `habigoal`.
 5. Read `docs/HISTORY.md`, `docs/MEASUREMENT.md`, and `docs/IMPROVEMENTS.md` for decisions, evidence, and outstanding work.
 
+## Operational reports and alerts
+
+[Usage reporting and watchdogs](docs/OBSERVABILITY.md) describe per-project/test-purpose counts, outcomes, queue/load/inference timing, content-free retention, result acknowledgments, independent host checks and in-chat failure/recovery alerts. Email is disabled. Hardware and ranked defaults remain unchanged.
+
 ## Automatic model storage
 
 [Hourly cleanup policy](docs/AUTO-MODEL-CLEANUP.md): keep top five per job plus models used by admitted non-test requests in the last 14 days. Initial installed weights have a one-time history grace; active/queued models and all metadata/evidence are protected. Tests must send X-Request-Purpose: test.

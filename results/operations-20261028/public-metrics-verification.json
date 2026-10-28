@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "project": "camera",
+      "authenticated_usage": true,
+      "tenant_isolated": true,
+      "coverage_disclosed": true
+    },
+    {
+      "project": "classscout",
+      "authenticated_usage": true,
+      "tenant_isolated": true,
+      "coverage_disclosed": true
+    }
+  ],
+  "invalid_windows_and_missing_auth_refused": true
+}

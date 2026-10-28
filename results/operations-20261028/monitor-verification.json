@@ -1,0 +1,18 @@
+{
+  "2.31.100.246": {
+    "service": "narimato-monitor",
+    "active": true,
+    "checked_at": 1793180739.2885618,
+    "active_alerts": {},
+    "email_enabled": false,
+    "external_reachable": null
+  },
+  "2.29.113.132": {
+    "service": "narimato-external-watchdog",
+    "active": true,
+    "checked_at": 1793180735.5472624,
+    "active_alerts": {},
+    "email_enabled": false,
+    "external_reachable": true
+  }
+}
