@@ -7,6 +7,10 @@ class ScoringTests(unittest.TestCase):
     def test_substrings_do_not_invent_classes(self):
         self.assertNotIn('car',object_labels(['carpet']))
         self.assertNotIn('person',object_labels(['mannequin']))
+    def test_compound_classes_do_not_invent_animals_or_balls(self):
+        labels=object_labels(['hot dogs','teddy bear','baseball bat','jet ski'])
+        self.assertNotIn('dog',labels);self.assertNotIn('bear',labels);self.assertNotIn('sports ball',labels);self.assertNotIn('airplane',labels)
+        self.assertIn('hot dog',labels);self.assertIn('teddy bear',labels);self.assertIn('baseball bat',labels)
     def test_ocr_ignores_spacing_case_and_punctuation(self):
         self.assertTrue(text_match(['Nuts Enough!'],['nutsenough']))
         self.assertTrue(text_match(['LG'],['lg']))
@@ -31,6 +35,11 @@ class ScoringTests(unittest.TestCase):
         entry={'model':'test','status':'completed','tests':[{'id':'p','valid':False,'seconds':1},{'id':'n','valid':True,'parsed':{'categories':{'weapons':False}},'seconds':1}]}
         row=moderation_summary(entry,manifest)
         self.assertEqual(row['macro_f2'],0);self.assertEqual(row['categories']['weapons']['invalid_positive'],1)
+    def test_malformed_nonobject_output_is_invalid_not_a_crash(self):
+        manifest={'categories':['weapons'],'cases':[{'id':'p','expected':{'weapons':True}}]}
+        entry={'model':'test','status':'completed','tests':[{'id':'p','valid':False,'parsed':['wrong'],'seconds':1}]}
+        row=moderation_summary(entry,manifest)
+        self.assertEqual(row['macro_f2'],0);self.assertEqual(row['categories']['weapons']['invalid'],1)
     def test_small_positive_set_has_wide_uncertainty(self):
         low,high=wilson(1,1);self.assertLess(low,.3);self.assertAlmostEqual(high,1)
 

@@ -39,7 +39,8 @@ def collect_job(model,case):
         if row['status'] in ['completed','failed']:break
         time.sleep(.5)
     if row['status'] not in ['completed','failed']:raise RuntimeError('Job state unresolved; leave guard recovery to operator')
-    result={'id':case['id'],'status':row['status'],'result':row.get('result'),'error':row.get('error'),'seconds':round(time.monotonic()-start,4),'queue_wait_seconds':row.get('queue_wait_seconds'),'inference_wall_seconds':round(row.get('finished_at',time.time())-row.get('started_at',time.time()),4),'model_switch':row.get('model_switch'),'model':row['model'],'digest':row.get('model_digest'),'peak_cgroup_bytes':peak,'oom_kill_delta':memory()['events'].get('oom_kill',0)-before['events'].get('oom_kill',0)}
+    if model=='qwen3.5:0.8b':assert row['model_profile'].get('think') is False,'Wrong Qwen operating profile'
+    result={'id':case['id'],'status':row['status'],'result':row.get('result'),'error':row.get('error'),'seconds':round(time.monotonic()-start,4),'queue_wait_seconds':row.get('queue_wait_seconds'),'inference_wall_seconds':round(row.get('finished_at',time.time())-row.get('started_at',time.time()),4),'model_switch':row.get('model_switch'),'model':row['model'],'digest':row.get('model_digest'),'model_profile':row.get('model_profile'),'peak_cgroup_bytes':peak,'oom_kill_delta':memory()['events'].get('oom_kill',0)-before['events'].get('oom_kill',0)}
     api('/jobs/'+job['id'],method='DELETE')
     if row.get('error')=='upstream_state_unknown':raise RuntimeError('Gateway circuit opened; operator must recover uncertain native state')
     return result
@@ -65,10 +66,14 @@ def count_probe(model,case):
         from moderation.server import normalize_image
         image=normalize_image(base64.b64encode((IMAGES/case['file']).read_bytes()).decode())[0]
         payload={'model':model,'prompt':'Count the visible '+case['primary_object']+' objects in the image. Return count as an integer, or null if genuinely too occluded/unclear. Do not count pictures or text naming an object.','images':[base64.b64encode(image).decode()],'format':{'type':'object','properties':{'count':{'type':['integer','null']}},'required':['count'],'additionalProperties':False},'stream':False,'keep_alive':'1m','options':{'num_ctx':2048,'num_batch':32,'num_predict':64,'temperature':0}}
+        if model=='qwen3.5:0.8b':payload['think']=False
         t=time.monotonic();data=native('/api/generate',payload,timeout=120)
         assert not renew_error,'Lease renewal failed'
-        text=data.get('response','');value=json.loads(text);valid=isinstance(value,dict) and set(value)=={'count'} and (type(value['count']) is int or value['count'] is None) and data.get('done_reason')!='length'
-        return {'id':case['id'],'status':'completed','json_valid':valid,'response':text,'count':value.get('count'),'seconds':round(time.monotonic()-t,4),'load_seconds':data.get('load_duration',0)/1e9,'peak_cgroup_bytes':peak[0],'oom_kill_delta':memory()['events'].get('oom_kill',0)-before['events'].get('oom_kill',0)}
+        text=data.get('response','')
+        try:value=json.loads(text)
+        except (ValueError,TypeError):value={}
+        valid=isinstance(value,dict) and set(value)=={'count'} and (type(value['count']) is int or value['count'] is None) and data.get('done_reason')!='length'
+        return {'id':case['id'],'status':'completed','json_valid':valid,'response':text,'count':value.get('count'),'seconds':round(time.monotonic()-t,4),'load_seconds':data.get('load_duration',0)/1e9,'done_reason':data.get('done_reason'),'thinking_characters':len(data.get('thinking','')),'peak_cgroup_bytes':peak[0],'oom_kill_delta':memory()['events'].get('oom_kill',0)-before['events'].get('oom_kill',0)}
     except (TimeoutError,urllib.error.URLError):
         # Exclusive lease and drained gateway: stop uncertain native work before releasing.
         if held:subprocess.run(['docker','restart','narimato-ollama'],check=True,capture_output=True,timeout=45)
@@ -77,23 +82,34 @@ def count_probe(model,case):
         stop.set()
         if held:lease('release',held)
 
-original=native('/api/tags');report['initial_inventory']=original;initial={m['name'].lower():m for m in original['models']};timer=subprocess.run(['systemctl','is-active','--quiet','narimato-model-cleanup.timer']).returncode==0
+original=native('/api/tags');report['initial_inventory']=original;initial={m['name'].lower():m for m in original['models']}
+resume=ROOT/'recognition-resume.json'
+if resume.exists():
+    report=json.loads(resume.read_text());report.setdefault('resume_events',[]).append(now());report.pop('finished_utc',None);report['status']='running'
+timer=subprocess.run(['systemctl','is-active','--quiet','narimato-model-cleanup.timer']).returncode==0 or report.get('cleanup_timer_was_active',False)
+report['cleanup_timer_was_active']=timer
 subprocess.run(['systemctl','stop','narimato-model-cleanup.timer'],check=True);save()
 try:
     for model in MODELS:
-        entry={'model':model,'status':'preparing','tests':[],'robustness':[],'counts':[]};report['models'].append(entry);save();print('START',model,flush=True)
+        entry=next((x for x in report['models'] if x['model']==model),None)
+        if entry and entry['status']=='completed':continue
+        if entry is None:
+            entry={'model':model,'status':'preparing','tests':[],'robustness':[],'counts':[]};report['models'].append(entry)
+        save();print('START',model,flush=True)
         if model.lower() not in initial:
             assert shutil.disk_usage('/').free>6*1024**3,'Disk reserve preflight'
             subprocess.run(['docker','exec','narimato-ollama','ollama','pull',model],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=360)
         tag=next(m for m in native('/api/tags')['models'] if m['name'].lower()==model.lower());entry['tag']=tag
-        entry['status']='running';before=memory();save()
+        entry['status']='running';entry['operating_profile']={'think':False} if model=='qwen3.5:0.8b' else {};before=memory();save()
         for field,cases in [('tests',MANIFEST['recognition']),('robustness',MANIFEST['robustness'])]:
             ordered=cases.copy();random.Random(20261028).shuffle(ordered)
             for case in ordered:
+                if any(x['id']==case['id'] for x in entry[field]):continue
                 r=collect_job(model,case);entry[field].append(r);save();print('CASE',model,field,case['id'],r['status'],round(r['inference_wall_seconds'],2),flush=True)
                 if r['oom_kill_delta']:raise RuntimeError('OOM during actual service case; stop experiment')
                 time.sleep(1)
         for case in [c for c in MANIFEST['recognition'] if c.get('count_probe')]:
+            if any(x['id']==case['id'] for x in entry['counts']):continue
             r=count_probe(model,case);entry['counts'].append(r);save();print('COUNT',model,case['id'],flush=True);time.sleep(2)
         entry['status']='completed';entry['oom_kill_delta']=memory()['events'].get('oom_kill',0)-before['events'].get('oom_kill',0);save();print('DONE',model,flush=True)
     report['status']='completed'

@@ -1,9 +1,11 @@
 {
-  "scope": "Measured Granite 8K context capacity reused for Paperclip and chatbotapi text tenants on the same runtime; model ranking unchanged.",
+  "scope": "Measured runtime profiles: verified 8K default text context and explicit nonthinking control for the tested Qwen vision artifact.",
   "evidence_files": [
     "benchmarks/paperclip-context/results-8k-bounded-cache.json",
     "benchmarks/paperclip-context/compatibility-8k-bounded-cache.json",
-    "benchmarks/paperclip-context/bounded-cache-runtime.json"
+    "benchmarks/paperclip-context/bounded-cache-runtime.json",
+    "benchmarks/vision-evaluation/qwen-profile-preflight.json",
+    "benchmarks/vision-evaluation/qwen-service-diagnostics.json"
   ],
   "checks": {
     "short_structured_passed": 14,
@@ -74,6 +76,15 @@
         "timeout_seconds": 900,
         "prompt_cache_mib": 128,
         "context_checkpoints": 2
+      }
+    },
+    {
+      "model": "qwen3.5:0.8b",
+      "task": "image_recognition",
+      "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+      "status": "passed",
+      "profile": {
+        "think": false
       }
     }
   ],

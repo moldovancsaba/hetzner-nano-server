@@ -1,0 +1,16 @@
+{
+  "diagnostic_only": true,
+  "not_part_of_ranking": true,
+  "case": "coco-91779",
+  "models": [
+    {
+      "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+      "done": true,
+      "done_reason": "length",
+      "output_tokens": 256,
+      "final_response": "{\n\n\"description\": \"A mouthwatering display of hot dogs with various toppings arranged on a tray. The hot dogs are nestled in white buns, with toppings including sliced red bell peppers, onions, and a red sauce. The tray is lined with white parchment paper, and a clear plastic cup is visible in the background. The setting appears to be a casual dining environment, possibly a restaurant or diner. The hot dogs are presented in an appetizing manner, showcasing their colorful and appetizing toppings.\",\n\"objects\": [\"hot dogs\", \"white buns\", \"sliced red bell peppers\", \"onions\", \"red sauce\", \"clear plastic cup\", \"tray\", \"white parchment paper\", \"dining table\", \"chair\", \"wooden floor\"],\n\"visible_text\": [\"hot dogs\", \"sliced red bell peppers\", \"onions\", \"red sauce\", \"white buns\", \"white parchment paper\", \"clear plastic cup\", \"tray\", \"white buns\", \"white parchment paper\", \"white buns\", \"white buns\", \"white buns\", \"white buns\", \"white buns\", \"white b",
+      "thinking_characters": 0,
+      "total_seconds": 11.41638585
+    }
+  ]
+}

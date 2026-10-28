@@ -1,0 +1,16 @@
+{
+  "diagnostic_only": true,
+  "not_part_of_ranking": true,
+  "case": "coco-91779",
+  "models": [
+    {
+      "model": "qwen3.5:0.8b",
+      "done": true,
+      "done_reason": "length",
+      "output_tokens": 256,
+      "final_response": "",
+      "thinking_characters": 1030,
+      "total_seconds": 58.310023426
+    }
+  ]
+}

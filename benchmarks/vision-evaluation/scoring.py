@@ -33,7 +33,17 @@ def tokens_match(text,term):
     return re.search(pattern,normalize(text)) is not None
 
 def object_labels(objects):
-    return {label for label,aliases in ALIASES.items() if any(tokens_match(name,alias) for name in objects for alias in aliases)}
+    labels=set()
+    for label,aliases in ALIASES.items():
+        for name in objects:
+            text=normalize(name)
+            # COCO compound classes are not their constituent animals/equipment.
+            if label=='dog':text=re.sub(r'\bhot dogs?\b','',text)
+            if label=='bear':text=re.sub(r'\b(?:teddy|stuffed|toy) bears?\b','',text)
+            if label=='airplane':text=re.sub(r'\bjet skis?\b','',text)
+            if label=='sports ball':text=re.sub(r'\b(?:baseball|basketball|football) (?:bats?|gloves?|caps?|helmets?|players?|fields?|courts?|hoops?|uniforms?)\b','',text)
+            if any(tokens_match(text,alias) for alias in aliases):labels.add(label);break
+    return labels
 
 def text_match(outputs,accepted):
     text=normalize(' '.join(outputs));compact=text.replace(' ','')
@@ -75,12 +85,19 @@ def wilson(success,total):
     z=1.959963984540054;p=success/total;den=1+z*z/total;center=(p+z*z/(2*total))/den;half=z*math.sqrt(p*(1-p)/total+z*z/(4*total*total))/den
     return [max(0,center-half),min(1,center+half)]
 
+def mean_defined(values):
+    values=[value for value in values if value is not None]
+    return statistics.mean(values) if values else None
+
 def moderation_summary(entry,manifest):
     cases={c['id']:c for c in manifest['cases']};tests={t['id']:t for t in entry['tests']};cats={}
     for category in manifest['categories']:
         values=dict.fromkeys(['positive','negative','unknown','tp','tn','fp','fn','review_positive','review_negative','review_unknown','invalid','invalid_positive','invalid_negative','definite_unknown'],0)
         for identity,case in cases.items():
-            truth=case['expected'][category];row=tests.get(identity,{});valid=row.get('valid',False);answer=(row.get('parsed') or {}).get('categories',{}).get(category)
+            truth=case['expected'][category];row=tests.get(identity,{});valid=row.get('valid',False)
+            parsed=row.get('parsed') if isinstance(row.get('parsed'),dict) else {}
+            predicted=parsed.get('categories') if isinstance(parsed.get('categories'),dict) else {}
+            answer=predicted.get(category)
             kind='positive' if truth is True else 'negative' if truth is False else 'unknown';values[kind]+=1
             if not valid:
                 values['invalid']+=1
@@ -96,4 +113,4 @@ def moderation_summary(entry,manifest):
         values['specificity']=values['tn']/values['negative'] if values['negative'] else None
         cats[category]=values
     valid=sum(row.get('valid',False) for row in tests.values());timings=[t['seconds'] for t in tests.values()]
-    return {'model':entry['model'],'status':entry['status'],'total':len(cases),'valid':valid,'categories':cats,'macro_f2':statistics.mean(c['f2'] for c in cats.values() if c['f2'] is not None),'macro_detection_recall':statistics.mean(c['detection_recall'] for c in cats.values() if c['detection_recall'] is not None),'macro_specificity':statistics.mean(c['specificity'] for c in cats.values() if c['specificity'] is not None),'median_seconds':statistics.median(timings) if timings else None,'ranking_eligible':entry['status']=='completed' and valid>0 and entry.get('oom_kill_delta',0)==0,'oom_kill_delta':entry.get('oom_kill_delta',0)}
+    return {'model':entry['model'],'status':entry['status'],'total':len(cases),'valid':valid,'categories':cats,'macro_f2':mean_defined(c['f2'] for c in cats.values()),'macro_detection_recall':mean_defined(c['detection_recall'] for c in cats.values()),'macro_specificity':mean_defined(c['specificity'] for c in cats.values()),'median_seconds':statistics.median(timings) if timings else None,'ranking_eligible':entry['status']=='completed' and valid>0 and entry.get('oom_kill_delta',0)==0,'oom_kill_delta':entry.get('oom_kill_delta',0)}

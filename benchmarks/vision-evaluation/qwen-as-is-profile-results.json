@@ -1,0 +1,191 @@
+{
+  "purpose": "As-is-profile diagnostic prefix; not a full quality ranking",
+  "reason": "Reasoning consumed output budget; nonthinking operating profile will be evaluated separately",
+  "entry": {
+    "model": "qwen3.5:0.8b",
+    "status": "running",
+    "tests": [
+      {
+        "id": "coco-222299",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 50.8277,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 50.7841,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2936012800,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "coco-42889",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 44.2846,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 43.8743,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935857152,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "textvqa-35695",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 54.327,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 54.1012,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935984128,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "coco-91779",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 58.3595,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 57.9708,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935934976,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "textvqa-39360",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 58.8577,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 58.6293,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935812096,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "textvqa-35600",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 56.3546,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 55.967,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935820288,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "coco-30213",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 58.8967,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 58.6675,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935762944,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "textvqa-36707",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 57.3515,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 56.8945,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935574528,
+        "oom_kill_delta": 0
+      },
+      {
+        "id": "coco-119995",
+        "status": "failed",
+        "result": null,
+        "error": {
+          "code": "analysis_unavailable",
+          "message": "Job did not complete. Retry later; preserve human review for images."
+        },
+        "seconds": 52.327,
+        "queue_wait_seconds": null,
+        "inference_wall_seconds": 51.8473,
+        "model_switch": null,
+        "model": "qwen3.5:0.8b",
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "peak_cgroup_bytes": 2935869440,
+        "oom_kill_delta": 0
+      }
+    ],
+    "robustness": [],
+    "counts": [],
+    "tag": {
+      "name": "qwen3.5:0.8b",
+      "model": "qwen3.5:0.8b",
+      "modified_at": "2026-10-28T03:13:24.75006164Z",
+      "size": 1322069277,
+      "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+      "details": {
+        "parent_model": "qwen35-validation-20260930:0.8b-stock-q8_0-q8draft2",
+        "format": "gguf",
+        "family": "qwen35",
+        "families": [
+          "qwen35"
+        ],
+        "parameter_size": "752.39M",
+        "quantization_level": "Q8_0",
+        "context_length": 262144,
+        "embedding_length": 1024,
+        "runner": "llamacpp"
+      },
+      "capabilities": [
+        "completion",
+        "vision",
+        "tools",
+        "thinking"
+      ]
+    }
+  }
+}

@@ -61,11 +61,13 @@ def normalize_image(encoded):
     return normalized, hashlib.sha256(raw).hexdigest(), hashlib.sha256(normalized).hexdigest()
 
 
-def infer(image, model=MODEL):
+def infer(image, model=MODEL, think=None):
     body = {'model': model, 'prompt': PROMPT,
             'images': [base64.b64encode(image).decode()], 'format': SCHEMA,
             'stream': False, 'keep_alive': '1m',
             'options': {'num_ctx': 2048, 'num_batch': 32, 'num_predict': 256, 'temperature': 0}}
+    if think is not None:
+        body['think'] = think
     request = urllib.request.Request('http://127.0.0.1:11434/api/generate',
                                      data=json.dumps(body).encode(),
                                      headers={'Content-Type': 'application/json'})

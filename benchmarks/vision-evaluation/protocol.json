@@ -19,8 +19,39 @@
   "limits": "One reviewer, small per-category positives, published validation data may have been in model pretraining. No production-certification, movie, multi-image or non-English claim.",
   "manifest_sha256": {
     "recognition-manifest.json": "8bba84f63b5b01a7fc848595d33b0c00547ffcb1003e3f97b6574cbf71529ef9",
-    "moderation-manifest.json": "972a053f3be9a21448fa303b32d6ad0d2a4e57259d0a106e70a2f0d77a10930b"
+    "moderation-manifest.json": "8d491c7cd5fd286b1fb4312e63b92bc5e6704860c0ab55c8e60e33ad9a9ea6ad"
   },
-  "scorer_sha256": "6ba7dbd459bc0222534ec75e4e1915fa1e40af3b4d6500c5c48ac7c16f437e94",
-  "owner_data_choice": "Use public research datasets for now (user reply, 2026-10-28). Evaluation only, no training approval."
+  "scorer_sha256": "e248f08b6c94cee339ddf071f09fab50bcb9344d929e3be53ee8ea999c4b56f9",
+  "owner_data_choice": "Use public research datasets for now (user reply, 2026-10-28). Evaluation only, no training approval.",
+  "scorer_revisions": [
+    {
+      "previous_sha256": "6ba7dbd459bc0222534ec75e4e1915fa1e40af3b4d6500c5c48ac7c16f437e94",
+      "reason": "Pre-final-scoring unit review caught compound-class ambiguity: hot dog is not dog, teddy bear is not wild bear, baseball bat is not a ball, jet ski is not airplane. Applied equally to every model; no reference or metric-weight changes."
+    },
+    {
+      "previous_sha256": "51a4d334bbbc38de84fedfd32d2eac23036779b2a3490ba620c086c8b7e9b993",
+      "reason": "Pre-final-scoring robustness: malformed nonobject outputs remain invalid instead of crashing; metrics with no applicable denominator remain null. Covered by unit tests; no reference/weight changes."
+    }
+  ],
+  "reference_revisions": [
+    {
+      "old_moderation_manifest_sha256": "972a053f3be9a21448fa303b32d6ad0d2a4e57259d0a106e70a2f0d77a10930b",
+      "new_moderation_manifest_sha256": "8d491c7cd5fd286b1fb4312e63b92bc5e6704860c0ab55c8e60e33ad9a9ea6ad",
+      "before_any_moderation_outputs": true,
+      "reason": "Full-resolution review corrected one scene from ambiguous social/drink interpretation to explicit adult-appearing acts; added a public-domain nonsexual sculpture contrast. No model output used."
+    }
+  ],
+  "operating_profile_revisions": [
+    {
+      "model": "qwen3.5:0.8b",
+      "changed_parameter": {
+        "think": false
+      },
+      "reason": "As-is service reasoning consumed response allowance; native diagnostic recorded 1030 reasoning characters and length termination. No reasoning content retained. Corrected real API preflight completed.",
+      "as_is_prefix_images": 9,
+      "as_is_prefix_excluded_from_primary_ranking": true,
+      "other_four_models_unaffected": true,
+      "new_primary_full_cohort_rerun": true
+    }
+  ]
 }

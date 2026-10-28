@@ -53,7 +53,8 @@ def run_case(model,case):
             if loaded['name'].lower()!=model.lower():native('/api/generate',{'model':loaded['name'],'keep_alive':0},timeout=40)
         encoded=base64.b64encode((INPUTS/case['file']).read_bytes()).decode();image=normalize_image(encoded)[0]
         payload={'model':model,'prompt':MANIFEST['prompt'],'images':[base64.b64encode(image).decode()],'format':MANIFEST['schema'],'stream':False,'keep_alive':'1m','options':{'num_ctx':2048,'num_batch':32,'num_predict':256,'temperature':0}}
-        t=time.monotonic();data=native('/api/generate',payload,timeout=120);row.update(seconds=round(time.monotonic()-t,4),load_seconds=round(data.get('load_duration',0)/1e9,4),prompt_tokens=data.get('prompt_eval_count'),output_tokens=data.get('eval_count'),done_reason=data.get('done_reason'),response=data.get('response',''))
+        if model=='qwen3.5:0.8b':payload['think']=False
+        t=time.monotonic();data=native('/api/generate',payload,timeout=120);row.update(think=payload.get('think'),thinking_characters=len(data.get('thinking','')),seconds=round(time.monotonic()-t,4),load_seconds=round(data.get('load_duration',0)/1e9,4),prompt_tokens=data.get('prompt_eval_count'),output_tokens=data.get('eval_count'),done_reason=data.get('done_reason'),response=data.get('response',''))
         try:
             parsed=json.loads(row['response']);valid=isinstance(parsed,dict) and set(parsed)=={'categories','evidence'} and isinstance(parsed['categories'],dict) and set(parsed['categories'])==set(MANIFEST['categories']) and all(v is None or type(v) is bool for v in parsed['categories'].values()) and isinstance(parsed['evidence'],str) and len(parsed['evidence'])<=2000 and data.get('done') is True and data.get('done_reason')!='length'
             row.update(parsed=parsed,valid=valid)
@@ -70,17 +71,40 @@ def run_case(model,case):
         if held:lease('release',held)
     return row
 
+def prepare_model(model):
+    # A resumed persistent cleanup timer may have a catch-up run. Acquire the
+    # same guard before inventory/pull so a cleaner cannot remove a just-pulled artifact.
+    held=None;stop=threading.Event();errors=[]
+    try:
+        for _ in range(180):
+            try:held=lease('acquire')['lease'];break
+            except urllib.error.HTTPError as e:
+                if e.code!=409:raise
+                time.sleep(2)
+        assert held,'No idle guard for model preparation'
+        def renew():
+            while not stop.wait(30):
+                try:lease('renew',held)
+                except Exception as error:errors.append(type(error).__name__);return
+        threading.Thread(target=renew,daemon=True).start()
+        inventory=native('/api/tags')['models']
+        if not any(m['name'].lower()==model.lower() for m in inventory):
+            assert shutil.disk_usage('/').free>6*1024**3,'Disk reserve preflight'
+            subprocess.run(['docker','exec','narimato-ollama','ollama','pull',model],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=360)
+        assert not errors,'Model preparation lost its lease'
+        return next(m for m in native('/api/tags')['models'] if m['name'].lower()==model.lower())
+    finally:
+        stop.set()
+        if held:lease('release',held)
+
 timer=subprocess.run(['systemctl','is-active','--quiet','narimato-model-cleanup.timer']).returncode==0
 subprocess.run(['systemctl','stop','narimato-model-cleanup.timer'],check=True)
 report['status']='running';report['runtime']=native('/api/version');report['initial_memory']=memory();save()
 try:
     for model in MODELS:
         entry={'model':model,'status':'running','tests':[],'robustness':[]};report['models'].append(entry);save();print('START',model,flush=True)
-        inventory=native('/api/tags')['models']
-        if not any(m['name'].lower()==model.lower() for m in inventory):
-            assert shutil.disk_usage('/').free>6*1024**3,'Disk reserve preflight'
-            subprocess.run(['docker','exec','narimato-ollama','ollama','pull',model],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=360)
-        entry['tag']=next(m for m in native('/api/tags')['models'] if m['name'].lower()==model.lower());before=memory()
+        entry['tag']=prepare_model(model);before=memory()
+        assert entry['tag']['digest']==next(m['tag']['digest'] for m in recognition['models'] if m['model']==model),'Artifact changed between task evaluations'
         for field,cases in [('tests',MANIFEST['cases']),('robustness',MANIFEST['robustness'])]:
             ordered=cases.copy();random.Random(20261028).shuffle(ordered)
             for case in ordered:

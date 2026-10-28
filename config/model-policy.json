@@ -45,7 +45,7 @@
     },
     {
       "path": "config/runtime-context-profiles.json",
-      "sha256": "fd482a126a91fedefb12e965a56c8de546b6c56429a60c3de70677ecdbc1355a"
+      "sha256": "7bf84daf42ab369071e5a68faf0d6b5fa22affc2aa8f9618b88d70cdc67134bc"
     },
     {
       "path": "benchmarks/paperclip-context/results-8k-bounded-cache.json",
@@ -58,6 +58,14 @@
     {
       "path": "benchmarks/paperclip-context/bounded-cache-runtime.json",
       "sha256": "5c00ee1b9bbd0c2bfc2dddc532fcbed327eab8c84d48df072861e4c1b3d2a403"
+    },
+    {
+      "path": "benchmarks/vision-evaluation/qwen-profile-preflight.json",
+      "sha256": "c388dd0532068d9613bc1cd2b387c575753083f589d0d106f50ec1b5c3e88189"
+    },
+    {
+      "path": "benchmarks/vision-evaluation/qwen-service-diagnostics.json",
+      "sha256": "bd5989f1a34c7264ae9c7f798a2c76c88cfc0a76937f819ae4c72587a6f03e96"
     }
   ],
   "defaults": {
@@ -997,8 +1005,15 @@
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
+            "num_batch": 32,
+            "think": false
+          },
+          "benchmark_profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "profile_evidence": "config/runtime-context-profiles.json"
         }
       }
     },
@@ -1093,5 +1108,5 @@
       "text_chat": 8192
     }
   },
-  "policy_id": "d96018af615057a87d0ff625a6c888a123f67b5532e59f05ea2baf7b8ad2d6d0"
+  "policy_id": "f1dd0dc1f49dd331c57edede04f913427cb076baed7e1b9acb2e8961e4e3b6f9"
 }

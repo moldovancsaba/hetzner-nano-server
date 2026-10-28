@@ -7,8 +7,8 @@ Status: evaluation in progress, 28 October 2026. The earlier two-image round is 
 - Recognition: 24 varied COCO 2017 validation photographs and eight TextVQA validation photographs. Published annotations/answer consensus were visually reviewed before candidate inference.
 - Nine paired recognition robustness variants: dimmed/compressed versions of four base images, plus an instruction overlaid on a benign photograph. These are not nine independent new examples.
 - Eight separate counting probes reuse clearly countable base images. They do not change the real service-contract score.
-- Moderation: 40 distinct images, including 35 photographs and five controlled English text/shape probes. All nine category references are Boolean or genuinely uncertain. A paired instruction-in-image challenge is separate.
-- Three benign COCO photos appear in both workstreams. Across primary cohorts there are **69 distinct images: 64 photographs and five controlled probes**, plus ten paired variants. Counts, repeated model calls and cross-task reuse are not inflated into independent sample counts.
+- Moderation: 41 distinct images, including 34 photographic/photo-like images, two source illustrations and five controlled English text/shape probes. All nine category references are Boolean or genuinely uncertain. A paired instruction-in-image challenge is separate.
+- Three benign COCO photos appear in both workstreams. Across primary cohorts there are **70 distinct images: 63 photographic/photo-like images, two source illustrations and five controlled probes**, plus ten paired variants. Counts, repeated model calls and cross-task reuse are not inflated into independent sample counts.
 
 Five working model artifacts are tested: LFM2-VL 450M Q8, LFM2.5-VL 450M Q8, MiniCPM-V 4.6 1B, LFM2.5-VL 450M Extract Q8 and Qwen3.5 0.8B. LFM3 and d1 compatibility failures remain documented in round 4; unchanged failed runtime/endpoint combinations are not retried.
 
@@ -28,7 +28,7 @@ The owner selected public research datasets for this evaluation. Live Camera/cus
 
 COCO sources retain per-image Flickr licenses and source links; TextVQA/OpenImages references retain attribution. Harmful-Contents states research/noncommercial use; this does not establish commercial image rights. Wikimedia files retain their individual attribution/licenses.
 
-Sexual-content positives remain sparse, with one clear adult-appearing act. Identity/age is not independently certified; ambiguous/young-appearing sexual candidates were excluded and their local derivatives removed. Hate-word positives are controlled English text probes, not a photographic or multilingual hate-speech corpus. Violence covers bruising and depicted harm, not broad graphic-assault/gore accuracy. These limits prevent production-safety certification even after a complete comparative run. Human review remains required.
+Sexual-content positives remain sparse, with two clear adult-appearing act images. Identity/age is not independently certified; ambiguous/young-appearing sexual candidates were excluded and their local derivatives removed. Hate-word positives are controlled English text probes, not a photographic or multilingual hate-speech corpus. Violence covers bruising and depicted harm, not broad graphic-assault/gore accuracy. These limits prevent production-safety certification even after a complete comparative run. Human review remains required.
 
 This evaluation does not test movies, multi-image reasoning, training, or non-English capability.
 
@@ -41,3 +41,9 @@ Read repository AGENTS.md, CONTINUOUS-EVALUATION.md, DATA-RETENTION.md and MODEL
 Server runners keep normal inference serialized, mark API requests as tests, pause automatic model cleanup during temporary experiments, record resource counters and restore default text afterward. Moderation waits for recognition to finish. On interruption, inspect native state before releasing maintenance or restarting anything; verify queue health and the cleanup timer.
 
 The run is not complete until results are reviewed, separate rankings rebuilt, matching default artifacts deployed, actual auto/explicit API jobs verified, unneeded temporary weights cleaned under retention policy, inputs removed, and documentation published. Historical screening variants must not be mixed numerically into the new broader ranking; preserve their evidence and explicit-selection status separately.
+
+A separate non-scoring native diagnostic confirmed one baseline failure hit the 256-token limit with incomplete JSON and repeated invented visible_text entries. This is evidence for that case, not a diagnosis of every failure. The ranking experiment continues unchanged.
+
+Before any moderation inference, full-resolution review corrected one scene label and added a public-domain nonsexual classical-sculpture contrast. The initial manifest remains in Git history; protocol.json records the amendment and hashes. No model outputs drove the correction.
+
+The as-is Qwen profile consumed its response budget on reasoning. A native diagnostic retained only reasoning length (never reasoning content). The operator added an explicit think=false vision profile, verified a real API response, preserved nine failed-profile diagnostic cases separately, and restarted Qwen on the entire cohort. The other four completed models are unchanged. Profile-control regression tests and checkpoint/resume handling were added; labels and score weights were not tuned to Qwen answers.

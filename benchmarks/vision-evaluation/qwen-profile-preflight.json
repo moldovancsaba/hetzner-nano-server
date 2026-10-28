@@ -1,0 +1,25 @@
+{
+  "purpose": "Operating-profile conformance only, not a quality score",
+  "model": "qwen3.5:0.8b",
+  "case": "coco-98261",
+  "status": "completed",
+  "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+  "model_profile": {
+    "max_image_edge": 640,
+    "num_ctx": 2048,
+    "num_batch": 32,
+    "think": false
+  },
+  "result": {
+    "schema_version": "camera-recognition.v1",
+    "model": "qwen3.5:0.8b",
+    "description": "Two birds perched on a branch against a plain background.",
+    "objects": [
+      "{bird_1}",
+      "{bird_2}"
+    ],
+    "visible_text": [],
+    "limitations": "Experimental visual description; verify details. Not a moderation decision."
+  },
+  "error": null
+}
