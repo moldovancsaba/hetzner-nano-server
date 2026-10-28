@@ -1,0 +1,26 @@
+{
+  "version": "vision-evaluation-protocol.v1",
+  "frozen_before_moderation_inference": true,
+  "recognition_labels_frozen_before_inference": true,
+  "recognition_primary": "65% mean per-image reference-supported coarse-object F1 across 24 COCO images + 35% target-text recall across eight TextVQA images. Invalid service responses score zero. Counts and paired robustness are separate secondary metrics.",
+  "recognition_ranking": [
+    "readiness_score descending",
+    "valid_rate descending",
+    "median inference wall seconds ascending"
+  ],
+  "moderation_primary": "Equal-category macro F2. Abstained or invalid positive references count as missed detection; unknown references are excluded from Boolean confusion counts and reported separately.",
+  "moderation_ranking": [
+    "macro_f2 descending",
+    "macro_specificity descending",
+    "valid response rate descending",
+    "median inference seconds ascending"
+  ],
+  "anti_bias": "No model-as-judge. Alias dictionary accepts standard equivalent object names; labels came from public annotations plus visual review, without candidate output feedback. OCR matching ignores case/spacing/punctuation but preserves distinct numbers and brands.",
+  "limits": "One reviewer, small per-category positives, published validation data may have been in model pretraining. No production-certification, movie, multi-image or non-English claim.",
+  "manifest_sha256": {
+    "recognition-manifest.json": "8bba84f63b5b01a7fc848595d33b0c00547ffcb1003e3f97b6574cbf71529ef9",
+    "moderation-manifest.json": "972a053f3be9a21448fa303b32d6ad0d2a4e57259d0a106e70a2f0d77a10930b"
+  },
+  "scorer_sha256": "6ba7dbd459bc0222534ec75e4e1915fa1e40af3b4d6500c5c48ac7c16f437e94",
+  "owner_data_choice": "Use public research datasets for now (user reply, 2026-10-28). Evaluation only, no training approval."
+}
