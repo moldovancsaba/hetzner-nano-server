@@ -1,0 +1,11 @@
+{
+  "implementation_sha256": {
+    "/opt/narimato-gateway/gateway/server.py": "69154d8c365c6c30eb9191e4fc3a972c836b2bf583986aeb4ee9c7ec4477e3ea",
+    "/opt/narimato-gateway/moderation/server.py": "a4c49da4a2e887aec51d66e76f97547e5465090e76099c7b156d23528cd0f925",
+    "/opt/narimato-benchmarks/round4/run.py": "bdf84e8078d236b399b30c01ecee633fbcad5520703e2256ca96475100dfbf92",
+    "/opt/narimato-benchmarks/round3/fixtures.py": "341d43f5797bbf3e7feb3399126eaa5da29bd5a4526a4dd3bbab813178745d52",
+    "/opt/narimato-benchmarks/round5/run.py": "2158eec7aca1cd1a3090e2646902a219dc17838adc916c31e78443c079bb200a"
+  },
+  "runtime_container_limits": "2936012800 2000000000",
+  "captured_during_run": true
+}

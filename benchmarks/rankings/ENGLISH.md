@@ -1,6 +1,6 @@
 # English structured text ranking
 
-Updated with [round 4](../round4/REPORT.md). Small controlled screening, not a global leaderboard. Moderation and non-English remain independent.
+Updated with [Round 5](../round5/REPORT.md). Fourteen common checks (seven prompts repeated); historical scores retained. Moderation and languages remain separate.
 
 | Rank | Model | Correct | JSON valid | Native tool | Median seconds |
 | --- | --- | --- | --- | --- | --- |
@@ -15,10 +15,10 @@ Updated with [round 4](../round4/REPORT.md). Small controlled screening, not a g
 | 9 | qwen2.5:1.5b | 8/14 | 14/14 | True | 2.066 |
 | 10 | llama3.2:1b | 8/14 | 14/14 | False | 1.633 |
 | 11 | smollm2:1.7b | 8/14 | 12/14 | True | 2.140 |
-| 12 | granite3.1-moe:1b | 6/14 | 14/14 | False | 0.903 |
-| 13 | hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M | 5/14 | 12/14 | False | 2.237 |
-| 14 | gemma3:1b | 4/14 | 14/14 | False | 2.683 |
-| 15 | smollm2:360m | 0/14 | 10/14 | False | 4.469 |
-| 16 | smollm2:135m | 0/14 | 8/14 | False | 2.548 |
-
-Correctness determines ranking first. Timing tie-breaks are descriptive and sensitive to cache/runtime conditions; they do not establish statistical quality superiority. Current defaults must match the generated task policy and verified context requirements.
+| 12 | hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M | 6/14 | 14/14 | True | 0.475 |
+| 13 | granite3.1-moe:1b | 6/14 | 14/14 | False | 0.903 |
+| 14 | hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M | 5/14 | 12/14 | False | 2.237 |
+| 15 | gemma3:1b | 4/14 | 14/14 | False | 2.683 |
+| 16 | gemma3:270m | 3/14 | 12/14 | False | 0.907 |
+| 17 | smollm2:360m | 0/14 | 10/14 | False | 4.469 |
+| 18 | smollm2:135m | 0/14 | 8/14 | False | 2.548 |

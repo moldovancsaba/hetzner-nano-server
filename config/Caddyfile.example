@@ -1,4 +1,13 @@
 chatbotapi.haho.ai {
+    # Public aggregate results only; private API routes below remain authenticated.
+    redir /benchmarks /benchmarks/ 308
+    handle_path /benchmarks/* {
+        root * /var/www/narimato-benchmarks
+        header Cache-Control "public, max-age=300"
+        header X-Content-Type-Options "nosniff"
+        file_server
+    }
+
     @gateway path /v1/usage /v1/models /v1/chat/completions /v1/jobs /v1/jobs/* /v1/job-types /v1/queue /v1/moderation/*
     handle @gateway {
         request_body {

@@ -8,8 +8,8 @@
   },
   "sources": [
     {
-      "path": "benchmarks/vision-evaluation/rankings.json",
-      "sha256": "64dc2414ee7fcfe02cd1799e172bac9e1c61a4743d74df2772f9016445fe72a6"
+      "path": "benchmarks/round5/rankings.json",
+      "sha256": "181a40b61475ddfdf7f25ed55d6aa1ae3574bdb1a2d747832e7cf82c02717045"
     },
     {
       "path": "benchmarks/vision-evaluation/moderation-summary.json",
@@ -52,6 +52,10 @@
       "sha256": "d10d669fef865f00758523c69ace7c201de0602f02bb20d634a0d40a1646278d"
     },
     {
+      "path": "benchmarks/round5/results.json",
+      "sha256": "e490ddf44092c30798c4d4c752748ca8840736bf419d2661111bdc895d1e7eca"
+    },
+    {
       "path": "benchmarks/round4/rankings.json",
       "sha256": "772f5fd69a89fef4a428bea250c2f98829d26aac8526d744d268d3120ca825e8"
     },
@@ -86,7 +90,7 @@
   ],
   "defaults": {
     "text_chat": "granite4:1b-h",
-    "image_recognition": "minicpm-v4.6:1b",
+    "image_recognition": "minicpm-v4.6:q5_K_M",
     "image_moderation": "qwen3.5:0.8b"
   },
   "models": {
@@ -104,7 +108,7 @@
             "native_tool_passed": true,
             "median_seconds": 3.028
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -171,7 +175,7 @@
             "native_tool_passed": true,
             "median_seconds": 1.11
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -194,7 +198,7 @@
             "native_tool_passed": true,
             "median_seconds": 2.01
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -218,7 +222,7 @@
             "median_seconds": 0.829,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -241,7 +245,7 @@
             "native_tool_passed": true,
             "median_seconds": 1.256
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -264,7 +268,7 @@
             "native_tool_passed": true,
             "median_seconds": 3.107
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -287,7 +291,7 @@
             "native_tool_passed": true,
             "median_seconds": 3.36
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -311,7 +315,7 @@
             "median_seconds": 0.796,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -334,7 +338,7 @@
             "native_tool_passed": true,
             "median_seconds": 2.066
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -357,7 +361,7 @@
             "native_tool_passed": false,
             "median_seconds": 1.633
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -380,7 +384,31 @@
             "native_tool_passed": true,
             "median_seconds": 2.14
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M": {
+      "id": "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M",
+      "tested_digest": "1f41ea40955182f8c0f5b969a152736cc6be6ce9e9173bfcc1582f7aff90c454",
+      "tasks": {
+        "text_chat": {
+          "rank": 12,
+          "metrics": {
+            "model": "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M",
+            "passed": 6,
+            "total": 14,
+            "json_valid": 14,
+            "native_tool_passed": true,
+            "median_seconds": 0.475,
+            "evidence": "benchmarks/round5/results.json"
+          },
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -394,7 +422,7 @@
       "tested_digest": "3269ce3e31ea68da5ddb7926628b5bb1d25146d4f32424f35e748dd17e4013a0",
       "tasks": {
         "text_chat": {
-          "rank": 12,
+          "rank": 13,
           "metrics": {
             "model": "granite3.1-moe:1b",
             "passed": 6,
@@ -403,7 +431,7 @@
             "native_tool_passed": false,
             "median_seconds": 0.903
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -417,7 +445,7 @@
       "tested_digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
       "tasks": {
         "text_chat": {
-          "rank": 13,
+          "rank": 14,
           "metrics": {
             "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
             "passed": 5,
@@ -426,7 +454,7 @@
             "native_tool_passed": false,
             "median_seconds": 2.237
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -440,7 +468,7 @@
       "tested_digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
       "tasks": {
         "text_chat": {
-          "rank": 14,
+          "rank": 15,
           "metrics": {
             "model": "gemma3:1b",
             "passed": 4,
@@ -449,7 +477,31 @@
             "native_tool_passed": false,
             "median_seconds": 2.683
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          }
+        }
+      }
+    },
+    "gemma3:270m": {
+      "id": "gemma3:270m",
+      "tested_digest": "e7d36fb2c3b3293cfe56d55889867a064b3a2b22e98335f2e6e8a387e081d6be",
+      "tasks": {
+        "text_chat": {
+          "rank": 16,
+          "metrics": {
+            "model": "gemma3:270m",
+            "passed": 3,
+            "total": 14,
+            "json_valid": 12,
+            "native_tool_passed": false,
+            "median_seconds": 0.907,
+            "evidence": "benchmarks/round5/results.json"
+          },
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -463,7 +515,7 @@
       "tested_digest": "297281b699fc51376006233ca400cd664c4f7b80ed88a47ef084f1e4b089803b",
       "tasks": {
         "text_chat": {
-          "rank": 15,
+          "rank": 17,
           "metrics": {
             "model": "smollm2:360m",
             "passed": 0,
@@ -473,7 +525,7 @@
             "median_seconds": 4.469,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -487,7 +539,7 @@
       "tested_digest": "9077fe9d2ae1a4a41a868836b56b8163731a8fe16621397028c2c76f838c6907",
       "tasks": {
         "text_chat": {
-          "rank": 16,
+          "rank": 18,
           "metrics": {
             "model": "smollm2:135m",
             "passed": 0,
@@ -497,7 +549,7 @@
             "median_seconds": 2.548,
             "evidence": "benchmarks/round4/results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -506,12 +558,55 @@
         }
       }
     },
+    "minicpm-v4.6:q5_K_M": {
+      "id": "minicpm-v4.6:q5_K_M",
+      "tested_digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+      "tasks": {
+        "image_recognition": {
+          "rank": 1,
+          "metrics": {
+            "model": "minicpm-v4.6:q5_K_M",
+            "total_images": 32,
+            "valid": 32,
+            "valid_rate": 1.0,
+            "object_reference_f1": 0.8933531746031746,
+            "object_recall": 0.8784722222222222,
+            "ocr_target_recall": 1.0,
+            "ocr_correct": 8.0,
+            "ocr_total": 8,
+            "readiness_score": 0.9306795634920635,
+            "count_correct": 7,
+            "count_total": 8,
+            "median_seconds": 24.93175,
+            "p95_seconds": 27.8466,
+            "benchmark_version": "vision-evaluation.v1",
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "max_image_dimension": 640,
+            "evidence": "benchmarks/round5/results.json"
+          },
+          "evidence": "benchmarks/round5/rankings.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32,
+            "think": false
+          },
+          "ranking_tier": "broader_service_evaluation",
+          "current_rank": 1
+        }
+      }
+    },
     "minicpm-v4.6:1b": {
       "id": "minicpm-v4.6:1b",
       "tested_digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
       "tasks": {
         "image_recognition": {
-          "rank": 1,
+          "rank": 2,
           "metrics": {
             "model": "minicpm-v4.6:1b",
             "readiness_score": 0.8070337301587303,
@@ -536,14 +631,14 @@
             "benchmark_version": "vision-evaluation.v1",
             "evidence": "benchmarks/vision-evaluation/recognition-results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
           },
           "ranking_tier": "broader_service_evaluation",
-          "current_rank": 1
+          "current_rank": 2
         },
         "image_moderation": {
           "rank": 2,
@@ -789,7 +884,7 @@
       "tested_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
       "tasks": {
         "image_recognition": {
-          "rank": 2,
+          "rank": 3,
           "metrics": {
             "model": "qwen3.5:0.8b",
             "readiness_score": 0.7996180555555555,
@@ -815,7 +910,7 @@
             "benchmark_version": "vision-evaluation.v1",
             "evidence": "benchmarks/vision-evaluation/recognition-results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -823,7 +918,7 @@
             "think": false
           },
           "ranking_tier": "broader_service_evaluation",
-          "current_rank": 2,
+          "current_rank": 3,
           "benchmark_profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
@@ -1078,7 +1173,7 @@
       "tested_digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
       "tasks": {
         "image_recognition": {
-          "rank": 3,
+          "rank": 4,
           "metrics": {
             "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
             "readiness_score": 0.7044097222222222,
@@ -1103,14 +1198,14 @@
             "benchmark_version": "vision-evaluation.v1",
             "evidence": "benchmarks/vision-evaluation/recognition-results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
           },
           "ranking_tier": "broader_service_evaluation",
-          "current_rank": 3
+          "current_rank": 4
         },
         "image_moderation": {
           "rank": 3,
@@ -1356,7 +1451,7 @@
       "tested_digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
       "tasks": {
         "image_recognition": {
-          "rank": 4,
+          "rank": 5,
           "metrics": {
             "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
             "readiness_score": 0.39979166666666666,
@@ -1381,14 +1476,14 @@
             "benchmark_version": "vision-evaluation.v1",
             "evidence": "benchmarks/vision-evaluation/recognition-results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
           },
           "ranking_tier": "broader_service_evaluation",
-          "current_rank": 4
+          "current_rank": 5
         },
         "image_moderation": {
           "rank": 4,
@@ -1634,7 +1729,7 @@
       "tested_digest": "bebf3b8c9418105b21f65f8914b1f898b449ec04a033589b88c2db38e1916d99",
       "tasks": {
         "image_recognition": {
-          "rank": 5,
+          "rank": 6,
           "metrics": {
             "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
             "readiness_score": 0.2874305555555555,
@@ -1659,14 +1754,14 @@
             "benchmark_version": "vision-evaluation.v1",
             "evidence": "benchmarks/vision-evaluation/recognition-results.json"
           },
-          "evidence": "benchmarks/vision-evaluation/rankings.json",
+          "evidence": "benchmarks/round5/rankings.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
           },
           "ranking_tier": "broader_service_evaluation",
-          "current_rank": 5
+          "current_rank": 6
         },
         "image_moderation": {
           "rank": 5,
@@ -2274,5 +2369,5 @@
       "text_chat": 8192
     }
   },
-  "policy_id": "50c80c5880257fc301301d84432440e2a5868e23c36d79c545c99b259d3c9140"
+  "policy_id": "94fd64780e8bf6b8f8946611fb37d4ce80816b93b2771cf7d1e009ec28dc853d"
 }

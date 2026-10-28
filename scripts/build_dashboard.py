@@ -11,7 +11,8 @@ def build():
  from build_tested_model_index import build as index
  registry=index()
  data={'generated_utc':datetime.now(timezone.utc).isoformat(),'model_variants_attempted':len(registry['models']),'hardware':'Hetzner CAX11 · 2 shared ARM64 CPU · 4 GB RAM · no GPU','defaults':read('config/model-policy.json')['defaults'],'models':[{'model':r['model'],'outcomes':r['outcomes'],'sources':r['evidence'],'ranked_tasks':r.get('ranked_tasks',[])} for r in registry['models']],'cohorts':[]}
- for path,label in [('benchmarks/round3/rankings.json','Round 3 screening'),('benchmarks/round4/rankings.json','Round 4 screening'),('benchmarks/vision-evaluation/rankings.json','Broader evaluation')]:
+ for path,label in [('benchmarks/round3/rankings.json','Round 3 screening'),('benchmarks/round4/rankings.json','Round 4 screening'),('benchmarks/vision-evaluation/rankings.json','Broader evaluation'),('benchmarks/round5/rankings.json','Round 5 merged ranking')]:
+  if not (ROOT/path).exists():continue
   r=read(path)
   for key,task in [('english','English structured tasks'),('english_budget_limited','English: output-budget limited'),('image','Image recognition')]:
    if r.get(key):data['cohorts'].append({'label':label+' · '+task,'date':r.get('generated_utc'),'policy':r.get('english_policy' if key.startswith('english') else 'image_policy',''),'source':path,'rows':[safe(x) for x in r[key]]})

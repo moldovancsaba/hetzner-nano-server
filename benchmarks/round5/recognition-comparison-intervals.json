@@ -1,0 +1,12 @@
+[
+  {
+    "model": "minicpm-v4.6:q5_K_M",
+    "versus": "minicpm-v4.6:1b",
+    "point_delta": 0.12364583333333323,
+    "paired_bootstrap_95": [
+      0.025729166666666668,
+      0.24187499999999998
+    ],
+    "note": "Paired reference cases; baseline full run is historical. Descriptive uncertainty, not proof of general superiority."
+  }
+]

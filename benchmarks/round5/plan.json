@@ -1,0 +1,37 @@
+{
+  "scope": "Two new tiny English candidates and one higher-precision image variant; native exact service implementation under per-request maintenance leases. No moderation, movie or language claim.",
+  "settings": {
+    "memory_mib": 2800,
+    "num_ctx": 2048,
+    "num_batch": 32,
+    "hard_disk_floor_gib": 4
+  },
+  "candidates": [
+    {
+      "model": "gemma3:270m",
+      "task": "text",
+      "source": "https://ollama.com/library/gemma3:270m",
+      "license": "Gemma terms; research evaluation, not a blanket commercial approval"
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M",
+      "task": "text",
+      "source": "https://huggingface.co/LiquidAI/LFM2.5-350M-GGUF",
+      "license": "LFM Open License; review terms before commercial use"
+    },
+    {
+      "model": "minicpm-v4.6:q5_K_M",
+      "task": "vision",
+      "source": "https://ollama.com/library/minicpm-v4.6:q5_K_M",
+      "license": "Verify upstream OpenBMB and runtime package license metadata",
+      "novelty": "New Q5_K_M artifact versus current tested Q4_K_M default"
+    }
+  ],
+  "image_profile": {
+    "max_image_edge": 640,
+    "num_ctx": 2048,
+    "num_batch": 32,
+    "think": false,
+    "note": "Explicit non-thinking profile for both fresh image candidate and eight-image sentinel control; historical Q4 full-cohort profile remains as recorded."
+  }
+}

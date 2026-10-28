@@ -38,6 +38,22 @@
       "artifact_digest": "9e37f553eb2ffa6b1273ad4b9fde988973fb8568111a4cf5addefabe37c9b3c8",
       "weights_removed": true,
       "retest_only_if": "Pinned compatible runtime or separately tested decision endpoint; no unchanged repeat."
+    },
+    "gemma3:270m": {
+      "state": "evaluated_not_promoted",
+      "reason": "3/14 English checks versus Granite 14/14; temporary weights removed, metadata retained.",
+      "artifact_digest": "e7d36fb2c3b3293cfe56d55889867a064b3a2b22e98335f2e6e8a387e081d6be",
+      "evidence": "benchmarks/round5/results.json",
+      "weights_removed": true,
+      "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
+    },
+    "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M": {
+      "state": "evaluated_not_promoted",
+      "reason": "6/14 English checks versus Granite 14/14; temporary weights removed, metadata retained.",
+      "artifact_digest": "1f41ea40955182f8c0f5b969a152736cc6be6ce9e9173bfcc1582f7aff90c454",
+      "evidence": "benchmarks/round5/results.json",
+      "weights_removed": true,
+      "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
     }
   }
 }

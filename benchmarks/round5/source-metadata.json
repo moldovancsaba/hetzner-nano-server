@@ -1,0 +1,35 @@
+{
+  "retrieved_utc": "2026-10-28T10:16:46.301177+00:00",
+  "sources": [
+    {
+      "id": "LiquidAI/LFM2.5-350M-GGUF",
+      "revision": "657e078c94084481950a2d555a941481f715536b",
+      "license": "other",
+      "gated": false,
+      "files": [
+        "LFM2.5-350M-BF16.gguf",
+        "LFM2.5-350M-F16.gguf",
+        "LFM2.5-350M-Q4_0.gguf",
+        "LFM2.5-350M-Q4_K_M.gguf",
+        "LFM2.5-350M-Q5_K_M.gguf",
+        "LFM2.5-350M-Q6_K.gguf",
+        "LFM2.5-350M-Q8_0.gguf",
+        "LFM2.5-350M-QAD-Q4_0.gguf"
+      ]
+    },
+    {
+      "id": "OpenBMB/MiniCPM-V-4_6",
+      "revision": "36f34a661a4bd35d0dc2294cb044d2584646c7d3",
+      "license": "apache-2.0",
+      "gated": false,
+      "files": []
+    },
+    {
+      "id": "google/gemma-3-270m-it",
+      "revision": "ac82b4e820549b854eebf28ce6dedaf9fdfa17b3",
+      "license": "gemma",
+      "gated": "manual",
+      "files": []
+    }
+  ]
+}

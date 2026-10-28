@@ -14,7 +14,7 @@ All public text generation, Camera image processing, and Pandora chat now pass t
 | --- | --- | --- | --- |
 | `text_chat` | ClassScout, Habigoal, Pandora | `granite4:1b-h` | OpenAI-compatible chat completion; JSON output and tool definitions supported |
 | `image_moderation` | Camera | `qwen3.5:0.8b` | Nine-category experimental human-review signals |
-| `image_recognition` | Camera | `minicpm-v4.6:1b` | Description, objects, readable visible text |
+| `image_recognition` | Camera | `minicpm-v4.6:q5_K_M` | Description, objects, readable visible text |
 
 ClassScout/Habigoal/Pandora now use Granite 4 1B Hybrid, the leader of our measured English structured-task checks (14/14). This does not certify all conversational or non-English tasks. `qwen3:1.7b` is now an explicit alternative that selects Qwen; omit the model or use auto to follow the default. The actual completion `model` field and `/job-types` are authoritative.
 
@@ -35,7 +35,7 @@ Example discovery response for Camera:
   "version": "job-router.v1",
   "job_types": {
     "image_moderation": {"model":"qwen3.5:0.8b"},
-    "image_recognition": {"model":"minicpm-v4.6:1b"}
+    "image_recognition": {"model":"minicpm-v4.6:q5_K_M"}
   }
 }
 ```
@@ -84,7 +84,7 @@ Text job `result` is the standard chat completion object (`choices`, `usage`, et
 ```json
 {
   "schema_version":"camera-recognition.v1",
-  "model":"minicpm-v4.6:1b",
+  "model":"minicpm-v4.6:q5_K_M",
   "description":"Brief visible scene description.",
   "objects":["cat","sofa"],
   "visible_text":[],

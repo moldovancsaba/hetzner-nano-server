@@ -1,0 +1,316 @@
+{
+  "policy_id": "94fd64780e8bf6b8f8946611fb37d4ce80816b93b2771cf7d1e009ec28dc853d",
+  "checks": [
+    {
+      "name": "Missing key refused",
+      "passed": true
+    },
+    {
+      "name": "classscout authenticated discovery",
+      "passed": true
+    },
+    {
+      "name": "classscout matching policy",
+      "passed": true
+    },
+    {
+      "name": "classscout default text_chat",
+      "passed": true
+    },
+    {
+      "name": "Verified default text context preserved",
+      "passed": true
+    },
+    {
+      "name": "habigoal authenticated discovery",
+      "passed": true
+    },
+    {
+      "name": "habigoal matching policy",
+      "passed": true
+    },
+    {
+      "name": "habigoal default text_chat",
+      "passed": true
+    },
+    {
+      "name": "camera authenticated discovery",
+      "passed": true
+    },
+    {
+      "name": "camera matching policy",
+      "passed": true
+    },
+    {
+      "name": "camera default image_moderation",
+      "passed": true
+    },
+    {
+      "name": "camera default image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Legacy evidence is not a current quality rank",
+      "passed": true
+    },
+    {
+      "name": "ClassScout image access refused",
+      "passed": true
+    },
+    {
+      "name": "Camera text access refused",
+      "passed": true
+    },
+    {
+      "name": "Auto image admission",
+      "passed": true
+    },
+    {
+      "name": "Mixed text admission",
+      "passed": true
+    },
+    {
+      "name": "Mixed work serialized",
+      "passed": true
+    },
+    {
+      "name": "Job completed image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Actual ranked model image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Delete synthetic image_recognition",
+      "passed": true
+    },
+    {
+      "name": "Job completed text_chat",
+      "passed": true
+    },
+    {
+      "name": "Actual ranked model text_chat",
+      "passed": true
+    },
+    {
+      "name": "Delete synthetic text_chat",
+      "passed": true
+    },
+    {
+      "name": "Auto moderation admission",
+      "passed": true
+    },
+    {
+      "name": "Moderation remains human review",
+      "passed": true
+    },
+    {
+      "name": "Job completed image_moderation",
+      "passed": true
+    },
+    {
+      "name": "Actual ranked model image_moderation",
+      "passed": true
+    },
+    {
+      "name": "Delete synthetic image_moderation",
+      "passed": true
+    },
+    {
+      "name": "Explicit tested moderation admitted",
+      "passed": true
+    },
+    {
+      "name": "Explicit model remains a deliberate override",
+      "passed": true
+    },
+    {
+      "name": "Explicit moderation remains human review",
+      "passed": true
+    },
+    {
+      "name": "Delete explicit synthetic result",
+      "passed": true
+    },
+    {
+      "name": "Default text restoration admitted",
+      "passed": true
+    },
+    {
+      "name": "Job completed text_chat",
+      "passed": true
+    },
+    {
+      "name": "Actual ranked model text_chat",
+      "passed": true
+    },
+    {
+      "name": "Delete synthetic text_chat",
+      "passed": true
+    },
+    {
+      "name": "Explicit new image candidate admitted",
+      "passed": true
+    },
+    {
+      "name": "Explicit image model honored",
+      "passed": true
+    },
+    {
+      "name": "Explicit new image result deleted",
+      "passed": true
+    },
+    {
+      "name": "Text restoration after explicit image admitted",
+      "passed": true
+    },
+    {
+      "name": "Job completed text_chat",
+      "passed": true
+    },
+    {
+      "name": "Actual ranked model text_chat",
+      "passed": true
+    },
+    {
+      "name": "Delete synthetic text_chat",
+      "passed": true
+    },
+    {
+      "name": "Shared queue healthy",
+      "passed": true
+    }
+  ],
+  "jobs": [
+    {
+      "task": "image_recognition",
+      "model": "minicpm-v4.6:q5_K_M",
+      "status": "completed",
+      "created_at": 1793184386.1936986,
+      "started_at": 1793184386.1948328,
+      "finished_at": 1793184401.1695766,
+      "queue_wait_seconds": 0.0011,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      }
+    },
+    {
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "status": "completed",
+      "created_at": 1793184386.2716515,
+      "started_at": 1793184401.1704214,
+      "finished_at": 1793184406.7249794,
+      "queue_wait_seconds": 14.8988,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    },
+    {
+      "task": "image_moderation",
+      "model": "qwen3.5:0.8b",
+      "status": "completed",
+      "created_at": 1793184407.4732144,
+      "started_at": 1793184407.4742956,
+      "finished_at": 1793184431.2936704,
+      "queue_wait_seconds": 0.0011,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      }
+    },
+    {
+      "task": "image_moderation",
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": "completed",
+      "created_at": 1793184432.0015194,
+      "started_at": 1793184432.0029967,
+      "finished_at": 1793184438.5289483,
+      "queue_wait_seconds": 0.0015,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32
+      }
+    },
+    {
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "status": "completed",
+      "created_at": 1793184439.2491503,
+      "started_at": 1793184439.2504303,
+      "finished_at": 1793184445.2023833,
+      "queue_wait_seconds": 0.0013,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    },
+    {
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "status": "completed",
+      "created_at": 1793184461.924492,
+      "started_at": 1793184461.925634,
+      "finished_at": 1793184467.9720962,
+      "queue_wait_seconds": 0.0011,
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    }
+  ],
+  "queue": {
+    "status": "ok",
+    "policy": "fifo",
+    "active_task": null,
+    "queued": 0,
+    "queue_capacity": 8,
+    "per_service_limit": 4,
+    "own_pending": 0,
+    "counters": {
+      "completed": 28,
+      "failed": 0,
+      "expired": 0,
+      "switches": 14
+    },
+    "last_model_switch": {
+      "target_model": "granite4:1b-h",
+      "unloaded_models": [
+        "minicpm-v4.6:q5_K_M"
+      ],
+      "unload_wait_seconds": 0.1296,
+      "inference_wall_seconds": 5.9132,
+      "model_load_seconds": 5.097860511
+    },
+    "durability": "memory_only",
+    "result_retention_seconds": 300,
+    "active_for_seconds": 0,
+    "oldest_wait_seconds": 0,
+    "metrics_write_failures": 0,
+    "model_storage_maintenance": false
+  },
+  "passed": true
+}

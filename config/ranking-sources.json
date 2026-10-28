@@ -1,5 +1,5 @@
 {
-  "english_and_images": "benchmarks/vision-evaluation/rankings.json",
+  "english_and_images": "benchmarks/round5/rankings.json",
   "moderation": "benchmarks/vision-evaluation/moderation-summary.json",
   "moderation_raw": "benchmarks/vision-evaluation/moderation-results.json",
   "digest_evidence": [
@@ -11,7 +11,8 @@
     "benchmarks/moderation/results.json",
     "benchmarks/round4/results.json",
     "benchmarks/vision-evaluation/recognition-results.json",
-    "benchmarks/vision-evaluation/moderation-results.json"
+    "benchmarks/vision-evaluation/moderation-results.json",
+    "benchmarks/round5/results.json"
   ],
   "runtime_profiles": "config/runtime-context-profiles.json",
   "legacy_screening": "benchmarks/round4/rankings.json",

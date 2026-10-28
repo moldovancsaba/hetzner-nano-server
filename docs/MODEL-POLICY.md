@@ -9,10 +9,10 @@ Rankings remain separate. Current defaults:
 | Job | Ranking | Default |
 | --- | --- | --- |
 | English text / ClassScout / Pandora | English structured-task ranking | `granite4:1b-h` |
-| General Camera image recognition | Broader actual-service image ranking | `minicpm-v4.6:1b` |
+| General Camera image recognition | Broader actual-service image ranking | `minicpm-v4.6:q5_K_M` |
 | Camera forbidden-content assistance | Broader nine-category moderation ranking | `qwen3.5:0.8b` |
 
-Recognition follows the broader actual-service cohort described below. Moderation follows the independent [41-image comparison](../benchmarks/vision-evaluation/REPORT.md) and keeps human-review-only semantics. Qwen3.5 ranks narrowly above MiniCPM on equal-category macro F2 (0.694 versus 0.690), at higher latency; this is a provisional cohort ordering, not demonstrated general superiority. Its bounded image profile explicitly disables thinking. All five completed candidates are selectable if their exact tested artifacts are installed; historical screening alternatives have no comparable current rank. English structured-task results remain a text-selection proxy; non-English and movies are separate unapproved workstreams.
+Recognition follows the frozen broader cohort plus the [Round 5 exact-service-implementation comparison](../benchmarks/round5/REPORT.md). The new Q5 variant leads the measured recognition ordering; this does not isolate precision from operating-profile changes. Moderation follows the independent [41-image comparison](../benchmarks/vision-evaluation/REPORT.md) and keeps human-review-only semantics. Qwen3.5 ranks narrowly above MiniCPM on equal-category macro F2 (0.694 versus 0.690), at higher latency; this is a provisional cohort ordering, not demonstrated general superiority. Its bounded image profile explicitly disables thinking. All six completed recognition candidates are selectable if their exact tested artifacts are installed; historical screening alternatives have no comparable current rank. English structured-task results remain a text-selection proxy; non-English and movies are separate unapproved workstreams.
 
 ## One machine-readable policy
 

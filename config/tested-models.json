@@ -207,7 +207,8 @@
         "benchmarks/round2/results.json",
         "benchmarks/round4/results.json",
         "benchmarks/vision-evaluation/recognition-results.json",
-        "benchmarks/vision-evaluation/moderation-results.json"
+        "benchmarks/vision-evaluation/moderation-results.json",
+        "benchmarks/round5/results.json"
       ],
       "outcomes": [
         "ran",
@@ -565,7 +566,8 @@
       "evidence": [
         "benchmarks/round4/results.json",
         "benchmarks/vision-evaluation/recognition-results.json",
-        "benchmarks/vision-evaluation/moderation-results.json"
+        "benchmarks/vision-evaluation/moderation-results.json",
+        "benchmarks/round5/results.json"
       ],
       "outcomes": [
         "completed",
@@ -575,6 +577,64 @@
       "ranked_tasks": [
         "image_recognition",
         "image_moderation"
+      ]
+    },
+    {
+      "model": "gemma3:270m",
+      "canonical": "gemma3270m",
+      "evidence": [
+        "benchmarks/round5/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "e7d36fb2c3b3293cfe56d55889867a064b3a2b22e98335f2e6e8a387e081d6be",
+      "ranked_tasks": [
+        "text_chat"
+      ],
+      "decision": {
+        "state": "evaluated_not_promoted",
+        "reason": "3/14 English checks versus Granite 14/14; temporary weights removed, metadata retained.",
+        "artifact_digest": "e7d36fb2c3b3293cfe56d55889867a064b3a2b22e98335f2e6e8a387e081d6be",
+        "evidence": "benchmarks/round5/results.json",
+        "weights_removed": true,
+        "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
+      }
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2.5-350M-GGUF:Q4_K_M",
+      "canonical": "lfm25350m",
+      "evidence": [
+        "benchmarks/round5/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "1f41ea40955182f8c0f5b969a152736cc6be6ce9e9173bfcc1582f7aff90c454",
+      "ranked_tasks": [
+        "text_chat"
+      ],
+      "decision": {
+        "state": "evaluated_not_promoted",
+        "reason": "6/14 English checks versus Granite 14/14; temporary weights removed, metadata retained.",
+        "artifact_digest": "1f41ea40955182f8c0f5b969a152736cc6be6ce9e9173bfcc1582f7aff90c454",
+        "evidence": "benchmarks/round5/results.json",
+        "weights_removed": true,
+        "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
+      }
+    },
+    {
+      "model": "minicpm-v4.6:q5_K_M",
+      "canonical": "minicpmv46q5km",
+      "evidence": [
+        "benchmarks/round5/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+      "ranked_tasks": [
+        "image_recognition"
       ]
     }
   ],
@@ -589,6 +649,7 @@
     "benchmarks/moderation/results.json": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e",
     "benchmarks/round4/results.json": "990ec3bd70af4da91819a16f230abb859330a41fe3fd819de08d240f45611722",
     "benchmarks/vision-evaluation/recognition-results.json": "d10d669fef865f00758523c69ace7c201de0602f02bb20d634a0d40a1646278d",
-    "benchmarks/vision-evaluation/moderation-results.json": "37b7dd662fca33cc989a1a635d1aa8448ab65e5b4527e086e583b7b164337a9b"
+    "benchmarks/vision-evaluation/moderation-results.json": "37b7dd662fca33cc989a1a635d1aa8448ab65e5b4527e086e583b7b164337a9b",
+    "benchmarks/round5/results.json": "e490ddf44092c30798c4d4c752748ca8840736bf419d2661111bdc895d1e7eca"
   }
 }

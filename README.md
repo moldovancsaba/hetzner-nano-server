@@ -32,9 +32,11 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 
 Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It does not download/test models automatically. Production inputs are never captured for training; terminal job results expire after five minutes or explicit client deletion.
 
+[Round 5 results](benchmarks/round5/REPORT.md) add three tested variants (41 total attempts). Q5_K_M now leads recognition on the frozen 32-image cohort; Granite remains the English leader.
+
 ## Default model policy
 
-[Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses MiniCPM-V 4.6 1B; moderation uses its separate Qwen3.5 0.8B winner.
+[Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses MiniCPM-V 4.6 Q5_K_M; moderation uses its separate Qwen3.5 0.8B winner.
 
 ## Shared text/image queue
 

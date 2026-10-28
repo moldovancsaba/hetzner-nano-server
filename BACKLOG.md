@@ -39,6 +39,7 @@ Recognition is complete on 32 public research photographs, with nine paired robu
 
 | ID | Priority | Work | Definition of done |
 | --- | --- | --- | --- |
+| EV-08 | P2 | Isolate recognition quantization versus thinking profile | Full fresh paired Q4/Q5 cohort with identical explicit non-thinking profiles and case order; repeated runs/holdouts before claiming precision alone caused the Round 5 gain |
 | RT-01 | P2 | Evaluate LFM3 runtime support in isolation | Current runtime reports unknown lfm3 architecture for text and vision; test a pinned compatible runtime with regression, memory, 8K context and rollback evidence before any production upgrade |
 | RT-02 | P2 | Investigate decision-model API separately | d1-omni-600M does not support the generation endpoint; design and benchmark its decision/scoring contract before treating it as image recognition or moderation |
 | MR-05 | P2 | Improve artifact-family identity and revision matching | Distinguish architecture, base model, fine-tune, quantization, encoder/projector and revision; changed artifact/runtime triggers reviewed retest, not repetitive unchanged tests |
