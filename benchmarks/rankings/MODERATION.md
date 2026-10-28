@@ -1,10 +1,16 @@
 # Moderation model ranking
 
-Independent human-review-assistance ranking on the 25-image screening test. This is not automatic moderation approval. Per-category failures remain in [the full report](../moderation/REPORT.md).
+Current ranking uses the [broader nine-category evaluation](../vision-evaluation/REPORT.md). This is human-review assistance, never automatic approval/rejection.
 
-Order: positive detections, known correct decisions, false positives, then median latency. Unknown/review is not a correct negative. General-image and non-English scores do not enter this ranking.
+Order: equal-category macro F2, specificity, valid-response rate, then latency. Invalid/abstained positive references count as missed detection. Sparse positives, unknown references and per-category recall intervals remain visible. General images and non-English are separate.
 
-| Rank | Model | Positive detections | Known correct | False positives | Median seconds |
-| --- | --- | --- | --- | --- | --- |
-| 1 | hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0 | 8 | 211 | 1 | 7.31 |
-| 2 | hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M | 4 | 4 | 0 | 23.99 |
+| Rank | Model | Macro F2 | Macro recall | Macro specificity | Valid responses | Median seconds |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | qwen3.5:0.8b | 0.6943 | 0.7370 | 0.9488 | 41/41 | 37.89 |
+| 2 | minicpm-v4.6:1b | 0.6897 | 0.7648 | 0.7799 | 41/41 | 22.44 |
+| 3 | hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0 | 0.4502 | 0.4315 | 1.0000 | 41/41 | 7.33 |
+| 4 | hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0 | 0.3407 | 0.8426 | 0.2708 | 36/41 | 7.40 |
+| 5 | hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0 | 0.2184 | 0.5833 | 0.4991 | 40/41 | 6.62 |
+
+Historical screening alternatives are explicit-only and not numerically comparable to this cohort:
+- hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M ([evidence](../../benchmarks/moderation/summary.json)).

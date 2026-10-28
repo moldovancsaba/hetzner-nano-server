@@ -4,7 +4,7 @@
   "scope_notes": {
     "text_chat": "English structured-task ranking is the current text proxy; not a broad chat or non-English certification.",
     "image_recognition": "Broader actual-service public-image cohort; cohort-specific object/OCR readiness, not general accuracy. Historical screening is explicit-only and not comparable.",
-    "image_moderation": "Rank by positive detections, known correct decisions, false positives then latency; no standalone safety certification."
+    "image_moderation": "Broader nine-category human-review assistance ranking by macro F2; invalid/abstained positives count as missed detection. Sparse positives and no standalone safety certification."
   },
   "sources": [
     {
@@ -12,12 +12,12 @@
       "sha256": "64dc2414ee7fcfe02cd1799e172bac9e1c61a4743d74df2772f9016445fe72a6"
     },
     {
-      "path": "benchmarks/moderation/summary.json",
-      "sha256": "c9d17439a0514fb6c71fe7e3a7a473d0bf44e63d1626dd037ec19bfc7db48afe"
+      "path": "benchmarks/vision-evaluation/moderation-summary.json",
+      "sha256": "1e0f1d30fb6937288e10779709d998f08a1c8fc1417351a0ed0a816be5bc4b65"
     },
     {
-      "path": "benchmarks/moderation/results.json",
-      "sha256": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e"
+      "path": "benchmarks/vision-evaluation/moderation-results.json",
+      "sha256": "37b7dd662fca33cc989a1a635d1aa8448ab65e5b4527e086e583b7b164337a9b"
     },
     {
       "path": "benchmarks/capabilities/results.json",
@@ -40,6 +40,10 @@
       "sha256": "79d86eebf60311b1608f5c6828467735c84ca9e07b2172eb562c4b5ed340494a"
     },
     {
+      "path": "benchmarks/moderation/results.json",
+      "sha256": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e"
+    },
+    {
       "path": "benchmarks/round4/results.json",
       "sha256": "990ec3bd70af4da91819a16f230abb859330a41fe3fd819de08d240f45611722"
     },
@@ -50,6 +54,10 @@
     {
       "path": "benchmarks/round4/rankings.json",
       "sha256": "772f5fd69a89fef4a428bea250c2f98829d26aac8526d744d268d3120ca825e8"
+    },
+    {
+      "path": "benchmarks/moderation/summary.json",
+      "sha256": "c9d17439a0514fb6c71fe7e3a7a473d0bf44e63d1626dd037ec19bfc7db48afe"
     },
     {
       "path": "config/runtime-context-profiles.json",
@@ -79,7 +87,7 @@
   "defaults": {
     "text_chat": "granite4:1b-h",
     "image_recognition": "minicpm-v4.6:1b",
-    "image_moderation": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+    "image_moderation": "qwen3.5:0.8b"
   },
   "models": {
     "granite4:1b-h": {
@@ -536,6 +544,243 @@
           },
           "ranking_tier": "broader_service_evaluation",
           "current_rank": 1
+        },
+        "image_moderation": {
+          "rank": 2,
+          "metrics": {
+            "true_positives": 22,
+            "known_correct": 282,
+            "false_positives": 20,
+            "median_seconds": 22.441,
+            "categories": {
+              "nudity": {
+                "positive": 4,
+                "negative": 37,
+                "unknown": 0,
+                "tp": 4,
+                "tn": 29,
+                "fp": 2,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 6,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.9090909090909091,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.5101091635454027,
+                  1
+                ],
+                "specificity": 0.7837837837837838
+              },
+              "sexualContent": {
+                "positive": 2,
+                "negative": 37,
+                "unknown": 2,
+                "tp": 2,
+                "tn": 22,
+                "fp": 10,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 5,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 2,
+                "f2": 0.5,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 0.5945945945945946
+              },
+              "middleFinger": {
+                "positive": 3,
+                "negative": 38,
+                "unknown": 0,
+                "tp": 3,
+                "tn": 33,
+                "fp": 0,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 5,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 1.0,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.868421052631579
+              },
+              "hateSymbols": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 2,
+                "tn": 32,
+                "fp": 0,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 7,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 1.0,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 0.8205128205128205
+              },
+              "hateWords": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 0,
+                "tn": 31,
+                "fp": 1,
+                "fn": 2,
+                "review_positive": 0,
+                "review_negative": 7,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.6576197724933469
+                ],
+                "specificity": 0.7948717948717948
+              },
+              "alcohol": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 3,
+                "tn": 33,
+                "fp": 0,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 4,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 1.0,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.8918918918918919
+              },
+              "drugs": {
+                "positive": 4,
+                "negative": 34,
+                "unknown": 3,
+                "tp": 3,
+                "tn": 25,
+                "fp": 4,
+                "fn": 1,
+                "review_positive": 0,
+                "review_negative": 5,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 3,
+                "f2": 0.6521739130434783,
+                "detection_recall": 0.75,
+                "recall_wilson_95": [
+                  0.30064184258240184,
+                  0.9544127391902995
+                ],
+                "specificity": 0.7352941176470589
+              },
+              "violence": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 1,
+                "tn": 27,
+                "fp": 3,
+                "fn": 2,
+                "review_positive": 0,
+                "review_negative": 7,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.3125,
+                "detection_recall": 0.3333333333333333,
+                "recall_wilson_95": [
+                  0.06149194472039621,
+                  0.7923403991979522
+                ],
+                "specificity": 0.7297297297297297
+              },
+              "weapons": {
+                "positive": 5,
+                "negative": 35,
+                "unknown": 1,
+                "tp": 4,
+                "tn": 28,
+                "fp": 0,
+                "fn": 1,
+                "review_positive": 0,
+                "review_negative": 7,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.8333333333333334,
+                "detection_recall": 0.8,
+                "recall_wilson_95": [
+                  0.37553462976252533,
+                  0.9637758913675698
+                ],
+                "specificity": 0.8
+              }
+            },
+            "macro_f2": 0.6896775728297467,
+            "macro_specificity": 0.7798999761848059,
+            "macro_detection_recall": 0.7648148148148148,
+            "valid": 41,
+            "total": 41,
+            "benchmark_version": "vision-evaluation.v1",
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          },
+          "evidence": "benchmarks/vision-evaluation/moderation-summary.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          },
+          "ranking_tier": "broader_moderation_evaluation",
+          "current_rank": 2
         }
       }
     },
@@ -586,6 +831,245 @@
             "think": false
           },
           "profile_evidence": "config/runtime-context-profiles.json"
+        },
+        "image_moderation": {
+          "rank": 1,
+          "metrics": {
+            "true_positives": 21,
+            "known_correct": 337,
+            "false_positives": 11,
+            "median_seconds": 37.889,
+            "categories": {
+              "nudity": {
+                "positive": 4,
+                "negative": 37,
+                "unknown": 0,
+                "tp": 4,
+                "tn": 35,
+                "fp": 2,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.9090909090909091,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.5101091635454027,
+                  1
+                ],
+                "specificity": 0.9459459459459459
+              },
+              "sexualContent": {
+                "positive": 2,
+                "negative": 37,
+                "unknown": 2,
+                "tp": 2,
+                "tn": 37,
+                "fp": 0,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 2,
+                "f2": 1.0,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 1.0
+              },
+              "middleFinger": {
+                "positive": 3,
+                "negative": 38,
+                "unknown": 0,
+                "tp": 3,
+                "tn": 35,
+                "fp": 3,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.8333333333333334,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.9210526315789473
+              },
+              "hateSymbols": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 2,
+                "tn": 38,
+                "fp": 0,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 1,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 1.0,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 0.9743589743589743
+              },
+              "hateWords": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 0,
+                "tn": 38,
+                "fp": 0,
+                "fn": 2,
+                "review_positive": 0,
+                "review_negative": 1,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.6576197724933469
+                ],
+                "specificity": 0.9743589743589743
+              },
+              "alcohol": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 3,
+                "tn": 32,
+                "fp": 4,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 1,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.7894736842105263,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.8648648648648649
+              },
+              "drugs": {
+                "positive": 4,
+                "negative": 34,
+                "unknown": 3,
+                "tp": 2,
+                "tn": 32,
+                "fp": 1,
+                "fn": 2,
+                "review_positive": 0,
+                "review_negative": 1,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 3,
+                "f2": 0.5263157894736842,
+                "detection_recall": 0.5,
+                "recall_wilson_95": [
+                  0.15003898915214947,
+                  0.8499610108478506
+                ],
+                "specificity": 0.9411764705882353
+              },
+              "violence": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 1,
+                "tn": 35,
+                "fp": 1,
+                "fn": 2,
+                "review_positive": 0,
+                "review_negative": 1,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.35714285714285715,
+                "detection_recall": 0.3333333333333333,
+                "recall_wilson_95": [
+                  0.06149194472039621,
+                  0.7923403991979522
+                ],
+                "specificity": 0.9459459459459459
+              },
+              "weapons": {
+                "positive": 5,
+                "negative": 35,
+                "unknown": 1,
+                "tp": 4,
+                "tn": 34,
+                "fp": 0,
+                "fn": 1,
+                "review_positive": 0,
+                "review_negative": 1,
+                "review_unknown": 0,
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.8333333333333334,
+                "detection_recall": 0.8,
+                "recall_wilson_95": [
+                  0.37553462976252533,
+                  0.9637758913675698
+                ],
+                "specificity": 0.9714285714285714
+              }
+            },
+            "macro_f2": 0.6942988785094049,
+            "macro_specificity": 0.9487924865633844,
+            "macro_detection_recall": 0.737037037037037,
+            "valid": 41,
+            "total": 41,
+            "benchmark_version": "vision-evaluation.v1",
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            }
+          },
+          "evidence": "benchmarks/vision-evaluation/moderation-summary.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32,
+            "think": false
+          },
+          "ranking_tier": "broader_moderation_evaluation",
+          "current_rank": 1
         }
       }
     },
@@ -629,138 +1113,241 @@
           "current_rank": 3
         },
         "image_moderation": {
-          "rank": 1,
+          "rank": 3,
           "metrics": {
-            "true_positives": 8,
-            "known_correct": 211,
-            "false_positives": 1,
-            "median_seconds": 7.3082,
+            "true_positives": 13,
+            "known_correct": 346,
+            "false_positives": 0,
+            "median_seconds": 7.3328,
             "categories": {
               "nudity": {
-                "positive": 3,
-                "negative": 22,
+                "positive": 4,
+                "negative": 37,
                 "unknown": 0,
                 "tp": 3,
-                "fn": 0,
+                "tn": 37,
                 "fp": 0,
-                "tn": 22,
+                "fn": 1,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.7894736842105263,
+                "detection_recall": 0.75,
+                "recall_wilson_95": [
+                  0.30064184258240184,
+                  0.9544127391902995
+                ],
+                "specificity": 1.0
               },
               "sexualContent": {
                 "positive": 2,
-                "negative": 23,
-                "unknown": 0,
+                "negative": 37,
+                "unknown": 2,
                 "tp": 0,
-                "fn": 2,
+                "tn": 37,
                 "fp": 0,
-                "tn": 23,
+                "fn": 2,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 2,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.6576197724933469
+                ],
+                "specificity": 1.0
               },
               "middleFinger": {
-                "positive": 1,
-                "negative": 24,
+                "positive": 3,
+                "negative": 38,
                 "unknown": 0,
-                "tp": 1,
-                "fn": 0,
+                "tp": 2,
+                "tn": 38,
                 "fp": 0,
-                "tn": 24,
+                "fn": 1,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.7142857142857143,
+                "detection_recall": 0.6666666666666666,
+                "recall_wilson_95": [
+                  0.2076596008020477,
+                  0.9385080552796037
+                ],
+                "specificity": 1.0
               },
               "hateSymbols": {
-                "positive": 1,
-                "negative": 24,
+                "positive": 2,
+                "negative": 39,
                 "unknown": 0,
-                "tp": 0,
-                "fn": 1,
+                "tp": 2,
+                "tn": 39,
                 "fp": 0,
-                "tn": 24,
+                "fn": 0,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 1.0,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 1.0
               },
               "hateWords": {
-                "positive": 1,
-                "negative": 24,
+                "positive": 2,
+                "negative": 39,
                 "unknown": 0,
                 "tp": 0,
-                "fn": 1,
+                "tn": 39,
                 "fp": 0,
-                "tn": 24,
+                "fn": 2,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.6576197724933469
+                ],
+                "specificity": 1.0
               },
               "alcohol": {
                 "positive": 3,
-                "negative": 22,
-                "unknown": 0,
-                "tp": 3,
-                "fn": 0,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 2,
+                "tn": 37,
                 "fp": 0,
-                "tn": 22,
+                "fn": 1,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.7142857142857143,
+                "detection_recall": 0.6666666666666666,
+                "recall_wilson_95": [
+                  0.2076596008020477,
+                  0.9385080552796037
+                ],
+                "specificity": 1.0
               },
               "drugs": {
-                "positive": 2,
-                "negative": 19,
-                "unknown": 4,
+                "positive": 4,
+                "negative": 34,
+                "unknown": 3,
                 "tp": 0,
-                "fn": 2,
+                "tn": 34,
                 "fp": 0,
-                "tn": 19,
+                "fn": 4,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 3,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.4898908364545973
+                ],
+                "specificity": 1.0
               },
               "violence": {
-                "positive": 1,
-                "negative": 24,
-                "unknown": 0,
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
                 "tp": 0,
-                "fn": 1,
+                "tn": 37,
                 "fp": 0,
-                "tn": 24,
+                "fn": 3,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  5.551115123125783e-17,
+                  0.5614970317550454
+                ],
+                "specificity": 1.0
               },
               "weapons": {
-                "positive": 3,
-                "negative": 22,
-                "unknown": 0,
-                "tp": 1,
-                "fn": 2,
-                "fp": 1,
-                "tn": 21,
+                "positive": 5,
+                "negative": 35,
+                "unknown": 1,
+                "tp": 4,
+                "tn": 35,
+                "fp": 0,
+                "fn": 1,
                 "review_positive": 0,
                 "review_negative": 0,
                 "review_unknown": 0,
-                "invalid": 0
+                "invalid": 0,
+                "invalid_positive": 0,
+                "invalid_negative": 0,
+                "definite_unknown": 1,
+                "f2": 0.8333333333333334,
+                "detection_recall": 0.8,
+                "recall_wilson_95": [
+                  0.37553462976252533,
+                  0.9637758913675698
+                ],
+                "specificity": 1.0
               }
+            },
+            "macro_f2": 0.45015316067947647,
+            "macro_specificity": 1.0,
+            "macro_detection_recall": 0.43148148148148147,
+            "valid": 41,
+            "total": 41,
+            "benchmark_version": "vision-evaluation.v1",
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
             }
           },
-          "evidence": "benchmarks/moderation/summary.json",
+          "evidence": "benchmarks/vision-evaluation/moderation-summary.json",
           "profile": {
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "broader_moderation_evaluation",
+          "current_rank": 3
         }
       }
     },
@@ -802,6 +1389,243 @@
           },
           "ranking_tier": "broader_service_evaluation",
           "current_rank": 4
+        },
+        "image_moderation": {
+          "rank": 4,
+          "metrics": {
+            "true_positives": 23,
+            "known_correct": 114,
+            "false_positives": 204,
+            "median_seconds": 7.3964,
+            "categories": {
+              "nudity": {
+                "positive": 4,
+                "negative": 37,
+                "unknown": 0,
+                "tp": 3,
+                "tn": 3,
+                "fp": 30,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 1,
+                "invalid_negative": 4,
+                "definite_unknown": 0,
+                "f2": 0.30612244897959184,
+                "detection_recall": 0.75,
+                "recall_wilson_95": [
+                  0.30064184258240184,
+                  0.9544127391902995
+                ],
+                "specificity": 0.08108108108108109
+              },
+              "sexualContent": {
+                "positive": 2,
+                "negative": 37,
+                "unknown": 2,
+                "tp": 2,
+                "tn": 17,
+                "fp": 17,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 0,
+                "invalid_negative": 3,
+                "definite_unknown": 0,
+                "f2": 0.37037037037037035,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 0.4594594594594595
+              },
+              "middleFinger": {
+                "positive": 3,
+                "negative": 38,
+                "unknown": 0,
+                "tp": 2,
+                "tn": 24,
+                "fp": 9,
+                "fn": 1,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 0,
+                "invalid_negative": 5,
+                "definite_unknown": 0,
+                "f2": 0.43478260869565216,
+                "detection_recall": 0.6666666666666666,
+                "recall_wilson_95": [
+                  0.2076596008020477,
+                  0.9385080552796037
+                ],
+                "specificity": 0.631578947368421
+              },
+              "hateSymbols": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 2,
+                "tn": 16,
+                "fp": 18,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 0,
+                "invalid_negative": 5,
+                "definite_unknown": 0,
+                "f2": 0.35714285714285715,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 0.41025641025641024
+              },
+              "hateWords": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 2,
+                "tn": 10,
+                "fp": 24,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 0,
+                "invalid_negative": 5,
+                "definite_unknown": 0,
+                "f2": 0.29411764705882354,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 0.2564102564102564
+              },
+              "alcohol": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 2,
+                "tn": 5,
+                "fp": 28,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 1,
+                "invalid_negative": 4,
+                "definite_unknown": 1,
+                "f2": 0.23809523809523808,
+                "detection_recall": 0.6666666666666666,
+                "recall_wilson_95": [
+                  0.2076596008020477,
+                  0.9385080552796037
+                ],
+                "specificity": 0.13513513513513514
+              },
+              "drugs": {
+                "positive": 4,
+                "negative": 34,
+                "unknown": 3,
+                "tp": 2,
+                "tn": 13,
+                "fp": 18,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 2,
+                "invalid_negative": 3,
+                "definite_unknown": 3,
+                "f2": 0.2777777777777778,
+                "detection_recall": 0.5,
+                "recall_wilson_95": [
+                  0.15003898915214947,
+                  0.8499610108478506
+                ],
+                "specificity": 0.38235294117647056
+              },
+              "violence": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 3,
+                "tn": 3,
+                "fp": 30,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 0,
+                "invalid_negative": 4,
+                "definite_unknown": 0,
+                "f2": 0.3333333333333333,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.08108108108108109
+              },
+              "weapons": {
+                "positive": 5,
+                "negative": 35,
+                "unknown": 1,
+                "tp": 5,
+                "tn": 0,
+                "fp": 30,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 5,
+                "invalid_positive": 0,
+                "invalid_negative": 5,
+                "definite_unknown": 1,
+                "f2": 0.45454545454545453,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.5655175352168251,
+                  1
+                ],
+                "specificity": 0.0
+              }
+            },
+            "macro_f2": 0.3406986373332332,
+            "macro_specificity": 0.27081725688536834,
+            "macro_detection_recall": 0.8425925925925926,
+            "valid": 36,
+            "total": 41,
+            "benchmark_version": "vision-evaluation.v1",
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          },
+          "evidence": "benchmarks/vision-evaluation/moderation-summary.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          },
+          "ranking_tier": "broader_moderation_evaluation",
+          "current_rank": 4
         }
       }
     },
@@ -842,6 +1666,243 @@
             "num_batch": 32
           },
           "ranking_tier": "broader_service_evaluation",
+          "current_rank": 5
+        },
+        "image_moderation": {
+          "rank": 5,
+          "metrics": {
+            "true_positives": 15,
+            "known_correct": 179,
+            "false_positives": 162,
+            "median_seconds": 6.6178,
+            "categories": {
+              "nudity": {
+                "positive": 4,
+                "negative": 37,
+                "unknown": 0,
+                "tp": 3,
+                "tn": 1,
+                "fp": 36,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 1,
+                "invalid_negative": 0,
+                "definite_unknown": 0,
+                "f2": 0.2727272727272727,
+                "detection_recall": 0.75,
+                "recall_wilson_95": [
+                  0.30064184258240184,
+                  0.9544127391902995
+                ],
+                "specificity": 0.02702702702702703
+              },
+              "sexualContent": {
+                "positive": 2,
+                "negative": 37,
+                "unknown": 2,
+                "tp": 1,
+                "tn": 26,
+                "fp": 11,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 1,
+                "invalid_negative": 0,
+                "definite_unknown": 2,
+                "f2": 0.25,
+                "detection_recall": 0.5,
+                "recall_wilson_95": [
+                  0.09453120573423074,
+                  0.9054687942657693
+                ],
+                "specificity": 0.7027027027027027
+              },
+              "middleFinger": {
+                "positive": 3,
+                "negative": 38,
+                "unknown": 0,
+                "tp": 3,
+                "tn": 0,
+                "fp": 37,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 0,
+                "invalid_negative": 1,
+                "definite_unknown": 0,
+                "f2": 0.28846153846153844,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.0
+              },
+              "hateSymbols": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 2,
+                "tn": 21,
+                "fp": 17,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 0,
+                "invalid_negative": 1,
+                "definite_unknown": 0,
+                "f2": 0.37037037037037035,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.34238022750665303,
+                  1
+                ],
+                "specificity": 0.5384615384615384
+              },
+              "hateWords": {
+                "positive": 2,
+                "negative": 39,
+                "unknown": 0,
+                "tp": 0,
+                "tn": 29,
+                "fp": 9,
+                "fn": 2,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 0,
+                "invalid_negative": 1,
+                "definite_unknown": 0,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.6576197724933469
+                ],
+                "specificity": 0.7435897435897436
+              },
+              "alcohol": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 3,
+                "tn": 1,
+                "fp": 35,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 0,
+                "invalid_negative": 1,
+                "definite_unknown": 1,
+                "f2": 0.3,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.02702702702702703
+              },
+              "drugs": {
+                "positive": 4,
+                "negative": 34,
+                "unknown": 3,
+                "tp": 0,
+                "tn": 32,
+                "fp": 1,
+                "fn": 4,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 0,
+                "invalid_negative": 1,
+                "definite_unknown": 3,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.4898908364545973
+                ],
+                "specificity": 0.9411764705882353
+              },
+              "violence": {
+                "positive": 3,
+                "negative": 37,
+                "unknown": 1,
+                "tp": 3,
+                "tn": 20,
+                "fp": 16,
+                "fn": 0,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 0,
+                "invalid_negative": 1,
+                "definite_unknown": 1,
+                "f2": 0.4838709677419355,
+                "detection_recall": 1.0,
+                "recall_wilson_95": [
+                  0.4385029682449546,
+                  1
+                ],
+                "specificity": 0.5405405405405406
+              },
+              "weapons": {
+                "positive": 5,
+                "negative": 35,
+                "unknown": 1,
+                "tp": 0,
+                "tn": 34,
+                "fp": 0,
+                "fn": 5,
+                "review_positive": 0,
+                "review_negative": 0,
+                "review_unknown": 0,
+                "invalid": 1,
+                "invalid_positive": 0,
+                "invalid_negative": 1,
+                "definite_unknown": 1,
+                "f2": 0.0,
+                "detection_recall": 0.0,
+                "recall_wilson_95": [
+                  0,
+                  0.43448246478317476
+                ],
+                "specificity": 0.9714285714285714
+              }
+            },
+            "macro_f2": 0.2183811277001241,
+            "macro_specificity": 0.49910595792948736,
+            "macro_detection_recall": 0.5833333333333334,
+            "valid": 40,
+            "total": 41,
+            "benchmark_version": "vision-evaluation.v1",
+            "tested_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          },
+          "evidence": "benchmarks/vision-evaluation/moderation-summary.json",
+          "profile": {
+            "max_image_edge": 640,
+            "num_ctx": 2048,
+            "num_batch": 32
+          },
+          "ranking_tier": "broader_moderation_evaluation",
           "current_rank": 5
         }
       }
@@ -899,12 +1960,12 @@
           "current_rank": null
         },
         "image_moderation": {
-          "rank": 2,
+          "rank": 1002,
           "metrics": {
-            "true_positives": 4,
-            "known_correct": 4,
-            "false_positives": 0,
-            "median_seconds": 23.9922,
+            "model": "hf.co/LiquidAI/LFM2.5-VL-1.6B-GGUF:Q4_K_M",
+            "status": "completed",
+            "valid": 25,
+            "total": 25,
             "categories": {
               "nudity": {
                 "positive": 3,
@@ -1030,7 +2091,9 @@
             "max_image_edge": 640,
             "num_ctx": 2048,
             "num_batch": 32
-          }
+          },
+          "ranking_tier": "legacy_screening_not_comparable",
+          "current_rank": null
         }
       }
     },
@@ -1211,5 +2274,5 @@
       "text_chat": 8192
     }
   },
-  "policy_id": "6fdf9883dc05885147eaa6524a844cf67f1dc438a5a59c01687c0897a041d043"
+  "policy_id": "50c80c5880257fc301301d84432440e2a5868e23c36d79c545c99b259d3c9140"
 }

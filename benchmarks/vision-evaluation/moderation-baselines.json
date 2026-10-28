@@ -1,0 +1,20 @@
+[
+  {
+    "model": "always_negative",
+    "macro_f2": 0.0,
+    "macro_detection_recall": 0.0,
+    "macro_specificity": 1.0
+  },
+  {
+    "model": "always_positive",
+    "macro_f2": 0.29097615529111437,
+    "macro_detection_recall": 1.0,
+    "macro_specificity": 0.0
+  },
+  {
+    "model": "always_uncertain",
+    "macro_f2": 0.0,
+    "macro_detection_recall": 0.0,
+    "macro_specificity": 0.0
+  }
+]

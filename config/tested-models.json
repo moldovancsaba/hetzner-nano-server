@@ -206,7 +206,8 @@
       "evidence": [
         "benchmarks/round2/results.json",
         "benchmarks/round4/results.json",
-        "benchmarks/vision-evaluation/recognition-results.json"
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
       ],
       "outcomes": [
         "ran",
@@ -316,7 +317,8 @@
       "evidence": [
         "benchmarks/round3/results.json",
         "benchmarks/moderation/results.json",
-        "benchmarks/vision-evaluation/recognition-results.json"
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
       ],
       "outcomes": [
         "ran",
@@ -380,7 +382,8 @@
       "evidence": [
         "benchmarks/round3/results-extra.json",
         "benchmarks/round4/results.json",
-        "benchmarks/vision-evaluation/recognition-results.json"
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
       ],
       "outcomes": [
         "ran",
@@ -389,7 +392,8 @@
       ],
       "tested_digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
       "ranked_tasks": [
-        "image_recognition"
+        "image_recognition",
+        "image_moderation"
       ]
     },
     {
@@ -524,7 +528,8 @@
       "canonical": "lfm25vl450mextract",
       "evidence": [
         "benchmarks/round4/results.json",
-        "benchmarks/vision-evaluation/recognition-results.json"
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
       ],
       "outcomes": [
         "completed",
@@ -532,7 +537,8 @@
       ],
       "tested_digest": "bebf3b8c9418105b21f65f8914b1f898b449ec04a033589b88c2db38e1916d99",
       "ranked_tasks": [
-        "image_recognition"
+        "image_recognition",
+        "image_moderation"
       ]
     },
     {
@@ -540,7 +546,8 @@
       "canonical": "qwen3508b",
       "evidence": [
         "benchmarks/round4/results.json",
-        "benchmarks/vision-evaluation/recognition-results.json"
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
       ],
       "outcomes": [
         "completed",
@@ -548,7 +555,8 @@
       ],
       "tested_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
       "ranked_tasks": [
-        "image_recognition"
+        "image_recognition",
+        "image_moderation"
       ]
     },
     {
@@ -556,7 +564,8 @@
       "canonical": "minicpmv461b",
       "evidence": [
         "benchmarks/round4/results.json",
-        "benchmarks/vision-evaluation/recognition-results.json"
+        "benchmarks/vision-evaluation/recognition-results.json",
+        "benchmarks/vision-evaluation/moderation-results.json"
       ],
       "outcomes": [
         "completed",
@@ -564,7 +573,8 @@
       ],
       "tested_digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
       "ranked_tasks": [
-        "image_recognition"
+        "image_recognition",
+        "image_moderation"
       ]
     }
   ],
@@ -578,6 +588,7 @@
     "benchmarks/round3/reasoning-check.json": "bad7701654bdce04be1427e2299747130267b9109908d98a04b7e46bc00b5ea1",
     "benchmarks/moderation/results.json": "06103fe39f86cdfb4cff3bed158de8fff48323ba5e4b4d503fc936bee1be890e",
     "benchmarks/round4/results.json": "990ec3bd70af4da91819a16f230abb859330a41fe3fd819de08d240f45611722",
-    "benchmarks/vision-evaluation/recognition-results.json": "d10d669fef865f00758523c69ace7c201de0602f02bb20d634a0d40a1646278d"
+    "benchmarks/vision-evaluation/recognition-results.json": "d10d669fef865f00758523c69ace7c201de0602f02bb20d634a0d40a1646278d",
+    "benchmarks/vision-evaluation/moderation-results.json": "37b7dd662fca33cc989a1a635d1aa8448ab65e5b4527e086e583b7b164337a9b"
   }
 }

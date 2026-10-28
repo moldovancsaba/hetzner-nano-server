@@ -1,6 +1,6 @@
 # Broader image and moderation evaluation
 
-Status: evaluation in progress, 28 October 2026. The earlier two-image round is a screening experiment, not a general Camera accuracy benchmark.
+Status: both cohorts completed and ranked, 28 October 2026. See [full results](REPORT.md). Recognition defaults to MiniCPM-V 4.6 1B; moderation defaults to Qwen3.5 0.8B under its explicit think=false profile. The earlier two-image round is a screening experiment, not a general Camera accuracy benchmark. All 38 final API checks passed; temporary server input images were removed, normal timers restored, and services verified. [Verification](public-verification.json) and [health/cleanup evidence](final-runtime-audit.json).
 
 ## Frozen design
 

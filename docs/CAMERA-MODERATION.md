@@ -2,7 +2,7 @@
 
 ## Retention update
 
-The active shared gateway retains terminal results in RAM for at most five minutes, with periodic expiry. Call DELETE /v1/jobs/{id} or DELETE /v1/moderation/jobs/{id} after consumption. The original standalone 15-minute/lazy-cleanup details below are historical. No live image or conversation is captured for training. See [retention policy](DATA-RETENTION.md).
+The active shared gateway retains terminal results in RAM for at most five minutes, with periodic expiry. Call DELETE /v1/jobs/{id} or DELETE /v1/moderation/jobs/{id} after consumption. This supersedes the retired standalone worker’s 15-minute retention. No live image or conversation is captured for training. See [retention policy](DATA-RETENTION.md).
 
 ## Model selection update
 
@@ -14,9 +14,9 @@ This API now runs through the [shared job router](JOB-ROUTER.md), together with 
 
 ## Purpose and status
 
-An experimental screening service using **LFM2.5-VL 450M Q8**, deployed on the existing 4 GB Hetzner server. It highlights possible concerns for Camera's existing human photo-vetting workflow. It never approves, rejects, publishes, emails, or changes Camera records. No Camera application code or Vercel variables were changed by this deployment.
+An experimental screening service whose current ranked default is **Qwen3.5 0.8B** (explicit `think=false`), deployed on the existing 4 GB Hetzner server. It highlights possible concerns for Camera's existing human photo-vetting workflow. It never approves, rejects, publishes, emails, or changes Camera records. No Camera application code or Vercel variables were changed by this deployment.
 
-The [independent benchmark](../benchmarks/moderation/REPORT.md) found missed violations and false alarms. Correct JSON is not reliable classification. `no_flags_detected` must not mean safe/approved. Review remains required for every completed result, including all-negative results. No numeric confidence is provided: none has been calibrated.
+The [broader independent benchmark](../benchmarks/vision-evaluation/REPORT.md) compares five models on 41 images and found missed violations and false alarms. Qwen ranks narrowly first on equal-category macro F2 (0.694), followed by MiniCPM (0.690); these close scores do not demonstrate general superiority. Qwen returned 41/41 valid responses with a median near 38 seconds; MiniCPM was faster near 22 seconds and remains an explicit alternative. Per-category positive counts are only two to five, so uncertainty is wide. This is public research evaluation, not representative Camera production accuracy. Both leading models missed both controlled English hate-word positives and detected only one of three violence positives. Those categories particularly need independent review. Correct JSON is not reliable classification. `no_flags_detected` must not mean safe/approved. Review remains required for every completed result, including all-negative results. No numeric confidence is provided: none has been calibrated.
 
 ## Connection and credentials
 
@@ -74,7 +74,7 @@ A completed response contains:
   "normalized_sha256": "processed-byte-hash",
   "result": {
     "schema_version": "camera-moderation.v1",
-    "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+    "model": "qwen3.5:0.8b",
     "review_required": true,
     "automated_decision": "none",
     "signal": "flagged",

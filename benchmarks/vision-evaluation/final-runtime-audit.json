@@ -1,0 +1,64 @@
+{
+  "captured_utc": "2026-10-28T05:22:51.283547+00:00",
+  "temporary_inputs": {
+    "inputs": {
+      "files_before": 82,
+      "removed": true,
+      "exists_after": false
+    },
+    "moderation-inputs": {
+      "files_before": 42,
+      "removed": true,
+      "exists_after": false
+    }
+  },
+  "services": {
+    "caddy": "active",
+    "docker": "active",
+    "narimato-gateway": "active",
+    "narimato-chat": "active",
+    "narimato-moderation": "inactive",
+    "narimato-model-cleanup.timer": "active",
+    "narimato-model-discovery.timer": "active"
+  },
+  "runtime": {
+    "image_id": "sha256:f4e42c4bd3364c4a7b28141a93dbcccbf36bdde70ff6440bf4d1b7422c5fef6b",
+    "memory_limit_bytes": 2936012800,
+    "nano_cpus": 2000000000,
+    "oom_killed": false,
+    "version": {
+      "version": "0.40.11"
+    },
+    "resident_models": [
+      "granite4:1b-h"
+    ]
+  },
+  "memory_events": {
+    "low": 0,
+    "high": 0,
+    "max": 99174,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "disk_free_gib": 7.249,
+  "policy_id": "50c80c5880257fc301301d84432440e2a5868e23c36d79c545c99b259d3c9140",
+  "defaults": {
+    "text_chat": "granite4:1b-h",
+    "image_recognition": "minicpm-v4.6:1b",
+    "image_moderation": "qwen3.5:0.8b"
+  },
+  "installed_models": 20,
+  "default_artifacts_match": {
+    "text_chat": true,
+    "image_recognition": true,
+    "image_moderation": true
+  },
+  "source_sha256": {
+    "/opt/narimato-gateway/gateway/server.py": "426200db9b6442b6d326ea14c18e0ff266a3ba859b6df3796580ec15159c6bea",
+    "/opt/narimato-gateway/moderation/server.py": "a4c49da4a2e887aec51d66e76f97547e5465090e76099c7b156d23528cd0f925",
+    "/opt/narimato-gateway/moderation/policy.py": "c712e498f7f43f81e225c14ed574799b00c833e0380427aa1cc8fb9a55e57819"
+  },
+  "pandora_login_http_status": 200,
+  "passed": true
+}

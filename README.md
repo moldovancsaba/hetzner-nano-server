@@ -26,7 +26,7 @@ Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It doe
 
 ## Default model policy
 
-[Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses MiniCPM-V 4.6 1B; moderation uses its separate LFM2.5-VL 450M winner.
+[Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses MiniCPM-V 4.6 1B; moderation uses its separate Qwen3.5 0.8B winner.
 
 ## Shared text/image queue
 
@@ -34,7 +34,7 @@ Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It doe
 
 ## Camera moderation API
 
-[Camera integration guide](docs/CAMERA-MODERATION.md): dedicated authenticated background image checks using LFM2.5-VL 450M. Human review remains required; no automatic approval/rejection. Credentials stay in ignored local/server secret files.
+[Camera integration guide](docs/CAMERA-MODERATION.md): dedicated authenticated background image checks using the independently ranked Qwen3.5 0.8B default. Human review remains required; no automatic approval/rejection. Credentials stay in ignored local/server secret files.
 
 ## Personal chat
 
@@ -104,7 +104,7 @@ Server, DNS, trusted HTTPS, both authentication keys, native inference, and Open
 
 ## Capability benchmark
 
-Separate forbidden-content screening: [nine-category moderation test](benchmarks/moderation/REPORT.md). Its results do not enter the general image ranking. Research images and sensitive fixtures are excluded from Git.
+Current forbidden-content comparison: [broader nine-category moderation test](benchmarks/vision-evaluation/REPORT.md). The [earlier screening](benchmarks/moderation/REPORT.md) remains historical evidence. Its results do not enter the general image ranking. Research images and sensitive fixtures are excluded from Git.
 
 Latest expanded findings: [English ranking](benchmarks/rankings/ENGLISH.md), [image analytics ranking](benchmarks/rankings/IMAGES.md), [moderation ranking](benchmarks/rankings/MODERATION.md), and [new candidate test report](benchmarks/round3/REPORT.md). These are separate workstreams. Eleven additional model variants were attempted; candidate weights were removed after evaluation. Those benchmark runs restored Qwen3; the subsequent shared text route now uses Granite 4 1B Hybrid.
 
@@ -131,6 +131,6 @@ This repository includes documentation, source, sanitized configuration, benchma
 
 [Round 4: ten new candidates](benchmarks/round4/REPORT.md) adds five English text and five general still-image candidates, with fresh winner controls, correctness/format scores, sampled memory, OOM counters and compatibility failures. Moderation and non-English remain separate. Current deployments preserve the verified 8K default text profiles; the comparable cross-model benchmark still uses 2048 tokens. See [generated runtime profiles](config/runtime-context-profiles.json) and [current rankings](benchmarks/round4/rankings.json).
 
-## Broader Camera recognition results — 28 October 2026
+## Broader Camera results — 28 October 2026
 
-[The completed broader recognition comparison](benchmarks/vision-evaluation/REPORT-RECOGNITION.md) replaces the two-image screening for general recognition. The default is now **MiniCPM-V 4.6 1B**. It returned usable responses on 29/32 images, with a median near 24 seconds. Qwen3.5 is a close measured alternative at roughly twice the latency; LFM2.5-VL 450M remains a faster explicit option. Scores are cohort-specific, and counting/moderation are separate. The broader moderation evaluation is still running.
+[The completed broader recognition comparison](benchmarks/vision-evaluation/REPORT-RECOGNITION.md) replaces the two-image screening for general recognition. The default is now **MiniCPM-V 4.6 1B**. It returned usable responses on 29/32 images, with a median near 24 seconds. Qwen3.5 is a close measured alternative at roughly twice the latency; LFM2.5-VL 450M remains a faster explicit option. Scores are cohort-specific, and counting/moderation are separate. The independent 41-image moderation evaluation is complete: **Qwen3.5 0.8B** ranks narrowly first (macro F2 0.694 versus MiniCPM 0.690), with 41/41 valid responses and a median near 38 seconds. This small difference does not establish general superiority. [Full comparison and category failures](benchmarks/vision-evaluation/REPORT.md); [live API verification](benchmarks/vision-evaluation/public-verification.json); [health and temporary-input cleanup](benchmarks/vision-evaluation/final-runtime-audit.json). Human review remains mandatory. Across both primary cohorts there are 70 distinct public research images; no live Camera data or training use. Defaults and installed alternatives are deployed from the generated policy.
