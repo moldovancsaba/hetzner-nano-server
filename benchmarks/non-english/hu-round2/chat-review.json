@@ -1,0 +1,167 @@
+{
+  "reviewer": "assistant",
+  "not_independent_human_review": true,
+  "method": "Frozen three criteria for original chat tasks; all three and non-truncation required. Five client-derived synthetic regressions reviewed separately; generic unchanged benchmark system instruction, not exact original Habi prompt replay.",
+  "models": {
+    "hf.co/mradermacher/Apertus-v1.1-0.5B-Instruct-GGUF:Q4_K_M": {
+      "chat": {
+        "hu-advice": {
+          "criteria_met": [
+            false,
+            false,
+            true
+          ],
+          "usable": false,
+          "reason": "Repetition/truncation and invented words."
+        },
+        "hu-grounded-summary": {
+          "criteria_met": [
+            true,
+            true,
+            true
+          ],
+          "usable": true,
+          "reason": "Preserves source city, time, fee and ages; 0.5B wording awkward but understandable."
+        },
+        "hu-clarify": {
+          "criteria_met": [
+            false,
+            true,
+            false
+          ],
+          "usable": false,
+          "reason": "Does not ask for city, age and interest; repetition."
+        },
+        "hu-no-invention": {
+          "criteria_met": [
+            true,
+            true,
+            false
+          ],
+          "usable": false,
+          "reason": "No useful next step; 1.5B merely quotes the user rather than answering."
+        },
+        "hu-rewrite": {
+          "criteria_met": [
+            false,
+            true,
+            false
+          ],
+          "usable": false,
+          "reason": "Does not produce the requested polite, correct rewrite."
+        },
+        "hu-compare": {
+          "criteria_met": [
+            true,
+            true,
+            true
+          ],
+          "usable": true,
+          "reason": "Correct supplied amounts/durations; no fabricated quality comparison."
+        }
+      },
+      "client_regression": {
+        "habi-initial": {
+          "usable": false,
+          "reason": "Invented numeric sleep report and truncation."
+        },
+        "habi-update": {
+          "usable": false,
+          "reason": "Echoes speaker text without a useful assistant response."
+        },
+        "habi-correction": {
+          "usable": false,
+          "reason": "Fails meal correction and produces incoherent wording."
+        },
+        "habi-feedback": {
+          "usable": false,
+          "reason": "Switches to unsupported first-person claims."
+        },
+        "habi-repeat": {
+          "usable": false,
+          "reason": "Incoherent answer."
+        }
+      }
+    },
+    "hf.co/mradermacher/Apertus-v1.1-1.5B-Instruct-GGUF:Q4_K_M": {
+      "chat": {
+        "hu-advice": {
+          "criteria_met": [
+            true,
+            false,
+            true
+          ],
+          "usable": false,
+          "reason": "Two negative instructions do not give the requested practical walking advice."
+        },
+        "hu-grounded-summary": {
+          "criteria_met": [
+            true,
+            true,
+            true
+          ],
+          "usable": true,
+          "reason": "Preserves source city, time, fee and ages; 0.5B wording awkward but understandable."
+        },
+        "hu-clarify": {
+          "criteria_met": [
+            false,
+            true,
+            true
+          ],
+          "usable": false,
+          "reason": "Does not ask for city, age and interest; repetition."
+        },
+        "hu-no-invention": {
+          "criteria_met": [
+            false,
+            true,
+            false
+          ],
+          "usable": false,
+          "reason": "No useful next step; 1.5B merely quotes the user rather than answering."
+        },
+        "hu-rewrite": {
+          "criteria_met": [
+            false,
+            true,
+            true
+          ],
+          "usable": false,
+          "reason": "Does not produce the requested polite, correct rewrite."
+        },
+        "hu-compare": {
+          "criteria_met": [
+            true,
+            true,
+            true
+          ],
+          "usable": true,
+          "reason": "Correct supplied amounts/durations; no fabricated quality comparison."
+        }
+      },
+      "client_regression": {
+        "habi-initial": {
+          "usable": false,
+          "reason": "Echoes the question rather than answering the coach."
+        },
+        "habi-update": {
+          "usable": false,
+          "reason": "Invents causal explanation and produces incoherent Hungarian."
+        },
+        "habi-correction": {
+          "usable": false,
+          "reason": "Contradictory meal correction; states breakfast was missed."
+        },
+        "habi-feedback": {
+          "usable": false,
+          "reason": "Claims to be the coach and changes the subject to the addressee."
+        },
+        "habi-repeat": {
+          "usable": false,
+          "reason": "Claims to be the coach and repeats the question."
+        }
+      }
+    }
+  }
+}

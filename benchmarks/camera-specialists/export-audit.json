@@ -1,0 +1,10 @@
+{
+  "model": "Falconsai/nsfw_image_detection",
+  "revision": "96cb0d0342c7afb80cab76ecc58b265fa44da256",
+  "onnx_sha256": "2afc2abff8256d84973dcce2a1e99ab77eb6e011a5be9317927aba136c9fac65",
+  "torch": "2.14.1",
+  "labels": {
+    "0": "normal",
+    "1": "nsfw"
+  }
+}

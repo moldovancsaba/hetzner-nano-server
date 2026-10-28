@@ -1,5 +1,9 @@
 # Camera moderation API: human review signals
 
+## Camera’s twelve rejection reasons
+
+Human approval always remains in place. See [reason-by-reason coverage and complementary model testing](CAMERA-REJECTION-COVERAGE.md). The existing API exposes nine signals that map partially to six Camera reasons; the remaining reasons must stay explicitly not evaluated. Specialist experiments do not automatically add API-selectable models or a twelve-reason endpoint.
+
 ## Retention update
 
 The active shared gateway retains terminal results in RAM for at most five minutes, with periodic expiry. Call DELETE /v1/jobs/{id} or DELETE /v1/moderation/jobs/{id} after consumption. This supersedes the retired standalone worker’s 15-minute retention. No live image or conversation is captured for training. See [retention policy](DATA-RETENTION.md).

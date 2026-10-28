@@ -22,7 +22,7 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 
 ## Automatic model storage
 
-[Hourly cleanup policy](docs/AUTO-MODEL-CLEANUP.md): keep top five per job plus models used by admitted non-test requests in the last 14 days. Initial installed weights have a one-time history grace; active/queued models and all metadata/evidence are protected. Tests must send X-Request-Purpose: test.
+[Hourly cleanup policy](docs/AUTO-MODEL-CLEANUP.md): keep top three per job plus models used by admitted non-test requests in the last 14 days. Initial installed weights have a one-time history grace; active/queued models and all metadata/evidence are protected. Tests must send X-Request-Purpose: test.
 
 ## Research backlog and retention
 
@@ -148,3 +148,7 @@ This repository includes documentation, source, sanitized configuration, benchma
 ## Broader Camera results — 28 October 2026
 
 [The completed broader recognition comparison](benchmarks/vision-evaluation/REPORT-RECOGNITION.md) replaces the two-image screening for general recognition. The default is now **MiniCPM-V 4.6 1B**. It returned usable responses on 29/32 images, with a median near 24 seconds. Qwen3.5 is a close measured alternative at roughly twice the latency; LFM2.5-VL 450M remains a faster explicit option. Scores are cohort-specific, and counting/moderation are separate. The independent 41-image moderation evaluation is complete: **Qwen3.5 0.8B** ranks narrowly first (macro F2 0.694 versus MiniCPM 0.690), with 41/41 valid responses and a median near 38 seconds. This small difference does not establish general superiority. [Full comparison and category failures](benchmarks/vision-evaluation/REPORT.md); [live API verification](benchmarks/vision-evaluation/public-verification.json); [health and temporary-input cleanup](benchmarks/vision-evaluation/final-runtime-audit.json). Human review remains mandatory. Across both primary cohorts there are 70 distinct public research images; no live Camera data or training use. Defaults and installed alternatives are deployed from the generated policy.
+
+## Camera coverage and Hungarian follow-up
+
+[Camera’s twelve rejection reasons and model combinations](docs/CAMERA-REJECTION-COVERAGE.md) distinguish current API signals from unsupported reasons. [Apertus Hungarian follow-up](docs/HUNGARIAN-FOLLOWUP.md) records the client audit and failed replacement tests. The public dashboard now includes 48 attempted model variants; human approval remains authoritative for Camera.

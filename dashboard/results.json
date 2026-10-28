@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-10-28T12:29:23.918374+00:00",
-  "model_variants_attempted": 44,
+  "generated_utc": "2026-10-28T21:10:50.849897+00:00",
+  "model_variants_attempted": 48,
   "hardware": "Hetzner CAX11 \u00b7 2 shared ARM64 CPU \u00b7 4 GB RAM \u00b7 no GPU",
   "defaults": {
     "text_chat": "granite4:1b-h",
@@ -562,6 +562,46 @@
       "ranked_tasks": [
         "text_chat_hu"
       ]
+    },
+    {
+      "model": "hf.co/mradermacher/Apertus-v1.1-0.5B-Instruct-GGUF:Q4_K_M",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/non-english/hu-round2/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "hf.co/mradermacher/Apertus-v1.1-1.5B-Instruct-GGUF:Q4_K_M",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/non-english/hu-round2/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "Falconsai/nsfw_image_detection",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/camera-specialists/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "AdamCodd/vit-base-nsfw-detector",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/camera-specialists/results.json"
+      ],
+      "ranked_tasks": []
     }
   ],
   "cohorts": [
@@ -1655,6 +1695,76 @@
           "median_seconds": 11.039,
           "ranking_eligible": false,
           "api_eligible": false
+        }
+      ]
+    },
+    {
+      "label": "Hungarian \u00b7 Apertus Mini follow-up",
+      "date": "2026-10-28T21:04:18.478435+00:00",
+      "policy": "Same frozen 24 structured + six assistant-reviewed chat cases; five synthetic Habi regressions separate. No candidate passed the unchanged gate. 4K allocation is not long-context approval.",
+      "source": "benchmarks/non-english/hu-round2/rankings.json",
+      "rows": [
+        {
+          "model": "hf.co/mradermacher/Apertus-v1.1-0.5B-Instruct-GGUF:Q4_K_M",
+          "status": "completed",
+          "profile": "ctx4096/batch8",
+          "correct": 2,
+          "total": 24,
+          "json_valid": 23,
+          "chat_usable": 2,
+          "chat_total": 6,
+          "client_regression_usable": 0,
+          "client_regression_total": 5,
+          "median_seconds": 1.5218,
+          "ranking_eligible": false
+        },
+        {
+          "model": "hf.co/mradermacher/Apertus-v1.1-1.5B-Instruct-GGUF:Q4_K_M",
+          "status": "completed",
+          "profile": "ctx4096/batch8",
+          "correct": 3,
+          "total": 24,
+          "json_valid": 24,
+          "chat_usable": 2,
+          "chat_total": 6,
+          "client_regression_usable": 0,
+          "client_regression_total": 5,
+          "median_seconds": 2.8941,
+          "ranking_eligible": false
+        }
+      ]
+    },
+    {
+      "label": "Camera specialists \u00b7 binary NSFW only",
+      "date": null,
+      "policy": "41 frozen public research images. Binary nudity/sexual-content union only; not comparable with nine-category macro scores. No calibrated probabilities or new production route.",
+      "source": "benchmarks/camera-specialists/summary.json",
+      "rows": [
+        {
+          "model": "Falconsai/nsfw_image_detection",
+          "status": "completed",
+          "total_images": 41,
+          "valid": 41,
+          "median_seconds": 0.54955,
+          "macro_f2": 0.5263157894736842,
+          "macro_detection_recall": 0.5,
+          "true_positives": 2,
+          "false_positives": 1,
+          "benchmark_version": "binary-nsfw-41.v1",
+          "ranking_eligible": false
+        },
+        {
+          "model": "AdamCodd/vit-base-nsfw-detector",
+          "status": "completed",
+          "total_images": 41,
+          "valid": 41,
+          "median_seconds": 0.68398,
+          "macro_f2": 0.75,
+          "macro_detection_recall": 0.75,
+          "true_positives": 3,
+          "false_positives": 1,
+          "benchmark_version": "binary-nsfw-41.v1",
+          "ranking_eligible": false
         }
       ]
     }

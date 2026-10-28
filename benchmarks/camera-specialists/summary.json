@@ -1,0 +1,28 @@
+[
+  {
+    "model": "Falconsai/nsfw_image_detection",
+    "status": "completed",
+    "total_images": 41,
+    "valid": 41,
+    "median_seconds": 0.54955,
+    "macro_f2": 0.5263157894736842,
+    "macro_detection_recall": 0.5,
+    "true_positives": 2,
+    "false_positives": 1,
+    "benchmark_version": "binary-nsfw-41.v1",
+    "ranking_eligible": false
+  },
+  {
+    "model": "AdamCodd/vit-base-nsfw-detector",
+    "status": "completed",
+    "total_images": 41,
+    "valid": 41,
+    "median_seconds": 0.68398,
+    "macro_f2": 0.75,
+    "macro_detection_recall": 0.75,
+    "true_positives": 3,
+    "false_positives": 1,
+    "benchmark_version": "binary-nsfw-41.v1",
+    "ranking_eligible": false
+  }
+]

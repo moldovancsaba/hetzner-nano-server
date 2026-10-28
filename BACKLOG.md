@@ -55,3 +55,9 @@ Recognition is complete on 32 public research photographs, with nine paired robu
 A model progresses through discovered → needs_review → ready_to_test → testing → accepted / declined / deferred. Reconsider a declined model only with a recorded changed artifact, runtime or profile. Store outcomes and reasons indefinitely; do not keep declined weights just because their test history is valuable.
 
 A new test round is unfinished until relevant rankings, generated policy, installed winners, live auto selection and documentation agree. Do not combine non-English results with English or confuse moderation with general-image scoring.
+
+## Follow-up from Camera coverage and Hungarian audit · 2026-10-28
+
+- Camera: acquire/freeze fresh public held-out positives and hard negatives for all twelve reasons, with event-specific brand/political/other rules; keep human approval. Existing evidence covers only six reasons partially.
+- Camera: validate the Qwen + LFM2.5-VL 450M pair prospectively, measuring extra true concerns, false alarms, abstention, total job latency and switching cost; do not add a redundant third NSFW detector. Evaluate OCR/logo/gesture and quality components against the remaining gaps.
+- Hungarian: no Apertus Mini promotion after failed quality tests. Evaluate Phi-4 Mini and Hungarian PULI at useful quantization/context on adequate hardware, then require the original gate plus held-out Habi role/date/correction regressions. No hardware purchase or external inference is authorized by this backlog entry.

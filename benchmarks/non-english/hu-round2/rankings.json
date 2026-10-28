@@ -1,0 +1,285 @@
+{
+  "version": "hungarian-followup.v1",
+  "generated_utc": "2026-10-28T21:04:18.478435+00:00",
+  "scope": "Hungarian-only frozen follow-up; six original chat cases assistant-reviewed; five Habi-derived synthetic regressions separate. No independent native-speaker certification or long-context recall test.",
+  "ranking_policy": "Unchanged >=20/24 strict structured and >=5/6 usable original chat, complete and zero OOM. Habi regressions separately reported.",
+  "rows": [
+    {
+      "model": "hf.co/mradermacher/Apertus-v1.1-0.5B-Instruct-GGUF:Q4_K_M",
+      "status": "completed",
+      "profile": "ctx4096/batch8",
+      "correct": 2,
+      "total": 24,
+      "json_valid": 23,
+      "chat_usable": 2,
+      "chat_total": 6,
+      "client_regression_usable": 0,
+      "client_regression_total": 5,
+      "median_seconds": 1.5218,
+      "peak_cgroup_bytes": 1880322048,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": false,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": false
+        }
+      ]
+    },
+    {
+      "model": "hf.co/mradermacher/Apertus-v1.1-1.5B-Instruct-GGUF:Q4_K_M",
+      "status": "completed",
+      "profile": "ctx4096/batch8",
+      "correct": 3,
+      "total": 24,
+      "json_valid": 24,
+      "chat_usable": 2,
+      "chat_total": 6,
+      "client_regression_usable": 0,
+      "client_regression_total": 5,
+      "median_seconds": 2.8941,
+      "peak_cgroup_bytes": 2935992320,
+      "oom_kill_delta": 0,
+      "ranking_eligible": false,
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "negated-count",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "ages",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "missing-price",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "accents",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "number-words",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negative-activity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "price-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "time-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancel-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "place-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "book-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "unknown-intent",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-match",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-abstain",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "listing-budget",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "capacity",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "date",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "opening",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "injection",
+          "json_valid": true,
+          "correct": true
+        },
+        {
+          "id": "unknown-address",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "cancellation",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "consent",
+          "json_valid": true,
+          "correct": false
+        }
+      ]
+    }
+  ],
+  "winner": null
+}

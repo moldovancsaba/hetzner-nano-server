@@ -1,5 +1,9 @@
 # Hungarian text API — experimental
 
+## Client feedback and Apertus follow-up
+
+Habi’s seven-sample evaluation used the correct Hungarian task; a source audit found no obvious role-flattening or route error in that probe. The normal Habi worker still selects the English task. See [client audit, Apertus testing and other candidates](HUNGARIAN-FOLLOWUP.md). No reliable Hungarian replacement is implied by a larger advertised context window.
+
 **Available for deliberate testing and feedback. Not approved for unattended production decisions.** The best tested profile is Qwen3-4B-Instruct-2507 Q3_K_M, served as `text_chat_hu`. All original quality gates remain visible: **17/24 structured cases and 3/6 usable assistant-reviewed chat replies**. No candidate met the 20/24 + 5/6 acceptance gate. This is the best measured option in this environment, not a claim of reliable general Hungarian fluency.
 
 [Copy the agent prompt](AGENT-PROMPT-HU.md) · [Full evaluation](../benchmarks/non-english/hu-round1/REPORT.md) · [Public dashboard](https://chatbotapi.haho.ai/benchmarks/).

@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 ROOT=Path(__file__).resolve().parents[1]
 BASE='https://github.com/moldovancsaba/hetzner-nano-server/blob/main/'
-FIELDS={'model','status','passed','total','json_valid','native_tool_passed','median_seconds','p95_seconds','valid','total_images','valid_rate','readiness_score','object_reference_f1','object_recall','ocr_target_recall','ocr_correct','ocr_total','count_correct','count_total','macro_f2','macro_specificity','macro_detection_recall','true_positives','false_positives','known_correct','benchmark_version','correct','score','chat_usable','chat_total','ranking_eligible','profile','api_eligible'}
+FIELDS={'model','status','passed','total','json_valid','native_tool_passed','median_seconds','p95_seconds','valid','total_images','valid_rate','readiness_score','object_reference_f1','object_recall','ocr_target_recall','ocr_correct','ocr_total','count_correct','count_total','macro_f2','macro_specificity','macro_detection_recall','true_positives','false_positives','known_correct','benchmark_version','correct','score','chat_usable','chat_total','ranking_eligible','profile','api_eligible','client_regression_usable','client_regression_total'}
 def read(p):return json.loads((ROOT/p).read_text())
 def safe(row):return {k:v for k,v in row.items() if k in FIELDS and isinstance(v,(str,int,float,bool,type(None)))}
 def build():
@@ -22,6 +22,10 @@ def build():
  if (ROOT/hu_path).exists():
   hu=read(hu_path)
   data['cohorts'].append({'label':'Hungarian · independent text pilot','date':hu.get('generated_utc'),'policy':hu['ranking_policy']+' '+hu['scope'],'source':hu_path,'rows':[safe(x) for x in hu['rows']]})
+ for path,label,policy in [('benchmarks/non-english/hu-round2/rankings.json','Hungarian · Apertus Mini follow-up','Same frozen 24 structured + six assistant-reviewed chat cases; five synthetic Habi regressions separate. No candidate passed the unchanged gate. 4K allocation is not long-context approval.'),('benchmarks/camera-specialists/summary.json','Camera specialists · binary NSFW only','41 frozen public research images. Binary nudity/sexual-content union only; not comparable with nine-category macro scores. No calibrated probabilities or new production route.')]:
+  if (ROOT/path).exists():
+   value=read(path);rows=value['rows'] if isinstance(value,dict) else value
+   data['cohorts'].append({'label':label,'date':value.get('generated_utc') if isinstance(value,dict) else None,'policy':policy,'source':path,'rows':[safe(x) for x in rows]})
  data['experimental_tasks']=[task for task,model in data['defaults'].items() if read('config/model-policy.json')['models'][model]['tasks'][task].get('experimental')]
  (ROOT/'dashboard/results.json').write_text(json.dumps(data,indent=2)+'\n')
  print(f"Built {data['model_variants_attempted']} variants, {len(data['cohorts'])} historical cohorts")

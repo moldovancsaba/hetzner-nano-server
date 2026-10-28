@@ -17,3 +17,6 @@ Discover availability and the experimental flag using GET /v1/job-types and /v1/
 This is a short-context experimental service: 1024 context, output recommended 128 and maximum 192 tokens. With 128 output tokens, the serialized messages budget is 640 UTF-8 bytes, including framing/system instructions. Leave room for the server's default Hungarian instruction if no system message is supplied. Split sources/history; preserve accents. Hungarian tool calls and OCR are not supported. Retrieve authorized listings outside the model and pass only a small relevant excerpt.
 
 IMPORTANT: The model scored 17/24 structured cases and 3/6 usable conversational replies; it did not meet the production-readiness gate. Require human review, verify claims against trusted data, and never turn its output directly into publication, database changes or consequential decisions. JSON schema constrains format, not truth. Do not log customer conversations or use them for training.
+
+
+Client feedback: keep speaker roles explicit, include only relevant bounded history or a factual state summary, and provide an authoritative date when needed. The endpoint is stateless; do not assume it remembers earlier jobs. Do not change Habi production to this experimental route merely because authentication succeeds. See [client audit and candidate follow-up](HUNGARIAN-FOLLOWUP.md).

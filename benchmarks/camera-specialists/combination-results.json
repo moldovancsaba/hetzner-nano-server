@@ -1,0 +1,4276 @@
+{
+  "version": "camera-coverage.v1",
+  "scope": "Exploratory retrospective union comparison on same 41 research images, six mapped Camera reasons only. Selecting a combination here needs a fresh held-out validation set; no production promotion. Legacy general-model outputs are historical, not simultaneous reruns. Binary NSFW is the union of nudity/sexualContent, not proof of either subtype.",
+  "reason_coverage": [
+    "nudity",
+    "offensive_gesture",
+    "alcohol",
+    "violence",
+    "hate",
+    "drugs"
+  ],
+  "not_evaluated": [
+    "forbidden",
+    "competitor_brand",
+    "political",
+    "poor_quality",
+    "spam_test",
+    "other"
+  ],
+  "best_by_count": {
+    "1": {
+      "models": [
+        "minicpm-v4.6:1b"
+      ],
+      "count": 1,
+      "macro_f2": 0.750508517670989,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    "2": {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b"
+      ],
+      "count": 2,
+      "macro_f2": 0.7690645230690998,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    "3": {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.7690645230690998,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b"
+      ],
+      "count": 2,
+      "macro_f2": 0.7690645230690998,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.7690645230690998,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.7690645230690998,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b"
+      ],
+      "count": 1,
+      "macro_f2": 0.750508517670989,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 2,
+      "macro_f2": 0.750508517670989,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 2,
+      "macro_f2": 0.750508517670989,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "Falconsai/nsfw_image_detection",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.750508517670989,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 5,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 0,
+          "tn": 33,
+          "abstained": 4,
+          "f2": 1.0,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 23,
+          "abstained": 7,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 7,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 25,
+          "abstained": 5,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "qwen3.5:0.8b"
+      ],
+      "count": 2,
+      "macro_f2": 0.7377150140308035,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.9523809523809523,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 1,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 1,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "qwen3.5:0.8b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.7377150140308035,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.9523809523809523,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 1,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 1,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "qwen3.5:0.8b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.7377150140308035,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.9523809523809523,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 1,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 1,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "qwen3.5:0.8b"
+      ],
+      "count": 1,
+      "macro_f2": 0.7191590086326929,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.9523809523809523,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 1,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 1,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "qwen3.5:0.8b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 2,
+      "macro_f2": 0.7191590086326929,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.9523809523809523,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 1,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 1,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "qwen3.5:0.8b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 2,
+      "macro_f2": 0.7191590086326929,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.9523809523809523,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 1,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 1,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "qwen3.5:0.8b",
+        "Falconsai/nsfw_image_detection",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.7191590086326929,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.9523809523809523,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 29,
+          "abstained": 1,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 1,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "qwen3.5:0.8b"
+      ],
+      "count": 3,
+      "macro_f2": 0.7061990259930764,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 30,
+          "abstained": 5,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 30,
+          "abstained": 3,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 6,
+          "fn": 2,
+          "fp": 1,
+          "tn": 22,
+          "abstained": 8,
+          "f2": 0.7692307692307693,
+          "recall": 0.75
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 28,
+          "abstained": 8,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 24,
+          "abstained": 6,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "qwen3.5:0.8b"
+      ],
+      "count": 2,
+      "macro_f2": 0.6876430205949657,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 30,
+          "abstained": 5,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 30,
+          "abstained": 3,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 22,
+          "abstained": 8,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 28,
+          "abstained": 8,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 24,
+          "abstained": 6,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "qwen3.5:0.8b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.6876430205949657,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 30,
+          "abstained": 5,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 30,
+          "abstained": 3,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 22,
+          "abstained": 8,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 28,
+          "abstained": 8,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 24,
+          "abstained": 6,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "qwen3.5:0.8b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.6876430205949657,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 10,
+          "tn": 21,
+          "abstained": 5,
+          "f2": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 3,
+          "tn": 30,
+          "abstained": 5,
+          "f2": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 4,
+          "tn": 30,
+          "abstained": 3,
+          "f2": 0.7894736842105263,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 1,
+          "tn": 22,
+          "abstained": 8,
+          "f2": 0.6578947368421053,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 28,
+          "abstained": 8,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 4,
+          "tn": 24,
+          "abstained": 6,
+          "f2": 0.6521739130434783,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+      ],
+      "count": 1,
+      "macro_f2": 0.5548593706488444,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 0,
+          "tn": 36,
+          "abstained": 0,
+          "f2": 0.7894736842105263,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 38,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 4,
+          "fn": 4,
+          "fp": 0,
+          "tn": 31,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 34,
+          "abstained": 0,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 2,
+      "macro_f2": 0.5482804232804233,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.75,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 38,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 4,
+          "fn": 4,
+          "fp": 0,
+          "tn": 31,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 34,
+          "abstained": 0,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 2,
+      "macro_f2": 0.5482804232804233,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.75,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 38,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 4,
+          "fn": 4,
+          "fp": 0,
+          "tn": 31,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 34,
+          "abstained": 0,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.5482804232804233,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.75,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 38,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.7142857142857143,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 4,
+          "fn": 4,
+          "fp": 0,
+          "tn": 31,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 0,
+          "tn": 37,
+          "abstained": 0,
+          "f2": 0.5555555555555556,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 34,
+          "abstained": 0,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b"
+      ],
+      "count": 2,
+      "macro_f2": 0.4670047276419485,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 34,
+          "tn": 0,
+          "abstained": 2,
+          "f2": 0.37037037037037035,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 9,
+          "tn": 20,
+          "abstained": 9,
+          "f2": 0.625,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 4,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 7,
+          "abstained": 8,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 20,
+          "tn": 8,
+          "abstained": 7,
+          "f2": 0.38461538461538464,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b"
+      ],
+      "count": 3,
+      "macro_f2": 0.4670047276419485,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 34,
+          "tn": 0,
+          "abstained": 2,
+          "f2": 0.37037037037037035,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 9,
+          "tn": 20,
+          "abstained": 9,
+          "f2": 0.625,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 4,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 7,
+          "abstained": 8,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 20,
+          "tn": 8,
+          "abstained": 7,
+          "f2": 0.38461538461538464,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.4670047276419485,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 34,
+          "tn": 0,
+          "abstained": 2,
+          "f2": 0.37037037037037035,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 9,
+          "tn": 20,
+          "abstained": 9,
+          "f2": 0.625,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 4,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 7,
+          "abstained": 8,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 20,
+          "tn": 8,
+          "abstained": 7,
+          "f2": 0.38461538461538464,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.4670047276419485,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 34,
+          "tn": 0,
+          "abstained": 2,
+          "f2": 0.37037037037037035,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 9,
+          "tn": 20,
+          "abstained": 9,
+          "f2": 0.625,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 4,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 7,
+          "abstained": 8,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 20,
+          "tn": 8,
+          "abstained": 7,
+          "f2": 0.38461538461538464,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "qwen3.5:0.8b"
+      ],
+      "count": 2,
+      "macro_f2": 0.46568965725620615,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 10,
+          "tn": 23,
+          "abstained": 5,
+          "f2": 0.6,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 4,
+          "abstained": 5,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 19,
+          "tn": 11,
+          "abstained": 5,
+          "f2": 0.39473684210526316,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "qwen3.5:0.8b"
+      ],
+      "count": 3,
+      "macro_f2": 0.46568965725620615,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 10,
+          "tn": 23,
+          "abstained": 5,
+          "f2": 0.6,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 4,
+          "abstained": 5,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 19,
+          "tn": 11,
+          "abstained": 5,
+          "f2": 0.39473684210526316,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "qwen3.5:0.8b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.46568965725620615,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 10,
+          "tn": 23,
+          "abstained": 5,
+          "f2": 0.6,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 4,
+          "abstained": 5,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 19,
+          "tn": 11,
+          "abstained": 5,
+          "f2": 0.39473684210526316,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "qwen3.5:0.8b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.46568965725620615,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 10,
+          "tn": 23,
+          "abstained": 5,
+          "f2": 0.6,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 4,
+          "abstained": 5,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 19,
+          "tn": 11,
+          "abstained": 5,
+          "f2": 0.39473684210526316,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "qwen3.5:0.8b"
+      ],
+      "count": 3,
+      "macro_f2": 0.46283806097528185,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 34,
+          "tn": 0,
+          "abstained": 2,
+          "f2": 0.37037037037037035,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 10,
+          "tn": 19,
+          "abstained": 9,
+          "f2": 0.6,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 28,
+          "tn": 4,
+          "abstained": 5,
+          "f2": 0.3488372093023256,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 7,
+          "abstained": 8,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 20,
+          "tn": 7,
+          "abstained": 8,
+          "f2": 0.38461538461538464,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+      ],
+      "count": 2,
+      "macro_f2": 0.4326027367694034,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 13,
+          "abstained": 4,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 15,
+          "abstained": 4,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 5,
+          "tn": 23,
+          "abstained": 6,
+          "f2": 0.625,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+      ],
+      "count": 3,
+      "macro_f2": 0.4326027367694034,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 13,
+          "abstained": 4,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 15,
+          "abstained": 4,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 5,
+          "tn": 23,
+          "abstained": 6,
+          "f2": 0.625,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "qwen3.5:0.8b"
+      ],
+      "count": 3,
+      "macro_f2": 0.4326027367694034,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 13,
+          "abstained": 4,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 15,
+          "abstained": 4,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 5,
+          "tn": 22,
+          "abstained": 7,
+          "f2": 0.625,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.4326027367694034,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 13,
+          "abstained": 4,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 15,
+          "abstained": 4,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 5,
+          "tn": 23,
+          "abstained": 6,
+          "f2": 0.625,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "minicpm-v4.6:1b",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.4326027367694034,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 13,
+          "abstained": 4,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 15,
+          "abstained": 4,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 5,
+          "tn": 23,
+          "abstained": 6,
+          "f2": 0.625,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0"
+      ],
+      "count": 2,
+      "macro_f2": 0.43190615133377736,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 9,
+          "tn": 24,
+          "abstained": 5,
+          "f2": 0.625,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 5,
+          "f2": 0.23809523809523808,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 13,
+          "abstained": 5,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.43190615133377736,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 9,
+          "tn": 24,
+          "abstained": 5,
+          "f2": 0.625,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 5,
+          "f2": 0.23809523809523808,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 13,
+          "abstained": 5,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.43190615133377736,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 9,
+          "tn": 24,
+          "abstained": 5,
+          "f2": 0.625,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 5,
+          "f2": 0.23809523809523808,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 13,
+          "abstained": 5,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "qwen3.5:0.8b"
+      ],
+      "count": 2,
+      "macro_f2": 0.41309215475882144,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 2,
+          "tn": 30,
+          "abstained": 2,
+          "f2": 0.5,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "qwen3.5:0.8b"
+      ],
+      "count": 3,
+      "macro_f2": 0.41309215475882144,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 2,
+          "tn": 30,
+          "abstained": 2,
+          "f2": 0.5,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "qwen3.5:0.8b",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.41309215475882144,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 2,
+          "tn": 30,
+          "abstained": 2,
+          "f2": 0.5,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "qwen3.5:0.8b",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.41309215475882144,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.7407407407407407,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 2,
+          "tn": 30,
+          "abstained": 2,
+          "f2": 0.5,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 2,
+      "macro_f2": 0.4002032527830527,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 9,
+          "tn": 24,
+          "abstained": 5,
+          "f2": 0.43478260869565216,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 5,
+          "f2": 0.23809523809523808,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 13,
+          "abstained": 5,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.4002032527830527,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 3,
+          "f2": 0.37735849056603776,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 9,
+          "tn": 24,
+          "abstained": 5,
+          "f2": 0.43478260869565216,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 5,
+          "f2": 0.23809523809523808,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 13,
+          "abstained": 5,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "qwen3.5:0.8b"
+      ],
+      "count": 3,
+      "macro_f2": 0.3885698951817784,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 0,
+          "f2": 0.35714285714285715,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.29411764705882354,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 30,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.5714285714285714,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 27,
+          "tn": 7,
+          "abstained": 3,
+          "f2": 0.425531914893617,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 19,
+          "tn": 10,
+          "abstained": 6,
+          "f2": 0.39473684210526316,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "minicpm-v4.6:1b",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+      ],
+      "count": 3,
+      "macro_f2": 0.386882985600132,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 0,
+          "f2": 0.35714285714285715,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.29411764705882354,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 30,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.5714285714285714,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 27,
+          "tn": 6,
+          "abstained": 4,
+          "f2": 0.425531914893617,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 20,
+          "tn": 7,
+          "abstained": 8,
+          "f2": 0.38461538461538464,
+          "recall": 0.75
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0"
+      ],
+      "count": 1,
+      "macro_f2": 0.3853870940989695,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.28846153846153844,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 9,
+          "tn": 24,
+          "abstained": 5,
+          "f2": 0.43478260869565216,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 5,
+          "f2": 0.23809523809523808,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 13,
+          "abstained": 5,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 2,
+      "macro_f2": 0.3853870940989695,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 33,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.28846153846153844,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 9,
+          "tn": 24,
+          "abstained": 5,
+          "f2": 0.43478260869565216,
+          "recall": 0.6666666666666666
+        },
+        "alcohol": {
+          "tp": 2,
+          "fn": 1,
+          "fp": 28,
+          "tn": 5,
+          "abstained": 5,
+          "f2": 0.23809523809523808,
+          "recall": 0.6666666666666666
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 27,
+          "tn": 0,
+          "abstained": 4,
+          "f2": 0.5970149253731343,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 22,
+          "tn": 10,
+          "abstained": 5,
+          "f2": 0.47619047619047616,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 13,
+          "abstained": 5,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+      ],
+      "count": 2,
+      "macro_f2": 0.3690767177938642,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 0,
+          "f2": 0.35714285714285715,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.29411764705882354,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 30,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.5714285714285714,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 27,
+          "tn": 7,
+          "abstained": 3,
+          "f2": 0.425531914893617,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 12,
+          "abstained": 6,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+      ],
+      "count": 3,
+      "macro_f2": 0.3690767177938642,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 0,
+          "f2": 0.35714285714285715,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.29411764705882354,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 30,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.5714285714285714,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 27,
+          "tn": 7,
+          "abstained": 3,
+          "f2": 0.425531914893617,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 12,
+          "abstained": 6,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.3690767177938642,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 0,
+          "f2": 0.35714285714285715,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.29411764705882354,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 30,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.5714285714285714,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 27,
+          "tn": 7,
+          "abstained": 3,
+          "f2": 0.425531914893617,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 12,
+          "abstained": 6,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.3690767177938642,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 0,
+          "f2": 0.35714285714285715,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 36,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.29411764705882354,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 8,
+          "fn": 0,
+          "fp": 30,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.5714285714285714,
+          "recall": 1.0
+        },
+        "hate": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 27,
+          "tn": 7,
+          "abstained": 3,
+          "f2": 0.425531914893617,
+          "recall": 1.0
+        },
+        "drugs": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 18,
+          "tn": 12,
+          "abstained": 6,
+          "f2": 0.2777777777777778,
+          "recall": 0.5
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+      ],
+      "count": 2,
+      "macro_f2": 0.31636492438379227,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 7,
+          "fn": 1,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.660377358490566,
+          "recall": 0.875
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 3,
+      "macro_f2": 0.31636492438379227,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 7,
+          "fn": 1,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.660377358490566,
+          "recall": 0.875
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.31636492438379227,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 7,
+          "fn": 1,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.660377358490566,
+          "recall": 0.875
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 2,
+      "macro_f2": 0.28800137770726003,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.49019607843137253,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 2,
+      "macro_f2": 0.28800137770726003,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.49019607843137253,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+        "Falconsai/nsfw_image_detection",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 3,
+      "macro_f2": 0.28800137770726003,
+      "categories": {
+        "nudity": {
+          "tp": 4,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 0,
+          "f2": 0.36363636363636365,
+          "recall": 1.0
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.49019607843137253,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0"
+      ],
+      "count": 1,
+      "macro_f2": 0.27369161339749576,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.2777777777777778,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 37,
+          "tn": 0,
+          "abstained": 1,
+          "f2": 0.28846153846153844,
+          "recall": 1.0
+        },
+        "alcohol": {
+          "tp": 3,
+          "fn": 0,
+          "fp": 35,
+          "tn": 1,
+          "abstained": 1,
+          "f2": 0.3,
+          "recall": 1.0
+        },
+        "violence": {
+          "tp": 5,
+          "fn": 3,
+          "fp": 14,
+          "tn": 16,
+          "abstained": 1,
+          "f2": 0.49019607843137253,
+          "recall": 0.625
+        },
+        "hate": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 17,
+          "tn": 19,
+          "abstained": 1,
+          "f2": 0.2857142857142857,
+          "recall": 0.5
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 1,
+          "tn": 32,
+          "abstained": 1,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 1,
+      "macro_f2": 0.125,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.75,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 0,
+          "fn": 3,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 41,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "alcohol": {
+          "tp": 0,
+          "fn": 3,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 40,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "violence": {
+          "tp": 0,
+          "fn": 8,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 39,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "hate": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 41,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 38,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "Falconsai/nsfw_image_detection",
+        "AdamCodd/vit-base-nsfw-detector"
+      ],
+      "count": 2,
+      "macro_f2": 0.125,
+      "categories": {
+        "nudity": {
+          "tp": 3,
+          "fn": 1,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.75,
+          "recall": 0.75
+        },
+        "offensive_gesture": {
+          "tp": 0,
+          "fn": 3,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 41,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "alcohol": {
+          "tp": 0,
+          "fn": 3,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 40,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "violence": {
+          "tp": 0,
+          "fn": 8,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 39,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "hate": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 41,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 38,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    },
+    {
+      "models": [
+        "Falconsai/nsfw_image_detection"
+      ],
+      "count": 1,
+      "macro_f2": 0.08771929824561403,
+      "categories": {
+        "nudity": {
+          "tp": 2,
+          "fn": 2,
+          "fp": 1,
+          "tn": 35,
+          "abstained": 0,
+          "f2": 0.5263157894736842,
+          "recall": 0.5
+        },
+        "offensive_gesture": {
+          "tp": 0,
+          "fn": 3,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 41,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "alcohol": {
+          "tp": 0,
+          "fn": 3,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 40,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "violence": {
+          "tp": 0,
+          "fn": 8,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 39,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "hate": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 41,
+          "f2": 0.0,
+          "recall": 0.0
+        },
+        "drugs": {
+          "tp": 0,
+          "fn": 4,
+          "fp": 0,
+          "tn": 0,
+          "abstained": 38,
+          "f2": 0.0,
+          "recall": 0.0
+        }
+      }
+    }
+  ]
+}

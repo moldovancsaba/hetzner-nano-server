@@ -1,0 +1,17 @@
+{
+  "source_revision": "96cb0d0342c7afb80cab76ecc58b265fa44da256",
+  "synthetic_only": true,
+  "checks": [
+    {
+      "seed": 11,
+      "max_logit_error": 2.86102294921875e-06,
+      "max_preprocessor_error": 0.0
+    },
+    {
+      "seed": 29,
+      "max_logit_error": 4.0531158447265625e-06,
+      "max_preprocessor_error": 0.0
+    }
+  ],
+  "passed": true
+}

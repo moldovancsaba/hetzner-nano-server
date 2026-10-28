@@ -1,0 +1,73 @@
+{
+  "checked_date": "2026-10-28",
+  "sources": [
+    {
+      "model": "swiss-ai/Apertus-v1.1-0.5B-Instruct",
+      "revision": "a140fd61fb57422c36a26301caea17edee799874",
+      "source": "https://huggingface.co/swiss-ai/Apertus-v1.1-0.5B-Instruct",
+      "license": "apache-2.0",
+      "gated": false,
+      "model_type": "apertus",
+      "declared_context": 4096
+    },
+    {
+      "model": "swiss-ai/Apertus-v1.1-1.5B-Instruct",
+      "revision": "9e9d01154446a645d30f04174cf1515a38058be7",
+      "source": "https://huggingface.co/swiss-ai/Apertus-v1.1-1.5B-Instruct",
+      "license": "apache-2.0",
+      "gated": false,
+      "model_type": "apertus",
+      "declared_context": 4096
+    },
+    {
+      "model": "swiss-ai/Apertus-v1.1-4B-Instruct",
+      "revision": "0d004ae50a03fda815ff7a091a89ab0baec94f3d",
+      "source": "https://huggingface.co/swiss-ai/Apertus-v1.1-4B-Instruct",
+      "license": "apache-2.0",
+      "gated": false,
+      "model_type": "apertus",
+      "declared_context": 4096
+    },
+    {
+      "model": "microsoft/Phi-4-mini-instruct",
+      "revision": "cfbefacb99257ffa30c83adab238a50856ac3083",
+      "source": "https://huggingface.co/microsoft/Phi-4-mini-instruct",
+      "license": "mit",
+      "gated": false,
+      "model_type": "phi3",
+      "declared_context": 131072
+    },
+    {
+      "model": "NYTK/PULI-LlumiX-Llama-3.1",
+      "revision": "d7a086067619faed6cd7bfcc96506cddf742ae67",
+      "source": "https://huggingface.co/NYTK/PULI-LlumiX-Llama-3.1",
+      "license": "llama3.1",
+      "gated": false,
+      "model_type": "llama",
+      "declared_context": 131072
+    },
+    {
+      "model": "elte-nlp/Racka-4B",
+      "source": "https://huggingface.co/elte-nlp/Racka-4B",
+      "access_error": "HTTPError"
+    },
+    {
+      "model": "unsloth/Phi-4-mini-instruct-GGUF",
+      "revision": "78eb92a46fc37e6b524df991ed9aca9bc6aa7b80",
+      "source": "https://huggingface.co/unsloth/Phi-4-mini-instruct-GGUF",
+      "license": "mit",
+      "gated": false,
+      "artifacts": [
+        {
+          "file": "Phi-4-mini-instruct-Q2_K.gguf",
+          "bytes": 1682635744
+        },
+        {
+          "file": "Phi-4-mini-instruct-Q3_K_M.gguf",
+          "bytes": 2117532640
+        }
+      ]
+    }
+  ],
+  "not_inferred": "Repository languages and context metadata are not measured Hungarian quality or service context limits."
+}

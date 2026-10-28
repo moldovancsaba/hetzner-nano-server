@@ -1,0 +1,22 @@
+{
+  "version": "camera-specialists.v1",
+  "threshold": 0.5,
+  "threshold_selection": "Fixed before inference; scores are not calibrated probabilities. No test-set threshold tuning.",
+  "scope": "41 frozen public research images; binary NSFW maps only to union of nudity/sexualContent, not to all Camera reasons. No explicit-sex certification or customer accuracy claim.",
+  "models": [
+    {
+      "model": "Falconsai/nsfw_image_detection",
+      "revision": "96cb0d0342c7afb80cab76ecc58b265fa44da256",
+      "file": "falcon.onnx",
+      "processor": "falcon/preprocessor_config.json",
+      "export": "Standard Transformers ViT FP32 export, no model-provided code"
+    },
+    {
+      "model": "AdamCodd/vit-base-nsfw-detector",
+      "revision": "8587de998f441aac03fdd57a85d2e4cb808c7d64",
+      "file": "adam.onnx",
+      "processor": "adam-processor.json",
+      "artifact": "onnx/model_quantized.onnx"
+    }
+  ]
+}
