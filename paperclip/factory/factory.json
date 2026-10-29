@@ -66,8 +66,12 @@
   },
   "program_updates_enabled": true,
   "remote_llm": {
-    "enabled": false,
-    "model": "gemini-3.8-flash"
+    "enabled": true,
+    "model": "gemini-3.8-flash",
+    "daily_calls": 150,
+    "monthly_calls": 3000,
+    "daily_cost": 0.4,
+    "monthly_cost": 10.0
   },
   "sales": {
     "brands": [],

@@ -1,12 +1,12 @@
 # Metered Segmind model lane
 
-A paid, optional second model for the **Research Analyst** only. The local model (`granite4:1b-h`, 8K context) stays the default and is free. When its extraction leaves **price** or **opening hours** empty, the worker may ask a stronger model on Segmind to read a larger excerpt of the same public page. Status: deployed to the Paperclip host on 2026-10-29 with the flag **off** and no key installed (backups in `/root/backups/factory-pre-segmind-20261029`). The lane is **off** until the owner switches it on, and a missing key, an exhausted allowance or any Segmind error simply leaves the local result in place.
+A paid, optional second model for the **Research Analyst** only. The local model (`granite4:1b-h`, 8K context) stays the default and is free. When its extraction leaves **name, address, price or opening hours** empty, the worker may ask a stronger model on Segmind to read a larger excerpt of the same public page. Status: deployed to the Paperclip host on 2026-10-29 and **switched on** by the owner the same day (`remote_llm.enabled: true` in `factory.json`, default limits). The dedicated API key is in `/etc/paperclip-segmind.env` (root-only, mode 0600). Backups of the pre-deployment files are in `/root/backups/factory-pre-segmind-20261029`. A six-entity pilot on stuck drafts is recorded in [segmind-pilot-20261029.md](segmind-pilot-20261029.md). A missing key, an exhausted allowance or any Segmind error simply leaves the local result in place.
 
 Implementation: [segmind.py](segmind.py), tests [test_segmind.py](test_segmind.py). Background and cost estimates: `private/segmind-research-20261029.md` (not in Git).
 
 ## What it can and cannot do
 
-- It can only **add** a missing price or opening-hours fact. It never replaces a fact the local model already established.
+- It can only **add** a missing name, address, price or opening-hours fact. It never replaces a fact the local model already established.
 - Every value must carry a short quote that appears **verbatim** in the fetched page and contain the value (`worker.validate_facts`, the same gate the local model passes). A stronger model cannot introduce an invented fact; at worst it adds nothing. This protects against false facts, not against missed ones.
 - The drafts remain drafts: human review, the quality reviewer and the publication gate are unchanged. The run comment states which fields the remote model added.
 
@@ -29,9 +29,15 @@ All limits live in `factory.json` under `remote_llm`; values can tighten but nev
 | `max_input_chars` | 24,000 | 60,000 |
 
 - **Durable ledger** (`remote_llm_calls` in the factory SQLite, a restart cannot reset it). A call reserves its ceiling before it is sent; the real cost from Segmind's `x-cost` response header replaces it afterwards. A missing header or an unconfirmed (timed-out) call stays counted at the ceiling. Budapest day and month, like the Brave ledger.
-- **Cost unit:** `x-cost` is documented but its unit is not. Treat the cost limits as being in that unit until `segmind.py balance` before and after `segmind.py probe` shows what one call costs against the account balance, then set the limits in dollars deliberately.
+- **Cost unit (calibrated 2026-10-29):** `x-cost` is in account credits, and one credit is one US dollar. A probe call of 143 input and 160 output tokens reported 0.000884 and moved the account balance by exactly that amount (117.9988016 to 117.9979175), which also equals the published per-million-token price. All cost limits are therefore dollars.
 - **Fail closed:** HTTP 406 (no credits) pauses the lane for 24 hours; 429, 5xx, timeouts and other errors pause it for 5 to 15 minutes; 401/403 (key rejected) pause it until `segmind.py unblock`. Failed calls are not charged by Segmind. There is no retry loop.
 - **Fixed origin**, no redirects, response size capped at 1 MiB, the API key only in the `x-api-key` header and never logged or placed in a prompt.
+
+## Budget (owner's cap: $10 per month)
+
+`factory.json` caps the lane at **$10 per month and $0.40 per day**, with call limits of 3,000 per month and 150 per day, so the dollar cap is what binds. The ledger counts only the factory's own calls: other spending on the same Segmind account is invisible to it, so `segmind.py balance` is the check on the account as a whole.
+
+Measured on 2026-10-29 (24 real calls): $0.0030 on average and $0.0046 at most, for an average input of 6,600 characters; cost rises with page size, and a full 24,000-character page is estimated at $0.007. At those prices $10 buys about 3,300 average calls (110 a day), about 2,200 at the observed maximum (73 a day) and about 1,400 at the estimated worst case. The research role has run 94 to 121 tasks a day, so if most tasks escalate once, usage would be close to the cap; when the allowance is used up, research simply continues on the local model and says so in its run comment. Watch the first full month with `segmind.py status`.
 
 ## Switching it on (owner action, needs an approved deploy)
 
@@ -46,13 +52,15 @@ All limits live in `factory.json` under `remote_llm`; values can tighten but nev
 4. Calibrate: `segmind.py balance`, then `segmind.py probe` (one real call, a fraction of a cent), then `segmind.py balance` again. Check that the schema dialect was accepted and that `cost` in the probe output matches the balance change.
 5. Set `"remote_llm": {"enabled": true, ...}` with limits in the calibrated unit. Run on the 27 `needs_more_evidence` entities first and compare accepted facts per unit of cost against the local result.
 
-Run the CLI on the host **as the service user, never as root**. A root process that opens the live SQLite database can leave root-owned `-wal`/`-shm` files that the service (uid 65534) cannot write, which would stop the worker:
+Run the CLI on the host **inside the service's own namespace and user, never as plain root**. The state directory is private to the unit: `/var/lib/private` is root-only, the files are stored as uid 65534 and the unit sees them as its dynamic uid. A root process, or a different uid, either cannot open the database or can leave root-owned `-wal`/`-shm` files that stop the worker. `nsenter` into the running service does it correctly:
 
 ```bash
-cd /opt/narimato-factory && set -a && . /etc/paperclip-segmind.env && set +a && setpriv --reuid=65534 --regid=65534 --clear-groups env PYTHONDONTWRITEBYTECODE=1 FACTORY_STATE=/var/lib/narimato-factory python3 segmind.py status
+set -a && . /etc/paperclip-segmind.env && set +a
+PID=$(systemctl show -p MainPID --value narimato-factory)
+nsenter -t $PID -m -S $(awk '/^Uid:/{print $2}' /proc/$PID/status) -G $(awk '/^Gid:/{print $2}' /proc/$PID/status) -- env PYTHONDONTWRITEBYTECODE=1 FACTORY_STATE=/var/lib/narimato-factory python3 /opt/narimato-factory/segmind.py status
 ```
 
-Replace `status` with `balance` (read-only account call, does not open the database), `probe` (one real call, recorded in the ledger) or `unblock`.
+Replace `status` with `balance` (read-only account call, does not open the database), `probe` (one real call, recorded in the ledger) or `unblock`. The worker process itself only sees the key after the next `systemctl restart narimato-factory`.
 
 ## Stop conditions
 

@@ -1,6 +1,6 @@
 """Metered Segmind text lane: fixed origin, public source text only, durable spend ledger, fails closed to the local model.
 
-Optional help for the research role only. It fills price and opening hours that the local 1B model missed, and every
+Optional help for the research role only. It fills name, address, price and opening hours that the local 1B model missed, and every
 value still has to quote the fetched page verbatim (worker.validate_facts), so a stronger model cannot add an invented fact.
 Support drafts, customer text, Paperclip comments and every other role never reach this module."""
 import datetime,json,math,os,re,time,urllib.error,urllib.request,uuid
@@ -11,7 +11,7 @@ from search_budget import BudgetWait,day_key
 
 ORIGIN='https://api.segmind.com/v1/'
 ROLES={'research'}
-TARGETS=['price','opening_hours']
+TARGETS=['name','address','price','opening_hours']
 DEFAULTS={'model':'gemini-3.8-flash','effort':'low','daily_calls':40,'monthly_calls':600,'daily_cost':2.0,'monthly_cost':20.0,'call_cost_ceiling':0.10,'max_input_chars':24000}
 # Configuration can tighten these but never exceed them.
 HARD={'daily_calls':200,'monthly_calls':3000,'daily_cost':10.0,'monthly_cost':100.0,'call_cost_ceiling':0.5,'max_input_chars':60000}

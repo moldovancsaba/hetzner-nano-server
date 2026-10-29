@@ -31,8 +31,12 @@ class SegmindTests(unittest.TestCase):
  def test_only_the_research_role_may_use_it(self):
   for role in ['support','quality','publication','search']:
    model=Mock();self.assertEqual(self.augment(model,role=role)[2:],(None,None));model.call.assert_not_called()
- def test_nothing_to_add_when_price_and_hours_are_known(self):
-  model=Mock();known=[{'field':'price','value':'x','quote':'x'},{'field':'opening_hours','value':'x','quote':'x'}];self.assertEqual(self.augment(model,known)[0],known);model.call.assert_not_called()
+ def test_nothing_to_add_when_name_address_price_and_hours_are_known(self):
+  model=Mock();known=[{'field':field,'value':'x','quote':'x'} for field in ['name','address','price','opening_hours']];self.assertEqual(self.augment(model,known)[0],known);model.call.assert_not_called()
+ def test_a_missing_core_field_alone_triggers_escalation(self):
+  known=[{'field':field,'value':'x','quote':'x'} for field in ['address','price','opening_hours']]
+  model,opener=self.model(reply([{'field':'name','value':'Example Swim','quote':'Example Swim is at 12 Main Street.'}]));facts=self.augment(model,known)[0]
+  self.assertEqual(opener.open.call_count,1);self.assertEqual([f['field'] for f in facts],['address','price','opening_hours','name'])
  def test_limits_cannot_exceed_hard_ceilings_or_use_bad_models(self):
   for bad in [{'daily_cost':1000},{'daily_calls':0},{'daily_calls':True},{'model':'../admin'},{'model':'a b'},{'effort':'max'}]:
    with self.assertRaises(ValueError):segmind.settings({'remote_llm':{'enabled':True,**bad}})
