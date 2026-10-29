@@ -127,3 +127,7 @@ The 8K text-context state that had run in production since 2026-10-27 was commit
 ## 2026-10-29: documentation drift corrected
 
 Caddy no longer holds bearer keys and does not authenticate (the gateway does); README, ACCESS and the Camera guide now say so, and the retired moderation worker's commands are marked rollback-only. Alerting, Round 5, the 8K context and the Hungarian route were added to the backlog's delivered list. Owner accepted, for now, having no AI-host backup (OP-02) and the shared latency alert threshold (OP-05).
+
+## 2026-10-29: both hosts patched and rebooted
+
+Pending Ubuntu updates were applied and each host was rebooted once onto its already-installed newer kernel, one host at a time, with the gateway queue idle first. Services, container, firewall, policy id, 20 installed models and a real text job were verified afterwards; downtime was under a minute per host. Docker Engine packages are kept back on purpose and need a separate, planned upgrade.
