@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "check": "dedicated Paperclip discovery shows 8K",
+      "passed": true
+    },
+    {
+      "check": "oversized token input rejected before admission",
+      "passed": true
+    },
+    {
+      "check": "Paperclip cannot use Camera jobs",
+      "passed": true
+    },
+    {
+      "check": "public async input beyond 2K retains beginning-of-prompt fact",
+      "passed": true
+    }
+  ],
+  "job": "pIyS-91J_LJmwgPgklNrjG3qosTJjNa3",
+  "model": "granite4:1b-h",
+  "context": 8192,
+  "usage": {
+    "prompt_tokens": 4113,
+    "completion_tokens": 9,
+    "total_tokens": 4122
+  },
+  "seconds": 4.492,
+  "response": "{\"code\": \"MAPLE527\"}"
+}

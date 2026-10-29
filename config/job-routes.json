@@ -5,7 +5,8 @@
       "tenants": [
         "classscout",
         "habigoal",
-        "pandora"
+        "pandora",
+        "paperclip"
       ],
       "ranking_task": "text_chat"
     },

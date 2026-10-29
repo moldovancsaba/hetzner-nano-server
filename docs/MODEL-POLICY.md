@@ -109,6 +109,14 @@ A daily server-side metadata-discovery timer is now active; no unattended benchm
 
 Installed alternatives are now automatically managed by [top-five-per-task plus 14-day production use](AUTO-MODEL-CLEANUP.md). Tests must mark X-Request-Purpose: test and do not extend retention. API model discovery reflects evictions; evidence remains in the registry/repository. Missing alternatives are not downloaded automatically.
 
+## Paperclip context profile (2026-10-27)
+
+The ranked model winners are unchanged. `config/runtime-context-profiles.json`, referenced by ranking-sources.json, adds a verified **8192-token text** profile for the exact existing Granite artifact. It records the native long-input, fourteen-check compatibility and memory evidence; the generator includes those source hashes. ClassScout, Habigoal and Pandora now share the verified 8192-token default Granite profile. Explicit non-Paperclip alternative model pins retain their original tested profiles. `select(..., tenant=...)` and authenticated discovery expose the effective caller profile; the gateway records it with the job and passes it to the native runner. A different ranked winner or explicit model without a verified Paperclip profile is rejected until evaluated; no silent short-context fallback occurs.
+
+See [context test evidence](../benchmarks/paperclip-context/README.md). This is a context/runtime acceptance check, not a new cross-model quality ranking. Existing correctness scores retain their original benchmark profile.
+
+The generated tenant_context_minimums requires 8192 for automatic default text selection by ClassScout, Habigoal, Pandora and Paperclip. The policy generator refuses an automatic winner without corresponding context evidence. Runtime selection also fails explicitly if that guarantee is absent. The base 2048 benchmark profile remains the historical scoring profile; these are per-tenant execution profiles. See CHATBOT-CONTEXT.md.
+
 ## Broader recognition comparison (28 October 2026)
 
 The current recognition ranking uses 32 real service-contract image cases, nine paired robustness variants and eight separate count probes. MiniCPM-V 4.6 1B is the current default: cohort readiness score 0.807, 29/32 usable responses and 7/8 OCR targets, with median inference about 24 seconds. Qwen3.5 0.8B is close in measured score and about twice as slow; paired uncertainty intervals overlap. These are cohort-specific results, not general accuracy or standalone safety certification. See [the completed recognition report](../benchmarks/vision-evaluation/REPORT-RECOGNITION.md).

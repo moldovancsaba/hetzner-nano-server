@@ -42,6 +42,10 @@ Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It doe
 
 [Ranked defaults and model selection](docs/MODEL-POLICY.md): `auto` always follows the best eligible model in the relevant current ranking. `/v1/models` lists actual installed packages and which jobs they can serve; explicit model IDs choose tested alternatives. Text uses Granite 4 1B Hybrid; general image recognition uses MiniCPM-V 4.6 Q5_K_M; moderation uses its separate Qwen3.5 0.8B winner.
 
+## Larger chatbot context
+
+[Why 8K and how it is enforced](docs/CHATBOT-CONTEXT.md): default ClassScout, Habigoal and Pandora text now match Paperclip at 8K. Pandora retains a longer token-budgeted conversation; explicit model pins retain their tested profiles.
+
 ## Shared text/image queue
 
 [Shared job router](docs/JOB-ROUTER.md): one FIFO queue routes ClassScout/Habigoal/Pandora text to Granite 4 1B Hybrid and Camera images to their task-specific ranked vision models. Discover assignments with `/v1/job-types`, submit async work at `/v1/jobs`, and inspect `/v1/queue`. Existing chat and moderation endpoints use the same scheduler.
@@ -107,7 +111,7 @@ ClassScout's key was added to `/Users/Shared/Projects/classscout/.env.local` as 
 - Every public API call requires `Authorization: Bearer <project key>`.
 - `/v1` by itself returns 401; this is not a health check or a user interface.
 - Ollama is bound to host loopback `127.0.0.1:11434`, not the public network.
-- One active generation, queue limit 8, one loaded model, 2,048-token configured context, 30-minute idle model retention.
+- One active generation, queue limit 8, one loaded model, 8,192-token verified default text context; explicit alternatives and image profiles retain their tested limits, 30-minute idle model retention.
 - Container cap: 2 CPUs and 2,800 MiB RAM. Persistent model storage: Docker volume `narimato-ai_ollama`.
 - Send `reasoning_effort: "none"` for short direct responses. Set modest output limits.
 - Host firewall allows TCP 22, 80, 443 on IPv4 and IPv6. No public inference port.

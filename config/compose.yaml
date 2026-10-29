@@ -11,6 +11,8 @@ services:
       OLLAMA_MAX_QUEUE: "8"
       OLLAMA_CONTEXT_LENGTH: "2048"
       OLLAMA_KEEP_ALIVE: "30m"
+      LLAMA_ARG_CACHE_RAM: "128"
+      LLAMA_ARG_CTX_CHECKPOINTS: "2"
     mem_limit: 2800m
     cpus: 2
     volumes:

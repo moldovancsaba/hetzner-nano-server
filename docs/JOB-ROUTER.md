@@ -107,7 +107,7 @@ Use `text_chat_hu` with `model: auto` for explicit short Hungarian tests. Discov
 
 `stream: true` on the compatible chat endpoint emits valid **buffered SSE after generation finishes**, including tool-call indices and usage. It is not live per-token streaming. SDK/client timeouts need to allow queue waiting plus inference; use the asynchronous job API for reliable background processing and avoid holding a Vercel invocation open. A synchronous wait timeout returns 504 with a job ID: poll that ID instead of immediately creating duplicate work. Disconnecting a client does not cancel a job.
 
-Text input supports 1–32 messages with text content only; role system/user/assistant/tool, bounded tool definitions (maximum eight), optional JSON response format, max output 1–512 tokens and `reasoning_effort: "none"`. Default output is 256. Unsupported fields and arbitrary model overrides return 400. Messages must fit a 14,000-character JSON budget and the runtime's 2048-token context; the character limit is only a coarse upper bound, not a guarantee that every token fits. Keep prompts and schemas short and inspect length-limited results. Tool execution remains the caller's responsibility; the server does not access Atlas or OSM merely because a tool is declared.
+Text input supports 1–32 text messages with roles system/user/assistant/tool and up to eight tool definitions. The default Granite profile now allows 8192 total tokens and output 1–1024 (default 256), with reasoning_effort none, verified token counting and conservative template/output reserves. Inputs above 4096 counted tokens require async jobs. Explicit alternative models retain their earlier tested limits. Tool execution remains the caller's responsibility; declaring a tool does not grant database or internet access. See CHATBOT-CONTEXT.md.
 
 ## Existing ClassScout client timeout
 
@@ -154,3 +154,9 @@ Terminal results now expire after 300 seconds even when idle. Clients should DEL
 ## Production demand and safe model cleanup
 
 The gateway records content-free demand metadata only for authenticated, validated, admitted inference jobs. Default request purpose is production; tests must send `X-Request-Purpose: test`. This metadata protects recently used weights for 14 days. No prompt/image/answer/user identity is retained in it. During an idle cleanup lease new submissions receive retryable 503 `model_storage_maintenance`; usage-store failures return 503 `usage_tracking_unavailable` rather than untracked admission. See [automatic cleanup](AUTO-MODEL-CLEANUP.md).
+
+## Paperclip 8K text tenant
+
+Paperclip has an independent text-only key. `GET /v1/models` exposes the verified 8192-token Granite context profile only to this tenant; unverified alternate contexts are blocked. Use `POST /v1/jobs` with task `text_chat`, model `auto`, and the chat object in `input`; poll the returned job ID. Long inputs above 4096 counted tokens cannot use synchronous chat. Maximum output is 1024 tokens, with output and conservative template space reserved before admission; maximum body 256 KiB and one pending Paperclip job. Other tenants retain their previous limits. See ../paperclip/README.md and ../benchmarks/paperclip-context/README.md. Tests must still send X-Request-Purpose: test.
+
+The 8K tenant profile now also covers default ClassScout, Habigoal and Pandora text. Pandora's UI uses async jobs and token-aware recent history. Paperclip remains at one pending job; existing other tenant queue limits are retained. Read CHATBOT-CONTEXT.md for the current limits rather than treating the earlier Paperclip-only rollout as the current full tenant policy.

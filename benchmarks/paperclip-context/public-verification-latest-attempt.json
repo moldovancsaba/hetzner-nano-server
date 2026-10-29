@@ -1,0 +1,11 @@
+{
+  "job": "pIyS-91J_LJmwgPgklNrjG3qosTJjNa3",
+  "model": "granite4:1b-h",
+  "context": 8192,
+  "usage": {
+    "prompt_tokens": 4113,
+    "completion_tokens": 9,
+    "total_tokens": 4122
+  },
+  "response": "{\"code\": \"MAPLE527\"}"
+}

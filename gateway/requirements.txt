@@ -1,0 +1,2 @@
+# Use a venv with --system-site-packages so the host's python3-pil stays available.
+tokenizers==0.22.1

@@ -4,12 +4,13 @@ After=network.target docker.service
 [Service]
 DynamicUser=yes
 EnvironmentFile=/etc/narimato-chat.env
-ExecStart=/usr/bin/python3 /opt/narimato-chat/server.py
+Environment=TOKENIZERS_PARALLELISM=false
+ExecStart=/opt/narimato-gateway-venv/bin/python /opt/narimato-chat/server.py
 Restart=on-failure
 NoNewPrivileges=yes
 ProtectSystem=strict
 ProtectHome=yes
 PrivateTmp=yes
-MemoryMax=128M
+MemoryMax=192M
 [Install]
 WantedBy=multi-user.target

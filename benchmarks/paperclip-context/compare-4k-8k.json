@@ -1,0 +1,2193 @@
+{
+  "context": "4K vs 8K, matched inputs; no cached prompt reuse",
+  "model": "granite4:1b-h",
+  "num_batch": 128,
+  "cases": [
+    {
+      "case": "short",
+      "context": 4096,
+      "seconds": 27.702,
+      "prompt_tokens": 1203,
+      "output_tokens": 10,
+      "load_seconds": 4.842553773,
+      "prompt_seconds": 22.030322,
+      "generation_seconds": 0.802751,
+      "response": "{\"code\": \"HAZEL614\"}",
+      "peak_anonymous_mib": 1908.8
+    },
+    {
+      "case": "short",
+      "context": 8192,
+      "seconds": 27.586,
+      "prompt_tokens": 1203,
+      "output_tokens": 10,
+      "load_seconds": 4.464993899,
+      "prompt_seconds": 22.283795,
+      "generation_seconds": 0.818635,
+      "response": "{\"code\": \"HAZEL614\"}",
+      "peak_anonymous_mib": 1941.6
+    },
+    {
+      "case": "medium",
+      "context": 8192,
+      "seconds": 43.016,
+      "prompt_tokens": 1995,
+      "output_tokens": 10,
+      "load_seconds": 4.47734082,
+      "prompt_seconds": 37.626759,
+      "generation_seconds": 0.866797,
+      "response": "{\"code\": \"HAZEL614\"}",
+      "peak_anonymous_mib": 1942.3
+    },
+    {
+      "case": "medium",
+      "context": 4096,
+      "seconds": 42.59,
+      "prompt_tokens": 1995,
+      "output_tokens": 10,
+      "load_seconds": 3.965794749,
+      "prompt_seconds": 37.750945,
+      "generation_seconds": 0.83589,
+      "response": "{\"code\": \"HAZEL614\"}",
+      "peak_anonymous_mib": 1909.0
+    }
+  ],
+  "started_at": 1793122402.7658136,
+  "before": {
+    "time": 1793122402.822425,
+    "current": 1972731904,
+    "anon": 10362880,
+    "file": 1961144320,
+    "available": 3503992832,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 2859,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "loaded": {
+    "models": []
+  },
+  "after": {
+    "time": 1793122543.8604424,
+    "current": 945991680,
+    "anon": 12124160,
+    "file": 928542720,
+    "available": 3487973376,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 11835,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "samples": [
+    {
+      "time": 1793122403.823779,
+      "current": 2351292416,
+      "anon": 300822528,
+      "file": 2047840256,
+      "available": 3227504640,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2859,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122404.8316092,
+      "current": 2916487168,
+      "anon": 864808960,
+      "file": 2047856640,
+      "available": 2657124352,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 2859,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122405.8326585,
+      "current": 2935754752,
+      "anon": 1225097216,
+      "file": 1706602496,
+      "available": 2297360384,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 4099,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122406.833876,
+      "current": 2935848960,
+      "anon": 1577304064,
+      "file": 1353449472,
+      "available": 1944043520,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 5386,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122407.8347704,
+      "current": 2935803904,
+      "anon": 1883971584,
+      "file": 1046425600,
+      "available": 1636339712,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6306,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122408.8367937,
+      "current": 2935767040,
+      "anon": 1884721152,
+      "file": 1045639168,
+      "available": 1635438592,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6309,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122409.8373508,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1635028992,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122410.8379385,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634922496,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122411.8385534,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634922496,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122412.839159,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634664448,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122413.8417833,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634664448,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122414.8423486,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634664448,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122415.8429136,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122416.8435705,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122417.8441625,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122418.8447485,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122419.8468153,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122420.8474233,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122421.8479686,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122422.848563,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122423.8491602,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122424.8497944,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122425.8513649,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122426.8519385,
+      "current": 2935959552,
+      "anon": 1885437952,
+      "file": 1045114880,
+      "available": 1634668544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6311,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122427.8525462,
+      "current": 2935943168,
+      "anon": 1943502848,
+      "file": 986918912,
+      "available": 1576476672,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6533,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122428.854495,
+      "current": 2935943168,
+      "anon": 1943502848,
+      "file": 986918912,
+      "available": 1576218624,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6533,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122429.8551557,
+      "current": 2935930880,
+      "anon": 2001567744,
+      "file": 928722944,
+      "available": 1518067712,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6755,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122430.8558733,
+      "current": 980955136,
+      "anon": 46702592,
+      "file": 932450304,
+      "available": 3470991360,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6755,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122431.856831,
+      "current": 1518444544,
+      "anon": 434937856,
+      "file": 1080397824,
+      "available": 3100938240,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6755,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122432.8578506,
+      "current": 2401116160,
+      "anon": 876843008,
+      "file": 1520173056,
+      "available": 2648891392,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 6755,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122433.8590238,
+      "current": 2935754752,
+      "anon": 1383038976,
+      "file": 1548218368,
+      "available": 2146344960,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 7117,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122434.8601575,
+      "current": 2935881728,
+      "anon": 1907363840,
+      "file": 1023045632,
+      "available": 1620627456,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8358,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122435.8609643,
+      "current": 2935791616,
+      "anon": 1918279680,
+      "file": 1012035584,
+      "available": 1609621504,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8400,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122436.8628132,
+      "current": 2935791616,
+      "anon": 1918279680,
+      "file": 1012035584,
+      "available": 1609621504,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8400,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122437.8633935,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607819264,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122438.8640385,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607819264,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122439.8646817,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607561216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122440.8658285,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607561216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122441.8664596,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607561216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122442.8688195,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607561216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122443.8694484,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607561216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122444.8701348,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607561216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122445.8707688,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607561216,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122446.8713644,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607565312,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122447.8719468,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607565312,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122448.8737988,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607565312,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122449.880578,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607307264,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122450.8812106,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607315456,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122451.881785,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607315456,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122452.8848557,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607315456,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122453.885486,
+      "current": 2935701504,
+      "anon": 1919762432,
+      "file": 1010462720,
+      "available": 1607315456,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8406,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122454.8861306,
+      "current": 2931568640,
+      "anon": 1977827328,
+      "file": 948146176,
+      "available": 1544953856,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8605,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122455.8867614,
+      "current": 2931568640,
+      "anon": 1977827328,
+      "file": 948146176,
+      "available": 1544998912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8605,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122456.8876283,
+      "current": 2931568640,
+      "anon": 1977827328,
+      "file": 948146176,
+      "available": 1544744960,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8605,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122457.8882606,
+      "current": 2936012800,
+      "anon": 2035892224,
+      "file": 894406656,
+      "available": 1491009536,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8817,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122458.889082,
+      "current": 1189937152,
+      "anon": 289599488,
+      "file": 897720320,
+      "available": 3213910016,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8821,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122459.8900282,
+      "current": 1722281984,
+      "anon": 622391296,
+      "file": 1096425472,
+      "available": 2875125760,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8821,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122460.891021,
+      "current": 2284363776,
+      "anon": 1142681600,
+      "file": 1137360896,
+      "available": 2354548736,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8821,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122461.8922336,
+      "current": 2935754752,
+      "anon": 1537720320,
+      "file": 1393582080,
+      "available": 1961525248,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 8995,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122462.8931458,
+      "current": 2935812096,
+      "anon": 1918263296,
+      "file": 1012072448,
+      "available": 1577324544,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9944,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122463.8948183,
+      "current": 2935775232,
+      "anon": 1919012864,
+      "file": 1011286016,
+      "available": 1576423424,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9947,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122464.8954465,
+      "current": 2935685120,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1575092224,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122465.8961468,
+      "current": 2935685120,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1574985728,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122466.8978229,
+      "current": 2935685120,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1574985728,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122467.8984342,
+      "current": 2935685120,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1574985728,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122468.8990273,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1575194624,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122469.8997066,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1575243776,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122470.9007983,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1576783872,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122471.9014568,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577390080,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122472.9038036,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577422848,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122473.9043903,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577422848,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122474.9050212,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577451520,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122475.9056153,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577451520,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122476.9061897,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577451520,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122477.906773,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577459712,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122478.9073908,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577459712,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122479.9097936,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1577459712,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122480.9138484,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1575911424,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122481.914462,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1583386624,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122482.9157696,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1583476736,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122483.916372,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585885184,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122484.9187891,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585917952,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122485.919361,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585917952,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122486.9199739,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585917952,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122487.920597,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585917952,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122488.921213,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585922048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122489.9217618,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585922048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122490.9224484,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585922048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122491.9248188,
+      "current": 2935681024,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585922048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122492.9254172,
+      "current": 2935685120,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585922048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122493.9260454,
+      "current": 2935685120,
+      "anon": 1920495616,
+      "file": 1009713152,
+      "available": 1585922048,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122494.9332223,
+      "current": 2935685120,
+      "anon": 1920499712,
+      "file": 1009713152,
+      "available": 1585934336,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122495.9338021,
+      "current": 2935685120,
+      "anon": 1920499712,
+      "file": 1009713152,
+      "available": 1585934336,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122496.936843,
+      "current": 2935685120,
+      "anon": 1920499712,
+      "file": 1009713152,
+      "available": 1585934336,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 9953,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122497.937483,
+      "current": 2935930880,
+      "anon": 1978564608,
+      "file": 951779328,
+      "available": 1524129792,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 10174,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122498.938079,
+      "current": 2935930880,
+      "anon": 1978564608,
+      "file": 951779328,
+      "available": 1524129792,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 10174,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122499.938735,
+      "current": 2935930880,
+      "anon": 1978564608,
+      "file": 951779328,
+      "available": 1525342208,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 10174,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122500.9393623,
+      "current": 2935914496,
+      "anon": 2036629504,
+      "file": 893583360,
+      "available": 1467146240,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 10396,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122501.9400632,
+      "current": 1218265088,
+      "anon": 318701568,
+      "file": 897159168,
+      "available": 3188871168,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 10396,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122502.9407005,
+      "current": 1927032832,
+      "anon": 659853312,
+      "file": 1263738880,
+      "available": 2855870464,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 10396,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122503.9415817,
+      "current": 2691784704,
+      "anon": 1220050944,
+      "file": 1467068416,
+      "available": 2293239808,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 10396,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122504.9428911,
+      "current": 2935877632,
+      "anon": 1873629184,
+      "file": 1056731136,
+      "available": 1635246080,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11345,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122505.9434958,
+      "current": 2936008704,
+      "anon": 1884876800,
+      "file": 1045721088,
+      "available": 1624383488,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11388,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122506.9441226,
+      "current": 2936008704,
+      "anon": 1884876800,
+      "file": 1045721088,
+      "available": 1624268800,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11388,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122507.9458127,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623220224,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122508.9464192,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623220224,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122509.9469845,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623220224,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122510.947814,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122511.9494743,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122512.950089,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122513.9506888,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122514.9528208,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122515.9534316,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122516.9540906,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122517.9547408,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623228416,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122518.9553666,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623232512,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122519.9579012,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623232512,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122520.958564,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623232512,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122521.9592657,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623232512,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122522.9599323,
+      "current": 2935676928,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623232512,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122523.9606276,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623232512,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122524.9612508,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623236608,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122525.963823,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623240704,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122526.9645526,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623240704,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122527.965266,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623240704,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122528.9659026,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623240704,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122529.9665213,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623240704,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122530.9671867,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623240704,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122531.967783,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623240704,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122532.9708037,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623244800,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122533.9714847,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623244800,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122534.9721358,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623248896,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122535.9728806,
+      "current": 2935934976,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623248896,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122536.973522,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623248896,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122537.9741573,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623252992,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122538.9748063,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623252992,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122539.9818263,
+      "current": 2935672832,
+      "anon": 1885593600,
+      "file": 1044672512,
+      "available": 1623252992,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11392,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122540.9824498,
+      "current": 2935918592,
+      "anon": 1943658496,
+      "file": 986738688,
+      "available": 1565331456,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11613,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122541.9830918,
+      "current": 2935918592,
+      "anon": 1943658496,
+      "file": 986738688,
+      "available": 1565331456,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11613,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793122542.9837675,
+      "current": 2935918592,
+      "anon": 2001723392,
+      "file": 928542720,
+      "available": 1507168256,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 11835,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    }
+  ],
+  "fatal": [],
+  "finished_at": 1793122543.8605714
+}

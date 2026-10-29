@@ -66,3 +66,11 @@ Recover on a compatible ARM64 Ubuntu host: install Docker/Compose and Caddy, res
 - TLS error: inspect Caddy logs, DNS, TCP 80/443 reachability, certificate renewal and system time.
 
 The host currently allows SSH from anywhere. Root SSH, public SSH scope, absence of per-key quotas, and backup/monitoring gaps are recorded improvement items, not hidden guarantees.
+
+## Context and cache limits
+
+Ollama's global default remains 2048. Verified default Granite text profiles for Paperclip, ClassScout, Habigoal and Pandora use 8192 explicitly and cannot be selected by arbitrary client context fields. Keep `LLAMA_ARG_CACHE_RAM=128` and `LLAMA_ARG_CTX_CHECKPOINTS=2` in Compose; default 8-GiB caching caused repeated-request OOM kills under our 2800-MiB container cap even when one long request succeeded. The original pre-cache Compose snapshot is `/opt/narimato-ai/compose.before-context-cache.yaml`; restoring it can reintroduce that failure. Do not raise context merely by changing the global environment.
+
+The gateway now runs `/opt/narimato-gateway-venv/bin/python`, a Python venv created with `--system-site-packages` to retain apt-installed Pillow, plus pinned `tokenizers==0.22.1` from gateway/requirements.txt. Its verified tokenizer is `/opt/narimato-gateway/tokenizers/granite4-h-1b.json`, SHA-256 `e2bad66439538cb4d5a7580680932432ed9ece9d3b8577e675512bdf11599253`; download source: https://huggingface.co/ibm-granite/granite-4.0-h-1b/resolve/main/tokenizer.json. Tokenizer hash mismatch rejects input. Include this artifact and dependency setup in recovery. The context deployment backup is under `/opt/narimato-ai/context-backup-*`, with prior service/config and private credentials.
+
+Pandora now also runs in the tokenizers-enabled gateway venv, with MemoryMax=192M. Keep chat/context.py alongside its server. Its service uses root-only existing environment credentials and the same password hash. The chatbot context deployment backup includes gateway code/policy, Pandora code/UI and its prior unit. No credential rotation was performed.

@@ -25,7 +25,7 @@ Example request body:
 
 Supply `Authorization: Bearer <key>` and `Content-Type: application/json`. For JSON, add `response_format: {"type":"json_object"}`, ask for the required fields, then parse and validate the result against a schema. Valid JSON is not evidence of factual correctness.
 
-Keep input plus output within the 2,048-token context budget; an application must enforce its own limits. Request body is capped at 128 KB by Caddy, which is not a token limit. The runtime queue and memory limit are not substitutes for product quotas. Keep output short, use bounded timeouts compatible with the project's Vercel function duration, handle 401/413/429/503 and network errors, and avoid retry storms. Exact runtime error status depends on the failure path.
+The default Granite text route now has an 8192-token total context, shared by messages, tool definitions and output. The gateway counts the verified tokenizer, reserves 1536 tokens for template overhead and the full requested reply, and rejects oversized input. Text bodies are capped at 256 KiB by the gateway; the Caddy envelope is not a token limit. Explicit alternative models retain their tested limits, generally 2048 tokens. See CHATBOT-CONTEXT.md. The runtime queue and memory limit are not substitutes for product quotas. Keep output short, use bounded timeouts compatible with the project's Vercel function duration, handle 401/413/429/503 and network errors, and avoid retry storms. Exact runtime error status depends on the failure path.
 
 Use classification, simple extraction, short summaries, and brief suggestions as initial candidates. Do not rely on complex reasoning, tool use, long histories, high concurrency, or unvalidated factual answers. Evaluate multilingual project examples explicitly.
 
@@ -42,3 +42,7 @@ Inspect the target repository's AGENTS.md and existing conventions. Read LOCAL_A
 ## Ranked default or deliberate model choice
 
 Use `auto` to follow the best current model for the job. A concrete installed/tested model ID is a real explicit override, not a default alias. `GET /v1/models` and `/v1/job-types` expose available alternatives. See [model policy](MODEL-POLICY.md) for the canonical selection/update contract. ClassScout’s ignored local model setting is now auto; deployed environments must set it independently when authorized.
+
+## Long text requests
+
+Use POST /v1/jobs with task text_chat, model auto and the chat object in input; poll GET /v1/jobs/{id} in subsequent application requests. This avoids holding a Vercel function open for a long CPU inference. Synchronous /v1/chat/completions refuses inputs above 4096 counted tokens with instructions to use async jobs. Default output remains 256; the verified Granite profile allows up to 1024 when explicitly requested. Do not silently resubmit a timed-out job: poll its returned job ID. Application production settings were not changed by the server upgrade.

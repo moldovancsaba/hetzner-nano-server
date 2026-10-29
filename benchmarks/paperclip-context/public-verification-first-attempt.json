@@ -1,0 +1,8 @@
+{
+  "status": "format_check_failed",
+  "raw_response": {
+    "keyCode": "MAPLE527",
+    "testCode": "MAPLE527"
+  },
+  "explanation": "The request used json_object and an ambiguous key/code instruction; the model found the correct start-of-prompt value but returned two unrequested field names. The corrected test uses an explicit JSON schema. This failure is retained, not treated as a successful exact-format check."
+}

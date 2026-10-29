@@ -7,6 +7,10 @@ class SelectionError(Exception):
         self.code,self.status=code,status
         super().__init__(code)
 
+def minimum_context(policy,tenant,task):
+    configured=policy.get('tenant_context_minimums',{}).get(tenant,{}).get(task,0)
+    return max(configured,8192 if tenant=='paperclip' and task!='text_chat_hu' else 0)
+
 class ModelCatalog:
     def __init__(self,path,inventory):
         self.path=Path(path);self.inventory=inventory;self.lock=threading.Lock();self.cached=None;self.cached_at=0
@@ -23,18 +27,23 @@ class ModelCatalog:
                 try:self.cached=self.inventory()['models'];self.cached_at=time.monotonic()
                 except Exception:raise SelectionError('model_inventory_unavailable',503) from None
             return copy.deepcopy(self.cached)
-    def records(self,allowed_tasks):
+    def records(self,allowed_tasks,tenant=None):
         policy=self.policy();tested={name.lower():entry for name,entry in policy['models'].items()};rows=[]
         for item in self.installed():
             entry=tested.get(item['name'].lower());eligible=entry is not None and item.get('digest')==entry['tested_digest']
             tasks={task:meta for task,meta in (entry or {}).get('tasks',{}).items() if task in allowed_tasks}
+            tasks=copy.deepcopy(tasks)
+            if tenant=='paperclip':
+                tasks={task:meta for task,meta in tasks.items() if meta.get('tenant_profiles',{}).get(tenant,{}).get('num_ctx',0)>=minimum_context(policy,tenant,task)}
+            for meta in tasks.values():
+                if tenant in meta.get('tenant_profiles',{}):meta['profile']=meta['tenant_profiles'][tenant]
             selectable=sorted(tasks) if eligible else []
             rows.append({'id':item['name'],'object':'model','owned_by':'local','installed':True,'digest':item.get('digest'),
                          'size_bytes':item.get('size'),'selectable_for':selectable,
-                         'default_for':[task for task in selectable if policy['defaults'][task].lower()==item['name'].lower()],
-                         'rankings':tasks,'blocked_reason':None if selectable else 'artifact_changed_since_test' if entry and not eligible else 'not_tested_for_your_jobs'})
+                         'default_for':[task for task in selectable if policy['defaults'][task].lower()==item['name'].lower() and tasks[task]['profile'].get('num_ctx',0)>=minimum_context(policy,tenant,task)],
+                         'rankings':tasks,'blocked_reason':None if selectable else 'artifact_changed_since_test' if entry and not eligible else 'paperclip_context_profile_not_verified' if tenant=='paperclip' and eligible else 'not_tested_for_your_jobs'})
         return policy,rows
-    def select(self,task,requested=None):
+    def select(self,task,requested=None,tenant=None):
         policy=self.policy();automatic=requested is None or requested in {'auto',task}
         model=policy['defaults'][task] if automatic else requested
         if not isinstance(model,str):raise SelectionError('invalid_model')
@@ -43,7 +52,12 @@ class ModelCatalog:
         actual=next((x for x in self.installed() if x['name'].lower()==entry['id'].lower()),None)
         if not actual:raise SelectionError('default_model_not_installed' if automatic else 'model_not_installed',503 if automatic else 400)
         if actual.get('digest')!=entry['tested_digest']:raise SelectionError('model_artifact_changed_since_test',503)
-        return {'model':actual['name'],'selection':'auto' if automatic else 'explicit','model_policy_id':policy['policy_id'],'model_digest':actual['digest'],'model_profile':entry['tasks'][task]['profile']}
+        meta=entry['tasks'][task]
+        profile=meta.get('tenant_profiles',{}).get(tenant,meta['profile'])
+        if (automatic or tenant=='paperclip') and profile.get('num_ctx',0)<minimum_context(policy,tenant,task):
+            code='paperclip_context_profile_not_verified' if tenant=='paperclip' else 'default_context_profile_not_verified'
+            raise SelectionError(code,503 if automatic else 400)
+        return {'model':actual['name'],'selection':'auto' if automatic else 'explicit','model_policy_id':policy['policy_id'],'model_digest':actual['digest'],'model_profile':profile}
     def profile(self,task,model):
         self.select(task,model)
         policy=self.policy()

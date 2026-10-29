@@ -23,6 +23,7 @@ from gateway.usage import UsageStore, LeaseStore
 from gateway.metrics import open_metrics, route_name
 from gateway.hungarian import request as hungarian_request, completion as hungarian_completion
 from urllib.parse import urlsplit, parse_qs
+from gateway.long_context import validate_budget, native_request, completion as native_completion
 from PIL import Image
 
 TTL = 300
@@ -90,6 +91,8 @@ class Runner:
 
     def __call__(self, task, payload, model):
         profile = self.catalog.profile(task, model) if self.catalog else {'max_image_edge': 640}
+        if task in {'text_chat','text_chat_hu'} and isinstance(payload, dict) and '_runtime_profile' in payload:
+            profile = payload['_runtime_profile']
         if isinstance(payload, bytes) and profile['max_image_edge'] < 640:
             with Image.open(io.BytesIO(payload)) as image:
                 image.thumbnail((profile['max_image_edge'], profile['max_image_edge']))
@@ -103,6 +106,12 @@ class Runner:
             if task in {'text_chat','text_chat_hu'}:
                 if task == 'text_chat_hu':
                     result = hungarian_completion(native('/api/chat', hungarian_request(payload,profile), timeout=120))
+                elif profile.get('num_ctx', 2048) > 2048:
+                    request = native_request(payload, profile)
+                    result = native_completion(native('/api/chat', request, timeout=profile['timeout_seconds']), request)
+                    choice = payload.get('tool_choice', 'auto')
+                    if (choice == 'required' or isinstance(choice, dict)) and not result['choices'][0]['message'].get('tool_calls'):
+                        raise UpstreamError('Required tool was not selected')
                 else:
                     result = native('/v1/chat/completions', payload)
                 if not isinstance(result, dict) or not result.get('choices'):
@@ -145,7 +154,8 @@ class Runner:
         return result, switch
 
 
-def text_input(data, model):
+def text_input(data, model, profile=None):
+    extended = bool(profile and profile.get('num_ctx', 2048) > 2048)
     if not isinstance(data, dict):
         raise ValueError('Expected chat object')
     allowed = {'model', 'messages', 'stream', 'temperature', 'max_tokens', 'max_completion_tokens',
@@ -164,11 +174,12 @@ def text_input(data, model):
             raise ValueError('Text jobs accept text only')
         if set(message) - {'role', 'content', 'tool_calls', 'tool_call_id', 'name'}:
             raise ValueError('Unsupported message fields')
-    if len(json.dumps(messages)) > 14000:
+    if not extended and len(json.dumps(messages)) > 14000:
         raise ValueError('Messages exceed small-model context budget')
     tokens = data.get('max_completion_tokens', data.get('max_tokens', 256))
-    if type(tokens) is not int or not 1 <= tokens <= 512:
-        raise ValueError('Output limit must be 1–512 tokens')
+    output_limit = profile.get('max_output_tokens', 512) if extended else 512
+    if type(tokens) is not int or not 1 <= tokens <= output_limit:
+        raise ValueError(f'Output limit must be 1–{output_limit} tokens')
     temp = data.get('temperature', .2)
     if type(temp) not in {int, float} or not 0 <= temp <= 2:
         raise ValueError('Invalid temperature')
@@ -183,7 +194,11 @@ def text_input(data, model):
     for key in ['max_completion_tokens', 'stream_options']:
         result.pop(key, None)
     result.update(model=model, stream=False, max_tokens=tokens, temperature=temp, reasoning_effort='none')
+    if extended:
+        result['_input_tokens'] = validate_budget(result, profile)
+        native_request(result, profile)
     return result
+
 
 def hungarian_text_input(data, model, profile):
     if not isinstance(data,dict):
@@ -283,7 +298,7 @@ class Scheduler:
             if len(self.rows) >= 64 or len(self.queue) >= 8:
                 return None, 'busy'
             tenant_pending = sum(row['_tenant'] == tenant and row['status'] in {'queued', 'running'} for row in self.rows.values())
-            if tenant_pending >= 4:
+            if tenant_pending >= (1 if tenant == 'paperclip' else 4):
                 return None, 'busy'
             model = selected_model or ROUTES[task]['model']
             if self.usage:
@@ -495,7 +510,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.path in {'/v1/models', '/v1/job-types'}:
             try:
                 tasks=[task for task in ROUTES if self.route_allowed(tenant,task)]
-                policy,models=self.server.catalog.records(tasks)
+                policy,models=self.server.catalog.records(tasks,tenant=tenant)
             except SelectionError as error:
                 return self.send(error.status, {'error': {'code': error.code}})
             if self.path=='/v1/models':
@@ -571,7 +586,7 @@ class Handler(BaseHTTPRequestHandler):
                 if self.server.scheduler.maintenance:
                     return self.send(503,{'error':{'code':'model_storage_maintenance'}},**{'Retry-After':'10'})
             length = int(self.headers.get('Content-Length', '0'))
-            limit = 6 * 1024 * 1024 if tenant == 'camera' else 128 * 1024
+            limit = 6 * 1024 * 1024 if tenant == 'camera' else 256 * 1024
             if self.headers.get('Transfer-Encoding') or not 0 < length <= limit:
                 return self.send(413, {'error': {'code': 'request_too_large'}})
             raw = self.rfile.read(length)
@@ -596,14 +611,18 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(task, str) or not self.route_allowed(tenant, task):
                 return self.send(403, {'error': {'code': 'job_type_not_allowed'}})
             if requested is not None and not isinstance(requested,str): raise ValueError('Model must be a string')
-            selection=self.server.catalog.select(task,requested)
+            selection=self.server.catalog.select(task,requested,tenant=tenant)
+            if tenant == 'paperclip' and task != 'text_chat_hu' and selection['model_profile'].get('num_ctx',2048) < 8192:
+                raise SelectionError('paperclip_context_profile_not_verified',503)
             metadata = dict(selection)
             stream = False
             if task in {'text_chat','text_chat_hu'}:
-                if task == 'text_chat_hu':
-                    payload = hungarian_text_input({**value,'model':selection['model']}, selection['model'],selection['model_profile'])
-                else:
-                    payload = text_input({**value,'model':selection['model']}, selection['model'])
+                parse_text = hungarian_text_input if task == 'text_chat_hu' else text_input
+                payload = parse_text({**value,'model':selection['model']}, selection['model'], selection['model_profile'])
+                if '_input_tokens' in payload:
+                    payload['_runtime_profile'] = dict(selection['model_profile'])
+                if self.path == '/v1/chat/completions' and payload.get('_input_tokens', 0) > 4096:
+                    raise ValueError('Long inputs require asynchronous POST /v1/jobs; poll the returned job ID')
                 stream = value.get('stream', False)
             else:
                 if not isinstance(value, dict) or set(value)-{'image_base64','model'} or 'image_base64' not in value:
@@ -699,7 +718,10 @@ class Server(ThreadingHTTPServer):
 
 
 if __name__ == '__main__':
-    keys = {tenant: os.environ['GATEWAY_' + tenant.upper() + '_KEY'] for tenant in ['classscout', 'habigoal', 'camera', 'pandora']}
+    tenants = ['classscout', 'habigoal', 'camera', 'pandora']
+    if os.environ.get('GATEWAY_PAPERCLIP_KEY'):
+        tenants.append('paperclip')
+    keys = {tenant: os.environ['GATEWAY_' + tenant.upper() + '_KEY'] for tenant in tenants}
     if len(set(keys.values())) != len(keys) or any(len(key) < 32 for key in keys.values()):
         raise RuntimeError('Distinct strong service keys are required')
     usage=UsageStore(os.environ['MODEL_USAGE_PATH'],native('/api/tags',timeout=10).get('models',[]))

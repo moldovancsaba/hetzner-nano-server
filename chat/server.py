@@ -1,9 +1,12 @@
-import hashlib,hmac,json,os,secrets,threading,time,urllib.request,urllib.error
+import hashlib,hmac,json,os,secrets,sys,threading,time,urllib.request,urllib.error
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from http.cookies import SimpleCookie
 from pathlib import Path
 from urllib.parse import parse_qs
 ROOT=Path(__file__).parent
+sys.path.insert(0, '/opt/narimato-gateway')
+sys.path.insert(0, str(ROOT))
+from context import prepare
 GATEWAY_KEY=os.environ['GATEWAY_PANDORA_KEY']
 PASSWORD_HASH=os.environ['CHAT_PASSWORD_HASH']
 SESSION=secrets.token_urlsafe(48)
@@ -27,7 +30,7 @@ class Handler(BaseHTTPRequestHandler):
   if self.headers.get('Origin')!=ORIGIN:return self.send(403,'Forbidden')
   try:
    n=int(self.headers.get('Content-Length','0'))
-   if not 0<n<=16384:return self.send(413,'Request too large')
+   if not 0<n<=256*1024:return self.send(413,'Request too large')
    raw=self.rfile.read(n)
   except Exception:return self.send(400,'Invalid request')
   if self.path=='/chat/login':
@@ -40,27 +43,30 @@ class Handler(BaseHTTPRequestHandler):
   if self.path!='/chat/api':return self.send(404,'Not found')
   if not self.authorized():return self.send(401,'{"error":"Please unlock Pandora again."}','application/json')
   try:
-   data=json.loads(raw);messages=data['messages']
-   if not isinstance(messages,list) or not messages or len(messages)>7:raise ValueError()
-   for m in messages:
-    if not isinstance(m,dict) or m.get('role') not in ['user','assistant'] or not isinstance(m.get('content'),str) or len(m['content'])>1800:raise ValueError()
-   if messages[-1]['role']!='user':raise ValueError()
-   # Bound recent context for this small model; reserve space for the reply.
-   recent=[];size=0
-   for m in reversed(messages):
-    if size+len(m['content'])>2600:break
-    recent.insert(0,{'role':m['role'],'content':m['content']});size+=len(m['content'])
-   while recent and recent[0]['role']=='assistant':recent.pop(0)
-  except Exception:return self.send(400,'{"error":"Please send a shorter message or start a new chat."}','application/json')
-  if not WORKER.acquire(blocking=False):return self.send(429,'{"error":"Another reply is in progress. Try again shortly."}','application/json')
-  try:
-   payload={'model':'auto','messages':[{'role':'system','content':'You are Pandora, a helpful assistant on a privately hosted AI service. Your name in this chat is Pandora: introduce yourself as Pandora when asked who you are. Distinguish your display name from the underlying model. Never invent the model developer or model identity. Answer clearly and briefly. Say when you are unsure.'}]+recent,'reasoning_effort':'none','stream':False,'max_tokens':256,'temperature':0.4}
+   data=json.loads(raw)
+   payload,kept,trimmed,input_tokens=prepare(data['messages'])
    purpose=self.headers.get('X-Request-Purpose','production')
    if purpose not in ['production','test']:raise ValueError('Invalid request purpose')
-   req=urllib.request.Request('http://127.0.0.1:8090/v1/chat/completions',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+GATEWAY_KEY,'X-Request-Purpose':purpose})
-   with urllib.request.urlopen(req,timeout=110) as r:completion=json.load(r)
+  except (ValueError,KeyError,TypeError) as error:
+   return self.send(400,json.dumps({'error':str(error) if isinstance(error,ValueError) else 'Invalid conversation.'}),'application/json')
+  if not WORKER.acquire(blocking=False):return self.send(429,'{"error":"Another reply is in progress. Try again shortly."}','application/json')
+  try:
+   def gateway(path,body=None,method=None):
+    request=urllib.request.Request('http://127.0.0.1:8090'+path,data=json.dumps(body).encode() if body is not None else None,headers={'Content-Type':'application/json','Authorization':'Bearer '+GATEWAY_KEY,'X-Request-Purpose':purpose},method=method)
+    with urllib.request.urlopen(request,timeout=20) as response:return json.load(response)
+   submitted=gateway('/v1/jobs',{'task':'text_chat','input':payload})
+   job_id=submitted['id'];deadline=time.monotonic()+900
+   while time.monotonic()<deadline:
+    row=gateway('/v1/jobs/'+job_id)
+    if row['status']=='completed':
+     completion=row['result'];break
+    if row['status']=='failed':raise RuntimeError('Generation did not complete')
+    time.sleep(.5)
+   else:raise TimeoutError('Chat job deadline exceeded')
    reply=completion['choices'][0]['message']['content']
-   self.send(200,json.dumps({'reply':reply,'model':completion.get('model')}), 'application/json')
+   self.send(200,json.dumps({'reply':reply,'model':completion.get('model'),'context_tokens':row['model_profile']['num_ctx'],'kept_messages':kept,'history_trimmed':trimmed,'usage':completion.get('usage')}), 'application/json')
+   try:gateway('/v1/jobs/'+job_id,method='DELETE')
+   except Exception:pass
   except Exception:self.send(503,'{"error":"The chat is unavailable right now. Please try again shortly."}','application/json')
   finally:WORKER.release()
 ThreadingHTTPServer(('127.0.0.1',8088),Handler).serve_forever()

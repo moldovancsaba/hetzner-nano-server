@@ -1,0 +1,72 @@
+{
+  "checks": [
+    {
+      "check": "classscout default advertises 8192 tokens",
+      "passed": true
+    },
+    {
+      "check": "habigoal default advertises 8192 tokens",
+      "passed": true
+    },
+    {
+      "check": "pandora default advertises 8192 tokens",
+      "passed": true
+    },
+    {
+      "check": "paperclip default advertises 8192 tokens",
+      "passed": true
+    },
+    {
+      "check": "Pandora rejects oversized newest message without truncating it",
+      "passed": true
+    },
+    {
+      "check": "Pandora retains a fact beyond old six-message/2600-character history",
+      "passed": true,
+      "messages_kept": 11,
+      "context": 8192,
+      "usage": {
+        "prompt_tokens": 2515,
+        "completion_tokens": 5,
+        "total_tokens": 2520
+      },
+      "seconds": 47.955,
+      "reply": "BIRCH418"
+    }
+  ],
+  "api_jobs": [
+    {
+      "tenant": "classscout",
+      "model": "granite4:1b-h",
+      "context": 8192,
+      "usage": {
+        "prompt_tokens": 2747,
+        "completion_tokens": 12,
+        "total_tokens": 2759
+      },
+      "passed": true
+    },
+    {
+      "tenant": "habigoal",
+      "model": "granite4:1b-h",
+      "context": 8192,
+      "usage": {
+        "prompt_tokens": 2747,
+        "completion_tokens": 12,
+        "total_tokens": 2759
+      },
+      "passed": true
+    },
+    {
+      "tenant": "pandora",
+      "model": "granite4:1b-h",
+      "context": 8192,
+      "usage": {
+        "prompt_tokens": 2747,
+        "completion_tokens": 12,
+        "total_tokens": 2759
+      },
+      "passed": true
+    }
+  ]
+}

@@ -39,4 +39,24 @@ class Tests(unittest.TestCase):
    path=Path(root)/'policy.json';path.write_text(json.dumps(self.policy));c=ModelCatalog(path,lambda:{'models':self.inventory})
    changed=copy.deepcopy(self.policy);changed['defaults']['text_chat']='qwen3:0.6b';changed['policy_id']='new-ranked-policy';path.write_text(json.dumps(changed))
    self.assertEqual(c.select('text_chat','auto')['model'],'qwen3:0.6b')
+ def test_context_profiles_are_scoped_to_configured_consumers(self):
+  with tempfile.TemporaryDirectory() as root:
+   policy=copy.deepcopy(self.policy)
+   model=policy['defaults']['text_chat']
+   policy['models'][model]['tasks']['text_chat'].setdefault('tenant_profiles',{})['paperclip']={'num_ctx':8192,'num_batch':128}
+   path=Path(root)/'policy.json';path.write_text(json.dumps(policy));c=ModelCatalog(path,lambda:{'models':self.inventory})
+   self.assertEqual(c.select('text_chat','auto',tenant='paperclip')['model_profile']['num_ctx'],8192)
+   self.assertEqual(c.select('text_chat','auto',tenant='classscout')['model_profile']['num_ctx'],8192)
+   self.assertEqual(c.select('text_chat','auto',tenant='another_app')['model_profile']['num_ctx'],2048)
+   _,rows=c.records(['text_chat'],tenant='paperclip')
+   self.assertEqual(next(row for row in rows if row['id']==model)['rankings']['text_chat']['profile']['num_ctx'],8192)
+   self.assertEqual(next(row for row in rows if row['id']=='qwen3:1.7b')['selectable_for'],[])
+   with self.assertRaises(SelectionError):c.select('text_chat','qwen3:1.7b',tenant='paperclip')
+ def test_new_default_requires_verified_context_but_explicit_pin_keeps_legacy_profile(self):
+  with tempfile.TemporaryDirectory() as root:
+   policy=copy.deepcopy(self.policy);policy['defaults']['text_chat']='qwen3:0.6b'
+   path=Path(root)/'policy.json';path.write_text(json.dumps(policy));c=ModelCatalog(path,lambda:{'models':self.inventory})
+   with self.assertRaises(SelectionError) as exc:c.select('text_chat','auto',tenant='classscout')
+   self.assertEqual(exc.exception.code,'default_context_profile_not_verified')
+   self.assertEqual(c.select('text_chat','qwen3:0.6b',tenant='classscout')['model_profile']['num_ctx'],2048)
 if __name__=='__main__':unittest.main()

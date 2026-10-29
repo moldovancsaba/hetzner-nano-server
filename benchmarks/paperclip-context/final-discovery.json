@@ -1,0 +1,10 @@
+{
+  "policy_id": "eaa4fbc7e51429a63d96537570eb5ec5a5a0cabc5412e42a054a7b6ae1df14d4",
+  "paperclip_selectable_models": [
+    {
+      "id": "granite4:1b-h",
+      "context": 8192
+    }
+  ],
+  "public_files_scanned_for_credentials": 56
+}

@@ -1,0 +1,13 @@
+{
+  "default_text_context": 8192,
+  "paperclip_context": 8192,
+  "explicit_alternatives_context": "unchanged tested profiles",
+  "camera_context": 2048,
+  "unit_tests_passed": 35,
+  "api_long_input_tokens": 2747,
+  "pandora_verified_messages_kept": 11,
+  "pandora_actual_prompt_tokens": 2515,
+  "pandora_long_history_seconds": 47.955,
+  "public_files_scanned_for_credentials": 73,
+  "application_production_environments_changed": false
+}

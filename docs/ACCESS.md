@@ -42,3 +42,7 @@ The dedicated `camera` key in the canonical/local key JSON authenticates only th
 ## Shared job router credentials
 
 Active runtime keys are in `/etc/narimato-gateway.env` (600), separate `GATEWAY_CLASSSCOUT_KEY`, `GATEWAY_HABIGOAL_KEY`, `GATEWAY_CAMERA_KEY` and internal `GATEWAY_PANDORA_KEY`. Existing service keys are preserved; Pandora has a new dedicated backend-only key, also provisioned to its root-only chat env. The canonical/local key JSON now includes `pandora`; do not expose it in browser code. Caddy no longer embeds active bearer keys, but older private backups do. Rotate the intended field in the canonical store, gateway env and authorized consumer env; drain/restart the gateway. For Pandora also refresh/restart its chat backend. Retired moderation env is no longer the active credential source.
+
+## Paperclip local inference
+
+The canonical key JSON includes independent `paperclip` credentials, also in `/etc/narimato-gateway.env` as `GATEWAY_PAPERCLIP_KEY`. Its only permitted job is text chat. The Paperclip host stores the key in root-only `/etc/paperclip-local-ai.env`; metadata is `/opt/narimato-paperclip/local-ai.json`. The UI does not receive the key. The source-page factory worker is deployed with research, quality review and support drafting roles. Rotate this tenant independently and update that root-only handoff, never reuse another project credential. The ignored local canonical snapshot has been refreshed.

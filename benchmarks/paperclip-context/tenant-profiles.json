@@ -1,0 +1,22 @@
+[
+  {
+    "tenant": "classscout",
+    "context": 2048,
+    "passed": true
+  },
+  {
+    "tenant": "habigoal",
+    "context": 2048,
+    "passed": true
+  },
+  {
+    "tenant": "pandora",
+    "context": 2048,
+    "passed": true
+  },
+  {
+    "tenant": "paperclip",
+    "context": 8192,
+    "passed": true
+  }
+]

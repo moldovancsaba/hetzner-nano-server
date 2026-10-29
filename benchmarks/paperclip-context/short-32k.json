@@ -1,0 +1,211 @@
+{
+  "context": 32768,
+  "model": "granite4:1b-h",
+  "cases": [
+    {
+      "case": "short",
+      "seconds": 6.045,
+      "response": {
+        "model": "granite4:1b-h",
+        "created_at": "2026-10-27T16:23:22.849245501Z",
+        "response": "READY",
+        "done": true,
+        "done_reason": "stop",
+        "context": [
+          100264,
+          9125,
+          100265,
+          2675,
+          527,
+          264,
+          11190,
+          18328,
+          13,
+          5321,
+          6106,
+          14847,
+          527,
+          6721,
+          11,
+          13687,
+          11,
+          323,
+          6220,
+          13,
+          100257,
+          198,
+          100264,
+          882,
+          100265,
+          21509,
+          449,
+          7041,
+          86432,
+          13,
+          100257,
+          198,
+          100264,
+          78191,
+          100265,
+          46678
+        ],
+        "total_duration": 6040949608,
+        "load_duration": 5092005126,
+        "prompt_eval_count": 35,
+        "prompt_eval_cached_count": 0,
+        "prompt_eval_duration": 857712000,
+        "eval_count": 2,
+        "eval_duration": 86359000
+      }
+    }
+  ],
+  "started_at": 1793118196.7524374,
+  "before": {
+    "time": 1793118196.8068306,
+    "current": 1140236288,
+    "anon": 15757312,
+    "file": 1109401600,
+    "available": 3492745216,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 1204166,
+      "oom": 96,
+      "oom_kill": 15,
+      "oom_group_kill": 0
+    }
+  },
+  "loaded": {
+    "models": [
+      {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "size": 2052786747,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0"
+        },
+        "expires_at": "2026-10-27T16:28:22.851326321Z",
+        "size_vram": 0,
+        "context_length": 32768,
+        "runner": "llamacpp"
+      }
+    ]
+  },
+  "after": {
+    "time": 1793118202.8540668,
+    "current": 2935775232,
+    "anon": 2230915072,
+    "file": 685047808,
+    "available": 1268387840,
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 1208951,
+      "oom": 96,
+      "oom_kill": 15,
+      "oom_group_kill": 0
+    }
+  },
+  "samples": [
+    {
+      "time": 1793118197.8079646,
+      "current": 1664561152,
+      "anon": 292397056,
+      "file": 1356046336,
+      "available": 3209715712,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1204166,
+        "oom": 96,
+        "oom_kill": 15,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793118198.8132262,
+      "current": 2603225088,
+      "anon": 742793216,
+      "file": 1842925568,
+      "available": 2758070272,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1204166,
+        "oom": 96,
+        "oom_kill": 15,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793118199.8147624,
+      "current": 2935492608,
+      "anon": 1102606336,
+      "file": 1814839296,
+      "available": 2389409792,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1204833,
+        "oom": 96,
+        "oom_kill": 15,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793118200.8154786,
+      "current": 2935754752,
+      "anon": 1505681408,
+      "file": 1411452928,
+      "available": 1994113024,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1206332,
+        "oom": 96,
+        "oom_kill": 15,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793118201.8165228,
+      "current": 2935967744,
+      "anon": 2111553536,
+      "file": 804847616,
+      "available": 1386557440,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1208493,
+        "oom": 96,
+        "oom_kill": 15,
+        "oom_group_kill": 0
+      }
+    },
+    {
+      "time": 1793118202.8173234,
+      "current": 2935988224,
+      "anon": 2230865920,
+      "file": 685309952,
+      "available": 1268592640,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1208950,
+        "oom": 96,
+        "oom_kill": 15,
+        "oom_group_kill": 0
+      }
+    }
+  ],
+  "fatal": [],
+  "finished_at": 1793118202.8541775
+}
