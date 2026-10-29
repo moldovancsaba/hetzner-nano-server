@@ -131,7 +131,7 @@ def safe(value):
  value=html.escape(str(value),quote=False).replace('\n',' ')
  return re.sub(r'([\\`*_\[\]{}|!])',r'\\\1',value)
 
-def research(issue,brand,role,run_id,purpose):
+def research(issue,brand,role,run_id,purpose,config=None):
  urls=source_urls(issue)
  if not urls:raise ValueError('Add one or two official source-page links to this task. Web-search discovery is not enabled in source-page mode.')
  model=Model(purpose);lines=['## '+('Support draft' if role=='support' else 'Source-backed listing draft'),'','Brand: '+safe(brand),'','This is a draft for human review. No listing was published and no external message was sent.',''];entities=[];metrics=[];errors=[]
@@ -139,15 +139,20 @@ def research(issue,brand,role,run_id,purpose):
  for index,url in enumerate(urls):
   try:
    page=WEB.page(url);facts,rejected,usage=extract(page,model,run_id,index)
+   import segmind
+   facts,remote_rejected,remote,remote_note=segmind.augment(page,facts,config,role,database,'factory-'+run_id+'-'+str(index)+'-remote',FIELDS,validate_facts)
+   rejected += remote_rejected
    if not facts:raise ValueError('No source-supported fields passed validation')
    entity_id=save_draft(brand,issue,page,facts) if role!='support' else None
    if entity_id:entities.append(entity_id)
    metrics.append(usage)
+   if remote:metrics.append(remote)
    lines += ['### '+safe(page['title'] or url),'','Source: ['+safe(page['url'])+']('+page['url']+')','', '| Field | Source-supported value | Evidence |','| --- | --- | --- |']
    for fact in facts:lines.append('| '+safe(fact['field'])+' | '+safe(fact['value'])+' | '+safe(fact['quote'])+' |')
    missing=[field for field in FIELDS if field not in {fact['field'] for fact in facts}]
    lines += ['','Not established by this pass: '+', '.join(missing)+'.',*(('Draft reference: `'+entity_id+'`.',) if entity_id else ()),'Retrieved: '+datetime.datetime.fromtimestamp(page['fetched_at'],datetime.timezone.utc).isoformat()+'.','']
    if rejected:lines += ['Rejected model fields: '+safe('; '.join(rejected))+'.','']
+   if remote_note:lines += [safe(remote_note),'']
    if role=='support':
     question=(issue.get('title','')+' '+(issue.get('description') or '')).casefold()
     requested=['phone','email'] if any(word in question for word in ['contact','phone','email']) else ['opening_hours'] if any(word in question for word in ['hours','opening','open ']) else ['price'] if any(word in question for word in ['price','cost','fee']) else ['activities'] if any(word in question for word in ['class','activity','swim']) else ['name','address','phone']
@@ -283,7 +288,7 @@ def execute(body):
    import search_workflow
    result=search_workflow.run(issue,board,config,WEB,database,execution={'agent_id':agent_id,'run_id':run_id})
   else:
-   result=quality(issue,brand) if role=='quality' else research(issue,brand,role,run_id,purpose)
+   result=quality(issue,brand) if role=='quality' else research(issue,brand,role,run_id,purpose,config=config)
    if role=='research':
     import search_workflow
     if config.get('operational_workflows_enabled'):

@@ -131,3 +131,7 @@ Caddy no longer holds bearer keys and does not authenticate (the gateway does); 
 ## 2026-10-29: both hosts patched and rebooted
 
 Pending Ubuntu updates were applied and each host was rebooted once onto its already-installed newer kernel, one host at a time, with the gateway queue idle first. Services, container, firewall, policy id, 20 installed models and a real text job were verified afterwards; downtime was under a minute per host. Docker Engine packages are kept back on purpose and need a separate, planned upgrade.
+
+## 2026-10-29: metered Segmind model lane deployed, switched off
+
+The Research Analyst gained an optional paid lane that can fill missing price and opening hours from the same public page, behind the existing verbatim-quote gate and a durable spend ledger ([guide](../paperclip/factory/SEGMIND.md)). It was deployed to the Paperclip host with `remote_llm.enabled` set to false and no key installed, so production behaviour is unchanged: the 77 factory tests passed on the host's Python 3.14 first, the worker restarted between runs, and the next support, search and two research runs completed normally with no remote tables created. Previous worker, config, service unit and README were backed up in `/root/backups/factory-pre-segmind-20261029` on the host. Enabling it still needs a dedicated Segmind key in `/etc/paperclip-segmind.env`, a cost-unit calibration and the owner's go-ahead.

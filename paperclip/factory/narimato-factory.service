@@ -11,6 +11,7 @@ WorkingDirectory=/opt/narimato-factory
 EnvironmentFile=/etc/paperclip-local-ai.env
 EnvironmentFile=-/etc/paperclip-classscout.env
 EnvironmentFile=-/etc/paperclip-brave.env
+EnvironmentFile=-/etc/paperclip-segmind.env
 EnvironmentFile=-/etc/paperclip-slg.env
 EnvironmentFile=-/etc/paperclip-padel.env
 Environment=FACTORY_STATE=/var/lib/narimato-factory

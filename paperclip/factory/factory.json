@@ -65,6 +65,10 @@
     "sportolok": true
   },
   "program_updates_enabled": true,
+  "remote_llm": {
+    "enabled": false,
+    "model": "gemini-3.8-flash"
+  },
   "sales": {
     "brands": [],
     "crm_writes_enabled": false,
