@@ -13,13 +13,13 @@ A locked key caused the first authentication attempt to fail despite the server 
 
 ## API credentials
 
-Canonical secret store: server `/opt/narimato-ai/api-keys.json`, mode 600, parent mode 700. Local restricted copy: `../private/api-keys.json`, mode 600, private directory mode 700. Keys were generated with Python `secrets.token_urlsafe(36)`, separately for `habigoal` and `classscout`.
+Canonical secret store: server `/opt/narimato-ai/api-keys.json`, mode 600, parent mode 700. Local restricted copy: `../private/api-keys.json`, mode 600, private directory mode 700. Keys were generated with Python `secrets.token_urlsafe(36)`, separately for `habigoal` and `classscout`. The `camera`, `pandora` and `paperclip` tenants have their own independent keys in the same file.
 
 Actual keys are in the private file, not this document. Read them programmatically for the intended project. Never print the complete secret to verify it. `scripts/healthcheck.py` reads it without displaying it.
 
-Caddy's live config also holds both keys at `/etc/caddy/Caddyfile` (root:caddy, 640) and `/opt/narimato-ai/Caddyfile` (600). Local copy: `private/Caddyfile.live` (600). Treat all these as secrets. Caddy supports authentication here via a header expression; do not enable debug output that dumps its adapted configuration.
+Caddy's live configuration, `/etc/caddy/Caddyfile`, holds no bearer keys: it only terminates HTTPS, routes and limits request size, and the gateway authenticates every key from `/etc/narimato-gateway.env`. `/opt/narimato-ai/Caddyfile` and the dated `*.before-*` backups beside it are older snapshots; the backups may still contain keys, so keep them root-only (600). Local copy of the live file: `private/Caddyfile.live` (600), refreshed 2026-10-29. Do not enable debug output that dumps adapted configuration.
 
-Separate keys support independent revocation; they do NOT provide different quotas, tenant isolation, project-level rate limits, or model permissions. Both keys can use the same allowed routes.
+Separate keys support independent revocation, per-tenant queue limits (four waiting jobs each) and per-tenant job-type permissions (see [the job router](JOB-ROUTER.md)). They do NOT provide quotas, request rate limits or protection against repeated bad-key attempts.
 
 ## Local application handoff
 
@@ -37,7 +37,7 @@ Generate a new project key on the server, stage Caddy acceptance of both old and
 
 ## Camera moderation credential
 
-The dedicated `camera` key in the canonical/local key JSON authenticates only the moderation worker. Root-only runtime environment: `/etc/narimato-moderation.env`; local handoff: `private/camera-moderation.env` (600, ignored). It is not accepted by chat routes. See [Camera moderation](CAMERA-MODERATION.md) for use and rotation. Existing Habigoal/ClassScout keys and paths are preserved.
+The dedicated `camera` key in the canonical/local key JSON authenticates Camera jobs at the shared gateway (`GATEWAY_CAMERA_KEY` in root-only `/etc/narimato-gateway.env`). `/etc/narimato-moderation.env` belonged to the retired standalone worker. Local handoff: `private/camera-moderation.env` (600, ignored). It is not accepted by chat routes. See [Camera moderation](CAMERA-MODERATION.md) for use and rotation. Existing Habigoal/ClassScout keys and paths are preserved.
 
 ## Shared job router credentials
 

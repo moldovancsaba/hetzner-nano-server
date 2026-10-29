@@ -123,3 +123,7 @@ MiniCPM-V 4.6 1B is the recognition default. Qwen3.5 0.8B narrowly ranks first f
 ## 2026-10-29: Round 6 and repository catch-up
 
 The 8K text-context state that had run in production since 2026-10-27 was committed (it had never been in git). Round 6 then evaluated LFM2 1.2B, OLMo 2 1B, SmolVLM2 256M and InternVL3.5 1B: no ranking leader changed, 52 variants are now indexed, and InternVL3.5 1B is recorded as incomplete because of a runner fault rather than as a quality failure. The regenerated policy and refreshed public dashboard were then deployed with the owner's approval and verified through the public API (11/11 checks). See [the Round 6 report](../benchmarks/round6/REPORT.md).
+
+## 2026-10-29: documentation drift corrected
+
+Caddy no longer holds bearer keys and does not authenticate (the gateway does); README, ACCESS and the Camera guide now say so, and the retired moderation worker's commands are marked rollback-only. Alerting, Round 5, the 8K context and the Hungarian route were added to the backlog's delivered list. Owner accepted, for now, having no AI-host backup (OP-02) and the shared latency alert threshold (OP-05).

@@ -32,7 +32,7 @@ Local documentation root: `/Users/Shared/Projects/hetzner`.
 
 Daily metadata collection runs on Hetzner at 03:30–03:45 Budapest time. It does not download/test models automatically. Production inputs are never captured for training; terminal job results expire after five minutes or explicit client deletion.
 
-[Round 5 results](benchmarks/round5/REPORT.md) add three tested variants (41 total attempts). Q5_K_M now leads recognition on the frozen 32-image cohort; Granite remains the English leader.
+[Round 5 results](benchmarks/round5/REPORT.md) add three tested variants (41 total attempts at that point; 52 after Round 6). Q5_K_M now leads recognition on the frozen 32-image cohort; Granite remains the English leader.
 
 ## Experimental Hungarian text
 
@@ -69,7 +69,7 @@ Open https://chatbotapi.haho.ai/chat/ and enter the owner-selected secret (no us
 | Selected image | Docker CE, Ubuntu 24.04 base |
 | API base URL | https://chatbotapi.haho.ai/v1 |
 | Text model | granite4:1b-h (Granite 4 1B Hybrid); ID 7761ae79cab9; installed download about 1.6 GB |
-| Runtime | Ollama in Docker; Caddy on the host for HTTPS/authentication |
+| Runtime | Ollama in Docker; Caddy on the host for HTTPS, routing and request-size limits (bearer authentication is done by the gateway, not Caddy) |
 | Runtime directory | /opt/narimato-ai |
 | Container | narimato-ollama |
 | DNS | GoDaddy; A record chatbotapi -> 2.31.100.246, TTL 600 seconds |
@@ -99,7 +99,7 @@ Or use `sh scripts/server.sh status` and `sh scripts/server.sh logs`. Local term
 
 ## Credentials
 
-`private/api-keys.json` contains the actual independent Habigoal and ClassScout bearer keys. It is a restricted local credential snapshot. `private/Caddyfile.live` also contains bearer keys. Neither belongs in Git, shared docs, screenshots, or logs. The server's `/opt/narimato-ai/api-keys.json` is the canonical source; refresh local copies after rotation.
+`private/api-keys.json` contains the actual independent bearer keys for the five tenants (habigoal, classscout, camera, pandora, paperclip). It is a restricted local credential snapshot and never belongs in Git, shared docs, screenshots, or logs. Caddy's active configuration holds no keys; `private/Caddyfile.live` is a local copy of it, refreshed 2026-10-29. The server's `/opt/narimato-ai/api-keys.json` is the canonical source; refresh local copies after rotation.
 
 The SSH private key stays at `/Users/chappie/.ssh/hetzner_ai`; it has not been copied here. A private key passphrase is not recorded. See `docs/ACCESS.md` for fingerprints and access boundaries.
 
@@ -118,7 +118,7 @@ ClassScout's key was added to `/Users/Shared/Projects/classscout/.env.local` as 
 
 ## What is and is not complete
 
-Server, DNS, trusted HTTPS, both authentication keys, native inference, and OpenAI-compatible chat were verified. Initial baseline synthetic benchmark: 5/5 valid JSON, 3/5 strict expected-value passes, median 1.37 s; see docs/MEASUREMENT.md for the wrong arithmetic answer and the underspecified language format. Automatic container restart and Caddy service startup are configured. Production application integration, application task evaluation, rate limiting, alerting, restore testing, and capacity testing remain separate work. A single small CPU model is not proven suitable for every project task.
+Server, DNS, trusted HTTPS, both authentication keys, native inference, and OpenAI-compatible chat were verified. Initial baseline synthetic benchmark: 5/5 valid JSON, 3/5 strict expected-value passes, median 1.37 s; see docs/MEASUREMENT.md for the wrong arithmetic answer and the underspecified language format. Automatic container restart and Caddy service startup are configured. Alerting is now delivered in chat (see [observability](docs/OBSERVABILITY.md)). Production application integration, application task evaluation, request rate limiting, full restore testing and capacity testing remain separate work. A single small CPU model is not proven suitable for every project task.
 
 ## Capability benchmark
 
@@ -135,7 +135,7 @@ See [the measured model comparison](benchmarks/capabilities/REPORT.md) for seven
 ## File map
 
 - `config/compose.yaml`: deployed runtime snapshot with image digest pinned.
-- `config/Caddyfile.example`: sanitized HTTPS/authentication template.
+- `config/Caddyfile.example`: sanitized HTTPS, routing and request-size template (no keys; authentication is in the gateway).
 - `private/`: actual credentials and live sensitive configuration; do not share.
 - `scripts/healthcheck.py`: test no-key rejection and project authentication.
 - `scripts/benchmark.py`: small sequential latency/correctness test; writes JSON results.
@@ -155,7 +155,7 @@ This repository includes documentation, source, sanitized configuration, benchma
 
 ## Camera coverage and Hungarian follow-up
 
-[Camera’s twelve rejection reasons and model combinations](docs/CAMERA-REJECTION-COVERAGE.md) distinguish current API signals from unsupported reasons. [Apertus Hungarian follow-up](docs/HUNGARIAN-FOLLOWUP.md) records the client audit and failed replacement tests. The public dashboard now includes 48 attempted model variants; human approval remains authoritative for Camera.
+[Camera’s twelve rejection reasons and model combinations](docs/CAMERA-REJECTION-COVERAGE.md) distinguish current API signals from unsupported reasons. [Apertus Hungarian follow-up](docs/HUNGARIAN-FOLLOWUP.md) records the client audit and failed replacement tests. The public dashboard lists every attempted model variant (52 after Round 6); human approval remains authoritative for Camera.
 
 ## Round 6 — 29 October 2026
 

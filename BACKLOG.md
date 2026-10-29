@@ -19,6 +19,10 @@ Owner: platform operator. Updated 2026-10-29. This is the repository's task back
 
 | EV-05 | P1 | Ten additional text/image candidates (owner-requested round 4) | Five English text and five general image candidates attempted under an exclusive maintenance lease; results and independent rankings in [round 4](benchmarks/round4/REPORT.md) |
 | EV-09 | P1 | Four further candidates, full suites (owner-requested round 6) | LFM2 1.2B and OLMo 2 1B (English plus separate Hungarian), SmolVLM2 256M and InternVL3.5 1B (recognition and moderation); no ranking change, 52 variants indexed; InternVL incomplete because of a runner fault; see [round 6](benchmarks/round6/REPORT.md). Policy id 2fa66c02 and the 52-variant dashboard deployed and verified 2026-10-29 (11/11 public checks, [record](benchmarks/round6/deployment.json)) |
+| EV-06 | P1 | Three further variants and Q5 recognition (owner-requested round 5) | gemma3:270m, LFM2.5-350M and MiniCPM-V 4.6 Q5_K_M evaluated; Q5 leads recognition on the frozen 32-image cohort; see [round 5](benchmarks/round5/REPORT.md) |
+| OP-01 | P1 | Meaningful failure notification | Debounced in-chat alerts for source failures, timers, disk, OOM, latency and independent host reachability since 2026-10-28; email deliberately disabled by the owner; see [observability](docs/OBSERVABILITY.md) |
+| CX-01 | P1 | Verified 8K default text context | Default ClassScout, Habigoal and Pandora text match Paperclip at 8192 tokens with token budgeting; synthetic 4K/8K/16K/32K evidence in [paperclip-context](benchmarks/paperclip-context/README.md); committed 2026-10-29, see [CHATBOT-CONTEXT](docs/CHATBOT-CONTEXT.md) |
+| HU-01 | P2 | Separate experimental Hungarian route | `text_chat_hu` with its own ranking; three follow-up rounds so far, none passes the 20/24 gate; experimental and not for unattended coaching; see [Hungarian](docs/HUNGARIAN.md) |
 
 ## Broader Camera evaluation — delivered
 
@@ -33,7 +37,6 @@ Recognition is complete on 32 public research photographs, with nine paired robu
 | EV-02 | P1 | Standardize maintenance-window benchmark runner | Drain public queue, isolate native testing, pin resource limits, capture real peaks/OOM/load/switch times, enforce download/time/disk limits, restore and verify all services |
 | EV-03 | P1 | Extend public moderation testing with representative unseen holdouts | Enough positive, negative and ambiguous examples per category, independent label review, explicit-act/photographic gesture/hate-symbol/violence coverage gaps addressed; never auto-clear images |
 | EV-07 | P1 | Evaluate a separate visible-text moderation path | Both broad-cohort leaders detected 0/2 hate-word positives; compare OCR plus a reviewed text-classification/rules path on more English positives, anti-hate context and lookalikes before deployment; non-English separate |
-| OP-01 | P1 | Add meaningful failure notification | Alert only on repeated source failures, timer failure, low disk or benchmark restore failure; choose/authorize a destination before sending external messages |
 | CL-01 | P1 | Integrate result acknowledgement in clients | Camera/ClassScout poll, consume and DELETE terminal results; preserve source revision and manual-review behavior; update client contracts in their own repositories |
 | EV-10 | P2 | Fix runner stop/resume handling and complete InternVL3.5 1B | `StopIteration` after 9 of 32 cases must not end a candidate and `resume.py` must retry an incomplete stop; then one owner-approved maintenance window (about 2 hours) for the remaining recognition, robustness, counting and moderation cases. Repeating on the unfixed harness is barred |
 
@@ -48,7 +51,8 @@ Recognition is complete on 32 public research photographs, with nine paired robu
 | EV-04 | P2 | Use weekly review and fortnightly approved test windows | Operator checklist followed; no unattended benchmark/generation schedule added until queue isolation and recovery are proven |
 | TR-02 | P2 | Create an approved dataset/training registry | Each version has provenance, permissions, approval, split, labels, checksum, retention/revocation and access controls; raw files outside public Git and inference request storage |
 | TR-03 | P2 | Plan actual training separately | Off-server compute/storage/run manifests, approved dataset version, adapter/weight provenance, holdout evaluation and rollback; never train on the production queue |
-| OP-02 | P2 | Test metadata/config backup and restore | Encrypted off-host backup of approved metadata/config manifests and separately protected secrets; exclude transient requests and job results |
+| OP-02 | P2 | Test metadata/config backup and restore | Encrypted off-host backup of approved metadata/config manifests and separately protected secrets; exclude transient requests and job results Owner decision 2026-10-29: acceptable without it for now; revisit later. |
+| OP-05 | P2 | Calibrate latency alerts per tenant and job type | One 60 s p95 rule currently covers every tenant; measured p95 over 24 h was about 95 s for Paperclip, 134 s for Habigoal and 35 s for ClassScout, so it flaps. Set thresholds from measured behaviour per tenant and task. Owner decision 2026-10-29: acceptable for now; revisit later |
 | DR-03 | P2 | Assess strict RAM-cache privacy mode | Measure shorter model keep-alive/unload-after-job tradeoff; document that ordinary memory freeing is not forensic secure erasure |
 | OP-03 | P2 | Consider durable queue only if needed | Explicit privacy/storage design and deletion semantics before persisting any customer payload; current queue stays memory-only |
 

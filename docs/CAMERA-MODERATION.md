@@ -161,6 +161,8 @@ The 450M model is installed persistently on disk. Each job uses context 2048, ba
 
 Health: authenticated `GET /health` checks the moderation HTTP worker, not model accuracy or upstream readiness. Verify a real job separately after deployment/model updates.
 
+These commands apply only to a deliberate rollback of the retired worker. Checked 2026-10-29: the unit is disabled and not loaded on the host, so they report it as missing. For the active service use `systemctl status narimato-gateway`.
+
 ```sh
 ssh -i /Users/chappie/.ssh/hetzner_ai root@2.31.100.246 'systemctl status narimato-moderation --no-pager'
 ssh -i /Users/chappie/.ssh/hetzner_ai root@2.31.100.246 'journalctl -u narimato-moderation -n 40 --no-pager'
