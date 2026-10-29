@@ -1,0 +1,76 @@
+{
+  "version": "round6.v1",
+  "scope": "Four new exact checkpoints; English 14 structured checks + native tool call; text candidates separately tested on 35 Hungarian cases. Vision 32 recognition +9 robustness +8 counting +41 moderation each, subject only to explicit safety/resource stops. No video or twelve-reason coverage claim.",
+  "settings": {
+    "memory_mib": 2800,
+    "hard_disk_floor_gib": 4,
+    "disk_staging_margin_bytes": 104857600
+  },
+  "candidates": [
+    {
+      "model": "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf",
+      "task": "text",
+      "repo": "LiquidAI/LFM2-1.2B-GGUF",
+      "upstream": "LiquidAI/LFM2-1.2B",
+      "filename": "LFM2-1.2B-Q4_K_M.gguf",
+      "expected_primary_bytes": 730893248,
+      "maximum_projector_bytes": 0,
+      "revision": "5399e76c648f4eb8c053feb1ab747277dea5bf8b",
+      "upstream_revision": "40f3da0d0164913923aee9462c23077868b816a3",
+      "license": "other",
+      "source": "https://huggingface.co/LiquidAI/LFM2-1.2B"
+    },
+    {
+      "model": "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M",
+      "task": "text",
+      "repo": "allenai/OLMo-2-0425-1B-Instruct-GGUF",
+      "upstream": "allenai/OLMo-2-0425-1B-Instruct",
+      "filename": "OLMo-2-0425-1B-Instruct-Q4_K_M.gguf",
+      "expected_primary_bytes": 935515296,
+      "maximum_projector_bytes": 0,
+      "revision": "62f8c199538474c3e33ed5d7e0580abd66686a27",
+      "upstream_revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+      "license": "apache-2.0",
+      "source": "https://huggingface.co/allenai/OLMo-2-0425-1B-Instruct"
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+      "task": "vision",
+      "repo": "ggml-org/SmolVLM2-256M-Video-Instruct-GGUF",
+      "upstream": "HuggingFaceTB/SmolVLM2-256M-Video-Instruct",
+      "filename": "SmolVLM2-256M-Video-Instruct-Q8_0.gguf",
+      "expected_primary_bytes": 175056256,
+      "maximum_projector_bytes": 190033440,
+      "revision": "a8383113a70b406f088ac936e5f1918ed08e620d",
+      "upstream_revision": "067788b187b95ebe7b2e040b3e4299e342e5b8fd",
+      "license": "apache-2.0",
+      "source": "https://huggingface.co/HuggingFaceTB/SmolVLM2-256M-Video-Instruct"
+    },
+    {
+      "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+      "task": "vision",
+      "repo": "bartowski/OpenGVLab_InternVL3_5-1B-GGUF",
+      "upstream": "OpenGVLab/InternVL3_5-1B",
+      "filename": "OpenGVLab_InternVL3_5-1B-Q4_K_M.gguf",
+      "expected_primary_bytes": 484216928,
+      "maximum_projector_bytes": 622622112,
+      "revision": "71d4c57364341da8c1768fcad62f581e52e47c9e",
+      "upstream_revision": "2f71cf52542334823e48a46ffba0e2bc9add3446",
+      "license": "apache-2.0",
+      "source": "https://huggingface.co/OpenGVLab/InternVL3_5-1B"
+    }
+  ],
+  "image_profile": {
+    "max_image_edge": 640,
+    "num_ctx": 2048,
+    "num_batch": 32,
+    "think": false
+  },
+  "hungarian_profile": {
+    "num_ctx": 2048,
+    "num_batch": 16,
+    "num_predict": 192,
+    "temperature": 0
+  },
+  "stopping": "Stop on OOM, resource/timeout uncertainty, or three consecutive technical failures; retain partial evidence as failed, never completed. Wrong semantic answers do not stop the suite."
+}

@@ -1,0 +1,67 @@
+{
+  "version": "round6-artifact-audit.v1",
+  "models": {
+    "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M": {
+      "reported_api_digest": "f61e489f75bce580924d3646671e58ba7f386ac2782c4582b36ff6a647e56a06",
+      "manifest_file_sha256": "9f2ce0e255b9e77e1fcfd3eed600cdf25837923bc93cc0d91df9f23ed50a3cd7",
+      "frozen_source_revision": "62f8c199538474c3e33ed5d7e0580abd66686a27",
+      "layers": [
+        {
+          "mediaType": "application/vnd.ollama.image.model",
+          "digest": "sha256:abd8187934a438fbf7cfff0a1de5b9d2793ce913f158794df1951dcba6c93cc6",
+          "size": 935515296
+        }
+      ],
+      "all_weight_blobs_match_frozen_source": true
+    },
+    "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0": {
+      "reported_api_digest": "a238e01ddaef6f36639574030394f2e346ea3ce28bff8522e9f18985e9e57c09",
+      "manifest_file_sha256": "d1e04078e664db6d052e684a1d9564abec2760a4d0ddf16e8c8284e502d6ad21",
+      "frozen_source_revision": "a8383113a70b406f088ac936e5f1918ed08e620d",
+      "layers": [
+        {
+          "mediaType": "application/vnd.ollama.image.model",
+          "digest": "sha256:1202d1c54493bddff5b0ecbc36fcb7520ff720b9fa3d7224aeb293581f90529a",
+          "size": 175056256
+        },
+        {
+          "mediaType": "application/vnd.ollama.image.projector",
+          "digest": "sha256:05d5751132244a6ebd64cba9b34898c0d874b2cb78159d758e1d4da3aad91581",
+          "size": 103771616
+        }
+      ],
+      "all_weight_blobs_match_frozen_source": true
+    },
+    "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M": {
+      "reported_api_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+      "manifest_file_sha256": "073f4432794ab3e04f0173d2e2b97d7f1cec5b4847ea5ba8fd5eab69a46ac880",
+      "frozen_source_revision": "71d4c57364341da8c1768fcad62f581e52e47c9e",
+      "layers": [
+        {
+          "mediaType": "application/vnd.ollama.image.model",
+          "digest": "sha256:a2e3ba0b59ccc944afb83a890d6fe6a5b449d02fec355590ac337d81968ebcba",
+          "size": 484216928
+        },
+        {
+          "mediaType": "application/vnd.ollama.image.projector",
+          "digest": "sha256:6cfc8577bef359ae14ab6f508a2ba72b9cb6160e11cc64ee27a09c871e0963f5",
+          "size": 621417888
+        }
+      ],
+      "all_weight_blobs_match_frozen_source": true
+    },
+    "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf": {
+      "reported_api_digest": "f58c0dd0f7a41d140f9d0cc65d2e4fc4e210ce0c7a8107ce130ff54ffec3b7d9",
+      "manifest_file_sha256": "45cf748d0a2e3a5e71c0f45dfe99dd74ea7cea4894d5c8cf882d6c1b913205cd",
+      "frozen_source_revision": "5399e76c648f4eb8c053feb1ab747277dea5bf8b",
+      "layers": [
+        {
+          "mediaType": "application/vnd.ollama.image.model",
+          "digest": "sha256:55175400e3f509a9616227afeffd58d87e80b9f628a5d3d54ada884d85221fed",
+          "size": 730893248
+        }
+      ],
+      "all_weight_blobs_match_frozen_source": true
+    }
+  }
+}

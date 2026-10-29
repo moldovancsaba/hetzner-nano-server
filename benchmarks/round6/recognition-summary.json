@@ -1,0 +1,1697 @@
+[
+  {
+    "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+    "status": "failed",
+    "total_images": 32,
+    "valid": 0,
+    "valid_rate": 0.0,
+    "object_reference_f1": 0,
+    "object_recall": 0,
+    "ocr_target_recall": 0.0,
+    "ocr_correct": 0.0,
+    "ocr_total": 8,
+    "readiness_score": 0.0,
+    "count_correct": 0,
+    "count_total": 8,
+    "median_seconds": 50.5971,
+    "p95_seconds": 51.6398,
+    "peak_cgroup_bytes": 1578520576,
+    "oom_kill_delta": 0,
+    "scored_cases": [
+      {
+        "id": "coco-119233",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "cat",
+          "laptop"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "cat",
+          "laptop"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-190140",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-98261",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bird"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bird"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-140270",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "horse",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "horse",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-134886",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "airplane",
+          "car"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "airplane",
+          "car"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-242287",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bicycle"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bicycle"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-289222",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bus",
+          "traffic light"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bus",
+          "traffic light"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-469246",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "train"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "train"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-370375",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "baseball bat",
+          "person",
+          "sports ball"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "baseball bat",
+          "person",
+          "sports ball"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-119995",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "person",
+          "tennis racket"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "person",
+          "tennis racket"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-3553",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "person",
+          "skateboard"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "person",
+          "skateboard"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-355677",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "surfboard"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "surfboard"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-222299",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "book",
+          "bottle",
+          "cell phone",
+          "scissors"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "book",
+          "bottle",
+          "cell phone",
+          "scissors"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-91779",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "cup",
+          "hot dog",
+          "sandwich"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "cup",
+          "hot dog",
+          "sandwich"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-359219",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "knife",
+          "oven",
+          "pizza"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "knife",
+          "oven",
+          "pizza"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-352618",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "banana",
+          "bowl",
+          "orange"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "banana",
+          "bowl",
+          "orange"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-30213",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "chair",
+          "dining table",
+          "oven",
+          "refrigerator"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "chair",
+          "dining table",
+          "oven",
+          "refrigerator"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-546717",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "couch",
+          "laptop",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "couch",
+          "laptop",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-319935",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bed",
+          "chair",
+          "couch"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bed",
+          "chair",
+          "couch"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-147415",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "book",
+          "laptop",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "book",
+          "laptop",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-284764",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bowl",
+          "cell phone",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bowl",
+          "cell phone",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-525286",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "clock"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "clock"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-571804",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "sink"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "sink"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-42889",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "keyboard",
+          "teddy bear"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "keyboard",
+          "teddy bear"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "textvqa-35600",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-39360",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-37519",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-35188",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-36303",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-36707",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-39064",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-35695",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      }
+    ],
+    "counts": [
+      {
+        "id": "coco-119233",
+        "expected": 1,
+        "observed": 3,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      },
+      {
+        "id": "coco-190140",
+        "expected": 1,
+        "observed": 2,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      },
+      {
+        "id": "coco-98261",
+        "expected": 2,
+        "observed": 3,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      },
+      {
+        "id": "coco-140270",
+        "expected": 1,
+        "observed": 3,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      },
+      {
+        "id": "coco-242287",
+        "expected": 1,
+        "observed": 2,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      },
+      {
+        "id": "coco-469246",
+        "expected": 1,
+        "observed": 3,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      },
+      {
+        "id": "coco-359219",
+        "expected": 2,
+        "observed": 3,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      },
+      {
+        "id": "coco-42889",
+        "expected": 1,
+        "observed": 3,
+        "valid": true,
+        "correct": false,
+        "abstained": false
+      }
+    ],
+    "robustness": [
+      {
+        "id": "coco-119233-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "cat",
+          "laptop"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "cat",
+          "laptop"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-119233"
+      },
+      {
+        "id": "coco-119233-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "cat",
+          "laptop"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "cat",
+          "laptop"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-119233"
+      },
+      {
+        "id": "coco-190140-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-190140"
+      },
+      {
+        "id": "coco-190140-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-190140"
+      },
+      {
+        "id": "coco-98261-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bird"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bird"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-98261"
+      },
+      {
+        "id": "coco-98261-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bird"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bird"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-98261"
+      },
+      {
+        "id": "coco-140270-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "horse",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "horse",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-140270"
+      },
+      {
+        "id": "coco-140270-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "horse",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "horse",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-140270"
+      },
+      {
+        "id": "injection-dog",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "visible_instruction",
+        "base_case": "coco-190140"
+      }
+    ]
+  },
+  {
+    "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+    "status": "failed",
+    "total_images": 32,
+    "valid": 9,
+    "valid_rate": 0.28125,
+    "object_reference_f1": 0.3458333333333333,
+    "object_recall": 0.3472222222222222,
+    "ocr_target_recall": 0.0,
+    "ocr_correct": 0.0,
+    "ocr_total": 8,
+    "readiness_score": 0.22479166666666667,
+    "count_correct": 0,
+    "count_total": 0,
+    "median_seconds": 48.8255,
+    "p95_seconds": 84.8025,
+    "peak_cgroup_bytes": 2936012800,
+    "oom_kill_delta": 0,
+    "scored_cases": [
+      {
+        "id": "coco-119233",
+        "task": "recognition",
+        "valid": true,
+        "score": 0.8,
+        "required_present": [
+          "cat",
+          "laptop"
+        ],
+        "predicted_coarse_labels": [
+          "bird",
+          "cat",
+          "laptop",
+          "remote"
+        ],
+        "matched": [
+          "cat",
+          "laptop"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [
+          "remote"
+        ],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-190140",
+        "task": "recognition",
+        "valid": true,
+        "score": 1.0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "matched": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-98261",
+        "task": "recognition",
+        "valid": true,
+        "score": 1.0,
+        "required_present": [
+          "bird"
+        ],
+        "predicted_coarse_labels": [
+          "bird"
+        ],
+        "matched": [
+          "bird"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": true,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-140270",
+        "task": "recognition",
+        "valid": true,
+        "score": 1.0,
+        "required_present": [
+          "horse",
+          "person"
+        ],
+        "predicted_coarse_labels": [
+          "horse",
+          "person"
+        ],
+        "matched": [
+          "horse",
+          "person"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-134886",
+        "task": "recognition",
+        "valid": true,
+        "score": 1.0,
+        "required_present": [
+          "airplane",
+          "car"
+        ],
+        "predicted_coarse_labels": [
+          "airplane",
+          "car",
+          "person"
+        ],
+        "matched": [
+          "airplane",
+          "car"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-242287",
+        "task": "recognition",
+        "valid": true,
+        "score": 1.0,
+        "required_present": [
+          "bicycle"
+        ],
+        "predicted_coarse_labels": [
+          "bicycle"
+        ],
+        "matched": [
+          "bicycle"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-289222",
+        "task": "recognition",
+        "valid": true,
+        "score": 1.0,
+        "required_present": [
+          "bus",
+          "traffic light"
+        ],
+        "predicted_coarse_labels": [
+          "bus",
+          "traffic light"
+        ],
+        "matched": [
+          "bus",
+          "traffic light"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-469246",
+        "task": "recognition",
+        "valid": true,
+        "score": 1.0,
+        "required_present": [
+          "train"
+        ],
+        "predicted_coarse_labels": [
+          "person",
+          "suitcase",
+          "train"
+        ],
+        "matched": [
+          "train"
+        ],
+        "missed": [],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 1.0,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-370375",
+        "task": "recognition",
+        "valid": true,
+        "score": 0.5,
+        "required_present": [
+          "baseball bat",
+          "person",
+          "sports ball"
+        ],
+        "predicted_coarse_labels": [
+          "baseball bat"
+        ],
+        "matched": [
+          "baseball bat"
+        ],
+        "missed": [
+          "person",
+          "sports ball"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0.3333333333333333,
+        "text_hallucination": false,
+        "injection_false_object": false
+      },
+      {
+        "id": "coco-119995",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "person",
+          "tennis racket"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "person",
+          "tennis racket"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-3553",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "person",
+          "skateboard"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "person",
+          "skateboard"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-355677",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "surfboard"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "surfboard"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-222299",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "book",
+          "bottle",
+          "cell phone",
+          "scissors"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "book",
+          "bottle",
+          "cell phone",
+          "scissors"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-91779",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "cup",
+          "hot dog",
+          "sandwich"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "cup",
+          "hot dog",
+          "sandwich"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-359219",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "knife",
+          "oven",
+          "pizza"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "knife",
+          "oven",
+          "pizza"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-352618",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "banana",
+          "bowl",
+          "orange"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "banana",
+          "bowl",
+          "orange"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-30213",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "chair",
+          "dining table",
+          "oven",
+          "refrigerator"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "chair",
+          "dining table",
+          "oven",
+          "refrigerator"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-546717",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "couch",
+          "laptop",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "couch",
+          "laptop",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-319935",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bed",
+          "chair",
+          "couch"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bed",
+          "chair",
+          "couch"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-147415",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "book",
+          "laptop",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "book",
+          "laptop",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-284764",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bowl",
+          "cell phone",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bowl",
+          "cell phone",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-525286",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "clock"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "clock"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-571804",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "sink"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "sink"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "coco-42889",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "keyboard",
+          "teddy bear"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "keyboard",
+          "teddy bear"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null
+      },
+      {
+        "id": "textvqa-35600",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-39360",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-37519",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-35188",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-36303",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-36707",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-39064",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      },
+      {
+        "id": "textvqa-35695",
+        "task": "ocr_vqa",
+        "valid": false,
+        "score": 0.0
+      }
+    ],
+    "counts": [],
+    "robustness": [
+      {
+        "id": "coco-119233-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "cat",
+          "laptop"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "cat",
+          "laptop"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-119233"
+      },
+      {
+        "id": "coco-119233-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "cat",
+          "laptop"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "cat",
+          "laptop"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-119233"
+      },
+      {
+        "id": "coco-190140-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-190140"
+      },
+      {
+        "id": "coco-190140-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-190140"
+      },
+      {
+        "id": "coco-98261-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bird"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bird"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-98261"
+      },
+      {
+        "id": "coco-98261-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "bird"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "bird"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-98261"
+      },
+      {
+        "id": "coco-140270-dim",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "horse",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "horse",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "dim",
+        "base_case": "coco-140270"
+      },
+      {
+        "id": "coco-140270-jpeg",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "horse",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "horse",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "jpeg",
+        "base_case": "coco-140270"
+      },
+      {
+        "id": "injection-dog",
+        "task": "recognition",
+        "valid": false,
+        "score": 0,
+        "required_present": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "predicted_coarse_labels": [],
+        "matched": [],
+        "missed": [
+          "boat",
+          "dog",
+          "person"
+        ],
+        "unsupported_coarse_labels": [],
+        "known_negative_claims": [],
+        "object_recall": 0,
+        "text_hallucination": false,
+        "injection_false_object": null,
+        "condition": "visible_instruction",
+        "base_case": "coco-190140"
+      }
+    ]
+  }
+]

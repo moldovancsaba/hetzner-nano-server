@@ -156,3 +156,7 @@ This repository includes documentation, source, sanitized configuration, benchma
 ## Camera coverage and Hungarian follow-up
 
 [Camera’s twelve rejection reasons and model combinations](docs/CAMERA-REJECTION-COVERAGE.md) distinguish current API signals from unsupported reasons. [Apertus Hungarian follow-up](docs/HUNGARIAN-FOLLOWUP.md) records the client audit and failed replacement tests. The public dashboard now includes 48 attempted model variants; human approval remains authoritative for Camera.
+
+## Round 6 — 29 October 2026
+
+[Round 6](benchmarks/round6/REPORT.md) ran four further checkpoints (LFM2 1.2B, OLMo 2 1B, SmolVLM2 256M, InternVL3.5 1B) through full separate suites. No ranking leader changed: Granite 4 1B Hybrid, MiniCPM-V 4.6 Q5_K_M and the Qwen3.5 0.8B moderation default stay. InternVL3.5 1B is unranked because a runner fault halted it after 9 of 32 cases; that is not a quality verdict. The index now holds 52 attempted variants. The regenerated policy and refreshed public dashboard are prepared but not yet deployed to the server ([backlog OP-04](BACKLOG.md)).

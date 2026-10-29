@@ -1,0 +1,83 @@
+[
+  {
+    "model": "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf",
+    "repo": "LiquidAI/LFM2-1.2B-GGUF",
+    "revision": "5399e76c648f4eb8c053feb1ab747277dea5bf8b",
+    "upstream_revision": "40f3da0d0164913923aee9462c23077868b816a3",
+    "license": "other",
+    "artifacts": [
+      {
+        "file": "LFM2-1.2B-Q4_K_M.gguf",
+        "bytes": 730893248,
+        "sha256": "55175400e3f509a9616227afeffd58d87e80b9f628a5d3d54ada884d85221fed"
+      }
+    ]
+  },
+  {
+    "model": "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M",
+    "repo": "allenai/OLMo-2-0425-1B-Instruct-GGUF",
+    "revision": "62f8c199538474c3e33ed5d7e0580abd66686a27",
+    "upstream_revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+    "license": "apache-2.0",
+    "artifacts": [
+      {
+        "file": "OLMo-2-0425-1B-Instruct-Q4_K_M.gguf",
+        "bytes": 935515296,
+        "sha256": "abd8187934a438fbf7cfff0a1de5b9d2793ce913f158794df1951dcba6c93cc6"
+      }
+    ]
+  },
+  {
+    "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+    "repo": "ggml-org/SmolVLM2-256M-Video-Instruct-GGUF",
+    "revision": "a8383113a70b406f088ac936e5f1918ed08e620d",
+    "upstream_revision": "067788b187b95ebe7b2e040b3e4299e342e5b8fd",
+    "license": "apache-2.0",
+    "artifacts": [
+      {
+        "file": "SmolVLM2-256M-Video-Instruct-Q8_0.gguf",
+        "bytes": 175056256,
+        "sha256": "1202d1c54493bddff5b0ecbc36fcb7520ff720b9fa3d7224aeb293581f90529a"
+      },
+      {
+        "file": "mmproj-SmolVLM2-256M-Video-Instruct-BF16.gguf",
+        "bytes": 190033376,
+        "sha256": "40a563aa3759feaacf71b28f5544316a5096eabefb8510e22d52aab8b4b8138b"
+      },
+      {
+        "file": "mmproj-SmolVLM2-256M-Video-Instruct-Q8_0.gguf",
+        "bytes": 103771616,
+        "sha256": "05d5751132244a6ebd64cba9b34898c0d874b2cb78159d758e1d4da3aad91581"
+      },
+      {
+        "file": "mmproj-SmolVLM2-256M-Video-Instruct-f16.gguf",
+        "bytes": 190033440,
+        "sha256": "819d4b38743fcf57f2a26af0ebfa6e23a7a8849e3c47e63f6ab8a61acb7c245a"
+      }
+    ]
+  },
+  {
+    "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+    "repo": "bartowski/OpenGVLab_InternVL3_5-1B-GGUF",
+    "revision": "71d4c57364341da8c1768fcad62f581e52e47c9e",
+    "upstream_revision": "2f71cf52542334823e48a46ffba0e2bc9add3446",
+    "license": "apache-2.0",
+    "artifacts": [
+      {
+        "file": "OpenGVLab_InternVL3_5-1B-Q4_K_M.gguf",
+        "bytes": 484216928,
+        "sha256": "a2e3ba0b59ccc944afb83a890d6fe6a5b449d02fec355590ac337d81968ebcba"
+      },
+      {
+        "file": "mmproj-OpenGVLab_InternVL3_5-1B-bf16.gguf",
+        "bytes": 622622112,
+        "sha256": "a5aaccec6f72483f5fd6c523a88001a743f4e7a4460f63aead41fc13c62b020d"
+      },
+      {
+        "file": "mmproj-OpenGVLab_InternVL3_5-1B-f16.gguf",
+        "bytes": 621417888,
+        "sha256": "6cfc8577bef359ae14ab6f508a2ba72b9cb6160e11cc64ee27a09c871e0963f5"
+      }
+    ]
+  }
+]

@@ -34,3 +34,7 @@ Both Mini candidates completed 35 calls each with zero additional native OOM kil
 | [EuroLLM 9B / 22B](https://eurollm.io/) | EU multilingual family including Hungarian | Larger than current host; earlier 1.7B failed our unchanged Hungarian gate |
 
 Broad multilingual training or a larger context window does not establish Hungarian instruction following or faithfulness. For a dependable coaching assistant, the practical next evaluation is a useful 4B–8B quantization with more RAM, or an explicitly selected external service. Hardware upgrades and external inference are not performed by this documentation change. Preserve the local fallback's experimental status until measured replacement evidence passes the original gate and Habi-specific regressions.
+
+## Round 3 (2026-10-29): LFM2 1.2B and OLMo 2 1B
+
+Two further small checkpoints ran the same 35 frozen Hungarian cases at ctx2048/batch16 as part of [Round 6](../benchmarks/round6/REPORT.md), scored separately from English. LFM2 1.2B Q4_K_M scored 2/24 strict structured and OLMo 2 1B Q4_K_M 0/24, against the unchanged 20/24 gate and 17/24 for the served Qwen3 4B Q3 profile. Neither is a candidate, so the free-form review and the Habi regressions were not performed (recorded as not performed). Zero OOM kills. The served experimental route and its limits are unchanged. [Scores](../benchmarks/non-english/hu-round3/rankings.json).

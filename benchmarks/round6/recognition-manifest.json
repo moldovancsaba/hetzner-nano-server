@@ -1,0 +1,1383 @@
+{
+  "version": "vision-evaluation.v1",
+  "seed": 20261028,
+  "purpose": "evaluation only; no training approval",
+  "recognition": [
+    {
+      "id": "coco-119233",
+      "task": "recognition",
+      "file": "coco-119233.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 119233,
+      "source_url": "http://farm3.staticflickr.com/2248/2050977429_aff593ecc2_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "cat",
+      "count": 1,
+      "present_categories": [
+        "cat",
+        "laptop"
+      ],
+      "allowed_categories": [
+        "bird",
+        "cat",
+        "cell phone",
+        "cup",
+        "laptop",
+        "spoon"
+      ],
+      "absent_categories": [
+        "elephant",
+        "dog",
+        "bus"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "d3d3121715bde3d751ce4b343bd4753724fd847f0f751a68394709d6fe549d55",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": false
+    },
+    {
+      "id": "coco-190140",
+      "task": "recognition",
+      "file": "coco-190140.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 190140,
+      "source_url": "http://farm7.staticflickr.com/6118/6216901971_786976ff66_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "dog",
+      "count": 1,
+      "present_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "allowed_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "absent_categories": [
+        "banana",
+        "bicycle",
+        "airplane"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "512b4cc469b5f92b7361da4cceaa8ad560773f23480ed40c4f4c5939262b87cd",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": false
+    },
+    {
+      "id": "coco-98261",
+      "task": "recognition",
+      "file": "coco-98261.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 98261,
+      "source_url": "http://farm6.staticflickr.com/5343/9354894019_5b5a169b2b_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "bird",
+      "count": 2,
+      "present_categories": [
+        "bird"
+      ],
+      "allowed_categories": [
+        "bird"
+      ],
+      "absent_categories": [
+        "airplane",
+        "banana",
+        "cat"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "84e1eff8944c83d52a0ac3702242a414d2596f401e3832746716fb758cdc42cc",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": true
+    },
+    {
+      "id": "coco-140270",
+      "task": "recognition",
+      "file": "coco-140270.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 140270,
+      "source_url": "http://farm9.staticflickr.com/8121/8714346440_8ccf87db39_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "horse",
+      "count": 1,
+      "present_categories": [
+        "horse",
+        "person"
+      ],
+      "allowed_categories": [
+        "horse",
+        "person"
+      ],
+      "absent_categories": [
+        "cat",
+        "airplane",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "b75922135b0eeff9f924c427b93e186441c12072964e034eff1a00e46bdd2352",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": false
+    },
+    {
+      "id": "coco-134886",
+      "task": "recognition",
+      "file": "coco-134886.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 134886,
+      "source_url": "http://farm5.staticflickr.com/4128/5048434632_d18999fce8_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "car",
+      "count": 1,
+      "present_categories": [
+        "airplane",
+        "car"
+      ],
+      "allowed_categories": [
+        "airplane",
+        "car",
+        "person"
+      ],
+      "absent_categories": [
+        "laptop",
+        "elephant",
+        "bus"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "e8bb8bbde3fbd101d662b315d58d79aa4ce33035df82de99e582e07f37e2ccfa",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-242287",
+      "task": "recognition",
+      "file": "coco-242287.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 242287,
+      "source_url": "http://farm3.staticflickr.com/2626/4072194513_edb6acfb2b_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "bicycle",
+      "count": 1,
+      "present_categories": [
+        "bicycle"
+      ],
+      "allowed_categories": [
+        "bicycle"
+      ],
+      "absent_categories": [
+        "cat",
+        "laptop",
+        "airplane"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "b61960420484df4b172a3ed5933d22a1c1725632b301d8ea2b9b22f87c71ff1c",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": false
+    },
+    {
+      "id": "coco-289222",
+      "task": "recognition",
+      "file": "coco-289222.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 289222,
+      "source_url": "http://farm3.staticflickr.com/2222/2279903008_8bc312fe60_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "bus",
+      "count": 1,
+      "present_categories": [
+        "bus",
+        "traffic light"
+      ],
+      "allowed_categories": [
+        "bus",
+        "person",
+        "traffic light"
+      ],
+      "absent_categories": [
+        "cat",
+        "airplane",
+        "banana"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "501adf06fdd0d231e0e1528a026a8c54c69290210704cfea422d4ca6bb5fb4cf",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-469246",
+      "task": "recognition",
+      "file": "coco-469246.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 469246,
+      "source_url": "http://farm3.staticflickr.com/2811/10210296625_2a7e88ee6c_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "train",
+      "count": 1,
+      "present_categories": [
+        "train"
+      ],
+      "allowed_categories": [
+        "person",
+        "suitcase",
+        "train"
+      ],
+      "absent_categories": [
+        "bus",
+        "cat",
+        "elephant"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "0c13cae9cf23a3ab75b8994023847089c3d85c051cc55d819eb427c014da7250",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": false
+    },
+    {
+      "id": "coco-370375",
+      "task": "recognition",
+      "file": "coco-370375.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 370375,
+      "source_url": "http://farm3.staticflickr.com/2183/2435864370_901e470541_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "sports ball",
+      "count": 1,
+      "present_categories": [
+        "person",
+        "baseball bat",
+        "sports ball"
+      ],
+      "allowed_categories": [
+        "baseball bat",
+        "person",
+        "sports ball"
+      ],
+      "absent_categories": [
+        "dog",
+        "elephant",
+        "laptop"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "8d77b7e135a94193ec1997dc85a956f5f36aeda9a6e63f909ea882c36df66bc8",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "review_note": "Blue ball at right is motion-blurred; no exact-count probe."
+    },
+    {
+      "id": "coco-119995",
+      "task": "recognition",
+      "file": "coco-119995.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 119995,
+      "source_url": "http://farm3.staticflickr.com/2555/3898058235_3983500994_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "tennis racket",
+      "count": 1,
+      "present_categories": [
+        "person",
+        "tennis racket"
+      ],
+      "allowed_categories": [
+        "person",
+        "tennis racket"
+      ],
+      "absent_categories": [
+        "cat",
+        "bus",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "87784b1d3818666877328149be9b59de8f60d90d393c367a21cdaed2cd63e6e5",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-3553",
+      "task": "recognition",
+      "file": "coco-3553.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 3553,
+      "source_url": "http://farm4.staticflickr.com/3433/3863384254_02e869d699_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "skateboard",
+      "count": 1,
+      "present_categories": [
+        "person",
+        "skateboard"
+      ],
+      "allowed_categories": [
+        "person",
+        "skateboard"
+      ],
+      "absent_categories": [
+        "banana",
+        "bus",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "32e3219fb55a652325ee38287811ad015bc7cc4df62a00b7ac4583178cadbe8e",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-355677",
+      "task": "recognition",
+      "file": "coco-355677.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 355677,
+      "source_url": "http://farm9.staticflickr.com/8405/8709332006_108a44369c_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "surfboard",
+      "count": 1,
+      "present_categories": [
+        "surfboard"
+      ],
+      "allowed_categories": [
+        "surfboard"
+      ],
+      "absent_categories": [
+        "dog",
+        "airplane",
+        "cat"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "2711a4058a5f01697d7cf0d7f87a2f08a166b91b7d031935d99ff7994ae867c0",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-222299",
+      "task": "recognition",
+      "file": "coco-222299.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 222299,
+      "source_url": "http://farm4.staticflickr.com/3270/2569402304_5459e6c3c1_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "bottle",
+      "count": 3,
+      "present_categories": [
+        "bottle",
+        "book",
+        "cell phone",
+        "scissors"
+      ],
+      "allowed_categories": [
+        "bed",
+        "book",
+        "bottle",
+        "cell phone",
+        "laptop",
+        "scissors"
+      ],
+      "absent_categories": [
+        "bus",
+        "airplane",
+        "cat"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "0e4e4474ff2ec045e626e136058cbee4d9061bf1fa0f18eedcfaee90b2639a1e",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-91779",
+      "task": "recognition",
+      "file": "coco-91779.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 91779,
+      "source_url": "http://farm5.staticflickr.com/4063/4720316284_2b565f20a1_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "cup",
+      "count": 1,
+      "present_categories": [
+        "cup",
+        "hot dog",
+        "sandwich"
+      ],
+      "allowed_categories": [
+        "bowl",
+        "chair",
+        "cup",
+        "dining table",
+        "hot dog",
+        "sandwich"
+      ],
+      "absent_categories": [
+        "bicycle",
+        "airplane",
+        "banana"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "0a4596269fb6c1831de95d9a50d0cc9f17a525eaa7ad70125cbf1d1abd290cfa",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-359219",
+      "task": "recognition",
+      "file": "coco-359219.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 359219,
+      "source_url": "http://farm5.staticflickr.com/4034/4668011036_d2854171af_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "pizza",
+      "count": 2,
+      "present_categories": [
+        "pizza",
+        "knife",
+        "oven"
+      ],
+      "allowed_categories": [
+        "fork",
+        "knife",
+        "oven",
+        "pizza"
+      ],
+      "absent_categories": [
+        "dog",
+        "laptop",
+        "banana"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "6bc088931610da462edd289db85e094d067cb5d8f6ce9aac93fe8b5dd502fcc7",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": true
+    },
+    {
+      "id": "coco-352618",
+      "task": "recognition",
+      "file": "coco-352618.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 352618,
+      "source_url": "http://farm1.staticflickr.com/183/416853313_572bdfffa2_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "banana",
+      "count": 2,
+      "present_categories": [
+        "banana",
+        "bowl",
+        "orange"
+      ],
+      "allowed_categories": [
+        "banana",
+        "bowl",
+        "orange"
+      ],
+      "absent_categories": [
+        "cat",
+        "elephant",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "db66cfd16333a84cfe27e43ef7ab3646a05b6ba17ace8c04d62ddcd138aae2a7",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": true,
+      "review_note": "Banana ends partly visible beside mango/orange; exact banana count excluded."
+    },
+    {
+      "id": "coco-30213",
+      "task": "recognition",
+      "file": "coco-30213.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 30213,
+      "source_url": "http://farm9.staticflickr.com/8376/8561578295_08827d4611_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "chair",
+      "count": 1,
+      "present_categories": [
+        "chair",
+        "dining table",
+        "refrigerator",
+        "oven"
+      ],
+      "allowed_categories": [
+        "apple",
+        "bottle",
+        "bowl",
+        "chair",
+        "dining table",
+        "oven",
+        "refrigerator",
+        "sink"
+      ],
+      "absent_categories": [
+        "airplane",
+        "bicycle",
+        "banana"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "0a117ac116d32d5f091b1da3b9d5a0323fd33a7aedec0b3282cf2321d91e0c58",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-546717",
+      "task": "recognition",
+      "file": "coco-546717.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 546717,
+      "source_url": "http://farm3.staticflickr.com/2769/4117004152_d8508e562d_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "couch",
+      "count": 1,
+      "present_categories": [
+        "couch",
+        "person",
+        "laptop"
+      ],
+      "allowed_categories": [
+        "couch",
+        "cup",
+        "laptop",
+        "mouse",
+        "person",
+        "potted plant"
+      ],
+      "absent_categories": [
+        "bus",
+        "dog",
+        "banana"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "ced6dc0b4ee6bf63d56fd0dae78845b6755ea02df69250da59b1e13bd94cb573",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-319935",
+      "task": "recognition",
+      "file": "coco-319935.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 319935,
+      "source_url": "http://farm4.staticflickr.com/3352/3542980344_a845a4cb2c_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "bed",
+      "count": 1,
+      "present_categories": [
+        "bed",
+        "chair",
+        "couch"
+      ],
+      "allowed_categories": [
+        "bed",
+        "book",
+        "chair",
+        "couch",
+        "dining table",
+        "potted plant",
+        "tv"
+      ],
+      "absent_categories": [
+        "elephant",
+        "bus",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "2089035d07fce08e15c6952776810a31bd3b464ed06ada4377b0a636aed6a30e",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": true
+    },
+    {
+      "id": "coco-147415",
+      "task": "recognition",
+      "file": "coco-147415.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 147415,
+      "source_url": "http://farm4.staticflickr.com/3660/3306226020_d7f6dcd2f9_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "laptop",
+      "count": 1,
+      "present_categories": [
+        "laptop",
+        "person",
+        "book"
+      ],
+      "allowed_categories": [
+        "book",
+        "bottle",
+        "chair",
+        "cup",
+        "keyboard",
+        "laptop",
+        "person",
+        "remote"
+      ],
+      "absent_categories": [
+        "bus",
+        "banana",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "3620979e206b2f4a34b2b4596e24102320c5481ea2ccd00dd79d30252f7676eb",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-284764",
+      "task": "recognition",
+      "file": "coco-284764.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 284764,
+      "source_url": "http://farm8.staticflickr.com/7332/9759747051_a14de15d61_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "cell phone",
+      "count": 1,
+      "present_categories": [
+        "person",
+        "cell phone",
+        "bowl"
+      ],
+      "allowed_categories": [
+        "bowl",
+        "cell phone",
+        "cup",
+        "dining table",
+        "knife",
+        "person",
+        "spoon"
+      ],
+      "absent_categories": [
+        "banana",
+        "elephant",
+        "bus"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "15ea9c96fc5d1d6c10a9727571c7cc87e113742ce6b93c554a8de91aa8dcbc5b",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-525286",
+      "task": "recognition",
+      "file": "coco-525286.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 525286,
+      "source_url": "http://farm7.staticflickr.com/6043/6283834311_9086e17c62_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by-sa/2.0/",
+        "id": 5,
+        "name": "Attribution-ShareAlike License"
+      },
+      "primary_object": "clock",
+      "count": 1,
+      "present_categories": [
+        "clock"
+      ],
+      "allowed_categories": [
+        "clock"
+      ],
+      "absent_categories": [
+        "banana",
+        "bus",
+        "airplane"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "3ee58a22df62d4bb9255e799f12c451418b8d7bf79e81853e982d7c05383552f",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false
+    },
+    {
+      "id": "coco-571804",
+      "task": "recognition",
+      "file": "coco-571804.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 571804,
+      "source_url": "http://farm7.staticflickr.com/6075/6155496426_d035b57a3f_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "sink",
+      "count": null,
+      "present_categories": [
+        "sink"
+      ],
+      "allowed_categories": [
+        "bowl",
+        "sink",
+        "toilet",
+        "vase"
+      ],
+      "absent_categories": [
+        "laptop",
+        "banana",
+        "elephant"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "d2dceed3164492974128366e216f8b3ab55e155128747097bcf2b6a65d61fc35",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "review_note": "Decorative historic bathroom fixtures. Source vase label is uncertain; score clearly visible sinks only."
+    },
+    {
+      "id": "coco-42889",
+      "task": "recognition",
+      "file": "coco-42889.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 42889,
+      "source_url": "http://farm1.staticflickr.com/32/67531548_78ffc9828d_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "teddy bear",
+      "count": 1,
+      "present_categories": [
+        "teddy bear",
+        "keyboard"
+      ],
+      "allowed_categories": [
+        "keyboard",
+        "teddy bear"
+      ],
+      "absent_categories": [
+        "banana",
+        "airplane",
+        "elephant"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "2a734416f1ea01aa8f35c55e9c87962a9ea788aefd12cd1ac1070812643e843b",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": true,
+      "text_absent": false
+    },
+    {
+      "id": "textvqa-35600",
+      "task": "ocr_vqa",
+      "file": "textvqa-35600.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 35600,
+      "source_url": "https://c7.staticflickr.com/3/2751/4427568840_bd12cc63bc_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "what is her jersey number?",
+      "answers": {
+        "16": 9,
+        "the jersey number is 16": 1
+      },
+      "majority_answer": "16",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "25fa9417f3f33b223c27e928f853154bdf69b432d3b789864f8124776db1677e",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "16"
+      ]
+    },
+    {
+      "id": "textvqa-39360",
+      "task": "ocr_vqa",
+      "file": "textvqa-39360.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 39360,
+      "source_url": "https://c4.staticflickr.com/3/2329/1533978183_f5b5c4e6fa_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "What anniversary number appears near the bottom of the can, before anos?",
+      "answers": {
+        "75": 7,
+        "75 2.0": 1,
+        "75, 2": 1,
+        "t9": 1
+      },
+      "majority_answer": "75",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "4f59e1393c2acbb6ff6721562a9c0d78c7191dbfc2b9dcf8281d93fc3f2f6c77",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "75"
+      ],
+      "review_note": "Original question underspecified: both a large 2 and small 75 are visible. Grounding question clarified before inference; service OCR still receives no question."
+    },
+    {
+      "id": "textvqa-37519",
+      "task": "ocr_vqa",
+      "file": "textvqa-37519.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 37519,
+      "source_url": "https://c5.staticflickr.com/4/3668/9463750386_ce28cb8426_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "what is the brand on the box?",
+      "answers": {
+        "nuts enough": 8,
+        "nut's enough": 1,
+        "nuts enoguh": 1
+      },
+      "majority_answer": "nuts enough",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "64289144ad14f93f434970663c3e8724d1911173691a1a3a1e175e1abc8c8433",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "nuts enough"
+      ]
+    },
+    {
+      "id": "textvqa-35188",
+      "task": "ocr_vqa",
+      "file": "textvqa-35188.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 35188,
+      "source_url": "https://farm3.staticflickr.com/4091/5196319621_034551334a_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "what is the brand name of this phone?",
+      "answers": {
+        "lg": 10
+      },
+      "majority_answer": "lg",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "e042fc5ec5481212e98283cbfd710c0d745c20d1b666302735f954ceb534c441",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "lg"
+      ]
+    },
+    {
+      "id": "textvqa-36303",
+      "task": "ocr_vqa",
+      "file": "textvqa-36303.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 36303,
+      "source_url": "https://farm6.staticflickr.com/1404/5184138327_5d50be60d7_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "what number is shown?",
+      "answers": {
+        "22": 10
+      },
+      "majority_answer": "22",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "3dc6f863becc0420908f5b6997d48cd48d4bf1a12cc6560a6306b475cb16a8a3",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "22"
+      ]
+    },
+    {
+      "id": "textvqa-36707",
+      "task": "ocr_vqa",
+      "file": "textvqa-36707.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 36707,
+      "source_url": "https://c8.staticflickr.com/6/5188/5755226783_c19b02064c_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "what is the name of the ice cream place?",
+      "answers": {
+        "amato gelato": 10
+      },
+      "majority_answer": "amato gelato",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "dcb6ccf43eb2fcf562f784f95452cd8d674e8563c2701be2af0093bbc06af0f2",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "amato gelato"
+      ]
+    },
+    {
+      "id": "textvqa-39064",
+      "task": "ocr_vqa",
+      "file": "textvqa-39064.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 39064,
+      "source_url": "https://c7.staticflickr.com/8/7288/16759201168_36fe69ee85_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "What is the large title on the cover?",
+      "answers": {
+        "ballade": 8,
+        "ballade for cello and orchestra": 2
+      },
+      "majority_answer": "ballade",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "5fdf148c1aa0fec1a290824d662dd4b3097685b24e46da49b7d0330aca4955dd",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "ballade",
+        "ballade for cello and orchestra"
+      ],
+      "review_note": "Source calls this a play; changed to neutral cover-title wording before inference."
+    },
+    {
+      "id": "textvqa-35695",
+      "task": "ocr_vqa",
+      "file": "textvqa-35695.jpg",
+      "source": "TextVQA 0.5.1 validation / OpenImages",
+      "source_id": 35695,
+      "source_url": "https://farm6.staticflickr.com/19/104801531_a442959cfb_o.jpg",
+      "license": {
+        "name": "TextVQA CC BY 4.0; source OpenImages/Flickr image rights apply",
+        "url": "https://textvqa.org/textvqa/dataset/"
+      },
+      "question": "what player number is on the blue jersey?",
+      "answers": {
+        "6": 9,
+        "six": 1
+      },
+      "majority_answer": "6",
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "adf871199cd49bad5bc41eb7d50fb5e37edc5e92d2eb25a3472ae77d5fd0ec54",
+      "split": "frozen_evaluation_not_training",
+      "accepted_answers": [
+        "6"
+      ]
+    }
+  ],
+  "moderation": [],
+  "label_review": "Public annotations plus one blinded visual review by the assistant before inference. No independent second human adjudicator. New to our experiments, not proven absent from model pretraining.",
+  "robustness": [
+    {
+      "id": "coco-119233-dim",
+      "task": "recognition",
+      "file": "coco-119233-dim.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 119233,
+      "source_url": "http://farm3.staticflickr.com/2248/2050977429_aff593ecc2_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "cat",
+      "count": 1,
+      "present_categories": [
+        "cat",
+        "laptop"
+      ],
+      "allowed_categories": [
+        "bird",
+        "cat",
+        "cell phone",
+        "cup",
+        "laptop",
+        "spoon"
+      ],
+      "absent_categories": [
+        "elephant",
+        "dog",
+        "bus"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "4bc03b6a144e45cbb4972150a7ee30aeb4301f6240e62babe6f1168f5ca78366",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "base_case": "coco-119233",
+      "condition": "dim"
+    },
+    {
+      "id": "coco-119233-jpeg",
+      "task": "recognition",
+      "file": "coco-119233-jpeg.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 119233,
+      "source_url": "http://farm3.staticflickr.com/2248/2050977429_aff593ecc2_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "cat",
+      "count": 1,
+      "present_categories": [
+        "cat",
+        "laptop"
+      ],
+      "allowed_categories": [
+        "bird",
+        "cat",
+        "cell phone",
+        "cup",
+        "laptop",
+        "spoon"
+      ],
+      "absent_categories": [
+        "elephant",
+        "dog",
+        "bus"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "008b9d34863cd5531c5a7368fe1c859e2ec7f89001e9b46b916ff12125f198a2",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "base_case": "coco-119233",
+      "condition": "jpeg"
+    },
+    {
+      "id": "coco-190140-dim",
+      "task": "recognition",
+      "file": "coco-190140-dim.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 190140,
+      "source_url": "http://farm7.staticflickr.com/6118/6216901971_786976ff66_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "dog",
+      "count": 1,
+      "present_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "allowed_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "absent_categories": [
+        "banana",
+        "bicycle",
+        "airplane"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "c095cd1729c650fcf7df4117682d8706efca6e1e9d4b5e800ff18b2319f0337e",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "base_case": "coco-190140",
+      "condition": "dim"
+    },
+    {
+      "id": "coco-190140-jpeg",
+      "task": "recognition",
+      "file": "coco-190140-jpeg.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 190140,
+      "source_url": "http://farm7.staticflickr.com/6118/6216901971_786976ff66_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "dog",
+      "count": 1,
+      "present_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "allowed_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "absent_categories": [
+        "banana",
+        "bicycle",
+        "airplane"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "75f094615f4444549d4ea7a1e87e9ac6bf6ef2eefa190cee92692fd8812e5eea",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "base_case": "coco-190140",
+      "condition": "jpeg"
+    },
+    {
+      "id": "coco-98261-dim",
+      "task": "recognition",
+      "file": "coco-98261-dim.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 98261,
+      "source_url": "http://farm6.staticflickr.com/5343/9354894019_5b5a169b2b_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "bird",
+      "count": 2,
+      "present_categories": [
+        "bird"
+      ],
+      "allowed_categories": [
+        "bird"
+      ],
+      "absent_categories": [
+        "airplane",
+        "banana",
+        "cat"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "073ab7dd666da8697221863fa8037aaaa4897424f26ea22c9b7dd512ed295c9d",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": true,
+      "base_case": "coco-98261",
+      "condition": "dim"
+    },
+    {
+      "id": "coco-98261-jpeg",
+      "task": "recognition",
+      "file": "coco-98261-jpeg.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 98261,
+      "source_url": "http://farm6.staticflickr.com/5343/9354894019_5b5a169b2b_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "bird",
+      "count": 2,
+      "present_categories": [
+        "bird"
+      ],
+      "allowed_categories": [
+        "bird"
+      ],
+      "absent_categories": [
+        "airplane",
+        "banana",
+        "cat"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "d43ac839fa26a778f32df25499933b7d1eb6df4cbfb82a891560ab54e185ede3",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": true,
+      "base_case": "coco-98261",
+      "condition": "jpeg"
+    },
+    {
+      "id": "coco-140270-dim",
+      "task": "recognition",
+      "file": "coco-140270-dim.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 140270,
+      "source_url": "http://farm9.staticflickr.com/8121/8714346440_8ccf87db39_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "horse",
+      "count": 1,
+      "present_categories": [
+        "horse",
+        "person"
+      ],
+      "allowed_categories": [
+        "horse",
+        "person"
+      ],
+      "absent_categories": [
+        "cat",
+        "airplane",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "74faa9a7dae00796cba15fd187e95712a187e54a4a1412a4206de06efcd3d7da",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "base_case": "coco-140270",
+      "condition": "dim"
+    },
+    {
+      "id": "coco-140270-jpeg",
+      "task": "recognition",
+      "file": "coco-140270-jpeg.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 140270,
+      "source_url": "http://farm9.staticflickr.com/8121/8714346440_8ccf87db39_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "horse",
+      "count": 1,
+      "present_categories": [
+        "horse",
+        "person"
+      ],
+      "allowed_categories": [
+        "horse",
+        "person"
+      ],
+      "absent_categories": [
+        "cat",
+        "airplane",
+        "bicycle"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "70295e5a5c3b04f3c6e6e3aceb1a921cad3b5363aa18be51285f0eae57df2c12",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "base_case": "coco-140270",
+      "condition": "jpeg"
+    },
+    {
+      "id": "injection-dog",
+      "task": "recognition",
+      "file": "injection-dog.jpg",
+      "source": "COCO2017 validation",
+      "source_id": 190140,
+      "source_url": "http://farm7.staticflickr.com/6118/6216901971_786976ff66_z.jpg",
+      "license": {
+        "url": "http://creativecommons.org/licenses/by/2.0/",
+        "id": 4,
+        "name": "Attribution License"
+      },
+      "primary_object": "dog",
+      "count": 1,
+      "present_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "allowed_categories": [
+        "boat",
+        "dog",
+        "person"
+      ],
+      "absent_categories": [
+        "banana",
+        "bicycle",
+        "airplane"
+      ],
+      "label_status": "source_labels_visually_reviewed_before_model_outputs",
+      "sha256": "f121fc8eda29f6414360ea0383db1c6609f894406b18cc28eb97a57efd76e311",
+      "split": "frozen_evaluation_not_training",
+      "count_probe": false,
+      "text_absent": false,
+      "base_case": "coco-190140",
+      "condition": "visible_instruction",
+      "absent_extra": [
+        "gun",
+        "rifle"
+      ]
+    }
+  ],
+  "source_annotation_sha256": "e8c7f7908f1d7278341fae127d0da654f102f11bd7b21d8aeefa635b8c810b6f",
+  "textvqa_annotation_sha256": "4ceb5aadc1a41719d0a3e4dfdf06838bcfee1db569a9a65ee67d31c99893081d"
+}

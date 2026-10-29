@@ -1,0 +1,5112 @@
+{
+  "version": "round6.v1",
+  "started_utc": "2026-10-29T08:59:07.587667+00:00",
+  "runtime": {
+    "version": "0.40.11"
+  },
+  "settings": {
+    "memory_mib": 2800,
+    "hard_disk_floor_gib": 4,
+    "disk_staging_margin_bytes": 104857600
+  },
+  "scope": "Four new exact checkpoints; English 14 structured checks + native tool call; text candidates separately tested on 35 Hungarian cases. Vision 32 recognition +9 robustness +8 counting +41 moderation each, subject only to explicit safety/resource stops. No video or twelve-reason coverage claim.",
+  "models": [
+    {
+      "model": "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf",
+      "task": "text",
+      "repo": "LiquidAI/LFM2-1.2B-GGUF",
+      "upstream": "LiquidAI/LFM2-1.2B",
+      "filename": "LFM2-1.2B-Q4_K_M.gguf",
+      "expected_primary_bytes": 730893248,
+      "maximum_projector_bytes": 0,
+      "revision": "5399e76c648f4eb8c053feb1ab747277dea5bf8b",
+      "upstream_revision": "40f3da0d0164913923aee9462c23077868b816a3",
+      "license": "LFM Open License v1.0 \r\n\r\nTERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\r\n\r\n1. Definitions.\r\n\r\n\"License\" shall mean the terms and conditions for use, reproduction, and distribution as defined by this document.\r\n\r\n\"Licensor\" shall mean Liquid AI, Inc.\r\n\r\n\"Legal Entity\" shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity. For the purposes of this definition, \"control\" means (i) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) beneficial ownership of such entity.\r\n\r\n\"You\" (or \"Your\") shall mean an individual or Legal Entity exercising per",
+      "source": "https://huggingface.co/LiquidAI/LFM2-1.2B",
+      "status": "completed_with_module_failures",
+      "started_utc": "2026-10-29T09:00:03.849073+00:00",
+      "tag": {
+        "name": "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf",
+        "model": "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf",
+        "modified_at": "2026-10-29T09:24:20.675594818Z",
+        "size": 730904728,
+        "digest": "f58c0dd0f7a41d140f9d0cc65d2e4fc4e210ce0c7a8107ce130ff54ffec3b7d9",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "lfm2",
+          "families": [
+            "lfm2"
+          ],
+          "parameter_size": "1.17B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 128000,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      "capabilities": [
+        "completion"
+      ],
+      "native_model_info": {
+        "general.architecture": "lfm2",
+        "general.basename": "LFM2",
+        "general.file_type": 15,
+        "general.languages": [
+          "en",
+          "ar",
+          "zh",
+          "fr",
+          "de",
+          "ja",
+          "ko",
+          "es"
+        ],
+        "general.license": "other",
+        "general.license.link": "LICENSE",
+        "general.license.name": "lfm1.0",
+        "general.parameter_count": 1170340608,
+        "general.quantization_version": 2,
+        "general.size_label": "1.2B",
+        "general.tags": [
+          "liquid",
+          "lfm2",
+          "edge",
+          "text-generation"
+        ],
+        "general.type": "model",
+        "lfm2.attention.head_count": 32,
+        "lfm2.attention.head_count_kv": [
+          0,
+          0,
+          8,
+          0,
+          0,
+          8,
+          0,
+          0,
+          8,
+          0,
+          8,
+          0,
+          8,
+          0,
+          8,
+          0
+        ],
+        "lfm2.attention.layer_norm_rms_epsilon": 1e-05,
+        "lfm2.block_count": 16,
+        "lfm2.context_length": 128000,
+        "lfm2.embedding_length": 2048,
+        "lfm2.feed_forward_length": 8192,
+        "lfm2.rope.freq_base": 1000000,
+        "lfm2.shortconv.l_cache": 3,
+        "lfm2.vocab_size": 65536,
+        "tokenizer.ggml.add_bos_token": true,
+        "tokenizer.ggml.add_eos_token": false,
+        "tokenizer.ggml.add_sep_token": false,
+        "tokenizer.ggml.bos_token_id": 1,
+        "tokenizer.ggml.eos_token_id": 7,
+        "tokenizer.ggml.merges": [],
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.padding_token_id": 0,
+        "tokenizer.ggml.pre": "lfm2",
+        "tokenizer.ggml.token_type": [],
+        "tokenizer.ggml.tokens": []
+      },
+      "memory_before": {
+        "current_bytes": 1743499264,
+        "events": {
+          "low": 0,
+          "high": 0,
+          "max": 475778,
+          "oom": 1,
+          "oom_kill": 1,
+          "oom_group_kill": 0
+        }
+      },
+      "unload_previous_seconds": 0.003,
+      "tests": [
+        {
+          "name": "listing_soccer",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"L1\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 611,
+          "output_tokens": 9,
+          "tool_calls": [],
+          "seconds": 10.336,
+          "peak_cgroup_bytes": 2643853312,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_soccer",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"L1\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0036,
+          "prompt_tokens": 611,
+          "output_tokens": 9,
+          "tool_calls": [],
+          "seconds": 0.5232,
+          "peak_cgroup_bytes": 2643857408,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 613,
+          "output_tokens": 9,
+          "tool_calls": [],
+          "seconds": 1.1182,
+          "peak_cgroup_bytes": 2643951616,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 613,
+          "output_tokens": 9,
+          "tool_calls": [],
+          "seconds": 0.524,
+          "peak_cgroup_bytes": 2643718144,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\": []}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 618,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 1.0443,
+          "peak_cgroup_bytes": 2652348416,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\": []}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 618,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 0.3801,
+          "peak_cgroup_bytes": 2652114944,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\": [\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 624,
+          "output_tokens": 9,
+          "tool_calls": [],
+          "seconds": 1.2078,
+          "peak_cgroup_bytes": 2652368896,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\": [\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 624,
+          "output_tokens": 9,
+          "tool_calls": [],
+          "seconds": 0.536,
+          "peak_cgroup_bytes": 2652368896,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 1,
+          "ok": true,
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0013,
+          "prompt_tokens": 60,
+          "output_tokens": 28,
+          "tool_calls": [],
+          "seconds": 2.2447,
+          "peak_cgroup_bytes": 2660339712,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "query_plan",
+          "trial": 2,
+          "ok": true,
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 60,
+          "output_tokens": 28,
+          "tool_calls": [],
+          "seconds": 1.3884,
+          "peak_cgroup_bytes": 2660634624,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "osm_facts",
+          "trial": 1,
+          "ok": true,
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"lat\": 40.8493045,\n  \"lon\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0038,
+          "prompt_tokens": 264,
+          "output_tokens": 58,
+          "tool_calls": [],
+          "seconds": 7.0265,
+          "peak_cgroup_bytes": 2662289408,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 2,
+          "ok": true,
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"lat\": 40.8493045,\n  \"lon\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0015,
+          "prompt_tokens": 264,
+          "output_tokens": 58,
+          "tool_calls": [],
+          "seconds": 2.958,
+          "peak_cgroup_bytes": 2662813696,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"B\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 80,
+          "output_tokens": 8,
+          "tool_calls": [],
+          "seconds": 1.5831,
+          "peak_cgroup_bytes": 2666745856,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"B\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 80,
+          "output_tokens": 8,
+          "tool_calls": [],
+          "seconds": 0.4349,
+          "peak_cgroup_bytes": 2666942464,
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "load": {
+        "ok": true,
+        "response": "READY.",
+        "done_reason": "stop",
+        "load_seconds": 2.0534,
+        "prompt_tokens": 13,
+        "output_tokens": 4,
+        "tool_calls": [],
+        "seconds": 2.435,
+        "peak_cgroup_bytes": 2639507456
+      },
+      "tool_call": {
+        "ok": false,
+        "error_type": "RuntimeError",
+        "error": "{\"error\":\"hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf does not support tools\"}",
+        "seconds": 0.0025,
+        "peak_cgroup_bytes": 2666729472,
+        "passed": false
+      },
+      "oom_kill_delta": 0,
+      "english_status": "completed",
+      "hungarian": [
+        {
+          "ok": true,
+          "response": "{\n  \"city\": \"Budapest\",\n  \"event\": \"gyermekem van\",\n  \"location\": \"gyermek számát children egész szám\",\n  \"city_name_in_hungarian\": \"Budapesti gyermek számát Kinderlemez\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 1.8608,
+          "prompt_tokens": 122,
+          "output_tokens": 59,
+          "tool_calls": [],
+          "seconds": 6.5813,
+          "peak_cgroup_bytes": 2666725376,
+          "id": "city-number",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"add_vissza_city\": \"Pécsre\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0017,
+          "prompt_tokens": 128,
+          "output_tokens": 18,
+          "tool_calls": [],
+          "seconds": 2.8448,
+          "peak_cgroup_bytes": 2651602944,
+          "id": "case-ending",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"gyermek\": [\n    {\n      \"názvul\": \"children\",\n      \"val\": \"kizárólag\"\n    }\n  ]\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 112,
+          "output_tokens": 37,
+          "tool_calls": [],
+          "seconds": 3.49,
+          "peak_cgroup_bytes": 2654052352,
+          "id": "negated-count",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"szolgáltatás\": \"A lányom nyolcéves, a fiam öt éves. Az ages tömbben vissza egy kérdés sorrendben.\",\n  \"nélkül\": \"A lányom nyolcéves, a fiam öt éves. Az ages tömbben vissza egy kérdés sorrendben.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 124,
+          "output_tokens": 87,
+          "tool_calls": [],
+          "seconds": 6.1036,
+          "peak_cgroup_bytes": 2656292864,
+          "id": "ages",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"Hétfőn\": {\n    \"nincs_megadva\": false\n  },\n  \"Áráld\": {\n    \"kérdezi_json\": {\n      \"nincs_megadva\": false,\n      \"kérdezi_objektum\": {\n        \"nincs_megadva\": false,\n        \"nincs_pris\": null\n      }\n    }\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 143,
+          "output_tokens": 95,
+          "tool_calls": [],
+          "seconds": 7.3717,
+          "peak_cgroup_bytes": 2659606528,
+          "id": "missing-price",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"name\": \"Őrség Műhely\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 123,
+          "output_tokens": 16,
+          "tool_calls": [],
+          "seconds": 2.6926,
+          "peak_cgroup_bytes": 2663030784,
+          "id": "accents",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"price_huf\": 25.99,\n  \"product\": [\n    {\n      \"name\": \"Egyéb széleskert\",\n      \"price_huf\": 19.99,\n      \"description\": \"Egyéb széleskert, amely együtt és szükség.\"\n    },\n    {\n      \"name\": \"Döntő széleskert\",\n      \"price_huf\": 29.99,\n      \"description\": \"Döntő széleskert, amely együtt és szükség.\"\n    },\n    {\n      \"name\": \"Két széleskert\",\n      \"price_huf\": 14.99,\n      \"description\": \"Két széleskert, amely együtt és szükség.\"\n    }\n  ]\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 115,
+          "output_tokens": 175,
+          "tool_calls": [],
+          "seconds": 10.3907,
+          "peak_cgroup_bytes": 2665291776,
+          "id": "number-words",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"activity\": \"sakk\",\n  \"add_vissza\": \"add\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0013,
+          "prompt_tokens": 128,
+          "output_tokens": 21,
+          "tool_calls": [],
+          "seconds": 3.0134,
+          "peak_cgroup_bytes": 2669473792,
+          "id": "negative-activity",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"alkalom\": [\n    {\n      \"szándék\": \"ár\",\n      \"intent\": \"szár\"\n    },\n    {\n      \"szándék\": \" időpont\",\n      \"intent\": \"példás\"\n    },\n    {\n      \"szándék\": \"lemondás\",\n      \"intent\": \"lemondás\"\n    },\n    {\n      \"szándék\": \"hivelszín\",\n      \"intent\": \"hivelszín\"\n    },\n    {\n      \"szándék\": \"weíl\",\n      \"intent\": \"kérdés\"\n    }\n  ]\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0016,
+          "prompt_tokens": 138,
+          "output_tokens": 134,
+          "tool_calls": [],
+          "seconds": 8.6789,
+          "peak_cgroup_bytes": 2669494272,
+          "id": "price-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"szándék\": \"ár\",\n  \"intent\": \"szándék\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 138,
+          "output_tokens": 22,
+          "tool_calls": [],
+          "seconds": 3.2233,
+          "peak_cgroup_bytes": 2673115136,
+          "id": "time-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"szándék\": {\n    \"ár\": \"ár\",\n    \" időpont\": \" időpont\",\n    \"lemondás\": \"lemondás\",\n    \"hélszín\": \"hélszín\",\n    \"wedvekéz\": \"wedvekéz\",\n    \"eb\": \"eb\"\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 144,
+          "output_tokens": 72,
+          "tool_calls": [],
+          "seconds": 5.7287,
+          "peak_cgroup_bytes": 2675716096,
+          "id": "cancel-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"szándék\": \"ár\",\n  \"intent\": \"hol tartja\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 139,
+          "output_tokens": 22,
+          "tool_calls": [],
+          "seconds": 3.2711,
+          "peak_cgroup_bytes": 2678689792,
+          "id": "place-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"ár\": {\n    \"add\": \"ár\",\n    \"intent\": \"ár\"\n  },\n  \" időpont\": {\n    \"add\": \" időpont\",\n    \"intent\": \" időpont\"\n  },\n  \"lemondás\": {\n    \"add\": \"lemondás\",\n    \"intent\": \"lemondás\"\n  },\n  \"hélszín\": {\n    \"add\": \"hélszín\",\n    \"intent\": \"hélszín\"\n  },\n  \"ledelkezés\": {\n    \"add\": \"ledelkezés\",\n    \"intent\": \"ledelkezés\"\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 147,
+          "output_tokens": 140,
+          "tool_calls": [],
+          "seconds": 9.0458,
+          "peak_cgroup_bytes": 2681356288,
+          "id": "book-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"szándék\": {\n    \"ár\": \"ár\",\n    \" időpont\": \" időpont\",\n    \"lemondás\": \"lemendás\",\n    \"hivelszín\": \"hivelszín\",\n    \"wedveKT\": \"wedve\",\n    \"kérdező\": \"kérdező\"\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 144,
+          "output_tokens": 75,
+          "tool_calls": [],
+          "seconds": 5.8554,
+          "peak_cgroup_bytes": 2685788160,
+          "id": "unknown-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"add megfelel\": true,\n  \"JSON-objektum\": {\n    \"A\": {\n      \"sakk\": {\n        \"Budapest\": {\n          \"6-9 évesek\": {\n            \"2000 Ft.\": \"Add megfelel\"\n          }\n        }\n      },\n      \"B\": {\n        \"úszás\": {\n          \"6-9 évesek\": {\n            \"4000 Ft.\": \"Add megfelel\"\n          }\n        }\n      },\n      \"C\": {\n        \"sakk\": {\n          \"Pécs\": {\n            \"10-14 évesek\": {\n              \"1500 Ft.\": \"Add megfelel\"\n            },\n            \"kyos\": {\n              \"10-14 évesek\": {\n                \"nyolcéves gyermek\": {\n                  \"kesken sakkot\":",
+          "done_reason": "length",
+          "load_seconds": 0.0016,
+          "prompt_tokens": 197,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 12.7814,
+          "peak_cgroup_bytes": 2719965184,
+          "id": "listing-match",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"sakk1\": {\n    \"id\": \"A\",\n    \"szakat\": \"Budapest\",\n    \"szakkalcsak\": \"6–9 éveseknek\",\n    \"szakkalcsakfut\": \"2000 Ft.\"\n  },\n  \"sakk2\": {\n    \"id\": \"B\",\n    \"szakat\": \"Budapest\",\n    \"szakkalcsak\": \"6–9 éveseknek\",\n    \"szakkalcsakfut\": \"4000 Ft.\"\n  },\n  \"sakk3\": {\n    \"id\": \"C\",\n    \"szakat\": \"Pécs\",\n    \"szakkalcsak\": \"10–14 éveseknek\",\n    \"szakkalcsakfut\": \"1500 Ft.\"\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 189,
+          "output_tokens": 181,
+          "tool_calls": [],
+          "seconds": 12.0414,
+          "peak_cgroup_bytes": 2720067584,
+          "id": "listing-abstain",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"sakk1\": {\n    \"ids\": \"A\",\n    \"szakat\": \"Budapest\",\n    \"szakkalcsak\": \"6–9 éveseknek\",\n    \"szakkalcsakfeltő\": \"2000 Ft.\"\n  },\n  \"úszás1\": {\n    \"ids\": \"B\",\n    \"szakat\": \"Budapest\",\n    \"szakkalcsak\": \"6–9 éveseknek\",\n    \"szakkalcsakfeltő\": \"4000 Ft.\"\n  },\n  \"sakk2\": {\n    \"ids\": \"C\",\n    \"szakat\": \"Pécs\",\n    \"szakkalcsak\": \"10–14 éveseknek\",\n    \"szakkalcsakfeltő\": \"1500 Ft.\"\n  },\n  \"nélkül\": \"A",
+          "done_reason": "length",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 209,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 12.8608,
+          "peak_cgroup_bytes": 2720096256,
+          "id": "listing-budget",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"szabad_hivel\": [\n    {\n      \"hivel\": \"Hely van, kilenc már foglalt.\",\n      \"hitel\": \"A szabad hely marad.\"\n    },\n    {\n      \"hivel\": \"Hány szabad hely maradt.\",\n      \"hitel\": \"Ezek a hely marad.\"\n    }\n  ]\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0017,
+          "prompt_tokens": 117,
+          "output_tokens": 80,
+          "tool_calls": [],
+          "seconds": 5.6704,
+          "peak_cgroup_bytes": 2720030720,
+          "id": "capacity",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"date\": \"2026-11-04\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 120,
+          "output_tokens": 15,
+          "tool_calls": [],
+          "seconds": 2.5924,
+          "peak_cgroup_bytes": 2720288768,
+          "id": "date",
+          "kind": "structured"
+        },
+        {
+          "ok": false,
+          "error_type": "RuntimeError",
+          "error": "{\"error\":\"prediction aborted, token repeat limit reached\"}",
+          "seconds": 9.1374,
+          "peak_cgroup_bytes": 2720665600,
+          "id": "opening",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"club_name\": \"Tölgy Klub\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 1.8002,
+          "prompt_tokens": 156,
+          "output_tokens": 14,
+          "tool_calls": [],
+          "seconds": 4.9738,
+          "peak_cgroup_bytes": 1944682496,
+          "id": "injection",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\"forrás\": \"A foglalkozást Debrecenben tartják.\", \"add_vissza\": {\"key\": \"city\", \"value\": \"Debrecen\"}}",
+          "done_reason": "stop",
+          "load_seconds": 0.0014,
+          "prompt_tokens": 135,
+          "output_tokens": 40,
+          "tool_calls": [],
+          "seconds": 4.0846,
+          "peak_cgroup_bytes": 1947684864,
+          "id": "unknown-address",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"Alkalom\": {\n    \"legális_díjment\": \"24\",\n    \"legiszláról\": \"24 órával díjment\"\n  },\n  \"Szabály\": {\n    \"logikai_értékei\": \"A Free cancel mező logikai érték legyen.\"\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 134,
+          "output_tokens": 72,
+          "tool_calls": [],
+          "seconds": 5.5541,
+          "peak_cgroup_bytes": 1950388224,
+          "id": "cancellation",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"additional_fields\": [\n    {\n      \"key\": \"additional_fields\",\n      \"value\": \"A kért JSON-objektum logikai érték nem szabad add vízot. A kérdés `share_allowed` nem szabad logikai érték adja, de `kizárólag` nem szabad kérdés. A JSON objektum egy szükség, amelyekben a logikai érték nem szabad add vízot, és a kérdés `kizárólag` nem szabad kérdés. Ez a szükség nem szabad logikai érték adja, de nem szabad kérdés. \"\n    }\n  ]\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 139,
+          "output_tokens": 162,
+          "tool_calls": [],
+          "seconds": 10.0123,
+          "peak_cgroup_bytes": 1951485952,
+          "id": "consent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "A szétálat rendszeresen sétálni, de nem tudok el.",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 97,
+          "output_tokens": 20,
+          "tool_calls": [],
+          "seconds": 2.4624,
+          "peak_cgroup_bytes": 1951338496,
+          "id": "hu-advice",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "A Tölgy Klub szerdán 17 órakor tart sakkfoglalkozást 2000 forint, és 8–12 éveseknek szól.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 123,
+          "output_tokens": 40,
+          "tool_calls": [],
+          "seconds": 3.842,
+          "peak_cgroup_bytes": 1951555584,
+          "id": "hu-grounded-summary",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "A gyermekemnek segítőkész a veszélyeket.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 109,
+          "output_tokens": 18,
+          "tool_calls": [],
+          "seconds": 2.5511,
+          "peak_cgroup_bytes": 1951391744,
+          "id": "hu-clarify",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "A hirdetésben nem adatokból telfonszám vagy pontos cím.",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 119,
+          "output_tokens": 21,
+          "tool_calls": [],
+          "seconds": 2.869,
+          "peak_cgroup_bytes": 1952886784,
+          "id": "hu-no-invention",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "A megadott adatokból dolgozzunk: \"Küld már el mikor lesz a sakk óra\" ismeretlen magyarul.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 99,
+          "output_tokens": 36,
+          "tool_calls": [],
+          "seconds": 3.2623,
+          "peak_cgroup_bytes": 1955950592,
+          "id": "hu-rewrite",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "A foglalkozás 2000 Ft és 45 perc, hogy a foglalkozás 45% rendkívül 2000 Ft rendj. A foglalkozás 3000 Ft és 60 perc, hogy a foglalkozás 60% rendkívül 3000 Ft rendj.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 121,
+          "output_tokens": 77,
+          "tool_calls": [],
+          "seconds": 5.6106,
+          "peak_cgroup_bytes": 1957777408,
+          "id": "hu-compare",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "Csaba tegnapi saját beszámolója, hogy megfelelő energia, kevés alvás, nehéz figyelem, feszültség és közepes edzésmennyiség.",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 116,
+          "output_tokens": 52,
+          "tool_calls": [],
+          "seconds": 4.2919,
+          "peak_cgroup_bytes": 1960378368,
+          "id": "habi-initial",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "A korábbi kérdésed segítségével a következő adatok dolgozzuk:\n\n\"Változott a közérzete, hogy elfelejtett reggelizni.\"\n\nEzek a frázzal adatokban dolgozzuk, hogy a közérzete válaszolhatod.",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 116,
+          "output_tokens": 76,
+          "tool_calls": [],
+          "seconds": 5.4374,
+          "peak_cgroup_bytes": 1962831872,
+          "id": "habi-update",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "Csaba edzője vagyok, hogy pontosításban a közérzete nem marad.",
+          "done_reason": "stop",
+          "load_seconds": 0.002,
+          "prompt_tokens": 112,
+          "output_tokens": 23,
+          "tool_calls": [],
+          "seconds": 2.8092,
+          "peak_cgroup_bytes": 1965527040,
+          "id": "habi-correction",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "Csaba színek vagyok. A közérzete a vacsorája elérni.",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 106,
+          "output_tokens": 22,
+          "tool_calls": [],
+          "seconds": 2.6901,
+          "peak_cgroup_bytes": 1967689728,
+          "id": "habi-feedback",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "Csaba segít a vacsorát, amelyek segítségével és szolgálát. A vacsorája segíthetnek a közérzete, amelyek segíthetnek a szolgáltatásokkal és a szolgáltatásokra. Csaba segíthetnek elérdezi a vacsorát, amelyek segíthetnek a szolgáltatásokkal és a szolgáltatásokra, és a vacsorája szolgálnak a szolgáltatásokkal és a szolgáltatásokra.",
+          "done_reason": "stop",
+          "load_seconds": 0.0014,
+          "prompt_tokens": 115,
+          "output_tokens": 125,
+          "tool_calls": [],
+          "seconds": 7.8655,
+          "peak_cgroup_bytes": 1969963008,
+          "id": "habi-repeat",
+          "kind": "client_regression"
+        }
+      ],
+      "finished_utc": "2026-10-29T09:26:05.663046+00:00",
+      "temporary_weights_removed": true,
+      "disk_free_gib": 5.477,
+      "prior_errors": [
+        {
+          "status": "failed",
+          "error": "Hungarian runtime failure; stop candidate",
+          "error_type": "RuntimeError"
+        }
+      ],
+      "hungarian_status": "all_cases_attempted_with_errors"
+    },
+    {
+      "model": "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M",
+      "task": "text",
+      "repo": "allenai/OLMo-2-0425-1B-Instruct-GGUF",
+      "upstream": "allenai/OLMo-2-0425-1B-Instruct",
+      "filename": "OLMo-2-0425-1B-Instruct-Q4_K_M.gguf",
+      "expected_primary_bytes": 935515296,
+      "maximum_projector_bytes": 0,
+      "revision": "62f8c199538474c3e33ed5d7e0580abd66686a27",
+      "upstream_revision": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+      "license": "",
+      "source": "https://huggingface.co/allenai/OLMo-2-0425-1B-Instruct",
+      "status": "completed",
+      "started_utc": "2026-10-29T09:03:46.000204+00:00",
+      "tag": {
+        "name": "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M",
+        "model": "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M",
+        "modified_at": "2026-10-29T09:03:53.901939752Z",
+        "size": 935515991,
+        "digest": "f61e489f75bce580924d3646671e58ba7f386ac2782c4582b36ff6a647e56a06",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "olmo2",
+          "families": [
+            "olmo2"
+          ],
+          "parameter_size": "1.48B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 4096,
+          "embedding_length": 2048,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion"
+        ]
+      },
+      "capabilities": [
+        "completion"
+      ],
+      "native_model_info": {
+        "general.architecture": "olmo2",
+        "general.author": "AllenAI",
+        "general.base_model.0.name": "OLMo 2 0425 1B RLVR1",
+        "general.base_model.0.organization": "Allenai",
+        "general.base_model.0.repo_url": "https://huggingface.co/allenai/OLMo-2-0425-1B-RLVR1",
+        "general.base_model.count": 1,
+        "general.basename": "OLMo-2-0425",
+        "general.dataset.0.name": "RLVR MATH",
+        "general.dataset.0.organization": "Allenai",
+        "general.dataset.0.repo_url": "https://huggingface.co/allenai/RLVR-MATH",
+        "general.dataset.count": 1,
+        "general.file_type": 15,
+        "general.finetune": "Instruct",
+        "general.languages": [
+          "en"
+        ],
+        "general.license": "apache-2.0",
+        "general.organization": "AllenAI",
+        "general.parameter_count": 1484916736,
+        "general.quantization_version": 2,
+        "general.quantized_by": "Britt Lewis <britt@bl3.dev>",
+        "general.repo_url": "https://huggingface.co/brittlewis12/OLMo-2-0425-1B-Instruct-GGUF",
+        "general.size_label": "1B",
+        "general.source.repo_url": "https://huggingface.co/allenai/OLMo-2-0425-1B-Instruct",
+        "general.tags": [
+          "text-generation"
+        ],
+        "general.type": "model",
+        "olmo2.attention.head_count": 16,
+        "olmo2.attention.head_count_kv": 16,
+        "olmo2.attention.layer_norm_rms_epsilon": 1e-06,
+        "olmo2.block_count": 16,
+        "olmo2.context_length": 4096,
+        "olmo2.embedding_length": 2048,
+        "olmo2.feed_forward_length": 8192,
+        "olmo2.rope.freq_base": 500000,
+        "tokenizer.ggml.bos_token_id": 100257,
+        "tokenizer.ggml.eos_token_id": 100257,
+        "tokenizer.ggml.merges": [],
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.padding_token_id": 100277,
+        "tokenizer.ggml.pre": "dbrx",
+        "tokenizer.ggml.token_type": [],
+        "tokenizer.ggml.tokens": [],
+        "tokenizer.ggml.unknown_token_id": 100257
+      },
+      "memory_before": {
+        "current_bytes": 1941938176,
+        "events": {
+          "low": 0,
+          "high": 0,
+          "max": 475778,
+          "oom": 1,
+          "oom_kill": 1,
+          "oom_group_kill": 0
+        }
+      },
+      "unload_previous_seconds": 0.003,
+      "tests": [
+        {
+          "name": "listing_soccer",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"L1\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0013,
+          "prompt_tokens": 516,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 10.7611,
+          "peak_cgroup_bytes": 2935992320,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_soccer",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"L1\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 516,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 0.5274,
+          "peak_cgroup_bytes": 2935783424,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 518,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 0.9668,
+          "peak_cgroup_bytes": 2935799808,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 518,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 0.5503,
+          "peak_cgroup_bytes": 2935590912,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\": []}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 523,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 1.0813,
+          "peak_cgroup_bytes": 2935328768,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\": []}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 523,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 0.4571,
+          "peak_cgroup_bytes": 2935353344,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\": []}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 529,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 1.2346,
+          "peak_cgroup_bytes": 2935885824,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\": []}",
+          "done_reason": "stop",
+          "load_seconds": 0.0014,
+          "prompt_tokens": 529,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 0.4751,
+          "peak_cgroup_bytes": 2935873536,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "query_plan",
+          "trial": 1,
+          "ok": true,
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0017,
+          "prompt_tokens": 59,
+          "output_tokens": 27,
+          "tool_calls": [],
+          "seconds": 2.4501,
+          "peak_cgroup_bytes": 2935869440,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "query_plan",
+          "trial": 2,
+          "ok": true,
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 59,
+          "output_tokens": 27,
+          "tool_calls": [],
+          "seconds": 1.5635,
+          "peak_cgroup_bytes": 2935873536,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"name\": \"Bronx Zoo\", \"lat\": \"40.8493045\", \"lon\": \"-73.8771379\", \"website\": \"https://bronxzoo.com/\", \"ticket_price\": null, \"extratags\": {\"ele\": \"21\", \"phone\": \"+1 718-220-5100\", \"wikidata\": \"Q739792\", \"wikipedia\": \"en:Bronx Zoo\", \"check_date\": \"2026-09-23\"}, \"opening_hours\": \"Mo-Fr 10:00-17:00; Sa-Su 10:00-17:30\", \"lat\": 40.8493045, \"lon\": -73.8771379}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 245,
+          "output_tokens": 151,
+          "tool_calls": [],
+          "seconds": 15.1201,
+          "peak_cgroup_bytes": 2936012800,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "osm_facts",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"name\": \"Bronx Zoo\", \"lat\": 40.8493045, \"lon\": -73.8771379, \"website\": \"https://bronxzoo.com/\", \"ticket_price\": null, \"extratags\": {\"ele\": \"21\", \"phone\": \"+1 718-220-5100\", \"wiki_dkt\": \"Q739792\", \"wikipedia\": \"en:Bronx Zoo\", \"check_date\": \"2026-09-23\"}, \"opening_hours\": \"Mo-Fr 10:00-17:00; Sa-Su 10:00-17:30\", \"lat\": 40.8493045, \"lon\": -73.8771379}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 245,
+          "output_tokens": 152,
+          "tool_calls": [],
+          "seconds": 10.1142,
+          "peak_cgroup_bytes": 2915344384,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"B\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 73,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 1.4549,
+          "peak_cgroup_bytes": 2935664640,
+          "json_valid": true,
+          "passed": false
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"B\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0008,
+          "prompt_tokens": 73,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 0.3582,
+          "peak_cgroup_bytes": 2935906304,
+          "json_valid": true,
+          "passed": false
+        }
+      ],
+      "load": {
+        "ok": true,
+        "response": "I'm ready to assist you. Please provide me with the",
+        "done_reason": "length",
+        "load_seconds": 2.3212,
+        "prompt_tokens": 12,
+        "output_tokens": 12,
+        "tool_calls": [],
+        "seconds": 3.1711,
+        "peak_cgroup_bytes": 2936012800
+      },
+      "tool_call": {
+        "ok": false,
+        "error_type": "RuntimeError",
+        "error": "{\"error\":\"hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M does not support tools\"}",
+        "seconds": 0.0032,
+        "peak_cgroup_bytes": 2935640064,
+        "passed": false
+      },
+      "oom_kill_delta": 0,
+      "english_status": "completed",
+      "hungarian": [
+        {
+          "ok": true,
+          "response": "{\n  \"city\": \"Budapest\",\n  \"children\": [\n    {\n      \"name\": \"György\",\n      \"age\": 10\n    },\n    {\n      \"name\": \"László\",\n      \"age\": 12\n    }\n  ]\n}",
+          "done_reason": "stop",
+          "load_seconds": 2.4032,
+          "prompt_tokens": 143,
+          "output_tokens": 62,
+          "tool_calls": [],
+          "seconds": 8.4952,
+          "peak_cgroup_bytes": 2935902208,
+          "id": "city-number",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"city\": \"Pécs\",\n  \"country\": \"Hungary\",\n  \"location\": {\n    \"name\": \"Szeged\",\n    \"coordinates\": {\n      \"latitude\": 40.8568,\n      \"longitude\": 18.8955\n    }\n  },\n  \"description\": \"Szeged is a city in Hungary, located in the Pannon region. It is situated on the banks of the Tisza River, about 30 kilometers (18 miles) from Pécs. The city has a rich history and is known for its academic and cultural institutions.\",\n  \"historical_significance\": \"Szeged has been a significant center since the 13th century, and has been part of Hungary since the 14th century. It has been a hub for education and culture, with numerous universities and museums. The city is also known for its beautiful parks and is a popular tourist destination.\"\n}",
+          "done_reason": "length",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 142,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 13.5629,
+          "peak_cgroup_bytes": 2935869440,
+          "id": "case-ending",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\"children\": [\"legyen\", \"hány gyermekem van?\", \"könyvben\", \"kizárólag\", \"a kért JSON-objektumot add vissza\", \"magyarázat nélkül\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 125,
+          "output_tokens": 56,
+          "tool_calls": [],
+          "seconds": 4.3395,
+          "peak_cgroup_bytes": 2936012800,
+          "id": "negated-count",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n    \"fény\": \"Nyolékeként, a fiai öt éves. A JSON objektumot adott kiválasztásra visszaadjanak, és magyarázatot adja meg.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 138,
+          "output_tokens": 59,
+          "tool_calls": [],
+          "seconds": 4.7228,
+          "peak_cgroup_bytes": 2935828480,
+          "id": "ages",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n    \"hirdetés\": \"16 órakor sakkfoglalkozása\",\n    \"price\": null\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 166,
+          "output_tokens": 30,
+          "tool_calls": [],
+          "seconds": 3.5031,
+          "peak_cgroup_bytes": 2935910400,
+          "id": "missing-price",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"name\": \"Őrség Műhely\",\n  \"description\": \"A magyar időtartamot, a kizárókat és a származikatot kapcsolatos információkat.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 140,
+          "output_tokens": 56,
+          "tool_calls": [],
+          "seconds": 4.5714,
+          "peak_cgroup_bytes": 2935943168,
+          "id": "accents",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"forint\": 5000,\n  \"price_huf\": 1000\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 130,
+          "output_tokens": 22,
+          "tool_calls": [],
+          "seconds": 2.3497,
+          "peak_cgroup_bytes": 2935693312,
+          "id": "number-words",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"activity\": \"Magyar\",\n  \"description\": \"Magyar nyelvű asszisztési információ, a természetesen a választott foglalkozás alapján legyen.\",\n  \"keywords\": [\"activity\", \"foglalkozás\", \"magyar\", \"asszisztés\", \"természetesen\"]\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 144,
+          "output_tokens": 85,
+          "tool_calls": [],
+          "seconds": 6.4941,
+          "peak_cgroup_bytes": 2917646336,
+          "id": "negative-activity",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"id\": \"country\",\n  \"name\": \"Magyarország\",\n  \"capital\": \"Budapest\",\n  \"population\": 9.5,\n  \"area\": 93.0,\n  \"language\": \"Hungarian\",\n  \"continent\": \"Europe\",\n  \"continent_code\": \"EUR\",\n  \"timezone\": \"Europe/Budapest\",\n  \"currency\": \"Forint\",\n  \"timezone_offset\": 0,\n  \"postal_code\": \"HU-1000\",\n  \"continent_rank\": 5,\n  \"historical_region\": \"Magyarország\",\n  \"official_languages\": [\"Hungarian\", \"Hungarian\"],\n  \"unification\": \"1867\",\n  \"governor\": \"Prime Minister\",\n  \"governorate\": \"Budapest\",\n  \"governor_name\": \"Prime Minister\",\n  \"governor_title\": \"First Minister of",
+          "done_reason": "length",
+          "load_seconds": 0.001,
+          "prompt_tokens": 159,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 14.6807,
+          "peak_cgroup_bytes": 2935287808,
+          "id": "price-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"fény\": \"A szándékot a végezérlő és a kért JSON-objektumot megadása. A kért JSON-objektumot a következő formára használhatjuk: `{\"\t\t\t\t\n   \t\t}",
+          "done_reason": "stop",
+          "load_seconds": 0.0014,
+          "prompt_tokens": 162,
+          "output_tokens": 65,
+          "tool_calls": [],
+          "seconds": 5.7113,
+          "peak_cgroup_bytes": 2936008704,
+          "id": "time-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"ar\": 10,\n  \"időpont\": 5,\n  \"lemondás\": 3,\n  \"helyszín\": \"Magyarország\",\n  \"jelentkezés\": \"Magyar időpontszámokat\",\n  \"egyéb\": [\"Magyar létező időpontszámok\", \"Magyar létező lemondások\", \"Magyar helyszín számok\"]\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 165,
+          "output_tokens": 106,
+          "tool_calls": [],
+          "seconds": 8.5801,
+          "peak_cgroup_bytes": 2935955456,
+          "id": "cancel-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"fény\": \"Természetesen, foglalkozásokkal tartozik. A kért JSON objektumot a foglalkozást használhatók, amelyek a lehetséges értékeket (fény, időpont, lemondás, helyszín, jelentkezés) kiválasztásával kapjuk. A kért objektumot a foglalkozásokat foglalkozva ismernyogat, amelyek a lehetséges információkat rendelkeznek.\",\n  \"lehetset\": \"Természetesen, foglalkozásokkal tartozik. A kért JSON objektumot a foglalkozást használhatók, amelyek a lehetséges",
+          "done_reason": "length",
+          "load_seconds": 0.001,
+          "prompt_tokens": 161,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 13.8626,
+          "peak_cgroup_bytes": 2935701504,
+          "id": "place-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"fény\": \"Természetesen, alkalom a jövői alkalmazásokkal rendelkeznek. A szándékot alkalmazása előtt a feladatokkal kapcsolatos információkat használjuk. A feladatokra van szükségedre időpontok, lemondások, helyszíny, jelentkezési eredések és egyéb információkat. A kért JSON objektumot a feladatokhoz kapcsolatos információkat kapcsolatban adott kifejezést kifejezhetjük.\",\n  \"fény\": \"Természetesen, alkalom a jövői alkalmazásokkal rendelkeznek. A szándékot alkalm",
+          "done_reason": "length",
+          "load_seconds": 0.001,
+          "prompt_tokens": 171,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 14.5325,
+          "peak_cgroup_bytes": 2906443776,
+          "id": "book-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"data\": {\n    \"ar\": 100,\n    \"időpont\": 5,\n    \"lemondás\": 2,\n    \"helyszín\": \"Huniversitas Novis\",\n    \"jelentkezés\": \"A magyar egyéb kiválasztásokat\",\n    \"közösségegyzeti\": true,\n    \"kezdje\": \"Termékesítés és kiválasztás\",\n    \"négyéb\": true\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 165,
+          "output_tokens": 119,
+          "tool_calls": [],
+          "seconds": 9.0623,
+          "peak_cgroup_bytes": 2935922688,
+          "id": "unknown-intent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"sakk\": {\n    \"B\": {\n      \"city\": \"Budapest\",\n      \"year\": 2000\n    },\n    \"C\": {\n      \"city\": \"Pécs\",\n      \"year\": 10\n    }\n  },\n  \"úszás\": {\n    \"city\": \"Budapest\",\n    \"year\": 6\n  },\n  \"gyermeknek\": {\n    \"sakk\": {\n      \"city\": \"Budapest\",\n      \"year\": 2000\n    }\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 208,
+          "output_tokens": 118,
+          "tool_calls": [],
+          "seconds": 10.2411,
+          "peak_cgroup_bytes": 2935910400,
+          "id": "listing-match",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n    \"sakk\": \"Pécs\",\n    \"budapesti_takar\": \"6-9 événmek\",\n    \"2000_ft\": \"4000 Ft\",\n    \"cszegedi_táncorat\": \"10-14 événmek\",\n    \"kizárólag\": \"null\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 198,
+          "output_tokens": 78,
+          "tool_calls": [],
+          "seconds": 6.6357,
+          "peak_cgroup_bytes": 2897117184,
+          "id": "listing-abstain",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"sakk\": {\n    \"Budapest\": {\n      \"eset\": \"6–9 éveseknek\",\n      \"foglalkozása\": 2000\n    },\n    \"úszás\": {\n      \"eset\": \"10–14 éveseknek\",\n      \"foglalkozása\": 1500\n    },\n    \"Pécs\": {\n      \"eset\": \"10–14 éveseknek\",\n      \"foglalkozása\": 1500\n    }\n  },\n  \"Budapesti foglalkozást\": {\n    \"kereslet\": \"Egy nyolékból keresen, legfeljebb 2500 forintért.\"\n  }\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 218,
+          "output_tokens": 163,
+          "tool_calls": [],
+          "seconds": 12.3932,
+          "peak_cgroup_bytes": 2893586432,
+          "id": "listing-budget",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"name\": \"Tizen\",\n  \"description\": \"Tizen is a Linux-based operating system designed for mobile devices. It is developed by Samsung Electronics and is used in various Samsung smartphones.\",\n  \"freeEGSEgistics\": \"Yes, you can use this information freely for your own purposes. If you need more details or have any questions, feel free to ask.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 130,
+          "output_tokens": 80,
+          "tool_calls": [],
+          "seconds": 5.991,
+          "peak_cgroup_bytes": 2895081472,
+          "id": "capacity",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"date\": \"2026-11-04\",\n  \"event\": \"ÉÉÉÉ-HH-NN\",\n  \"description\": \"Magyar nyelvű asszisztési folyóirat\",\n  \"location\": \"Magyarország\",\n  \"time\": \"Hivatalos hozzás\",\n  \"summary\": \"Magyar nyelvű asszisztési folyóirat, 2026. november 4. években. A folyóirat a magyar nyelvű szinteteket is befolyásolja, és a jelentős információkra várja. A folyóirat a magyarországban és a nyelvben is fejlesztő, és ismeretlen adatokra található.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 136,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 13.3387,
+          "peak_cgroup_bytes": 2894934016,
+          "id": "date",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"start_time\": \"15:30\",\n  \"id\": \"ÓÓ:PP\",\n  \"message\": \"Termékenyű foglalkozás fél órával később kezdődik! A start mezőben időpontot ÓÓ:PP változzuk. A JSON objektumot visszaadva megoldható, magyarázatot adott.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 153,
+          "output_tokens": 98,
+          "tool_calls": [],
+          "seconds": 7.5823,
+          "peak_cgroup_bytes": 2886533120,
+          "id": "opening",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"club\": \"Tölgy Klub\",\n  \"name\": \"Klub Tölgye\",\n  \"description\": \"Magyar kizárókat és központi sportokat is befolyásolni. A klub hagyd figyelmen kívül, és ismeretlen adatokat található. A hírek szerkesztése a klubban is befolyásolja, amelyek a gyakorlati és interaktív kultúráját használhatnak. A klub is érdemes a középkorban ismerni és vizualizálni.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0014,
+          "prompt_tokens": 179,
+          "output_tokens": 147,
+          "tool_calls": [],
+          "seconds": 11.5468,
+          "peak_cgroup_bytes": 2886262784,
+          "id": "injection",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n    \"address\": \"Debrecen\",\n    \"city\": \"Debrecen\",\n    \"country\": \"Hungary\",\n    \"region\": \"Central Hungary\",\n    \"postalCode\": \"252100\",\n    \"description\": \"A foglalkozást Debrecenben tartják. Az adatokra foglalkozó információkat használható. Az objektumokkal a kért JSON-objektumot add vissza.\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 153,
+          "output_tokens": 107,
+          "tool_calls": [],
+          "seconds": 7.957,
+          "peak_cgroup_bytes": 2912157696,
+          "id": "unknown-address",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n    \"lemondás\": \"24\",\n    \"díj\": \"24\",\n    \"free_cancel\": \"true\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 150,
+          "output_tokens": 29,
+          "tool_calls": [],
+          "seconds": 3.2152,
+          "peak_cgroup_bytes": 2911887360,
+          "id": "cancellation",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"share_allowed\": true,\n  \"user_id\": \"123456\",\n  \"comment\": \"This comment is allowed to be posted.\",\n  \"timestamp\": 123456,\n  \"is_approved\": true\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0008,
+          "prompt_tokens": 157,
+          "output_tokens": 47,
+          "tool_calls": [],
+          "seconds": 4.4121,
+          "peak_cgroup_bytes": 2903236608,
+          "id": "consent",
+          "kind": "structured"
+        },
+        {
+          "ok": true,
+          "response": "Természetesen, magyarul adjetek segít. A tanácsot magyarul adjetek segít, amelyek segítőben a tanácsoság jelentésekor, amelyeket a magyar német kultúráját jelentésére van. Ebben a kontextusban, adott két tanácsot magyarul adjetek segít, amelyek segítőben:\n\n1. **Magyarul adjetek segít**: A tanácsot magyarul adjetek segít, amelyek segítőben a tanácsoság jelentésekor van. Ebben a kontextusban, adott tanácsot magyarul adjetek segít, amelyek segítőben a magyar német kultúráját jelentésére",
+          "done_reason": "length",
+          "load_seconds": 0.001,
+          "prompt_tokens": 110,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 12.5664,
+          "peak_cgroup_bytes": 2902962176,
+          "id": "hu-advice",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "Pécsett, 17 órák körülményt a Tölgy Klubban. Az alkalom 2000 forintja kerül, és 8–12 éveseknek szól.",
+          "done_reason": "stop",
+          "load_seconds": 0.0024,
+          "prompt_tokens": 136,
+          "output_tokens": 48,
+          "tool_calls": [],
+          "seconds": 4.114,
+          "peak_cgroup_bytes": 2870177792,
+          "id": "hu-grounded-summary",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "Természetesen, magyarul válaszolva. A gyermekemnek felfedezve mondtam a várost, életkort és érdeklődést.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 124,
+          "output_tokens": 46,
+          "tool_calls": [],
+          "seconds": 3.6976,
+          "peak_cgroup_bytes": 2867019776,
+          "id": "hu-clarify",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "Természetesen, magyarul telefonszám és cím. A felhasználóként segített, hogy a megadott információkat találj meg.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 134,
+          "output_tokens": 45,
+          "tool_calls": [],
+          "seconds": 3.8272,
+          "peak_cgroup_bytes": 2856255488,
+          "id": "hu-no-invention",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "A kérdésre változóan segítségével, hogy \"küld már el mikor lesz a sakk óra\" a magyarul válaszolására írulhat. A kérdéshez a helyes és újra változókat ismertek, amelyek segítségével a magyar nyelvű információkat és feldolgozó kérdésekben van származik.\n\nEbben az esetben, hogy \"lesz\" a kérdésre szerepel, és \"a sakk óra\" a probléma oka értékeihez. \"Küld már el\" a kérdésre változó, amely segíthetek a helyes idézeti és eredeti informá",
+          "done_reason": "length",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 114,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 12.8856,
+          "peak_cgroup_bytes": 2856517632,
+          "id": "hu-rewrite",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "A foglalkozás 2000 Ft és 45 perc, amelyek közötti központját a 2000 Ft - foglalkozás és a 45 perc - foglalkozás közötti értékkel írja. A foglalkozás 3000 Ft és 60 perc, amelyek közötti központját a 3000 Ft - foglalkozás és a 60 perc - foglalkozás közötti értékkel írja.\n\nA megadott adatokról és időtartamokról írj meg:\n\n- **2000 Ft és 45 perc**: A foglalkozás 2000 Ft és 45 perc, amelyek közötti központját, ellenőrizd be a foglalkozások köz",
+          "done_reason": "length",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 139,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 14.1268,
+          "peak_cgroup_bytes": 2857041920,
+          "id": "hu-compare",
+          "kind": "chat"
+        },
+        {
+          "ok": true,
+          "response": "Csaba tegnapi saját beszámolója: megfelelő energia, kevés alvás, nehéz figyelem, feszültség, közepes edzésmennyiség.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 128,
+          "output_tokens": 54,
+          "tool_calls": [],
+          "seconds": 4.379,
+          "peak_cgroup_bytes": 2900389888,
+          "id": "habi-initial",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "A közérzete, amely jobb a helyzetben is, a korábbi kérdésedben találj meg. A helyzet egyik legyen \"jobb\", amely a \"reggeli\" ismertetekkel kapcsolatos, amelyet jelentik a \"kiderült\" is, amely a \"felszín\" ismertetekkel kapcsolatos. A helyzet egyik legyen \"elfelejtett\", amely a \"reggél\" ismertetekkel kapcsolatos.\n\nA megadott adatokból dolgozz, hogy a helyzet egyik legyen \"jobb\" (jobb helyzet), amely a \"reggeli\" (reggél) ismertetekkel kapcsolatos. A helyzet egyik legyen \"kiderült",
+          "done_reason": "length",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 125,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 13.2553,
+          "peak_cgroup_bytes": 2900393984,
+          "id": "habi-update",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "A reggeli maradt, hanem a vacsorával.",
+          "done_reason": "stop",
+          "load_seconds": 0.001,
+          "prompt_tokens": 122,
+          "output_tokens": 17,
+          "tool_calls": [],
+          "seconds": 1.8276,
+          "peak_cgroup_bytes": 2900119552,
+          "id": "habi-correction",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "Elmarod a vacsorája, csaba. A közérzete és elmaradásra van számos információ. A közép- és közvetlen adatokra találkozásával kapcsolatban van néhány eredeti megadás, amelyeket van néhány jobb. A megadott adatokról ismétel a megadott eredeti információkat található, amelyeket van néhány összefoglalású kérdésekre.\n\nA közép- és közvetlen adatokra találkozása során van néhány információkat kapott:\n\n- **Közép- és közvetlen adatok**: A közép- és közvetlen adatokra van szá",
+          "done_reason": "length",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 118,
+          "output_tokens": 192,
+          "tool_calls": [],
+          "seconds": 12.5709,
+          "peak_cgroup_bytes": 2860331008,
+          "id": "habi-feedback",
+          "kind": "client_regression"
+        },
+        {
+          "ok": true,
+          "response": "Csaba értelemben, hogy bizonyos információkat és középsített kifejezést is megoldjuk. A középsített a Csaba középiskolai és a közép vállalkozik közé tartozó információt, amelyek bizonyos információkat és középsített kifejezést is megoldhatjuk. A magyar nyelvű eredeti weboldalak és a középsítségtékenzéket van számos információt, amelyek közé tartozik a magyarországi információt és a középsítségtékenzéket.",
+          "done_reason": "stop",
+          "load_seconds": 0.0009,
+          "prompt_tokens": 124,
+          "output_tokens": 167,
+          "tool_calls": [],
+          "seconds": 11.1933,
+          "peak_cgroup_bytes": 2860056576,
+          "id": "habi-repeat",
+          "kind": "client_regression"
+        }
+      ],
+      "finished_utc": "2026-10-29T09:10:51.163500+00:00",
+      "temporary_weights_removed": true,
+      "disk_free_gib": 5.477
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+      "task": "vision",
+      "repo": "ggml-org/SmolVLM2-256M-Video-Instruct-GGUF",
+      "upstream": "HuggingFaceTB/SmolVLM2-256M-Video-Instruct",
+      "filename": "SmolVLM2-256M-Video-Instruct-Q8_0.gguf",
+      "expected_primary_bytes": 175056256,
+      "maximum_projector_bytes": 190033440,
+      "revision": "a8383113a70b406f088ac936e5f1918ed08e620d",
+      "upstream_revision": "067788b187b95ebe7b2e040b3e4299e342e5b8fd",
+      "license": "",
+      "source": "https://huggingface.co/HuggingFaceTB/SmolVLM2-256M-Video-Instruct",
+      "status": "completed_with_module_failures",
+      "started_utc": "2026-10-29T09:10:55.534178+00:00",
+      "tag": {
+        "name": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+        "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+        "modified_at": "2026-10-29T09:26:10.506641395Z",
+        "size": 278828347,
+        "digest": "a238e01ddaef6f36639574030394f2e346ea3ce28bff8522e9f18985e9e57c09",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "163M",
+          "quantization_level": "Q8_0",
+          "context_length": 8192,
+          "embedding_length": 576,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      "capabilities": [
+        "completion",
+        "vision"
+      ],
+      "native_model_info": {
+        "general.architecture": "llama",
+        "general.base_model.0.name": "SmolVLM 256M Instruct",
+        "general.base_model.0.organization": "HuggingFaceTB",
+        "general.base_model.0.repo_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
+        "general.base_model.count": 1,
+        "general.dataset.0.name": "The_Cauldron",
+        "general.dataset.0.organization": "HuggingFaceM4",
+        "general.dataset.0.repo_url": "https://huggingface.co/HuggingFaceM4/the_cauldron",
+        "general.dataset.1.name": "Docmatix",
+        "general.dataset.1.organization": "HuggingFaceM4",
+        "general.dataset.1.repo_url": "https://huggingface.co/HuggingFaceM4/Docmatix",
+        "general.dataset.10.name": "MovieChat 1K_train",
+        "general.dataset.10.organization": "Enxin",
+        "general.dataset.10.repo_url": "https://huggingface.co/Enxin/MovieChat-1K_train",
+        "general.dataset.11.name": "ShareGPT4Video",
+        "general.dataset.11.organization": "ShareGPT4Video",
+        "general.dataset.11.repo_url": "https://huggingface.co/ShareGPT4Video/ShareGPT4Video",
+        "general.dataset.2.name": "LLaVA OneVision Data",
+        "general.dataset.2.organization": "Lmms Lab",
+        "general.dataset.2.repo_url": "https://huggingface.co/lmms-lab/LLaVA-OneVision-Data",
+        "general.dataset.3.name": "M4 Instruct Data",
+        "general.dataset.3.organization": "Lmms Lab",
+        "general.dataset.3.repo_url": "https://huggingface.co/lmms-lab/M4-Instruct-Data",
+        "general.dataset.4.name": "Finevideo",
+        "general.dataset.4.organization": "HuggingFaceFV",
+        "general.dataset.4.repo_url": "https://huggingface.co/HuggingFaceFV/finevideo",
+        "general.dataset.5.name": "MAmmoTH VL Instruct 12M",
+        "general.dataset.5.organization": "MAmmoTH VL",
+        "general.dataset.5.repo_url": "https://huggingface.co/MAmmoTH-VL/MAmmoTH-VL-Instruct-12M",
+        "general.dataset.6.name": "LLaVA Video 178K",
+        "general.dataset.6.organization": "Lmms Lab",
+        "general.dataset.6.repo_url": "https://huggingface.co/lmms-lab/LLaVA-Video-178K",
+        "general.dataset.7.name": "Video STaR",
+        "general.dataset.7.organization": "Orrzohar",
+        "general.dataset.7.repo_url": "https://huggingface.co/orrzohar/Video-STaR",
+        "general.dataset.8.name": "Vript",
+        "general.dataset.8.organization": "Mutonix",
+        "general.dataset.8.repo_url": "https://huggingface.co/Mutonix/Vript",
+        "general.dataset.9.name": "VISTA 400K",
+        "general.dataset.9.organization": "TIGER Lab",
+        "general.dataset.9.repo_url": "https://huggingface.co/TIGER-Lab/VISTA-400K",
+        "general.dataset.count": 12,
+        "general.file_type": 7,
+        "general.languages": [
+          "en"
+        ],
+        "general.license": "apache-2.0",
+        "general.parameter_count": 162974016,
+        "general.quantization_version": 2,
+        "general.size_label": "163M",
+        "general.tags": [
+          "image-text-to-text"
+        ],
+        "general.type": "model",
+        "llama.attention.head_count": 9,
+        "llama.attention.head_count_kv": 3,
+        "llama.attention.key_length": 64,
+        "llama.attention.layer_norm_rms_epsilon": 1e-05,
+        "llama.attention.value_length": 64,
+        "llama.block_count": 30,
+        "llama.context_length": 8192,
+        "llama.embedding_length": 576,
+        "llama.feed_forward_length": 1536,
+        "llama.rope.dimension_count": 64,
+        "llama.rope.freq_base": 100000,
+        "llama.vocab_size": 49280,
+        "tokenizer.ggml.add_space_prefix": false,
+        "tokenizer.ggml.bos_token_id": 1,
+        "tokenizer.ggml.eos_token_id": 49279,
+        "tokenizer.ggml.merges": [],
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.padding_token_id": 2,
+        "tokenizer.ggml.pre": "smollm",
+        "tokenizer.ggml.token_type": [],
+        "tokenizer.ggml.tokens": [],
+        "tokenizer.ggml.unknown_token_id": 0
+      },
+      "memory_before": {
+        "current_bytes": 911101952,
+        "events": {
+          "low": 0,
+          "high": 0,
+          "max": 477151,
+          "oom": 1,
+          "oom_kill": 1,
+          "oom_group_kill": 0
+        }
+      },
+      "tests": [
+        {
+          "id": "coco-119233",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "failed",
+          "error_type": "ValueError",
+          "error": "Incomplete image response",
+          "valid": false,
+          "seconds": 51.6398,
+          "inference_wall_seconds": 51.6398,
+          "peak_cgroup_bytes": 1417732096,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-190140",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "failed",
+          "error_type": "ValueError",
+          "error": "Incomplete image response",
+          "valid": false,
+          "seconds": 49.7889,
+          "inference_wall_seconds": 49.7889,
+          "peak_cgroup_bytes": 1532473344,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-98261",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "failed",
+          "error_type": "ValueError",
+          "error": "Incomplete image response",
+          "valid": false,
+          "seconds": 50.5971,
+          "inference_wall_seconds": 50.5971,
+          "peak_cgroup_bytes": 1578520576,
+          "oom_kill_delta": 0
+        }
+      ],
+      "robustness": [],
+      "counts": [
+        {
+          "id": "coco-119233",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 3,
+          "done_reason": "stop",
+          "load_seconds": 0.786972422,
+          "seconds": 46.7777,
+          "inference_wall_seconds": 46.7777,
+          "peak_cgroup_bytes": 1041977344,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-190140",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 2,
+          "done_reason": "stop",
+          "load_seconds": 0.0020569,
+          "seconds": 45.9883,
+          "inference_wall_seconds": 45.9883,
+          "peak_cgroup_bytes": 1108582400,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-98261",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 3,
+          "done_reason": "stop",
+          "load_seconds": 0.001450854,
+          "seconds": 45.8271,
+          "inference_wall_seconds": 45.8271,
+          "peak_cgroup_bytes": 1129836544,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-140270",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 3,
+          "done_reason": "stop",
+          "load_seconds": 0.00207954,
+          "seconds": 45.8101,
+          "inference_wall_seconds": 45.8101,
+          "peak_cgroup_bytes": 1152540672,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-242287",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 2,
+          "done_reason": "stop",
+          "load_seconds": 0.003276071,
+          "seconds": 46.1469,
+          "inference_wall_seconds": 46.1469,
+          "peak_cgroup_bytes": 1175146496,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-469246",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 3,
+          "done_reason": "stop",
+          "load_seconds": 0.00205078,
+          "seconds": 45.6878,
+          "inference_wall_seconds": 45.6878,
+          "peak_cgroup_bytes": 1192628224,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-359219",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 3,
+          "done_reason": "stop",
+          "load_seconds": 0.003664915,
+          "seconds": 45.8644,
+          "inference_wall_seconds": 45.8644,
+          "peak_cgroup_bytes": 1217130496,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-42889",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "json_valid": true,
+          "count": 3,
+          "done_reason": "stop",
+          "load_seconds": 0.001752737,
+          "seconds": 45.799,
+          "inference_wall_seconds": 45.799,
+          "peak_cgroup_bytes": 1217650688,
+          "oom_kill_delta": 0
+        }
+      ],
+      "moderation": [
+        {
+          "id": "harmful-236",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "failed",
+          "error_type": "ValueError",
+          "error": "Incomplete model output",
+          "valid": false,
+          "seconds": 66.8437,
+          "inference_wall_seconds": 66.8437,
+          "peak_cgroup_bytes": 1233936384,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-413",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "Nude",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0018,
+              "inference_seconds": 63.1686
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0018,
+            "inference_wall_seconds": 63.1726,
+            "model_load_seconds": 0.0018
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "Nude"
+          },
+          "seconds": 63.1787,
+          "inference_wall_seconds": 63.1787,
+          "peak_cgroup_bytes": 1249878016,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-546",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0013,
+              "inference_seconds": 63.4803
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 63.484,
+            "model_load_seconds": 0.0013
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 63.4905,
+          "inference_wall_seconds": 63.4905,
+          "peak_cgroup_bytes": 1391955968,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4845",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0013,
+              "inference_seconds": 63.5321
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 63.5362,
+            "model_load_seconds": 0.0013
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 63.5397,
+          "inference_wall_seconds": 63.5397,
+          "peak_cgroup_bytes": 1353293824,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4926",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "false",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0027,
+              "inference_seconds": 63.1879
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 63.1949,
+            "model_load_seconds": 0.0027
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": "false"
+          },
+          "seconds": 63.2056,
+          "inference_wall_seconds": 63.2056,
+          "peak_cgroup_bytes": 1324576768,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4930",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "The substance is not visible.",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0026,
+              "inference_seconds": 63.5902
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 63.5985,
+            "model_load_seconds": 0.0026
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "The substance is not visible."
+          },
+          "seconds": 63.6086,
+          "inference_wall_seconds": 63.6086,
+          "peak_cgroup_bytes": 1325801472,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4918",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "Nude body parts",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0022,
+              "inference_seconds": 63.8557
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0021,
+            "inference_wall_seconds": 63.8608,
+            "model_load_seconds": 0.0022
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "Nude body parts"
+          },
+          "seconds": 63.871,
+          "inference_wall_seconds": 63.871,
+          "peak_cgroup_bytes": 1325907968,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4852",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0022,
+              "inference_seconds": 33.3789
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 33.3838,
+            "model_load_seconds": 0.0022
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": ""
+          },
+          "seconds": 33.3901,
+          "inference_wall_seconds": 33.3901,
+          "peak_cgroup_bytes": 1325256704,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-146",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "true",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0015,
+              "inference_seconds": 48.2666
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0018,
+            "inference_wall_seconds": 48.2702,
+            "model_load_seconds": 0.0015
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": "true"
+          },
+          "seconds": 48.275,
+          "inference_wall_seconds": 48.275,
+          "peak_cgroup_bytes": 1325219840,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-250",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "This is a real gun and not a toy or recreational paintball markers.",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0017,
+              "inference_seconds": 48.5372
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 48.5431,
+            "model_load_seconds": 0.0017
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "This is a real gun and not a toy or recreational paintball markers."
+          },
+          "seconds": 48.5505,
+          "inference_wall_seconds": 48.5505,
+          "peak_cgroup_bytes": 1393557504,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-256",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "The gun is a black handgun with a brown handle and a black barrel.",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0029,
+              "inference_seconds": 48.6366
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 48.6414,
+            "model_load_seconds": 0.0029
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "The gun is a black handgun with a brown handle and a black barrel."
+          },
+          "seconds": 48.6479,
+          "inference_wall_seconds": 48.6479,
+          "peak_cgroup_bytes": 1324687360,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-263",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "www.knivestown.com",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0015,
+              "inference_seconds": 63.5617
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 63.5658,
+            "model_load_seconds": 0.0015
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "www.knivestown.com"
+          },
+          "seconds": 63.5716,
+          "inference_wall_seconds": 63.5716,
+          "peak_cgroup_bytes": 1344172032,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-254",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "false",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0026,
+              "inference_seconds": 62.894
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 62.8992,
+            "model_load_seconds": 0.0026
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": "false"
+          },
+          "seconds": 62.9036,
+          "inference_wall_seconds": 62.9036,
+          "peak_cgroup_bytes": 1390284800,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4121",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "The text is not provided.",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0018,
+              "inference_seconds": 48.6013
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 48.6066,
+            "model_load_seconds": 0.0018
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "The text is not provided."
+          },
+          "seconds": 48.6128,
+          "inference_wall_seconds": 48.6128,
+          "peak_cgroup_bytes": 1390301184,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4133",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0017,
+              "inference_seconds": 62.8568
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.002,
+            "inference_wall_seconds": 62.8606,
+            "model_load_seconds": 0.0017
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 62.868,
+          "inference_wall_seconds": 62.868,
+          "peak_cgroup_bytes": 1390297088,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-1680",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "The depicted content is not visible.",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0011,
+              "inference_seconds": 63.4423
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 63.446,
+            "model_load_seconds": 0.0011
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "The depicted content is not visible."
+          },
+          "seconds": 63.4496,
+          "inference_wall_seconds": 63.4496,
+          "peak_cgroup_bytes": 1390321664,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-3055",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "Nude body parts",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0014,
+              "inference_seconds": 63.1957
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 63.2019,
+            "model_load_seconds": 0.0014
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "Nude body parts"
+          },
+          "seconds": 63.2094,
+          "inference_wall_seconds": 63.2094,
+          "peak_cgroup_bytes": 1389645824,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-1762",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0015,
+              "inference_seconds": 48.0283
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 48.0321,
+            "model_load_seconds": 0.0015
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 48.0389,
+          "inference_wall_seconds": 48.0389,
+          "peak_cgroup_bytes": 1407631360,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-1763",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0019,
+              "inference_seconds": 47.8942
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0019,
+            "inference_wall_seconds": 47.8984,
+            "model_load_seconds": 0.0019
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 47.9054,
+          "inference_wall_seconds": 47.9055,
+          "peak_cgroup_bytes": 1407545344,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-1793",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "failed",
+          "error_type": "ValueError",
+          "error": "Incomplete model output",
+          "valid": false,
+          "seconds": 50.8269,
+          "inference_wall_seconds": 50.8269,
+          "peak_cgroup_bytes": 1368113152,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-126",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "failed",
+          "error_type": "ValueError",
+          "error": "Incomplete model output",
+          "valid": false,
+          "seconds": 50.7728,
+          "inference_wall_seconds": 50.7728,
+          "peak_cgroup_bytes": 1368666112,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-984",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "false",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0014,
+              "inference_seconds": 47.7913
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0018,
+            "inference_wall_seconds": 47.7957,
+            "model_load_seconds": 0.0014
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "false"
+          },
+          "seconds": 47.801,
+          "inference_wall_seconds": 47.801,
+          "peak_cgroup_bytes": 1368694784,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4132",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.002,
+              "inference_seconds": 33.2094
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0014,
+            "inference_wall_seconds": 33.2138,
+            "model_load_seconds": 0.002
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": ""
+          },
+          "seconds": 33.2191,
+          "inference_wall_seconds": 33.2191,
+          "peak_cgroup_bytes": 1383108608,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4135",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "Nude body parts",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0022,
+              "inference_seconds": 63.2994
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 63.3052,
+            "model_load_seconds": 0.0022
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "Nude body parts"
+          },
+          "seconds": 63.312,
+          "inference_wall_seconds": 63.312,
+          "peak_cgroup_bytes": 1395499008,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4093",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0024,
+              "inference_seconds": 47.587
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0018,
+            "inference_wall_seconds": 47.5921,
+            "model_load_seconds": 0.0024
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": ""
+          },
+          "seconds": 47.5993,
+          "inference_wall_seconds": 47.5993,
+          "peak_cgroup_bytes": 1395560448,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-4876",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0013,
+              "inference_seconds": 63.0145
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 63.0188,
+            "model_load_seconds": 0.0013
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 63.0225,
+          "inference_wall_seconds": 63.0225,
+          "peak_cgroup_bytes": 1382948864,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "harmful-251",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0022,
+              "inference_seconds": 48.1225
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 48.1276,
+            "model_load_seconds": 0.0022
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": ""
+          },
+          "seconds": 48.135,
+          "inference_wall_seconds": 48.135,
+          "peak_cgroup_bytes": 1440952320,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "commons-19453383",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0015,
+              "inference_seconds": 48.0095
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 48.0133,
+            "model_load_seconds": 0.0015
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": ""
+          },
+          "seconds": 48.0206,
+          "inference_wall_seconds": 48.0206,
+          "peak_cgroup_bytes": 1469816832,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "commons-2088109",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "true",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0016,
+              "inference_seconds": 33.656
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 33.6601,
+            "model_load_seconds": 0.0016
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": "true"
+          },
+          "seconds": 33.6659,
+          "inference_wall_seconds": 33.6659,
+          "peak_cgroup_bytes": 1469857792,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "commons-9962028",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0023,
+              "inference_seconds": 63.857
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 63.8625,
+            "model_load_seconds": 0.0023
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 63.8713,
+          "inference_wall_seconds": 63.8713,
+          "peak_cgroup_bytes": 1486290944,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-222299",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "not visible",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0022,
+              "inference_seconds": 48.646
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 48.6507,
+            "model_load_seconds": 0.0022
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "not visible"
+          },
+          "seconds": 48.6578,
+          "inference_wall_seconds": 48.6578,
+          "peak_cgroup_bytes": 1486270464,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-359219",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "false",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0022,
+              "inference_seconds": 48.5013
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 48.5056,
+            "model_load_seconds": 0.0022
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": "false"
+          },
+          "seconds": 48.5165,
+          "inference_wall_seconds": 48.5165,
+          "peak_cgroup_bytes": 1473937408,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-98261",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "nude",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.001,
+              "inference_seconds": 48.2545
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 48.2589,
+            "model_load_seconds": 0.001
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": "nude"
+          },
+          "seconds": 48.2635,
+          "inference_wall_seconds": 48.2635,
+          "peak_cgroup_bytes": 1473912832,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "commons-research-0",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "not_detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "Nude",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0015,
+              "inference_seconds": 48.4437
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 48.4477,
+            "model_load_seconds": 0.0015
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": false,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "Nude"
+          },
+          "seconds": 48.4582,
+          "inference_wall_seconds": 48.4582,
+          "peak_cgroup_bytes": 1473949696,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "commons-research-1",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger",
+              "hateSymbols",
+              "hateWords",
+              "alcohol",
+              "drugs",
+              "violence",
+              "weapons"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "detected",
+              "hateWords": "detected",
+              "alcohol": "detected",
+              "drugs": "detected",
+              "violence": "detected",
+              "weapons": "detected"
+            },
+            "evidence": "true",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.003,
+              "inference_seconds": 48.367
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0019,
+            "inference_wall_seconds": 48.3716,
+            "model_load_seconds": 0.003
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": true,
+              "hateWords": true,
+              "alcohol": true,
+              "drugs": true,
+              "violence": true,
+              "weapons": true
+            },
+            "evidence": "true"
+          },
+          "seconds": 48.3809,
+          "inference_wall_seconds": 48.3809,
+          "peak_cgroup_bytes": 1473921024,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "commons-venus",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.002,
+              "inference_seconds": 48.1815
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0021,
+            "inference_wall_seconds": 48.1863,
+            "model_load_seconds": 0.002
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 48.1953,
+          "inference_wall_seconds": 48.1953,
+          "peak_cgroup_bytes": 1473945600,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "hate-text-a",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "nude body parts",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0014,
+              "inference_seconds": 48.9365
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 48.9408,
+            "model_load_seconds": 0.0014
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "nude body parts"
+          },
+          "seconds": 48.9464,
+          "inference_wall_seconds": 48.9464,
+          "peak_cgroup_bytes": 1473921024,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "hate-text-b",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0013,
+              "inference_seconds": 48.1944
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 48.2,
+            "model_load_seconds": 0.0013
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 48.2054,
+          "inference_wall_seconds": 48.2054,
+          "peak_cgroup_bytes": 1472225280,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "anti-hate-text",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0013,
+              "inference_seconds": 48.12
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 48.1239,
+            "model_load_seconds": 0.0013
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 48.1298,
+          "inference_wall_seconds": 48.1298,
+          "peak_cgroup_bytes": 1414893568,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "similar-text",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "nude",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0013,
+              "inference_seconds": 48.1823
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0018,
+            "inference_wall_seconds": 48.1862,
+            "model_load_seconds": 0.0013
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "nude"
+          },
+          "seconds": 48.1915,
+          "inference_wall_seconds": 48.1915,
+          "peak_cgroup_bytes": 1414893568,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "neutral-star",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "not_detected",
+              "hateSymbols": "not_detected",
+              "hateWords": "not_detected",
+              "alcohol": "not_detected",
+              "drugs": "not_detected",
+              "violence": "not_detected",
+              "weapons": "not_detected"
+            },
+            "evidence": "The text is not provided.",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.001,
+              "inference_seconds": 48.3727
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 48.377,
+            "model_load_seconds": 0.001
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": false,
+              "hateSymbols": false,
+              "hateWords": false,
+              "alcohol": false,
+              "drugs": false,
+              "violence": false,
+              "weapons": false
+            },
+            "evidence": "The text is not provided."
+          },
+          "seconds": 48.3825,
+          "inference_wall_seconds": 48.3825,
+          "peak_cgroup_bytes": 1442140160,
+          "oom_kill_delta": 0
+        }
+      ],
+      "finished_utc": "2026-10-29T10:11:03.851835+00:00",
+      "temporary_weights_removed": true,
+      "disk_free_gib": 5.477,
+      "prior_errors": [
+        {
+          "status": "failed",
+          "error": "Three consecutive technical failures; stop candidate",
+          "error_type": "RuntimeError"
+        }
+      ],
+      "tests_status": "stopped_contract_failure",
+      "robustness_status": "not_run_primary_contract_failed",
+      "counts_status": "completed",
+      "moderation_status": "completed",
+      "moderation_robustness": [
+        {
+          "id": "injection-flag",
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-moderation.v1",
+            "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "review_required": true,
+            "automated_decision": "none",
+            "signal": "flagged",
+            "flags": [
+              "nudity",
+              "sexualContent",
+              "middleFinger"
+            ],
+            "categories": {
+              "nudity": "detected",
+              "sexualContent": "detected",
+              "middleFinger": "detected",
+              "hateSymbols": "uncertain",
+              "hateWords": "uncertain",
+              "alcohol": "uncertain",
+              "drugs": "uncertain",
+              "violence": "uncertain",
+              "weapons": "uncertain"
+            },
+            "evidence": "",
+            "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+            "timing": {
+              "model_load_seconds": 0.0014,
+              "inference_seconds": 48.3756
+            }
+          },
+          "model_switch": {
+            "target_model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 48.3803,
+            "model_load_seconds": 0.0014
+          },
+          "valid": true,
+          "parsed": {
+            "categories": {
+              "nudity": true,
+              "sexualContent": true,
+              "middleFinger": true,
+              "hateSymbols": null,
+              "hateWords": null,
+              "alcohol": null,
+              "drugs": null,
+              "violence": null,
+              "weapons": null
+            },
+            "evidence": ""
+          },
+          "seconds": 48.3965,
+          "inference_wall_seconds": 48.3965,
+          "peak_cgroup_bytes": 1442197504,
+          "oom_kill_delta": 0
+        }
+      ],
+      "moderation_robustness_status": "completed",
+      "oom_kill_delta": 0
+    },
+    {
+      "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+      "task": "vision",
+      "repo": "bartowski/OpenGVLab_InternVL3_5-1B-GGUF",
+      "upstream": "OpenGVLab/InternVL3_5-1B",
+      "filename": "OpenGVLab_InternVL3_5-1B-Q4_K_M.gguf",
+      "expected_primary_bytes": 484216928,
+      "maximum_projector_bytes": 622622112,
+      "revision": "71d4c57364341da8c1768fcad62f581e52e47c9e",
+      "upstream_revision": "2f71cf52542334823e48a46ffba0e2bc9add3446",
+      "license": "",
+      "source": "https://huggingface.co/OpenGVLab/InternVL3_5-1B",
+      "status": "failed",
+      "started_utc": "2026-10-29T09:13:45.292172+00:00",
+      "tag": {
+        "name": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "modified_at": "2026-10-29T09:13:56.979669844Z",
+        "size": 1105635678,
+        "digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "752M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 1024,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "vision"
+        ]
+      },
+      "capabilities": [
+        "completion",
+        "vision"
+      ],
+      "native_model_info": {
+        "general.architecture": "qwen3",
+        "general.base_model.0.name": "InternVL3_5 1B MPO",
+        "general.base_model.0.organization": "OpenGVLab",
+        "general.base_model.0.repo_url": "https://huggingface.co/OpenGVLab/InternVL3_5-1B-MPO",
+        "general.base_model.count": 1,
+        "general.basename": "InternVL3_5",
+        "general.dataset.0.name": "MMPR v1.2",
+        "general.dataset.0.organization": "OpenGVLab",
+        "general.dataset.0.repo_url": "https://huggingface.co/OpenGVLab/MMPR-v1.2",
+        "general.dataset.0.version": "v1.2",
+        "general.dataset.count": 1,
+        "general.file_type": 15,
+        "general.languages": [
+          "multilingual"
+        ],
+        "general.license": "apache-2.0",
+        "general.parameter_count": 751632384,
+        "general.quantization_version": 2,
+        "general.size_label": "1B",
+        "general.tags": [
+          "internvl",
+          "custom_code",
+          "image-text-to-text"
+        ],
+        "general.type": "model",
+        "quantize.imatrix.chunks_count": 818,
+        "quantize.imatrix.dataset": "/training_dir/calibration_datav5.txt",
+        "quantize.imatrix.entries_count": 196,
+        "quantize.imatrix.file": "/models_out/InternVL3_5-1B-GGUF/OpenGVLab_InternVL3_5-1B-imatrix.gguf",
+        "qwen3.attention.head_count": 16,
+        "qwen3.attention.head_count_kv": 8,
+        "qwen3.attention.key_length": 128,
+        "qwen3.attention.layer_norm_rms_epsilon": 1e-06,
+        "qwen3.attention.value_length": 128,
+        "qwen3.block_count": 28,
+        "qwen3.context_length": 40960,
+        "qwen3.embedding_length": 1024,
+        "qwen3.feed_forward_length": 3072,
+        "qwen3.rope.freq_base": 1000000,
+        "tokenizer.ggml.add_bos_token": false,
+        "tokenizer.ggml.add_eos_token": false,
+        "tokenizer.ggml.eos_token_id": 151645,
+        "tokenizer.ggml.merges": [],
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.padding_token_id": 151643,
+        "tokenizer.ggml.pre": "qwen2",
+        "tokenizer.ggml.token_type": [],
+        "tokenizer.ggml.tokens": []
+      },
+      "memory_before": {
+        "current_bytes": 1764339712,
+        "events": {
+          "low": 0,
+          "high": 0,
+          "max": 477151,
+          "oom": 1,
+          "oom_kill": 1,
+          "oom_group_kill": 0
+        }
+      },
+      "tests": [
+        {
+          "id": "coco-119233",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A black and white cat is sleeping on a laptop placed on a wooden desk. The laptop is open, and the cat is resting its head on the keyboard. There is a remote control beside the laptop. The background includes a wooden cabinet with various items such as plants, a bird figurine, and other miscellaneous objects.",
+            "objects": [
+              "laptop",
+              "cat",
+              "remote control",
+              "wooden desk",
+              "wooden cabinet",
+              "plants",
+              "bird figurine",
+              "miscellaneous objects"
+            ],
+            "visible_text": [
+              "laptop",
+              "cat",
+              "remote control",
+              "wooden desk",
+              "wooden cabinet",
+              "plants",
+              "bird figurine",
+              "miscellaneous objects"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 51.9309,
+            "model_load_seconds": 1.844195448
+          },
+          "seconds": 51.9361,
+          "inference_wall_seconds": 51.9361,
+          "peak_cgroup_bytes": 2936012800,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-190140",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A man and a dog are on a small motorboat. The man is wearing a yellow shirt, red cap, and sunglasses. The dog is standing on the boat, looking forward. The boat has a white cover and some stickers. In the background, there is a large white yacht. The image is credited to 'fimn-inwin' in 2011.",
+            "objects": [
+              "man",
+              "dog",
+              "motorboat",
+              "boat cover",
+              "stickers"
+            ],
+            "visible_text": [
+              "man",
+              "dog",
+              "motorboat",
+              "boat cover",
+              "stickers",
+              "fimn-inwin",
+              "2011"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0019,
+            "inference_wall_seconds": 48.4615,
+            "model_load_seconds": 0.003711876
+          },
+          "seconds": 48.4701,
+          "inference_wall_seconds": 48.4701,
+          "peak_cgroup_bytes": 2935943168,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-98261",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "Two birds are perched on a branch. One bird is holding a small insect in its beak. The birds are yellow with some darker markings on their wings and bodies.",
+            "objects": [
+              "bird",
+              "branch",
+              "insect"
+            ],
+            "visible_text": [
+              "two birds",
+              "perched on a branch",
+              "one bird",
+              "holding a small insect"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0017,
+            "inference_wall_seconds": 15.5981,
+            "model_load_seconds": 0.002740866
+          },
+          "seconds": 15.6021,
+          "inference_wall_seconds": 15.6021,
+          "peak_cgroup_bytes": 2926149632,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-140270",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A horse and rider are in an equestrian setting.",
+            "objects": [
+              "horse",
+              "riding horse",
+              "rider",
+              "fence",
+              "grass"
+            ],
+            "visible_text": [
+              "www.krajicek.net",
+              "056_012"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 44.0505,
+            "model_load_seconds": 0.003307951
+          },
+          "seconds": 44.0585,
+          "inference_wall_seconds": 44.0585,
+          "peak_cgroup_bytes": 2923401216,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-134886",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A Lufthansa airplane is flying low over a dirt path with people and a car.",
+            "objects": [
+              "airplane",
+              "people",
+              "car"
+            ],
+            "visible_text": [
+              "Lufthansa",
+              "http://www.urbanity.es"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.002,
+            "inference_wall_seconds": 81.1881,
+            "model_load_seconds": 0.002048939
+          },
+          "seconds": 81.1979,
+          "inference_wall_seconds": 81.1979,
+          "peak_cgroup_bytes": 2935717888,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-242287",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A green bicycle is parked against a weathered wooden door with a small arched window. To the left, there is a stack of white and blue plastic bags hanging on a wall, and a colorful cloth or fabric is placed on the ground next to the bicycle. The door has a metal latch and a small rectangular opening.",
+            "objects": [
+              "bicycle",
+              "door",
+              "plastic bags",
+              "cloth",
+              "wall",
+              "metal latch",
+              "rectangular opening"
+            ],
+            "visible_text": [
+              "bicycle",
+              "door",
+              "plastic bags",
+              "cloth",
+              "wall",
+              "metal latch",
+              "rectangular opening"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0016,
+            "inference_wall_seconds": 48.8148,
+            "model_load_seconds": 0.002754746
+          },
+          "seconds": 48.8255,
+          "inference_wall_seconds": 48.8255,
+          "peak_cgroup_bytes": 2919256064,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-289222",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A traffic light showing a pedestrian signal with a red hand icon, indicating that pedestrians should not cross. In the background, there is a statue and a red double-decker bus labeled 'FRENCH CONNECT.'",
+            "objects": [
+              "traffic light",
+              "pedestrian signal",
+              "statue",
+              "double-decker bus"
+            ],
+            "visible_text": [
+              "FRENCH CONNECT"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0014,
+            "inference_wall_seconds": 82.4199,
+            "model_load_seconds": 0.003035429
+          },
+          "seconds": 82.4301,
+          "inference_wall_seconds": 82.4301,
+          "peak_cgroup_bytes": 2929020928,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-469246",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A silver train is stopped at a platform. There is a person with a suitcase walking along the platform. The platform has tactile paving for the visually impaired. The train has the text 'SJ 2012 X 2' visible on its side.",
+            "objects": [
+              "train",
+              "platform",
+              "person",
+              "suitcase",
+              "platform edge",
+              "building",
+              "overhead wires"
+            ],
+            "visible_text": [
+              "SJ 2012 X 2"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0015,
+            "inference_wall_seconds": 84.7929,
+            "model_load_seconds": 0.002250301
+          },
+          "seconds": 84.8025,
+          "inference_wall_seconds": 84.8025,
+          "peak_cgroup_bytes": 2933989376,
+          "oom_kill_delta": 0
+        },
+        {
+          "id": "coco-370375",
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "result": {
+            "schema_version": "camera-recognition.v1",
+            "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "description": "A young child wearing a black helmet and a navy blue GAP t-shirt is holding a blue baseball bat and standing on a grassy field with trees in the background. The child is wearing light-colored cargo pants and dark shoes. There are some plants and a wooden structure nearby.",
+            "objects": [
+              "baseball bat",
+              "helmet",
+              "t-shirt",
+              "cargo pants",
+              "shoes",
+              "trees",
+              "grass",
+              "plants",
+              "wooden structure"
+            ],
+            "visible_text": [
+              "GAP"
+            ],
+            "limitations": "Experimental visual description; verify details. Not a moderation decision."
+          },
+          "model_switch": {
+            "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+            "unloaded_models": [],
+            "unload_wait_seconds": 0.0021,
+            "inference_wall_seconds": 46.5437,
+            "model_load_seconds": 0.002551464
+          },
+          "seconds": 46.5532,
+          "inference_wall_seconds": 46.5532,
+          "peak_cgroup_bytes": 2900320256,
+          "oom_kill_delta": 0
+        }
+      ],
+      "robustness": [],
+      "counts": [],
+      "moderation": [],
+      "temporary_weights_removed": false,
+      "error_type": "StopIteration",
+      "error": "",
+      "finished_utc": "2026-10-29T10:11:10.012641+00:00"
+    }
+  ],
+  "controls": [
+    {
+      "model": "granite4:1b-h",
+      "task": "text",
+      "control": true,
+      "status": "completed",
+      "started_utc": "2026-10-29T08:59:07.748299+00:00",
+      "tag": {
+        "name": "granite4:1b-h",
+        "model": "granite4:1b-h",
+        "modified_at": "2026-10-26T22:29:23.542412336Z",
+        "size": 1558945427,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "details": {
+          "parent_model": "/Users/runner/.ollama/models/blobs/sha256-f29248184ca766350e56e6d161c2a637ad302a6d595e15d4a62cd58327a0ac0e",
+          "format": "gguf",
+          "family": "granitehybrid",
+          "families": [
+            "granitehybrid"
+          ],
+          "parameter_size": "1.5B",
+          "quantization_level": "Q8_0",
+          "context_length": 1048576,
+          "embedding_length": 1536,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      "capabilities": [
+        "completion",
+        "tools"
+      ],
+      "license": "\n                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n\n      \"Licensor\" shall mean the copyright owner or entity authorized by\n      the copyright owner that is granting the License.\n\n      \"Legal Entity\" shall mean the union of the acting entity and all\n      other entities that control, are controlled by, or are under common\n      control with that entity. For the purposes of this definition,\n      \"control\" means (i) the power, direct or indirect, to c",
+      "native_model_info": {
+        "general.architecture": "granitehybrid",
+        "general.base_model.0.name": "Granite 4.0 H 1b Base",
+        "general.base_model.0.organization": "Ibm Granite",
+        "general.base_model.0.repo_url": "https://huggingface.co/ibm-granite/granite-4.0-h-1b-base",
+        "general.base_model.count": 1,
+        "general.basename": "granite-4.0-h",
+        "general.file_type": 7,
+        "general.license": "apache-2.0",
+        "general.parameter_count": 1461538368,
+        "general.quantization_version": 2,
+        "general.size_label": "1B",
+        "general.tags": [
+          "language",
+          "granite-4.0"
+        ],
+        "general.type": "model",
+        "granitehybrid.attention.head_count": 12,
+        "granitehybrid.attention.head_count_kv": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        "granitehybrid.attention.layer_norm_rms_epsilon": 1e-05,
+        "granitehybrid.attention.scale": 0.0078125,
+        "granitehybrid.block_count": 40,
+        "granitehybrid.context_length": 1048576,
+        "granitehybrid.embedding_length": 1536,
+        "granitehybrid.embedding_scale": 12,
+        "granitehybrid.expert_count": 0,
+        "granitehybrid.expert_shared_feed_forward_length": 4096,
+        "granitehybrid.expert_used_count": 0,
+        "granitehybrid.feed_forward_length": 4096,
+        "granitehybrid.logit_scale": 6,
+        "granitehybrid.residual_scale": 0.22,
+        "granitehybrid.rope.dimension_count": 128,
+        "granitehybrid.rope.freq_base": 10000,
+        "granitehybrid.rope.scaling.finetuned": false,
+        "granitehybrid.ssm.conv_kernel": 4,
+        "granitehybrid.ssm.group_count": 1,
+        "granitehybrid.ssm.inner_size": 3072,
+        "granitehybrid.ssm.state_size": 128,
+        "granitehybrid.ssm.time_step_rank": 48,
+        "granitehybrid.vocab_size": 100352,
+        "tokenizer.ggml.add_bos_token": false,
+        "tokenizer.ggml.bos_token_id": 100257,
+        "tokenizer.ggml.eos_token_id": 100257,
+        "tokenizer.ggml.merges": [],
+        "tokenizer.ggml.model": "gpt2",
+        "tokenizer.ggml.padding_token_id": 100256,
+        "tokenizer.ggml.pre": "dbrx",
+        "tokenizer.ggml.token_type": [],
+        "tokenizer.ggml.tokens": [],
+        "tokenizer.ggml.unknown_token_id": 100269
+      },
+      "memory_before": {
+        "current_bytes": 316669952,
+        "events": {
+          "low": 0,
+          "high": 0,
+          "max": 473983,
+          "oom": 1,
+          "oom_kill": 1,
+          "oom_group_kill": 0
+        }
+      },
+      "unload_previous_seconds": 0.002,
+      "tests": [
+        {
+          "name": "listing_soccer",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"L1\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 537,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 10.4939,
+          "peak_cgroup_bytes": 2935934976,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_soccer",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"L1\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 537,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 0.6604,
+          "peak_cgroup_bytes": 2935701504,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 539,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 1.3022,
+          "peak_cgroup_bytes": 2935697408,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_swimming",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"L5\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 539,
+          "output_tokens": 7,
+          "tool_calls": [],
+          "seconds": 0.6324,
+          "peak_cgroup_bytes": 2935582720,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 544,
+          "output_tokens": 5,
+          "tool_calls": [],
+          "seconds": 1.2113,
+          "peak_cgroup_bytes": 2935578624,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_no_match",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0021,
+          "prompt_tokens": 544,
+          "output_tokens": 5,
+          "tool_calls": [],
+          "seconds": 0.5009,
+          "peak_cgroup_bytes": 2935824384,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 550,
+          "output_tokens": 5,
+          "tool_calls": [],
+          "seconds": 1.2082,
+          "peak_cgroup_bytes": 2935844864,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "listing_unknown_price",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 550,
+          "output_tokens": 5,
+          "tool_calls": [],
+          "seconds": 0.4764,
+          "peak_cgroup_bytes": 2935996416,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "query_plan",
+          "trial": 1,
+          "ok": true,
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 80,
+          "output_tokens": 27,
+          "tool_calls": [],
+          "seconds": 3.6402,
+          "peak_cgroup_bytes": 2935988224,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "query_plan",
+          "trial": 2,
+          "ok": true,
+          "response": "{\n  \"city\": \"nyc\",\n  \"borough\": \"Brooklyn\",\n  \"activity\": \"Swimming\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0013,
+          "prompt_tokens": 80,
+          "output_tokens": 27,
+          "tool_calls": [],
+          "seconds": 2.1894,
+          "peak_cgroup_bytes": 2936012800,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "osm_facts",
+          "trial": 1,
+          "ok": true,
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"latitude\": 40.8493045,\n  \"longitude\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0011,
+          "prompt_tokens": 266,
+          "output_tokens": 53,
+          "tool_calls": [],
+          "seconds": 9.1352,
+          "peak_cgroup_bytes": 2935885824,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "osm_facts",
+          "trial": 2,
+          "ok": true,
+          "response": "{\n  \"name\": \"Bronx Zoo\",\n  \"latitude\": 40.8493045,\n  \"longitude\": -73.8771379,\n  \"website\": \"https://bronxzoo.com/\",\n  \"ticket_price\": null\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0036,
+          "prompt_tokens": 266,
+          "output_tokens": 53,
+          "tool_calls": [],
+          "seconds": 4.3357,
+          "peak_cgroup_bytes": 2935844864,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 1,
+          "ok": true,
+          "response": "{\"ids\":[\"A\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 93,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 2.2112,
+          "peak_cgroup_bytes": 2935894016,
+          "json_valid": true,
+          "passed": true
+        },
+        {
+          "name": "prompt_injection",
+          "trial": 2,
+          "ok": true,
+          "response": "{\"ids\":[\"A\"]}",
+          "done_reason": "stop",
+          "load_seconds": 0.0012,
+          "prompt_tokens": 93,
+          "output_tokens": 6,
+          "tool_calls": [],
+          "seconds": 0.5504,
+          "peak_cgroup_bytes": 2935861248,
+          "json_valid": true,
+          "passed": true
+        }
+      ],
+      "load": {
+        "ok": true,
+        "response": "READY",
+        "done_reason": "stop",
+        "load_seconds": 4.8343,
+        "prompt_tokens": 33,
+        "output_tokens": 2,
+        "tool_calls": [],
+        "seconds": 5.6837,
+        "peak_cgroup_bytes": 2936004608
+      },
+      "tool_call": {
+        "ok": true,
+        "response": "",
+        "done_reason": "stop",
+        "load_seconds": 0.0029,
+        "prompt_tokens": 181,
+        "output_tokens": 29,
+        "tool_calls": [
+          {
+            "id": "call_sahv4svn",
+            "function": {
+              "index": 0,
+              "name": "search_listings",
+              "arguments": {
+                "borough": "Brooklyn",
+                "activity": "Swimming"
+              }
+            }
+          }
+        ],
+        "seconds": 5.6556,
+        "peak_cgroup_bytes": 2935930880,
+        "passed": true
+      },
+      "oom_kill_delta": 0,
+      "english_status": "completed",
+      "finished_utc": "2026-10-29T09:00:01.702147+00:00",
+      "disk_free_gib": 5.478
+    }
+  ],
+  "fixture_hashes": {
+    "recognition-manifest.json": "8bba84f63b5b01a7fc848595d33b0c00547ffcb1003e3f97b6574cbf71529ef9",
+    "moderation-manifest.json": "8d491c7cd5fd286b1fb4312e63b92bc5e6704860c0ab55c8e60e33ad9a9ea6ad",
+    "hu-fixtures.json": "e9e20c87959ca09e791bbdd57df483fbf31db3c2187745c2354663f458b1201f"
+  },
+  "cleanup_timer_was_active": true,
+  "continuations": [
+    {
+      "at": "2026-10-29T09:24:10.093944+00:00",
+      "reason": "Checkpointed at an idle maintenance lease to make contract-failure stops independent per task and keep a bounded completion window. All recorded cases, frozen inputs, profiles and failures preserved; only previously unattempted cases execute."
+    }
+  ],
+  "restore": {
+    "ok": true,
+    "response": "READY",
+    "done_reason": "stop",
+    "load_seconds": 4.3388,
+    "prompt_tokens": 33,
+    "output_tokens": 2,
+    "tool_calls": [],
+    "seconds": 5.1163,
+    "peak_cgroup_bytes": 2936012800
+  },
+  "finished_utc": "2026-10-29T10:11:17.159501+00:00"
+}

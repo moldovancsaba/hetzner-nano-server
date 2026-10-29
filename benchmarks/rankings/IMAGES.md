@@ -1,6 +1,6 @@
 # General image recognition ranking
 
-Updated with the [Round 5 comparison](../round5/REPORT.md). Same 32-image reference cohort, exact deployed recognition implementation for the new variant; other full-cohort results are historical. Model/profile differences are not a controlled quantization-only experiment.
+Updated with the [Round 5 comparison](../round5/REPORT.md); [Round 6](../round6/REPORT.md) added no ranked recognition result (SmolVLM2 256M stopped on incomplete responses, InternVL3.5 1B was halted by a runner fault after 9 of 32 cases and is unranked). Same 32-image reference cohort, exact deployed recognition implementation for the new variant; other full-cohort results are historical. Model/profile differences are not a controlled quantization-only experiment.
 
 | Rank | Model | Readiness score | Valid outputs | Object reference F1 | OCR targets | Median seconds |
 | --- | --- | --- | --- | --- | --- | --- |

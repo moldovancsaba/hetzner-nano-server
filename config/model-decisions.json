@@ -88,6 +88,38 @@
       "source_revision": "8587de998f441aac03fdd57a85d2e4cb808c7d64",
       "temporary_weights_removed": true,
       "retest_only_if": "Fresh representative held-out data, changed artifact/profile or a justified narrow deployment use case."
+    },
+    "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf": {
+      "state": "evaluated_not_promoted",
+      "reason": "8/14 English checks versus Granite 14/14; the artifact reports no native tool support (tool check failed). Hungarian, scored separately, 2/24 strict structured against the unchanged 20/24 gate.",
+      "artifact_digest": "f58c0dd0f7a41d140f9d0cc65d2e4fc4e210ce0c7a8107ce130ff54ffec3b7d9",
+      "evidence": "benchmarks/round6/REPORT.md",
+      "weights_removed": true,
+      "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
+    },
+    "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M": {
+      "state": "evaluated_not_promoted",
+      "reason": "8/14 English checks versus Granite 14/14; no native tool support; declared 4K context cannot replace the verified 8K default. Hungarian, scored separately, 0/24 strict structured.",
+      "artifact_digest": "f61e489f75bce580924d3646671e58ba7f386ac2782c4582b36ff6a647e56a06",
+      "evidence": "benchmarks/round6/REPORT.md",
+      "weights_removed": true,
+      "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
+    },
+    "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0": {
+      "state": "evaluated_not_promoted",
+      "reason": "Recognition halted by the contract stop after three consecutive incomplete image responses (0/32 valid, 0/8 counts). Separate moderation completed 38/41 valid responses with macro F2 0.160 versus the Qwen3.5 0.8B default at 0.694.",
+      "artifact_digest": "a238e01ddaef6f36639574030394f2e346ea3ce28bff8522e9f18985e9e57c09",
+      "evidence": "benchmarks/round6/REPORT.md",
+      "weights_removed": true,
+      "retest_only_if": "Changed artifact, runtime or image-output profile; no unchanged repeat."
+    },
+    "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M": {
+      "state": "incomplete_runner_stop",
+      "reason": "Evaluation halted by a runner exception (StopIteration) after 9 of 32 recognition cases returned (median about 49 s, p95 about 85 s, 0 OOM). Robustness, counting and moderation never ran. This is a harness fault, not a quality verdict: the model is unranked and unscored beyond those 9 responses, and the resume step wrongly treated the earlier stop as final.",
+      "artifact_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+      "evidence": "benchmarks/round6/REPORT.md",
+      "weights_removed": true,
+      "retest_only_if": "Runner stop and resume logic fixed, then one owner-approved maintenance window (about 2 hours of exclusive inference); a repeat on the unfixed harness is barred."
     }
   }
 }

@@ -214,7 +214,8 @@
         "benchmarks/vision-evaluation/recognition-results.json",
         "benchmarks/vision-evaluation/moderation-results.json",
         "benchmarks/round5/results.json",
-        "benchmarks/non-english/hu-round1/results.json"
+        "benchmarks/non-english/hu-round1/results.json",
+        "benchmarks/round6/results.json"
       ],
       "outcomes": [
         "ran",
@@ -758,6 +759,88 @@
         "temporary_weights_removed": true,
         "retest_only_if": "Fresh representative held-out data, changed artifact/profile or a justified narrow deployment use case."
       }
+    },
+    {
+      "model": "hf.co/LiquidAI/LFM2-1.2B-GGUF:LFM2-1.2B-Q4_K_M.gguf",
+      "canonical": "lfm212b",
+      "evidence": [
+        "benchmarks/round6/results.json",
+        "benchmarks/non-english/hu-round3/results.json"
+      ],
+      "outcomes": [
+        "completed_with_module_failures",
+        "failed"
+      ],
+      "tested_digest": "f58c0dd0f7a41d140f9d0cc65d2e4fc4e210ce0c7a8107ce130ff54ffec3b7d9",
+      "decision": {
+        "state": "evaluated_not_promoted",
+        "reason": "8/14 English checks versus Granite 14/14; the artifact reports no native tool support (tool check failed). Hungarian, scored separately, 2/24 strict structured against the unchanged 20/24 gate.",
+        "artifact_digest": "f58c0dd0f7a41d140f9d0cc65d2e4fc4e210ce0c7a8107ce130ff54ffec3b7d9",
+        "evidence": "benchmarks/round6/REPORT.md",
+        "weights_removed": true,
+        "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
+      }
+    },
+    {
+      "model": "hf.co/allenai/OLMo-2-0425-1B-Instruct-GGUF:Q4_K_M",
+      "canonical": "olmo204251b",
+      "evidence": [
+        "benchmarks/round6/results.json",
+        "benchmarks/non-english/hu-round3/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "tested_digest": "f61e489f75bce580924d3646671e58ba7f386ac2782c4582b36ff6a647e56a06",
+      "decision": {
+        "state": "evaluated_not_promoted",
+        "reason": "8/14 English checks versus Granite 14/14; no native tool support; declared 4K context cannot replace the verified 8K default. Hungarian, scored separately, 0/24 strict structured.",
+        "artifact_digest": "f61e489f75bce580924d3646671e58ba7f386ac2782c4582b36ff6a647e56a06",
+        "evidence": "benchmarks/round6/REPORT.md",
+        "weights_removed": true,
+        "retest_only_if": "Changed artifact, runtime, test profile or a genuinely different task."
+      }
+    },
+    {
+      "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+      "canonical": "smolvlm2256mvideo",
+      "evidence": [
+        "benchmarks/round6/results.json"
+      ],
+      "outcomes": [
+        "completed_with_module_failures",
+        "failed",
+        "completed"
+      ],
+      "tested_digest": "a238e01ddaef6f36639574030394f2e346ea3ce28bff8522e9f18985e9e57c09",
+      "decision": {
+        "state": "evaluated_not_promoted",
+        "reason": "Recognition halted by the contract stop after three consecutive incomplete image responses (0/32 valid, 0/8 counts). Separate moderation completed 38/41 valid responses with macro F2 0.160 versus the Qwen3.5 0.8B default at 0.694.",
+        "artifact_digest": "a238e01ddaef6f36639574030394f2e346ea3ce28bff8522e9f18985e9e57c09",
+        "evidence": "benchmarks/round6/REPORT.md",
+        "weights_removed": true,
+        "retest_only_if": "Changed artifact, runtime or image-output profile; no unchanged repeat."
+      }
+    },
+    {
+      "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+      "canonical": "opengvlabinternvl351b",
+      "evidence": [
+        "benchmarks/round6/results.json"
+      ],
+      "outcomes": [
+        "failed",
+        "completed"
+      ],
+      "tested_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+      "decision": {
+        "state": "incomplete_runner_stop",
+        "reason": "Evaluation halted by a runner exception (StopIteration) after 9 of 32 recognition cases returned (median about 49 s, p95 about 85 s, 0 OOM). Robustness, counting and moderation never ran. This is a harness fault, not a quality verdict: the model is unranked and unscored beyond those 9 responses, and the resume step wrongly treated the earlier stop as final.",
+        "artifact_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+        "evidence": "benchmarks/round6/REPORT.md",
+        "weights_removed": true,
+        "retest_only_if": "Runner stop and resume logic fixed, then one owner-approved maintenance window (about 2 hours of exclusive inference); a repeat on the unfixed harness is barred."
+      }
     }
   ],
   "source_hashes": {
@@ -775,6 +858,8 @@
     "benchmarks/round5/results.json": "e490ddf44092c30798c4d4c752748ca8840736bf419d2661111bdc895d1e7eca",
     "benchmarks/non-english/hu-round1/results.json": "4e54e7becd3c3146799e372c5768c5c78c10bd85802e959c052ee0d7e1ad5f65",
     "benchmarks/non-english/hu-round2/results.json": "69b8e8b468342a2a9b55a8adcc4fa40632d3b6543f0f3ee9b486c5bde3388f4a",
-    "benchmarks/camera-specialists/results.json": "f0b838fac81ba89660c31e70ca9696d853f4ecca6dceb4cdbf348a79f561ff7a"
+    "benchmarks/camera-specialists/results.json": "f0b838fac81ba89660c31e70ca9696d853f4ecca6dceb4cdbf348a79f561ff7a",
+    "benchmarks/round6/results.json": "cefcf3da507050a153b7faa7fba0986244d41066d86f41a80034a54b6e7e78f1",
+    "benchmarks/non-english/hu-round3/results.json": "51b3a9bf4ed0a4af5cc288d1167258bf800c9219c3e883d56c6329d1d54d1040"
   }
 }
