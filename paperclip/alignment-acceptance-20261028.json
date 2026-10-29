@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-28",
+  "policy": "classscout-auto-v6",
+  "routines_enabled": 18,
+  "local_tests_passed": 245,
+  "deployed_tests_passed": 245,
+  "live_access_checks_passed": 7,
+  "browser": {
+    "desktop": true,
+    "mobile_width": 390,
+    "javascript_errors": 0,
+    "horizontal_overflow": false,
+    "failed_refresh_recovery": true
+  },
+  "customer_delivery": "drafts_only",
+  "model_context": 8192,
+  "source_language_generation": "No new Hungarian generation; literal source preservation",
+  "structured_program_updates": true,
+  "engine_clients": {
+    "padel-africa": true,
+    "sportolok": true
+  },
+  "new_publication_claimed": false,
+  "restore": {
+    "started_at": 1793192007.157778,
+    "network_egress": false,
+    "production_files_changed": false,
+    "factory_tables": 34,
+    "image_matches_production": true,
+    "native_database": {
+      "companies": 1,
+      "agents": 5,
+      "issues": 169,
+      "agents_paused": true,
+      "triggers_disabled": true
+    },
+    "password_gate_restored": true,
+    "locked_dashboard_refused": true,
+    "native_ui": true,
+    "company_api": true,
+    "factory_dashboard": true,
+    "factory_metrics": true,
+    "published_receipts_restored": 1,
+    "active_agents_in_clone": 0,
+    "completed_at": 1793192106.5225687,
+    "status": "passed",
+    "scope": "Isolated full stack: SQL, persistent files, secrets, factory state, native UI, proxy and password gate. Public DNS/TLS issuance and real host failover are not exercised."
+  },
+  "backup": {
+    "status": "Verified off-server",
+    "verified_at": 1793191641.8720586,
+    "next_run": "Daily at 03:20 Budapest",
+    "destination": "Owner Mac",
+    "archive": "paperclip-recovery-20261028T124716Z.tar.gz",
+    "sha256": "736cc7aa67c61e4e30d37645aa7042b398fbd92b532069daa3557c5f2c0e159c",
+    "sqlite_integrity": "ok",
+    "retained_off_server": 1
+  },
+  "known_limits": [
+    "Source identity, image and access gaps remain held.",
+    "Full application restore was isolated; public DNS/TLS and real host failover were not exercised.",
+    "Mac backup requires availability and SSH access.",
+    "Initial bounded program scan found no eligible changed program."
+  ],
+  "program_packets": [],
+  "engine_packets": [],
+  "delivery_issue": "NAR-181"
+}

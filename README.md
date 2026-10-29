@@ -4,6 +4,10 @@ Established 2026-10-26. Public GitHub repository: [hetzner-nano-server](https://
 
 Local documentation root: `/Users/Shared/Projects/hetzner`.
 
+## Paperclip server
+
+The second host, `narimato-paperclip` (`2.29.113.132`), serves https://paperclip.haho.ai behind a password-only access gate. See [deployment, credentials, backups and verification](paperclip/README.md). The ClassScout factory has Research Analyst, Content Quality Reviewer, Support Drafter, Publication Coordinator and Search Coordinator roles using the tested 8K local model profile. Start with the [five operating workflows](paperclip/factory/WORKFLOWS.md). See [maintenance and industry recommendations](paperclip/factory/INDUSTRY-RESEARCH-20261028.md) for operating priorities and evidence.
+
 ## Public benchmark dashboard
 
 [Open the shareable results dashboard](https://chatbotapi.haho.ai/benchmarks/) — historical rankings, all attempted model variants, failures and source evidence. No login required. See [refresh and measurement notes](docs/PUBLIC-DASHBOARD.md).

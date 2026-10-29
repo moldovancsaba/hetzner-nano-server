@@ -1,0 +1,280 @@
+{
+  "checked_at": "2026-10-28T02:29:32.327248+00:00",
+  "maintenance_status": "passed",
+  "fix": "Persist model-wait identity, deadline and bounded attempts independently of Paperclip consuming its native monitor. Resume only the same assigned task after its durable deadline. Clear wait after successful work.",
+  "tests": {
+    "factory_local": {
+      "passed": 86,
+      "total": 86
+    },
+    "factory_server": {
+      "passed": 86,
+      "total": 86
+    },
+    "gateway_local": {
+      "passed": 45,
+      "total": 45,
+      "runtime": "existing isolated evaluation environment with pinned tokenizer; no inference calls"
+    }
+  },
+  "task_counts": {
+    "backlog": 4,
+    "in_review": 22,
+    "cancelled": 8
+  },
+  "blocked_tasks": [],
+  "agents": [
+    {
+      "name": "Research Analyst",
+      "status": "idle",
+      "heartbeat": {
+        "enabled": false,
+        "intervalSec": 0,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    },
+    {
+      "name": "Support Drafter",
+      "status": "idle",
+      "heartbeat": {
+        "enabled": false,
+        "intervalSec": 0,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    },
+    {
+      "name": "Content Quality Reviewer",
+      "status": "idle",
+      "heartbeat": {
+        "enabled": false,
+        "intervalSec": 0,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    },
+    {
+      "name": "Publication Coordinator",
+      "status": "idle",
+      "heartbeat": {
+        "enabled": false,
+        "intervalSec": 0,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    },
+    {
+      "name": "Search Coordinator",
+      "status": "idle",
+      "heartbeat": {
+        "enabled": true,
+        "intervalSec": 1800,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    }
+  ],
+  "pilot_tasks": [
+    {
+      "identifier": "NAR-26",
+      "status": "in_review",
+      "assigneeAgentId": "4ce34eff-b851-4a7f-a5b7-8a011cf574b3",
+      "assigneeUserId": null,
+      "monitorNextCheckAt": null,
+      "executionBlocker": null,
+      "activeRecoveryAction": null
+    },
+    {
+      "identifier": "NAR-31",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "assigneeUserId": "local-board",
+      "monitorNextCheckAt": null,
+      "executionBlocker": null,
+      "activeRecoveryAction": null
+    },
+    {
+      "identifier": "NAR-32",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "assigneeUserId": "local-board",
+      "monitorNextCheckAt": null,
+      "executionBlocker": null,
+      "activeRecoveryAction": null
+    },
+    {
+      "identifier": "NAR-33",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "assigneeUserId": "local-board",
+      "monitorNextCheckAt": null,
+      "executionBlocker": null,
+      "activeRecoveryAction": null
+    },
+    {
+      "identifier": "NAR-34",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "assigneeUserId": "local-board",
+      "monitorNextCheckAt": null,
+      "executionBlocker": null,
+      "activeRecoveryAction": null
+    }
+  ],
+  "native_research_resumes": [
+    {
+      "id": "2707c61f-6b86-4a83-a521-2891459910a0",
+      "issue_id": "e645adc1-ef61-4108-b813-2efc94a3e504",
+      "role": "research",
+      "status": "completed",
+      "result": {
+        "status": "in_review",
+        "issue_id": "e645adc1-ef61-4108-b813-2efc94a3e504",
+        "identifier": "NAR-31",
+        "entities": [
+          "b559b9044252c22534ca611af6ac34bc"
+        ],
+        "model_metrics": [
+          {
+            "model": "granite4:1b-h",
+            "context": 8192,
+            "usage": {
+              "prompt_tokens": 1637,
+              "completion_tokens": 395,
+              "total_tokens": 2032
+            }
+          }
+        ],
+        "stage": "research_review",
+        "summary": "Source-backed draft prepared for human review"
+      },
+      "error": null,
+      "native_run_status": "cancelled",
+      "native_trigger": "system",
+      "wake_reason": "issue_monitor_due",
+      "context_issue": "e645adc1-ef61-4108-b813-2efc94a3e504"
+    },
+    {
+      "id": "78a06b25-778d-4df8-a9f0-d7ad013753fa",
+      "issue_id": "64a0b25d-5c61-4015-8324-f262e3c79b57",
+      "role": "research",
+      "status": "completed",
+      "result": {
+        "status": "in_review",
+        "issue_id": "64a0b25d-5c61-4015-8324-f262e3c79b57",
+        "identifier": "NAR-32",
+        "entities": [
+          "1d9245c9429d74423ab441905cb0cb11"
+        ],
+        "model_metrics": [
+          {
+            "model": "granite4:1b-h",
+            "context": 8192,
+            "usage": {
+              "prompt_tokens": 1316,
+              "completion_tokens": 278,
+              "total_tokens": 1594
+            }
+          }
+        ],
+        "stage": "research_review",
+        "summary": "Source-backed draft prepared for human review"
+      },
+      "error": null,
+      "native_run_status": "cancelled",
+      "native_trigger": "system",
+      "wake_reason": "issue_monitor_due",
+      "context_issue": "64a0b25d-5c61-4015-8324-f262e3c79b57"
+    }
+  ],
+  "sqlite_integrity": "ok",
+  "model_waits": [],
+  "search": {
+    "enabled": true,
+    "budget": {
+      "used_this_window": 2,
+      "automatic_limit": 1800,
+      "account_limit": 2000,
+      "estimated_account_remaining": 1998,
+      "reserve": 200,
+      "used_today": 2,
+      "daily_limit": 48,
+      "next_search_at": 1793152134.8035536,
+      "provider_reset_at": 1793491198.8035536,
+      "window_start": 1790812797.46058
+    },
+    "queue": [
+      {
+        "status": "completed",
+        "count": 1
+      }
+    ]
+  },
+  "container": {
+    "health": "healthy",
+    "restart_count": 0,
+    "oom_killed": false
+  },
+  "disk": {
+    "used_percent": 44.0,
+    "free_gib": 19.28
+  },
+  "secret_modes": {
+    "/etc/paperclip-brave.env": "0o600",
+    "/etc/paperclip-local-ai.env": "0o600",
+    "/etc/paperclip-classscout.env": "0o600",
+    "/etc/paperclip-access.env": "0o600"
+  },
+  "publishing": "NAR-26 approval remains pending; no catalog publication or external message during maintenance",
+  "database_restore": {
+    "status": "passed",
+    "postgres_version": "18.1",
+    "backup": "paperclip-20261028-021150.sql.gz",
+    "restored_counts": {
+      "companies": 1,
+      "agents": 5,
+      "issues": 32
+    },
+    "production_cluster_touched": false,
+    "temporary_cluster_stopped_and_removed": true,
+    "full_replacement_host_drill": false
+  },
+  "limits": [
+    "Source quality success is not complete publication readiness. NAR-34 needs a supported provider name.",
+    "No new routine, alert channel, paid provider or weight download was installed.",
+    "Published security advisories reviewed and current access boundaries tested; not a comprehensive vulnerability audit."
+  ],
+  "access_checks": {
+    "passed": 16,
+    "total": 16
+  },
+  "model_server": {
+    "checked_at_utc": "2026-10-28T02:16:12Z",
+    "services": [
+      "gateway active",
+      "chat active",
+      "model cleanup timer active"
+    ],
+    "failed_units": 0,
+    "disk_used_percent": 75,
+    "disk_free_gib_approx": 9,
+    "available_memory_mib": 1455,
+    "maintenance_lease_active": false,
+    "model_policy_check": "passed",
+    "default_text_model": "granite4:1b-h",
+    "paperclip_total_context_tokens": 8192
+  },
+  "report": {
+    "path": "INDUSTRY-RESEARCH-20261028.md",
+    "dashboard": "https://paperclip.haho.ai/NAR/issues/NAR-35"
+  },
+  "recovery_bundle": {
+    "created_at_utc": "2026-10-28T02:31:45Z",
+    "restricted_off_host_copy_refreshed": true,
+    "contains_code_secrets_and_consistent_ledger": true,
+    "sqlite_integrity": "ok",
+    "brave_attempts": 2,
+    "pending_model_waits": 0
+  }
+}

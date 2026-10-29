@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-10-28T00:48:22.460580+00:00",
+  "attempts": 1,
+  "query_purpose": "Locate the official program page for the existing ClassScout publication pilot",
+  "automatic_search_enabled": false,
+  "response_content_persisted": false,
+  "http_status": 200,
+  "quota_headers": {
+    "X-RateLimit-Limit": "1, 2000",
+    "X-RateLimit-Policy": "1;w=1, 2000;w=2678400",
+    "X-RateLimit-Remaining": "0, 2000",
+    "X-RateLimit-Reset": "1, 342695"
+  },
+  "result_count": 15,
+  "official_program_page_found": true
+}

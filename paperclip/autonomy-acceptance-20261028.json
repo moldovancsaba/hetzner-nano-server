@@ -1,0 +1,113 @@
+{
+  "recorded_at": "2026-10-28T20:50:43.482069+00:00",
+  "tests_passed": 300,
+  "routines_configured": 19,
+  "coordinator_routine": {
+    "kind": "autonomous_coordination",
+    "id": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+    "title": "Keep company workflows moving",
+    "project_id": "31389722-c7ef-405c-b0ba-4a2322c633e5",
+    "trigger_id": "8e1e64eb-61f5-4682-be20-4eadeb2302fe",
+    "cron": "*/5 * * * *",
+    "timezone": "Europe/Budapest",
+    "enabled": true
+  },
+  "native_triggers": [
+    {
+      "kind": "schedule",
+      "enabled": true,
+      "cronExpression": "*/5 * * * *",
+      "timezone": "Europe/Budapest",
+      "lastFiredAt": "2026-10-28T20:50:23.819Z",
+      "nextRunAt": "2026-10-28T20:55:00.000Z",
+      "lastResult": "Created execution issue 5f2bbfb4-0866-413f-b41f-c52994a6127d"
+    }
+  ],
+  "scheduled_ticks": [
+    {
+      "issue_id": "5983aa82-6846-4379-823d-14a7d4bde3c0",
+      "report": {
+        "checked_at": 1793220331.562857,
+        "handoffs_delivered": [
+          "NAR-355",
+          "NAR-356",
+          "NAR-357"
+        ],
+        "pending_handoffs": 0,
+        "recovery": {
+          "planned": [
+            {
+              "source": "NAR-175",
+              "condition": "parser_contract",
+              "request_key": "auto-recovery-1f4490afef5b73779c06c55895a5c292dd5c1c6b9e627debfd1cbf585d116440"
+            }
+          ],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 1.2129743099212646,
+        "no_business_write_replay": true
+      },
+      "created_at": 1793220331.5629995
+    },
+    {
+      "issue_id": "5f2bbfb4-0866-413f-b41f-c52994a6127d",
+      "report": {
+        "checked_at": 1793220628.6519473,
+        "handoffs_delivered": [],
+        "pending_handoffs": 0,
+        "recovery": {
+          "planned": [],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [
+            {
+              "source": "NAR-175",
+              "continuation": "NAR-358",
+              "original_retained": true
+            }
+          ],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 0,
+        "no_business_write_replay": true
+      },
+      "created_at": 1793220628.6520693
+    }
+  ],
+  "recovery_records": [
+    {
+      "root_issue": "7e4b8246-c61c-4d26-ab00-1d8b4d3a4f57",
+      "source_issue": "7e4b8246-c61c-4d26-ab00-1d8b4d3a4f57",
+      "status": "handed_off",
+      "target_issue": "0bb46169-0219-40bc-a468-fb694ec4afcf",
+      "attempts": 1,
+      "error_category": null
+    }
+  ],
+  "pending_handoffs": 0,
+  "manual_business_queue_operations_during_commissioning": 0,
+  "customer_messages_sent": 0,
+  "coordinator_model_calls": 0,
+  "coordinator_search_calls": 0,
+  "live_access_checks": 7,
+  "browser_validation": {
+    "desktop": true,
+    "mobile": true,
+    "script_errors": 0,
+    "horizontal_overflow": false,
+    "failed_refresh_recovery": true
+  },
+  "limits": [
+    "Unresolved business facts stay held.",
+    "All existing write packets exclude automatic successor creation.",
+    "Original blocked history remains unchanged under the native execution guard.",
+    "At most three successors per lineage; one attempt for the same parser contract.",
+    "Only read/evidence workflow successors are enabled; no sending or sales CRM writes."
+  ],
+  "delivery_issue": "NAR-361"
+}

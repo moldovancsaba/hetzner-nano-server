@@ -1,0 +1,29 @@
+paperclip.haho.ai {
+	encode zstd gzip
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy same-origin
+		Strict-Transport-Security "max-age=31536000"
+		X-Robots-Tag "noindex, nofollow"
+	}
+	handle /_access/* {
+		reverse_proxy 127.0.0.1:8088 {
+			header_up X-Real-IP {remote_host}
+		}
+	}
+	handle {
+		route {
+			forward_auth 127.0.0.1:8088 {
+				uri /_access/check
+			}
+			@company_results path /factory /factory/ /factory/metrics
+			handle @company_results {
+				reverse_proxy 127.0.0.1:9089
+			}
+			handle {
+				reverse_proxy 127.0.0.1:3100
+			}
+		}
+	}
+}

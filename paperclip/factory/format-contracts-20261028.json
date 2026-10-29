@@ -1,0 +1,52 @@
+{
+  "controlled_fixtures": true,
+  "application_source_unchanged": true,
+  "checks": [
+    {
+      "name": "monthly infants",
+      "error": null,
+      "price": {
+        "evidence": "stated",
+        "amount": 150,
+        "currency": "USD",
+        "unit": "month",
+        "sourceText": "$150 per month",
+        "sourceUrl": "https://example.org/classes",
+        "observedAt": "2026-10-28T09:48:45.797882+00:00"
+      },
+      "ageMin": 6,
+      "ageMax": 18
+    },
+    {
+      "name": "semester children",
+      "error": null,
+      "price": {
+        "evidence": "stated",
+        "amount": 550,
+        "currency": "USD",
+        "unit": "semester",
+        "sourceText": "$550 per semester",
+        "sourceUrl": "https://example.org/classes",
+        "observedAt": "2026-10-28T09:48:45.798051+00:00"
+      },
+      "ageMin": 60,
+      "ageMax": 120
+    },
+    {
+      "name": "dated camp",
+      "error": null,
+      "price": {
+        "evidence": "stated",
+        "amount": 350,
+        "currency": "USD",
+        "unit": "week",
+        "sourceText": "$350 per week",
+        "sourceUrl": "https://example.org/classes",
+        "observedAt": "2026-10-28T09:48:45.798125+00:00"
+      },
+      "ageMin": 60,
+      "ageMax": 120
+    }
+  ],
+  "media": "controlled hosted-image fixture; no production submission"
+}

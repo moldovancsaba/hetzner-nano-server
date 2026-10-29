@@ -1,0 +1,12 @@
+{
+  "base_url": "https://chatbotapi.haho.ai/v1",
+  "async_jobs_url": "https://chatbotapi.haho.ai/v1/jobs",
+  "model": "auto",
+  "current_model": "granite4:1b-h",
+  "context_tokens": 8192,
+  "max_output_tokens": 1024,
+  "max_pending_jobs": 1,
+  "long_inputs": "Use asynchronous jobs; keep source excerpts compact. Token counting reserves output and template space.",
+  "credential_file": "/etc/paperclip-local-ai.env",
+  "agent_status": "Research, quality and support roles plus approval-gated ClassScout publication coordinator deployed; model remains 8K."
+}

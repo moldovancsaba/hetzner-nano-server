@@ -1,0 +1,15 @@
+{
+  "approved": true,
+  "errors": [],
+  "warnings": [],
+  "validatorVersion": "classscout-publish-gate@0.1.0",
+  "validatedAt": "2026-10-28T00:33:36.783Z",
+  "duplicateRisk": "low",
+  "duplicateImage": {
+    "status": "unique",
+    "matches": []
+  },
+  "auditMetadata": {
+    "qualityIssues": []
+  }
+}

@@ -1,0 +1,34 @@
+services:
+  paperclip:
+    image: ${PAPERCLIP_IMAGE:?Set the verified immutable image digest in .env}
+    container_name: narimato-paperclip
+    network_mode: host
+    restart: unless-stopped
+    pids_limit: 1024
+    mem_limit: 2800m
+    cpus: 2
+    stop_grace_period: 90s
+    environment:
+      HOST: 127.0.0.1
+      PORT: '3100'
+      PAPERCLIP_HOME: /paperclip
+      PAPERCLIP_DEPLOYMENT_MODE: local_trusted
+      PAPERCLIP_DEPLOYMENT_EXPOSURE: private
+      PAPERCLIP_PUBLIC_URL: https://paperclip.haho.ai
+      PAPERCLIP_ALLOWED_HOSTNAMES: paperclip.haho.ai
+      PAPERCLIP_AGENT_JWT_SECRET: ${PAPERCLIP_AGENT_JWT_SECRET:?Required}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?Required}
+      PAPERCLIP_TOOL_ACTION_SIGNING_SECRET: ${PAPERCLIP_TOOL_ACTION_SIGNING_SECRET:?Required}
+    volumes:
+      - ./data:/paperclip
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3100/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      start_period: 120s
+      retries: 3

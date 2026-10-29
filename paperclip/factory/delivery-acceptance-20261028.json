@@ -1,0 +1,560 @@
+{
+  "recorded_at": 1793182771.1453722,
+  "policy": {
+    "enabled": true,
+    "policy": "classscout-auto-v4",
+    "daily_write_limit": 20
+  },
+  "tests": 196,
+  "format_contracts": {
+    "controlled_fixtures": true,
+    "application_source_unchanged": true,
+    "checks": [
+      {
+        "name": "monthly infants",
+        "error": null,
+        "price": {
+          "evidence": "stated",
+          "amount": 150,
+          "currency": "USD",
+          "unit": "month",
+          "sourceText": "$150 per month",
+          "sourceUrl": "https://example.org/classes",
+          "observedAt": "2026-10-28T09:48:45.797882+00:00"
+        },
+        "ageMin": 6,
+        "ageMax": 18
+      },
+      {
+        "name": "semester children",
+        "error": null,
+        "price": {
+          "evidence": "stated",
+          "amount": 550,
+          "currency": "USD",
+          "unit": "semester",
+          "sourceText": "$550 per semester",
+          "sourceUrl": "https://example.org/classes",
+          "observedAt": "2026-10-28T09:48:45.798051+00:00"
+        },
+        "ageMin": 60,
+        "ageMax": 120
+      },
+      {
+        "name": "dated camp",
+        "error": null,
+        "price": {
+          "evidence": "stated",
+          "amount": 350,
+          "currency": "USD",
+          "unit": "week",
+          "sourceText": "$350 per week",
+          "sourceUrl": "https://example.org/classes",
+          "observedAt": "2026-10-28T09:48:45.798125+00:00"
+        },
+        "ageMin": 60,
+        "ageMax": 120
+      }
+    ],
+    "media": "controlled hosted-image fixture; no production submission"
+  },
+  "dashboard_url": "https://paperclip.haho.ai/factory",
+  "dashboard_access": {
+    "access_checks_passed": 7,
+    "html_authenticated": true,
+    "metrics_authenticated": true,
+    "same_password_gate": true,
+    "funnel": {
+      "research_drafts": 16,
+      "source_checked": 12,
+      "needs_evidence": 1,
+      "published": 1,
+      "updates_verified": 2,
+      "writes_uncertain": 0,
+      "write_attempts_total": 3
+    },
+    "padel": {
+      "tenant_verified": true,
+      "catalog_total": 944
+    },
+    "csp_present": true
+  },
+  "browser_checks": {
+    "desktop": true,
+    "mobile_width": 390,
+    "javascript_errors": 0,
+    "horizontal_overflow": false
+  },
+  "recovery": [
+    {
+      "name": "Schedule and Registration Info \u2022 High Quality Hands-On Parent & Me Music Classes",
+      "added_fields": [],
+      "recovered_fields": [],
+      "pages_checked": [
+        "https://tamtambrooklyn.com/music-together-class-schedule-tam-tam-brooklyn/",
+        "https://tamtambrooklyn.com/about-tamtam-music-together-classes-brooklyn/",
+        "https://tamtambrooklyn.com/"
+      ],
+      "ambiguous_address": false,
+      "method": "literal same-host source pages; unique street or exact known branch"
+    },
+    {
+      "name": "Brooklyn Music Factory",
+      "added_fields": [
+        "address"
+      ],
+      "recovered_fields": [
+        "address"
+      ],
+      "pages_checked": [
+        "https://brooklynmusicfactory.com/pricing-faqs/",
+        "https://brooklynmusicfactory.com/"
+      ],
+      "ambiguous_address": false,
+      "method": "literal same-host source pages; unique street or exact known branch"
+    },
+    {
+      "name": "Brooklyn Music School",
+      "added_fields": [
+        "address"
+      ],
+      "recovered_fields": [
+        "address"
+      ],
+      "pages_checked": [
+        "https://www.brooklynmusicschool.org/",
+        "https://www.brooklynmusicschool.org/contact-brooklyn-music-school",
+        "https://www.brooklynmusicschool.org/studio-rentals",
+        "https://www.brooklynmusicschool.org/mission-history-of-brooklyn-music-school"
+      ],
+      "ambiguous_address": false,
+      "method": "literal same-host source pages; unique street or exact known branch"
+    },
+    {
+      "name": "Soccer Friends USA",
+      "added_fields": [
+        "address"
+      ],
+      "recovered_fields": [
+        "address"
+      ],
+      "pages_checked": [
+        "https://www.soccerfriendsusa.com/",
+        "https://www.soccerfriendsusa.com/about-us",
+        "https://www.soccerfriendsusa.com/locations",
+        "https://www.soccerfriendsusa.com/contact"
+      ],
+      "ambiguous_address": false,
+      "method": "literal same-host source pages; unique street or exact known branch"
+    }
+  ],
+  "branches": [
+    {
+      "task": "NAR-93",
+      "status": "done",
+      "packet": {
+        "provider_id": "prov-fancy-feet-dance",
+        "status": "applied",
+        "receipt_json": "{\"private_verified\": true, \"public_verified\": true, \"fields\": [\"email\", \"phone\"], \"provider_id\": \"prov-fancy-feet-dance\"}"
+      }
+    },
+    {
+      "task": "NAR-94",
+      "status": "done",
+      "packet": null
+    }
+  ],
+  "business_metrics": {
+    "updated_at": "2026-10-28T10:19:31.038513+00:00",
+    "timezone": "Europe/Budapest",
+    "mode": "Growth mode",
+    "funnel": {
+      "research_drafts": 16,
+      "source_checked": 12,
+      "needs_evidence": 1,
+      "published": 1,
+      "updates_verified": 2,
+      "writes_uncertain": 0,
+      "write_attempts_total": 3
+    },
+    "source_states": {
+      "ready_for_human_review": 12,
+      "draft": 3,
+      "needs_more_evidence": 1
+    },
+    "updates": {
+      "applied": 2
+    },
+    "last_24h_runs": {
+      "failed": 7,
+      "completed": 89,
+      "blocked": 8
+    },
+    "by_market": [
+      {
+        "borough": "Unclassified",
+        "activity": "Unclassified",
+        "research_drafts": 7,
+        "source_checked": 4,
+        "published": 0
+      },
+      {
+        "borough": "Queens",
+        "activity": "Dance, Performance",
+        "research_drafts": 1,
+        "source_checked": 1,
+        "published": 0
+      },
+      {
+        "borough": "Bronx",
+        "activity": "Dance",
+        "research_drafts": 1,
+        "source_checked": 1,
+        "published": 0
+      },
+      {
+        "borough": "Brooklyn",
+        "activity": "Music",
+        "research_drafts": 4,
+        "source_checked": 3,
+        "published": 1
+      },
+      {
+        "borough": "Queens",
+        "activity": "Soccer",
+        "research_drafts": 2,
+        "source_checked": 2,
+        "published": 0
+      },
+      {
+        "borough": "Brooklyn",
+        "activity": "Art, Music, STEM",
+        "research_drafts": 1,
+        "source_checked": 1,
+        "published": 0
+      }
+    ],
+    "blocked": [
+      {
+        "identifier": "NAR-92",
+        "title": "Review contact refresh: Purpose Life Church | Home",
+        "url": "https://paperclip.haho.ai/NAR/issues/NAR-92"
+      },
+      {
+        "identifier": "NAR-83",
+        "title": "Research candidate: Music Lessons & Camps in Brooklyn | Brooklyn Music Factory",
+        "url": "https://paperclip.haho.ai/NAR/issues/NAR-83"
+      },
+      {
+        "identifier": "NAR-82",
+        "title": "Research candidate: Music Classes for Ages 4-5 in Brooklyn | Brooklyn Music Factory",
+        "url": "https://paperclip.haho.ai/NAR/issues/NAR-82"
+      },
+      {
+        "identifier": "NAR-81",
+        "title": "Research candidate: Music Classes for Ages 6-8 in Brooklyn | Brooklyn Music Factory",
+        "url": "https://paperclip.haho.ai/NAR/issues/NAR-81"
+      },
+      {
+        "identifier": "NAR-84",
+        "title": "Review contact refresh: Soccer Friends USA",
+        "url": "https://paperclip.haho.ai/NAR/issues/NAR-84"
+      },
+      {
+        "identifier": "NAR-79",
+        "title": "Prepare listing: Brooklyn Music Factory",
+        "url": "https://paperclip.haho.ai/NAR/issues/NAR-79"
+      }
+    ],
+    "search_budget": {
+      "used_this_window": 4,
+      "automatic_limit": 1800,
+      "account_limit": 2000,
+      "estimated_account_remaining": 1996,
+      "reserve": 200,
+      "used_today": 4,
+      "daily_limit": 48,
+      "next_search_at": 1793183381.4520423,
+      "provider_reset_at": 1793491199.4520423,
+      "window_start": 1790812797.46058
+    },
+    "daily_write_limit": 20,
+    "recovery": {
+      "attempts": 4,
+      "fields_recovered": 3
+    },
+    "padel": {
+      "brand": "Padel Africa",
+      "origin": "https://padel-africa.doneisbetter.com",
+      "tenant_verified": true,
+      "catalog_total": 944,
+      "rows_available": 500,
+      "truncated": true,
+      "triage": {
+        "cardTotal": 890,
+        "byState": {
+          "PUBLISHED": 796,
+          "QUARANTINED": 51,
+          "BLOCKED_TERMINAL": 37,
+          "REVIEW_READY": 6
+        },
+        "terminalStates": [
+          "PUBLISHED",
+          "BLOCKED_TERMINAL",
+          "QUARANTINED"
+        ],
+        "stuckDays": 7,
+        "stuckCount": 6,
+        "stuckSample": [
+          {
+            "id": "research-zmb-ven-006",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "source_seed",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-26T03:14:06.113Z",
+            "listingId": "l-research-zmb-ven-006"
+          },
+          {
+            "id": "research-syc-ven-005",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "source_seed",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-26T09:08:50.945Z",
+            "listingId": "l-research-syc-ven-005"
+          },
+          {
+            "id": "research-tun-ven-010",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "repair",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-27T00:37:17.255Z",
+            "listingId": "l-research-tun-ven-010"
+          },
+          {
+            "id": "research-zaf-ven-072",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "repair",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-27T02:56:38.134Z",
+            "listingId": "l-research-zaf-ven-072"
+          },
+          {
+            "id": "research-zaf-ven-174",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "source_seed",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-27T17:07:03.868Z",
+            "listingId": "l-research-zaf-ven-174"
+          },
+          {
+            "id": "openclaw-88padelacademy-88padelacademy.com",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "live_discovery",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-29T11:07:02.196Z",
+            "listingId": "l-openclaw-88padelacademy-88padelacademy.com"
+          }
+        ],
+        "reviewReadySoftIncomplete": 6,
+        "reviewReadySample": [
+          {
+            "id": "research-zmb-ven-006",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "source_seed",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-26T03:14:06.113Z",
+            "listingId": "l-research-zmb-ven-006"
+          },
+          {
+            "id": "research-syc-ven-005",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "source_seed",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-26T09:08:50.945Z",
+            "listingId": "l-research-syc-ven-005"
+          },
+          {
+            "id": "research-tun-ven-010",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "repair",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-27T00:37:17.255Z",
+            "listingId": "l-research-tun-ven-010"
+          },
+          {
+            "id": "research-zaf-ven-072",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "repair",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-27T02:56:38.134Z",
+            "listingId": "l-research-zaf-ven-072"
+          },
+          {
+            "id": "research-zaf-ven-174",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "source_seed",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-27T17:07:03.868Z",
+            "listingId": "l-research-zaf-ven-174"
+          },
+          {
+            "id": "openclaw-88padelacademy-88padelacademy.com",
+            "lastReason": "soft-incomplete: human review before publish",
+            "sourcePool": "live_discovery",
+            "state": "REVIEW_READY",
+            "updatedAt": "2026-09-29T11:07:02.196Z",
+            "listingId": "l-openclaw-88padelacademy-88padelacademy.com"
+          }
+        ],
+        "geoBlockedCards": 0
+      },
+      "localities": [
+        "Cape Town",
+        "Johannesburg",
+        "Pretoria",
+        "Durban",
+        "Stellenbosch",
+        "Cairo",
+        "Alexandria",
+        "New Cairo",
+        "Marrakesh",
+        "Casablanca",
+        "Rabat",
+        "Tangier",
+        "Tunis",
+        "Algiers",
+        "Lagos",
+        "Abuja",
+        "Accra",
+        "Nairobi",
+        "Mombasa",
+        "Kampala",
+        "Dar es Salaam",
+        "Kigali",
+        "Addis Ababa",
+        "Dakar",
+        "Abidjan",
+        "Luanda",
+        "Maputo",
+        "Windhoek",
+        "Gaborone",
+        "Port Louis"
+      ],
+      "checked_at": "2026-10-28T09:59:32.713225+00:00",
+      "writes": 0
+    },
+    "definitions": {
+      "published": "Confirmed ClassScout private save and matching core public catalog read.",
+      "source_checked": "Name/address evidence passed; this does not establish complete publication readiness.",
+      "by_market": "Research intent groups; source claims are separately checked.",
+      "write_attempts_total": "Reservations across catalog writes and evidence intake, including uncertain replies.",
+      "search_cost": "Request consumption shown; no paid cost is assumed from the free allowance."
+    }
+  },
+  "native_routines": {
+    "routines": [
+      {
+        "kind": "verify_catalog",
+        "id": "b5a61b25-9a40-47dd-983e-53be21aafe81",
+        "title": "Verify existing ClassScout listings",
+        "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+        "trigger_id": "705dffc4-3664-4f52-9744-ec0ab73d30af",
+        "cron": "0 * * * *",
+        "timezone": "Europe/Budapest",
+        "enabled": true
+      },
+      {
+        "kind": "publication_queue",
+        "id": "48cd987a-a4e5-43ac-bd74-ffe22e58e252",
+        "title": "Prepare complete ClassScout listings",
+        "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+        "trigger_id": "4358d52b-0a44-4bce-aed7-b5bff444d958",
+        "cron": "15,45 * * * *",
+        "timezone": "Europe/Budapest",
+        "enabled": true
+      },
+      {
+        "kind": "audit_site",
+        "id": "11d12cc6-fc11-42a0-b0f3-a3c1dba83a43",
+        "title": "Audit ClassScout public pages",
+        "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+        "trigger_id": "9e0125c3-6f2f-4e9e-92ff-1649d0f7939d",
+        "cron": "30 8 * * *",
+        "timezone": "Europe/Budapest",
+        "enabled": true
+      },
+      {
+        "kind": "operations_digest",
+        "id": "5959bd5f-fa3f-48b7-8d38-ad321ef9269b",
+        "title": "Summarize ClassScout operations",
+        "project_id": "31389722-c7ef-405c-b0ba-4a2322c633e5",
+        "trigger_id": "517519e9-5f70-45c1-b10b-7ef7921341b2",
+        "cron": "0 9 * * *",
+        "timezone": "Europe/Budapest",
+        "enabled": true
+      },
+      {
+        "kind": "support_answer",
+        "id": "eefb6512-a798-4a6d-a135-f38275a36efe",
+        "title": "Draft a ClassScout reply",
+        "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+        "manual_only": true,
+        "enabled": true
+      },
+      {
+        "kind": "growth_dispatch",
+        "id": "be622575-8080-4944-a22c-f9ad568a2331",
+        "title": "Run ClassScout discovery",
+        "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+        "trigger_id": "a94d0d5d-79d5-4909-a56f-46bcf7b6c736",
+        "cron": "*/30 * * * *",
+        "timezone": "Europe/Budapest",
+        "enabled": true
+      },
+      {
+        "kind": "recover_evidence",
+        "id": "32e42a1a-5a5f-45e4-8c96-540369e625db",
+        "title": "Recover missing ClassScout evidence",
+        "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+        "trigger_id": "c2ca7a56-64b0-43a1-8751-2154c2d8440e",
+        "cron": "20 * * * *",
+        "timezone": "Europe/Budapest",
+        "enabled": true
+      },
+      {
+        "kind": "padel_maintenance",
+        "id": "a2ce286f-6ced-4787-bd3c-293684629fc8",
+        "title": "Check Padel Africa catalog",
+        "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
+        "trigger_id": "02c89cef-cadf-4b34-88c8-86588cf3da36",
+        "cron": "10 9 * * *",
+        "timezone": "Europe/Budapest",
+        "enabled": true
+      },
+      {
+        "kind": "padel_intake",
+        "id": "dee5fc7f-60fe-4615-b082-f7e1e643a73e",
+        "title": "Submit a Padel Africa source",
+        "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
+        "manual_only": true,
+        "enabled": true
+      }
+    ],
+    "timezone": "Europe/Budapest",
+    "schedules_enabled": true,
+    "support": "event-driven, draft-only",
+    "rollout_issue": "NAR-36",
+    "growth_mode": true
+  },
+  "model_inference_for_recovery_or_dashboard": false,
+  "application_code_or_filters_changed": false,
+  "limitations": [
+    "Tam Tam remains held: same-host evidence does not resolve provider/street",
+    "Extended formats passed controlled canonical schema contracts; no fabricated live publication",
+    "Padel source intake receipts are not public publication receipts; no unnecessary live Padel insert",
+    "Padel machine catalog is a bounded 500-row slice; engine owns final deduplication",
+    "Sportolok Hungarian inference not enabled from English test evidence"
+  ],
+  "rollout_issue": "NAR-96",
+  "rollout_issue_id": "c0253c67-f723-4fb0-9c57-8d6153edc98c"
+}

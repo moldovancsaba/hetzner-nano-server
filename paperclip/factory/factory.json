@@ -1,0 +1,73 @@
+{
+  "company_id": "c561073b-69f4-4194-91b3-1e1d982f8935",
+  "mode": "source research with budgeted Brave discovery",
+  "projects": {
+    "b41d2192-853d-481f-937d-bc5491db2b0f": "ClassScout",
+    "0383cd85-ca7b-41b6-ae57-8eca9cb9b8dc": "Sportolok",
+    "6c4d96a1-bcc6-470f-913e-cab3f18711e4": "Management",
+    "a2de1092-316c-4f53-8c41-9b8ca0d512b8": "Padel Africa",
+    "31389722-c7ef-405c-b0ba-4a2322c633e5": "Factory Operations",
+    "178bcea1-5d18-417b-b96a-023765f1d3e8": "Sales Lead Generator"
+  },
+  "agents": {
+    "1b97f320-9664-428a-a737-806e14863c3c": {
+      "name": "Research Analyst",
+      "role": "research"
+    },
+    "601aba21-cb1c-4c38-ab02-e10ed0feb94d": {
+      "name": "Content Quality Reviewer",
+      "role": "quality"
+    },
+    "60643269-9124-48b3-8853-3546de672f91": {
+      "name": "Support Drafter",
+      "role": "support"
+    },
+    "4ce34eff-b851-4a7f-a5b7-8a011cf574b3": {
+      "name": "Publication Coordinator",
+      "role": "publication"
+    },
+    "192c8fa3-ae2d-487f-9a76-9d355df1993a": {
+      "name": "Search Coordinator",
+      "role": "search"
+    }
+  },
+  "pilot_brand": "ClassScout",
+  "publishing_enabled": true,
+  "outreach_enabled": false,
+  "max_source_pages_per_task": 2,
+  "reviewer_user_id": "local-board",
+  "search_enabled": true,
+  "search_candidate_limit": 3,
+  "operational_workflows_enabled": true,
+  "catalog_batch_size": 3,
+  "audit_page_limit": 6,
+  "audit_seed_urls": [
+    "https://getyourfield.com/",
+    "https://getyourfield.com/nyc/classes",
+    "https://getyourfield.com/nyc/family-events"
+  ],
+  "automatic_quality_gate": {
+    "enabled": true,
+    "policy": "classscout-auto-v6",
+    "daily_write_limit": 20
+  },
+  "growth_mode": {
+    "enabled": true,
+    "coverage": "NYC children activities across all five boroughs",
+    "campaign": "classscout-nyc-v1",
+    "active_research_limit": 10
+  },
+  "padel_enabled": true,
+  "reliability_enabled": true,
+  "padel_discovery_enabled": true,
+  "engine_clients": {
+    "padel-africa": true,
+    "sportolok": true
+  },
+  "program_updates_enabled": true,
+  "sales": {
+    "brands": [],
+    "crm_writes_enabled": false,
+    "delivery_enabled": false
+  }
+}

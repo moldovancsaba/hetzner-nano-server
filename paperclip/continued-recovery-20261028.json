@@ -1,0 +1,109 @@
+{
+  "recorded_at": "2026-10-28T20:17:20.709932+00:00",
+  "tests_passed": 279,
+  "live_access_checks": 7,
+  "browser_checks": "desktop, mobile and failed-refresh recovery passed",
+  "continuations": [
+    {
+      "original": "NAR-189",
+      "continuation": "NAR-333",
+      "id": "58731a8e-cafe-49b6-b870-96b79384b5e5",
+      "status": "done",
+      "result": {
+        "status": "done",
+        "issue_id": "58731a8e-cafe-49b6-b870-96b79384b5e5",
+        "identifier": "NAR-333",
+        "entities": [
+          "4f32ebd3680d591de08e9a0edf79e4bc"
+        ],
+        "model_metrics": [
+          {
+            "model": "granite4:1b-h",
+            "context": 8192,
+            "usage": {
+              "prompt_tokens": 1313,
+              "completion_tokens": 30,
+              "total_tokens": 1343
+            }
+          }
+        ],
+        "stage": "research_review",
+        "summary": "Source-backed draft prepared for human review"
+      }
+    },
+    {
+      "original": "NAR-300",
+      "continuation": "NAR-334",
+      "id": "46299e3a-0577-4a0c-aa92-7b618b652c34",
+      "status": "done",
+      "result": {
+        "status": "done",
+        "issue_id": "46299e3a-0577-4a0c-aa92-7b618b652c34",
+        "identifier": "NAR-334",
+        "entities": [
+          "77d67385408e35da051e6a5ca2029a9a"
+        ],
+        "model_metrics": [
+          {
+            "model": "granite4:1b-h",
+            "context": 8192,
+            "usage": {
+              "prompt_tokens": 1535,
+              "completion_tokens": 30,
+              "total_tokens": 1565
+            }
+          }
+        ],
+        "stage": "research_review",
+        "summary": "Source-backed draft prepared for human review"
+      }
+    },
+    {
+      "original": "NAR-176",
+      "continuation": "NAR-335",
+      "id": "5ee49afa-ef95-42db-a81e-06e97c682a75",
+      "status": "done",
+      "result": {
+        "status": "done",
+        "issue_id": "5ee49afa-ef95-42db-a81e-06e97c682a75",
+        "identifier": "NAR-335",
+        "entities": [],
+        "model_metrics": [],
+        "stage": "engine_source_expanded",
+        "summary": "Workflow stage: engine_source_expanded"
+      }
+    },
+    {
+      "original": "NAR-218",
+      "continuation": "NAR-336",
+      "id": "eb2169a4-da77-47ba-98de-3a7226cba47b",
+      "status": "done",
+      "result": {
+        "status": "done",
+        "issue_id": "eb2169a4-da77-47ba-98de-3a7226cba47b",
+        "identifier": "NAR-336",
+        "entities": [],
+        "model_metrics": [],
+        "stage": "engine_source_expanded",
+        "summary": "Workflow stage: engine_source_expanded"
+      }
+    }
+  ],
+  "saved_quality_handoffs_delivered": 13,
+  "remaining_blocked": [
+    "NAR-339",
+    "NAR-340",
+    "NAR-338",
+    "NAR-331",
+    "NAR-329",
+    "NAR-327",
+    "NAR-175",
+    "NAR-92",
+    "NAR-84"
+  ],
+  "queued_handoffs": 0,
+  "engine_packets": [],
+  "sales": "Workspace and scoped key still required; no sending enabled",
+  "no_new_publication_claimed_by_this_round": true,
+  "delivery_issue": "NAR-342"
+}

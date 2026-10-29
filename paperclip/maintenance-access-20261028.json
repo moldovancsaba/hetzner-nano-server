@@ -1,0 +1,134 @@
+{
+  "checks": [
+    {
+      "check": "locked home redirects",
+      "status": 303,
+      "passed": true
+    },
+    {
+      "check": "login screen",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "check": "API locked",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "check": "spoofed forwarded headers cannot bypass gate",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "check": "login rejects missing origin",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "check": "wrong password rejected",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "check": "Pandora password accepted",
+      "status": 303,
+      "passed": true
+    },
+    {
+      "check": "unlocked UI",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "check": "application health",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "check": "board company access",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "check": "cross-origin mutation blocked",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "check": "mutation without origin blocked",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "check": "live updates connect",
+      "status": 101,
+      "passed": true
+    },
+    {
+      "check": "locked live updates blocked",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "check": "logout",
+      "status": 303,
+      "passed": true
+    },
+    {
+      "check": "tampered session rejected",
+      "status": 401,
+      "passed": true
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "version": "2026.1023.0",
+    "serverVersion": "2026.1023.0",
+    "commit": "1b4c803816e82b0265c8422e1a804327a7ed8c54",
+    "deploymentMode": "local_trusted",
+    "deploymentExposure": "private",
+    "localAiLoginSupported": true,
+    "authReady": true,
+    "bootstrapStatus": "ready",
+    "bootstrapInviteActive": false,
+    "features": {
+      "companyDeletionEnabled": true
+    },
+    "serverInfo": {
+      "processStartedAt": "2026-10-27T16:11:45.679Z",
+      "git": {
+        "available": true,
+        "fullSha": "1b4c803816e82b0265c8422e1a804327a7ed8c54",
+        "shortSha": "1b4c803",
+        "branchName": null,
+        "subject": "Source build",
+        "committedAt": null,
+        "localChanges": {
+          "available": false,
+          "unavailableReason": "git_status_unavailable"
+        }
+      }
+    },
+    "startupRecovery": {
+      "phase": "ready",
+      "updatedAt": "2026-10-27T16:11:50.320Z"
+    },
+    "nativeRecovery": {},
+    "databaseBackup": {
+      "enabled": true,
+      "status": "ok",
+      "backupDir": "/paperclip/instances/default/data/backups",
+      "maxAgeHours": 26,
+      "latestBackup": {
+        "name": "paperclip-20261028-021150.sql.gz",
+        "path": "/paperclip/instances/default/data/backups/paperclip-20261028-021150.sql.gz",
+        "mtime": "2026-10-28T02:11:53.349Z",
+        "ageHours": 0.1,
+        "sizeBytes": 508673
+      },
+      "lastFailure": null,
+      "warnings": []
+    }
+  }
+}

@@ -1,0 +1,372 @@
+{
+  "recorded_at": 1793185491.401545,
+  "tests": 218,
+  "active_routines": [
+    {
+      "kind": "verify_catalog",
+      "id": "b5a61b25-9a40-47dd-983e-53be21aafe81",
+      "cron": "0 * * * *",
+      "active": true
+    },
+    {
+      "kind": "publication_queue",
+      "id": "48cd987a-a4e5-43ac-bd74-ffe22e58e252",
+      "cron": "15,45 * * * *",
+      "active": true
+    },
+    {
+      "kind": "audit_site",
+      "id": "11d12cc6-fc11-42a0-b0f3-a3c1dba83a43",
+      "cron": "30 8 * * *",
+      "active": true
+    },
+    {
+      "kind": "operations_digest",
+      "id": "5959bd5f-fa3f-48b7-8d38-ad321ef9269b",
+      "cron": "0 9 * * *",
+      "active": true
+    },
+    {
+      "kind": "support_answer",
+      "id": "eefb6512-a798-4a6d-a135-f38275a36efe",
+      "cron": null,
+      "active": true
+    },
+    {
+      "kind": "growth_dispatch",
+      "id": "be622575-8080-4944-a22c-f9ad568a2331",
+      "cron": "*/30 * * * *",
+      "active": true
+    },
+    {
+      "kind": "recover_evidence",
+      "id": "32e42a1a-5a5f-45e4-8c96-540369e625db",
+      "cron": "20 * * * *",
+      "active": true
+    },
+    {
+      "kind": "padel_maintenance",
+      "id": "a2ce286f-6ced-4787-bd3c-293684629fc8",
+      "cron": "10 9 * * *",
+      "active": true
+    },
+    {
+      "kind": "padel_intake",
+      "id": "dee5fc7f-60fe-4615-b082-f7e1e643a73e",
+      "cron": null,
+      "active": true
+    },
+    {
+      "kind": "reliability_round",
+      "id": "2f5abc32-a02b-446d-9f56-19aa1e0dd405",
+      "cron": "25 * * * *",
+      "active": true
+    },
+    {
+      "kind": "freshness_round",
+      "id": "15903ca5-87e3-49a2-a0a3-3c9278c0d2ec",
+      "cron": "35 */6 * * *",
+      "active": true
+    },
+    {
+      "kind": "knowledge_round",
+      "id": "42769795-a299-46e3-8f81-53ebe970f7c7",
+      "cron": "50 */6 * * *",
+      "active": true
+    },
+    {
+      "kind": "padel_discovery",
+      "id": "a5f55164-2951-4536-ae71-eea0908229f3",
+      "cron": "5 10,16 * * *",
+      "active": true
+    }
+  ],
+  "flags": {
+    "reliability_enabled": true,
+    "padel_discovery_enabled": true
+  },
+  "reports": [
+    {
+      "kind": "reliability_round",
+      "result": {
+        "source_rechecks": [
+          {
+            "task": "NAR-92",
+            "source_changed": false,
+            "baseline_recorded": true
+          },
+          {
+            "task": "NAR-83",
+            "source_changed": false,
+            "baseline_recorded": true
+          }
+        ],
+        "blockers_documented": [
+          "NAR-92",
+          "NAR-83",
+          "NAR-82",
+          "NAR-81",
+          "NAR-84",
+          "NAR-79"
+        ],
+        "original_tasks_reconciled": [],
+        "unchanged_blind_retries": false
+      }
+    },
+    {
+      "kind": "padel_discovery",
+      "result": {
+        "task": "NAR-106",
+        "city": "Cape Town"
+      }
+    },
+    {
+      "kind": "freshness_round",
+      "result": {
+        "checked": [
+          {
+            "provider_id": "prov-tinyout-brooklyn-music-factory",
+            "status": "baseline_recorded",
+            "sources": [
+              {
+                "url": "https://brooklynmusicfactory.com/",
+                "sha256": "bbc3cea78eb074073d1f24b626cce9dd44ae64c6521cd01306e57f2dffdf6cc6"
+              }
+            ],
+            "checked_at": 1793184697.9151711
+          },
+          {
+            "provider_id": "prov-tinyout-the-art-farm-nyc",
+            "status": "baseline_recorded",
+            "sources": [
+              {
+                "url": "https://www.theartfarms.com/schedule/",
+                "sha256": "448caa6f0124d20e375ff9049f3b591a1da844c51230a4898d09f65f71a7cc75"
+              },
+              {
+                "url": "https://www.theartfarms.com/about-us/",
+                "sha256": "9cbb427152c9aee4de78f0e5407b33864a7a5fef19adef911de3e417f1f2b633"
+              },
+              {
+                "url": "https://www.theartfarms.com/contact/",
+                "sha256": "01328b2ec9a2ef5ee0092edee66acd36ae96c76b5a9fd69d7f7d123173a1d52d"
+              }
+            ],
+            "checked_at": 1793184697.9151711
+          },
+          {
+            "provider_id": "prov-city-ice-pavilion",
+            "status": "baseline_recorded",
+            "sources": [
+              {
+                "url": "https://www.cityicepavilion.com/",
+                "sha256": "95f7b91279296a15e966db0b7d3bde52ad1cd0f0f6b011715aeb02d46784372c"
+              },
+              {
+                "url": "https://www.cityicepavilion.com/studio-rink-2/",
+                "sha256": "9cb461a78e1a8428f3e9ba7cbfd61bdf3cf29c32a81c37d8dce77142fe2ae402"
+              }
+            ],
+            "checked_at": 1793184697.9151711
+          }
+        ],
+        "expired_camp_issues": [],
+        "program_price_schedule_updates": "Held for program-specific canonical revalidation; not written through contact patches."
+      }
+    },
+    {
+      "kind": "knowledge_round",
+      "result": {
+        "providers_checked": 3,
+        "ready_answers": 5,
+        "missing_evidence": 2,
+        "customer_messages_sent": 0,
+        "expires_after_hours": 24
+      }
+    },
+    {
+      "kind": "reliability_round",
+      "result": {
+        "dispatched": [
+          "NAR-115"
+        ],
+        "source_rechecks": [
+          {
+            "task": "NAR-107",
+            "source_changed": false,
+            "baseline_recorded": true
+          },
+          {
+            "task": "NAR-79",
+            "source_changed": false,
+            "baseline_recorded": true
+          }
+        ],
+        "blockers_documented": [
+          "NAR-107"
+        ],
+        "original_tasks_reconciled": [],
+        "unchanged_blind_retries": false
+      }
+    },
+    {
+      "kind": "reliability_round",
+      "result": {
+        "dispatched": [],
+        "source_rechecks": [
+          {
+            "task": "NAR-115",
+            "source_changed": false,
+            "baseline_recorded": true
+          },
+          {
+            "task": "NAR-84",
+            "source_changed": false,
+            "baseline_recorded": true
+          }
+        ],
+        "blockers_documented": [
+          "NAR-115",
+          "NAR-123",
+          "NAR-84",
+          "NAR-81",
+          "NAR-82",
+          "NAR-83",
+          "NAR-92"
+        ],
+        "original_tasks_reconciled": [],
+        "unchanged_blind_retries": false
+      }
+    }
+  ],
+  "funnel": {
+    "research_drafts": 21,
+    "source_checked": 17,
+    "needs_evidence": 1,
+    "published": 1,
+    "updates_verified": 2,
+    "writes_uncertain": 0,
+    "write_attempts_total": 3
+  },
+  "delivery": {
+    "coordination": {
+      "delivered": 1
+    },
+    "unanswered_support_cases": 0,
+    "blocked_details": [
+      {
+        "identifier": "NAR-82",
+        "category": "input_review",
+        "action": "Review the exact held requirement and correct the brief. No facts may be inferred.",
+        "age_hours": 1.1,
+        "age_basis": "blocked transition",
+        "next_check_at": 1793271807.72241,
+        "recovery_attempts": 0
+      },
+      {
+        "identifier": "NAR-81",
+        "category": "input_review",
+        "action": "Review the exact held requirement and correct the brief. No facts may be inferred.",
+        "age_hours": 1.1,
+        "age_basis": "blocked transition",
+        "next_check_at": 1793271807.5755866,
+        "recovery_attempts": 0
+      },
+      {
+        "identifier": "NAR-84",
+        "category": "branch_identity",
+        "action": "Find an official location page naming this provider and exact physical branch.",
+        "age_hours": 1.1,
+        "age_basis": "blocked transition",
+        "next_check_at": 1793271810.421673,
+        "recovery_attempts": 0
+      },
+      {
+        "identifier": "NAR-92",
+        "category": "branch_identity",
+        "action": "Find an official location page naming this provider and exact physical branch.",
+        "age_hours": 1.0,
+        "age_basis": "blocked transition",
+        "next_check_at": 1793271808.0215545,
+        "recovery_attempts": 0
+      },
+      {
+        "identifier": "NAR-83",
+        "category": "input_review",
+        "action": "Review the exact held requirement and correct the brief. No facts may be inferred.",
+        "age_hours": 1.0,
+        "age_basis": "blocked transition",
+        "next_check_at": 1793271807.852375,
+        "recovery_attempts": 0
+      },
+      {
+        "identifier": "NAR-115",
+        "category": "program_price",
+        "action": "Find one official program page with an unambiguous stated fee and unit.",
+        "age_hours": 0.0,
+        "age_basis": "blocked transition",
+        "next_check_at": 1793271808.8316448,
+        "recovery_attempts": 0
+      },
+      {
+        "identifier": "NAR-123",
+        "category": "branch_identity",
+        "action": "Find an official location page naming this provider and exact physical branch.",
+        "age_hours": 0.0,
+        "age_basis": "last task update",
+        "next_check_at": 1793271806.6533642,
+        "recovery_attempts": 0
+      }
+    ],
+    "median_hours_to_publication": 8.38,
+    "publication_timing_samples": 1,
+    "verified_results_per_search": 0.6,
+    "verified_results": 3,
+    "search_requests": 5,
+    "repeated_wait_or_hold_runs_24h": 16,
+    "knowledge": {
+      "missing_evidence": 1,
+      "ready": 5
+    },
+    "freshness": {
+      "baseline_recorded": 3
+    },
+    "padel_intake": {},
+    "definitions": {
+      "timing": "First linked ancestor task creation to confirmed publication; only available linked histories.",
+      "search_yield": "Cumulative verified publications plus verified updates divided by shared search attempts; not causal attribution.",
+      "repeats": "Repeated recorded waiting/held stages on the same task in 24h; can include legitimate cooldown checks."
+    }
+  },
+  "search_budget": {
+    "used_this_window": 5,
+    "automatic_limit": 1800,
+    "account_limit": 2000,
+    "estimated_account_remaining": 1995,
+    "reserve": 200,
+    "used_today": 5,
+    "daily_limit": 48,
+    "next_search_at": 1793186546.5902593,
+    "provider_reset_at": 1793491199.5902593,
+    "window_start": 1790812797.46058
+  },
+  "dashboard_access_checks": 7,
+  "browser": {
+    "desktop": true,
+    "mobile": true,
+    "javascript_errors": 0,
+    "no_horizontal_overflow": true,
+    "stale_refresh_recovery": true
+  },
+  "native_hold": {
+    "identifier": "NAR-115",
+    "status": "blocked",
+    "native_owner_verified": true
+  },
+  "limitations": [
+    "Padel first discovery search queued behind shared broker; no live new Padel publication claimed.",
+    "Program price/schedule edits require their canonical revalidation contract; contacts/descriptions keep their existing automatic gate.",
+    "Ambiguous facts and uncertain receipts remain held; support sending disabled."
+  ],
+  "rollout_issue": "NAR-125"
+}

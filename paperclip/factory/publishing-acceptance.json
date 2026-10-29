@@ -1,0 +1,15 @@
+{
+  "issue": "NAR-26",
+  "issue_id": "e0b05000-c8a5-4ccf-9fb1-34b7869fb2d5",
+  "packet_hash": "d155b6dbbcc175f90d1879ff793066d6babe4d0d0a6cb9fce8a98beb254b1f8d",
+  "packet_status": "awaiting_approval",
+  "interaction_id": "9d1756d3-2c41-45f8-bbab-a1a877b258de",
+  "target_id": "prov-keylab",
+  "target_exists_before_approval": false,
+  "worker_execution_status": "succeeded",
+  "worker_exit_code": 0,
+  "tests_passed": 52,
+  "live_catalog_writes": 0,
+  "full_live_publication_test": "Pending genuine owner approval; preparation and exact payload gate were verified without publishing.",
+  "cancellation_guard": "Task status/ownership/brief and active run rechecked immediately before catalog submission"
+}

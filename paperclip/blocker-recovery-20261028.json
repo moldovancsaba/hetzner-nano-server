@@ -1,0 +1,79 @@
+{
+  "recorded_at": "2026-10-28T19:53:59.735947+00:00",
+  "before_blocked": 19,
+  "after_blocked": 7,
+  "completed_workflows": [
+    {
+      "issue": "NAR-160",
+      "status": "done",
+      "stage": "published"
+    },
+    {
+      "issue": "NAR-204",
+      "status": "done",
+      "stage": "refresh_applied"
+    },
+    {
+      "issue": "NAR-123",
+      "status": "done",
+      "stage": "refresh_applied"
+    },
+    {
+      "issue": "NAR-244",
+      "status": "done",
+      "stage": "refresh_no_change"
+    },
+    {
+      "issue": "NAR-297",
+      "status": "done",
+      "stage": "refresh_applied"
+    }
+  ],
+  "directory_sources_rejected": [
+    "NAR-174",
+    "NAR-260",
+    "NAR-261",
+    "NAR-277",
+    "NAR-278",
+    "NAR-279"
+  ],
+  "duplicate_cancelled": "NAR-236",
+  "duplicate_retained": "NAR-300",
+  "remaining_blocked": [
+    {
+      "issue": "NAR-189",
+      "title": "Research candidate: Admission & Tuition Information | Bronx School For Music"
+    },
+    {
+      "issue": "NAR-300",
+      "title": "Research candidate: Bronx River Art Center :: Education :: Children's Classes"
+    },
+    {
+      "issue": "NAR-218",
+      "title": "Verify official venue source: Home"
+    },
+    {
+      "issue": "NAR-176",
+      "title": "Verify specific venue sources: Recheck source contract: Verify Padel source: Venues \u2013 Virgin Active Padel Club"
+    },
+    {
+      "issue": "NAR-175",
+      "title": "Verify specific venue sources: k source contract: Verify Padel source: RB Club | Padel courts in Johannesburg & Cape Town"
+    },
+    {
+      "issue": "NAR-92",
+      "title": "Review contact refresh: Purpose Life Church | Home"
+    },
+    {
+      "issue": "NAR-84",
+      "title": "Review contact refresh: Soccer Friends USA"
+    }
+  ],
+  "tests_passed": 273,
+  "live_access_checks": 7,
+  "messages_sent": 0,
+  "publication_claims": 1,
+  "verified_contact_updates": 3,
+  "verified_no_change": 1,
+  "delivery_issue": "NAR-309"
+}

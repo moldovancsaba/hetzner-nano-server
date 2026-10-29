@@ -1,0 +1,16 @@
+{
+  "digest": "ghcr.io/paperclipai/paperclip@sha256:40f46940c4612ead131aebe6079cd4651f8cd1434af49f7c621887f4a452a62e",
+  "created": "2026-10-24T00:14:54.789125131Z",
+  "labels": {
+    "io.github.paperclipai.schema.last-migration": "0333_normal_wild_pack.sql",
+    "io.github.paperclipai.schema.migration-count": "332",
+    "org.opencontainers.image.created": "2026-10-24T00:06:01.223Z",
+    "org.opencontainers.image.description": "The open-source app everyone uses to manage agents at work",
+    "org.opencontainers.image.licenses": "MIT",
+    "org.opencontainers.image.revision": "1b4c803816e82b0265c8422e1a804327a7ed8c54",
+    "org.opencontainers.image.source": "https://github.com/paperclipai/paperclip",
+    "org.opencontainers.image.title": "paperclip",
+    "org.opencontainers.image.url": "https://github.com/paperclipai/paperclip",
+    "org.opencontainers.image.version": "2026.1023.0"
+  }
+}

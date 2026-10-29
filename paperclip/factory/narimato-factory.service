@@ -1,0 +1,30 @@
+[Unit]
+Description=Narimato source-backed research factory
+After=network-online.target docker.service
+Wants=network-online.target
+[Service]
+Type=simple
+DynamicUser=yes
+StateDirectory=narimato-factory
+StateDirectoryMode=0700
+WorkingDirectory=/opt/narimato-factory
+EnvironmentFile=/etc/paperclip-local-ai.env
+EnvironmentFile=-/etc/paperclip-classscout.env
+EnvironmentFile=-/etc/paperclip-brave.env
+EnvironmentFile=-/etc/paperclip-slg.env
+EnvironmentFile=-/etc/paperclip-padel.env
+Environment=FACTORY_STATE=/var/lib/narimato-factory
+Environment=FACTORY_CONFIG=/opt/narimato-factory/factory.json
+ExecStart=/usr/bin/python3 /opt/narimato-factory/worker.py
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=256M
+CPUQuota=50%
+TasksMax=32
+UMask=0077
+[Install]
+WantedBy=multi-user.target

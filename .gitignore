@@ -10,3 +10,10 @@ __pycache__/
 /private-training/
 *.sqlite3
 *.sqlite3-*
+
+# Paperclip research deliverables that quote real third-party contact details (public business e-mails and phones).
+# Kept locally and backed up with the factory; review and redact before ever publishing.
+/paperclip/factory/batch-20261028.json
+/paperclip/factory/classscout-handoff-20261028.json
+/paperclip/factory/growth-acceptance-20261028.json
+/paperclip/factory/workflows-acceptance-20261028.json

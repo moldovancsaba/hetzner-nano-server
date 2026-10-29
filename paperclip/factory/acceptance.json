@@ -1,0 +1,206 @@
+{
+  "checked_at": "2026-10-27T22:21:28.142743+00:00",
+  "issues": [
+    {
+      "id": "b40f8dc6-9824-4230-9943-e7fff61a8822",
+      "identifier": "NAR-6",
+      "title": "[Factory test] Research Dodge YMCA for ClassScout review",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "assigneeUserId": "local-board",
+      "unblockDescriptor": null,
+      "executionRunId": null
+    },
+    {
+      "id": "cdb42dda-6cfe-49fa-81c8-887dafa7c49d",
+      "identifier": "NAR-7",
+      "title": "[Factory test] Recheck Dodge YMCA evidence",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "assigneeUserId": "local-board",
+      "unblockDescriptor": null,
+      "executionRunId": null
+    },
+    {
+      "id": "0c2927e0-17be-4247-a700-70c85c9d9fbc",
+      "identifier": "NAR-8",
+      "title": "[Factory test] Draft provider contact response",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "assigneeUserId": "local-board",
+      "unblockDescriptor": null,
+      "executionRunId": null
+    },
+    {
+      "id": "cc817452-a988-4f33-8eb2-f01c71e29552",
+      "identifier": "NAR-9",
+      "title": "[Factory test] Missing source requires owner action",
+      "status": "cancelled",
+      "assigneeAgentId": "1b97f320-9664-428a-a737-806e14863c3c",
+      "assigneeUserId": null,
+      "unblockDescriptor": null,
+      "executionRunId": null,
+      "note": "Superseded operator negative test; replaced forbidden human-owned unblock descriptor with supported human question interaction."
+    }
+  ],
+  "agents": [
+    {
+      "name": "Research Analyst",
+      "status": "error",
+      "heartbeat": {
+        "enabled": false,
+        "intervalSec": 0,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    },
+    {
+      "name": "Content Quality Reviewer",
+      "status": "idle",
+      "heartbeat": {
+        "enabled": false,
+        "intervalSec": 0,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    },
+    {
+      "name": "Support Drafter",
+      "status": "idle",
+      "heartbeat": {
+        "enabled": false,
+        "intervalSec": 0,
+        "wakeOnDemand": true,
+        "maxConcurrentRuns": 1
+      }
+    }
+  ],
+  "research_evidence_found": true,
+  "support_reply_found": true,
+  "runs": [
+    {
+      "id": "e74b5209-0212-494a-b6af-fc6290566dbd",
+      "issue_id": "b40f8dc6-9824-4230-9943-e7fff61a8822",
+      "role": "research",
+      "status": "failed",
+      "started_at": "2026-10-27T22:06:22.195374+00:00",
+      "finished_at": "2026-10-27T22:07:12.033982+00:00",
+      "result": null,
+      "error": "Service returned HTTP 422: {\"error\":\"invalid_issue_disposition: Agent-authored updates that move an issue to in_review must include a real review path. This request would leave the issue in_review without anyone or anything owning the next action. Keep working instead of moving to review, create a request_confirmation or ask_user_questions interaction, link or request a pending approval, assign a human reviewer with assigneeUserId, set a typed executionState.currentParticipant through an execution policy, or schedule an issue monitor for an external review/check. After creating one of those review paths, retry the statu"
+    },
+    {
+      "id": "20e4df4e-c2db-442f-a4e1-b2f1094afad5",
+      "issue_id": "b40f8dc6-9824-4230-9943-e7fff61a8822",
+      "role": "research",
+      "status": "completed",
+      "started_at": "2026-10-27T22:16:07.533481+00:00",
+      "finished_at": "2026-10-27T22:17:33.761819+00:00",
+      "result": "{\"status\": \"in_review\", \"issue_id\": \"b40f8dc6-9824-4230-9943-e7fff61a8822\", \"identifier\": \"NAR-6\", \"entities\": [\"67f27a0644bc9967848025faecb4dfd9\"], \"model_metrics\": [{\"model\": \"granite4:1b-h\", \"context\": 8192, \"usage\": {\"prompt_tokens\": 993, \"completion_tokens\": 287, \"total_tokens\": 1280}}], \"summary\": \"Source-backed draft prepared for human review\"}",
+      "error": null
+    },
+    {
+      "id": "cc2ec779-8e83-4ba0-93c2-da01b4e8931e",
+      "issue_id": "0c2927e0-17be-4247-a700-70c85c9d9fbc",
+      "role": "support",
+      "status": "completed",
+      "started_at": "2026-10-27T22:17:34.047948+00:00",
+      "finished_at": "2026-10-27T22:19:20.048988+00:00",
+      "result": "{\"status\": \"in_review\", \"issue_id\": \"0c2927e0-17be-4247-a700-70c85c9d9fbc\", \"identifier\": \"NAR-8\", \"entities\": [\"67f27a0644bc9967848025faecb4dfd9\"], \"model_metrics\": [{\"model\": \"granite4:1b-h\", \"context\": 8192, \"usage\": {\"prompt_tokens\": 993, \"completion_tokens\": 287, \"total_tokens\": 1280}}], \"summary\": \"Source-backed draft prepared for human review\"}",
+      "error": null
+    },
+    {
+      "id": "941861af-4205-444f-9f64-849425cbba56",
+      "issue_id": "cdb42dda-6cfe-49fa-81c8-887dafa7c49d",
+      "role": "quality",
+      "status": "completed",
+      "started_at": "2026-10-27T22:19:20.466093+00:00",
+      "finished_at": "2026-10-27T22:19:21.762790+00:00",
+      "result": "{\"status\": \"in_review\", \"issue_id\": \"cdb42dda-6cfe-49fa-81c8-887dafa7c49d\", \"identifier\": \"NAR-7\", \"entities\": [\"67f27a0644bc9967848025faecb4dfd9\"], \"model_metrics\": [], \"summary\": \"Source-backed draft prepared for human review\"}",
+      "error": null
+    },
+    {
+      "id": "84ce8f69-a847-4c75-9474-ad3bcc51624d",
+      "issue_id": "cc817452-a988-4f33-8eb2-f01c71e29552",
+      "role": "research",
+      "status": "failed",
+      "started_at": "2026-10-27T22:19:42.575206+00:00",
+      "finished_at": "2026-10-27T22:19:42.776986+00:00",
+      "result": null,
+      "error": "Add one or two official source-page links to this task. Web-search discovery is not enabled in source-page mode."
+    },
+    {
+      "id": "bf0e70d3-8c5f-406b-a2b0-430b28d616de",
+      "issue_id": "fbc12517-89b5-4419-9415-c35f0ec4b275",
+      "role": "research",
+      "status": "blocked",
+      "started_at": "2026-10-27T22:20:45.979533+00:00",
+      "finished_at": "2026-10-27T22:20:46.661611+00:00",
+      "result": "{\"status\": \"blocked\", \"issue_id\": \"fbc12517-89b5-4419-9415-c35f0ec4b275\", \"identifier\": \"NAR-10\", \"summary\": \"Human action required: Add one or two official source-page links to this task. Web-search discovery is not enabled in source-page mode.\"}",
+      "error": "Add one or two official source-page links to this task. Web-search discovery is not enabled in source-page mode."
+    }
+  ],
+  "quality": [
+    {
+      "entity_id": "67f27a0644bc9967848025faecb4dfd9",
+      "verified_fields": [
+        "activities",
+        "address",
+        "name",
+        "phone"
+      ],
+      "changed_fields": [],
+      "missing_core_fields": [],
+      "status": "ready_for_human_review",
+      "source_url": "https://ymcanyc.org/locations/dodge-ymca",
+      "checked_at": "2026-10-27T22:19:21.243588+00:00"
+    }
+  ],
+  "drafts": [
+    {
+      "id": "67f27a0644bc9967848025faecb4dfd9",
+      "brand": "ClassScout",
+      "name": "Dodge YMCA",
+      "status": "ready_for_human_review",
+      "source_url": "https://ymcanyc.org/locations/dodge-ymca"
+    }
+  ],
+  "negative_test": {
+    "identifier": "NAR-10",
+    "status": "blocked",
+    "owner": "local-board",
+    "human_question": true,
+    "execution_status": "cancelled",
+    "expected_stop_reason": "issue_reassigned",
+    "model_calls": 0
+  },
+  "execution_handoffs": [
+    {
+      "run_id": "20e4df4e-c2db-442f-a4e1-b2f1094afad5",
+      "status": "cancelled",
+      "reason": "issue_reassigned",
+      "stop_confirmed": true
+    },
+    {
+      "run_id": "cc2ec779-8e83-4ba0-93c2-da01b4e8931e",
+      "status": "cancelled",
+      "reason": "issue_reassigned",
+      "stop_confirmed": true
+    },
+    {
+      "run_id": "941861af-4205-444f-9f64-849425cbba56",
+      "status": "cancelled",
+      "reason": "issue_reassigned",
+      "stop_confirmed": true
+    },
+    {
+      "run_id": "bf0e70d3-8c5f-406b-a2b0-430b28d616de",
+      "status": "cancelled",
+      "reason": "issue_reassigned",
+      "stop_confirmed": true
+    }
+  ],
+  "tests": {
+    "unit_passed": 15,
+    "access_passed": 16
+  }
+}

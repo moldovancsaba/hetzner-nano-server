@@ -1,0 +1,88 @@
+{
+  "status": "deployed",
+  "date": "2026-10-28",
+  "pilot_brand": "ClassScout",
+  "test_evidence": "brave-acceptance-20261028.json",
+  "secret_embedded": false,
+  "api": {
+    "origin": "https://api.search.brave.com",
+    "endpoint": "/res/v1/web/search",
+    "count": 20,
+    "country": "US",
+    "search_lang": "en",
+    "safesearch": "strict",
+    "result_filter": "web",
+    "extra_snippets": true,
+    "text_decorations": false,
+    "automatic_pagination": false
+  },
+  "quota": {
+    "scope": "shared Brave account, across every brand and API key",
+    "provider_requests_per_second": 1,
+    "provider_requests_per_month": 2000,
+    "automatic_monthly_ceiling": 1800,
+    "provider_remaining_floor": 200,
+    "maximum_attempts_per_day": 48,
+    "normal_interval_seconds": 1800,
+    "maximum_burst_requests": 3,
+    "intra_burst_spacing_seconds": 2,
+    "cooldown_after_burst_seconds_per_reserved_request": 1800,
+    "burst_charges_future_slots": true,
+    "empty_queue_means_no_request": true,
+    "catch_up_after_idle": false,
+    "provider_headers_define_window_reset": true,
+    "persist_counters_cooldown_and_inflight_reservations": true,
+    "count_uncertain_attempts_conservatively": true,
+    "test_attempts_already_used": 2,
+    "external_account_consumers_must_share_budget_or_be_accounted_for": true
+  },
+  "queue": {
+    "priorities": [
+      "Find official source pages that unblock complete listing publication",
+      "Discover genuinely missing providers in approved coverage gaps",
+      "Resolve public-information support questions only when existing evidence is insufficient"
+    ],
+    "initial_brand": "ClassScout",
+    "pause_new_discovery_at_unreviewed_drafts": 10,
+    "maximum_candidate_tasks_per_discovery_query": 5,
+    "deduplicate_query_intents_days": 7,
+    "deduplicate_entities_by": "provider identity and physical location; host alone must not merge branches",
+    "initial_candidate_tasks_per_search_job": 3,
+    "production_capacity_excludes_synthetic_factory_tasks": true
+  },
+  "retention": {
+    "brave_response_bodies": "RAM only by default; no persistent payload/snippet cache until plan storage rights are confirmed",
+    "operational_metadata": "durable query fingerprints, timestamps, quota headers/counters, status and task references",
+    "source_facts": "retain independently fetched source evidence under the existing factory policy",
+    "customer_private_details_in_queries": false
+  },
+  "integration": [
+    "brave.py: fixed-origin, server-only adapter; never expose the key to agents or the browser",
+    "search_budget.py: atomic SQLite reservations plus account-header reconciliation and cooldown",
+    "search_jobs table: priority, query-intent deduplication, provider/task correlation and next eligibility",
+    "Reuse bounded PublicWeb source reads, evidence validation, 8K inference and approval-gated ClassScout publication",
+    "Display usage, next search time, queued intent count and verified/publishable outcomes in factory reporting"
+  ],
+  "rollout": [
+    "Credential probe and supervised ClassScout STREB pilot completed within the shared budget; two successful requests total.",
+    "Search Coordinator enabled with persistent quota ledger, native deadline monitors and five-minute recovery heartbeat.",
+    "Both STREB source research tasks and automatic Quality reviews completed after a durable consumed-monitor fix. Kids passed source checks; camp needs a supported name. Publication still requires a complete packet and human approval.",
+    "Other brands require confirmed source schemas before enabling search."
+  ],
+  "scheduling": {
+    "native_issue_monitors": true,
+    "recovery_heartbeat_seconds": 1800,
+    "empty_queue_makes_no_requests": true
+  },
+  "growth_mode": {
+    "enabled": true,
+    "routine_interval_minutes": 30,
+    "coverage": "ClassScout NYC, all five boroughs and twelve activity groups",
+    "discovery_intents": 360,
+    "max_candidates_per_query": 3,
+    "quota_and_cooldown_unchanged": true,
+    "catalog_origin": "https://classscout.ai",
+    "publishing_policy": "classscout-auto-v3",
+    "daily_qualified_write_attempt_limit": 20
+  }
+}

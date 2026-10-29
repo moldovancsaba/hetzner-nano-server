@@ -1,0 +1,68 @@
+{
+  "recorded_at": 1793176924.575056,
+  "policy": {
+    "enabled": true,
+    "policy": "classscout-auto-v2",
+    "daily_write_limit": 10
+  },
+  "tests": 145,
+  "health": {
+    "status": "ok",
+    "mode": "source research with budgeted Brave discovery",
+    "search_enabled": true,
+    "publishing": "automatic quality gate",
+    "outreach": false
+  },
+  "rollout_issue": "NAR-50",
+  "rollout_issue_id": "58da7c1b-4628-432d-b584-d9a3aff11049",
+  "keylab": {
+    "issue": "NAR-26",
+    "packets": [
+      {
+        "packet_hash": "d155b6dbbcc175f90d1879ff793066d6babe4d0d0a6cb9fce8a98beb254b1f8d",
+        "status": "saved_hidden",
+        "receipt_json": "{\"status\": \"partial\", \"publishedEntityId\": \"prov-keylab\", \"publishedEntityType\": \"provider\", \"privateVerification\": {\"verified\": true, \"checkedAt\": \"2026-10-28T08:36:21.084Z\", \"verificationSource\": \"private-mongodb\", \"summary\": \"Entity persisted in private MongoDB.\"}, \"publicVerification\": {\"verified\": false, \"checkedAt\": \"2026-10-28T08:36:25.101Z\", \"verificationSource\": \"public-api\", \"summary\": \"Entity was not yet visible with matching public fields on attempt 3/3.\", \"attemptsUsed\": 3, \"candidateDomain\": \"www.keylab.nyc\"}, \"auditRef\": \"paperclip:e0b05000-c8a5-4ccf-9fb1-34b7869fb2d5\", \"retryable\": true, \"diagnostics\": [\"Entity was not yet visible with matching public fields on attempt 3/3.\"], \"gateResult\": {\"approved\": true, \"errors\": [], \"warnings\": [], \"validatorVersion\": \"classscout-publish-gate@0.1.0\", \"validatedAt\": \"2026-10-28T08:36:20.860Z\", \"duplicateRisk\": \"low\", \"duplicateImage\": {\"status\": \"unique\", \"matches\": []}, \"auditMetadata\": {\"qualityIssues\": []}}, \"visibilityReconciliation\": {\"checkedAt\": \"2026-10-28T08:39:53.098380+00:00\", \"settingsVersion\": \"g17.c12.d9.dc2\", \"reason\": \"Current ClassScout settings disable this listing from public display. No repeat write was sent.\"}}"
+      }
+    ],
+    "obsolete_confirmation_statuses": [
+      "expired"
+    ]
+  },
+  "automatic_decisions": [
+    {
+      "policy": "classscout-auto-v1",
+      "kind": "new_listing",
+      "decision": "pass",
+      "submitted_at": 1793176580.2969584
+    }
+  ],
+  "brave_attempts": 2,
+  "limitations": [
+    "Keylab saved_hidden: Music disabled; no settings override",
+    "No live publicly visible v2 publication yet",
+    "No unnecessary contact/content edit manufactured; controlled transports passed",
+    "Other brands need validated adapters",
+    "Support delivery remains draft-only"
+  ],
+  "v2_read_only_preflight": {
+    "policy": "classscout-auto-v2",
+    "kind": "new_listing",
+    "checks": {
+      "public_visibility_enabled": false,
+      "independent_source_review": true,
+      "source_identity": true,
+      "source_copy": true,
+      "class_price": true,
+      "age_bounds": true,
+      "class_timetable": true,
+      "official_contacts": true,
+      "activity": true,
+      "unclaimed_new_listing": true,
+      "qualified_image": true,
+      "https_sources": true,
+      "unambiguous_contacts": true
+    },
+    "passed": false
+  },
+  "updated_at": 1793176999.6768231
+}

@@ -1,0 +1,75 @@
+{
+  "recorded_at": 1793177762.045676,
+  "policy": {
+    "enabled": true,
+    "policy": "classscout-auto-v3",
+    "daily_write_limit": 10
+  },
+  "catalog_origin": "https://classscout.ai",
+  "tests": 152,
+  "live_read_only_gate": {
+    "policy": "classscout-auto-v3",
+    "kind": "new_listing",
+    "checks": {
+      "independent_source_review": true,
+      "source_identity": true,
+      "source_copy": true,
+      "class_price": true,
+      "age_bounds": true,
+      "class_timetable": true,
+      "official_contacts": true,
+      "activity": true,
+      "unclaimed_new_listing": true,
+      "qualified_image": true,
+      "https_sources": true,
+      "unambiguous_contacts": true
+    },
+    "passed": true
+  },
+  "domain_checks": {
+    "https://classscout.ai": {
+      "runtime_version": "g17.c12.d4.dc4",
+      "activity_enabled": {
+        "Music": true,
+        "STEM": true,
+        "Art": true
+      },
+      "keylab_status": 200
+    },
+    "https://getyourfield.com": {
+      "runtime_version": "g17.c12.d9.dc2",
+      "activity_enabled": {
+        "Music": false,
+        "STEM": false,
+        "Art": false
+      },
+      "keylab_status": 404
+    }
+  },
+  "keylab_task_status": "done",
+  "keylab_packet_status": "published",
+  "catalog_verification": {
+    "verified": true,
+    "private_verified": true,
+    "public_verified": true,
+    "origin": "https://classscout.ai",
+    "public_fields": [
+      "id",
+      "name",
+      "category",
+      "borough",
+      "neighborhood",
+      "address",
+      "shortDescription",
+      "longDescription"
+    ],
+    "checked_at": "2026-10-28T08:54:10.862950+00:00",
+    "method": "read-only per-ID core catalog verification"
+  },
+  "automatic_write_attempts": 1,
+  "brave_attempts": 2,
+  "application_code_or_settings_changed": false,
+  "catalog_writes_this_correction": 0,
+  "report_issue": "NAR-51",
+  "report_issue_id": "65a33b31-f643-4015-a631-451b11a4c976"
+}

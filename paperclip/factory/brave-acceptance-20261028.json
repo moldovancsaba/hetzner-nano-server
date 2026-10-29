@@ -1,0 +1,183 @@
+{
+  "checked_at": "2026-10-28T01:27:23.159994+00:00",
+  "status": "deployed",
+  "dashboard": "https://paperclip.haho.ai",
+  "guide_task": "NAR-30",
+  "local_tests": {
+    "count": 83,
+    "passed": 83
+  },
+  "server_tests": {
+    "count": 83,
+    "passed": 83
+  },
+  "health": {
+    "status": "ok",
+    "mode": "source research with budgeted Brave discovery",
+    "search_enabled": true,
+    "publishing": "human approval required",
+    "outreach": false
+  },
+  "budget": {
+    "used_this_window": 2,
+    "automatic_limit": 1800,
+    "account_limit": 2000,
+    "estimated_account_remaining": 1998,
+    "reserve": 200,
+    "used_today": 2,
+    "daily_limit": 48,
+    "next_search_at": 1793152134.8035536,
+    "provider_reset_at": 1793491198.8035536,
+    "window_start": 1790812797.46058
+  },
+  "queue": [
+    {
+      "status": "completed",
+      "count": 1
+    }
+  ],
+  "attempts": [
+    {
+      "id": "owner-authorized-probe-20261028",
+      "job_id": "manual-probe",
+      "status": "succeeded",
+      "http_status": 200,
+      "reserved_at": 1793148502.46058,
+      "burst_size": 1
+    },
+    {
+      "id": "cbcd6933-9c8b-4eff-88d1-14eddb9a8271",
+      "job_id": "2993890a-0f15-4b71-a78a-4051e878ed63",
+      "status": "succeeded",
+      "http_status": 200,
+      "reserved_at": 1793150333.6974616,
+      "burst_size": 1
+    }
+  ],
+  "issues": [
+    {
+      "identifier": "NAR-26",
+      "id": "e0b05000-c8a5-4ccf-9fb1-34b7869fb2d5",
+      "status": "in_review",
+      "assigneeAgentId": "4ce34eff-b851-4a7f-a5b7-8a011cf574b3",
+      "monitorNextCheckAt": null
+    },
+    {
+      "identifier": "NAR-27",
+      "id": "2993890a-0f15-4b71-a78a-4051e878ed63",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "monitorNextCheckAt": null
+    },
+    {
+      "identifier": "NAR-28",
+      "id": "381e80f0-4f9e-4167-87ba-415db8d98e73",
+      "status": "cancelled",
+      "assigneeAgentId": null,
+      "monitorNextCheckAt": null
+    },
+    {
+      "identifier": "NAR-29",
+      "id": "90bf00cc-e575-4fd1-92e3-b376c5e265d7",
+      "status": "cancelled",
+      "assigneeAgentId": null,
+      "monitorNextCheckAt": null
+    },
+    {
+      "identifier": "NAR-30",
+      "id": "651d9d14-949e-481f-96a7-de72d8f21447",
+      "status": "in_review",
+      "assigneeAgentId": null,
+      "monitorNextCheckAt": null
+    },
+    {
+      "identifier": "NAR-31",
+      "id": "e645adc1-ef61-4108-b813-2efc94a3e504",
+      "status": "in_review",
+      "assigneeAgentId": "1b97f320-9664-428a-a737-806e14863c3c",
+      "monitorNextCheckAt": "2026-10-28T01:31:32.559Z"
+    },
+    {
+      "identifier": "NAR-32",
+      "id": "64a0b25d-5c61-4015-8324-f262e3c79b57",
+      "status": "in_review",
+      "assigneeAgentId": "1b97f320-9664-428a-a737-806e14863c3c",
+      "monitorNextCheckAt": "2026-10-28T01:31:35.655Z"
+    }
+  ],
+  "search_runs": [
+    {
+      "id": "475e750e-9086-4d05-8e89-eab5bd6c05f4",
+      "status": "succeeded",
+      "source": null,
+      "triggerDetail": "system",
+      "createdAt": "2026-10-28T01:10:47.138Z",
+      "factory_stage": "search_waiting"
+    },
+    {
+      "id": "1a89b79e-e62a-4cda-ba0b-d45f4f0a4cf5",
+      "status": "succeeded",
+      "source": null,
+      "triggerDetail": "system",
+      "createdAt": "2026-10-28T01:10:49.051Z",
+      "factory_stage": "search_waiting"
+    },
+    {
+      "id": "d29ed6c5-8a7e-4405-b2cd-edc6c2b87aa1",
+      "status": "succeeded",
+      "source": null,
+      "triggerDetail": "system",
+      "createdAt": "2026-10-28T01:10:52.098Z",
+      "factory_stage": "search_waiting"
+    },
+    {
+      "id": "2a6734c2-8c6a-478b-aa0c-99ad2627a80b",
+      "status": "succeeded",
+      "source": null,
+      "triggerDetail": "system",
+      "createdAt": "2026-10-28T01:17:18.852Z",
+      "factory_stage": "search_waiting"
+    },
+    {
+      "id": "53e1645f-e1f8-455d-b819-25d696294072",
+      "status": "succeeded",
+      "source": null,
+      "triggerDetail": "system",
+      "createdAt": "2026-10-28T01:18:52.031Z",
+      "factory_stage": "search_waiting"
+    },
+    {
+      "id": "ec442c4f-0f00-4b9f-b48f-464902bb758e",
+      "status": "cancelled",
+      "source": null,
+      "triggerDetail": "manual",
+      "createdAt": "2026-10-28T01:22:39.008Z",
+      "factory_stage": "search_completed"
+    }
+  ],
+  "search_heartbeat": {
+    "enabled": true,
+    "intervalSec": 300,
+    "wakeOnDemand": true,
+    "maxConcurrentRuns": 1
+  },
+  "secret_file_mode": "0o600",
+  "service": "active",
+  "limitations": [
+    "The real search succeeded (HTTP 200), directly fetched two official STREB pages, and created NAR-28/NAR-29; a handoff retry reused stored direct-page references without a third Brave request.",
+    "A concurrent model benchmark holds the shared inference maintenance lease. Original research tasks were rejected before inference and their recovery records are preserved. Replacement source-only tasks NAR-31/NAR-32 have native five-minute monitors with at most twelve maintenance waits. Final extraction/Quality output remains pending.",
+    "No listing publication or customer message was performed. Existing NAR-26 approval gate remains unchanged.",
+    "Brave snippets, titles and response payloads are not persisted; independently fetched source metadata is retained.",
+    "No full backup restore drill performed."
+  ],
+  "backup": {
+    "created_at_utc": "2026-10-28T01:27:47Z",
+    "root_only_server_bundle": true,
+    "restricted_local_copy": true,
+    "contains_brave_environment_and_ledger": true,
+    "sqlite_integrity": "ok",
+    "attempts_in_snapshot": 2,
+    "full_restore_drill": false
+  },
+  "follow_up_record": "maintenance-20261028.json"
+}

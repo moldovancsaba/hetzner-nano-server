@@ -1,0 +1,195 @@
+{
+  "routines": [
+    {
+      "kind": "verify_catalog",
+      "id": "b5a61b25-9a40-47dd-983e-53be21aafe81",
+      "title": "Verify existing ClassScout listings",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "705dffc4-3664-4f52-9744-ec0ab73d30af",
+      "cron": "0 * * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "publication_queue",
+      "id": "48cd987a-a4e5-43ac-bd74-ffe22e58e252",
+      "title": "Prepare complete ClassScout listings",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "4358d52b-0a44-4bce-aed7-b5bff444d958",
+      "cron": "15,45 * * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "audit_site",
+      "id": "11d12cc6-fc11-42a0-b0f3-a3c1dba83a43",
+      "title": "Audit ClassScout public pages",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "9e0125c3-6f2f-4e9e-92ff-1649d0f7939d",
+      "cron": "30 8 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "operations_digest",
+      "id": "5959bd5f-fa3f-48b7-8d38-ad321ef9269b",
+      "title": "Summarize ClassScout operations",
+      "project_id": "31389722-c7ef-405c-b0ba-4a2322c633e5",
+      "trigger_id": "517519e9-5f70-45c1-b10b-7ef7921341b2",
+      "cron": "0 9 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "support_answer",
+      "id": "eefb6512-a798-4a6d-a135-f38275a36efe",
+      "title": "Draft a ClassScout reply",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "manual_only": true,
+      "enabled": true
+    },
+    {
+      "kind": "growth_dispatch",
+      "id": "be622575-8080-4944-a22c-f9ad568a2331",
+      "title": "Run ClassScout discovery",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "a94d0d5d-79d5-4909-a56f-46bcf7b6c736",
+      "cron": "*/30 * * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "recover_evidence",
+      "id": "32e42a1a-5a5f-45e4-8c96-540369e625db",
+      "title": "Recover missing ClassScout evidence",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "c2ca7a56-64b0-43a1-8751-2154c2d8440e",
+      "cron": "20 * * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "padel_maintenance",
+      "id": "a2ce286f-6ced-4787-bd3c-293684629fc8",
+      "title": "Check Padel Africa catalog",
+      "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
+      "trigger_id": "02c89cef-cadf-4b34-88c8-86588cf3da36",
+      "cron": "10 9 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "padel_intake",
+      "id": "dee5fc7f-60fe-4615-b082-f7e1e643a73e",
+      "title": "Submit a Padel Africa source",
+      "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
+      "manual_only": true,
+      "enabled": true
+    },
+    {
+      "kind": "autonomous_coordination",
+      "id": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+      "title": "Keep company workflows moving",
+      "project_id": "31389722-c7ef-405c-b0ba-4a2322c633e5",
+      "trigger_id": "8e1e64eb-61f5-4682-be20-4eadeb2302fe",
+      "cron": "*/5 * * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "reliability_round",
+      "id": "2f5abc32-a02b-446d-9f56-19aa1e0dd405",
+      "title": "Recover stalled company work",
+      "project_id": "31389722-c7ef-405c-b0ba-4a2322c633e5",
+      "trigger_id": "2c282445-dd5e-4148-b570-2b0eb5068011",
+      "cron": "25 * * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "freshness_round",
+      "id": "15903ca5-87e3-49a2-a0a3-3c9278c0d2ec",
+      "title": "Check ClassScout content freshness",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "381b630e-bee6-4ab5-a6cc-a3ea1fd8c722",
+      "cron": "35 */6 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "knowledge_round",
+      "id": "42769795-a299-46e3-8f81-53ebe970f7c7",
+      "title": "Refresh ClassScout support knowledge",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "41c6bd2d-2505-4782-99db-6d44e30a50eb",
+      "cron": "50 */6 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "padel_discovery",
+      "id": "a5f55164-2951-4536-ae71-eea0908229f3",
+      "title": "Discover Padel Africa sources",
+      "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
+      "trigger_id": "6a09e133-cbd0-4eb2-859a-1f8d71926f64",
+      "cron": "5 10,16 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "program_queue",
+      "id": "d6666776-f149-4541-8f1c-50d796c42c39",
+      "title": "Refresh ClassScout structured programs",
+      "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
+      "trigger_id": "ebc8f097-e3e8-41b5-ad18-147019568250",
+      "cron": "40 9 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "engine_maintenance",
+      "id": "0f662159-0f58-437a-baa8-9fcb41ec05cf",
+      "title": "Maintain Padel Africa engine listings",
+      "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
+      "trigger_id": "14870da2-eb38-4d42-8272-3ab07757f25b",
+      "cron": "5 */6 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "engine_maintenance",
+      "id": "d53503bf-032b-4aad-a30a-dea51b036d6e",
+      "title": "Maintain Sportolok engine listings",
+      "project_id": "0383cd85-ca7b-41b6-ae57-8eca9cb9b8dc",
+      "trigger_id": "172011a6-72ca-4f55-8222-1dd3f5ca5e2f",
+      "cron": "15 */6 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "engine_discovery",
+      "id": "9663e37d-9c4b-4b52-b955-403ba406411c",
+      "title": "Discover Sportolok official sources",
+      "project_id": "0383cd85-ca7b-41b6-ae57-8eca9cb9b8dc",
+      "trigger_id": "58790ec0-b83d-46ca-a90c-fe2c3949d693",
+      "cron": "35 11,17 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    },
+    {
+      "kind": "management_overview",
+      "id": "227d8de3-d43c-4c37-9980-4de98da07ac0",
+      "title": "Check shared Management engine clients",
+      "project_id": "6c4d96a1-bcc6-470f-913e-cab3f18711e4",
+      "trigger_id": "ceb2243e-c995-43bb-b44a-122c312e9223",
+      "cron": "20 9 * * *",
+      "timezone": "Europe/Budapest",
+      "enabled": true
+    }
+  ],
+  "timezone": "Europe/Budapest",
+  "schedules_enabled": true,
+  "support": "event-driven, draft-only",
+  "rollout_issue": "NAR-36",
+  "growth_mode": true
+}

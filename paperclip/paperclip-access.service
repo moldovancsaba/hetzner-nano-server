@@ -1,0 +1,18 @@
+[Unit]
+Description=Paperclip password access
+After=network.target
+[Service]
+Type=simple
+DynamicUser=yes
+WorkingDirectory=/opt/narimato-paperclip/access
+EnvironmentFile=/etc/paperclip-access.env
+ExecStart=/usr/bin/python3 /opt/narimato-paperclip/access/gate.py
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=128M
+[Install]
+WantedBy=multi-user.target

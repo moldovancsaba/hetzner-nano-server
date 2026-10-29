@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-28",
+  "public_specification": "200",
+  "rpc_tools_list": "200",
+  "tools": [
+    "slg_capture_lead",
+    "slg_get_lead",
+    "slg_get_pre_call_briefing",
+    "slg_list_pipeline_stages",
+    "slg_search_leads",
+    "slg_update_lead_stage"
+  ],
+  "unauthenticated_execution_http": 401,
+  "local_tests_passed": 257,
+  "staged_tests_passed": 257,
+  "credential_installed": false,
+  "brands": [],
+  "sending_enabled": false,
+  "live_lead_data_read": false,
+  "live_crm_writes": 0,
+  "emails_sent": 0,
+  "state": "awaiting_workspace_and_scoped_key",
+  "code_backup": "/root/paperclip-backups/slg-1793193208"
+}
