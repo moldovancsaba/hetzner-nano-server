@@ -12,7 +12,7 @@ Implementation: [segmind.py](segmind.py), tests [test_segmind.py](test_segmind.p
 
 ## What leaves the host
 
-Only the **public source page** title and an excerpt (up to `max_input_chars`, default 24,000 characters) plus the fixed extraction instruction go to `https://api.segmind.com/v1/<model>`, which passes them on to the model's own provider. Never sent: support questions, customer messages, Paperclip comments or issue text, credentials, Camera/Habi/ClassScout user data. The code enforces the role: only `research` can reach the lane (`segmind.ROLES`), so the **Support Drafter, Quality Reviewer, Publication Coordinator and Search Coordinator never call it**. Segmind's retention and training terms for text requests are **not published on the pages reviewed on 2026-10-29**; confirm them in the owner's Segmind terms before enabling, and do not widen the role list without that answer.
+Only the **public source page** title and an excerpt (up to `max_input_chars`, default 24,000 characters) plus the fixed extraction instruction go to `https://api.segmind.com/v1/<model>`, which passes them on to the model's own provider. Never sent: support questions, customer messages, Paperclip comments or issue text, credentials, Camera/Habi/ClassScout user data. The code enforces the role: only `research` can reach the lane (`segmind.ROLES`), so the **Support Drafter, Quality Reviewer, Publication Coordinator and Search Coordinator never call it**. **Owner decision, 2026-10-29:** Segmind's retention and training terms for text requests were not published on the pages reviewed that day, and the owner accepts that Segmind may use these requests for training. That is why the terms are not a gate. It is also why the data boundary above stays in the code: widening the role list is a separate decision.
 
 ## Controls
 
@@ -35,9 +35,21 @@ All limits live in `factory.json` under `remote_llm`; values can tighten but nev
 
 ## Budget (owner's cap: $10 per month)
 
-`factory.json` caps the lane at **$10 per month and $0.40 per day**, with call limits of 3,000 per month and 150 per day, so the dollar cap is what binds. The ledger counts only the factory's own calls: other spending on the same Segmind account is invisible to it, so `segmind.py balance` is the check on the account as a whole.
+`factory.json` caps the lane at **$10 per month and $0.40 per day**, with call limits of 3,000 per month and 150 per day, so the dollar cap is what binds. The ledger counts only the factory's own calls: other spending on the same Segmind account is invisible to it, so the overspend guard below watches the account balance as a whole.
 
 Measured on 2026-10-29 (24 real calls): $0.0030 on average and $0.0046 at most, for an average input of 6,600 characters; cost rises with page size, and a full 24,000-character page is estimated at $0.007. At those prices $10 buys about 3,300 average calls (110 a day), about 2,200 at the observed maximum (73 a day) and about 1,400 at the estimated worst case. The research role has run 94 to 121 tasks a day, so if most tasks escalate once, usage would be close to the cap; when the allowance is used up, research simply continues on the local model and says so in its run comment. Watch the first full month with `segmind.py status`.
+
+## Weekly check and overspend guard (owner decision 2026-10-29)
+
+- **Dashboard:** https://paperclip.haho.ai/factory has a **Segmind model spend** panel: this month and today against their caps, the last balance read from the Segmind account, the account's spend this month, the cooldown threshold, and the last five weeks with calls and spend. It reads the ledger and the last stored balance and never calls Segmind itself. Look at it once a week.
+- **Guard:** before a call, and at most hourly, the lane reads the real Segmind balance (`GET /v1/get-user-credits`, read-only, no charge). Account spend for the month is the sum of the balance drops seen since the first reading of that month, so a top-up never offsets spending and other uses of the account count. The larger of that and the ledger's recorded cost is compared with **120% of `monthly_cost`** ($12.00 at the $10 cap). Past it the lane cools down until midnight on the first of the next month (Budapest) and research carries on with the local model; the run comment names the reason and the dashboard shows "Cooling down". The $0.40 daily cap is already a day's share of the month plus 20%.
+- **If the balance cannot be read** the lane keeps working: the per-call ledger still bounds what the factory itself can spend.
+- **Limits of the check:** the first reading of a month is its baseline, so spend before it is known only from the ledger. A Segmind top-up that happens between two readings can hide spending made in the same interval.
+- **Hand tools:** `segmind.py watch` takes one reading now and applies the guard. `segmind.py unblock` lifts a cooldown, but the guard sets it again on the next call unless `monthly_cost` was raised first.
+
+## Key rotation (deferred)
+
+The API key was pasted into a chat on 2026-10-29. The owner deferred rotating it; it is tracked as [issue #1](https://github.com/moldovancsaba/hetzner-nano-server/issues/1) in the IDEABANK column of the repository's project board.
 
 ## Switching it on (owner action, needs an approved deploy)
 
@@ -60,11 +72,11 @@ PID=$(systemctl show -p MainPID --value narimato-factory)
 nsenter -t $PID -m -S $(awk '/^Uid:/{print $2}' /proc/$PID/status) -G $(awk '/^Gid:/{print $2}' /proc/$PID/status) -- env PYTHONDONTWRITEBYTECODE=1 FACTORY_STATE=/var/lib/narimato-factory python3 /opt/narimato-factory/segmind.py status
 ```
 
-Replace `status` with `balance` (read-only account call, does not open the database), `probe` (one real call, recorded in the ledger) or `unblock`. The worker process itself only sees the key after the next `systemctl restart narimato-factory`.
+Replace `status` with `balance` (read-only account call, does not open the database), `watch` (one balance reading and the overspend check), `probe` (one real call, recorded in the ledger) or `unblock`. The worker process itself only sees the key after the next `systemctl restart narimato-factory`.
 
 ## Stop conditions
 
-Disable the lane (`enabled: false`) if any private or customer text is found in a remote request, spending approaches the daily cap without a measurable gain in accepted facts, Segmind's terms turn out to permit training on submitted text, or the schema or cost probe fails.
+Disable the lane (`enabled: false`) if any private or customer text is found in a remote request, spending approaches the daily cap without a measurable gain in accepted facts, or the schema or cost probe fails.
 
 ## Not part of this change
 

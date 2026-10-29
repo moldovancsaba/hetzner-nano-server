@@ -1,4 +1,4 @@
-import json,os,pathlib,tempfile,unittest,urllib.error
+import datetime,json,os,pathlib,tempfile,unittest,urllib.error
 from unittest.mock import Mock,patch
 import worker,segmind,search_budget as sb
 
@@ -21,8 +21,9 @@ class SegmindTests(unittest.TestCase):
   self.env=patch.dict(os.environ,{'SEGMIND_API_KEY':'test-key-not-real'});self.env.start()
   self.clock=Clock();self.ledger=segmind.Ledger(worker.database,self.clock);self.limits=segmind.settings(ON)
  def tearDown(self):self.env.stop();self.state.stop();self.tmp.cleanup()
- def model(self,*outcomes):
-  opener=Mock();opener.open.side_effect=list(outcomes);return segmind.RemoteModel(self.limits,self.ledger,opener),opener
+ def model(self,*outcomes,balance=None):
+  # The hourly account check is off unless a test supplies a balance source, so call counts stay about the model.
+  opener=Mock();opener.open.side_effect=list(outcomes);return segmind.RemoteModel(self.limits,self.ledger,opener,balance=balance or (lambda:None)),opener
  def augment(self,model,accepted=None,role='research',config=ON):
   return segmind.augment(PAGE,accepted if accepted is not None else [],config,role,worker.database,'job',worker.FIELDS,worker.validate_facts,model)
  def test_disabled_by_default_and_without_flag(self):
@@ -104,5 +105,55 @@ class SegmindTests(unittest.TestCase):
     result=worker.research(issue,'ClassScout',role,'run-'+role,'test',config)
    self.assertEqual(remote.call.called,expected);self.assertEqual('Lessons cost $25 per class.' in result['markdown'],expected)
    self.assertEqual(any(m.get('remote') for m in result['metrics']),expected)
+ def cap(self,dollars):self.limits=segmind.settings({'remote_llm':{'enabled':True,'monthly_cost':dollars}})
+ def test_account_spend_past_120_percent_cools_the_lane_down_until_next_month(self):
+  self.cap(10);balance=Mock(side_effect=[100.0,91.0,87.0]);model,opener=self.model(*[reply([]) for _ in range(4)],balance=balance)
+  self.augment(model);self.clock.now+=7200;self.augment(model);self.assertIsNone(self.ledger.status()['paused_until'])
+  self.clock.now+=7200;note=self.augment(model)[3];status=self.ledger.status()
+  self.assertIn('Overspend guard',note);self.assertEqual(opener.open.call_count,2);self.assertEqual(status['account']['month_spend'],13.0)
+  self.assertEqual(status['paused_until'],segmind.midnight(datetime.date(2027,2,1)))
+  self.clock.now+=86400;self.assertIn('Overspend guard',self.augment(model)[3]);self.assertEqual(opener.open.call_count,2)
+  self.clock.now=status['paused_until']+1;self.augment(model);self.assertEqual(opener.open.call_count,3)
+ def test_spend_up_to_120_percent_is_tolerated(self):
+  self.cap(10);balance=Mock(side_effect=[100.0,88.0]);model,opener=self.model(reply([]),reply([]),balance=balance)
+  self.augment(model);self.clock.now+=7200;self.augment(model);self.assertIsNone(self.ledger.status()['paused_until']);self.assertEqual(opener.open.call_count,2)
+ def test_a_top_up_never_offsets_spending_and_other_uses_of_the_account_count(self):
+  self.cap(10)
+  for credits in [100.0,90.0,190.0,181.0]:self.ledger.observe(credits);self.clock.now+=60
+  self.assertEqual(self.ledger.account_spend('2027-01'),19.0);self.assertEqual(self.ledger.account_spend('2026-12'),0)
+  model,_=self.model();model.watch();self.assertIn('Overspend guard',self.ledger.status()['pause_reason'])
+ def test_the_balance_is_checked_about_once_an_hour(self):
+  balance=Mock(return_value=100.0);model,_=self.model(balance=balance)
+  model.watch();self.clock.now+=1800;model.watch();self.assertEqual(balance.call_count,1)
+  self.clock.now+=1800;model.watch();self.assertEqual(balance.call_count,2)
+ def test_an_unreadable_balance_does_not_stop_the_lane(self):
+  model,opener=self.model(reply([]),balance=Mock(side_effect=OSError('down')))
+  self.assertNotIn('skipped',self.augment(model)[3]);self.assertEqual(opener.open.call_count,1);self.assertIsNone(self.ledger.status()['paused_until']);self.assertIsNone(self.ledger.status()['account'])
+ def test_recorded_spend_alone_can_trip_the_guard(self):
+  model,_=self.model(reply(good(),cost='0.0123'));self.augment(model)
+  self.cap(0.01);tight,_=self.model();tight.watch();self.assertIn('Overspend guard',self.ledger.status()['pause_reason'])
+ def test_a_paused_lane_does_not_look_at_the_balance(self):
+  self.ledger.block(self.clock.now+600,'test');balance=Mock(return_value=1.0);model,_=self.model(balance=balance);model.watch();balance.assert_not_called()
+ def test_balance_reads_paid_and_free_credits_from_the_read_only_endpoint(self):
+  def answer(body):
+   response=Mock();response.read.return_value=json.dumps(body).encode();response.__enter__=lambda self:self;response.__exit__=lambda self,*a:False;return response
+  opener=Mock();opener.open.return_value=answer({'credits':117.93,'free-credits':2})
+  self.assertAlmostEqual(segmind.fetch_credits(opener,'k'),119.93);request=opener.open.call_args[0][0]
+  self.assertEqual(request.full_url,'https://api.segmind.com/v1/get-user-credits');self.assertEqual(request.get_method(),'GET');self.assertEqual(request.get_header('X-api-key'),'k')
+  for bad in [{'free-credits':2},[],{'credits':'many'}]:
+   opener.open.return_value=answer(bad)
+   with self.assertRaises(segmind.RemoteError):segmind.fetch_credits(opener,'k')
+ def test_dashboard_report_shows_weeks_caps_and_account_without_calling_segmind(self):
+  self.cap(10)
+  for days_ago,cost in [(0,0.25),(0,0.25),(8,0.5),(40,9.0)]:
+   self.clock.now=1800000000.-days_ago*86400;token=self.ledger.reserve(self.limits,'j','m',1);self.ledger.finish(token,'succeeded',200,cost)
+  self.clock.now=1800000000.;self.ledger.observe(120.0);self.clock.now+=60;self.ledger.observe(119.5)
+  config={'remote_llm':{'enabled':True,'monthly_cost':10}};data=segmind.report(worker.database,config,self.clock)
+  self.assertTrue(data['enabled']);self.assertEqual(data['caps']['overspend_limit'],12.0);self.assertEqual(data['state'],'active')
+  self.assertEqual([w['week_of'] for w in data['weeks']],['2027-01-11','2027-01-04','2026-12-28','2026-12-21','2026-12-14'])
+  self.assertEqual([(w['calls'],w['cost']) for w in data['weeks']][:3],[(2,0.5),(1,0.5),(0,0)]);self.assertTrue(data['weeks'][0]['current']);self.assertFalse(data['weeks'][1]['current'])
+  self.assertEqual(data['month'],{'key':'2027-01','calls':3,'cost':1.0});self.assertEqual(data['account']['balance'],119.5);self.assertEqual(data['account']['month_spend'],0.5)
+  self.ledger.block(self.clock.now+100,'test pause');paused=segmind.report(worker.database,config,self.clock);self.assertEqual(paused['state'],'cooling down');self.assertEqual(paused['pause_reason'],'test pause')
+  self.assertEqual(segmind.report(worker.database,{}),{'enabled':False});self.assertIn('invalid',segmind.report(worker.database,{'remote_llm':{'enabled':True,'daily_cost':1000}})['error'])
 
 if __name__=='__main__':unittest.main()

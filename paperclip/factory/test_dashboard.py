@@ -1,6 +1,7 @@
 """Dashboard accounting: no invented publication, billing, or cross-company activity."""
 import datetime,json,unittest
-import business_metrics,worker,test_operations
+from unittest.mock import patch
+import business_metrics,segmind,worker,test_operations
 
 class DashboardTests(unittest.TestCase):
  def setUp(self):
@@ -33,3 +34,13 @@ class DashboardTests(unittest.TestCase):
   self.assertEqual(datetime.datetime.fromtimestamp(result,datetime.timezone.utc).hour,8)
   self.assertEqual(datetime.datetime.fromtimestamp(result,datetime.timezone.utc).minute,10)
   self.assertIsNone(business_metrics.next_schedule('0 9 * * 1',now))
+ def test_segmind_spend_is_reported_and_a_failure_never_breaks_the_dashboard(self):
+  self.assertEqual(business_metrics.remote_llm_report(worker.database,{}),{'enabled':False})
+  on=business_metrics.remote_llm_report(worker.database,{'remote_llm':{'enabled':True,'monthly_cost':10}})
+  self.assertTrue(on['enabled']);self.assertEqual(on['caps']['overspend_limit'],12.0);self.assertEqual(len(on['weeks']),5);self.assertNotIn('api',json.dumps(on).lower())
+  with patch.object(segmind,'report',side_effect=RuntimeError('boom')):
+   self.assertEqual(business_metrics.remote_llm_report(worker.database,{'remote_llm':{'enabled':True}}),{'enabled':False,'error':'Segmind spend is temporarily unavailable.'})
+ def test_the_metrics_snapshot_carries_the_segmind_report(self):
+  with patch.object(business_metrics,'operating_snapshot',return_value={}),patch.object(business_metrics,'delivery_snapshot',return_value={}):
+   result=business_metrics.snapshot(worker.database,{'company_id':'c','remote_llm':{'enabled':True,'monthly_cost':10}},tasks=[],agents=[])
+  self.assertTrue(result['remote_llm']['enabled']);self.assertEqual(result['remote_llm']['caps']['monthly_cost'],10)
