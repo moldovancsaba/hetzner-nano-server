@@ -18,7 +18,7 @@ Owner: platform operator. Updated 2026-10-29. This is the repository's task back
 | ST-02 | P1 | Automatic top-three / 14-day weight cleanup | Hourly timer, idle gateway lease, initial history grace, deletion audit and real disposable-alias verification |
 
 | EV-05 | P1 | Ten additional text/image candidates (owner-requested round 4) | Five English text and five general image candidates attempted under an exclusive maintenance lease; results and independent rankings in [round 4](benchmarks/round4/REPORT.md) |
-| EV-09 | P1 | Four further candidates, full suites (owner-requested round 6) | LFM2 1.2B and OLMo 2 1B (English plus separate Hungarian), SmolVLM2 256M and InternVL3.5 1B (recognition and moderation); no ranking change, 52 variants indexed; InternVL incomplete because of a runner fault; see [round 6](benchmarks/round6/REPORT.md). Policy and dashboard deployment still pending approval (OP-04) |
+| EV-09 | P1 | Four further candidates, full suites (owner-requested round 6) | LFM2 1.2B and OLMo 2 1B (English plus separate Hungarian), SmolVLM2 256M and InternVL3.5 1B (recognition and moderation); no ranking change, 52 variants indexed; InternVL incomplete because of a runner fault; see [round 6](benchmarks/round6/REPORT.md). Policy id 2fa66c02 and the 52-variant dashboard deployed and verified 2026-10-29 (11/11 public checks, [record](benchmarks/round6/deployment.json)) |
 
 ## Broader Camera evaluation — delivered
 
@@ -35,7 +35,6 @@ Recognition is complete on 32 public research photographs, with nine paired robu
 | EV-07 | P1 | Evaluate a separate visible-text moderation path | Both broad-cohort leaders detected 0/2 hate-word positives; compare OCR plus a reviewed text-classification/rules path on more English positives, anti-hate context and lookalikes before deployment; non-English separate |
 | OP-01 | P1 | Add meaningful failure notification | Alert only on repeated source failures, timer failure, low disk or benchmark restore failure; choose/authorize a destination before sending external messages |
 | CL-01 | P1 | Integrate result acknowledgement in clients | Camera/ClassScout poll, consume and DELETE terminal results; preserve source revision and manual-review behavior; update client contracts in their own repositories |
-| OP-04 | P1 | Deploy the Round 6 policy and refresh the public dashboard | Run `benchmarks/round6/deploy_policy.py` under the idle lease (policy id 2fa66c02…, defaults unchanged, no weight pulls), confirm `/v1/job-types` reports it, run `scripts/verify_model_policy.py`, then `python3 scripts/deploy_dashboard.py` and record `benchmarks/round6/deployment.json` |
 | EV-10 | P2 | Fix runner stop/resume handling and complete InternVL3.5 1B | `StopIteration` after 9 of 32 cases must not end a candidate and `resume.py` must retry an incomplete stop; then one owner-approved maintenance window (about 2 hours) for the remaining recognition, robustness, counting and moderation cases. Repeating on the unfixed harness is barred |
 
 ## Planned

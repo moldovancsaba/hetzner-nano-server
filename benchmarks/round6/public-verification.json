@@ -1,0 +1,2472 @@
+{
+  "checks": [
+    {
+      "name": "Text installed discovery",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Camera installed discovery",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Wrong-task override blocked",
+      "status": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "name": "Untested override blocked",
+      "status": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "name": "Auto text follows ranking",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Explicit Qwen is a real override",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Explicit former alias selects actual Qwen",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Submit image_recognition auto",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Submit image_recognition hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Submit image_moderation auto",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Restore ranking default",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    }
+  ],
+  "text_discovery": {
+    "object": "list",
+    "data": [
+      {
+        "id": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "a4981cf368a06e6ad0d6e1c3117c468297e613b1fae864f50be6bb88e1b66eeb",
+        "size_bytes": 2075620622,
+        "selectable_for": [
+          "text_chat_hu"
+        ],
+        "default_for": [
+          "text_chat_hu"
+        ],
+        "rankings": {
+          "text_chat_hu": {
+            "rank": 1,
+            "metrics": {
+              "model": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+              "language": "hu",
+              "status": "completed",
+              "profile": "ctx1024/batch8",
+              "correct": 17,
+              "total": 24,
+              "json_valid": 24,
+              "chat_usable": 3,
+              "chat_total": 6,
+              "chat_reviewed": 6,
+              "median_seconds": 15.231,
+              "peak_cgroup_bytes": 2936012800,
+              "oom_kill_delta": 0,
+              "ranking_eligible": false,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 1024,
+                "num_batch": 8,
+                "think": false
+              },
+              "checks": [
+                {
+                  "id": "city-number",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "case-ending",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "negated-count",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "ages",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "missing-price",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "accents",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "number-words",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "negative-activity",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "price-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "time-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "cancel-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "place-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "book-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "unknown-intent",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "listing-match",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "listing-abstain",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "listing-budget",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "capacity",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "date",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "opening",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "injection",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "unknown-address",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "cancellation",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "consent",
+                  "json_valid": true,
+                  "correct": true
+                }
+              ],
+              "api_eligible": true
+            },
+            "evidence": "benchmarks/non-english/hu-round1/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 1024,
+              "num_batch": 8,
+              "think": false
+            },
+            "ranking_tier": "hungarian_experimental",
+            "current_rank": 1,
+            "language": "hu",
+            "experimental": true,
+            "quality_gate_passed": false,
+            "tenant_profiles": {
+              "paperclip": {
+                "max_image_edge": 640,
+                "num_ctx": 1024,
+                "num_batch": 8,
+                "think": false
+              }
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "minicpm-v4.6:q5_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+        "size_bytes": 1686550252,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "qwen3.5:0.8b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "size_bytes": 1322069277,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "minicpm-v4.6:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
+        "size_bytes": 1637848812,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+        "size_bytes": 483116964,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+        "size_bytes": 482045956,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+        "size_bytes": 1705126334,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+        "size_bytes": 545590747,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "granite3.2-vision:2b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+        "size_bytes": 2437852465,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+        "size_bytes": 1045157764,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 16,
+            "metrics": {
+              "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+              "passed": 5,
+              "total": 14,
+              "json_valid": 12,
+              "native_tool_passed": false,
+              "median_seconds": 2.237
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "granite4:1b-h",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "size_bytes": 1558945427,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [
+          "text_chat"
+        ],
+        "rankings": {
+          "text_chat": {
+            "rank": 1,
+            "metrics": {
+              "model": "granite4:1b-h",
+              "passed": 14,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 3.028
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
+            },
+            "tenant_profiles": {
+              "paperclip": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              },
+              "classscout": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              },
+              "habigoal": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              },
+              "pandora": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              }
+            },
+            "tenant_profile_evidence": {
+              "paperclip": "config/runtime-context-profiles.json",
+              "classscout": "config/runtime-context-profiles.json",
+              "habigoal": "config/runtime-context-profiles.json",
+              "pandora": "config/runtime-context-profiles.json"
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "granite4:350m",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+        "size_bytes": 708458314,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 7,
+            "metrics": {
+              "model": "granite4:350m",
+              "passed": 10,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 3.36
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "granite3.3:2b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "size_bytes": 1545321637,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 6,
+            "metrics": {
+              "model": "granite3.3:2b",
+              "passed": 10,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 3.107
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "moondream:1.8b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+        "size_bytes": 1738451197,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "smollm2:1.7b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+        "size_bytes": 1820428533,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 13,
+            "metrics": {
+              "model": "smollm2:1.7b",
+              "passed": 8,
+              "total": 14,
+              "json_valid": 12,
+              "native_tool_passed": true,
+              "median_seconds": 2.14
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "llama3.2:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+        "size_bytes": 1321098329,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 12,
+            "metrics": {
+              "model": "llama3.2:1b",
+              "passed": 8,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": false,
+              "median_seconds": 1.633
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "gemma3:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+        "size_bytes": 806067407,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 17,
+            "metrics": {
+              "model": "gemma3:1b",
+              "passed": 4,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": false,
+              "median_seconds": 2.683
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "qwen2.5:1.5b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "size_bytes": 986061892,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 9,
+            "metrics": {
+              "model": "qwen2.5:1.5b",
+              "passed": 8,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 2.066
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "qwen3:0.6b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "size_bytes": 522653767,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 2,
+            "metrics": {
+              "model": "qwen3:0.6b",
+              "passed": 12,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 1.11
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "qwen3:1.7b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "size_bytes": 1359293444,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 3,
+            "metrics": {
+              "model": "qwen3:1.7b",
+              "passed": 12,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 2.01
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      }
+    ],
+    "policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+    "defaults": {
+      "text_chat": "granite4:1b-h",
+      "text_chat_hu": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M"
+    }
+  },
+  "camera_discovery": {
+    "object": "list",
+    "data": [
+      {
+        "id": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "a4981cf368a06e6ad0d6e1c3117c468297e613b1fae864f50be6bb88e1b66eeb",
+        "size_bytes": 2075620622,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "minicpm-v4.6:q5_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+        "size_bytes": 1686550252,
+        "selectable_for": [
+          "image_recognition"
+        ],
+        "default_for": [
+          "image_recognition"
+        ],
+        "rankings": {
+          "image_recognition": {
+            "rank": 1,
+            "metrics": {
+              "model": "minicpm-v4.6:q5_K_M",
+              "total_images": 32,
+              "valid": 32,
+              "valid_rate": 1.0,
+              "object_reference_f1": 0.8933531746031746,
+              "object_recall": 0.8784722222222222,
+              "ocr_target_recall": 1.0,
+              "ocr_correct": 8.0,
+              "ocr_total": 8,
+              "readiness_score": 0.9306795634920635,
+              "count_correct": 7,
+              "count_total": 8,
+              "median_seconds": 24.93175,
+              "p95_seconds": 27.8466,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              },
+              "max_image_dimension": 640,
+              "evidence": "benchmarks/round5/results.json"
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 1
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "qwen3.5:0.8b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "size_bytes": 1322069277,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [
+          "image_moderation"
+        ],
+        "rankings": {
+          "image_recognition": {
+            "rank": 3,
+            "metrics": {
+              "model": "qwen3.5:0.8b",
+              "readiness_score": 0.7996180555555555,
+              "valid": 29,
+              "total_images": 32,
+              "valid_rate": 0.90625,
+              "object_reference_f1": 0.7590277777777777,
+              "object_recall": 0.7395833333333334,
+              "ocr_target_recall": 0.875,
+              "ocr_correct": 7.0,
+              "ocr_total": 8,
+              "count_correct": 8,
+              "count_total": 8,
+              "median_seconds": 47.6412,
+              "p95_seconds": 56.5382,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              },
+              "max_image_dimension": 640,
+              "benchmark_version": "vision-evaluation.v1",
+              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 3,
+            "benchmark_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "profile_evidence": "config/runtime-context-profiles.json"
+          },
+          "image_moderation": {
+            "rank": 1,
+            "metrics": {
+              "true_positives": 21,
+              "known_correct": 337,
+              "false_positives": 11,
+              "median_seconds": 37.889,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 4,
+                  "tn": 35,
+                  "fp": 2,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.9090909090909091,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5101091635454027,
+                    1
+                  ],
+                  "specificity": 0.9459459459459459
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 2,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 2,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 1.0
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 35,
+                  "fp": 3,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.9210526315789473
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 38,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.9743589743589743
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 38,
+                  "fp": 0,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 0.9743589743589743
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 3,
+                  "tn": 32,
+                  "fp": 4,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.7894736842105263,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.8648648648648649
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 2,
+                  "tn": 32,
+                  "fp": 1,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 3,
+                  "f2": 0.5263157894736842,
+                  "detection_recall": 0.5,
+                  "recall_wilson_95": [
+                    0.15003898915214947,
+                    0.8499610108478506
+                  ],
+                  "specificity": 0.9411764705882353
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 1,
+                  "tn": 35,
+                  "fp": 1,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.35714285714285715,
+                  "detection_recall": 0.3333333333333333,
+                  "recall_wilson_95": [
+                    0.06149194472039621,
+                    0.7923403991979522
+                  ],
+                  "specificity": 0.9459459459459459
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 4,
+                  "tn": 34,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 0.8,
+                  "recall_wilson_95": [
+                    0.37553462976252533,
+                    0.9637758913675698
+                  ],
+                  "specificity": 0.9714285714285714
+                }
+              },
+              "macro_f2": 0.6942988785094049,
+              "macro_specificity": 0.9487924865633844,
+              "macro_detection_recall": 0.737037037037037,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 1
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "minicpm-v4.6:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
+        "size_bytes": 1637848812,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 2,
+            "metrics": {
+              "model": "minicpm-v4.6:1b",
+              "readiness_score": 0.8070337301587303,
+              "valid": 29,
+              "total_images": 32,
+              "valid_rate": 0.90625,
+              "object_reference_f1": 0.770436507936508,
+              "object_recall": 0.75,
+              "ocr_target_recall": 0.875,
+              "ocr_correct": 7.0,
+              "ocr_total": 8,
+              "count_correct": 5,
+              "count_total": 8,
+              "median_seconds": 24.1478,
+              "p95_seconds": 30.6779,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              },
+              "max_image_dimension": 640,
+              "benchmark_version": "vision-evaluation.v1",
+              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 2
+          },
+          "image_moderation": {
+            "rank": 2,
+            "metrics": {
+              "true_positives": 22,
+              "known_correct": 282,
+              "false_positives": 20,
+              "median_seconds": 22.441,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 4,
+                  "tn": 29,
+                  "fp": 2,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 6,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.9090909090909091,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5101091635454027,
+                    1
+                  ],
+                  "specificity": 0.7837837837837838
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 2,
+                  "tn": 22,
+                  "fp": 10,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 5,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 2,
+                  "f2": 0.5,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.5945945945945946
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 33,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 5,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.868421052631579
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 32,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.8205128205128205
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 31,
+                  "fp": 1,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 0.7948717948717948
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 3,
+                  "tn": 33,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 4,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.8918918918918919
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 3,
+                  "tn": 25,
+                  "fp": 4,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 5,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 3,
+                  "f2": 0.6521739130434783,
+                  "detection_recall": 0.75,
+                  "recall_wilson_95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "specificity": 0.7352941176470589
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 1,
+                  "tn": 27,
+                  "fp": 3,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.3125,
+                  "detection_recall": 0.3333333333333333,
+                  "recall_wilson_95": [
+                    0.06149194472039621,
+                    0.7923403991979522
+                  ],
+                  "specificity": 0.7297297297297297
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 4,
+                  "tn": 28,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 0.8,
+                  "recall_wilson_95": [
+                    0.37553462976252533,
+                    0.9637758913675698
+                  ],
+                  "specificity": 0.8
+                }
+              },
+              "macro_f2": 0.6896775728297467,
+              "macro_specificity": 0.7798999761848059,
+              "macro_detection_recall": 0.7648148148148148,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 2
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
+        "size_bytes": 483116964,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 5,
+            "metrics": {
+              "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+              "readiness_score": 0.39979166666666666,
+              "valid": 14,
+              "total_images": 32,
+              "valid_rate": 0.4375,
+              "object_reference_f1": 0.3458333333333333,
+              "object_recall": 0.3333333333333333,
+              "ocr_target_recall": 0.5,
+              "ocr_correct": 4.0,
+              "ocr_total": 8,
+              "count_correct": 3,
+              "count_total": 8,
+              "median_seconds": 9.667850000000001,
+              "p95_seconds": 10.1803,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              },
+              "max_image_dimension": 640,
+              "benchmark_version": "vision-evaluation.v1",
+              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 5
+          },
+          "image_moderation": {
+            "rank": 4,
+            "metrics": {
+              "true_positives": 23,
+              "known_correct": 114,
+              "false_positives": 204,
+              "median_seconds": 7.3964,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 3,
+                  "fp": 30,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 1,
+                  "invalid_negative": 4,
+                  "definite_unknown": 0,
+                  "f2": 0.30612244897959184,
+                  "detection_recall": 0.75,
+                  "recall_wilson_95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "specificity": 0.08108108108108109
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 2,
+                  "tn": 17,
+                  "fp": 17,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 0,
+                  "invalid_negative": 3,
+                  "definite_unknown": 0,
+                  "f2": 0.37037037037037035,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.4594594594594595
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 24,
+                  "fp": 9,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 0,
+                  "invalid_negative": 5,
+                  "definite_unknown": 0,
+                  "f2": 0.43478260869565216,
+                  "detection_recall": 0.6666666666666666,
+                  "recall_wilson_95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "specificity": 0.631578947368421
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 16,
+                  "fp": 18,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 0,
+                  "invalid_negative": 5,
+                  "definite_unknown": 0,
+                  "f2": 0.35714285714285715,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.41025641025641024
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 10,
+                  "fp": 24,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 0,
+                  "invalid_negative": 5,
+                  "definite_unknown": 0,
+                  "f2": 0.29411764705882354,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.2564102564102564
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 2,
+                  "tn": 5,
+                  "fp": 28,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 1,
+                  "invalid_negative": 4,
+                  "definite_unknown": 1,
+                  "f2": 0.23809523809523808,
+                  "detection_recall": 0.6666666666666666,
+                  "recall_wilson_95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "specificity": 0.13513513513513514
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 2,
+                  "tn": 13,
+                  "fp": 18,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 2,
+                  "invalid_negative": 3,
+                  "definite_unknown": 3,
+                  "f2": 0.2777777777777778,
+                  "detection_recall": 0.5,
+                  "recall_wilson_95": [
+                    0.15003898915214947,
+                    0.8499610108478506
+                  ],
+                  "specificity": 0.38235294117647056
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 3,
+                  "tn": 3,
+                  "fp": 30,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 0,
+                  "invalid_negative": 4,
+                  "definite_unknown": 0,
+                  "f2": 0.3333333333333333,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.08108108108108109
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 5,
+                  "tn": 0,
+                  "fp": 30,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 5,
+                  "invalid_positive": 0,
+                  "invalid_negative": 5,
+                  "definite_unknown": 1,
+                  "f2": 0.45454545454545453,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5655175352168251,
+                    1
+                  ],
+                  "specificity": 0.0
+                }
+              },
+              "macro_f2": 0.3406986373332332,
+              "macro_specificity": 0.27081725688536834,
+              "macro_detection_recall": 0.8425925925925926,
+              "valid": 36,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 4
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+        "size_bytes": 482045956,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 4,
+            "metrics": {
+              "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+              "readiness_score": 0.7044097222222222,
+              "valid": 26,
+              "total_images": 32,
+              "valid_rate": 0.8125,
+              "object_reference_f1": 0.6798611111111111,
+              "object_recall": 0.6875,
+              "ocr_target_recall": 0.75,
+              "ocr_correct": 6.0,
+              "ocr_total": 8,
+              "count_correct": 8,
+              "count_total": 8,
+              "median_seconds": 6.8347,
+              "p95_seconds": 10.1194,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              },
+              "max_image_dimension": 640,
+              "benchmark_version": "vision-evaluation.v1",
+              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+            },
+            "evidence": "benchmarks/round6/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 4
+          },
+          "image_moderation": {
+            "rank": 3,
+            "metrics": {
+              "true_positives": 13,
+              "known_correct": 346,
+              "false_positives": 0,
+              "median_seconds": 7.3328,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.7894736842105263,
+                  "detection_recall": 0.75,
+                  "recall_wilson_95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "specificity": 1.0
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 0,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 2,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 1.0
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 38,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.7142857142857143,
+                  "detection_recall": 0.6666666666666666,
+                  "recall_wilson_95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "specificity": 1.0
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 39,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 1.0
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 39,
+                  "fp": 0,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 1.0
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 2,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.7142857142857143,
+                  "detection_recall": 0.6666666666666666,
+                  "recall_wilson_95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "specificity": 1.0
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 0,
+                  "tn": 34,
+                  "fp": 0,
+                  "fn": 4,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 3,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.4898908364545973
+                  ],
+                  "specificity": 1.0
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 0,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 3,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    5.551115123125783e-17,
+                    0.5614970317550454
+                  ],
+                  "specificity": 1.0
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 4,
+                  "tn": 35,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 0.8,
+                  "recall_wilson_95": [
+                    0.37553462976252533,
+                    0.9637758913675698
+                  ],
+                  "specificity": 1.0
+                }
+              },
+              "macro_f2": 0.45015316067947647,
+              "macro_specificity": 1.0,
+              "macro_detection_recall": 0.43148148148148147,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 3
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
+        "size_bytes": 1705126334,
+        "selectable_for": [
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 1006,
+            "metrics": {
+              "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
+              "schema_passed": 5,
+              "schema_total": 5,
+              "max_image_dimension": 640,
+              "raw_passed": 12,
+              "raw_total": 12,
+              "first_photo_seconds": 45.7948,
+              "first_poster_seconds": 36.7059
+            },
+            "evidence": "benchmarks/round4/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "legacy_screening_not_comparable",
+            "current_rank": null
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
+        "size_bytes": 545590747,
+        "selectable_for": [
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 1009,
+            "metrics": {
+              "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
+              "schema_passed": 3,
+              "schema_total": 5,
+              "max_image_dimension": 640,
+              "raw_passed": 4,
+              "raw_total": 12,
+              "first_photo_seconds": 11.6969,
+              "first_poster_seconds": 8.7731
+            },
+            "evidence": "benchmarks/round4/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "legacy_screening_not_comparable",
+            "current_rank": null
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "granite3.2-vision:2b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
+        "size_bytes": 2437852465,
+        "selectable_for": [
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 1007,
+            "metrics": {
+              "model": "granite3.2-vision:2b",
+              "schema_passed": 5,
+              "schema_total": 5,
+              "max_image_dimension": 320,
+              "raw_passed": 12,
+              "raw_total": 12,
+              "first_photo_seconds": 55.8249,
+              "first_poster_seconds": 53.0938
+            },
+            "evidence": "benchmarks/round4/rankings.json",
+            "profile": {
+              "max_image_edge": 320,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "legacy_screening_not_comparable",
+            "current_rank": null
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
+        "size_bytes": 1045157764,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "granite4:1b-h",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "size_bytes": 1558945427,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "granite4:350m",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
+        "size_bytes": 708458314,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "granite3.3:2b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "size_bytes": 1545321637,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "moondream:1.8b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
+        "size_bytes": 1738451197,
+        "selectable_for": [
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 1013,
+            "metrics": {
+              "model": "moondream:1.8b",
+              "schema_passed": 2,
+              "schema_total": 5,
+              "max_image_dimension": 640,
+              "raw_passed": 0,
+              "raw_total": 12,
+              "first_photo_seconds": 30.0797,
+              "first_poster_seconds": 26.5006
+            },
+            "evidence": "benchmarks/round4/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "legacy_screening_not_comparable",
+            "current_rank": null
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "smollm2:1.7b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
+        "size_bytes": 1820428533,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "llama3.2:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+        "size_bytes": 1321098329,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "gemma3:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
+        "size_bytes": 806067407,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "qwen2.5:1.5b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "size_bytes": 986061892,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "qwen3:0.6b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "size_bytes": 522653767,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "qwen3:1.7b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "size_bytes": 1359293444,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      }
+    ],
+    "policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+    "defaults": {
+      "image_moderation": "qwen3.5:0.8b",
+      "image_recognition": "minicpm-v4.6:q5_K_M"
+    }
+  },
+  "auto_text": {
+    "id": "chatcmpl-c9d7b998147c56e39caa83fa",
+    "object": "chat.completion",
+    "created": 1793273004,
+    "model": "granite4:1b-h",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "READY"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 33,
+      "completion_tokens": 2,
+      "total_tokens": 35
+    }
+  },
+  "explicit_text": {
+    "id": "chatcmpl-564",
+    "object": "chat.completion",
+    "created": 1793273007,
+    "model": "qwen3:0.6b",
+    "system_fingerprint": "fp_ollama",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Say READY! \ud83d\ude80"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 19,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens": 7,
+      "total_tokens": 26
+    }
+  },
+  "explicit_former_alias": {
+    "id": "chatcmpl-503",
+    "object": "chat.completion",
+    "created": 1793273012,
+    "model": "qwen3:1.7b",
+    "system_fingerprint": "fp_ollama",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "READY."
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 19,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens": 3,
+      "total_tokens": 22
+    }
+  },
+  "image_jobs": [
+    {
+      "id": "soFAIkD8pScdwnxP7QgFrdtprHcUZiy_",
+      "task": "image_recognition",
+      "model": "minicpm-v4.6:q5_K_M",
+      "status": "completed",
+      "request_purpose": "test",
+      "created_at": 1793273012.3320405,
+      "selection": "auto",
+      "model_policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+      "model_digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793273012.3330297,
+      "model_switch": {
+        "target_model": "minicpm-v4.6:q5_K_M",
+        "unloaded_models": [
+          "qwen3:1.7b"
+        ],
+        "unload_wait_seconds": 0.1078,
+        "inference_wall_seconds": 27.0819,
+        "model_load_seconds": 3.665106504
+      },
+      "queue_wait_seconds": 0.001,
+      "finished_at": 1793273039.527247,
+      "result": {
+        "schema_version": "camera-recognition.v1",
+        "model": "minicpm-v4.6:q5_K_M",
+        "description": "Two tabby cats are lying on a pink blanket, appearing to be asleep. A remote control is visible near the left cat, and another remote is near the right cat.",
+        "objects": [
+          "cat",
+          "blanket",
+          "remote control"
+        ],
+        "visible_text": [],
+        "limitations": "Experimental visual description; verify details. Not a moderation decision."
+      },
+      "queue_position": null
+    },
+    {
+      "id": "tJmNai9csnPEN5AMpY7EAbnP5ARUjwl0",
+      "task": "image_recognition",
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": "completed",
+      "request_purpose": "test",
+      "created_at": 1793273012.5391712,
+      "selection": "explicit",
+      "model_policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+      "model_digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32
+      },
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793273039.5283248,
+      "model_switch": {
+        "target_model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "unloaded_models": [
+          "minicpm-v4.6:q5_K_M"
+        ],
+        "unload_wait_seconds": 0.1277,
+        "inference_wall_seconds": 7.9249,
+        "model_load_seconds": 1.554032202
+      },
+      "queue_wait_seconds": 26.9892,
+      "finished_at": 1793273047.6097112,
+      "result": {
+        "schema_version": "camera-recognition.v1",
+        "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "description": "Two cats lying on a pink blanket, one with a striped pattern and the other with a tabby pattern, both resting with their paws up. A remote control is visible on the left side of the image.",
+        "objects": [
+          "cat 1",
+          "cat 2",
+          "remote control",
+          "pink blanket",
+          "cat 1's paw",
+          "cat 2's paw",
+          "remote control's buttons"
+        ],
+        "visible_text": [
+          "remote control"
+        ],
+        "limitations": "Experimental visual description; verify details. Not a moderation decision."
+      },
+      "queue_position": null
+    },
+    {
+      "id": "UKLdUUYESVv0DWd5YfPBnF3c4IDMabXT",
+      "task": "image_moderation",
+      "model": "qwen3.5:0.8b",
+      "status": "completed",
+      "request_purpose": "test",
+      "created_at": 1793273012.7533755,
+      "selection": "auto",
+      "model_policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+      "model_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793273047.610659,
+      "model_switch": {
+        "target_model": "qwen3.5:0.8b",
+        "unloaded_models": [
+          "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+        ],
+        "unload_wait_seconds": 0.0512,
+        "inference_wall_seconds": 57.2854,
+        "model_load_seconds": 5.553
+      },
+      "queue_wait_seconds": 34.8573,
+      "finished_at": 1793273104.9736505,
+      "result": {
+        "schema_version": "camera-moderation.v1",
+        "model": "qwen3.5:0.8b",
+        "review_required": true,
+        "automated_decision": "none",
+        "signal": "no_flags_detected",
+        "flags": [],
+        "categories": {
+          "nudity": "not_detected",
+          "sexualContent": "not_detected",
+          "middleFinger": "not_detected",
+          "hateSymbols": "not_detected",
+          "hateWords": "not_detected",
+          "alcohol": "not_detected",
+          "drugs": "not_detected",
+          "violence": "not_detected",
+          "weapons": "not_detected"
+        },
+        "evidence": "The image shows two cats lying on a pink surface with remote control objects nearby. There are no nudity, sexual content, middle finger, hate symbols, hate words, alcohol, drugs, violence, or weapons depicted.",
+        "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+        "timing": {
+          "model_load_seconds": 5.553,
+          "inference_seconds": 57.2786
+        }
+      },
+      "queue_position": null
+    }
+  ],
+  "passed": true
+}
