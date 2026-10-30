@@ -115,6 +115,10 @@ class GrowthTests(unittest.TestCase):
   pick={'field':'activity','value':'Dance','quote':'Example Center offers Dance and Art classes at 12 Main Street'}
   with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}),self.choose(pick):pipeline.advance(issue,row['id'],board,self.remote_config(),worker.database,web)
   body=board.call.call_args.args[1]['description'];self.assertIn('Activity: Dance',body);self.assertIn('metered remote model',body)
+ def test_a_third_party_list_is_named_as_the_gap_and_never_sent_to_the_model(self):
+  issue,row,web=self.inference('Example Center Music classes at 12 Main Street in Carroll Gardens, Brooklyn, also serving Park Slope.');row['source_url']='https://www.newyorkfamily.com/best-music-classes'
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens','Park Slope']}),patch('segmind.suggest') as ask:self.assertEqual(growth.infer(issue,row,worker.database,web,self.remote_config(),'publication'),{})
+  ask.assert_not_called();self.assertTrue(growth.gap_reason(worker.database,row['id']).startswith('Source is a third-party list or directory'))
  def test_verified_discovery_brief_advances_to_existing_publisher(self):
   issue,row,web=self.inference();board=Mock();board.call.return_value={'id':'publish','identifier':'NAR-publish'}
   with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}):result=pipeline.advance(issue,row['id'],board,self.config,worker.database,web)

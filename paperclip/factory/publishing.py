@@ -116,7 +116,15 @@ def class_price(text):
  if len(amounts)!=1:raise ValueError('Missing or ambiguous per-class price. Session/camp prices must not be treated as per-class fees')
  return {'evidence':'stated','amount':next(iter(amounts)),'currency':'USD','unit':'class','sourceText':matches[0][0]}
 
+# Third-party lists and directories describe many providers; they never establish one provider's listing.
+LISTING_HOSTS={'newyorkfamily.com','newyorkloveskids.com','nymetroparents.com','amny.com','coursehorse.com','mommypoppins.com','activityhero.com','kidsdancemap.com','growingupnyc.cityofnewyork.us','yelp.com','tripadvisor.com','timeout.com','facebook.com','instagram.com','eventbrite.com','patch.com','care.com'}
+BOROUGH_NAMES=['Brooklyn','Manhattan','Queens','Bronx','Staten Island']
+def third_party_listing(url):
+ host=(urllib.parse.urlsplit(str(url)).hostname or '').lower()
+ return any(host==h or host.endswith('.'+h) for h in LISTING_HOSTS)
+
 def normalize_sources(brief,pages,facts):
+ if any(third_party_listing(page['url']) for page in pages):raise ValueError('The source is a third-party list or directory, not the provider; a first-party provider page is required')
  text='\n'.join(p['text'] for p in pages)
  for field in ['Publication name','Borough','Neighborhood','Activity']:
   if norm(brief[field]) not in norm(text):raise ValueError(field+' is not supported by these source pages')
@@ -126,6 +134,9 @@ def normalize_sources(brief,pages,facts):
  for f in facts:
   if any(norm(f['quote']) in norm(p['text']) and norm(f['value']) in norm(f['quote']) for p in pages):valid[f['field']]=f['value']
  if not valid.get('address') or not re.search(r'\d',valid['address']):raise ValueError('Missing source-verified street address')
+ named=[b for b in BOROUGH_NAMES if re.search(r'\b'+b+r'\b',valid['address'],re.I)]
+ if named and brief['Borough'] not in named:raise ValueError('The brief borough '+brief['Borough']+' conflicts with the verified address, which names '+', '.join(named))
+ if '|' in brief['Publication name']:raise ValueError('The publication name looks like a page title (it contains "|"); a clean provider name is required')
  try:price=formats.price(text,brief['Format'])
  except ValueError as error:
   if brief['Format']=='Camps':raise

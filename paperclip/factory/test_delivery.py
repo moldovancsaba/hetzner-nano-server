@@ -46,6 +46,28 @@ class DeliveryTests(unittest.TestCase):
   with self.assertRaises(ValueError):formats.price('$42 per class and $150 per month')
  def test_month_based_ages_keep_exact_bounds(self):
   age=formats.ages('Ages 6-18 months')[0];self.assertEqual(formats.bounds(age),(6,18));s=formats.schedules('Ages 6-18 months - Tuesdays 10:00 am, 45 minutes')[0];self.assertEqual(formats.bounds(s,True),(6,18))
+ def test_stated_age_ranges_accept_to_through_words_aged_and_halves(self):
+  def rows(text,exact=False):return [(r['min_months'],r['max_months'],r['unit']) for r in formats.ages(text,exact)]
+  self.assertEqual(rows('Ages 5-12'),[(60,155,'year')]);self.assertEqual(rows('ages 5 to 12'),[(60,155,'year')]);self.assertEqual(rows('Ages: 3 through 6'),[(36,83,'year')]);self.assertEqual(rows('children aged 4–11'),[(48,143,'year')])
+  self.assertEqual(rows('Suzuki lessons for ages three to ten'),[(36,131,'year')]);self.assertEqual(rows('ages Three To Ten',True),[(36,120,'year')])
+  self.assertEqual(rows('ages 2.5-3.5'),[(30,42,'month')]);self.assertEqual(rows('ages 2.5 to 4'),[(30,59,'month')])
+  self.assertEqual(rows('Ages 12 to 18 months'),[(12,18,'month')]);self.assertEqual(rows('Ages 6-18 months'),[(6,18,'month')])
+  self.assertEqual(rows('ages 3 to 5 and again ages 3-5'),[(36,71,'year')])
+ def test_age_phrases_that_state_no_clear_range_still_block(self):
+  for text in ['ages 9 to 20','ages 1.5-3 months','ages 3.3-5','all ages and levels','for ages 3 and up','teens and tweens','toddlers','Pre-K through Grade 12','ages 5 to 4','age 3','ages twenty to thirty']:
+   with self.assertRaises(ValueError,msg=text):formats.ages(text)
+ def test_third_party_lists_cannot_become_a_provider_listing(self):
+  for url in ['https://www.newyorkfamily.com/best','https://newyorkloveskids.com/x','https://m.yelp.com/biz/a','https://www.facebook.com/a']:
+   self.assertTrue(publishing.third_party_listing(url),url)
+   with self.assertRaises(ValueError):publishing.normalize_sources({},[{'url':url,'text':''}],[])
+  for url in ['https://www.keylab.nyc/kids','https://brooklynmusicfactory.com/pricing','https://notyelp.com/a','https://example.org/yelp.com']:self.assertFalse(publishing.third_party_listing(url),url)
+ def test_brief_borough_must_agree_with_the_verified_address_and_the_name_must_not_be_a_page_title(self):
+  page={'url':'https://example.org/classes','title':'Example','text':'Example Dance offers Dance classes at 670 Grand St, Brooklyn, NY in Williamsburg, Brooklyn and Riverdale, Bronx. Ages 3-12.','sha256':'x','fetched_at':time.time()}
+  facts=[{'field':'address','value':'670 Grand St, Brooklyn, NY','quote':'670 Grand St, Brooklyn, NY'}]
+  base={'Publication name':'Example Dance','Borough':'Bronx','Neighborhood':'Riverdale','Format':'Classes','Activity':'Dance','Draft reference':'x'}
+  with self.assertRaisesRegex(ValueError,'conflicts with the verified address'):publishing.normalize_sources(base,[page],facts)
+  publishing.normalize_sources({**base,'Borough':'Brooklyn','Neighborhood':'Williamsburg'},[page],facts)
+  with self.assertRaisesRegex(ValueError,'looks like a page title'):publishing.normalize_sources({**base,'Borough':'Brooklyn','Neighborhood':'Williamsburg','Publication name':'Example Dance | Ages 3-12'},[{**page,'text':page['text'].replace('Example Dance offers','Example Dance | Ages 3-12 offers')}],facts)
  def test_camps_require_future_dates_and_supported_fee_unit(self):
   text='Camp dates: 2027-06-14 to 2027-06-18. Ages 5-10 - Monday 9:00 am, 360 minutes.';s=formats.schedules(text,'Camps')[0];self.assertEqual(s['startDate'],'2027-06-14');self.assertEqual(formats.price('$350 per week','Camps')['unit'],'week')
   with self.assertRaises(ValueError):formats.schedules('Ages 5-10 - Monday 9:00 am, 360 minutes.','Camps')

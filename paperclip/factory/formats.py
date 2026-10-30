@@ -1,12 +1,20 @@
 """Exact source units and month-based age bounds for Classes and dated Camps."""
 import datetime,re
 AGE=r'ages?\s+(\d{1,3})\s*[-–]\s*(\d{1,3})(?:\s*(months?|years?))?'
+WORDS={w:i for i,w in enumerate('zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen'.split())}
+NUMBER=r'(?:\d{1,3}(?:\.5)?|'+'|'.join(WORDS)+')'
+STATED=r'\b(?:ages?:?|aged)\s+('+NUMBER+r')(?:\s*[-–—]\s*|\s+(?:to|through|thru)\s+)('+NUMBER+r')(?:\s*(months?|years?))?\b'
+def number(text):return float(WORDS[text.lower()]) if text.lower() in WORDS else float(text)
 def ages(text,exact_years=False):
+ """Explicit stated ranges: "ages 5-12", "aged 4 to 11", "ages three to ten", "ages 2.5-3.5". Halves are kept exact in months; nothing is guessed."""
  rows=[]
- for m in re.finditer(r'\b'+AGE+r'\b',text,re.I):
-  lo,hi=map(int,m.group(1,2));months=(m[3] or '').lower().startswith('month');a=lo if months else lo*12;b=hi if months else hi*12+(0 if exact_years else 11)
+ for m in re.finditer(STATED,text,re.I):
+  lo,hi=number(m.group(1)),number(m.group(2));months=(m[3] or '').lower().startswith('month');half=lo!=int(lo) or hi!=int(hi)
+  if months and half:continue
+  a=int(lo) if months else int(lo*12);b=int(hi) if months else int(hi*12)+(0 if exact_years or hi!=int(hi) else 11)
   if not 0<=a<=b<=215:continue
-  row={'min':a/12 if months else lo,'max':b/12 if months else hi,'min_months':a,'max_months':b,'quote':m[0],'unit':'month' if months else 'year'}
+  exact=months or half
+  row={'min':a/12 if exact else int(lo),'max':b/12 if exact else int(hi),'min_months':a,'max_months':b,'quote':m[0],'unit':'month' if exact else 'year'}
   if not any(x['min_months']==a and x['max_months']==b for x in rows):rows.append(row)
  if not rows:raise ValueError('Missing explicit numerical child age ranges in months or years')
  return rows

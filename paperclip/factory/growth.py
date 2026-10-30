@@ -65,6 +65,7 @@ def evaluate(issue,row,facts,pages,known,vocabulary):
 
  Returns (brief, gaps); gaps is a list of (field, detail) and is empty when the brief is complete."""
  combined='\n'.join(p['text'] for p in pages.values());values={};gaps=[]
+ if publishing.third_party_listing(row['source_url']):gaps.append(('source','is a third-party list or directory, not the provider; a first-party provider page is needed'))
  for key in ['name','address']:
   found=established(facts,pages,key)
   if len(found)==1:values[key]=next(iter(found))

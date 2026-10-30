@@ -50,6 +50,16 @@ A lost publishing response is recorded as **uncertain** before any retry can occ
 - Publication uses a separate single-slot lock from inference/research; a long local-model job does not hold the publication slot. Model inference remains unchanged at the selected 8K profile.
 - The recovery archive includes the new service environment and consistent publication ledger. No full restore drill has been performed.
 
+## Source, age, name and contact checks (2026-10-30)
+
+A delivery review found drafts held for reasons that were format gaps, and two kinds of wrong brief that the gate would have let through. All are deterministic and fail closed.
+
+- **Stated ages** (`formats.ages`) accept "ages 5-12", "aged 4 to 11", "ages 3 through 6", number words ("ages three to ten") and halves ("ages 2.5-3.5", kept exact in months). They still refuse an open range ("3 and up"), school grades, words such as "toddlers" or "teen", and anything above 17 years 11 months.
+- **Phone numbers** in the `official_contacts` check compare by digits without a leading US country code, because the draft carries `+17184478667` and the page says `718-447-8667`. Website and email still compare as before, and a different digit, an extension or a missing number is still a hold.
+- **Third-party lists and directories** (`publishing.LISTING_HOSTS`, for example newyorkfamily.com, yelp.com, facebook.com) cannot become a provider listing. The brief step names it as the gap and never sends such a page to the model.
+- **Borough against address.** If the verified address names a borough (Brooklyn, Queens, Bronx, Staten Island, Manhattan), the brief's borough must be the same one.
+- **Name.** A publication name containing `|` is a page title, not a provider name, and is held until a clean name exists.
+
 ## Public check and ClassScout's no-em-dash rule
 
 ClassScout rewrites every em dash on a public read (its rule 474, `src/lib/copy/emDash.ts`: "A — B" is served as "A, B"), while the private record keeps the stored text. The read-only verifier therefore compares the public record with the draft passed through `publishing.read_time_text`, a line-for-line copy of that guard; every other difference still fails, and the private record is still compared exactly. Before 2026-10-30 a draft whose name or description contained an em dash could never pass the public check: Kids Dance, Brooklyn Basement Dance Co. (NAR-566) was saved privately, stayed `partial` for a day and was finally reconciled by the factory's own recheck of a partial packet (a read-only ClassScout verification plus a guarded local status update; no catalog write). If ClassScout adds other read-time rewrites, such as its US-spelling pass, a draft containing the affected text would fail the same way and `read_time_text` needs the matching rule.

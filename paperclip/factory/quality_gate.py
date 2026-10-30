@@ -3,6 +3,16 @@ import datetime,json,re,time,urllib.parse,urllib.request
 import publishing,formats
 VERSION='classscout-auto-v6'
 FIELDS={'phone','email','shortDescription','longDescription'}
+def contact_key(field,value):
+ """Comparable form of a contact value. Phones compare by digits without a leading US country code, so +17184478667 equals (718) 447-8667; any other difference stays a difference."""
+ value=str(value or '')
+ if field=='phone':
+  digits=re.sub(r'\D','',value);return digits[1:] if len(digits)==11 and digits.startswith('1') else digits
+ return publishing.norm(value)
+
+def contacts_match(draft,facts):
+ return all(contact_key(k,draft.get(k,''))==contact_key(k,facts.get(k,'')) for k in ['website','phone','email'])
+
 def unambiguous_contacts(facts):
  import evidence
  for field in ['phone','email','address']:
@@ -11,7 +21,7 @@ def unambiguous_contacts(facts):
    if fact['field']!=field:continue
    value=str(fact['value']).strip()
    if field=='phone':
-    value=re.sub(r'\D','',value);value=value[1:] if len(value)==11 and value.startswith('1') else value
+    value=contact_key('phone',value)
    elif field=='address':
     street=evidence.street(value)
     units=re.findall(r'\b(?:suite|ste\.?|unit|floor)\s+([A-Za-z0-9-]+)',value,re.I)
@@ -93,5 +103,5 @@ def check_publication(database,packet,issue,body,proof,pages):
  def schedule_ok(p,s):
   return p.get('daysOfWeek')==s['daysOfWeek'] and n(p.get('timeText'))==n(s['timeText']) and p.get('ageMinMonths')==formats.bounds(s,True)[0] and p.get('ageMaxMonths')==formats.bounds(s,True)[1] and p.get('price',{}).get('evidence')==fresh['price']['evidence'] and p.get('price',{}).get('amount')==fresh['price'].get('amount') and p.get('price',{}).get('unit')==fresh['price'].get('unit') and (not s.get('startDate') or p.get('startDate')==s['startDate'] and p.get('endDate')==s['endDate'])
  # Product-domain display toggles never authorize or prohibit shared catalog intake.
- checks={'independent_source_review':bool(entity and entity['brand']=='ClassScout' and entity['status']=='ready_for_human_review'),'source_identity':all(n(draft.get(k))==n(normalized[v]) for k,v in core.items()),'source_copy':draft.get('shortDescription')==normalized['descriptionFacts'][0] and draft.get('longDescription')==' '.join(normalized['descriptionFacts']),'class_price':(draft.get('pricePerClass')==0 and draft.get('price',{}).get('evidence')=='unknown' and not any(k in draft.get('price',{}) for k in ['amount','currency','unit'])) if fresh['price']['evidence']=='unknown' else (draft.get('pricePerClass')==fresh['price'].get('amount') and draft.get('price',{}).get('unit')==fresh['price'].get('unit') and draft.get('price',{}).get('amount')==fresh['price'].get('amount')),'age_bounds':draft.get('ageMinMonths')==min(formats.bounds(a)[0] for a in ages) and draft.get('ageMaxMonths')==max(formats.bounds(a)[1] for a in ages),'class_timetable':len(programs)==len(schedules) and all(schedule_ok(p,s) for p,s in zip(programs,schedules)),'official_contacts':all(n(draft.get(k,''))==n(normalized['contactFacts'].get(k,'')) for k in ['website','phone','email']),'activity':draft.get('activityTypes')==normalized['activityTypesRaw'],'unclaimed_new_listing':not draft.get('ownerSub') and draft.get('claimStatus')=='unclaimed','qualified_image':qualified_media(media,proof,pages,draft),'https_sources':all(p['url'].startswith('https://') and 0<=time.time()-float(p['fetched_at'])<3600 for p in pages),'unambiguous_contacts':unambiguous_contacts(proof['facts'])}
+ checks={'independent_source_review':bool(entity and entity['brand']=='ClassScout' and entity['status']=='ready_for_human_review'),'source_identity':all(n(draft.get(k))==n(normalized[v]) for k,v in core.items()),'source_copy':draft.get('shortDescription')==normalized['descriptionFacts'][0] and draft.get('longDescription')==' '.join(normalized['descriptionFacts']),'class_price':(draft.get('pricePerClass')==0 and draft.get('price',{}).get('evidence')=='unknown' and not any(k in draft.get('price',{}) for k in ['amount','currency','unit'])) if fresh['price']['evidence']=='unknown' else (draft.get('pricePerClass')==fresh['price'].get('amount') and draft.get('price',{}).get('unit')==fresh['price'].get('unit') and draft.get('price',{}).get('amount')==fresh['price'].get('amount')),'age_bounds':draft.get('ageMinMonths')==min(formats.bounds(a)[0] for a in ages) and draft.get('ageMaxMonths')==max(formats.bounds(a)[1] for a in ages),'class_timetable':len(programs)==len(schedules) and all(schedule_ok(p,s) for p,s in zip(programs,schedules)),'official_contacts':contacts_match(draft,normalized['contactFacts']),'activity':draft.get('activityTypes')==normalized['activityTypesRaw'],'unclaimed_new_listing':not draft.get('ownerSub') and draft.get('claimStatus')=='unclaimed','qualified_image':qualified_media(media,proof,pages,draft),'https_sources':all(p['url'].startswith('https://') and 0<=time.time()-float(p['fetched_at'])<3600 for p in pages),'unambiguous_contacts':unambiguous_contacts(proof['facts'])}
  return record(database,packet,'new_listing',checks)

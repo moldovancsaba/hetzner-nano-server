@@ -14,6 +14,13 @@ class BlockerRecoveryTests(unittest.TestCase):
   self.assertTrue(quality_gate.unambiguous_contacts([{'field':'phone','value':'+1 (201) 946-9400'},{'field':'phone','value':'201-946-9400'}]))
  def test_different_phone_numbers_remain_ambiguous(self):
   self.assertFalse(quality_gate.unambiguous_contacts([{'field':'phone','value':'201-946-9400'},{'field':'phone','value':'201-946-9401'}]))
+ def test_the_contacts_check_compares_phones_by_digits_and_nothing_else_loosely(self):
+  facts={'website':'https://example.org/classes','phone':'(718) 569-8097','email':'Info@Example.org'}
+  draft={'website':'https://example.org/classes','phone':'+17185698097','email':'info@example.org'}
+  self.assertTrue(quality_gate.contacts_match(draft,facts));self.assertTrue(quality_gate.contacts_match({**draft,'phone':'718.569.8097'},facts))
+  for change in [{'phone':'+17185698098'},{'phone':'+17185698097 ext 12'},{'phone':''},{'phone':'+447185698097'},{'email':'other@example.org'},{'email':''},{'website':'https://example.org/'}]:
+   self.assertFalse(quality_gate.contacts_match({**draft,**change},facts),change)
+  self.assertFalse(quality_gate.contacts_match(draft,{k:v for k,v in facts.items() if k!='phone'}));self.assertTrue(quality_gate.contacts_match({**draft,'phone':''},{k:v for k,v in facts.items() if k!='phone'}))
  def test_saint_marks_street_alias_preserves_building_number(self):
   self.assertTrue(evidence.address_matches('27 Saint Marks Place',"27 St. Mark's Place"));self.assertFalse(evidence.address_matches('27 Saint Marks Place',"127 St. Mark's Place"))
  def test_directories_do_not_become_official_venue_sources(self):
