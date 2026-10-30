@@ -60,6 +60,14 @@ A delivery review found drafts held for reasons that were format gaps, and two k
 - **Borough against address.** If the verified address names a borough (Brooklyn, Queens, Bronx, Staten Island, Manhattan), the brief's borough must be the same one.
 - **Name.** A publication name containing `|` is a page title, not a provider name, and is held until a clean name exists.
 
+## A missing image is not a blocker (owner decision 2026-10-30)
+
+ClassScout's own rule is that a missing official image is maintenance debt, not a publish blocker; it applied only to persisted content cards. The preparation call now sends `workflowMetadata.allowCategoryBannerFallback: true`, and sends no image request when the pages offer no image candidate. When no official image qualifies, ClassScout returns its own hosted category banner (an `i.ibb.co` URL carrying the diagnostic `content_card_category_banner_fallback`) and the listing publishes on it.
+
+The factory accepts that banner only as a marked placeholder. `publishing.category_banner` requires a ready, accepted media result, the diagnostic and the `i.ibb.co` host; the packet proof then carries `image_placeholder: true`, which `quality_gate.qualified_media` needs before it accepts a result whose source image is not one of the page's candidates. The review text says the listing uses a category banner. Every other check is unchanged, and a media result that is neither an official candidate nor ClassScout's banner is still refused.
+
+This needs the ClassScout change that reads the new option (`prepareReviewPacket.ts`). Until it is live, ClassScout ignores the option and a listing without a usable image is held as before, with ClassScout's own reason.
+
 ## Public check and ClassScout's no-em-dash rule
 
 ClassScout rewrites every em dash on a public read (its rule 474, `src/lib/copy/emDash.ts`: "A — B" is served as "A, B"), while the private record keeps the stored text. The read-only verifier therefore compares the public record with the draft passed through `publishing.read_time_text`, a line-for-line copy of that guard; every other difference still fails, and the private record is still compared exactly. Before 2026-10-30 a draft whose name or description contained an em dash could never pass the public check: Kids Dance, Brooklyn Basement Dance Co. (NAR-566) was saved privately, stayed `partial` for a day and was finally reconciled by the factory's own recheck of a partial packet (a read-only ClassScout verification plus a guarded local status update; no catalog write). If ClassScout adds other read-time rewrites, such as its US-spelling pass, a draft containing the affected text would fail the same way and `read_time_text` needs the matching rule.

@@ -34,6 +34,26 @@ class AutomaticTests(unittest.TestCase):
   for _ in range(2):
    with self.assertRaises(ValueError):self.run_refresh(s)
   self.assertEqual(s[4].apply.call_count,1)
+ def banner_preparation(self,media_url='https://i.ibb.co/4g2pS1JX/csny-banner-any.png'):
+  s,body,proof,page,ph=self.publication()
+  with worker.database() as db:db.execute('DELETE FROM publication_packets');db.execute('INSERT INTO sources VALUES(?,?,?,?,?)',('source',page['url'],'Keylab',page['sha256'],'1'));db.execute('INSERT INTO facts VALUES(?,?,?,?,?)',('a'*32,'address','94 Luquer St','at 94 Luquer St','source'))
+  draft=copy.deepcopy(body['draftPayload']);draft['image']=media_url
+  media={'status':'ready','originalUrl':media_url,'sourceDocumentUrl':page['url'],'uploadedUrl':media_url,'contentHash':'classscout-category-banner:'+media_url,'diagnostics':[{'code':'content_card_category_banner_fallback','severity':'warning'}],'qualification':{'status':'accepted','provenance':'authoritative'}}
+  s[3].call.return_value={'gateResult':{'approved':True},'resolvedDraft':{'draft':draft,'adapterVersion':'test'},'entityKind':'provider','mediaResult':media}
+  s[2].page.return_value={k:v for k,v in page.items() if k!='images'}
+  return s
+ def test_a_page_without_an_official_image_is_prepared_on_the_category_banner(self):
+  s=self.banner_preparation()
+  with patch('publishing.request_review',return_value={'stage':'awaiting_approval'}) as review:
+   self.run_publication(s)
+  sent=s[3].call.call_args_list[0][0][1];self.assertIsNone(sent['mediaRequest']);self.assertIs(sent['workflowMetadata']['allowCategoryBannerFallback'],True)
+  body,proof=review.call_args[0][4],review.call_args[0][5];self.assertIs(proof['image_placeholder'],True);self.assertEqual(body['draftPayload']['image'],'https://i.ibb.co/4g2pS1JX/csny-banner-any.png')
+  self.assertIn('category banner',publishing.review_markdown(body,proof,'hash'))
+ def test_only_classscout_own_banner_replaces_a_missing_official_image(self):
+  s=self.banner_preparation('https://images.example.org/stock.png')
+  with patch('publishing.request_review',return_value={'stage':'awaiting_approval'}) as review:
+   with self.assertRaisesRegex(ValueError,'lacks checked official-page provenance'):self.run_publication(s)
+  review.assert_not_called()
  def test_factory_tests_cannot_auto_write(self):
   s=self.scenario();s[0]['title']='[Factory test] Contact'
   with self.assertRaises(ValueError):self.run_refresh(s)

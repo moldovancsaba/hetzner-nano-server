@@ -36,8 +36,8 @@ def qualified_media(media,proof,pages,draft):
  qualification=media.get('qualification') or {}
  return (media.get('status')=='ready' and qualification.get('status')=='accepted'
   and qualification.get('provenance') in {'official','authoritative'}
-  and media.get('originalUrl') in proof.get('image_candidates',[])
-  and media.get('sourceDocumentUrl') in [p['url'] for p in pages]
+  and ((proof.get('image_placeholder') is True and publishing.category_banner(media))
+   or media.get('originalUrl') in proof.get('image_candidates',[]) and media.get('sourceDocumentUrl') in [p['url'] for p in pages])
   and draft.get('image')==media.get('uploadedUrl') and bool(media.get('contentHash')))
 
 def enabled(config,issue):

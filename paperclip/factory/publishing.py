@@ -198,6 +198,11 @@ def media_candidates(pages):
    if len(urls)>=5:return urls
  return urls
 
+def category_banner(media):
+ # ClassScout's own hosted category banner, used when no official image qualifies (owner decision 2026-10-30).
+ media=media or {}
+ return media.get('status')=='ready' and (media.get('qualification') or {}).get('status')=='accepted' and any(d.get('code')=='content_card_category_banner_fallback' for d in media.get('diagnostics',[])) and urllib.parse.urlsplit(media.get('uploadedUrl') or '').hostname=='i.ibb.co'
+
 def completed_body(prepared,proof,issue_id):
  if not prepared.get('gateResult',{}).get('approved'):raise ValueError('ClassScout publication blockers: '+('; '.join(x['code']+': '+x['message'] for x in prepared.get('gateResult',{}).get('errors',[])))[:1400])
  resolved=prepared['resolvedDraft'];draft=copy.deepcopy(resolved['draft'])
@@ -206,7 +211,7 @@ def completed_body(prepared,proof,issue_id):
   if norm(draft.get(field))!=norm(expected[source]):raise ValueError('Canonical adapter changed source-backed '+field+'; review before approval')
  if prepared['entityKind']!='provider':raise ValueError('Only provider publications are supported')
  media=prepared.get('mediaResult') or {}
- if media.get('status')!='ready' or media.get('originalUrl') not in proof.get('image_candidates',[]) or media.get('sourceDocumentUrl') not in [p['url'] for p in proof['sources']]:raise ValueError('Prepared image lacks checked official-page provenance')
+ if not (proof.get('image_placeholder') is True and category_banner(media)) and (media.get('status')!='ready' or media.get('originalUrl') not in proof.get('image_candidates',[]) or media.get('sourceDocumentUrl') not in [p['url'] for p in proof['sources']]):raise ValueError('Prepared image lacks checked official-page provenance')
  draft['price']={**proof['price'],'sourceUrl':proof['sources'][0]['url'],'observedAt':stamp()};draft['pricePerClass']=proof['price'].get('amount',0)
  ages=proof['ages'];lo=min(a['min'] for a in ages);hi=max(a['max'] for a in ages);draft.update(ageMinMonths=min(formats.bounds(a)[0] for a in ages),ageMaxMonths=max(formats.bounds(a)[1] for a in ages),ageSourceText=formats.age_evidence(ages))
  programs=draft.get('recurringPrograms',[])
@@ -224,7 +229,7 @@ def review_markdown(body,proof,packet_hash):
  d=body['draftPayload'];esc=lambda value:re.sub(r'([\\`*_\[\]{}|!<>])',r'\\\1',str(value));lines=['## Ready for publication review','',esc(d['name']),'',esc(d['shortDescription']),'',esc(d['longDescription']),'', '**Location:** '+esc(d['address'])+'; '+esc(d['neighborhood'])+', '+esc(d['borough']), ('**Price:** unknown; not advertised as free.' if proof['price']['evidence']=='unknown' else '**Price:** $'+format(proof['price']['amount'],'g')+' per '+proof['price']['unit']+'.'),'**Ages:** '+', '.join(a['quote'] for a in proof['ages']), '', '**Class timetable:**']
  for s in proof['schedules']:lines.append('- '+s['title']+': '+s['daysOfWeek'][0]+', '+s['timeText'])
  lines+=['','**Official sources:**']+[ '- '+p['url'] for p in proof['sources']]
- if d.get('image'):lines+=['','**Prepared listing image:**','![Listing image]('+d['image']+')']
+ if d.get('image'):lines+=['','**Prepared listing image:**' if not proof.get('image_placeholder') else '**Listing image: ClassScout category banner. No official image qualified; replace it when one is found.**','![Listing image]('+d['image']+')']
  lines+=['','Approve to publish this exact listing through ClassScout’s final duplicate, image and schema checks. The final gate may still refuse it. Approval expires after 48 hours. No listing has been published yet.','','Packet: `'+packet_hash+'`']
  return '\n'.join(lines)
 
@@ -300,9 +305,9 @@ def run(issue,board,config,web,database,client=None,execution=None):
  with database() as db:extra=[r[0] for r in db.execute('SELECT DISTINCT s.url FROM sources s JOIN facts f ON f.source_id=s.id WHERE f.entity_id=?',(brief['Draft reference'],))]
  brief['urls']=list(dict.fromkeys(brief['urls']+[u for u in extra if urllib.parse.urlsplit(u).hostname.removeprefix('www.')==urllib.parse.urlsplit(brief['urls'][0]).hostname.removeprefix('www.')]))[:4]
  pages,normalized,proof=collect_for_publication(brief,web,facts);images=media_candidates(pages);proof['image_candidates']=images
- if not images:raise ValueError('Missing official source image; supply a program page containing a usable image')
  if execution:ensure_execution(issue,board,config,execution,input_hash)
- prepared=client.call('/api/content-intelligence/prepare-review',{'draftId':'paperclip-'+issue['id'],'normalizedListing':normalized,'evidenceSummary':{'sources':proof['sources']},'workflowMetadata':{'source':'paperclip'},'mediaRequest':{'candidateId':'paperclip-'+issue['id'],'sourceImageUrl':images[0],'fallbackImageUrls':images[1:],'sourceDocumentUrl':pages[0]['url'],'destinationEntityKind':'provider','requestedBy':'publication-workflow'}})
+ prepared=client.call('/api/content-intelligence/prepare-review',{'draftId':'paperclip-'+issue['id'],'normalizedListing':normalized,'evidenceSummary':{'sources':proof['sources']},'workflowMetadata':{'source':'paperclip','allowCategoryBannerFallback':True},'mediaRequest':{'candidateId':'paperclip-'+issue['id'],'sourceImageUrl':images[0],'fallbackImageUrls':images[1:],'sourceDocumentUrl':pages[0]['url'],'destinationEntityKind':'provider','requestedBy':'publication-workflow'} if images else None})
+ if category_banner(prepared.get('mediaResult')):proof['image_placeholder']=True
  body=completed_body(prepared,proof,issue['id'])
  if client.existing_provider(body['draftPayload']['id']) is not None:raise ValueError('This provider already exists; route it to existing-listing review, not new publication')
  packet_hash=sha({'body':body,'proof':proof});markdown=review_markdown(body,proof,packet_hash)

@@ -50,6 +50,23 @@ class BlockerRecoveryTests(unittest.TestCase):
   self.assertFalse(quality_gate.qualified_media(media,{'image_candidates':['https://example.org/photo.jpg']},[{'url':media['sourceDocumentUrl']}],{'image':media['uploadedUrl']}))
   media['originalUrl']='https://example.org/photo.jpg';media['contentHash']='';self.assertFalse(quality_gate.qualified_media(media,{'image_candidates':[media['originalUrl']]},[{'url':media['sourceDocumentUrl']}],{'image':media['uploadedUrl']}))
 
+ def banner(self):
+  url='https://i.ibb.co/4g2pS1JX/csny-banner-any.png'
+  return {'status':'ready','originalUrl':url,'sourceDocumentUrl':'https://example.org/classes','uploadedUrl':url,'contentHash':'classscout-category-banner:'+url,'diagnostics':[{'code':'content_card_category_banner_fallback','severity':'warning'}],'qualification':{'status':'accepted','provenance':'authoritative'}}
+ def test_a_missing_official_image_publishes_on_the_classscout_category_banner(self):
+  import publishing
+  media=self.banner();draft={'image':media['uploadedUrl']};pages=[{'url':media['sourceDocumentUrl']}]
+  self.assertTrue(publishing.category_banner(media))
+  self.assertTrue(quality_gate.qualified_media(media,{'image_placeholder':True,'image_candidates':[]},pages,draft))
+ def test_the_banner_needs_the_proof_marker_classscout_diagnostic_and_its_own_host(self):
+  import publishing
+  media=self.banner();draft={'image':media['uploadedUrl']};pages=[{'url':media['sourceDocumentUrl']}]
+  self.assertFalse(quality_gate.qualified_media(media,{'image_candidates':[]},pages,draft))
+  other={**media,'uploadedUrl':'https://images.example.org/a.png'};self.assertFalse(publishing.category_banner(other));self.assertFalse(quality_gate.qualified_media(other,{'image_placeholder':True,'image_candidates':[]},pages,{'image':other['uploadedUrl']}))
+  plain={**media,'diagnostics':[]};self.assertFalse(publishing.category_banner(plain));self.assertFalse(quality_gate.qualified_media(plain,{'image_placeholder':True,'image_candidates':[]},pages,draft))
+  self.assertFalse(publishing.category_banner({**media,'qualification':{'status':'rejected'}}));self.assertFalse(publishing.category_banner(None))
+  self.assertFalse(quality_gate.qualified_media(media,{'image_placeholder':True,'image_candidates':[]},pages,{'image':'https://i.ibb.co/other.png'}))
+
  def test_legacy_contact_baseline_allows_new_read_fields(self):
   import refresh
   self.assertTrue(refresh.baseline_matches({'name':'Example','phone':'123','price':{'evidence':'unknown'}},{'name':'Example','phone':'123'}))
