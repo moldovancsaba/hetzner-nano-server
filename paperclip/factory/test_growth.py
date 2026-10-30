@@ -41,6 +41,80 @@ class GrowthTests(unittest.TestCase):
  def test_multiple_neighborhoods_require_focused_source(self):
   issue,row,web=self.inference('Example Center Music classes at 12 Main Street in Carroll Gardens, Brooklyn, also serving Park Slope.')
   with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens','Park Slope']}):self.assertEqual(growth.infer(issue,row,worker.database,web),{})
+ def test_gap_reason_names_the_first_failed_field_and_lists_the_rest(self):
+  issue,row,web=self.inference('Example Center at 12 Main Street in Brooklyn.')
+  self.assertIsNone(growth.gap_reason(worker.database,row['id']))
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}):self.assertEqual(growth.infer(issue,row,worker.database,web),{})
+  self.assertEqual(growth.gap_reason(worker.database,row['id']),'Activity "Music" is not named on the source pages.')
+  with worker.database() as db:stored=json.loads(db.execute('SELECT result_json FROM commissioning_checks WHERE entity_id=?',(row['id'],)).fetchone()[0])
+  self.assertEqual([g['field'] for g in stored['gaps']],['activity','format','neighborhood'])
+ def test_gap_reason_says_which_other_borough_the_page_names(self):
+  issue,row,web=self.inference('Example Center Music classes at 12 Main Street in Queens.')
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}):growth.infer(issue,row,worker.database,web)
+  self.assertEqual(growth.gap_reason(worker.database,row['id']),'Borough "Brooklyn" is not named on the source pages (they name Queens).')
+ def test_gap_reason_counts_competing_neighborhoods(self):
+  issue,row,web=self.inference('Example Center Music classes at 12 Main Street in Carroll Gardens, Brooklyn, also serving Park Slope.')
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens','Park Slope']}):growth.infer(issue,row,worker.database,web)
+  self.assertEqual(growth.gap_reason(worker.database,row['id']),'Neighborhood is ambiguous: 2 Brooklyn neighborhoods are named (Carroll Gardens, Park Slope); a focused page is needed.')
+ def test_gap_reason_names_a_missing_quoted_address(self):
+  issue,row,web=self.inference();growth.initialize(worker.database)
+  with worker.database() as db:db.execute("DELETE FROM facts WHERE entity_id=? AND field='address'",(row['id'],))
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}):self.assertEqual(growth.infer(issue,row,worker.database,web),{})
+  self.assertEqual(growth.gap_reason(worker.database,row['id']),'Address is not established by a quoted source line.')
+ def test_publication_queue_report_shows_the_stored_gap_reason(self):
+  issue,row,web=self.inference('Example Center at 12 Main Street in Brooklyn.')
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}):growth.infer(issue,row,worker.database,web)
+  board=Mock();board.call.return_value={**issue,'companyId':'company','projectId':'project'}
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}):result=pipeline.run_queue({'id':'queue','projectId':'project','title':'Queue'},board,self.config,web,worker.database,{})
+  self.assertIn('Activity "Music" is not named on the source pages.',result['markdown']);self.assertNotIn('Source-backed publication name',result['markdown'])
+ def remote_config(self):return {**self.config,'remote_llm':{'enabled':True}}
+ def choose(self,*choices):return patch('segmind.suggest',return_value=(list(choices),{'cost':0.003},None))
+ def test_metered_model_picks_the_activity_the_page_names_and_the_brief_is_rechecked(self):
+  issue,row,web=self.inference('Example Center offers Dance and Art classes at 12 Main Street in Carroll Gardens, Brooklyn.')
+  pick={'field':'activity','value':'Dance','quote':'Example Center offers Dance and Art classes at 12 Main Street'}
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}),self.choose(pick) as ask:brief=growth.infer(issue,row,worker.database,web,self.remote_config(),'publication')
+  self.assertEqual(brief,{'Publication name':'Example Center','Borough':'Brooklyn','Neighborhood':'Carroll Gardens','Format':'Classes','Activity':'Dance'})
+  self.assertEqual(ask.call_args.args[2],{'activity':['Art','Dance']})
+  self.assertIsNone(growth.gap_reason(worker.database,row['id']));self.assertIn('activity',growth.brief_note(worker.database,row['id']))
+ def test_metered_model_cannot_use_a_quote_that_is_not_on_the_page_or_not_tied_to_the_address(self):
+  issue,row,web=self.inference('Example Center Music classes at 12 Main Street in Carroll Gardens, Brooklyn, also serving Park Slope.')
+  growth.initialize(worker.database)
+  for quote in ['Example Center Music classes at 12 Main Street in Park Slope, Brooklyn','also serving Park Slope']:
+   with worker.database() as db:db.execute('DELETE FROM commissioning_checks')
+   with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens','Park Slope']}),self.choose({'field':'neighborhood','value':'Park Slope','quote':quote}):self.assertEqual(growth.infer(issue,row,worker.database,web,self.remote_config(),'publication'),{})
+   self.assertTrue(growth.gap_reason(worker.database,row['id']).startswith('Neighborhood is ambiguous'));self.assertIsNone(growth.brief_note(worker.database,row['id']))
+ def test_metered_model_chooses_between_competing_neighborhoods_with_an_address_tied_quote(self):
+  issue,row,web=self.inference('Example Center Music classes at 12 Main Street in Carroll Gardens, Brooklyn, also serving Park Slope.')
+  pick={'field':'neighborhood','value':'Carroll Gardens','quote':'12 Main Street in Carroll Gardens, Brooklyn'}
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens','Park Slope']}),self.choose(pick):brief=growth.infer(issue,row,worker.database,web,self.remote_config(),'quality')
+  self.assertEqual(brief['Neighborhood'],'Carroll Gardens')
+ def test_metered_model_is_not_asked_when_nothing_can_be_chosen(self):
+  growth.initialize(worker.database)
+  for text in ['Example Center classes at 12 Main Street in Carroll Gardens, Brooklyn.','Example Center Music at 12 Main Street in Brooklyn.']:
+   issue,row,web=self.inference(text)
+   with worker.database() as db:db.execute('DELETE FROM commissioning_checks')
+   with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}),patch('segmind.suggest') as ask:self.assertEqual(growth.infer(issue,row,worker.database,web,self.remote_config(),'publication'),{})
+   ask.assert_not_called()
+ def test_one_paid_answer_per_unchanged_set_of_pages(self):
+  issue,row,web=self.inference('Example Center offers Dance and Art classes at 12 Main Street in Carroll Gardens, Brooklyn.')
+  pick={'field':'activity','value':'Art','quote':'Dance and Art classes at 12 Main Street'}
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}),self.choose(pick) as ask:
+   growth.infer(issue,row,worker.database,web,self.remote_config(),'publication')
+   with worker.database() as db:db.execute('UPDATE commissioning_checks SET checked_at=0')
+   brief=growth.infer(issue,row,worker.database,web,self.remote_config(),'publication')
+  self.assertEqual(ask.call_count,1);self.assertEqual(brief['Activity'],'Art')
+ def test_an_unavailable_model_is_asked_again_next_time_and_leaves_the_gap(self):
+  issue,row,web=self.inference('Example Center offers Dance and Art classes at 12 Main Street in Carroll Gardens, Brooklyn.')
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}),patch('segmind.suggest',return_value=([],None,'Remote choice unavailable: 500.')) as ask:
+   self.assertEqual(growth.infer(issue,row,worker.database,web,self.remote_config(),'publication'),{})
+   with worker.database() as db:db.execute('UPDATE commissioning_checks SET checked_at=0')
+   growth.infer(issue,row,worker.database,web,self.remote_config(),'publication')
+  self.assertEqual(ask.call_count,2);self.assertTrue(growth.gap_reason(worker.database,row['id']).startswith('Activity "Music"'))
+ def test_publication_task_says_when_the_metered_model_helped_the_brief(self):
+  issue,row,web=self.inference('Example Center offers Dance and Art classes at 12 Main Street in Carroll Gardens, Brooklyn.');board=Mock();board.call.return_value={'id':'publish','identifier':'NAR-publish'}
+  pick={'field':'activity','value':'Dance','quote':'Example Center offers Dance and Art classes at 12 Main Street'}
+  with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}),self.choose(pick):pipeline.advance(issue,row['id'],board,self.remote_config(),worker.database,web)
+  body=board.call.call_args.args[1]['description'];self.assertIn('Activity: Dance',body);self.assertIn('metered remote model',body)
  def test_verified_discovery_brief_advances_to_existing_publisher(self):
   issue,row,web=self.inference();board=Mock();board.call.return_value={'id':'publish','identifier':'NAR-publish'}
   with patch.object(growth,'locations',return_value={'Brooklyn':['Carroll Gardens']}):result=pipeline.advance(issue,row['id'],board,self.config,worker.database,web)

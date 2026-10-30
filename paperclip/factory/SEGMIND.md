@@ -1,6 +1,6 @@
 # Metered Segmind model lane
 
-A paid, optional second model for the **Research Analyst** only. The local model (`granite4:1b-h`, 8K context) stays the default and is free. When its extraction leaves **name, address, price or opening hours** empty, the worker may ask a stronger model on Segmind to read a larger excerpt of the same public page. Status: deployed to the Paperclip host on 2026-10-29 and **switched on** by the owner the same day (`remote_llm.enabled: true` in `factory.json`, default limits). The dedicated API key is in `/etc/paperclip-segmind.env` (root-only, mode 0600). Backups of the pre-deployment files are in `/root/backups/factory-pre-segmind-20261029`. A six-entity pilot on stuck drafts is recorded in [segmind-pilot-20261029.md](segmind-pilot-20261029.md). A missing key, an exhausted allowance or any Segmind error simply leaves the local result in place.
+A paid, optional second model, used in two places: extraction by the **Research Analyst**, and (since 2026-10-30) the editorial-brief step of publication preparation, see [Editorial-brief choices](#editorial-brief-choices-2026-10-30). The local model (`granite4:1b-h`, 8K context) stays the default and is free. When its extraction leaves **name, address, price or opening hours** empty, the worker may ask a stronger model on Segmind to read a larger excerpt of the same public page. Status: deployed to the Paperclip host on 2026-10-29 and **switched on** by the owner the same day (`remote_llm.enabled: true` in `factory.json`, default limits). The dedicated API key is in `/etc/paperclip-segmind.env` (root-only, mode 0600). Backups of the pre-deployment files are in `/root/backups/factory-pre-segmind-20261029`. A six-entity pilot on stuck drafts is recorded in [segmind-pilot-20261029.md](segmind-pilot-20261029.md). A missing key, an exhausted allowance or any Segmind error simply leaves the local result in place.
 
 Implementation: [segmind.py](segmind.py), tests [test_segmind.py](test_segmind.py). Background and cost estimates: `private/segmind-research-20261029.md` (not in Git).
 
@@ -12,7 +12,7 @@ Implementation: [segmind.py](segmind.py), tests [test_segmind.py](test_segmind.p
 
 ## What leaves the host
 
-Only the **public source page** title and an excerpt (up to `max_input_chars`, default 24,000 characters) plus the fixed extraction instruction go to `https://api.segmind.com/v1/<model>`, which passes them on to the model's own provider. Never sent: support questions, customer messages, Paperclip comments or issue text, credentials, Camera/Habi/ClassScout user data. The code enforces the role: only `research` can reach the lane (`segmind.ROLES`), so the **Support Drafter, Quality Reviewer, Publication Coordinator and Search Coordinator never call it**. **Owner decision, 2026-10-29:** Segmind's retention and training terms for text requests were not published on the pages reviewed that day, and the owner accepts that Segmind may use these requests for training. That is why the terms are not a gate. It is also why the data boundary above stays in the code: widening the role list is a separate decision.
+Only the **public source page** title and an excerpt (up to `max_input_chars`, default 24,000 characters) plus the fixed extraction instruction go to `https://api.segmind.com/v1/<model>`, which passes them on to the model's own provider. Never sent: support questions, customer messages, Paperclip comments or issue text, credentials, Camera/Habi/ClassScout user data. The code enforces the role: extraction is reachable only by `research` (`segmind.ROLES`) and the brief choice only by `publication` and `quality` (`segmind.BRIEF_ROLES`), so the **Support Drafter and Search Coordinator never call it**, and the Quality Reviewer and Publication Coordinator call it only through the brief step. **Owner decision, 2026-10-29:** Segmind's retention and training terms for text requests were not published on the pages reviewed that day, and the owner accepts that Segmind may use these requests for training. That is why the terms are not a gate. It is also why the data boundary above stays in the code: widening the role list is a separate decision.
 
 ## Controls
 
@@ -73,6 +73,32 @@ nsenter -t $PID -m -S $(awk '/^Uid:/{print $2}' /proc/$PID/status) -G $(awk '/^G
 ```
 
 Replace `status` with `balance` (read-only account call, does not open the database), `watch` (one balance reading and the overspend check), `probe` (one real call, recorded in the ledger) or `unblock`. The worker process itself only sees the key after the next `systemctl restart narimato-factory`.
+
+## Editorial-brief choices (2026-10-30)
+
+Owner decision 2026-10-30, after a delivery review: ready drafts were piling up (about 190 ready, 3 published) and 85% of the discovery drafts checked failed the editorial brief, the step that needs a publication name, borough, neighborhood, format and activity before a listing can be prepared. The lane was extended to that step; it is the only widening of the role list so far.
+
+- **What it may do.** Choose *between values the pages already name*. ClassScout's own check (`publishing.normalize_sources`) requires the borough, neighborhood and activity to appear literally in the source text, so a model cannot make a missing word true. When the search hint is not on the page, or several canonical neighborhoods are, the model picks one from a candidate list built from the pages. Missing name, address or format wording, and a page that names no candidate at all, are never sent.
+- **What is checked afterwards** (`growth.settle`, no model involved): the quote must be on the fetched pages, hold the chosen value and (for borough and neighborhood) the street address of this location; then the usual rules run again on the result: borough and activity named on the pages, the neighborhood in ClassScout's canonical list for that borough and named on the pages, and the Classes/Camps wording present. A choice that fails any check is dropped and the gap stands.
+- **What is sent.** The public page excerpt, the drafted street address (a quoted public fact) and the candidate lists (borough names, ClassScout's public neighborhood list, the twelve activities). Nothing else.
+- **Cost control.** One call per unchanged set of pages, address and candidates; the answer is stored with the draft (`commissioning_checks.result_json`, key `remote`) and reused after the hourly recheck. A failed or skipped call is not stored, so it is tried again later. The same ledger, daily and monthly caps and overspend guard apply.
+- **Visibility.** The publication task says which fields the remote model chose. The queue report gives the first failed field for every draft that still has a gap (for example `Neighborhood is ambiguous: 2 Brooklyn neighborhoods are named (Carroll Gardens, Park Slope); a focused page is needed.`); the full list is `gaps` in the stored result.
+- **Not covered.** Drafts that did not come from the discovery campaign carry no search hints and are skipped by this step (106 of the 193 ready drafts on 2026-10-30; an offline count found at most 25 of them could be settled by choosing, so the likely gain is small). Pages that name no neighborhood cannot be fixed by choosing.
+
+### First run, 2026-10-30
+
+Deployed 09:42 UTC (backup `/root/backups/factory-pre-brief-choice-20261030`), then run once over every ready discovery draft (87) with the new code, exactly as the queue would.
+
+| | Before | After |
+| --- | --- | --- |
+| Complete editorial briefs (discovery drafts) | 12 (plus 1 exact catalog match) | 17 (plus 1) |
+| Drafts the model was asked about | | 24 |
+| Choices accepted after the checks | | 5 (all neighborhoods) |
+| Choices dropped by the checks | | 2 |
+| Asked, no usable choice returned | | 17 |
+
+24 calls, $0.0642 in total, none failed; the month stood at 118 calls and $0.34 of the $10 cap. Reading the stored answers: four of the five accepted choices were right on the page (for example Queens Music Academy: Woodside, from the quote holding "60-19 Roosevelt Avenue, Woodside"). The fifth, "The Best of NYC: Gymnastics Classes", is a blog list rather than a provider, so the draft itself is the problem; the publication gate still has to hold it. The two dropped choices had addresses that were not street addresses ("Central Queens (Forest Hills)"). Most of the 17 empty answers were correct to abstain: a provider with an address in Lexington, MA; two addresses on one page; list pages naming a dozen neighborhoods. The first failed field for the 69 discovery drafts that still have a gap: neighborhood 36 (ambiguous or missing), borough 19, format wording 12, activity 2. This is not a controlled comparison and 87 drafts are a small sample; the briefs now flow into the existing publication gate, whose later checks (ages, schedule, price, contacts, media) are unchanged.
+
 
 ## Stop conditions
 

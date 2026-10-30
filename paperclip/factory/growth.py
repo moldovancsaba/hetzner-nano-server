@@ -50,35 +50,122 @@ def locations():
  LOCATION_CACHE=(time.time(),value);return value
 
 def present(value,text):return bool(re.search(r'(?<!\w)'+re.escape(value)+r'(?!\w)',text,re.I))
-def infer(issue,row,database,web):
+def gap_reason(database,entity_id):
+ """The last stored first-gap sentence for a draft, or None when it has not been checked yet."""
+ initialize(database)
+ with database() as db:row=db.execute('SELECT result_json FROM commissioning_checks WHERE entity_id=?',(entity_id,)).fetchone()
+ return json.loads(row[0]).get('reason') if row else None
+
+def established(facts,pages,key):
+ n=publishing.norm
+ return {f['value'] for f in facts if f['field']==key and n(f['value']) in n(f['quote']) and n(f['quote']) in n(pages.get(f['url'],{}).get('text',''))}
+
+def evaluate(issue,row,facts,pages,known,vocabulary):
+ """The editorial brief from page evidence, or the fields that blocked it, first failure first.
+
+ Returns (brief, gaps); gaps is a list of (field, detail) and is empty when the brief is complete."""
+ combined='\n'.join(p['text'] for p in pages.values());values={};gaps=[]
+ for key in ['name','address']:
+  found=established(facts,pages,key)
+  if len(found)==1:values[key]=next(iter(found))
+  else:gaps.append((key,'is not established by a quoted source line' if not found else 'has %d conflicting quoted values'%len(found)))
+ if set(values)=={'name','address'}:
+  import evidence
+  matches=[p for p in known if not p.get('owner_managed') and publishing.norm(p.get('name'))==publishing.norm(values['name']) and evidence.host(p.get('website',''))==evidence.host(row['source_url']) and evidence.address_matches(p.get('address'),values['address'])]
+  if len(matches)==1:return {'Catalog provider':matches[0]['id']},[]
+ borough=catalog.field(issue,'Discovery borough');activity=catalog.field(issue,'Discovery activity');kind=catalog.field(issue,'Discovery format','Classes')
+ for key,hint,choices in [('borough',borough,BOROUGHS),('activity',activity,ACTIVITIES)]:
+  named=[c for c in choices if present(c,combined)]
+  if hint not in choices:gaps.append((key,'has no valid search hint'))
+  elif hint not in named:gaps.append((key,'"%s" is not named on the source pages%s'%(hint,' (they name '+', '.join(named)+')' if named else '')))
+ if kind not in {'Classes','Camps'} or not re.search(r'\b'+('camps?' if kind=='Camps' else 'classes?')+r'\b',combined,re.I):gaps.append(('format','is not evidenced: the source pages do not use the word "%s"'%('camp' if kind=='Camps' else 'class')))
+ neighborhoods=[]
+ if borough in BOROUGHS:
+  neighborhoods=[x for x in vocabulary().get(borough,[]) if present(x,combined)]
+  # Multiple locations on a provider page need a more focused page; never pick the first.
+  if len(neighborhoods)!=1:gaps.append(('neighborhood','is missing: no %s neighborhood is named on the source pages'%borough if not neighborhoods else 'is ambiguous: %d %s neighborhoods are named (%s); a focused page is needed'%(len(neighborhoods),borough,', '.join(neighborhoods[:6]))))
+ if gaps:return {},gaps
+ return {'Publication name':values['name'],'Borough':borough,'Neighborhood':neighborhoods[0],'Format':kind,'Activity':activity},[]
+
+def remote_candidates(issue,gaps,combined,vocabulary):
+ """What the metered model may choose between: only values the pages already name. Empty when a gap cannot be settled that way."""
+ fields={f for f,_ in gaps}
+ if not fields or fields-{'borough','activity','neighborhood'}:return {}
+ candidates={};boroughs=[b for b in BOROUGHS if present(b,combined)]
+ if 'borough' in fields:
+  if not boroughs:return {}
+  candidates['borough']=boroughs
+ if 'activity' in fields:
+  activities=[a for a in ACTIVITIES if present(a,combined)]
+  if not activities:return {}
+  candidates['activity']=activities
+ if 'neighborhood' in fields or 'borough' in fields:
+  hint=catalog.field(issue,'Discovery borough');names=sorted({x for b in (boroughs if 'borough' in fields else [hint]) for x in vocabulary().get(b,[]) if present(x,combined)})
+  if len(names)<(1 if 'borough' in fields else 2):return {}
+  candidates['neighborhood']=names
+ return candidates
+
+def settle(issue,choices,values,pages,vocabulary):
+ """Apply quoted, address-tied choices, then rerun the deterministic checks. Returns (brief, accepted, rejected)."""
+ n=publishing.norm;texts=[n(p['text']) for p in pages.values()];combined='\n'.join(p['text'] for p in pages.values());accepted={};rejected=[]
+ import evidence
+ for c in choices:
+  quote=c['quote']
+  # A quote must be on the pages, hold the value, and (for place) sit beside this location's street address.
+  if len(quote)<=240 and any(n(quote) in t for t in texts) and n(c['value']) in n(quote) and (c['field']=='activity' or evidence.address_matches(values['address'],quote)):accepted[c['field']]=c['value']
+  else:rejected.append({'field':c['field'],'detail':'the quote is not on the pages, does not hold the value, or is not tied to the address'})
+ borough=accepted.get('borough') or catalog.field(issue,'Discovery borough');activity=accepted.get('activity') or catalog.field(issue,'Discovery activity');kind=catalog.field(issue,'Discovery format','Classes')
+ if borough not in BOROUGHS or activity not in ACTIVITIES or not present(borough,combined) or not present(activity,combined) or kind not in {'Classes','Camps'} or not re.search(r'\b'+('camps?' if kind=='Camps' else 'classes?')+r'\b',combined,re.I):return {},accepted,rejected
+ listed=vocabulary().get(borough,[]);named=[x for x in listed if present(x,combined)];neighborhood=accepted.get('neighborhood') or (named[0] if len(named)==1 else None)
+ if neighborhood not in named:return {},accepted,rejected
+ return {'Publication name':values['name'],'Borough':borough,'Neighborhood':neighborhood,'Format':kind,'Activity':activity},accepted,rejected
+
+def refine(issue,row,facts,pages,gaps,vocabulary,database,config,role,previous):
+ """Let the metered model choose between values the pages name. Returns (brief, record); the deterministic gaps stand otherwise."""
+ import segmind
+ combined='\n'.join(p['text'] for p in pages.values());names=established(facts,pages,'name');addresses=established(facts,pages,'address')
+ if len(names)!=1 or len(addresses)!=1:return {},None
+ values={'name':next(iter(names)),'address':next(iter(addresses))};candidates=remote_candidates(issue,gaps,combined,vocabulary)
+ if not candidates:return {},None
+ key=publishing.sha({'policy':'brief-choice-v1','pages':sorted(p['sha256'] for p in pages.values()),'address':values['address'],'candidates':candidates})
+ old=(previous or {}).get('remote') or {}
+ # One paid call per unchanged set of pages: a later pass reuses the answer and only reruns the checks.
+ if old.get('key')==key and old.get('raw') is not None:raw,note,cost=old['raw'],old.get('note'),old.get('cost')
+ else:
+  raw,metric,note=segmind.suggest({'title':row['name'],'url':row['source_url'],'text':combined},values['address'],candidates,config,role,database,'brief-'+row['id'][:40])
+  if metric is None:return {},{'key':key,'raw':None,'note':note,'accepted':{},'rejected':[],'cost':None}
+  cost=metric.get('cost')
+ brief,accepted,rejected=settle(issue,raw,values,pages,vocabulary)
+ return brief,{'key':key,'raw':raw,'note':note,'accepted':accepted,'rejected':rejected,'cost':cost,'candidates':candidates}
+
+def brief_note(database,entity_id):
+ """A sentence for the publication task when the metered model took part in the editorial brief."""
+ initialize(database)
+ with database() as db:row=db.execute('SELECT result_json FROM commissioning_checks WHERE entity_id=?',(entity_id,)).fetchone()
+ remote=(json.loads(row[0]).get('remote') or {}) if row else {}
+ return 'Editorial brief choices made by the metered remote model, each tied to a verbatim page quote and rechecked here: '+', '.join(sorted(remote['accepted']))+'.' if remote.get('accepted') and json.loads(row[0]).get('brief') else None
+
+def infer(issue,row,database,web,config=None,role=None):
  """Query hints become editorial fields only with current official-page evidence."""
  if catalog.field(issue,'Discovery campaign')!='classscout-nyc-v1':return {}
  initialize(database)
  with database() as db:
   previous=db.execute('SELECT checked_at,result_json FROM commissioning_checks WHERE entity_id=?',(row['id'],)).fetchone()
   facts=[dict(r) for r in db.execute('SELECT f.field,f.value,f.quote,s.url FROM facts f JOIN sources s ON s.id=f.source_id WHERE entity_id=?',(row['id'],))]
- input_hash=publishing.sha({'policy':'verified-existing-branch-v4','facts':facts,'updated_at':row.get('updated_at'),'hints':issue.get('description')})
+ input_hash=publishing.sha({'policy':'verified-existing-branch-v5','facts':facts,'updated_at':row.get('updated_at'),'hints':issue.get('description')})
  if previous and time.time()-previous['checked_at']<3600 and json.loads(previous['result_json']).get('input_hash')==input_hash:
   return json.loads(previous['result_json']).get('brief',{})
  page=web.page(row['source_url']);source_pages={row['source_url']:page}
  for f in facts:
   if f['url'] not in source_pages and len(source_pages)<4 and urllib.parse.urlsplit(f['url']).hostname.removeprefix('www.')==urllib.parse.urlsplit(row['source_url']).hostname.removeprefix('www.'):source_pages[f['url']]=web.page(f['url'])
- combined='\n'.join(p['text'] for p in source_pages.values());values={}
- for key in ['name','address']:
-  candidates={f['value'] for f in facts if f['field']==key and publishing.norm(f['value']) in publishing.norm(f['quote']) and publishing.norm(f['quote']) in publishing.norm(source_pages.get(f['url'],{}).get('text',''))}
-  if len(candidates)==1:values[key]=next(iter(candidates))
- if set(values)=={'name','address'}:
-  import evidence
-  catalog.initialize(database)
-  with database() as db:known=[json.loads(r[0])['provider'] for r in db.execute('SELECT result_json FROM catalog_checks') if 'provider' in json.loads(r[0])]
-  matches=[p for p in known if not p.get('owner_managed') and publishing.norm(p.get('name'))==publishing.norm(values['name']) and evidence.host(p.get('website',''))==evidence.host(row['source_url']) and evidence.address_matches(p.get('address'),values['address'])]
-  if len(matches)==1:return {'Catalog provider':matches[0]['id']}
- borough=catalog.field(issue,'Discovery borough');activity=catalog.field(issue,'Discovery activity');kind=catalog.field(issue,'Discovery format','Classes');brief={};reason='Identity, location or activity needs stronger official-page evidence.'
- if set(values)=={'name','address'} and borough in BOROUGHS and activity in ACTIVITIES and all(present(x,combined) for x in [borough,activity]) and kind in {'Classes','Camps'} and re.search(r'\b'+('camps?' if kind=='Camps' else 'classes?')+r'\b',combined,re.I):
-  neighborhoods=[n for n in locations().get(borough,[]) if present(n,combined)]
-  # Multiple locations on a provider page need a more focused page; never pick the first.
-  if len(neighborhoods)==1:
-   brief={'Publication name':values['name'],'Borough':borough,'Neighborhood':neighborhoods[0],'Format':kind,'Activity':activity};reason=None
- result={'input_hash':input_hash,'brief':brief,'reason':reason,'source_url':page['url'],'source_sha256':page['sha256']}
+ catalog.initialize(database)
+ with database() as db:known=[json.loads(r[0])['provider'] for r in db.execute('SELECT result_json FROM catalog_checks') if 'provider' in json.loads(r[0])]
+ brief,gaps=evaluate(issue,row,facts,source_pages,known,locations);remote=None
+ if gaps and config and role:
+  # Optional paid help, only to choose between values the pages already name; every choice is rechecked here.
+  brief,remote=refine(issue,row,facts,source_pages,gaps,locations,database,config,role,json.loads(previous['result_json']) if previous else None)
+ reason=('%s %s.'%(gaps[0][0].capitalize(),gaps[0][1])) if gaps and not brief else None
+ result={'input_hash':input_hash,'brief':brief,'reason':reason,'gaps':[{'field':f,'detail':d} for f,d in gaps],'source_url':page['url'],'source_sha256':page['sha256']}
+ if remote:result['remote']=remote
  with database() as db:db.execute('INSERT INTO commissioning_checks VALUES(?,?,?) ON CONFLICT(entity_id) DO UPDATE SET checked_at=excluded.checked_at,result_json=excluded.result_json',(row['id'],time.time(),json.dumps(result)))
  return brief

@@ -156,4 +156,27 @@ class SegmindTests(unittest.TestCase):
   self.ledger.block(self.clock.now+100,'test pause');paused=segmind.report(worker.database,config,self.clock);self.assertEqual(paused['state'],'cooling down');self.assertEqual(paused['pause_reason'],'test pause')
   self.assertEqual(segmind.report(worker.database,{}),{'enabled':False});self.assertIn('invalid',segmind.report(worker.database,{'remote_llm':{'enabled':True,'daily_cost':1000}})['error'])
 
+ CANDIDATES={'borough':['Brooklyn','Queens'],'activity':['Music','Dance']}
+ def suggest(self,model,role='publication',config=ON,candidates=None):
+  return segmind.suggest(PAGE,'12 Main Street',candidates if candidates is not None else self.CANDIDATES,config,role,worker.database,'brief-job',model)
+ def test_choice_is_limited_to_the_brief_step_roles_and_the_switch(self):
+  for role in ['research','support','search']:
+   model=Mock();self.assertEqual(self.suggest(model,role=role),([],None,None));model.call.assert_not_called()
+  model=Mock();self.assertEqual(self.suggest(model,config={'remote_llm':{'enabled':False}}),([],None,None));model.call.assert_not_called()
+  for candidates in [{},{'borough':[]},{'price':['x']}]:
+   model=Mock();self.assertEqual(self.suggest(model,candidates=candidates),([],None,None));model.call.assert_not_called()
+ def test_choice_keeps_only_listed_values_with_a_quote_and_is_charged(self):
+  facts=[{'field':'borough','value':'Brooklyn','quote':'12 Main Street, Brooklyn'},{'field':'activity','value':'Painting','quote':'Painting classes'},{'field':'neighborhood','value':'Park Slope','quote':'x'}]
+  model,opener=self.model(reply(facts));items,metric,note=self.suggest(model)
+  self.assertEqual(items,[{'field':'borough','value':'Brooklyn','quote':'12 Main Street, Brooklyn'}]);self.assertIsNone(note);self.assertEqual(metric['cost'],0.0123)
+  self.assertEqual(self.ledger.status()['today'],{'calls':1,'cost':0.0123})
+  sent=opener.open.call_args[0][0].data.decode();self.assertIn('Brooklyn, Queens',sent);self.assertIn('12 Main Street',sent);self.assertIn('untrusted',sent);self.assertNotIn('test-key-not-real',sent)
+ def test_choice_ignores_duplicates_and_empty_answers(self):
+  facts=[{'field':'borough','value':'Queens','quote':'q1'},{'field':'borough','value':'Brooklyn','quote':'q2'},{'field':'activity','value':'','quote':''}]
+  model,_=self.model(reply(facts));self.assertEqual(self.suggest(model)[0],[{'field':'borough','value':'Queens','quote':'q1'}])
+ def test_choice_failures_leave_the_deterministic_result(self):
+  bad=reply([]);bad.read.return_value=b'not json';model,_=self.model(bad);self.assertEqual(self.suggest(model)[0],[]);self.assertIn('unavailable',self.suggest(Mock(call=Mock(side_effect=segmind.RemoteError(500))))[2])
+  model,_=self.model(reply([],finish='SAFETY'));self.assertIn('unavailable',self.suggest(model)[2])
+  self.ledger.block(self.clock.now+600,'test pause');model,opener=self.model();items,metric,note=self.suggest(model);self.assertEqual((items,metric),([],None));self.assertIn('skipped',note);opener.open.assert_not_called()
+
 if __name__=='__main__':unittest.main()

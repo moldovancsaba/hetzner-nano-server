@@ -31,7 +31,7 @@ def after_research(issue,result,board,config,database):
 
  if result.get('entities') and quality_gate.enabled(config,issue):result.update(final_status='done',automatic_progress=True)
 
-def advance(issue,entity,board,config,database,web=None):
+def advance(issue,entity,board,config,database,web=None,role='publication'):
  initialize(database);provider=catalog.field(issue,'Catalog provider');editorial=metadata(issue)
 
  with database() as db:
@@ -42,7 +42,7 @@ def advance(issue,entity,board,config,database,web=None):
   if not config.get('growth_mode',{}).get('enabled'):return None
   import growth
   from net import PublicWeb
-  try:brief=growth.infer(issue,dict(row),database,web or PublicWeb())
+  try:brief=growth.infer(issue,dict(row),database,web or PublicWeb(),config,role)
   except Exception:brief={}
   if not brief:return None
   issue={**issue,'description':(issue.get('description') or '')+'\n'+'\n'.join(k+': '+v for k,v in brief.items())};editorial=metadata(issue);provider=catalog.field(issue,'Catalog provider')
@@ -50,7 +50,9 @@ def advance(issue,entity,board,config,database,web=None):
  with database() as db:old=db.execute('SELECT target_issue,target_identifier FROM pipeline_links WHERE link_key=?',(key,)).fetchone()
  if old:return {'id':old[0],'identifier':old[1]}
  if provider:catalog.clean_id(provider)
- description=('Factory workflow: refresh_provider\n' if provider else '')+'Draft reference: '+entity+'\n'+editorial+'\n\n'+row['source_url']
+ import growth
+ note=None if provider else growth.brief_note(database,entity)
+ description=('Factory workflow: refresh_provider\n' if provider else '')+'Draft reference: '+entity+'\n'+editorial+'\n\n'+row['source_url']+('\n\n'+note if note else '')
  if not provider:
   # Reuse unresolved packets rather than creating competing approvals for the same target.
   with database() as db:
@@ -76,12 +78,13 @@ def advance(issue,entity,board,config,database,web=None):
 def after_quality(issue,result,board,config,database,web=None):
  if not config.get('operational_workflows_enabled') or catalog.field(issue,'Factory workflow')!='source_quality':return
  if result.get('review',{}).get('status')!='ready_for_human_review':return
- children=[advance(issue,e,board,config,database,web) for e in result.get('entities',[])];names=[c['identifier'] for c in children if c]
+ children=[advance(issue,e,board,config,database,web,'quality') for e in result.get('entities',[])];names=[c['identifier'] for c in children if c]
  if names:
   result['markdown']+='\n\nNext publication/content check: '+', '.join(names)+'. The configured quality policy authorizes eligible writes.'
   if quality_gate.enabled(config,issue):result.update(final_status='done',automatic_progress=True)
 
 def run_queue(issue,board,config,web,database,execution):
+ import growth
  initialize(database)
  with database() as db:
   offset=db.execute('SELECT offset FROM publication_cursor WHERE id=1').fetchone()[0]
@@ -96,7 +99,7 @@ def run_queue(issue,board,config,web,database,execution):
   if source['companyId']!=config['company_id'] or source.get('projectId')!=issue['projectId']:continue
   target=advance(source,row['id'],board,config,database,web)
   if target:advanced.append(target['identifier'])
-  else:gaps.append({'draft':row['id'],'name':row['name'],'missing':'Source-backed publication name, borough, neighborhood, format and activity; or an exact existing catalog provider ID.'})
+  else:gaps.append({'draft':row['id'],'name':row['name'],'missing':growth.gap_reason(database,row['id']) or 'Source-backed publication name, borough, neighborhood, format and activity; or an exact existing catalog provider ID.'})
  catalog.save_report(database,issue,'publication_queue',{'advanced':advanced,'editorial_gaps':gaps})
  from worker import safe
  lines=['## Publication preparation queue','','Ready source drafts checked: '+str(min(5,len(entities)))+'.','Next review tasks: '+(', '.join(dict.fromkeys(advanced)) or 'none')+'.','']
