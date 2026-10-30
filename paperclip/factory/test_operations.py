@@ -174,7 +174,7 @@ class OperationalTests(unittest.TestCase):
   board=Mock()
   def call(path):
    if path.endswith('/interactions'):return [{'id':'card','status':'pending'}]
-   if path.endswith('/issues'):return [{'id':'pub','companyId':'company','projectId':'project','identifier':'NAR-P','status':'in_review'}]
+   if path.startswith('/companies/company/issues?'):return [{'id':'pub','companyId':'company','projectId':'project','identifier':'NAR-P','status':'in_review'}] if 'offset=0' in path else []
    raise AssertionError('Unsupported endpoint '+path)
   board.call.side_effect=call;result=operations_digest.run({'id':'digest'},board,{'company_id':'company','projects':{'project':'ClassScout'}},Mock(),worker.database,{})
   self.assertEqual(result['report']['pending_publication_reviews'][0]['task'],'NAR-P');self.assertNotIn('review_status_unavailable',json.dumps(result))

@@ -1,10 +1,10 @@
 """Operating summaries from authoritative task states and bounded local ledgers."""
 import collections,datetime,json,time
-import catalog
+import catalog,issue_pages
 from search_budget import Budget
 
 def run(issue,board,config,web,database,execution):
- catalog.initialize(database);company=config['company_id'];rows=board.call('/companies/'+company+'/issues');rows=rows if isinstance(rows,list) else rows.get('issues',[])
+ catalog.initialize(database);company=config['company_id'];rows=issue_pages.fetch(board.call,company)
  scope=set(config['projects']);rows=[r for r in rows if r.get('companyId')==company and r.get('projectId') in scope];counts=dict(collections.Counter(r['status'] for r in rows));blocked=[{'identifier':r['identifier'],'title':r['title']} for r in rows if r['status']=='blocked'];waiting=[r['identifier'] for r in rows if r['status']=='in_review' and r.get('assigneeUserId')==config.get('reviewer_user_id','local-board')]
  since=(datetime.datetime.now(datetime.timezone.utc)-datetime.timedelta(days=1)).isoformat();metrics={};pending=[]
  with database() as db:

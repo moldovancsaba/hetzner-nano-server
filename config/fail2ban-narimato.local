@@ -1,0 +1,12 @@
+# Installed as /etc/fail2ban/jail.d/narimato.local on both Narimato hosts (owner decision 2026-10-30).
+# Password login is off, so the ban only cuts down probing noise. The two hosts never ban each other.
+[DEFAULT]
+ignoreip = 127.0.0.1/8 ::1 2.29.113.132 2.31.100.246
+bantime = 1h
+findtime = 10m
+maxretry = 5
+backend = systemd
+
+[sshd]
+enabled = true
+mode = aggressive

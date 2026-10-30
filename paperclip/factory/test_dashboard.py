@@ -1,7 +1,7 @@
 """Dashboard accounting: no invented publication, billing, or cross-company activity."""
 import datetime,json,unittest
 from unittest.mock import patch
-import business_metrics,segmind,worker,test_operations
+import business_metrics,issue_pages,segmind,worker,test_operations
 
 class DashboardTests(unittest.TestCase):
  def setUp(self):
@@ -40,6 +40,26 @@ class DashboardTests(unittest.TestCase):
   self.assertTrue(on['enabled']);self.assertEqual(on['caps']['overspend_limit'],12.0);self.assertEqual(len(on['weeks']),5);self.assertNotIn('api',json.dumps(on).lower())
   with patch.object(segmind,'report',side_effect=RuntimeError('boom')):
    self.assertEqual(business_metrics.remote_llm_report(worker.database,{'remote_llm':{'enabled':True}}),{'enabled':False,'error':'Segmind spend is temporarily unavailable.'})
+ def test_issue_list_is_read_past_the_api_default_page(self):
+  everything=[{'id':str(i)} for i in range(1530)];paths=[]
+  def get(path):
+   paths.append(path);q=dict(x.split('=') for x in path.split('?')[1].split('&'))
+   return everything[int(q['offset']):int(q['offset'])+min(int(q['limit']),1000)]
+  self.assertEqual(len(issue_pages.fetch(get,'c')),1530)
+  self.assertTrue(all(p.startswith('/companies/c/issues?limit=1000&offset=') for p in paths))
+ def test_issue_list_copes_with_a_smaller_server_page_and_an_ignored_offset(self):
+  everything=[{'id':str(i)} for i in range(1530)]
+  def small(path):
+   offset=int(path.split('offset=')[1]);return everything[offset:offset+500]
+  self.assertEqual(len(issue_pages.fetch(small,'c')),1530)
+  self.assertEqual(len(issue_pages.fetch(lambda path:everything[:500],'c')),500)
+  self.assertEqual(len(issue_pages.fetch(lambda path:{'issues':everything[:3]},'c')),3)
+ def test_the_live_snapshot_reads_every_page_of_issues(self):
+  seen=[]
+  def fetch(get,company):seen.append(company);return []
+  with patch.object(business_metrics.issue_pages,'fetch',fetch),patch.object(business_metrics,'operating_snapshot',return_value={}),patch.object(business_metrics,'delivery_snapshot',return_value={}):
+   business_metrics.snapshot(worker.database,{'company_id':'c'},agents=[])
+  self.assertEqual(seen,['c'])
  def test_the_metrics_snapshot_carries_the_segmind_report(self):
   with patch.object(business_metrics,'operating_snapshot',return_value={}),patch.object(business_metrics,'delivery_snapshot',return_value={}):
    result=business_metrics.snapshot(worker.database,{'company_id':'c','remote_llm':{'enabled':True,'monthly_cost':10}},tasks=[],agents=[])

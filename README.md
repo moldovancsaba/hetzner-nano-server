@@ -118,7 +118,7 @@ ClassScout's key was added to `/Users/Shared/Projects/classscout/.env.local` as 
 - One active generation, queue limit 8, one loaded model, 8,192-token verified default text context; explicit alternatives and image profiles retain their tested limits, 30-minute idle model retention.
 - Container cap: 2 CPUs and 2,800 MiB RAM. Persistent model storage: Docker volume `narimato-ai_ollama`.
 - Send `reasoning_effort: "none"` for short direct responses. Set modest output limits.
-- Host firewall allows TCP 22, 80, 443 on IPv4 and IPv6. No public inference port.
+- Host firewall allows TCP 22, 80, 443 on IPv4 and IPv6. No public inference port. SSH is key-only with fail2ban on both hosts ([access notes](docs/ACCESS.md#key-only-ssh-and-fail2ban-owner-decision-2026-10-30)).
 
 ## What is and is not complete
 

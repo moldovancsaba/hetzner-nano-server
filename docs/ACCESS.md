@@ -11,6 +11,12 @@ The initial connection used trust on first use (`StrictHostKeyChecking=accept-ne
 
 A locked key caused the first authentication attempt to fail despite the server accepting its public key. The owner unlocked it using `ssh-add --apple-use-keychain ~/.ssh/hetzner_ai`. If an agent cannot use the key, ask the owner to unlock it locally; do not request the passphrase in chat.
 
+### Key-only SSH and fail2ban (owner decision 2026-10-30)
+
+Both hosts (the AI host above and the Paperclip host `2.29.113.132`) accept only the recorded client key above for `root`. Password and keyboard-interactive login are off, `MaxAuthTries` is 3 and `LoginGraceTime` 30 s: [config/sshd-narimato-hardening.conf](../config/sshd-narimato-hardening.conf), installed as `/etc/ssh/sshd_config.d/10-narimato-hardening.conf` (sshd reads the drop-in directory first and the first value wins). fail2ban runs on both with an `sshd` jail in aggressive mode: five failures in ten minutes ban the address for an hour, and the two hosts never ban each other ([config/fail2ban-narimato.local](../config/fail2ban-narimato.local) as `/etc/fail2ban/jail.d/narimato.local`). The operator's current address is also added to `ignoreip` on the hosts only, so a mistake cannot lock the operator out; the file in Git does not carry it.
+
+Before the change the hosts saw roughly 7,800 (Paperclip) and 15,500 (AI) failed logins a day. After it a password attempt answers "Permission denied (publickey)". It was applied with an automatic revert armed (a transient timer that removes the drop-in after ten minutes), proved with a fresh key login and a refused password login on each host, then disarmed. If key access ever breaks, use the Hetzner console: the root account password is locked, so the console's rescue/reset flow is the way in, not a password. Lifting a ban: `fail2ban-client set sshd unbanip <address>`.
+
 ## API credentials
 
 Canonical secret store: server `/opt/narimato-ai/api-keys.json`, mode 600, parent mode 700. Local restricted copy: `../private/api-keys.json`, mode 600, private directory mode 700. Keys were generated with Python `secrets.token_urlsafe(36)`, separately for `habigoal` and `classscout`. The `camera`, `pandora` and `paperclip` tenants have their own independent keys in the same file.
