@@ -1,6 +1,6 @@
 # Hetzner model research and data-management backlog
 
-Owner: platform operator. Updated 2026-10-29. This is the repository's task backlog; [the operating plan](docs/CONTINUOUS-EVALUATION.md) defines execution and [retention policy](docs/DATA-RETENTION.md) defines data boundaries.
+Owner: platform operator. Updated 2026-10-30. This is the repository's task backlog; [the operating plan](docs/CONTINUOUS-EVALUATION.md) defines execution and [retention policy](docs/DATA-RETENTION.md) defines data boundaries.
 
 ## Delivered
 
@@ -15,7 +15,7 @@ Owner: platform operator. Updated 2026-10-29. This is the repository's task back
 | TR-01 | P0 | Define training boundary | Owner approved curated, explicitly approved datasets and labels only; never capture live Camera inputs or conversations |
 
 | ST-01 | P1 | Content-free production model-demand tracking | Persistent model/digest/count/last-valid-request metadata; tests explicitly excluded |
-| ST-02 | P1 | Automatic top-three / 14-day weight cleanup | Hourly timer, idle gateway lease, initial history grace, deletion audit and real disposable-alias verification |
+| ST-02 | P1 | Automatic top-three / 3-day weight cleanup | Hourly timer, idle gateway lease, deletion audit and real disposable-alias verification. Window set to 3 days and the initial history grace ended by owner decision 2026-10-30; the first run under the new rule removed ten lower-ranked models and took the AI host disk from 85% to 51% |
 
 | EV-05 | P1 | Ten additional text/image candidates (owner-requested round 4) | Five English text and five general image candidates attempted under an exclusive maintenance lease; results and independent rankings in [round 4](benchmarks/round4/REPORT.md) |
 | EV-09 | P1 | Four further candidates, full suites (owner-requested round 6) | LFM2 1.2B and OLMo 2 1B (English plus separate Hungarian), SmolVLM2 256M and InternVL3.5 1B (recognition and moderation); no ranking change, 52 variants indexed; InternVL incomplete because of a runner fault; see [round 6](benchmarks/round6/REPORT.md). Policy id 2fa66c02 and the 52-variant dashboard deployed and verified 2026-10-29 (11/11 public checks, [record](benchmarks/round6/deployment.json)) |

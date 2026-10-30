@@ -17,7 +17,7 @@ The API permits windows up to 168 hours and filters by the authenticated project
 ssh -i /Users/chappie/.ssh/hetzner_ai root@2.31.100.246 '/opt/narimato-gateway-venv/bin/python /opt/narimato-gateway/scripts/usage_report.py --hours 12'
 ```
 
-Add `--project camera` or `--project classscout` to filter an operator report. The separate 14-day model-demand ledger is unchanged. Usage reporting begins at the recorded `tracking_started_at`; it cannot reconstruct missing earlier history. `full_window_tracked: false` explicitly discloses incomplete coverage, including event-cap truncation. Outcome counts use the event's timestamp, so a job admitted before a window can complete inside it.
+Add `--project camera` or `--project classscout` to filter an operator report. The separate model-demand ledger (now read over a 3-day window by the cleaner) is unchanged. Usage reporting begins at the recorded `tracking_started_at`; it cannot reconstruct missing earlier history. `full_window_tracked: false` explicitly discloses incomplete coverage, including event-cap truncation. Outcome counts use the event's timestamp, so a job admitted before a window can complete inside it.
 
 Only requests handled by the gateway appear in HTTP counts. Proxy, TLS, network and client-side failures can occur before a request reaches it; watchdogs detect sustained reachability faults, not every failed connection. Coverage indicates retained collection history, not an uptime or delivery guarantee.
 

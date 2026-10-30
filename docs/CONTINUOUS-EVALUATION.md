@@ -6,7 +6,7 @@ A server-side systemd timer collects **public metadata only** every day at **03:
 
 Units: `narimato-model-discovery.timer` and `narimato-model-discovery.service`. Code/config: `/opt/narimato-discovery`. Metadata state: `/var/lib/narimato-model-discovery` (restricted service directory). The first verified run used all 12 configured feeds and observed 658 unique source/model records, with 24 candidates remaining after the current shortlist/scope filters. See the dated [initial report](../results/discovery/initial-report.json); counts can change on subsequent runs.
 
-An independent hourly [model cleaner](AUTO-MODEL-CLEANUP.md) now retains top-three-per-task or 14-day production-used weights. It is not part of discovery. Pause it before operator download/native benchmark experiments, then restore/verify production and re-enable it.
+An independent hourly [model cleaner](AUTO-MODEL-CLEANUP.md) now retains top-three-per-task or 3-day production-used weights. It is not part of discovery. Pause it before operator download/native benchmark experiments, then restore/verify production and re-enable it.
 
 The collector is a low-priority, restricted service with no Docker privileges or API keys, 10% CPU quota, 160 MiB memory cap and eight-minute execution timeout. Public outbound reads are bounded to allowlisted source hosts, 20 seconds/request and 16 MiB/response. Local Ollama inventory is read-only metadata. No remote code, README instruction, model binary, dataset or script is downloaded/executed.
 

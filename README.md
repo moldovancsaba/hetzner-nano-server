@@ -26,7 +26,7 @@ The second host, `narimato-paperclip` (`2.29.113.132`), serves https://paperclip
 
 ## Automatic model storage
 
-[Hourly cleanup policy](docs/AUTO-MODEL-CLEANUP.md): keep top three per job plus models used by admitted non-test requests in the last 14 days. Initial installed weights have a one-time history grace; active/queued models and all metadata/evidence are protected. Tests must send X-Request-Purpose: test.
+[Hourly cleanup policy](docs/AUTO-MODEL-CLEANUP.md): keep top three per job plus models used by admitted non-test requests in the last 3 days (owner decision 2026-10-30; the earlier one-time history grace has ended); active/queued models and all metadata/evidence are protected. Tests must send X-Request-Purpose: test.
 
 ## Research backlog and retention
 

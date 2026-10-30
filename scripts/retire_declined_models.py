@@ -8,7 +8,7 @@ if __name__=='__main__':
  policy=json.loads(pathlib.Path('/opt/narimato-gateway/config/model-policy.json').read_text())
  storage=json.loads((ROOT/'model-storage-policy.json').read_text());index=json.loads(pathlib.Path('/opt/narimato-discovery/tested-models.json').read_text())
  declined={row['model']:row for row in index['models'] if row.get('decision',{}).get('state')=='declined_current_environment'}
- if storage.get('version')=='model-storage.v2':raise SystemExit('Use narimato-model-cleanup.service: automatic top-three/14-day retention owns weight deletion.')
+ if storage.get('version')=='model-storage.v2':raise SystemExit('Use narimato-model-cleanup.service: automatic top-three/recent-use retention owns weight deletion.')
  protected=set(policy['defaults'].values())|set(storage.get('pinned_alternatives',[]));installed=get('/api/tags')['models'];active={row['name'] for row in get('/api/ps')['models']}
  plan=[row for row in installed if row['name'] in declined]
  if any(row['name'] in protected or row['name'] in active for row in plan):raise SystemExit('Refusing to delete a default, pinned or active model')

@@ -2,7 +2,7 @@ import json,tempfile,threading,time,unittest
 from pathlib import Path
 from gateway.usage import UsageStore,LeaseStore
 from gateway.server import Scheduler
-from storage.cleaner import reasons,validate_usage
+from storage.cleaner import reasons,validate_storage,validate_usage
 
 class Tests(unittest.TestCase):
  def setUp(self):
@@ -15,13 +15,25 @@ class Tests(unittest.TestCase):
   self.assertEqual(reasons({'name':'old','digest':'digest'},self.policy,self.usage,set(),self.now),[])
   self.policy['models']['fourth']={'tasks':{'text_chat':{'rank':4}}}
   self.assertEqual(reasons({'name':'fourth'},self.policy,self.usage,set(),self.now),[])
-  self.usage['models']['old']={'last_valid_request_at':self.now-14*86400}
-  self.assertIn('production_request_within_14_days',reasons({'name':'old'},self.policy,self.usage,set(),self.now))
+  self.usage['models']['old']={'last_valid_request_at':self.now-3*86400}
+  self.assertIn('production_request_within_3_days',reasons({'name':'old'},self.policy,self.usage,set(),self.now))
+  self.usage['models']['old']={'last_valid_request_at':self.now-3*86400-1}
+  self.assertEqual(reasons({'name':'old'},self.policy,self.usage,set(),self.now),[])
+  self.assertIn('production_request_within_14_days',reasons({'name':'old'},self.policy,self.usage,set(),self.now,{'keep_production_request_days':14}))
   self.assertIn('resident_model',reasons({'name':'other'},self.policy,self.usage,{'other'},self.now))
  def test_bootstrap_only_existing_artifacts(self):
   self.usage['tracking_started_at']=self.now-13*86400
-  self.assertIn('initial_14_day_history_grace',reasons({'name':'old','digest':'digest'},self.policy,self.usage,set(),self.now))
-  self.assertEqual(reasons({'name':'new-probe','digest':'different'},self.policy,self.usage,set(),self.now),[])
+  grace={'initial_inventory_history_grace_days':14}
+  self.assertIn('initial_14_day_history_grace',reasons({'name':'old','digest':'digest'},self.policy,self.usage,set(),self.now,grace))
+  self.assertEqual(reasons({'name':'new-probe','digest':'different'},self.policy,self.usage,set(),self.now,grace),[])
+  # Owner decision 2026-10-30: the policy file ends the grace, so a still-recent tracking start protects nothing.
+  self.assertEqual(reasons({'name':'old','digest':'digest'},self.policy,self.usage,set(),self.now,{'initial_inventory_history_grace_days':0}),[])
+  self.assertEqual(reasons({'name':'old','digest':'digest'},self.policy,self.usage,set(),self.now),[])
+ def test_shipped_policy_is_valid_and_uses_the_three_day_window(self):
+  shipped=validate_storage(json.loads((Path(__file__).resolve().parent.parent/'config'/'model-storage-policy.json').read_text()))
+  self.assertEqual((shipped['keep_production_request_days'],shipped['initial_inventory_history_grace_days']),(3,0))
+  for bad in ({'keep_production_request_days':0},{'keep_production_request_days':31},{'keep_production_request_days':'3'},{'initial_inventory_history_grace_days':-1},{'keep_top_per_task':2},{'automatic_weight_deletion':False}):
+   with self.assertRaises(AssertionError):validate_storage({**shipped,**bad})
  def test_metadata_only_usage_and_tests_do_not_extend(self):
   with tempfile.TemporaryDirectory() as root:
    path=Path(root)/'usage.json';store=UsageStore(path,[{'name':'old','digest':'d'}]);before=path.read_bytes();store.record('old','d','test');self.assertEqual(before,path.read_bytes())

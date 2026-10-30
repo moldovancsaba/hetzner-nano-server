@@ -107,7 +107,7 @@ A daily server-side metadata-discovery timer is now active; no unattended benchm
 
 ## Weight retention
 
-Installed alternatives are now automatically managed by [top-five-per-task plus 14-day production use](AUTO-MODEL-CLEANUP.md). Tests must mark X-Request-Purpose: test and do not extend retention. API model discovery reflects evictions; evidence remains in the registry/repository. Missing alternatives are not downloaded automatically.
+Installed alternatives are now automatically managed by [top-three-per-task plus 3-day production use](AUTO-MODEL-CLEANUP.md). Tests must mark X-Request-Purpose: test and do not extend retention. API model discovery reflects evictions; evidence remains in the registry/repository. Missing alternatives are not downloaded automatically.
 
 ## Paperclip context profile (2026-10-27)
 

@@ -17,7 +17,7 @@ Owner policy confirmed 2026-10-27: **retain only curated, explicitly approved da
 | Model discovery metadata | Restricted server registry; bounded discovery snapshots | Metadata only; snapshots 30 days/50 MiB, registry 10,000 records |
 | Tested/declined model metadata and benchmark evidence | Versioned repository and approved metadata backup | Keep source, revision/digest, settings, failure, decision and scores even after weights are removed |
 | Current winning weights | Ollama persistent model store | Pin every task default; keep verified digests |
-| Other installed model weights | Automatic hourly retention | Keep top three per job or admitted non-test demand within 14 days; initial history grace and active-work safeguards apply |
+| Other installed model weights | Automatic hourly retention | Keep top three per job or admitted non-test demand within 3 days; active-work safeguards apply |
 | Declined weights | Remove after evidence capture and safety checks | Keep decline metadata and re-test condition, not the binary |
 | Approved training datasets and labels | Separate access-controlled dataset store, outside public Git and request storage | Require provenance/approval/version/split/retention manifest; do not silently reuse live traffic |
 | Approved adapters/training outputs | Separate artifact store with run manifest | Keep only explicitly approved artifacts; link dataset version, config, digest and holdout results |
@@ -64,7 +64,7 @@ Keep run configuration, code revision, approved dataset version, adapter/model h
 
 ## Model-weight storage policy
 
-The owner’s current rule is implemented by the [automatic model cleaner](AUTO-MODEL-CLEANUP.md): keep top three **per task** plus models selected by admitted non-test inference requests during the last 14 days. This supersedes permanent alternative pins and the previous seven-day rollback target. Existing weights have one initial 14-day history grace because past non-test use was not tracked. Defaults, resident models and queued/running work are protected. Cleanup runs hourly with up to five minutes jitter and no public model-install endpoint.
+The owner’s current rule is implemented by the [automatic model cleaner](AUTO-MODEL-CLEANUP.md): keep top three **per task** plus models selected by admitted non-test inference requests during the last 3 days (owner decision 2026-10-30; previously 14 days). This supersedes permanent alternative pins and the previous seven-day rollback target. The one-time history grace for the weights that existed before tracking began (2026-10-27) was ended by the same decision. Defaults, resident models and queued/running work are protected. Cleanup runs hourly with up to five minutes jitter and no public model-install endpoint.
 
 `config/model-storage-policy.json` records this policy. The 8 GiB target free space, 4 GiB hard download floor and 16 GiB target cache budget remain capacity-planning targets, not permission to delete recently used/protected models. If protected weights exceed budget, defer new downloads and review capacity rather than breaking retention rules.
 
