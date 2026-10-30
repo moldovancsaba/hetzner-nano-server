@@ -1,6 +1,6 @@
 """Bounded recovery, official-source freshness, Padel discovery and support knowledge."""
 import datetime,json,re,time,urllib.parse
-import catalog,evidence,publishing,search_workflow
+import catalog,evidence,issue_pages,publishing,search_workflow
 from search_budget import Budget
 
 
@@ -18,8 +18,7 @@ def initialize(database):
 def role(config,name):return next(k for k,v in config['agents'].items() if v['role']==name)
 def project(config,name):return next(k for k,v in config['projects'].items() if v==name)
 def issue_rows(board,config):
- value=board.call('/companies/'+config['company_id']+'/issues')
- return [v for v in (value if isinstance(value,list) else value.get('issues',[])) if v.get('companyId')==config['company_id'] and not v.get('title','').startswith('[Factory test]')]
+ return [v for v in issue_pages.fetch(board.call,config['company_id']) if v.get('companyId')==config['company_id'] and not v.get('title','').startswith('[Factory test]')]
 
 def classify(message):
  message=message.casefold()

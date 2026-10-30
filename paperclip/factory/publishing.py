@@ -9,6 +9,16 @@ def norm(value):return re.sub(r'\s+',' ',str(value)).strip().casefold()
 def initialize(db):
  db.execute('''CREATE TABLE IF NOT EXISTS publication_packets(packet_hash TEXT PRIMARY KEY,issue_id TEXT,input_hash TEXT,status TEXT,body_json TEXT,proof_json TEXT,interaction_id TEXT,receipt_json TEXT,error TEXT,created_at TEXT,updated_at TEXT)''')
 
+def read_time_text(text):
+ """ClassScout rule 474: a public read never shows an em dash (src/lib/copy/emDash.ts). Mirror that guard exactly,
+ so a draft with a dash is compared with what the public page really serves; any other difference still fails."""
+ if not isinstance(text,str) or '\u2014' not in text:return text
+ if text.strip()=='\u2014':return '\u2013'
+ text=re.sub(r'([.!?:;,])\s*\u2014\s*',r'\1 ',text)
+ text=re.sub(r'\A\s*\u2014\s*','',text)
+ text=re.sub(r'\s*\u2014\s*\Z','',text)
+ return re.sub(r'\s*\u2014\s*',', ',text)
+
 class ClassScout:
  BASE='https://classscout.ai'
  ALLOWED={'/api/content-intelligence/prepare-review','/api/content-intelligence/publish-reviewed','/api/ingest'}
@@ -49,7 +59,7 @@ class ClassScout:
    if len(raw)>2*1024*1024:raise ValueError('Core catalog detail exceeded its response bound')
    public=json.loads(raw).get('provider')
   fields=['id','name','category','borough','neighborhood','address','shortDescription','longDescription']
-  public_ok=isinstance(public,dict) and all(public.get(k)==draft.get(k) for k in fields)
+  public_ok=isinstance(public,dict) and all(public.get(k)==read_time_text(draft.get(k)) for k in fields)
   return {'verified':private_ok and public_ok,'private_verified':private_ok,'public_verified':public_ok,'origin':self.BASE,'public_fields':fields,'checked_at':stamp(),'method':'read-only per-ID core catalog verification'}
 
 def reconcile_catalog(client,body,receipt):

@@ -50,6 +50,10 @@ A lost publishing response is recorded as **uncertain** before any retry can occ
 - Publication uses a separate single-slot lock from inference/research; a long local-model job does not hold the publication slot. Model inference remains unchanged at the selected 8K profile.
 - The recovery archive includes the new service environment and consistent publication ledger. No full restore drill has been performed.
 
+## Public check and ClassScout's no-em-dash rule
+
+ClassScout rewrites every em dash on a public read (its rule 474, `src/lib/copy/emDash.ts`: "A — B" is served as "A, B"), while the private record keeps the stored text. The read-only verifier therefore compares the public record with the draft passed through `publishing.read_time_text`, a line-for-line copy of that guard; every other difference still fails, and the private record is still compared exactly. Before 2026-10-30 a draft whose name or description contained an em dash could never pass the public check: Kids Dance, Brooklyn Basement Dance Co. (NAR-566) was saved privately, stayed `partial` for a day and was finally reconciled by the factory's own recheck of a partial packet (a read-only ClassScout verification plus a guarded local status update; no catalog write). If ClassScout adds other read-time rewrites, such as its US-spelling pass, a draft containing the affected text would fail the same way and `read_time_text` needs the matching rule.
+
 ## Verification
 
 52 tests passed locally and on the live host: approval identity/scope/hash, source or payload tampering, expiry, duplicate/owner protection, cross-packet uncertain writes, single automatic submission, partial/skipped verification, literal source mapping, class-vs-facility hours and price-unit boundaries, task cancellation and stopped executions, plus existing research/network tests.

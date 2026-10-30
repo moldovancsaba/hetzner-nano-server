@@ -119,6 +119,17 @@ class AutomaticTests(unittest.TestCase):
   _,body,*_=self.publication();private={**body['draftPayload'],'pricePerClass':999};self.assertFalse(self.verified_transport(body,private=private)['verified'])
  def test_read_only_core_verifier_rejects_public_identity_mismatch(self):
   _,body,*_=self.publication();public={**body['draftPayload'],'id':'prov-other'};self.assertFalse(self.verified_transport(body,public=public)['verified'])
+ def test_the_public_page_never_shows_an_em_dash_so_the_verifier_compares_what_is_served(self):
+  _,body,*_=self.publication();draft=dict(body['draftPayload'],name='Kids Dance \u2014 Brooklyn Basement Dance Co.',shortDescription='Kids Dance \u2014 Brooklyn Basement Dance Co. offers dance classes.')
+  body={**body,'draftPayload':draft};served={**draft,'name':'Kids Dance, Brooklyn Basement Dance Co.','shortDescription':'Kids Dance, Brooklyn Basement Dance Co. offers dance classes.'}
+  self.assertTrue(self.verified_transport(body,private=draft,public=served)['verified'])
+  self.assertFalse(self.verified_transport(body,private=draft,public={**served,'name':'Kids Dance, Another Studio'})['verified'])
+  self.assertFalse(self.verified_transport(body,private=draft,public=draft)['verified'],'the stored text with the dash is never what the public page serves')
+ def test_read_time_text_mirrors_the_classscout_guard(self):
+  r=publishing.read_time_text
+  self.assertEqual(r('A \u2014 B'),'A, B');self.assertEqual(r('Done. \u2014 Next'),'Done. Next');self.assertEqual(r('\u2014'),'\u2013')
+  self.assertEqual(r('\u2014 A'),'A');self.assertEqual(r('A \u2014'),'A');self.assertEqual(r('A\u2014B\u2014C'),'A, B, C')
+  self.assertEqual(r('A \u2013 B'),'A \u2013 B');self.assertEqual(r('plain'),'plain');self.assertIsNone(r(None));self.assertEqual(r(5),5)
  def test_core_listing_links_resolve_without_client_filter(self):
   import catalog
   self.assertEqual(catalog.resolve_provider({'description':'Listing URL: https://classscout.ai/providers/prov-keylab'},worker.database),'prov-keylab')

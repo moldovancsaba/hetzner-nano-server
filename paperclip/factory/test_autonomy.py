@@ -14,7 +14,7 @@ class AutonomyTests(unittest.TestCase):
  def run_record(self,id,status,error):
   with worker.database() as db:db.execute('INSERT INTO runs VALUES(?,?,?,?,?,?,?,?,?)',(id+'-run',id,'r','research',status,None,error,'2026-10-28T00:00:00Z','2026-10-28T00:00:01Z'))
  def call(self,path,body=None,method=None):
-  if path=='/companies/company/issues' and body is None:return list(self.issues.values())
+  if path.startswith('/companies/company/issues?') and body is None:return list(self.issues.values()) if 'offset=0' in path else []
   if path=='/companies/company/issues':
    key=body['idempotencyKey']
    if key not in self.children:
