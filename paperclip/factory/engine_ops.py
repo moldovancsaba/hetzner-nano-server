@@ -78,7 +78,8 @@ def candidate(issue,board,config,web,database,execution,client=None):
 
 # Order: refuse if an earlier write for this item is unresolved; run the execution guard; record the gate decision; reserve
 # the daily slot and insert the 'submitting' row in one transaction; only then send. An HTTP 4xx answer is a refusal
-# ('held'); any other unconfirmed outcome is 'uncertain' and is never replayed. No human-approval mode exists on this path.
+# ('held'); any other unconfirmed outcome is 'uncertain' and is never replayed. No human-approval mode exists on this path,
+# and quality_gate.reserve refuses while automatic_quality_gate.enabled is not true, so the gate switch stops it.
 def write_once(issue,board,config,database,execution,client,slug,kind,body,proof):
  initialize(database);ph=publishing.sha({'slug':slug,'kind':kind,'body':body,'proof':proof});item=body['id']
  with database() as db:

@@ -258,7 +258,7 @@ The gate version is `classscout-auto-v6`. Other workflows reuse the same reserva
 | `growth.py` | `growth_cursor`, `commissioning_checks` |
 | `search_budget.py`, `search_workflow.py` | `search_account`, `search_attempts`, `search_jobs`, `source_attempts` |
 | `segmind.py` | `remote_llm_calls`, `remote_llm_state`, `remote_llm_balance` |
-| `company_ops.py`, `autonomy.py` | `company_blockers`, `company_dispatch`, `blocker_sources`, `freshness_checks`, `support_knowledge`, `padel_discovery_cursor`, `autonomous_recovery`, `autonomy_ticks` |
+| `company_ops.py`, `autonomy.py` | `company_blockers`, `company_dispatch`, `blocker_sources`, `freshness_checks`, `support_knowledge`, `autonomous_recovery`, `autonomy_ticks` |
 | `engine_ops.py`, `padel.py`, `slg.py`, `site_audit.py` | `engine_packets`, `engine_attempts`, `engine_cursor`, `padel_packets`, `slg_packets`, `slg_briefings`, `audit_findings` |
 
 ### External integrations

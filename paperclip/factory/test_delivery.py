@@ -5,6 +5,8 @@ import copy,json,time,unittest
 from unittest.mock import Mock,MagicMock,patch
 import worker,evidence,formats,publishing,quality_gate,padel,business_metrics
 import test_operations,test_publishing
+# Padel intake has no human-approval mode, so it writes only while the automatic gate switch is on.
+PADEL_ON={'company_id':'company','automatic_quality_gate':{'enabled':True}}
 class DeliveryTests(unittest.TestCase):
  def setUp(self):self.helper=test_operations.OperationalTests();self.helper.setUp()
  def tearDown(self):self.helper.tearDown()
@@ -96,23 +98,23 @@ class DeliveryTests(unittest.TestCase):
   issue={'id':'padel-new','companyId':'company','projectId':'padel','title':'Submit a Padel source','description':'Factory workflow: padel_intake\nOfficial source URL: https://example.org/\nProvider name: Example Padel\nCity: Cape Town\nStreet address: 12 Main Street','status':'in_progress','assigneeAgentId':'support'};page=self.page(text='Example Padel at 12 Main Street in Cape Town offers padel courts.');web=Mock();web.page.return_value=page;client=Mock();client.catalog.return_value={'vertical':{'discovery':{'localities':['Cape Town']}},'catalog':{'listings':[]}};client.call.side_effect=lambda path,body:{'cardId':body['id'],'created':True,'state':'DISCOVERED'};board=Mock();board.call.side_effect=lambda p:issue if p.startswith('/issues/') else {'status':'running','agentId':'support','companyId':'company'}
   return issue,board,web,client
  def test_padel_intake_uses_engine_receipt_and_does_not_claim_publication(self):
-  i,b,w,c=self.padel_scenario();r=padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(r['stage'],'padel_evidence_accepted');self.assertIn('does not claim',r['markdown']);padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(c.call.call_count,1)
+  i,b,w,c=self.padel_scenario();r=padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(r['stage'],'padel_evidence_accepted');self.assertIn('does not claim',r['markdown']);padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(c.call.call_count,1)
  def test_padel_unknown_write_is_not_replayed(self):
   i,b,w,c=self.padel_scenario();c.call.side_effect=TimeoutError()
   for _ in range(2):
-   with self.assertRaises(ValueError):padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c)
+   with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   self.assertEqual(c.call.call_count,1)
  def test_padel_city_outside_vertical_scope_cannot_be_submitted(self):
   i,b,w,c=self.padel_scenario();i['description']=i['description'].replace('Cape Town','New York')
-  with self.assertRaises(ValueError):padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   c.call.assert_not_called()
  def test_padel_duplicate_listing_is_held(self):
   i,b,w,c=self.padel_scenario();c.catalog.return_value['catalog']['listings']=[{'name':'Example Padel'}]
-  with self.assertRaises(ValueError):padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   c.call.assert_not_called()
  def test_fake_padel_receipt_keeps_submission_uncertain(self):
   i,b,w,c=self.padel_scenario();c.call.side_effect=lambda p,body:{'cardId':'wrong-id','created':True}
-  with self.assertRaises(ValueError):padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   with worker.database() as db:self.assertEqual(db.execute('SELECT status FROM padel_packets').fetchone()[0],'uncertain')
  def test_recovery_does_not_bridge_address_lines(self):
   found=[m.group(0) for m in evidence.STREET.finditer('Call 2125550100\n99 Other Road')];self.assertEqual(found,['99 Other Road'])
@@ -124,9 +126,9 @@ class DeliveryTests(unittest.TestCase):
 
  def test_padel_changed_source_cannot_replay_uncertain_card(self):
   i,b,w,c=self.padel_scenario();c.call.side_effect=TimeoutError()
-  with self.assertRaises(ValueError):padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   w.page.return_value['text']+=' Changed program information.';w.page.return_value['sha256']='changed'
-  with self.assertRaises(ValueError):padel.run(i,b,{'company_id':'company'},w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   self.assertEqual(c.call.call_count,1)
 
  def test_saint_street_name_is_not_truncated_to_st(self):

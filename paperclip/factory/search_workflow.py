@@ -143,12 +143,9 @@ def deliver(issue,board,config,job,outcome,database,execution):
   if page.get('research_id'):continue
   active(issue,board,config,execution)
   if job['kind'] in {'padel','sportolok'}:
-   if config.get('engine_clients'):
-    from portfolio import queue_engine_candidate
-    child=queue_engine_candidate(issue,page,board,config)
-    page['research_id']=child['id'];page['research_identifier']=child['identifier'];outcome['research_tasks'].append(child['identifier']);persist_outcome(database,job,outcome);continue
-   from company_ops import queue_padel_candidate
-   child=queue_padel_candidate(issue,page,board,config)
+   if not config.get('engine_clients'):raise ValueError('Engine clients are not configured; Padel and Sportolok sources cannot be handed on')
+   from portfolio import queue_engine_candidate
+   child=queue_engine_candidate(issue,page,board,config)
    page['research_id']=child['id'];page['research_identifier']=child['identifier'];outcome['research_tasks'].append(child['identifier']);persist_outcome(database,job,outcome);continue
   key=hashlib.sha256((issue['projectId']+'|'+canonical_url(page['url']).replace('://www.','://').rstrip('/')+'|'+page['sha256']+'|'+str(issue['title'].startswith('[Factory test]'))).encode()).hexdigest()
   child=board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'brave-source-'+key,'title':('[Factory test] ' if issue['title'].startswith('[Factory test]') else '')+'Research candidate: '+page['title'][:140],'projectId':issue['projectId'],'parentId':issue['id'],'status':'todo','assigneeAgentId':research,'reviewPolicy':'human_only','description':'Factory workflow: source_research\n'+discovery_metadata(issue)+'\nSearch origin: '+issue['id']+'\n\nResearch this directly fetched source page: '+page['url']+'\n\nConfirm provider identity and physical location; a search hit is not proof of officialness. Capture only source-supported facts and exact quotes. Keep missing facts unknown. Prepare a draft for review, not publication. This source URL/title were independently obtained by fetching the webpage; no Brave snippets are retained.'})

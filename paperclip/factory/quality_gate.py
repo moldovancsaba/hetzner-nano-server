@@ -73,9 +73,13 @@ def record(database,packet,kind,checks):
 
 def reserve(db,packet,config):
  # Shared transaction with the packet compare-and-set: attempts count even on lost replies.
- # One daily cap serves every write path that calls this (publication, refresh, program updates, engine intake and
- # publish, Padel intake). daily_write_limit defaults to 10 when absent and is never above 20.
- policy=config.get('automatic_quality_gate',{});cap=min(20,max(1,int(policy.get('daily_write_limit',10))))
+ # One daily cap and one switch serve every write path that calls this (publication, refresh, program updates, engine
+ # intake and publish, Padel intake): with automatic_quality_gate.enabled not true no automatic write is reserved, so
+ # the switch stops all of them. The prefix of the message routes it to the worker's hold handling (see worker.py).
+ # daily_write_limit defaults to 10 when absent and is never above 20.
+ policy=config.get('automatic_quality_gate',{})
+ if policy.get('enabled') is not True:raise ValueError('Automatic quality hold: automatic writes are switched off (automatic_quality_gate.enabled); no write sent')
+ cap=min(20,max(1,int(policy.get('daily_write_limit',10))))
  from zoneinfo import ZoneInfo
  now=datetime.datetime.now(ZoneInfo('Europe/Budapest'));start=now.replace(hour=0,minute=0,second=0,microsecond=0).timestamp()
  row=db.execute('SELECT decision,submitted_at FROM automatic_decisions WHERE packet_hash=?',(packet,)).fetchone()

@@ -1,4 +1,4 @@
-"""Bounded recovery, official-source freshness, Padel discovery and support knowledge."""
+"""Bounded recovery, official-source freshness and support knowledge. Padel and Sportolok discovery lives in engine_ops."""
 import datetime,json,re,time,urllib.parse
 import catalog,evidence,issue_pages,publishing,search_workflow
 from search_budget import Budget
@@ -12,7 +12,6 @@ def initialize(database):
  CREATE TABLE IF NOT EXISTS blocker_sources(issue_id TEXT PRIMARY KEY,source_hash TEXT,checked_at REAL);
  CREATE TABLE IF NOT EXISTS freshness_checks(provider_id TEXT PRIMARY KEY,checked_at REAL,source_hash TEXT,result_json TEXT);
  CREATE TABLE IF NOT EXISTS support_knowledge(provider_id TEXT,topic TEXT,status TEXT,answer_json TEXT,verified_at REAL,expires_at REAL,PRIMARY KEY(provider_id,topic));
- CREATE TABLE IF NOT EXISTS padel_discovery_cursor(id INTEGER PRIMARY KEY CHECK(id=1),position INTEGER);INSERT OR IGNORE INTO padel_discovery_cursor VALUES(1,0);
  ''')
 
 def role(config,name):return next(k for k,v in config['agents'].items() if v['role']==name)
@@ -181,40 +180,6 @@ def knowledge(issue,board,config,web,database,client=None):
  report={'unanswered_support_cases':unanswered,'providers_checked':len(rows),'ready_answers':ready,'missing_evidence':missing,'customer_messages_sent':0,'expires_after_hours':24}
  return finish(issue,database,'knowledge_round',report,'Support knowledge refreshed: '+str(ready)+' source-grounded reusable answers; '+str(missing)+' gaps. No customer reply was sent.')
 
-def queue_padel_candidate(issue,page,board,config):
- city=catalog.field(issue,'Padel city')
- if not city:raise ValueError('Padel discovery needs an exact configured city')
- return board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'padel-candidate-'+publishing.sha({'url':page['url'],'city':city}),'title':'Verify Padel source: '+page['title'][:110],'projectId':project(config,'Padel Africa'),'status':'todo','assigneeAgentId':role(config,'support'),'reviewPolicy':'anyone','description':'Factory workflow: padel_candidate\nPadel city: '+city+'\nOfficial source URL: '+page['url']+'\n\nValidate literal official name and one street address before evidence intake. Search titles/snippets are not facts.'})
-
-# padel_discovery and padel_candidate are the older Padel path. operational.run sends both kinds to engine_ops when
-# engine_clients['padel-africa'] is set (it is in production); these versions run only when that flag is off.
-def padel_discovery(issue,board,config,web,database,client=None):
- import padel
- initialize(database)
- if not config.get('padel_discovery_enabled'):raise ValueError('Padel discovery is disabled')
- client=client or padel.Client();value=client.catalog();cities=value['vertical'].get('discovery',{}).get('localities',[])
- if not cities:raise ValueError('No canonical Padel discovery localities')
- with database() as db:position=db.execute('SELECT position FROM padel_discovery_cursor WHERE id=1').fetchone()[0];pending=db.execute("SELECT count(*) FROM search_jobs WHERE kind='padel' AND status IN ('queued','running','delivery_pending')").fetchone()[0]
- if pending:return finish(issue,database,'padel_discovery',{'waiting':True},'An existing Padel discovery intent is still pending; no extra task was added.')
- city=cities[position%len(cities)];query='padel club '+city+' official courts contact street address';day=datetime.datetime.now(datetime.timezone.utc).date().isoformat()
- child=board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'padel-discovery-'+day+'-'+city,'title':'Discover official Padel clubs in '+city,'projectId':project(config,'Padel Africa'),'status':'todo','assigneeAgentId':role(config,'search'),'reviewPolicy':'anyone','description':'Search purpose: padel\nPadel city: '+city+'\nSearch query: '+query+'\n\nUse the shared Brave budget. Verify official sources, exact city and one branch. Source intake is distinct from publication.'})
- with database() as db:db.execute('UPDATE padel_discovery_cursor SET position=? WHERE id=1',((position+1)%len(cities),))
- return finish(issue,database,'padel_discovery',{'task':child['identifier'],'city':city},'Queued '+child['identifier']+' using the same shared search broker and reserve.')
-
-def padel_candidate(issue,board,config,web,database,execution,client=None):
- import padel
- initialize(database);client=client or padel.Client();value=client.catalog();city=catalog.field(issue,'Padel city');url=catalog.field(issue,'Official source URL')
- if city not in value['vertical'].get('discovery',{}).get('localities',[]):raise ValueError('Padel city is outside canonical scope')
- pages=evidence.crawl(url,web,maximum=3);names={(n,p['url']) for p in pages for n in evidence.names(p)};unique={n for n,u in names};addresses={m.group(0) for p in pages for m in evidence.STREET.finditer(p['text']) if publishing.norm(city) in publishing.norm(p['text'])}
- if len(unique)!=1 or len(addresses)!=1:raise ValueError('Padel source needs a unique official provider name, literal configured city and one street address; multi-branch or uncertain sources are held')
- name=next(iter(unique));address=next(iter(addresses))
- if any(re.search(r'[\r\n<>]',v) for v in [name,city,address]):raise ValueError('Padel literal fields must be single-line public identity values')
- page=next((p for p in pages if all(publishing.norm(x) in publishing.norm(p['text']) for x in [name,city,address]) and re.search(r'\bpadel\b',p['text'],re.I)),None)
- if not page:raise ValueError('Padel identity fields must occur together on one official page')
- # Reuse the source-intake form as an independent job, preserving its full receipt/tenant gate.
- child=board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'padel-verified-'+publishing.sha({'url':page['url'],'name':name,'city':city,'address':address}),'title':'Submit verified Padel source: '+name[:100],'projectId':project(config,'Padel Africa'),'status':'todo','assigneeAgentId':role(config,'support'),'reviewPolicy':'anyone','description':'Factory workflow: padel_intake\nProvider name: '+name+'\nCity: '+city+'\nStreet address: '+address+'\nOfficial source URL: '+page['url']})
- return finish(issue,database,'padel_candidate',{'intake_task':child['identifier']},'Literal source evidence queued for independently rechecked intake: '+child['identifier']+'. No public publication is claimed.')
-
 def finish(issue,database,kind,report,text):
  catalog.save_report(database,issue,kind,report)
  return {'stage':kind+'_completed','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Company operations\n\n'+text,'report':report}
@@ -222,9 +187,6 @@ def finish(issue,database,kind,report,text):
 def run(issue,board,config,web,database,execution):
  kind=catalog.field(issue,'Factory workflow');brand=config['projects'].get(issue.get('projectId'))
  if not config.get('reliability_enabled'):raise ValueError('Company improvements are disabled')
- if kind.startswith('padel_'):
-  if brand!='Padel Africa' or not config.get('padel_enabled'):raise ValueError('Padel workflow assigned outside its brand')
-  return padel_candidate(issue,board,config,web,database,execution) if kind=='padel_candidate' else padel_discovery(issue,board,config,web,database)
  if kind in {'freshness_round','knowledge_round'} and brand!='ClassScout':raise ValueError('ClassScout source workflows require the ClassScout project')
  return {'reliability_round':reliability,'freshness_round':freshness,'knowledge_round':knowledge}[kind](issue,board,config,web,database)
 

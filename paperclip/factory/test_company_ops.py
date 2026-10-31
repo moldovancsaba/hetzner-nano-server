@@ -1,5 +1,5 @@
 """Tests for company_ops: blocker classification and handoff, freshness checks, expiring support knowledge,
-Padel discovery and candidate intake, delivery metrics; SearchReliabilityTests covers search_workflow
+Padel routing to the engine client, delivery metrics; SearchReliabilityTests covers search_workflow
 delivery caps and queue fairness, and idempotent company_ops dispatch."""
 import datetime,json,time,unittest
 from unittest.mock import Mock,patch
@@ -52,19 +52,33 @@ class CompanyTests(unittest.TestCase):
   self.assertIsNone(support.cached_answer(worker.database,row['id'],'What is the official website?',{**page,'sha256':'changed'}))
   with worker.database() as db:db.execute('UPDATE support_knowledge SET expires_at=0')
   self.assertIsNone(support.cached_answer(worker.database,row['id'],'What is the official website?',page))
- def test_padel_discovery_uses_canonical_city_and_shared_search(self):
-  client=Mock();client.catalog.return_value={'vertical':{'discovery':{'localities':['Cape Town']}}};board=Mock();board.call.return_value={'identifier':'NAR-NEW'}
-  ops.padel_discovery({**self.issue,'projectId':'padel'},board,self.config,Mock(),worker.database,client)
-  body=board.call.call_args.args[1];self.assertIn('Search purpose: padel',body['description']);self.assertIn('Padel city: Cape Town',body['description']);self.assertEqual(body['projectId'],'padel')
- def test_ambiguous_padel_source_is_never_ingested(self):
-  client=Mock();client.catalog.return_value={'vertical':{'discovery':{'localities':['Cape Town']}}};i={**self.issue,'description':'Padel city: Cape Town\nOfficial source URL: https://example.org'};board=Mock()
-  with patch('company_ops.evidence.crawl',return_value=[self.helper.page()]):
-   with self.assertRaises(ValueError):ops.padel_candidate(i,board,self.config,Mock(),worker.database,{},client)
-  board.call.assert_not_called();client.call.assert_not_called()
- def test_padel_candidate_queues_literal_intake_without_parent_cycle(self):
-  page={'url':'https://examplepadel.org/','title':'Example Padel','text':'Example Padel in Cape Town at 12 Main Street.','sha256':'hash'};client=Mock();client.catalog.return_value={'vertical':{'discovery':{'localities':['Cape Town']}}};i={**self.issue,'description':'Padel city: Cape Town\nOfficial source URL: '+page['url']};board=Mock();board.call.return_value={'identifier':'NAR-NEW'}
-  with patch('company_ops.evidence.crawl',return_value=[page]):ops.padel_candidate(i,board,self.config,Mock(),worker.database,{},client)
-  body=board.call.call_args.args[1];self.assertIn('Factory workflow: padel_intake',body['description']);self.assertIn('Street address: 12 Main Street',body['description']);self.assertNotIn('parentId',body)
+ def run_padel_kind(self,kind,engine_clients):
+  import operational
+  config={**self.config,'engine_clients':engine_clients,'agents':{**self.config['agents'],'search':{'role':'search'},'support':{'role':'support'}}}
+  issue={**self.issue,'projectId':'padel','description':'Factory workflow: '+kind}
+  role='search' if kind=='padel_discovery' else 'support'
+  return operational.run(issue,Mock(),config,Mock(),worker.database,{'run_id':'r','agent_id':role})
+ def test_padel_discovery_and_candidates_go_to_the_engine_client(self):
+  for kind,function in [('padel_discovery','discover'),('padel_candidate','candidate')]:
+   with patch('engine_ops.'+function,return_value={'stage':kind}) as engine:self.assertEqual(self.run_padel_kind(kind,{'padel-africa':True}),{'stage':kind})
+   engine.assert_called_once()
+ def test_padel_kinds_fail_clearly_when_the_engine_client_is_not_configured(self):
+  for kind in ['padel_discovery','padel_candidate']:
+   for clients in [{},{'sportolok':True},{'padel-africa':False}]:
+    with self.assertRaisesRegex(ValueError,'engine client is not configured'):self.run_padel_kind(kind,clients)
+ def test_the_older_padel_implementation_is_gone(self):
+  for name in ['padel_discovery','padel_candidate','queue_padel_candidate']:self.assertFalse(hasattr(ops,name),name)
+  with worker.database() as db:self.assertIsNone(db.execute("SELECT 1 FROM sqlite_master WHERE name='padel_discovery_cursor'").fetchone())
+ def test_padel_and_sportolok_sources_are_handed_to_the_engine_path_only(self):
+  job={'kind':'padel','parent_publication':None};page={'url':'https://examplepadel.org/','title':'Example Padel','text':'Padel','sha256':'h'}
+  issue={**self.issue,'projectId':'padel','description':'Padel city: Cape Town'}
+  config={**self.config,'engine_clients':{'padel-africa':True}}
+  outcome={'source_pages':[dict(page)],'research_tasks':[]}
+  with patch('portfolio.queue_engine_candidate',return_value={'id':'child','identifier':'NAR-1'}) as queue,patch('search_workflow.active'),patch('search_workflow.persist_outcome'):
+   sw.deliver(issue,Mock(),config,job,outcome,worker.database,{'run_id':'r','agent_id':'research'})
+  queue.assert_called_once();self.assertEqual(outcome['research_tasks'],['NAR-1'])
+  with patch('search_workflow.active'),self.assertRaisesRegex(ValueError,'Engine clients are not configured'):
+   sw.deliver(issue,Mock(),{**self.config,'engine_clients':{}},job,{'source_pages':[dict(page)],'research_tasks':[]},worker.database,{'run_id':'r','agent_id':'research'})
  def test_wrong_brand_workflows_are_rejected(self):
   with self.assertRaises(ValueError):ops.run({**self.issue,'description':'Factory workflow: knowledge_round','projectId':'padel'},Mock(),self.config,Mock(),worker.database,{})
  def test_delivery_metric_does_not_count_completed_run_as_publication(self):

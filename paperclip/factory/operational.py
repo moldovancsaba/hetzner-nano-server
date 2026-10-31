@@ -23,13 +23,12 @@ def run(issue,board,config,web,database,execution):
  if kind=='program_queue':
   import portfolio
   return portfolio.program_queue(issue,board,config,web,database,execution)
- if kind=='padel_discovery' and config.get('engine_clients',{}).get('padel-africa'):
+ if kind in {'padel_discovery','padel_candidate'}:
+  # The engine client is the only Padel Africa path; there is no fallback to a second implementation.
+  if not config.get('engine_clients',{}).get('padel-africa'):raise ValueError('The Padel Africa engine client is not configured')
   import engine_ops
-  return engine_ops.discover(issue,board,config,web,database,execution)
- if kind=='padel_candidate' and config.get('engine_clients',{}).get('padel-africa'):
-  import engine_ops
-  return engine_ops.candidate(issue,board,config,web,database,execution)
- if kind in {'padel_discovery','padel_candidate','reliability_round','freshness_round','knowledge_round'}:
+  return (engine_ops.discover if kind=='padel_discovery' else engine_ops.candidate)(issue,board,config,web,database,execution)
+ if kind in {'reliability_round','freshness_round','knowledge_round'}:
   import company_ops
   return company_ops.run(issue,board,config,web,database,execution)
  if kind in {'padel_maintenance','padel_intake'}:

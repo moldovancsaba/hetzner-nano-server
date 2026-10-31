@@ -87,7 +87,7 @@ class AutomaticTests(unittest.TestCase):
   s,body,proof,page,ph=self.publication();page['fetched_at']=1
   with self.assertRaises(ValueError):q.check_publication(worker.database,ph,s[0],body,proof,[page])
  def test_daily_cap_and_consumed_authorizations(self):
-  q.record(worker.database,'first','content_update',{'valid':True});q.record(worker.database,'second','content_update',{'valid':True});config={**self.config,'automatic_quality_gate':{'daily_write_limit':1}}
+  q.record(worker.database,'first','content_update',{'valid':True});q.record(worker.database,'second','content_update',{'valid':True});config={**self.config,'automatic_quality_gate':{'enabled':True,'daily_write_limit':1}}
   with worker.database() as db:q.reserve(db,'first',config)
   for ph in ['first','second']:
    with self.assertRaises(ValueError):

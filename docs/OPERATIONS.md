@@ -86,6 +86,14 @@ The defects of the [2026-10-30 review](GAP-ANALYSIS-2026-10-30.md#defects-found-
 
 **Not done:** the cleaner's report pruning and the collector's redirect check run on their next timer runs and have not yet been seen working; the restore drill, the new `snapshot.sh` bundle and `configure-slg.py` were copied but not run; `provision.py` was copied but not run, so the eight unused keys are still in the live `factory.json` (the code ignores them); the files that changed only in comments in [b8be171](https://github.com/moldovancsaba/hetzner-nano-server/commit/b8be171) were not copied, except where a file above also carries them.
 
+## Waiting to be deployed
+
+Fixed in the repository on 2026-10-31 after the deployment above, not yet copied to the Paperclip host:
+
+| Copy to `/opt/narimato-factory` | Then | Effect |
+| --- | --- | --- |
+| `quality_gate.py`, `company_ops.py`, `operational.py`, `search_workflow.py` (and, for comments only, `program_updates.py`, `padel.py`, `engine_ops.py`) | restart `narimato-factory` | Turning `automatic_quality_gate.enabled` off stops every automatic write, not only publication and refresh (it is on today, so nothing changes in normal running). The older Padel implementation in `company_ops.py` is gone; Padel kinds go to the engine client only. The unused `padel_discovery_cursor` table stays in the database and is ignored |
+
 ## Known limitations
 
 Behaviour of the current code, scripts and configuration that is recorded here and not changed. The review's remaining open decisions are listed in the [gap analysis](GAP-ANALYSIS-2026-10-30.md#defects-found-while-checking); the Paperclip-host ones are in [../paperclip/README.md](../paperclip/README.md#known-limitations).
