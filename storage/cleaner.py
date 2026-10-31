@@ -17,7 +17,8 @@ def reasons(model,policy,usage,loaded,now,storage=None):
     return keep
 
 def validate_storage(storage):
-    # Bounds, not a pinned value, so an owner change of the window needs no code change; a typo can never evict everything.
+    # The retention window and the history grace are checked against bounds, so an owner change of either needs no
+# code change and a typo cannot evict everything. keep_top_per_task is the exception: only 3 is accepted.
     assert storage['version']=='model-storage.v2' and storage['automatic_weight_deletion'] is True
     assert storage['keep_top_per_task']==3
     assert isinstance(storage['keep_production_request_days'],int) and 1<=storage['keep_production_request_days']<=30

@@ -1,20 +1,39 @@
 # ClassScout operating workflows
 
-The five workflows are live in [Paperclip](https://paperclip.haho.ai). Open **Routines** to see the four schedules and the support form. They use the existing five employees. Open [the delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36) for results and task links.
+Nineteen native routines are configured in [Paperclip](https://paperclip.haho.ai): 17 run on cron schedules and 2 are on-demand forms (the support reply and the Padel source form). Schedules are defined in `workflows.json`; this page describes the five original ClassScout workflows first and later sections add the rest. All of them use the five existing employees. Open [the delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36) for results and task links.
 
 ## Schedules
 
-All times use Europe/Budapest, including daylight saving changes.
+All times use Europe/Budapest, including daylight saving changes. The values below are the production (growth mode) cadences from `workflows.json`; `workflows_setup.py` falls back to daily 08:00, daily 08:45 and Monday 08:30 for the first three when growth mode is off.
 
 | Work | Schedule | Employee | Output |
 | --- | --- | --- | --- |
-| Verify existing listings | Daily at 08:00 | Content Quality Reviewer | Up to three canonical records checked against official sources; evidence gaps can create bounded research tasks |
-| Prepare complete listings | Daily at 08:45, plus after successful quality review | Publication Coordinator | Complete briefs advance to preparation; existing pending packets are reused |
-| Audit public pages | Monday at 08:30 | Content Quality Reviewer | Bounded HTTP/HTML metadata report and deduplicated follow-up tasks for significant findings |
-| Summarize operations | Daily at 09:00 | Support Drafter | Review items, blocked work, quality states, catalog checks, website findings and shared search allowance |
-| Draft a support reply | When you submit a question | Support Drafter | A sourced reply for review or a clear escalation |
+| Verify existing listings (`verify_catalog`) | Hourly at :00 | Support Drafter | Up to three canonical records checked against official sources; evidence gaps can create bounded research tasks |
+| Prepare complete listings (`publication_queue`) | At :15 and :45 every hour, plus after successful quality review | Publication Coordinator | Complete briefs advance to preparation; existing pending packets are reused |
+| Audit public pages (`audit_site`) | Daily at 08:30 | Content Quality Reviewer | Bounded HTTP/HTML metadata report and deduplicated follow-up tasks for significant findings |
+| Summarize operations (`operations_digest`) | Daily at 09:00 | Support Drafter | Review items, blocked work, quality states, catalog checks, website findings and shared search allowance |
+| Draft a support reply (`support_answer`) | When you submit a question | Support Drafter | A sourced reply for review or a clear escalation |
 
-Schedules skip missed occurrences after downtime and skip a new occurrence while the previous routine issue is still open. Completed reports close their own routine issue; human approvals and support drafts remain separate review items. The support form accepts separate questions even while earlier replies await review. None of these routines spends Brave requests merely because a timer fires.
+The other fourteen routines, all from `workflows.json` (role per `operational.py`):
+
+| Routine | Schedule | Employee |
+| --- | --- | --- |
+| `growth_dispatch` (ClassScout discovery) | every 30 minutes | Search Coordinator |
+| `recover_evidence` | :20 every hour | Support Drafter |
+| `autonomous_coordination` | every 5 minutes | Support Drafter |
+| `reliability_round` | :25 every hour | Support Drafter |
+| `freshness_round` | :35 every 6 hours | Support Drafter |
+| `knowledge_round` | :50 every 6 hours | Support Drafter |
+| `program_queue` | 09:40 daily | Support Drafter |
+| `padel_maintenance` | 09:10 daily | Support Drafter |
+| `padel_intake` (Padel source form) | on demand | Support Drafter |
+| `padel_discovery` | 10:05 and 16:05 daily | Search Coordinator |
+| `engine_maintenance` (Padel Africa) | :05 every 6 hours | Support Drafter |
+| `engine_maintenance` (Sportolok) | :15 every 6 hours | Support Drafter |
+| `engine_discovery` (Sportolok) | 11:35 and 17:35 daily | Search Coordinator |
+| `management_overview` | 09:20 daily | Support Drafter |
+
+Schedules skip missed occurrences after downtime and skip a new occurrence while the previous routine issue is still open (the two on-demand forms always enqueue). Completed reports close their own routine issue; human approvals (when the gate is off) and support drafts remain separate review items. The support form accepts separate questions even while earlier replies await review. These routines do not call Brave themselves; the discovery routines (`growth_dispatch`, `padel_discovery`, `engine_discovery`) only create search tasks, and those spend requests under the shared budget. Sales routines (`sales_*`) are registered only when `sales.brands` is set, which it is not.
 
 ## Verify and refresh existing listings
 
@@ -22,13 +41,13 @@ The scheduled check reads one paginated NYC catalog page with a maximum of twent
 
 The worker re-fetches the official page and checks the retained name, street address, phone and email. A catalog value absent from that page is an evidence gap, not proof that the value is incorrect. Missing evidence can create at most two Research Analyst tasks per batch, with new research held when ten research tasks/drafts await work or review. Querying a known official page does not use Brave.
 
-Research automatically triggers quality review. When a source draft passes and identifies an existing provider, a contact correction can advance to the Publication Coordinator. Corrections cover **phone and email only** in this rollout. Price, timetable, category, name, address and ownership are never silently rewritten by this contact path.
+Research automatically triggers quality review. When a source draft passes and identifies an existing provider, a contact correction can advance to the Publication Coordinator. With the automatic gate off, corrections cover **phone and email only**. With it on (the live setting), the same path can also fill missing short and long descriptions with neutral source-checked copy (`quality_gate.FIELDS`, `check_refresh`). Price, timetable, category, name, address and ownership are never rewritten by this path.
 
-A correction card shows the exact old and proposed values. **Apply correction** approves that exact packet for 48 hours. Before sending it, the coordinator checks the human identity, packet integrity, current catalog baseline, ownership, active execution and unchanged source. The canonical ClassScout API validates the patch. A successful result must then agree in both the private record and public catalog. Lost or partial responses are held for reconciliation and never automatically resubmitted.
+In human-approval mode (gate off) a correction card shows the exact old and proposed values and **Apply correction** approves that exact packet for 48 hours. With the gate on no card is created: `quality_gate.check_refresh` decides and the same packet checks apply. Before sending it, the coordinator checks the human identity, packet integrity, current catalog baseline, ownership, active execution and unchanged source. The canonical ClassScout API validates the patch. A successful result must then agree in both the private record and public catalog. Lost or partial responses are held for reconciliation and never automatically resubmitted.
 
 Matching contacts are a successful no-op. There is no reason to write a record merely to make the factory look active. A source check's date is stored in the factory; it does not certify every program field or rewrite the catalog's verification date.
 
-For a focused check, create a ClassScout task assigned to Content Quality Reviewer:
+For a focused check, create a ClassScout task assigned to Support Drafter (the role `verify_catalog` is routed to in `operational.py`; another assignee is refused):
 
 ```text
 Factory workflow: verify_catalog
@@ -52,13 +71,13 @@ https://www.keylab.nyc/kids-music-production-classes
 
 The example reuses the existing Keylab review; use the actual name and location for a different provider. Research triggers quality review. Passing drafts with complete editorial fields advance to publication preparation automatically, and the daily preparation routine picks up eligible drafts as well. An unresolved packet for the same source and matching brief is linked instead of creating another approval.
 
-The preparation step still requires explicit child ages, a class timetable and duration, an unambiguous per-class fee, accepted media and the canonical schema. Missing information stays a gap. The initial mapping supports new **Classes** listings; camps, semester fees and other formats require their proper mapping. See [publication details](PUBLISHING.md).
+The preparation step still requires explicit child ages, a class timetable and duration, an unambiguous per-class fee, accepted media and the canonical schema. Missing information stays a gap. New **Classes** listings (fees per class, month, term or semester; ages in years or months) and dated **Camps** (one future ISO date range, an age-specific timetable and a stated day, week or session fee) are supported (`formats.py`); other formats are not. See [publication details](PUBLISHING.md).
 
-**Publish listing** is the human approval that permits the exact prepared packet to be sent. The coordinator rechecks sources, expiry and duplicate conditions before calling ClassScout, and requires verified private and public receipts before claiming publication. Expired or changed packets require fresh preparation and a new approval. The existing [Keylab packet](https://paperclip.haho.ai/NAR/issues/NAR-26) remains pending; this rollout did not approve it.
+With the automatic gate off, **Publish listing** is the human approval that permits the exact prepared packet to be sent. With it on (the live setting) no approval card is created and the packet goes through the automatic checks listed under [Current automatic quality gate](#current-automatic-quality-gate-classscout-auto-v6). In both modes the coordinator rechecks sources, expiry and duplicate conditions before calling ClassScout, and requires verified private and public receipts before claiming publication. Expired or changed packets require fresh preparation (a changed brief) and, in human mode, a new approval. The first packet, [Keylab (NAR-26)](https://paperclip.haho.ai/NAR/issues/NAR-26), was later saved and verified under the automatic policy (see the v3 section).
 
 ## Audit public pages
 
-The weekly audit starts from the three pages verified during rollout: the homepage, NYC Classes and NYC Family Events. It can follow actually observed public links up to a six-page limit, with an implementation ceiling of eight. It checks response status, titles, descriptions and canonical metadata, and respects automated-access rules and response-size limits.
+The audit (daily at 08:30 in growth mode, Monday only in the non-growth fallback) starts from the three pages verified during rollout: the homepage, NYC Classes and NYC Family Events. It can follow actually observed public links up to a six-page limit, with an implementation ceiling of eight. It checks response status, titles, descriptions and canonical metadata, and respects automated-access rules and response-size limits.
 
 Significant findings create at most five deduplicated follow-up tasks per run. Repeated observations link the existing task. A finding no longer observed on a successful HTML check is marked as not reproduced in the audit ledger; this does not pretend that someone fixed the site.
 
@@ -103,13 +122,46 @@ Configuration is in `factory.json`; native routine/trigger IDs and civil schedul
 
 The factory stores public evidence and operational state in its existing protected SQLite database. New tables cover catalog checks/cursor, workflow reports, pipeline links, contact packets and website findings. Keys remain in root-only environment files, outside task descriptions and model context. Keep the quota and publication ledgers when restoring; never use an old snapshot to repeat a write or reset allowance.
 
-Acceptance: [dated results](workflows-acceptance-20261028.json). The full factory suite covers approval identity, expiry, changed baselines and sources, uncertain writes, bounded reads, duplicate findings, grounded support, escalation, question-field injection and automatic handoffs. Live tests used real reads and native routine runs; catalog writes and customer delivery were not faked as successful outcomes.
+Acceptance: the dated results file `workflows-acceptance-20261028.json` is kept local, not in Git, because it quotes real third-party business contact details (`.gitignore` excludes it). The full factory suite covers approval identity, expiry, changed baselines and sources, uncertain writes, bounded reads, duplicate findings, grounded support, escalation, question-field injection and automatic handoffs. Live tests used real reads and native routine runs; catalog writes and customer delivery were not faked as successful outcomes.
+
+## Current automatic quality gate (classscout-auto-v6)
+
+Source of truth: `quality_gate.py` (`VERSION = 'classscout-auto-v6'`). The switch is `automatic_quality_gate.enabled` in `factory.json` (on in production, `daily_write_limit` 20). The `policy` text in `factory.json` is informational; the version stored with each decision comes from the code. The sections below this one, up to the v6 section, record how the policy developed and are dated.
+
+**Scope.** `quality_gate.enabled` is true only when the switch is on and the task belongs to the ClassScout project. It governs two paths: new-listing publication (`publishing.run`) and existing-listing contact/content updates (`refresh.run`). With the switch off those two return to exact human approval (`request_confirmation`, 48 hours). Structured program updates, engine intake and governed publication, and Padel source intake ignore the switch (see "Disable or recover").
+
+**Decision record.** Every check result is stored in `automatic_decisions` as `pass` or `hold`. Any failing check raises `Automatic quality hold: <check names>`, nothing is sent, and the task is blocked with a recovery action. A model's opinion plays no part.
+
+**New listing (`check_publication`, 12 checks).** Before them, the packet's sources are fetched again and must hash exactly as when prepared, the provider must not already exist, and no other packet may hold an unresolved write for it. Then:
+
+- `independent_source_review`: the draft is a ClassScout draft whose quality review passed.
+- `source_identity`: name, address, borough, neighborhood and category equal values derived from the pages fetched now.
+- `source_copy`: short and long descriptions equal the neutral copy generated from those pages.
+- `class_price`: the structured price (amount, unit) equals the freshly parsed one, or an unknown price is recorded as unknown (never free, never divided).
+- `age_bounds`: minimum and maximum age in months equal the stated ranges.
+- `class_timetable`: each recurring program equals a parsed schedule (day, time and duration text, age bounds, price, camp dates).
+- `official_contacts`: website, phone and email equal the page contacts (phones compared by digits, ignoring a leading US 1).
+- `activity`: activity types equal the brief.
+- `unclaimed_new_listing`: no owner, claim status `unclaimed`.
+- `qualified_image`: media is ready and accepted, with `official` or `authoritative` provenance, a content hash and the uploaded image equal to the draft image. The source image must be one of the fetched pages' own images, or the image must be ClassScout's own category banner carried as a marked placeholder (see [PUBLISHING.md](PUBLISHING.md)).
+- `https_sources`: every source is HTTPS and was fetched within the last hour.
+- `unambiguous_contacts`: the stored facts do not contain two different phones, emails or addresses (or ZIP codes).
+
+**Contact/content update (`check_refresh`, 7 checks).** `field_allowlist` (only `phone`, `email`, `shortDescription`, `longDescription`); `unclaimed_listing`; `fresh_evidence` (page fetched within the last hour); `literal_contacts` (a patched phone or email must equal a literal contact quoted on the current page); `grounded_content` (a description patch equals the neutral copy built from name, address, neighborhood, borough and activities found on the page); `unambiguous_contacts`; `no_content_truncation` (existing descriptions are at most 5000 characters). Descriptions are filled only where the catalog value is empty or still equals an earlier factory patch.
+
+**Daily write limit.** `quality_gate.reserve` allows at most `min(20, max(1, daily_write_limit))` reservations per Budapest calendar day (10 if the key is absent). A reservation is made in the same transaction as the packet's move to `publishing`/`applying`/`submitting`, before the HTTP call, so a lost reply still counts and the packet is never resent. One cap serves every write path that reserves: publication, contact/content refresh, program updates, engine intake and publish, and Padel intake. At the cap the task goes to review with a monitor for 00:05 Budapest the next day.
+
+**Expiry.** Publication and refresh packets expire 48 hours after preparation, in both modes. A packet held longer must be prepared again, which today requires a changed brief (see Known limitations in [../README.md](../README.md)).
+
+**Public verification.** A publication counts as published only when ClassScout's receipt reports a private-record check and a public-API check, or when the factory's own read-only verifier confirms the private record exactly and the core public record on `classscout.ai` on eight fields (`publishing.ClassScout.verify_catalog`, with ClassScout's em-dash rewrite applied to the public side only). Contact/content updates are read back from the private and public records the same way; a mismatch leaves the packet `partial` and it is not resent.
+
+**What the gate does not use.** A client site's display settings (enabled activities, regions, categories) do not decide catalog intake; `runtime_settings` and `visible_by_settings` remain in the module for their tests only.
 
 ## Automatic publication and content policy — 28 October 2026
 
-> Historical v2 policy: superseded by **Shared catalog and client filtering — v3** below. Client display filters must never block shared catalog collection.
+> Historical v2 policy, superseded first by **Shared catalog and client filtering — v3** below and now by `classscout-auto-v6` (see [Current automatic quality gate](#current-automatic-quality-gate-classscout-auto-v6)). Client display filters must never block shared catalog collection.
 
-This section supersedes the per-record human-approval instructions above. The owner authorized eligible writes through an automatic quality gate. The active policy is `classscout-auto-v2`, enabled for ClassScout only, with ten combined publication/update attempts per Budapest calendar day. Other projects retain their current behavior until their own canonical adapters and field rules are validated. Customer replies remain drafts; this instruction authorizes catalog publication and content updates, not customer delivery.
+This section supersedes the per-record human-approval instructions above. The owner authorized eligible writes through an automatic quality gate. The policy then in force was `classscout-auto-v2`, enabled for ClassScout only, with ten combined publication/update attempts per Budapest calendar day. Other projects retain their current behavior until their own canonical adapters and field rules are validated. Customer replies remain drafts; this instruction authorizes catalog publication and content updates, not customer delivery.
 
 A new **Classes** listing must pass independent source review, fresh official-source checks, deterministic copy comparison, explicit age bounds, age-specific class timetable/duration, an unambiguous per-class price, grounded contacts and activity, qualified official-image provenance, no existing target, current ClassScout public visibility settings, and the receiving application's final schema/duplicate/image gate. Every required check must pass; a model confidence score cannot authorize a write. A catalog save plus matching private and public verification establishes publication. Disabled activities/categories/regions are held before writing. The factory does not change site settings to make a listing visible.
 
@@ -127,14 +179,14 @@ Keylab (NAR-26) passed the first live gate and ClassScout's final canonical gate
 
 ### Disable or recover
 
-Set `automatic_quality_gate.enabled` to false in `/opt/narimato-factory/factory.json`; subsequent eligible work returns to exact human review. Preserve all ledgers and receipts. The pre-change archive and restricted code/config backups are under `/root/paperclip-backups`. Reverting code does not undo a catalog write. Baselines and exact patches support a separately checked corrective action; never replay an uncertain write or restore an old database over newer work merely to roll back code.
+Set `automatic_quality_gate.enabled` to false in `/opt/narimato-factory/factory.json`; subsequent new-listing publication and contact/content refresh return to exact human review. The switch does not cover the other write paths: structured program updates, engine intake and governed publication, and Padel source intake have no human-approval mode, ignore the flag, still record a gate decision and still take slots from the shared daily cap. Stop those by pausing their routines in Paperclip (`program_queue`, `engine_maintenance`, `padel_intake`) or by clearing `engine_clients` / `padel_enabled`. Preserve all ledgers and receipts. The pre-change archive and restricted code/config backups are under `/root/paperclip-backups`. Reverting code does not undo a catalog write. Baselines and exact patches support a separately checked corrective action; never replay an uncertain write or restore an old database over newer work merely to roll back code.
 
 
 ## Shared catalog and client filtering — v3
 
 Owner correction, 28 October 2026: **ClassScout is the shared catalog. GetYourField and other clients choose their own display filters.** Music, Art, STEM and other supported activities are eligible for evidence-backed catalog intake regardless of a client's enabled categories. All source, age, class schedule, price-unit, media, duplicate and ownership checks remain in effect. The current Classes mapping still requires the documented program evidence; changing the activity policy does not imply support for every listing format.
 
-The active automatic policy is `classscout-auto-v3`. Machine preparation/publication, authenticated per-ID catalog reads, bounded catalog discovery and contact/content update verification now use `https://classscout.ai`. Client site audits can continue to inspect GetYourField. Both client and core listing links resolve to the shared catalog ID. Neither global nor client runtime settings were modified.
+The automatic policy then in force was `classscout-auto-v3`. Machine preparation/publication, authenticated per-ID catalog reads, bounded catalog discovery and contact/content update verification now use `https://classscout.ai`. Client site audits can continue to inspect GetYourField. Both client and core listing links resolve to the shared catalog ID. Neither global nor client runtime settings were modified.
 
 Root cause: the earlier worker used GetYourField as the integration origin, then incorrectly added its product-specific display settings to shared catalog eligibility. The application itself already separates these concerns: its domain registry describes one deployment and database; runtime settings merge global, city, domain and domain-city scopes, and public reads apply the current request's domain settings. The authenticated canonical publish/ingest paths write the shared collections. ClassScout's existing live settings enable Music, Art and STEM. GetYourField deliberately filters those activities out for its sports-focused product.
 
@@ -165,7 +217,7 @@ Growth-mode live routing correction: catalog coordination runs under the existin
 
 ## Evidence, branches, formats, dashboard and Padel Africa — v4
 
-Delivered 28 October 2026. Active policy `classscout-auto-v4` retains the existing shared-catalog/client-filter separation, ownership, source, duplicate, media, daily reservation and uncertain-write protections. The shared daily write-attempt ceiling remains 20; Brave spacing, limits and reserve are unchanged. No application repository, product filter, Vercel deployment or model ranking was modified.
+Delivered 28 October 2026. Policy `classscout-auto-v4` (superseded by `classscout-auto-v6`; see [Current automatic quality gate](#current-automatic-quality-gate-classscout-auto-v6)) retained the existing shared-catalog/client-filter separation, ownership, source, duplicate, media, daily reservation and uncertain-write protections. The shared daily write-attempt ceiling remains 20; Brave spacing, limits and reserve are unchanged. No application repository, product filter, Vercel deployment or model ranking was modified.
 
 ### 1. Automatic missing-evidence recovery
 
@@ -205,7 +257,7 @@ Seven live access checks passed (unauthenticated, authenticated, tampered and ex
 
 Padel Africa was selected from the validated local client registry. Its existing instance is `https://padel-africa.doneisbetter.com`, with a separate client database and canonical machine/feed contracts. The authenticated machine catalog confirmed vertical `padel-africa`, continent `Africa`, 944 eligible catalog records and a capped 500-row slice. The slice is not a complete catalog dump; the receiving engine remains responsible for canonical deduplication and publication.
 
-Paperclip now has a daily **Check Padel Africa catalog** routine (09:10 Budapest) and an on-demand **Submit a Padel Africa source** form. Intake requires a focused official HTTPS page, literal provider/city/street evidence and a city in the vertical's own discovery scope. It uses only the existing source-evidence ingestion contract; forced publication, raw listing patches and reprocessing are unavailable in this connector. Accepted source cards remain distinct from public publication. Submission receipts persist, and uncertain submissions cannot be replayed even if the source changes.
+Paperclip now has a daily **Check Padel Africa catalog** routine (09:10 Budapest) and an on-demand **Submit a Padel Africa source** form. Intake requires a focused official HTTPS page, literal provider/city/street evidence and a city in the vertical's own discovery scope. The `padel_intake` form (`padel.py`) uses only the source-evidence ingestion contract; forced publication, raw listing patches and reprocessing are unavailable in that connector. (Since v6, `engine_ops.py` also serves Padel Africa through the shared engine client, and that client can send a governed soft `forcePublish` for a freshly verified soft-incomplete card; see the v6 section.) Accepted source cards remain distinct from public publication. Submission receipts persist, and uncertain submissions cannot be replayed even if the source changes.
 
 The connector uses the existing registered management machine identity, requesting only `management:ingest.write management:catalog.read`. Its issuer/client credentials are in root-only `/etc/paperclip-padel.env`, loaded by systemd; tokens are refreshed in memory and never reach task text, the dashboard or model input. This shares the existing machine identity; a future credential rotation must account for its other legitimate consumers. The recovery bundle now includes this restricted environment. The ClassScout model profile and the existing feeder's jobs were not changed. Sportolok's Hungarian-language automation remains outside the tested English model capability and was not enabled under an English benchmark result.
 
@@ -217,11 +269,11 @@ Padel's authenticated read, identity/scope check and native routine completed li
 
 ## Company operating dashboard — 28 October 2026
 
-The owner dashboard at https://paperclip.haho.ai/factory now focuses on delivery and capacity rather than monetary model spend. It retains the same password gate and read-only routes. Paperclip's bundled board remains available through the navigation links; its upstream financial screens are unchanged.
+The owner dashboard at https://paperclip.haho.ai/factory now focuses on delivery and capacity; the only spend shown is the metered Segmind lane, in its own panel (see [SEGMIND.md](SEGMIND.md)). It retains the same password gate and read-only routes. Paperclip's bundled board remains available through the navigation links; its upstream financial screens are unchanged.
 
 The page includes confirmed ClassScout publications/updates, company tasks completed in the last 24 hours, current task states, employee assignments and last outcomes, project activation scope, direct links to blocked work, latest worker runs, configured next routine slots in Budapest time, and market coverage. Source evidence states overlap and are not presented as a conversion funnel. Padel's catalog census is not a publication count. Uncertain writes remain distinct from successful delivery.
 
-Model reporting shows recorded successful extraction calls, tokens, observed model/context, one serialized generation slot, and local model waits. These are free local models; hosting is separate. Tokens are not a complete gateway usage census, and idle employees do not imply a failure. Run completion includes held/failed outcomes in its denominator and measures execution rather than publication. Search allowance, cooldown, reset date, and shared daily write attempt capacity are shown separately. Routine times describe configured schedules, not guaranteed executions.
+Model reporting shows recorded successful extraction calls, tokens, observed model/context, one serialized generation slot, and local model waits. Local model usage is free; hosting is separate. Metered Segmind calls are not in these figures (they report no total tokens) and appear only in the Segmind panel; the inference block's `billing` label is still the fixed text "Free local models" (`business_metrics.py`). Tokens are not a complete gateway usage census, and idle employees do not imply a failure. Run completion includes held/failed outcomes in its denominator and measures execution rather than publication. Search allowance, cooldown, reset date, and shared daily write attempt capacity are shown separately. Routine times describe configured schedules, not guaranteed executions.
 
 Metrics fetch only whitelisted board fields and aggregate factory records. Run results are inspected only for aggregate usage; source text, errors, credentials, model answers, and customer questions are not returned. Cross-company and labelled factory-test tasks are excluded. A failed refresh retains the last successful display with a visible stale-data notice. Background tabs pause automatic refresh, and refreshes cannot overlap.
 
@@ -229,7 +281,7 @@ Dashboard validation: 199 factory tests passed locally and on the live host. Sev
 
 ## Reliable publishing and portfolio expansion — v5
 
-Enabled on 28 October 2026 at the owner's request. The model remains the ranked `auto` route with the existing tested 8K context and one shared generation slot. Automatic quality policy remains `classscout-auto-v4`; no fact requirements or write protections were relaxed.
+Enabled on 28 October 2026 at the owner's request. The model remains the ranked `auto` route with the existing tested 8K context and one shared generation slot. Automatic quality policy remained `classscout-auto-v4` at that delivery (`classscout-auto-v6` today); no fact requirements or write protections were relaxed.
 
 ### Recovery and actionable holds
 
@@ -293,11 +345,11 @@ Venue candidates require first-party ownership, literal name, street, locality a
 
 Maintenance rotates local source-check attempts instead of assuming that an empty engine patch updates freshness. Governed soft publication is allowed only for a freshly verified soft-incomplete REVIEW_READY card; the receiving engine reruns hard/territory/safety gates and must return an audit receipt. Flagged/quarantined/hard-blocked cards are never force-published. Public visibility is checked separately. First live Padel soft-card sources were inaccessible and remained held. Sportolok's first round verified one actual source; two other sources were recorded NOT CHECKED. Engine catalog totals represent existing engine records, not new Paperclip publications.
 
-There are now 18 enabled native routines: the prior 13 plus a daily structured-program queue, maintenance for each engine every six hours, Sportolok discovery twice daily and daily Management oversight. Management is engine oversight, not a third customer catalog. Customer replies remain drafts at the owner's explicit instruction. No customer delivery channel was enabled.
+There were then 18 enabled native routines (19 with the coordination routine added later; see the Schedules tables): the prior 13 plus a daily structured-program queue, maintenance for each engine every six hours, Sportolok discovery twice daily and daily Management oversight. Management is engine oversight, not a third customer catalog. Customer replies remain drafts at the owner's explicit instruction. No customer delivery channel was enabled.
 
 ### Off-server backup and demonstrated application recovery
 
-The Mac LaunchAgent `ai.narimato.paperclip-backup` runs at 03:20 Europe/Budapest and checks hourly for missed/failed due work. The Mac must be awake/logged in and able to reach SSH; missed work retries when available. It fetches the server's complete restricted recovery bundle, checks SHA-256, gzip SQL integrity, required secret/config components and a consistent SQLite integrity check before acknowledging success. Seven verified local bundles and fourteen acknowledged scheduled server bundles are retained. Manual backups are outside scheduled pruning. Archives and local logs are private; the dashboard receives aggregate status only. The local backup is off-server but remains in the same operator's custody, not immutable remote storage.
+The Mac LaunchAgent `ai.narimato.paperclip-backup` fires at 03:20 Mac-local time and every hour (and at load); `backup.py` itself decides in Europe/Budapest time whether a backup is due, so a missed or failed one is retried at the next hourly start. The Mac must be awake/logged in and able to reach SSH; missed work retries when available. It fetches the server's complete restricted recovery bundle, checks SHA-256, gzip SQL integrity, required secret/config components and a consistent SQLite integrity check before acknowledging success. Seven verified local bundles and fourteen acknowledged scheduled server bundles are retained. Manual backups are outside scheduled pruning. Archives and local logs are private; the dashboard receives aggregate status only. The local backup is off-server but remains in the same operator's custody, not immutable remote storage.
 
 A complete isolated application restore passed against `paperclip-recovery-20261028T124716Z.tar.gz`: pinned production image, fresh PostgreSQL restoration, factory SQLite, native company API/UI, factory dashboard/metrics and restored password/session gate. Restored agents/triggers were disabled before application startup; there were zero active agents and no network egress. The test restored one company, five agents, 169 issues and 34 factory tables. Temporary successful clone resources were removed. This demonstrates application recovery, not real host replacement, public DNS failover or TLS reissuance.
 
@@ -317,7 +369,7 @@ The SLG connector, required configuration, supported MCP operations and separate
 Investigated the owner's observed 19 blocked tasks against native issue state,
 worker errors, packet submission state, exact catalog records and official pages.
 The blockers were not a company-wide worker outage. The dated generated acceptance
-report is `blocker-recovery-20261028.json`; counts below describe that commissioning
+report is `paperclip/blocker-recovery-20261028.json`; counts below describe that commissioning
 snapshot rather than a promise that the live queue never changes.
 
 Corrected connector checks to recognize both `official` and `authoritative` image
@@ -397,7 +449,7 @@ scoped key; sales delivery remains unconfigured and support replies remain draft
 279 controlled checks passed locally and in the deployed staging suite before the
 worker restart, including absent visible identity, unrelated domain, multiple
 addresses, empty-model fallback and venue-link selection. Dated live outcomes are
-kept in `continued-recovery-20261028.json` after commissioning, separate from policy.
+kept in `paperclip/continued-recovery-20261028.json` after commissioning, separate from policy.
 
 Both Bronx recovery runs subsequently completed with saved drafts; this establishes
 successful extraction, not publication. Virgin Active and Africa Padel root tasks
@@ -468,7 +520,7 @@ coverage includes crash/lost-reply idempotence, interrupted handoff, active prov
 any-state packet protection, cross-company/test tasks, owner/input changes,
 lineage stopping rules, parser-contract limits, poison queue items, due-time
 backoff and oldest-source rotation. Live scheduled-run evidence and acceptance
-are saved separately in `autonomy-acceptance-20261028.json`. Tests do not create
+are saved separately in `paperclip/autonomy-acceptance-20261028.json`. Tests do not create
 fixture CRM entries, send messages, consume Brave or invoke models.
 
 Live scheduled commissioning exposed a native restriction on closing blocked history. The controller retains those originals and labels their linked successor instead; it never calls an owner-only endpoint or clears the execution guard. An already-created successor receipt survives this adjustment and is reused by the next scheduled tick.

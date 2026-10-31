@@ -1,7 +1,10 @@
 """Deterministic, fail-closed write authorization; independent of model confidence."""
 import datetime,json,re,time,urllib.parse,urllib.request
+# publishing imports this module too; see the note at the top of publishing.py.
 import publishing,formats
+# The policy version recorded with every decision. factory.json's automatic_quality_gate.policy is informational only.
 VERSION='classscout-auto-v6'
+# Content-update allowlist: used by check_refresh (field_allowlist) and by refresh.ContactUpdates.apply.
 FIELDS={'phone','email','shortDescription','longDescription'}
 def contact_key(field,value):
  """Comparable form of a contact value. Phones compare by digits without a leading US country code, so +17184478667 equals (718) 447-8667; any other difference stays a difference."""
@@ -42,6 +45,8 @@ def qualified_media(media,proof,pages,draft):
 
 def enabled(config,issue):
  return config.get('automatic_quality_gate',{}).get('enabled') is True and config.get('projects',{}).get(issue.get('projectId'))=='ClassScout'
+# runtime_settings and visible_by_settings are not used by the production path: a client's display settings no longer
+# decide catalog intake (see the comment in check_publication). They are kept for their tests.
 def runtime_settings():
  from catalog import NoRedirect
  with urllib.request.build_opener(NoRedirect).open('https://classscout.ai/api/public/runtime-config?city=nyc',timeout=25) as response:
@@ -68,6 +73,8 @@ def record(database,packet,kind,checks):
 
 def reserve(db,packet,config):
  # Shared transaction with the packet compare-and-set: attempts count even on lost replies.
+ # One daily cap serves every write path that calls this (publication, refresh, program updates, engine intake and
+ # publish, Padel intake). daily_write_limit defaults to 10 when absent and is never above 20.
  policy=config.get('automatic_quality_gate',{});cap=min(20,max(1,int(policy.get('daily_write_limit',10))))
  from zoneinfo import ZoneInfo
  now=datetime.datetime.now(ZoneInfo('Europe/Budapest'));start=now.replace(hour=0,minute=0,second=0,microsecond=0).timestamp()

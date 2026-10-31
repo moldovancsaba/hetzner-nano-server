@@ -1,3 +1,6 @@
+"""Tests for operations.notifications.deliver_pending: no email without a state change, a retry sends an
+identical payload and is not repeated once delivered, and unconfigured email is reported and never
+attempted."""
 import unittest
 from operations.notifications import deliver_pending
 

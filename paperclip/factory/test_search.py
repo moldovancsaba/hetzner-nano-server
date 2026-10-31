@@ -1,3 +1,6 @@
+"""Tests for the search lane: search_budget limits (cooldown, daily and monthly ceilings, reserve, durable
+counts, concurrency), search_workflow queueing and delivery, private query rejection, the Brave
+transport and the model wait policy."""
 import contextlib,datetime,io,json,pathlib,tempfile,threading,unittest,urllib.error
 from unittest.mock import Mock,patch
 import worker,search_budget as sb,search_workflow as sw,brave

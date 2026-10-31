@@ -12,11 +12,14 @@ All public text generation, Camera image processing, and Pandora chat now pass t
 
 | Job type | Services permitted | Assigned model | Result |
 | --- | --- | --- | --- |
-| `text_chat` | ClassScout, Habigoal, Pandora | `granite4:1b-h` | OpenAI-compatible chat completion; JSON output and tool definitions supported |
+| `text_chat` | ClassScout, Habigoal, Pandora, Paperclip | `granite4:1b-h` | OpenAI-compatible chat completion; JSON output and tool definitions supported |
+| `text_chat_hu` | ClassScout, Habigoal, Pandora, Paperclip | Qwen3-4B-Instruct-2507 Q3_K_M (unsloth GGUF build; exact ID in `/job-types`) | Experimental short Hungarian chat completion; see [HUNGARIAN.md](HUNGARIAN.md) |
 | `image_moderation` | Camera | `qwen3.5:0.8b` | Nine-category experimental human-review signals |
 | `image_recognition` | Camera | `minicpm-v4.6:q5_K_M` | Description, objects, readable visible text |
 
-ClassScout/Habigoal/Pandora now use Granite 4 1B Hybrid, the leader of our measured English structured-task checks (14/14). This does not certify all conversational or non-English tasks. `qwen3:1.7b` is now an explicit alternative that selects Qwen; omit the model or use auto to follow the default. The actual completion `model` field and `/job-types` are authoritative.
+Permissions come from `config/job-routes.json`; there are no other combinations. Camera cannot submit text jobs, and the four text services cannot submit image jobs. Each key has its own limit on queued plus running jobs (see [Queue policy](#queue-policy-and-resource-management)).
+
+ClassScout/Habigoal/Pandora/Paperclip now use Granite 4 1B Hybrid, the leader of our measured English structured-task checks (14/14). This does not certify all conversational or non-English tasks. `qwen3:1.7b` is now an explicit alternative that selects Qwen; omit the model or use auto to follow the default. The actual completion `model` field and `/job-types` are authoritative.
 
 Task-to-model assignments are generated in [config/model-policy.json](../config/model-policy.json); tenant permissions live in [config/job-routes.json](../config/job-routes.json). Callers choose a permitted task, not an arbitrary downloaded model. Moderation alternatives must have completed evidence for the same versioned moderation prompt/schema. No non-English or movie capability has been approved. General image description is experimental, not a new accuracy certification.
 
@@ -24,18 +27,30 @@ Task-to-model assignments are generated in [config/model-policy.json](../config/
 
 Use the service's existing `Authorization: Bearer <project-key>`. Keys are unchanged for ClassScout, Habigoal and Camera. Read the owner's ignored `private/api-keys.json` or the canonical protected server file; never copy keys into the public repository or browser code. Pandora has its own internal backend key; the browser only uses its existing session cookie.
 
-- `GET /job-types`: returns only job types permitted for that key and their assigned models.
+- `GET /job-types`: returns only job types permitted for that key, each with its ranked default, whether that default is experimental, and the installed models selectable for it.
 - `GET /queue`: aggregate queue activity, capacity, counters, last model switch and this service's pending count. No other service's job IDs, prompts, images or results are disclosed.
 - `GET /models`: actual installed-model discovery for all services, with task-filtered selectability; see MODEL-POLICY.md.
+- `GET /usage?hours=N`: this key's own operational report, up to 168 hours; see [OBSERVABILITY.md](OBSERVABILITY.md).
 
-Example discovery response for Camera:
+Example discovery response for Camera (`available_models` lists whatever is installed and selectable at that moment, so it varies):
 
 ```json
 {
-  "version": "job-router.v1",
+  "version": "job-router.v2",
+  "policy_id": "<sha256 of the deployed model-policy.json>",
   "job_types": {
-    "image_moderation": {"model":"qwen3.5:0.8b"},
-    "image_recognition": {"model":"minicpm-v4.6:q5_K_M"}
+    "image_moderation": {
+      "model": "qwen3.5:0.8b",
+      "selection": "ranking_default",
+      "experimental": false,
+      "available_models": ["qwen3.5:0.8b", "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"]
+    },
+    "image_recognition": {
+      "model": "minicpm-v4.6:q5_K_M",
+      "selection": "ranking_default",
+      "experimental": false,
+      "available_models": ["minicpm-v4.6:q5_K_M", "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"]
+    }
   }
 }
 ```
@@ -116,15 +131,15 @@ Source inspection found ClassScout's `src/lib/localAi/openAiCompatibleClient.ts`
 ## Queue policy and resource management
 
 - One global FIFO worker; **no concurrent text/image inference** through service routes.
-- Eight waiting jobs globally, at most four queued/running jobs per service (including that service's active job).
+- Eight waiting jobs globally. Each service may have at most four jobs queued plus running at once (its active job counts); Paperclip may have one. A job over either limit is refused with 429 `busy`. `GET /queue` always reports `per_service_limit: 4`, including to Paperclip; see Known limitations in [OPERATIONS.md](OPERATIONS.md).
 - Up to 64 retained job records; results retained for five minutes after terminal status, lazily expired.
-- Waiting jobs expire after 180 seconds. Expired jobs fail explicitly rather than generating late.
-- Per-job native inference timeout 120 seconds. Model unload has bounded checks before inference.
+- Waiting jobs expire after 180 seconds. Expired jobs fail explicitly rather than generating late. The limit applies to queued jobs only; a running job is not expired by it.
+- Native inference timeouts per job: 120 seconds for image moderation, image recognition, Hungarian text and text on a 2048-token profile; 900 seconds for text on the verified 8K profile that the default text route uses (`timeout_seconds` in `config/runtime-context-profiles.json`). The synchronous `/chat/completions` call stops waiting after 100 seconds and returns 504 while the job keeps running. The private watchdog raises `inference_stuck` after 300 seconds of one active job, so a legitimate long 8K job can raise it. Model unload has bounded checks before inference (up to about 10 seconds).
 - Images and text payloads are held in memory until processing/expiry, then discarded. Results/hashes/evidence remain until retention expires. Restart loses queued work, results and idempotency records. This is **not a durable queue**.
 - FIFO intentionally favors predictable arrival order over model-affinity batching; a busy service cannot reorder existing work or select priority. Large event uploads should submit incrementally with backoff, not enqueue thousands of photos.
 - On a model change, unload the previous model, wait for it to disappear from Ollama's running-model list, and generate using the selected model. Same-model jobs reuse the resident model. Vision idle retention remains one minute; text uses the existing runtime idle policy. Model weights stay on disk.
 
-A native HTTP timeout/disconnect does not prove that generation stopped. The gateway therefore opens a circuit, marks waiting jobs failed, rejects new work with 503, and **does not start another job automatically**. This prevents a timed-out generation from silently overlapping the next job. Operators must inspect/stop unfinished inference before restarting the gateway. Do not reset it repeatedly while the backend is still active.
+A native HTTP timeout/disconnect does not prove that generation stopped. The gateway therefore opens a circuit, marks waiting jobs failed, rejects new work with 503, and **does not start another job automatically**. This prevents a timed-out generation from silently overlapping the next job. The circuit never closes on its own and there is no reset endpoint: only restarting `narimato-gateway` clears it, and a restart discards queued jobs, results and idempotency records. While it is open, `GET /queue` reports `status: degraded`, new work gets 503 `upstream_unavailable`, and the model cleaner cannot take a maintenance lease. Operators must inspect/stop unfinished inference before restarting the gateway. Do not restart repeatedly while the backend is still active.
 
 Errors: 400 bad/unsupported input; 401 bad key/wrong compatibility route; 403 service not allowed to request task; 404 job absent/expired/other service; 409 idempotency conflict; 413 body too large; 415 wrong content type; 429 bounded capacity/upload slot busy (Retry-After header); 503 unavailable/failed work; 504 synchronous wait expired. Keep human review available on every image failure. Retry 429 with exponential backoff and jitter; do not treat authorization errors as transient.
 
@@ -153,7 +168,7 @@ Terminal results now expire after 300 seconds even when idle. Clients should DEL
 
 ## Production demand and safe model cleanup
 
-The gateway records content-free demand metadata only for authenticated, validated, admitted inference jobs. Default request purpose is production; tests must send `X-Request-Purpose: test`. This metadata protects recently used weights for 14 days. No prompt/image/answer/user identity is retained in it. During an idle cleanup lease new submissions receive retryable 503 `model_storage_maintenance`; usage-store failures return 503 `usage_tracking_unavailable` rather than untracked admission. See [automatic cleanup](AUTO-MODEL-CLEANUP.md).
+The gateway records content-free demand metadata only for authenticated, validated, admitted inference jobs. Default request purpose is production; tests must send `X-Request-Purpose: test`. This metadata protects recently used weights for 3 days (`keep_production_request_days` in `config/model-storage-policy.json`). No prompt/image/answer/user identity is retained in it. During an idle cleanup lease new submissions receive retryable 503 `model_storage_maintenance`; usage-store failures return 503 `usage_tracking_unavailable` rather than untracked admission. See [automatic cleanup](AUTO-MODEL-CLEANUP.md).
 
 ## Paperclip 8K text tenant
 

@@ -1,4 +1,7 @@
-"""Source-backed publication preparation and human-approved ClassScout delivery."""
+"""Source-backed publication preparation and ClassScout delivery. With the automatic quality gate on (quality_gate.enabled)
+the packet is checked and sent in the same run; with it off, delivery waits for an exact human approval."""
+# quality_gate imports this module too. Each side uses the other only inside functions, so the cycle is safe; do not add
+# module-level attribute access between them. catalog is imported lazily below for the same reason.
 import quality_gate,formats
 import copy,datetime,hashlib,json,os,re,time,urllib.error,urllib.parse,urllib.request
 from net import canonical_url,public_addresses
@@ -33,6 +36,7 @@ class ClassScout:
   try:
    with urllib.request.urlopen(req,timeout=timeout) as r:return json.load(r)
   except urllib.error.HTTPError as error:
+   # HTTP 207 and 422 still carry a JSON receipt (partial save, or a gate refusal) that callers inspect; other errors raise.
    if error.code in {207,422}:return json.loads(error.read(131072))
    raise RuntimeError('ClassScout request failed: HTTP '+str(error.code)) from None
 
@@ -87,6 +91,8 @@ def parse_brief(issue):
  if len(hosts)!=1:raise ValueError('All publication sources must belong to the same provider host')
  fields['urls']=urls;return fields
 
+# age_ranges, program_schedules and class_price are older single-format parsers. The production path uses formats.ages,
+# formats.schedules and formats.price (see normalize_sources); these three are not used by it and are kept for their tests.
 def age_ranges(text):
  rows=[]
  for m in re.finditer(r'\bages?\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\b',text,re.I):
@@ -222,6 +228,7 @@ def completed_body(prepared,proof,issue_id):
   rp['price']={**proof['price'],'sourceUrl':proof['sources'][0]['url']}
  return {'draftId':'paperclip-'+issue_id,'entityKind':'provider','draftPayload':draft,'adapterVersion':resolved['adapterVersion'],'mediaResult':prepared.get('mediaResult'),'workflowMetadata':{'source':'paperclip','issueId':issue_id},'idempotencyKey':'paperclip:'+issue_id}
 
+# Human-approval mode only (used when automatic_quality_gate is off).
 def approval_valid(interaction,packet,company,reviewer):
  return bool(interaction and interaction.get('kind')=='request_confirmation' and interaction.get('companyId')==company and interaction.get('issueId')==packet['issue_id'] and interaction.get('status')=='accepted' and interaction.get('resolvedByUserId')==reviewer and not interaction.get('resolvedByAgentId') and interaction.get('effectiveResolverPolicy')=='human_only' and interaction.get('idempotencyKey')=='publish-'+packet['packet_hash'] and interaction.get('result',{}).get('outcome')=='accepted' and packet['packet_hash'] in (interaction.get('payload',{}).get('detailsMarkdown') or ''))
 
@@ -252,6 +259,7 @@ def run(issue,board,config,web,database,client=None,execution=None):
  client=client or ClassScout();brief=parse_brief(issue);input_hash=sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']});reviewer=config.get('reviewer_user_id','local-board')
  with database() as db:
   initialize(db);row=db.execute('SELECT * FROM publication_packets WHERE issue_id=? ORDER BY created_at DESC LIMIT 1',(issue['id'],)).fetchone();packet=dict(row) if row else None
+ # 'saved_hidden' is a legacy status that no current code assigns; it stays here so old rows can still be reconciled.
  if packet and packet['status'] in {'publishing','uncertain','partial','published','saved_hidden'}:
   if packet['status'] in {'partial','saved_hidden'}:
    receipt=json.loads(packet['receipt_json'] or '{}');body=json.loads(packet['body_json'])
@@ -268,6 +276,8 @@ def run(issue,board,config,web,database,client=None,execution=None):
   if interaction and interaction['status'] in {'rejected','withdrawn','cancelled','expired','skipped'}:return {'stage':'rejected','markdown':'Publication was declined. No catalog write was sent. Correct the brief and prepare a fresh packet.','entities':[]}
   if not automatic and not approval_valid(interaction,packet,config['company_id'],reviewer):return {'stage':'awaiting_approval','markdown':None,'entities':[]}
   age=datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(packet['created_at'])
+  # Applies in automatic mode too. A packet left in awaiting_approval longer than 48 hours fails here on every rerun
+  # until the brief text changes (that produces a new input_hash and a fresh packet).
   if age.total_seconds()>48*3600:raise ValueError('Publication approval expired; prepare a fresh source-checked packet')
   if issue['title'].startswith('[Factory test]'):raise ValueError('Synthetic factory tests cannot publish real catalog records')
   proof=json.loads(packet['proof_json']);body=json.loads(packet['body_json'])
@@ -282,6 +292,8 @@ def run(issue,board,config,web,database,client=None,execution=None):
    if page['sha256']!=old['sha256']:raise ValueError('Source content changed after preparation; a new review is required')
   if automatic:quality_gate.check_publication(database,packet['packet_hash'],issue,body,proof,pages)
   ensure_execution(issue,board,config,execution,input_hash)
+  # Order matters. The daily reservation and the awaiting_approval -> publishing compare-and-set commit together BEFORE
+  # the HTTP call. If the reply is lost the packet is marked 'uncertain' and is never resent automatically.
   with database() as db:
    db.execute('BEGIN IMMEDIATE')
    if automatic:quality_gate.reserve(db,packet['packet_hash'],config)
@@ -291,6 +303,8 @@ def run(issue,board,config,web,database,client=None,execution=None):
   except Exception:
    with database() as db:db.execute("UPDATE publication_packets SET status='uncertain',error=?,updated_at=? WHERE packet_hash=?",('No confirmed response; reconcile before retry',stamp(),packet['packet_hash']))
    raise ValueError('Publication response was not confirmed. Existing request must be reconciled before another write.') from None
+  # Published only if ClassScout reports both verifications with these exact source labels (private-mongodb, public-api);
+  # a skipped or differently labelled check is not success. This ties the factory to ClassScout's receipt wording.
   verified=receipt.get('status')=='published' and receipt.get('publishedEntityId')==body['draftPayload']['id'] and receipt.get('privateVerification',{}).get('verified') and receipt.get('publicVerification',{}).get('verified') and receipt.get('publicVerification',{}).get('verificationSource')=='public-api' and receipt.get('privateVerification',{}).get('verificationSource')=='private-mongodb'
   if not verified and receipt.get('status')=='partial':verified=reconcile_catalog(client,body,receipt)
   state='published' if verified else 'blocked' if receipt.get('status')=='blocked' else 'partial'

@@ -1,6 +1,6 @@
 # Paperclip efficiency and use cases for ClassScout
 
-Research date: 28 October 2026. Scope: the Narimato company, its five existing worker roles, the shared 8K local model, the ClassScout publishing gate and the Brave allowance of 2,000 requests per month.
+Research date: 28 October 2026. Readiness statements in this note describe that date; the recurring digest, the automatic quality gate and the 19 routines have since been deployed (see [WORKFLOWS.md](WORKFLOWS.md)). Scope: the Narimato company, its five existing worker roles, the shared 8K local model, the ClassScout publishing gate and the Brave allowance of 2,000 requests per month.
 
 ClassScout should use Paperclip to coordinate verifiable catalog work: find missing evidence, check existing listings, prepare complete publication packets and present small batches for human decisions. Website audits and operating summaries are good next additions. Broad autonomous business strategy would demand capabilities and operational evidence beyond this installation's tested scope.
 
@@ -67,7 +67,7 @@ Keep one active inference at a time. Paperclip and chatbotapi share a small CPU 
 
 Read known official pages directly before spending a Brave request. Prefer a targeted query that can resolve several missing fields for one provider. Verify result pages independently. Keep one shared quota ledger across roles; failed and uncertain attempts count conservatively.
 
-Current controls remain one ordinary request per thirty minutes, up to three queries in a burst followed by proportionate cooldown, 48 attempts per Budapest day, a ceiling of 1,800 per provider allowance period and an estimated 200-request reserve. These limits protect requests, not automatic content throughput. Two source tasks per search job is the current rollout bound; manual review and evidence quality determine useful output.
+Current controls remain one ordinary request per thirty minutes, up to three queries in a burst followed by proportionate cooldown, 48 attempts per Budapest day, a ceiling of 1,800 per provider allowance period and an estimated 200-request reserve. These limits protect requests, not automatic content throughput. Two source tasks per search job was the rollout bound on this date (`search_candidate_limit` is now 3); manual review and evidence quality determine useful output.
 
 Do not persist Brave response bodies or snippets without confirmed storage rights. Deduplicate query intents for seven days and stop discovery when ten research drafts/tasks await work or review. Provider identity and physical location matter: two branches on one domain are not automatically duplicates.
 

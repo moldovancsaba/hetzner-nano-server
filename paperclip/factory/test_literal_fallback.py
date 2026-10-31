@@ -1,3 +1,6 @@
+"""Tests for literal fallback facts: evidence.literal_facts yields a name and address only when title, domain and
+visible text agree and omits an address when several appear; worker.extract uses it when the model returns
+no facts; venue_identity.branch_links picks specific venue pages."""
 import unittest
 from unittest.mock import Mock
 import evidence,worker,venue_identity

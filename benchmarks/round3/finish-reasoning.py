@@ -1,3 +1,4 @@
+"""Temporary round 3 helper, not a recurring automation: waits until results-extra.json has a completed_utc value, then runs reasoning-check.py."""
 import pathlib,json,time,subprocess,sys
 root=pathlib.Path(__file__).parent
 while True:

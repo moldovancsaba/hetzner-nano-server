@@ -8,6 +8,8 @@ import time
 from pathlib import Path
 
 
+# One hash-pinned Granite tokenizer counts tokens for every model on an extended-context profile, so counts for
+# other models are approximate. If the file is missing or its hash differs, input is refused rather than admitted.
 @functools.lru_cache(maxsize=1)
 def tokenizer():
     from tokenizers import Tokenizer

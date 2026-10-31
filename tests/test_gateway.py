@@ -1,3 +1,6 @@
+"""Tests for the gateway: Scheduler FIFO with one active job, tenant isolation, circuit on upstream timeout,
+capacity, idempotency, expiry and delete; Runner model switching; explicit versus auto model choice;
+text limits; HTTP permissions, async jobs and SSE."""
 import base64,io,json,threading,time,unittest,urllib.request,urllib.error
 from unittest.mock import patch
 from PIL import Image

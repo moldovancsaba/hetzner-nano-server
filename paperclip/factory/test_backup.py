@@ -1,3 +1,6 @@
+"""Tests for backup.verify on synthetic tar.gz archives: the checksum must match, a missing required
+component (Caddyfile) is refused, the embedded SQLite file passes an integrity check, and compressed
+native SQL backups are counted."""
 import gzip,hashlib,importlib.util,io,pathlib,sqlite3,tarfile,tempfile,unittest
 module_path=pathlib.Path(__file__).resolve().parents[1]/'backup.py'
 if not module_path.exists():module_path=pathlib.Path('/opt/narimato-paperclip/backup.py')

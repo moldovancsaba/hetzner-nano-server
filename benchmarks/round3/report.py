@@ -1,3 +1,5 @@
+"""Builds round 3 rankings.json and REPORT.md. Reads results.json, results-extra.json, reasoning-check.json (if present) and earlier results from ../capabilities and ../round2.
+Ranks English models on the 14 shared checks and image models on five schema-constrained cases, lists outcomes and failures, and prepends CONCLUSIONS.md if present."""
 import pathlib,json,statistics,datetime
 ROOT=pathlib.Path(__file__).parent;BASE=ROOT.parent
 main=json.loads((ROOT/'results.json').read_text());extra=json.loads((ROOT/'results-extra.json').read_text()) if (ROOT/'results-extra.json').exists() else {'text':[],'vision':[]}

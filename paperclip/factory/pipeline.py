@@ -54,7 +54,8 @@ def advance(issue,entity,board,config,database,web=None,role='publication'):
  note=None if provider else growth.brief_note(database,entity)
  description=('Factory workflow: refresh_provider\n' if provider else '')+'Draft reference: '+entity+'\n'+editorial+'\n\n'+row['source_url']+('\n\n'+note if note else '')
  if not provider:
-  # Reuse unresolved packets rather than creating competing approvals for the same target.
+  # Reuse unresolved packets rather than creating competing approvals for the same target. A reused packet older than
+  # 48 hours still fails in publishing.run until its brief changes.
   with database() as db:
    table=db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='publication_packets'").fetchone()
    packets=db.execute("SELECT issue_id,proof_json FROM publication_packets WHERE status IN ('prepared','awaiting_approval','publishing','uncertain','partial')").fetchall() if table else []

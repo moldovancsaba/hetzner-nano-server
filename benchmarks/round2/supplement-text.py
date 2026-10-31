@@ -1,3 +1,6 @@
+"""Round 2 supplement: runs ministral-3:3b on text only, with no image inputs, so an image failure is not read as a text failure.
+Uses the shared cases, English chat checks, a native tool call and one English advice sample, all with num_batch 32; Hungarian cases are excluded.
+Writes supplement-text.json and reloads qwen3:1.7b at the end."""
 import base64,datetime,json,pathlib,statistics,subprocess,time
 from fixtures import call,trim,unload,cases
 ROOT=pathlib.Path(__file__).parent

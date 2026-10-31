@@ -5,7 +5,7 @@ Read README.md first, then the guide for your task. Server access and credential
 - Inspect current server state and changes by other agents before editing.
 - Read project keys from private/api-keys.json programmatically; never print them. Use exactly the intended project key.
 - Never copy the SSH private key into this folder. Ask the owner to unlock it locally if necessary.
-- Keep private/ excluded from Git and any shared artifacts. Live Caddy config contains keys too.
+- Keep private/ excluded from Git and any shared artifacts. Local copies of the live Caddy config sit in private/ and are treated as sensitive.
 - Keep inference on loopback. Validate Caddy/Compose changes before applying them.
 - Use scripts/healthcheck.py for authentication checks; scripts/benchmark.py is a low-volume synthetic evaluation, not a load test.
 - Do not treat valid JSON as correct output. Read docs/MEASUREMENT.md before selecting production workflows.

@@ -70,6 +70,8 @@ def initialize(database):
  with database() as db:db.executescript('''CREATE TABLE IF NOT EXISTS slg_packets(packet_hash TEXT PRIMARY KEY,brand TEXT,issue_id TEXT,tool TEXT,object_key TEXT,status TEXT,request_json TEXT,receipt_json TEXT,created_at REAL);
  CREATE TABLE IF NOT EXISTS slg_briefings(brand TEXT,lead_id TEXT,source_hash TEXT,briefing TEXT,checked_at REAL,PRIMARY KEY(brand,lead_id));''')
 
+# Not called by any routine or workflow in this tree (run() only connects, reviews the pipeline and prepares briefings).
+# The CRM write path is built and tested but unreachable until a workflow uses it.
 def mutate(client,name,args,issue,board,config,database,execution):
  """CRM writes are never equated to sent email or a won sale."""
  initialize(database);settings=config.get('sales',{})

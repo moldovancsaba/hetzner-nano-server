@@ -1,3 +1,6 @@
+"""Pandora personal-chat HTTP service on 127.0.0.1:8088, path /chat/. A correct password (SHA-256 compared with CHAT_PASSWORD_HASH) sets a session cookie that gates the page and API;
+POSTs must carry the expected Origin. Each chat request becomes a text_chat job on the local gateway (key from GATEWAY_PANDORA_KEY), polled until done, then deleted.
+Only one reply runs at a time; others get 429."""
 import hashlib,hmac,json,os,secrets,sys,threading,time,urllib.request,urllib.error
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from http.cookies import SimpleCookie

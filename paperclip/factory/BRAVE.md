@@ -1,6 +1,6 @@
 # Budgeted Brave Search
 
-Brave is connected to the Paperclip host through a server-only Search Coordinator. Initial scope is ClassScout. Other roles still use source pages directly where possible. Search does not replace evidence checks or human publishing approval.
+Brave is connected to the Paperclip host through a server-only Search Coordinator. Scope: ClassScout discovery and publication-gap searches, plus Padel Africa (search purpose `padel`) and Sportolok (`sportolok`) discovery. Other roles still use source pages directly where possible. Search does not replace evidence checks or the publication gate (automatic quality gate, or human approval when the gate is off).
 
 ## Use it from the dashboard
 
@@ -12,11 +12,11 @@ Search query: site:provider.example kids classes pricing schedule
 Source host: provider.example
 ```
 
-Use `discovery` for new providers or `support` for public provider information. `Source host` is optional for discovery; include it when researching a known provider. Queries must contain public business/location/activity terms, not customer emails, phone numbers, credentials or private conversation text. One task can contain up to three distinct `Search query:` lines; those form a burst that borrows future slots. Reuse existing sources before requesting another search.
+Use `discovery` for new providers or `support` for public provider information. The accepted purposes are `publishing`, `discovery`, `support`, `padel` and `sportolok` (`search_workflow.parse`); the last two are created by the Padel and Sportolok discovery routines. `Source host` is optional for discovery; include it when researching a known provider. Queries must contain public business/location/activity terms, not customer emails, phone numbers, credentials or private conversation text. One task can contain up to three distinct `Search query:` lines; those form a burst that borrows future slots. Reuse existing sources before requesting another search.
 
-The coordinator fetches eligible result pages independently and creates at most **two research tasks per search job** in the initial rollout (hard implementation ceiling five). Research tasks trigger their own Content Quality Reviewer tasks. Candidates remain provisional: source-url duplication is filtered early; physical identity and duplicates are checked during research and by the canonical publishing gate. Different branches on the same domain are not merged.
+The coordinator fetches eligible result pages independently and creates at most **`search_candidate_limit` research tasks per search job** (3 in `factory.json`; hard implementation ceiling five; new discovery is further capped at ten minus the research backlog). For `padel` and `sportolok` searches the follow-up tasks are venue-verification tasks for the Management engine clients rather than listing research. Research tasks trigger their own Content Quality Reviewer tasks. Candidates remain provisional: source-url duplication is filtered early; physical identity and duplicates are checked during research and by the canonical publishing gate. Different branches on the same domain are not merged.
 
-Publication preparation automatically queues a targeted search when it lacks explicit ages, class times, per-class price or a usable source image. Verified new pages may restart only an unchanged, still-blocked, unapproved parent publication task. Prepared/approved/uncertain/published packets are never silently modified. A refreshed packet still requires a fresh human publishing approval. The current publishing mapper's supported-format boundaries remain in force; search does not convert semester fees into per-class fees.
+Publication preparation automatically queues a targeted search when the failure message says explicit ages, class times or a clear price are missing (`request_gap_search` matches "Missing explicit" and "Missing or ambiguous"). A missing image no longer blocks publication (see PUBLISHING.md), so it no longer triggers a search. Verified new pages may restart only an unchanged, still-blocked, unapproved parent publication task. Prepared/approved/uncertain/published packets are never silently modified. A refreshed packet must pass the same publication gate again (a fresh human approval only when the gate is off). The current publishing mapper's supported-format boundaries remain in force; search does not convert semester fees into per-class fees.
 
 ## Budget and scheduling
 
@@ -35,7 +35,7 @@ Cooldowns and reservations survive restarts. Requests crossing a billing/day bou
 ## Retention and credentials
 
 - Root-only secret: `/etc/paperclip-brave.env`, read by `narimato-factory.service`. It is not passed to model prompts, agent process environments, browser code or issue text.
-- Fixed endpoint: `https://api.search.brave.com/res/v1/web/search`, web results only, English/US, strict safe search, count 20, extra snippets enabled, no automatic pagination or redirects.
+- Fixed endpoint: `https://api.search.brave.com/res/v1/web/search`, web results only, locale US/en for ClassScout, ZA/en for Padel Africa and HU/hu for Sportolok (`brave.py` accepts only these three), strict safe search, count 20, extra snippets enabled, no automatic pagination or redirects.
 - Brave response bodies, snippets and result titles remain in RAM. Persistent result caching is disabled until storage rights for this account's plan are confirmed.
 - Durable data consists of our query intents/fingerprints, task links, quota audit metadata, and independently fetched source-page URLs/titles/hashes. No raw customer chat is sent to search or retained for training.
 - Tables: `search_account`, `search_attempts`, `search_jobs` in the existing protected factory SQLite database. Seven-day intent deduplication prevents repeated searches; direct-source evidence follows the normal factory policy.

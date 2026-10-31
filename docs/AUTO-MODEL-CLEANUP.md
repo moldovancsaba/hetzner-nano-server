@@ -81,6 +81,26 @@ To restore an evicted alternative, an authorized operator must pull the exact te
 
 See [verification](../results/auto-cleanup/README.md), [retention policy](DATA-RETENTION.md) and [model-selection policy](MODEL-POLICY.md).
 
+## Policy file reference
+
+`config/model-storage-policy.json` (deployed as `/opt/narimato-ai/model-storage-policy.json`) is read once per run by `storage/cleaner.py` (`validate_storage`, then `reasons`). Only five keys are read. A value outside the checked range makes the run fail before any deletion. Every other key is informational: editing it changes nothing, so do not assume it is enforced.
+
+| Key | Current value | Read by the cleaner | What it does |
+| --- | --- | --- | --- |
+| `version` | `model-storage.v2` | yes, must equal `model-storage.v2` | Any other value fails the run |
+| `automatic_weight_deletion` | `true` | yes, must be `true` | `false` fails the run; it does not switch deletion off quietly |
+| `keep_top_per_task` | `3` | yes, must equal `3` | Keep rank 1–3 in every task ranking; another value fails validation |
+| `keep_production_request_days` | `3` | yes, integer 1–30 | Keep models with an admitted production request within this many days |
+| `initial_inventory_history_grace_days` | `0` | yes, integer 0–30 | Keep models in the first-run inventory for this many days after tracking started; `0` protects nothing |
+| `hard_free_disk_floor_gib`, `target_free_disk_gib`, `target_weight_cache_gib` | `4`, `8`, `16` | no | Capacity-planning targets for operators. The disk alerts use fixed values of 4 GiB (critical) and 6 GiB (warning) in `operations/monitor.py` |
+| `pin_all_ranked_defaults` | `true` | no | Informational. Defaults are always kept because the cleaner keeps every model named in `defaults` (`current_default`) |
+| `exclude_test_requests` | `true` | no | Informational. Test requests are excluded by the gateway, which records no demand for `X-Request-Purpose: test` (`gateway/usage.py`) |
+| `protect_resident_and_queued_models` | `true` | no | Informational. Resident models are kept by the cleaner (`resident_model`); queued and active work is protected by the gateway lease, which cannot be taken while work exists |
+| `cleanup_cadence` | `hourly_plus_up_to_five_minutes_jitter` | no | Informational. The schedule is set in `config/narimato-model-cleanup.timer` |
+| `model_weights_only` | `true` | no | Informational. The cleaner only runs `ollama rm` |
+| `discovery_snapshot_days`, `discovery_snapshot_budget_mib` | `30`, `50` | no | Informational. The collector reads `config/model-discovery.json` (`snapshot_days`, `snapshot_budget_bytes`) |
+| `retention` (object) | see file | no | Statement of the data policy in [DATA-RETENTION.md](DATA-RETENTION.md). The gateway's five-minute result lifetime is `TTL` in `gateway/server.py` |
+
 ## Top-three rollout, 2026-10-28
 
 The hourly cleaner now retains ranks 1–3 in each of the four routes: English text, image recognition, image moderation and experimental Hungarian text. Hungarian currently has only one eligible experimental profile; this does not imply three approved Hungarian models. The first run completed, removing two unprotected packages (LFM2.5-VL-450M Extract Q8 and Qwen2.5 0.5B), leaving 20 installed packages. Older inventory still has its original history grace; recent non-test demand remains protected. No history or benchmark results were removed.

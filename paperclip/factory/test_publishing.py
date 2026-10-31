@@ -1,3 +1,6 @@
+"""Tests for publishing: mapping source pages to a listing (schedules, class price, location, same-host
+sources, media checks) and run(), which publishes only with a valid human approval and an unchanged
+packet and source, writes once, and does not retry a lost or partial write."""
 import copy,json,pathlib,tempfile,unittest
 from unittest.mock import Mock,patch
 import worker,publishing as p

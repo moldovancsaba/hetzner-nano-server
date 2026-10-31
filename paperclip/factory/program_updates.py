@@ -80,6 +80,8 @@ def run(issue,board,config,web,database,execution,client=None,writer=None):
  pages=evidence.crawl(urls[0],web,extra=urls[1:],maximum=4);patch,proof=proposed(row,pages)
  if not patch:return {'stage':'program_no_change','entities':[],'final_status':'done','automatic_progress':True,'markdown':'Program source checked. No unambiguous, supported change was found. Existing programs and unknown values were preserved.'}
  body={'resource':'provider','action':'patch','id':id,'patch':patch};ph=publishing.sha({'body':body,'proof':proof,'baseline':row});baseline=publishing.sha(row)
+ # No human-approval mode exists for this path: it ignores automatic_quality_gate.enabled, but still records a gate decision
+ # and takes a slot from the shared daily cap (reserve below).
  quality_gate.record(database,ph,'program_update',{'unclaimed':True,'literal_branch_program_evidence':bool(proof),'existing_programs_preserved':len(patch['recurringPrograms'])==len(row.get('recurringPrograms',[])),'source_hosts_match':all(evidence.host(p['url'])==evidence.host(row['website']) for p in proof)})
  if publishing.sha(client.existing_provider(id))!=baseline:raise ValueError('Program baseline changed; prepare a new check')
  publishing.ensure_execution(issue,board,config,execution,publishing.sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']}))

@@ -1,4 +1,7 @@
-"""Source-backed, draft-only Paperclip factory worker. No publishing or outreach tools."""
+"""Factory worker behind Paperclip's process adapter (POST /run on loopback) and the company dashboard feed.
+Research, quality and support runs produce drafts for review only. The publication, refresh, program, engine and Padel
+workflows it routes to (operational.py) can write to ClassScout or a Management engine, under the gates in quality_gate.py.
+It sends no customer messages and has no outreach tool."""
 import contextlib,datetime,hashlib,hmac,json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.parse,urllib.request,uuid
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from pathlib import Path
@@ -8,6 +11,9 @@ STATE=Path(os.environ.get('FACTORY_STATE','/var/lib/narimato-factory'))
 CONFIG_PATH=Path(os.environ.get('FACTORY_CONFIG','/opt/narimato-factory/factory.json'))
 PAPERCLIP='http://127.0.0.1:3100/api'
 FIELDS=['name','address','phone','email','opening_hours','price','activities']
+# One slot each. LOCK is the model-inference slot (research, support drafts, QA without a workflow line); OPERATION_LOCK
+# lets source-only and read-only workflows run beside it (see pure_operation in execute); publication and search roles
+# have their own slots.
 LOCK=threading.BoundedSemaphore(1)
 PUBLICATION_LOCK=threading.BoundedSemaphore(1)
 SEARCH_LOCK=threading.BoundedSemaphore(1)
@@ -16,6 +22,8 @@ WEB=PublicWeb()
 
 def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
+# Paperclip requires a blocked task to carry an unblock descriptor naming an owner agent, and agents cannot name a human
+# there, so the executing agent is named. The text is the recovery action shown on the task.
 def blocked_handoff(config,message,owner):
  if owner not in config['agents']:raise ValueError('Unknown recovery owner')
  return {'status':'blocked','unblockDescriptor':{'owner':{'agentId':owner},'action':'Recover the exact held requirement from official source evidence: '+str(message)[:900]+'. Preserve saved receipts; never replay uncertain writes or retry unchanged evidence. The company recovery routine owns the next check.'}}
@@ -126,6 +134,9 @@ def save_draft(brand,issue,page,facts):
   for fact in facts:db.execute('INSERT INTO facts VALUES(?,?,?,?,?)',(entity_id,fact['field'],fact['value'],fact['quote'],source_id))
  return entity_id
 
+# Escapes HTML and markdown control characters before untrusted page text or error text is posted as a Paperclip comment.
+# Other modules call it as `from worker import safe`; when worker.py runs as __main__ that loads a second copy of this
+# module, which is harmless because they use only stateless helpers (safe, database, FIELDS, validate_facts, CONFIG_PATH).
 def safe(value):
  import html
  value=html.escape(str(value),quote=False).replace('\n',' ')
@@ -311,6 +322,8 @@ def execute(body):
     policy['monitor']={'nextCheckAt':datetime.datetime.fromtimestamp(max(time.time()+5,due),datetime.timezone.utc).isoformat().replace('+00:00','Z'),'notes':'Resume the shared Brave queue after its cooldown, quota wait or source-delivery wait. No request before the persisted budget allows it.','serviceName':'brave-search-queue'}
    else:policy['monitor']=None
    handoff['executionPolicy']=policy
+  # The task normally returns to the reviewer. At awaiting_approval and search_waiting the agent stays assigned, so an
+  # approval answer or a monitor deadline can wake it again.
   if result.get('stage') not in {'awaiting_approval','search_waiting'}:handoff.update(assigneeAgentId=None,assigneeUserId=config.get('reviewer_user_id','local-board'))
   updated=board.call('/issues/'+issue['id'],handoff,'PATCH')
   if updated.get('status')!=handoff['status']:raise RuntimeError('Paperclip did not confirm the workflow handoff')
@@ -329,6 +342,9 @@ def execute(body):
      summary={'status':'in_review','issue_id':issue['id'],'identifier':issue.get('identifier'),'summary':'Waiting for shared-model availability','stage':'model_waiting'}
      with database() as db:db.execute('UPDATE runs SET status=?,result=?,error=?,finished_at=? WHERE id=?',('completed',json.dumps(summary),message,now(),run_id))
      return summary
+    # This handler routes on error text and type: the two prefixes come from quality_gate.record and quality_gate.reserve,
+    # model_wait_policy matches gateway admission codes, and the publication branches below test ValueError/FetchError.
+    # Rewording those messages changes how a failure is handled.
     if message.startswith(('Automatic quality hold:','Automatic daily write limit reached')):
      board.call('/issues/'+issue['id']+'/comments',{'body':safe(message)+'\n\nNo write was sent. The daily publication queue can recheck held new-listing packets; no Brave search is needed for a policy hold.'})
      disposition=write_allowance_handoff(issue) if message.startswith('Automatic daily write limit reached') else blocked_handoff(config,message,agent_id)

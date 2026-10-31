@@ -32,6 +32,8 @@ class Client:
 
 def initialize(database):
  with database() as db:db.execute('CREATE TABLE IF NOT EXISTS padel_packets(packet_hash TEXT PRIMARY KEY,issue_id TEXT,status TEXT,body_json TEXT,proof_json TEXT,receipt_json TEXT,created_at REAL)')
+# Evidence intake only; this connector never force-publishes (engine_ops.Client is the one that can). Like the engine and
+# program-update writes, this path ignores automatic_quality_gate.enabled but still records a gate decision and uses the daily cap.
 def run(issue,board,config,web,database,execution,client=None):
  initialize(database);client=client or Client();value=client.catalog();kind=catalog.field(issue,'Factory workflow');vertical=value['vertical'];current=value['catalog']
  if kind=='padel_maintenance':

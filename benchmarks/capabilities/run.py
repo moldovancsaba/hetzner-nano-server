@@ -1,3 +1,6 @@
+"""Capability and model-switch benchmark runner for seven small Ollama models (local API, 127.0.0.1:11434).
+Reads listings.json, osm.json and cats.png; times model unload/load, runs JSON text cases plus a native tool call (vision model: image cases),
+samples container memory, writes results.json after each case and reloads qwen3:1.7b at the end."""
 import base64,json,time,threading,subprocess,pathlib,urllib.request,urllib.error,traceback,datetime
 ROOT=pathlib.Path(__file__).parent
 MODELS=['qwen3:1.7b','qwen3:0.6b','qwen2.5:1.5b','gemma3:1b','llama3.2:1b','smollm2:1.7b','moondream:1.8b']

@@ -1,5 +1,7 @@
 """Install a confirmed workspace credential and commission read-only SLG operations."""
 import argparse,json,pathlib,re,subprocess,sys
+# The remote script ends with workflows_setup.setup(True). That also writes enabled=true to every scheduled trigger in
+# the routine list, not only the SLG routines, so a trigger paused by hand is switched back on.
 REMOTE=r'''
 import sys,json,re,pathlib,subprocess,sqlite3
 sys.path.insert(0,'/opt/narimato-factory');import slg,workflows_setup as w

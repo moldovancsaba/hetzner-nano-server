@@ -1,3 +1,6 @@
+"""Tests for operational workflows: contact refresh needing human approval and applied once, site audit,
+support answers from literal evidence, catalog owner redaction, pipeline handoff, the operations digest
+and the model wait policy."""
 import copy,json,pathlib,tempfile,unittest
 from unittest.mock import Mock,patch
 import worker,catalog,refresh,pipeline,operational,site_audit,support,operations_digest

@@ -1,3 +1,6 @@
+"""Tests for scripts.promote_rankings.build on a synthetic fixture: the current cohort wins without mixing
+legacy scores, legacy moderators are neither promoted nor kept by the cleaner, mixed moderation methods
+fail closed, and the thinking control must be boolean."""
 import json,tempfile,unittest
 from pathlib import Path
 from scripts.promote_rankings import build

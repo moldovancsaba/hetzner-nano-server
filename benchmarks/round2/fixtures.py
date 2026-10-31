@@ -1,3 +1,6 @@
+"""Shared code for the round 2 scripts: call(), unload() and trim() for the local Ollama API (127.0.0.1:11434), and the seven English text cases
+(listing selection, query plan, OSM facts, prompt injection) built from listings.json and osm.json.
+MODELS, report and save() are copied from the capabilities runner and are not used by the scripts that import this module."""
 import base64,json,time,threading,subprocess,pathlib,urllib.request,urllib.error,traceback,datetime
 ROOT=pathlib.Path(__file__).parent
 MODELS=['qwen3:1.7b','qwen3:0.6b','qwen2.5:1.5b','gemma3:1b','llama3.2:1b','smollm2:1.7b','moondream:1.8b']

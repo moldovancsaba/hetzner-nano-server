@@ -6,7 +6,7 @@ Implementation: [segmind.py](segmind.py), tests [test_segmind.py](test_segmind.p
 
 ## What it can and cannot do
 
-- It can only **add** a missing name, address, price or opening-hours fact. It never replaces a fact the local model already established.
+- It can only **add** facts. Missing name, address, price or opening hours is what triggers the call (`segmind.TARGETS`); once called, it may add any of the seven research fields that are still empty, so the pilot also added activities, email and phone. It never replaces a fact the local model already established.
 - Every value must carry a short quote that appears **verbatim** in the fetched page and contain the value (`worker.validate_facts`, the same gate the local model passes). A stronger model cannot introduce an invented fact; at worst it adds nothing. This protects against false facts, not against missed ones.
 - The drafts remain drafts: human review, the quality reviewer and the publication gate are unchanged. The run comment states which fields the remote model added.
 

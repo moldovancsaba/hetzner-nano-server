@@ -1,3 +1,6 @@
+"""Tests for gateway.metrics: history survives restart with test and production kept apart, no content or ids
+are stored, pruning by age and event cap, job outcomes and timings, tenant-isolated /v1/usage, and
+metrics failures never stopping inference."""
 import json
 from pathlib import Path
 import tempfile

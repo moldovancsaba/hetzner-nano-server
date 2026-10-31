@@ -1,3 +1,6 @@
+"""Round 3 main benchmark runner for the models listed in plan.json, using the local Ollama API and the narimato-ollama container.
+Pulls each vision and text model, runs image cases (640 then 320 pixels) with schema follow-ups or English text cases, chat checks and a native tool call, removes packages it newly downloaded,
+writes results.json and reloads qwen3:1.7b at the end."""
 import pathlib,json,subprocess,time,datetime,base64,shutil,urllib.request,statistics
 from fixtures import call,trim,unload,cases
 ROOT=pathlib.Path(__file__).parent

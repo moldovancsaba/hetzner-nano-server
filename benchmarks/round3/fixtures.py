@@ -1,3 +1,5 @@
+"""Shared code for the round 3 scripts; identical to ../round2/fixtures.py.
+Defines call(), unload() and trim() for the local Ollama API (127.0.0.1:11434) and the seven English text cases built from listings.json and osm.json."""
 import base64,json,time,threading,subprocess,pathlib,urllib.request,urllib.error,traceback,datetime
 ROOT=pathlib.Path(__file__).parent
 MODELS=['qwen3:1.7b','qwen3:0.6b','qwen2.5:1.5b','gemma3:1b','llama3.2:1b','smollm2:1.7b','moondream:1.8b']

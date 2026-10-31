@@ -1,3 +1,6 @@
+"""Tests for ModelCatalog and the generated model policy: policy matches promote_rankings.build, defaults follow
+rankings, missing, wrong-job, unknown and changed-digest models are refused, discovery listing, hot
+reload and per-tenant context profiles."""
 import copy,json,tempfile,unittest
 from pathlib import Path
 from gateway.catalog import ModelCatalog,SelectionError

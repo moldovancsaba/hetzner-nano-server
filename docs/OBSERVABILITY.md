@@ -29,7 +29,7 @@ A completed job proves server generation. A client DELETE proves only that a cli
 
 The gateway's private SQLite database is `/var/lib/narimato-gateway/metrics.sqlite3`, under its existing private systemd state directory. Its fixed columns contain timestamps, normalized endpoint templates, HTTP method/status, known project/task/model identifiers, outcome/error codes, timings and disconnect flags. No request/response body, prompt, photo, image hash, job ID, idempotency key, user identity, IP, raw URL/query or credential is stored. The request log cannot create arbitrary new content fields. Unknown routes are reduced to a constant; job paths become `:id` templates.
 
-Metadata expires after 30 days and is capped at 200,000 events, with a 64 MiB database-page ceiling and bounded WAL/checkpoint configuration. Maintenance runs on writes. Startup storage failure disables analytics and raises a visible operational fault while inference remains available; the independent model-use ledger retains its existing admission protection. Write failures do not intentionally fail otherwise valid inference. The public API reports its live write-failure counter; a standalone read-only report cannot know that in-process counter and reports null.
+Metadata expires after 30 days and is capped at 200,000 events, with a 64 MiB database-page ceiling and bounded WAL/checkpoint configuration. Maintenance runs on writes. Startup storage failure disables analytics and raises a visible operational fault while inference remains available; the independent model-use ledger retains its existing admission protection. Write failures do not intentionally fail otherwise valid inference. The public API reports its live write-failure counter; a standalone read-only report cannot know that in-process counter and reports null. The watchdogs' own 30-second polls are recorded as events too; see Known limitations in [OPERATIONS.md](OPERATIONS.md).
 
 Always mark synthetic checks with `X-Request-Purpose: test`. The server cannot detect an unmarked test automatically. Polling/discovery/DELETE have HTTP metadata but never extend production model-demand retention. The benchmark's private reference images and approved datasets remain separate from this operational database.
 
@@ -68,7 +68,7 @@ Protected Camera deployment/event enablement and ClassScout Production release r
 
 ## Capacity decision
 
-Keep the existing CAX11/4 GB inference host, two-CPU/2800 MiB container cap, one FIFO worker and current task-specific ranked defaults. The existing second host supplies a small independent reachability check; no new paid host or resize was introduced. Successful switching and zero OOM kills do not establish a throughput SLA. Review actual production p95 queue/response timings and failures before buying capacity. Protected weights remain under top-five/14-day retention; storage targets do not authorize deleting protected models.
+Keep the existing CAX11/4 GB inference host, two-CPU/2800 MiB container cap, one FIFO worker and current task-specific ranked defaults. The existing second host supplies a small independent reachability check; no new paid host or resize was introduced. Successful switching and zero OOM kills do not establish a throughput SLA. Review actual production p95 queue/response timings and failures before buying capacity. Protected weights remain under the top-three / 3-day retention rule; storage targets do not authorize deleting protected models.
 
 ## Verification and rollback
 

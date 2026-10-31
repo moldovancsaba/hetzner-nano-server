@@ -1,3 +1,6 @@
+"""Tests for blocker-recovery rules: address, phone and contact matching (quality_gate, evidence), directory
+hosts refused as venue sources, blocker classification, unchanged failed sources skipped, image provenance
+and banner rules, refresh baselines and branch-name matching."""
 import json,time,unittest
 from unittest.mock import Mock,patch
 import worker,quality_gate,evidence,venue_identity,search_workflow as search,engine_ops,company_ops

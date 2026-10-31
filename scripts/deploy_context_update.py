@@ -1,4 +1,8 @@
-"""Controlled, lease-protected context-profile deployment; run on inference host."""
+"""Controlled, lease-protected context-profile deployment; run on inference host.
+
+Single use: it asserts that the live gateway/server.py has the exact pre-update SHA-256 in EXPECTED, so it
+cannot run again once that file has changed. Kept as the record of how the 8K profiles were rolled out.
+"""
 import ast, hashlib, json, pathlib, secrets, shutil, subprocess, time, urllib.request
 ROOT=pathlib.Path('/opt/narimato-ai');CODE=pathlib.Path('/opt/narimato-gateway');STAGE=pathlib.Path('/opt/narimato-context-stage')
 FILES=['gateway/server.py','gateway/catalog.py','gateway/long_context.py','config/model-policy.json','config/job-routes.json']

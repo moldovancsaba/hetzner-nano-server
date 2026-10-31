@@ -22,7 +22,7 @@ Hungarian is a separate explicit **experimental** `text_chat_hu` job. No candida
 - `scripts/promote_rankings.py --write` derives **config/model-policy.json** from those sources. Despite its name, this script only builds model policy; it does not publish anything to GitHub or deploy a service.
 - The generated file contains task winners, model/task ranks, benchmark metrics, tested profiles, exact tested artifact digests, source hashes and a deterministic policy ID.
 - `--check` fails if that file is stale or inconsistent with its source evidence. Unit tests also enforce this.
-- `config/job-routes.json` controls tenant permissions and ranking-task names; it no longer hard-codes a second set of model choices.
+- `config/job-routes.json` controls tenant permissions only; it no longer hard-codes a second set of model choices. Its `ranking_task` fields are not read by any code.
 - The running gateway reads the deployed policy on each discovery/selection. Atomic policy replacement is effective without a restart. Each accepted job records its selected model, artifact digest, profile and policy ID; later changes do not silently retarget queued work.
 
 Only models with completed task evidence enter selection. Installed models which failed eligibility or have no evidence for a permitted job are listed but blocked. A changed digest invalidates eligibility until the changed artifact is tested. Installed means on disk, not resident in RAM.
@@ -103,7 +103,7 @@ A daily server-side metadata-discovery timer is now active; no unattended benchm
 
 ## Verification
 
-[Live model-policy verification](../results/model-policy/public-verification.json) records actual discovery and model choices. [Shared queue guide](JOB-ROUTER.md) covers retention, FIFO limits, circuit recovery, polling and client timeout constraints. `scripts/deploy_gateway_update.py` is the server-side staged source-upgrade helper; it drains the queue, backs up replaced files privately, validates Caddy maintenance and rolls back on readiness failure.
+[Live model-policy verification](../results/model-policy/public-verification.json) records actual discovery and model choices. [Shared queue guide](JOB-ROUTER.md) covers retention, FIFO limits, circuit recovery, polling and client timeout constraints. `scripts/deploy_gateway_update.py` is a server-side staged update helper for the five files it lists (`gateway/server.py`, `gateway/catalog.py`, `moderation/server.py`, `config/model-policy.json`, `config/job-routes.json`); it drains the queue, backs up replaced files privately, validates Caddy maintenance and rolls back on readiness failure. It does not ship the other modules the gateway imports; see Known limitations in [OPERATIONS.md](OPERATIONS.md). A policy-only change needs no helper: replace `config/model-policy.json` atomically.
 
 ## Weight retention
 
@@ -119,10 +119,10 @@ The generated tenant_context_minimums requires 8192 for automatic default text s
 
 ## Broader recognition comparison (28 October 2026)
 
-The current recognition ranking uses 32 real service-contract image cases, nine paired robustness variants and eight separate count probes. MiniCPM-V 4.6 1B is the current default: cohort readiness score 0.807, 29/32 usable responses and 7/8 OCR targets, with median inference about 24 seconds. Qwen3.5 0.8B is close in measured score and about twice as slow; paired uncertainty intervals overlap. These are cohort-specific results, not general accuracy or standalone safety certification. See [the completed recognition report](../benchmarks/vision-evaluation/REPORT-RECOGNITION.md).
+The recognition ranking uses 32 real service-contract image cases, nine paired robustness variants and eight separate count probes. This comparison made MiniCPM-V 4.6 1B the default: cohort readiness score 0.807, 29/32 usable responses and 7/8 OCR targets, with median inference about 24 seconds. Qwen3.5 0.8B is close in measured score and about twice as slow; paired uncertainty intervals overlap. The later Round 5 comparison placed MiniCPM-V 4.6 Q5_K_M first on the same cohort (readiness 0.931, 32/32 usable responses, 8/8 OCR targets, median about 25 seconds), and it is the current default; the 1B variant ranks second. These are cohort-specific results, not general accuracy or standalone safety certification. See [the completed recognition report](../benchmarks/vision-evaluation/REPORT-RECOGNITION.md).
 
 Current comparable image rows expose ranking_tier=broader_service_evaluation and current_rank. Older screening variants remain explicit alternatives with ranking_tier=legacy_screening_not_comparable, current_rank=null, and a rank sentinel above 1000 so they cannot be mistaken for current top-five results or retained solely by an old score. Exact tested digests still apply.
 
 Qwen image jobs use the tested think=false profile. Its earlier nine failing as-is-profile requests are diagnostic evidence, excluded from the corrected-profile comparison. Bounded image JSON jobs must not spend their response allowance on reasoning.
 
-Moderation remains on its independent existing ranking while its broader evaluation runs. Recognition scores never choose the moderation default. Counting probes are not a count API: six one-object and two two-object scenes give an always-one baseline of 6/8; MiniCPM scored 5/8, so no broad counting claim follows from the recognition win.
+Moderation has its own ranking, the broader nine-category 41-image evaluation by macro F2, and its default is Qwen3.5 0.8B. Recognition scores never choose the moderation default. Counting probes are not a count API: six one-object and two two-object scenes give an always-one baseline of 6/8; MiniCPM scored 5/8, so no broad counting claim follows from the recognition win.

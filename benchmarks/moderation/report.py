@@ -1,3 +1,6 @@
+"""Builds REPORT.md and summary.json for the forbidden-content benchmark from manifest.json (reference labels) and results.json.
+Per model and category it counts true/false positives and negatives, review (null) answers and invalid responses, and lists disagreements.
+The decision and limitation text is fixed in this script. Prints a per-model summary."""
 from pathlib import Path
 import json,statistics
 R=Path(__file__).parent

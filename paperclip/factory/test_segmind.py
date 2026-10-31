@@ -1,3 +1,6 @@
+"""Tests for segmind, the optional metered remote model: off by default, research role only, quote-verified
+facts, call and cost caps, pauses after errors, the 120 percent overspend guard, balance checks, the
+dashboard report and constrained choice suggestions."""
 import datetime,json,os,pathlib,tempfile,unittest,urllib.error
 from unittest.mock import Mock,patch
 import worker,segmind,search_budget as sb

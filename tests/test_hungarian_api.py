@@ -1,3 +1,6 @@
+"""Tests for the Hungarian text path in gateway.server: hungarian_text_input enforces a UTF-8 byte budget and
+refuses tools and excess output; Runner uses the native chat endpoint with the non-thinking profile
+and configured context size."""
 import unittest
 from gateway.server import hungarian_text_input
 class HungarianBudgetTests(unittest.TestCase):
@@ -12,7 +15,6 @@ class HungarianBudgetTests(unittest.TestCase):
   profile={'num_ctx':2048,'num_batch':32}
   for value in [self.value(tools=[{'type':'function'}]),self.value(max_tokens=512)]:
    with self.assertRaises(ValueError):hungarian_text_input(value,'hu:1b',profile)
-if __name__=='__main__':unittest.main()
 
 class HungarianRunnerTests(unittest.TestCase):
  def test_hungarian_uses_native_text_path_and_honors_non_thinking_profile(self):
@@ -30,3 +32,4 @@ class HungarianRunnerTests(unittest.TestCase):
    result,_=Runner(Catalog())('text_chat_hu',{'model':'hu:test','messages':[{'role':'user','content':'Segíts magyarul.'}],'temperature':0,'max_tokens':128},'hu:test')
   self.assertEqual(result['choices'][0]['message']['content'],'Kész.')
   request=calls[-1][1];self.assertFalse(request['think']);self.assertEqual(request['options']['num_ctx'],2048)
+if __name__=='__main__':unittest.main()

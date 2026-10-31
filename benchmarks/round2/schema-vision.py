@@ -1,3 +1,6 @@
+"""Round 2 follow-up: reruns five image cases with a JSON schema that fixes field names and types but not the expected values.
+Loads the case definitions from the top of run.py; tests SmolVLM 500M, Moondream and the models that ran in vision-retries.json, at 640 or 320 pixels, num_batch 32.
+Writes schema-vision.json and reloads qwen3:1.7b at the end."""
 import pathlib,json,base64,datetime
 ROOT=pathlib.Path(__file__).parent
 scope={'__file__':str(ROOT/'run.py')}

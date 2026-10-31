@@ -1,4 +1,8 @@
-"""Server-only: remove explicitly declined, inactive, unpinned weights; retain evidence."""
+"""Server-only: remove explicitly declined, inactive, unpinned weights; retain evidence.
+
+Legacy. It exits under model-storage.v2 (the current policy version), where the hourly cleaner
+(narimato-model-cleanup.service) owns weight deletion; it applies only to the earlier pinned-alternatives policy.
+"""
 import argparse,datetime,json,pathlib,shutil,subprocess,urllib.request
 ROOT=pathlib.Path('/opt/narimato-ai')
 def get(path):

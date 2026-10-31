@@ -5,6 +5,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def build(root=ROOT):
  sources=json.loads((root/'config/ranking-sources.json').read_text());digests={};evidence=[]
+ # digests maps a lower-cased model name to its tested digest, collected from every evidence file; when several
+ # files name the same model, the file listed last in config/ranking-sources.json wins.
  def walk(value):
   if isinstance(value,dict):
    name=value.get('name') or value.get('model')
@@ -51,6 +53,8 @@ def build(root=ROOT):
   for index,row in enumerate(json.loads((root/sources['legacy_screening']).read_text())['image'],1):
    model=row['model']
    if model in failed or 'image_recognition' in models.get(model,{}).get('tasks',{}):continue
+   # Legacy screening rows are not comparable with the broader evaluation: rank 1000+index and no current_rank,
+   # so they can never outrank a current entry.
    add('image_recognition',model,1000+index,row,sources['legacy_screening'],row.get('max_image_dimension',640))
    models[model]['tasks']['image_recognition'].update(ranking_tier='legacy_screening_not_comparable',current_rank=None)
  raw=json.loads((root/sources['moderation_raw']).read_text());moderation=[]

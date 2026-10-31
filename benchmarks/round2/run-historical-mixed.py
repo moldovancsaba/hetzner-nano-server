@@ -1,3 +1,6 @@
+"""Round 2 main runner preserved as originally executed, kept as a record; not the default runner.
+Differs from run.py by including the Hungarian extraction case and a Hungarian chat sample, which run.py leaves out because non-English testing is a separate workstream.
+Writes results.json and reloads qwen3:1.7b at the end."""
 import base64,datetime,json,pathlib,statistics,subprocess,time
 from fixtures import call,trim,unload,cases
 ROOT=pathlib.Path(__file__).parent

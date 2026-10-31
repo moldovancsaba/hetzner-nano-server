@@ -1,3 +1,6 @@
+"""Tests for company_ops: blocker classification and handoff, freshness checks, expiring support knowledge,
+Padel discovery and candidate intake, delivery metrics; SearchReliabilityTests covers search_workflow
+delivery caps and queue fairness, and idempotent company_ops dispatch."""
 import datetime,json,time,unittest
 from unittest.mock import Mock,patch
 import worker,company_ops as ops,search_workflow as sw,catalog,publishing,support,business_metrics

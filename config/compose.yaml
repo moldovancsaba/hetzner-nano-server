@@ -11,6 +11,10 @@ services:
       OLLAMA_MAX_QUEUE: "8"
       OLLAMA_CONTEXT_LENGTH: "2048"
       OLLAMA_KEEP_ALIVE: "30m"
+      # Do not remove or raise the next two. They cap the prompt cache (128 MiB) and the context
+      # checkpoints (2) so repeated 8K requests fit inside mem_limit. With the default 8 GiB cache,
+      # repeated requests were OOM-killed under this cap even though a single long request succeeded
+      # (docs/OPERATIONS.md, "Context and cache limits").
       LLAMA_ARG_CACHE_RAM: "128"
       LLAMA_ARG_CTX_CHECKPOINTS: "2"
     mem_limit: 2800m

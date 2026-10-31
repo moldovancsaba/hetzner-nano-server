@@ -1,3 +1,6 @@
+"""Tests for chat.context.prepare: long histories are kept within budget, the oldest pair is dropped while
+the system message and latest request stay, an over-long latest message or tokenizer failure is rejected,
+and invalid roles or oversized input raise."""
 import unittest
 from unittest.mock import patch
 from chat.context import prepare

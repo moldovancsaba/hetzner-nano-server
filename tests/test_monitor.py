@@ -1,3 +1,6 @@
+"""Tests for operations.monitor and external_watchdog: alert debounce, one notification then recovery, test
+traffic and planned maintenance not raising client incidents, failure-rate and queue alerts, OOM flag
+handling and the keyless external reachability check."""
 import unittest
 import io
 import urllib.error

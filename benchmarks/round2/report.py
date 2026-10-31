@@ -1,3 +1,6 @@
+"""Builds round 2 REPORT.md from results.json, vision-retries.json, schema-vision.json, supplement-text.json and english_results.build().
+Tables cover the initial image run, image retries, schema-constrained image output and English text results (Hungarian cases excluded), plus failures.
+Inserts DECISIONS.md before the image section if present and prints the report path."""
 import json,pathlib,statistics
 ROOT=pathlib.Path(__file__).parent
 d=json.loads((ROOT/'results.json').read_text());retries=json.loads((ROOT/'vision-retries.json').read_text()) if (ROOT/'vision-retries.json').exists() else {'models':[]};schema=json.loads((ROOT/'schema-vision.json').read_text()) if (ROOT/'schema-vision.json').exists() else {'models':[]}

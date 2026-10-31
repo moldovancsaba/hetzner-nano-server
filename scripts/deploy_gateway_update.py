@@ -1,4 +1,8 @@
-"""Run on Hetzner after staging reviewed files in /opt/narimato-gateway-update."""
+"""Run on Hetzner after staging reviewed files in /opt/narimato-gateway-update.
+
+It ships only the five files in FILES. The gateway modules added later (usage.py, metrics.py, hungarian.py,
+long_context.py) are not among them, so it cannot update today's gateway on its own.
+"""
 import ast,json,pathlib,subprocess,time,urllib.request
 ROOT=pathlib.Path('/opt/narimato-ai');CODE=pathlib.Path('/opt/narimato-gateway');STAGE=pathlib.Path('/opt/narimato-gateway-update')
 FILES=['gateway/server.py','gateway/catalog.py','moderation/server.py','config/model-policy.json','config/job-routes.json']

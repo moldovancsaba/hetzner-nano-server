@@ -1,3 +1,6 @@
+"""Tests for classscout_handoff.plan: it proposes a missing contact value but never mutates the catalog, and
+yields no operations for conflicting values, claimed listings, new providers, failed quality or
+opening-hours facts."""
 import unittest
 from classscout_handoff import plan
 class HandoffTests(unittest.TestCase):

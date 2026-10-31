@@ -1,3 +1,6 @@
+"""Tests for growth: bounded discovery task dispatch, the 420-intent campaign, inferring the editorial brief
+from page evidence, stored gap reasons, the optional metered-model choice (segmind.suggest) and handing
+a verified brief to the publisher."""
 import json,pathlib,time,unittest
 from unittest.mock import Mock,patch
 import worker,growth,search_workflow,pipeline,publishing,workflows_setup

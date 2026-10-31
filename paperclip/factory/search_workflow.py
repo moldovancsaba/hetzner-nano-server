@@ -5,6 +5,8 @@ from net import canonical_url
 from search_budget import Budget,BudgetWait
 from brave import Brave,SearchError
 
+# Only the keys are used (the purpose check in parse). The real priority order is the SQL CASE in queued_issue and in run:
+# publishing first, then discovery (and padel/sportolok once an hour old), then everything else. The numbers are unused.
 RANK={'publishing':0,'discovery':1,'support':2,'padel':3,'sportolok':3}
 TERMINAL={'done','cancelled'}
 def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -74,6 +76,8 @@ def queued_issue(board,config,agent,database):
  return None
 
 def research_backlog(board,config,database):
+ # One unpaged call: the Paperclip API answers a single default page (500 rows), so this count is a lower bound if more
+ # ClassScout tasks than that are active. issue_pages.fetch pages through the whole list but is not used here.
  project=next(k for k,v in config['projects'].items() if v=='ClassScout');rows=board.call('/companies/'+config['company_id']+'/issues?'+urllib.parse.urlencode({'projectId':project,'status':'backlog,todo,in_progress,in_review'}));rows=rows if isinstance(rows,list) else rows.get('issues',[]);active={r['id']:r for r in rows if r['status'] not in {'done','cancelled'} and '[Factory test]' not in r.get('title','')};research=next(k for k,v in config['agents'].items() if v['role']=='research')
  with database() as db:
   ids={r[0] for r in db.execute('SELECT issue_id FROM entities')}|{r[0] for r in db.execute("SELECT issue_id FROM runs WHERE role='research'")}
@@ -225,6 +229,8 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
  return {'stage':'search_completed','markdown':'\n'.join(lines),'entities':[],'final_status':'done','automatic_progress':config.get('growth_mode',{}).get('enabled',False)}
 
 def request_gap_search(issue,board,config,message,database=None):
+ # Matches the wording of the ValueErrors raised by formats.py and publishing.py. 'Missing official source image' is no
+ # longer raised (a missing image does not block publication); that alternative is harmless and unused.
  if not config.get('search_enabled') or not re.search(r'Missing explicit|Missing or ambiguous|Missing official source image',message,re.I):return None
  import publishing
  try:brief=publishing.parse_brief(issue)

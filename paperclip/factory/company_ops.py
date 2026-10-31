@@ -186,6 +186,8 @@ def queue_padel_candidate(issue,page,board,config):
  if not city:raise ValueError('Padel discovery needs an exact configured city')
  return board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'padel-candidate-'+publishing.sha({'url':page['url'],'city':city}),'title':'Verify Padel source: '+page['title'][:110],'projectId':project(config,'Padel Africa'),'status':'todo','assigneeAgentId':role(config,'support'),'reviewPolicy':'anyone','description':'Factory workflow: padel_candidate\nPadel city: '+city+'\nOfficial source URL: '+page['url']+'\n\nValidate literal official name and one street address before evidence intake. Search titles/snippets are not facts.'})
 
+# padel_discovery and padel_candidate are the older Padel path. operational.run sends both kinds to engine_ops when
+# engine_clients['padel-africa'] is set (it is in production); these versions run only when that flag is off.
 def padel_discovery(issue,board,config,web,database,client=None):
  import padel
  initialize(database)

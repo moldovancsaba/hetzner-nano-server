@@ -25,7 +25,7 @@ Actual keys are in the private file, not this document. Read them programmatical
 
 Caddy's live configuration, `/etc/caddy/Caddyfile`, holds no bearer keys: it only terminates HTTPS, routes and limits request size, and the gateway authenticates every key from `/etc/narimato-gateway.env`. `/opt/narimato-ai/Caddyfile` and the dated `*.before-*` backups beside it are older snapshots; the backups may still contain keys, so keep them root-only (600). Local copy of the live file: `private/Caddyfile.live` (600), refreshed 2026-10-29. Do not enable debug output that dumps adapted configuration.
 
-Separate keys support independent revocation, per-tenant queue limits (four waiting jobs each) and per-tenant job-type permissions (see [the job router](JOB-ROUTER.md)). They do NOT provide quotas, request rate limits or protection against repeated bad-key attempts.
+Separate keys support independent revocation, per-tenant queue limits (four queued plus running jobs each; one for Paperclip) and per-tenant job-type permissions (see [the job router](JOB-ROUTER.md)). They do NOT provide quotas, request rate limits or protection against repeated bad-key attempts.
 
 ## Local application handoff
 
@@ -39,7 +39,7 @@ No Hetzner API token, GoDaddy account credential, or SSH passphrase is stored he
 
 ## Rotation
 
-Generate a new project key on the server, stage Caddy acceptance of both old and new values, validate/reload Caddy, update the application's server-side secret, verify successful calls, then remove old-key acceptance and validate/reload again. Update the canonical JSON and restricted local snapshot. The current config does not automate this procedure; preserve rollback copies securely. Do not revoke both projects' keys together unless required.
+Bearer keys are checked by the gateway, not Caddy, and it accepts exactly one key per tenant, so there is no overlap period. To rotate one tenant: generate the new key on the server; update that tenant's entry in the canonical `/opt/narimato-ai/api-keys.json` and its `GATEWAY_<TENANT>_KEY` line in `/etc/narimato-gateway.env`; update the consuming application's server-side secret (for Pandora, `GATEWAY_PANDORA_KEY` in `/etc/narimato-chat.env`); then drain the queue and restart `narimato-gateway` (restarting loses in-memory jobs). The old key stops working at that restart, so change the consumer immediately before or after it and verify successful calls and a rejected old key. Refresh the restricted local snapshot. The maintenance key (`GATEWAY_MAINTENANCE_KEY` in `/etc/narimato-model-cleanup.env`, read by the gateway and the cleaner) is rotated separately in that file. Nothing automates this procedure; preserve rollback copies securely. Do not revoke several tenants' keys together unless required.
 
 ## Camera moderation credential
 

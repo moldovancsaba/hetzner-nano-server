@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Read-only API health and authentication check for one project (habigoal or classscout); no generation.
+Requests /models three times: no key and an invalid key (both expected 401) and the project's own key (expected 200). Prints status, timing and model IDs per check as JSON; exits 1 if any check fails."""
 import argparse
 import json
 import sys

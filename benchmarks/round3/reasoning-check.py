@@ -1,3 +1,6 @@
+"""Round 3 English reasoning check, separate from the short-output ranking. For LFM2.5-2.6B and deepseek-r1:1.5b entries in results.json with empty length-limited answers,
+pulls the model and runs the first shared case once with think=true and 1024 output tokens. Saves the answer, reasoning presence/length and metrics to reasoning-check.json;
+removes newly installed models and reloads qwen3:1.7b."""
 import pathlib,json,subprocess,time,datetime,shutil,urllib.request
 from fixtures import call,trim,unload,cases
 ROOT=pathlib.Path(__file__).parent

@@ -1,4 +1,8 @@
-"""Deploy reviewed operational telemetry under the existing idle maintenance guard."""
+"""Deploy reviewed operational telemetry under the existing idle maintenance guard.
+
+Single use: it needs a baseline.json in its stage directory holding the SHA-256 of the live gateway/server.py
+it expects, and refuses to run when that file has since changed.
+"""
 import ast,hashlib,json,pathlib,subprocess,time,urllib.error,urllib.request
 STAGE=pathlib.Path('/opt/narimato-observability-stage');CODE=pathlib.Path('/opt/narimato-gateway')
 KEY=next(x.split('=',1)[1].strip().strip('"').strip("'") for x in pathlib.Path('/etc/narimato-model-cleanup.env').read_text().splitlines() if x.startswith('GATEWAY_MAINTENANCE_KEY='))

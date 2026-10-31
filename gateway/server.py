@@ -30,6 +30,9 @@ TTL = 300
 QUEUE_TTL = 180
 ROUTES = json.loads((Path(__file__).resolve().parents[1] / 'config/job-routes.json').read_text())['routes']
 POLICY_PATH = Path(__file__).resolve().parents[1] / 'config/model-policy.json'
+# ROUTES[task]['model'] is a snapshot of the ranked default taken once at start-up. It is only used to
+# fingerprint requests for idempotency. Model selection for a job is made per request by the catalog
+# (gateway/catalog.py) from the hot-reloaded policy, so a policy-only update needs no restart.
 for _task, _spec in ROUTES.items():
     _spec['model'] = json.loads(POLICY_PATH.read_text())['defaults'][_task]
 
@@ -117,7 +120,9 @@ class Runner:
                 if not isinstance(result, dict) or not result.get('choices'):
                     raise ValueError('Invalid upstream chat response')
             elif task == 'image_moderation':
-                # The versioned moderation prompt/schema and decision semantics are unchanged.
+                # Only normalize_image and infer from moderation/server.py are live. The versioned prompt and
+                # schema are in moderation/policy.py; infer fixes its own options (context 2048, batch 32,
+                # 256 tokens) and takes only the model and the think flag from the ranked profile.
                 try:
                     result = moderation_infer(payload, model=model, think=profile.get('think'))
                 except urllib.error.HTTPError:
@@ -230,12 +235,16 @@ class Scheduler:
         self.usage = usage
         self.maintenance_store = maintenance_store
         self.maintenance = maintenance_store.load() if maintenance_store else None
+        # Bumped whenever a model-storage maintenance lease is taken or released. A request validated
+        # under an older epoch is refused at admission, so work checked before a cleanup cannot run after it.
         self.storage_epoch = 0
         self.runner = runner or Runner(CATALOG)
         self.cv = threading.Condition()
         self.rows = {}
         self.queue = collections.deque()
         self.active = None
+        # Set when an upstream failure leaves the model state unknown (UpstreamUncertain). It is never
+        # cleared while the process runs: new work is refused as upstream_unavailable until a restart.
         self.circuit_open = False
         self.counts = {'completed': 0, 'failed': 0, 'expired': 0, 'switches': 0}
         self.last_switch = None
@@ -357,6 +366,8 @@ class Scheduler:
             self.clean()
             return {'status': 'degraded' if self.circuit_open else 'ok', 'policy': 'fifo',
                     'active_task': self.rows[self.active]['task'] if self.active else None,
+                    # per_service_limit reports the default of 4; the paperclip tenant is limited to 1
+                    # (see the admission check in submit), which this field does not reflect.
                     'queued': len(self.queue), 'queue_capacity': 8, 'per_service_limit': 4,
                     'own_pending': sum(r['_tenant'] == tenant and r['status'] in {'queued', 'running'} for r in self.rows.values()),
                     'counters': dict(self.counts), 'last_model_switch': copy.deepcopy(self.last_switch),
@@ -367,6 +378,12 @@ class Scheduler:
                     'model_storage_maintenance': bool(self.maintenance)}
 
     def storage_lease(self,action,lease=None):
+        """Maintenance lease that lets model weights be deleted or replaced while no inference runs.
+
+        acquire succeeds only with no active job, an empty queue, no open circuit and no lease; it lasts
+        300 s and is persisted so a restart cannot lose it. renew and release need the lease token. While a
+        lease is held new submissions are refused (model_storage_maintenance) and the worker pauses.
+        """
         with self.cv:
             self.clean()
             if action=='acquire':
@@ -550,6 +567,8 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(404, {'error': {'code': 'not_found'}})
 
     def do_POST(self):
+        # Operator endpoint for the storage lease. Caddy does not route /internal/*; it is reachable only
+        # from the host itself (loopback peer address) and only with GATEWAY_MAINTENANCE_KEY.
         if self.path=='/internal/model-storage':
             self._tenant = 'operator'
             if not self.server.maintenance_key or self.client_address[0] not in {'127.0.0.1','::1'} or not hmac.compare_digest(self.headers.get('Authorization','').encode(),('Bearer '+self.server.maintenance_key).encode()):

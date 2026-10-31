@@ -1,3 +1,6 @@
+"""Round 2 main benchmark runner: image analytics and English text/chat models evaluated separately, against the local Ollama API.
+Runs six vision models on cats.png and poster.png and five text models on the shared cases, chat checks, a native tool call and an English advice sample.
+Writes results.json after each step and reloads qwen3:1.7b at the end."""
 import base64,datetime,json,pathlib,statistics,subprocess,time
 from fixtures import call,trim,unload,cases
 ROOT=pathlib.Path(__file__).parent

@@ -2,6 +2,8 @@
 import datetime,json,re,time,urllib.request,urllib.parse,urllib.error
 import catalog,evidence,padel,publishing,quality_gate,venue_identity
 SPECS={'padel-africa':{'origin':padel.ORIGIN,'project':'Padel Africa'},'sportolok':{'origin':'https://sportolok.vercel.app','project':'Sportolok'}}
+# Inherits token() from padel.Client, so the Padel SSO client-credentials token (cached in one module-level variable,
+# not per engine) is also sent to the other engine origin, sportolok.vercel.app. This assumes both engines accept that identity.
 class Client(padel.Client):
  def __init__(self,slug):
   if slug not in SPECS:raise ValueError('Unknown engine client')
@@ -72,6 +74,9 @@ def candidate(issue,board,config,web,database,execution,client=None):
  receipt,state=write_once(issue,board,config,database,execution,client,slug,'intake',body,identity)
  return done('engine_intake_'+state,'Official-source evidence '+('accepted by the engine' if state=='accepted' else 'requires reconciliation')+'. Intake acceptance is separate from public publication.')
 
+# Order: refuse if an earlier write for this item is unresolved; run the execution guard; record the gate decision; reserve
+# the daily slot and insert the 'submitting' row in one transaction; only then send. An HTTP 4xx answer is a refusal
+# ('held'); any other unconfirmed outcome is 'uncertain' and is never replayed. No human-approval mode exists on this path.
 def write_once(issue,board,config,database,execution,client,slug,kind,body,proof):
  initialize(database);ph=publishing.sha({'slug':slug,'kind':kind,'body':body,'proof':proof});item=body['id']
  with database() as db:

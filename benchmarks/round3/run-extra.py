@@ -1,3 +1,5 @@
+"""Round 3 extra-batch runner: same code as run.py but reads plan-extra.json (LFM2-VL 450M and 1.6B image models) and writes results-extra.json.
+Pulls each model, runs the image and schema cases, removes packages it newly downloaded and reloads qwen3:1.7b at the end."""
 import pathlib,json,subprocess,time,datetime,base64,shutil,urllib.request,statistics
 from fixtures import call,trim,unload,cases
 ROOT=pathlib.Path(__file__).parent

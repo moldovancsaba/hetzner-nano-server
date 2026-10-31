@@ -1,5 +1,6 @@
 chatbotapi.haho.ai {
-    # Public aggregate results only; private API routes below remain authenticated.
+    # Public aggregate results only. Caddy does no authentication: it terminates TLS, routes and limits
+    # request size. Bearer keys are checked by the gateway and the login by the chat server (see below).
     redir /benchmarks /benchmarks/ 308
     handle_path /benchmarks/* {
         root * /var/www/narimato-benchmarks
@@ -8,6 +9,8 @@ chatbotapi.haho.ai {
         file_server
     }
 
+    # Gateway on loopback :8090 checks each project's bearer key. /internal/* (maintenance lease) is
+    # deliberately not routed here.
     @gateway path /v1/usage /v1/models /v1/chat/completions /v1/jobs /v1/jobs/* /v1/job-types /v1/queue /v1/moderation/*
     handle @gateway {
         request_body {
@@ -15,6 +18,8 @@ chatbotapi.haho.ai {
         }
         reverse_proxy 127.0.0.1:8090
     }
+    # Pandora chat server on loopback :8088 handles its own password login and session cookie. This
+    # 128KB body limit is the effective one; the server's own 256 KiB check is never reached.
     @chat path /chat /chat/*
     handle @chat {
         request_body {
@@ -22,6 +27,7 @@ chatbotapi.haho.ai {
         }
         reverse_proxy 127.0.0.1:8088
     }
+    # Any other path is refused here with a plain 401.
     handle {
         respond "Unauthorized" 401
     }

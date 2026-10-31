@@ -1,3 +1,6 @@
+"""Round 2 image follow-up, run after the main run: retries granite3.2-vision:2b, qwen3-vl:2b and ministral-3:3b with larger context or 320-pixel images, and tests SmolVLM2 2.2B.
+Uses num_batch 32 and the cases from run.py, and records out-of-memory kill counts from the container cgroup.
+Writes vision-retries.json and reloads qwen3:1.7b at the end."""
 import pathlib,json,base64,subprocess,datetime
 ROOT=pathlib.Path(__file__).parent
 scope={'__file__':str(ROOT/'run.py')}

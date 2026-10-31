@@ -1,3 +1,6 @@
+"""Tests for model storage retention: storage.cleaner reasons (current default, top three, recent production
+use, resident), shipped policy validation (three-day window), usage tracking that ignores test traffic,
+and the maintenance lease blocking admission."""
 import json,tempfile,threading,time,unittest
 from pathlib import Path
 from gateway.usage import UsageStore,LeaseStore

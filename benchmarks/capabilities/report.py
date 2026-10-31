@@ -1,3 +1,6 @@
+"""Builds REPORT.md for the capability benchmark from results.json in this directory and prints its path.
+Tables cover per-model case scores (listings, query plan, OSM facts, injection, native tool call, JSON validity), median latency,
+peak container memory, model switch/load times, vision results and failed cases; the explanatory text is fixed in this script."""
 import json,statistics,pathlib
 r=pathlib.Path(__file__).parent;d=json.loads((r/'results.json').read_text())
 def f(v):return f'{v:.2f}' if isinstance(v,(int,float)) else '—'

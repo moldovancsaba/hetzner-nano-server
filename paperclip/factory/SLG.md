@@ -22,8 +22,8 @@ The six live tools are:
 | slg_get_lead | Exact partner record | Exact 24-character ID and workspace |
 | slg_get_pre_call_briefing | Internal sales preparation | Stored CRM facts, not independent verification |
 | slg_list_pipeline_stages | Stage guidance and connection check | Authenticated read |
-| slg_capture_lead | Deduplicated CRM capture/update | Durable guarded path; disabled pending configuration |
-| slg_update_lead_stage | Explicit stage change | Durable guarded path; never implies email sent or revenue won |
+| slg_capture_lead | Deduplicated CRM capture/update | Durable guarded path (`slg.mutate`); disabled pending configuration, and no routine or workflow calls it yet |
+| slg_update_lead_stage | Explicit stage change | Durable guarded path (`slg.mutate`); never implies email sent or revenue won; not called by any routine yet |
 
 After the owner confirms the service/workspace and saves its scoped key, run
 `python3 paperclip/configure-slg.py --brand WORKSPACE --key-file private/slg-api-key.txt`
@@ -47,7 +47,7 @@ logs. Local input may be saved at `private/slg-api-key.txt` for installation and
 should be kept private. Backup bundles include the installed credential file.
 
 `factory.json` initially has `sales.brands=[]`, `crm_writes_enabled=false` and
-`delivery_enabled=false`. `provision.py` preserves this configuration. Unknown or
+`delivery_enabled=false`. `provision.py` preserves the `sales` block on a re-run (it does not preserve `remote_llm`; see Known limitations in [../README.md](../README.md#known-limitations)). The `delivery_enabled` flag is not read by any code. Unknown or
 cross-workspace requests fail before transport. CRM mutations retain durable
 request/receipt state and confirm the resulting record. Lost/invalid receipts or
 failed readback become uncertain and stop replay, including across different

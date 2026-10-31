@@ -123,7 +123,7 @@ Additional lifecycle/hash fields may be present. Invalid, truncated, absent or f
 | 409 | Same idempotency key used for different bytes | Use the correct source revision/new analysis key |
 | 413 | Request size exceeds limit | Resize/compress input |
 | 415 | Wrong content type | Send JSON |
-| 429 | Queue or retained-result capacity reached | Honor Retry-After: 10; exponential backoff with jitter |
+| 429 | Queue, retained-result or upload-slot capacity reached | Honor the Retry-After header (10 seconds for queue or record limits, 2 seconds when another upload is being processed); exponential backoff with jitter |
 | 5xx / network / TLS / timeout | Service unavailable | Keep manual review available and retry later |
 
 One shared active worker, eight waiting jobs globally, at most four queued/running per service and 64 retained job records. Results expire five minutes after completion/failure with periodic expiry. Jobs/results exist only in memory and disappear at restart. Images are kept only in the bounded in-memory queue/worker, never written to disk by this service. Input bytes are discarded after inference. Minimal metadata, hashes and evidence remain until expiry/restart; Camera chooses its own authorized retention and must not keep results after source deletion/withdrawal. Model/service logs do not intentionally contain image bytes or results. Infrastructure administrators still control the host; this is not an encrypted enclave.

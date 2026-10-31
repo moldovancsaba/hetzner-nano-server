@@ -1,7 +1,8 @@
 """Metered Segmind text lane: fixed origin, public source text only, durable spend ledger, fails closed to the local model.
 
-Optional help for two steps. The research role fills name, address, price and opening hours that the local 1B model missed, and every
-value still has to quote the fetched page verbatim (worker.validate_facts), so a stronger model cannot add an invented fact. The
+Optional help for two steps. The research role calls it when the local 1B model left name, address, price or opening hours
+empty (TARGETS); it may then add any of the seven research fields that are still empty. Every value still has to quote the
+fetched page verbatim (worker.validate_facts), so a stronger model cannot add an invented fact. The
 editorial-brief step (publication and quality roles) only chooses between values that the page already names; growth.py checks each
 choice against a verbatim quote. Support drafts, customer text, Paperclip comments and every other role never reach this module."""
 import datetime,json,math,os,re,time,urllib.error,urllib.request,uuid
@@ -15,6 +16,7 @@ ROLES={'research'}
 # Owner decision 2026-10-30: the editorial-brief step may also ask, for choosing among values the page itself names.
 BRIEF_ROLES={'publication','quality'}
 BRIEF_FIELDS=['borough','neighborhood','activity']
+# Trigger only: augment() skips the call when all four are already present. The answer may fill any field still empty.
 TARGETS=['name','address','price','opening_hours']
 DEFAULTS={'model':'gemini-3.8-flash','effort':'low','daily_calls':40,'monthly_calls':600,'daily_cost':2.0,'monthly_cost':20.0,'call_cost_ceiling':0.10,'max_input_chars':24000}
 # Configuration can tighten these but never exceed them.

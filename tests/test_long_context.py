@@ -1,3 +1,6 @@
+"""Tests for gateway.long_context: input tokens counted with the output allowance reserved, tool schemas
+included, native request and response conversion keeping tool arguments and usage, malformed tool
+arguments rejected, and a missing required tool call failing closed."""
 import json
 import unittest
 from unittest.mock import Mock, patch

@@ -1,15 +1,15 @@
 # Narimato factory — ClassScout pilot
 
-> **Company dashboard:** https://paperclip.haho.ai/factory. Thirteen routines now cover recovery, source freshness, support knowledge and Padel discovery. See [the current company operating guide](WORKFLOWS.md#reliable-publishing-and-portfolio-expansion--v5).
+> **Company dashboard:** https://paperclip.haho.ai/factory. Nineteen native routines (17 scheduled, 2 on-demand forms; see `workflows.json` and the [schedule tables](WORKFLOWS.md#schedules)) cover ClassScout catalog work, recovery, source freshness, support knowledge, the Padel Africa and Sportolok engine clients and company coordination.
 
-> **Current policy (28 October 2026):** eligible ClassScout new Classes listings and scoped content/contact updates now use an automatic quality gate. The former per-record human-approval description below is historical. See [the active rules, scope and live limitations](WORKFLOWS.md#evidence-branches-formats-dashboard-and-padel-africa--v4).
+> **Current policy: `classscout-auto-v6`.** Eligible ClassScout new Classes and Camps listings and scoped content/contact updates use an automatic quality gate. The per-record human-approval flow described below is the mode used when the gate is switched off (`automatic_quality_gate.enabled`). See [the checks of the current gate](WORKFLOWS.md#current-automatic-quality-gate-classscout-auto-v6); open limitations are in [../README.md](../README.md#known-limitations).
 
 
 Paperclip: https://paperclip.haho.ai. Enter the same password as Pandora and open the Narimato company.
 
 ## Operating workflows
 
-[All five ClassScout workflows](WORKFLOWS.md) are live: bounded catalog verification and approved contact refresh, automatic research/quality/publication handoffs, public-page audits, operating summaries and verified support drafts. Four native routines run on their Budapest schedules; the support routine presents a provider/question form on demand. [Delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36).
+[The five original ClassScout workflows](WORKFLOWS.md) are live: bounded catalog verification and contact/content refresh, automatic research/quality/publication handoffs, public-page audits, operating summaries and verified support drafts. They are part of the 19 routines above; the support routine presents a provider/question form on demand, as does the Padel source form. [Delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36).
 
 ## Use the factory
 
@@ -24,15 +24,15 @@ Suggested research description:
 
 > Research https://ymcanyc.org/locations/dodge-ymca for a ClassScout listing proposal. Capture supported name, address, phone, email, opening hours, price and activities. Keep absent facts unknown. Prepare a draft for owner review.
 
-Projects also exist for Sportolok, Management and Padel Africa. Their source schemas and target markets need confirmation before live work. Factory Operations holds the charter and integration backlog.
+Padel Africa and Sportolok are served through the shared Management engine's authenticated client contracts (discovery, evidence intake and maintenance; see the v6 section of [WORKFLOWS.md](WORKFLOWS.md)). Management itself is engine oversight, not a catalog. Sales Lead Generator is read-only and needs a configured workspace and scoped key ([SLG.md](SLG.md)). Factory Operations holds the charter, the coordination routines and the integration backlog.
 
 ## Publication
 
-The [publication workflow](PUBLISHING.md) now takes complete ClassScout class listings through source enrichment, image preparation, human approval and the canonical publishing API. The first ready packet is NAR-26. The other research/support roles remain draft-only.
+The [publication workflow](PUBLISHING.md) takes complete ClassScout class and camp listings through source enrichment, image preparation, the automatic quality gate (or human approval when the gate is off) and the canonical publishing API. NAR-26 (Keylab) was the first packet. The other research/support roles remain draft-only.
 
 ## Boundaries
 
-The worker reads supplied pages; the Search Coordinator can also discover sources through the [budgeted Brave connection](BRAVE.md). Research/support tasks do not navigate arbitrary links, run model-generated commands, publish listings, contact customers or spend money. The separate Publication Coordinator can follow bounded relevant same-provider links and publish an exact human-approved ClassScout packet through its existing API. Dynamic pages, PDFs, login pages and sites refusing automated access may need manual research. English source extraction is the tested scope. Literal matching establishes that a quote occurs on a page; it does not independently establish that the provider's claim is true or current.
+The worker reads supplied pages; the Search Coordinator can also discover sources through the [budgeted Brave connection](BRAVE.md). Research/support tasks do not navigate arbitrary links, run model-generated commands, publish listings, contact customers or spend money. The separate Publication Coordinator can follow bounded relevant same-provider links and publish an exact packet through ClassScout's existing API once it passes the automatic quality gate (with the gate off, once it is human-approved). Dynamic pages, PDFs, login pages and sites refusing automated access may need manual research. English source extraction is the tested scope. Literal matching establishes that a quote occurs on a page; it does not independently establish that the provider's claim is true or current.
 
 Model defaults follow the shared gateway's ranked `auto` policy, currently Granite 4 1B Hybrid with an 8K **total** context window and at most 1,024 output tokens. Each task accepts two source pages at most; long pages are reduced to bounded excerpts. This is a bounded extraction assistant, not an autonomous general-purpose researcher. The inference server is shared with chatbotapi, so queue delays affect completion times.
 
@@ -47,7 +47,7 @@ Model defaults follow the shared gateway's ranked `auto` policy, currently Grani
 
 Run tests with `python3 -m unittest discover -s paperclip/factory -p 'test_*.py'`. Live acceptance tasks use the `[Factory test]` prefix, which marks gateway inference as test traffic. Never use that prefix for ordinary business tasks.
 
-`provision.py` is an owner-side, idempotent scaffolding command run on the Paperclip host. It preserves known project/agent IDs, enables a thirty-minute recovery heartbeat only for the Search Coordinator and requires board approval for hiring. `pilot.py` is an operator test helper, not a module to import.
+`provision.py` is an owner-side, idempotent scaffolding command run on the Paperclip host. It preserves known project/agent IDs and a fixed list of existing `factory.json` fields (not `remote_llm`; see [Known limitations](../README.md#known-limitations)), enables a thirty-minute recovery heartbeat only for the Search Coordinator and requires board approval for hiring. `pilot.py` is an operator test helper, not a module to import.
 
 Use the parent `snapshot.sh` for a restricted recovery bundle including a consistent SQLite backup. An isolated PostgreSQL backup restore passed on 28 October; a full replacement-host recovery remains untested.
 

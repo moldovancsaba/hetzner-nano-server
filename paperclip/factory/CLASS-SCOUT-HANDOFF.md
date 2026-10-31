@@ -6,7 +6,7 @@ The factory prepares research proposals. ClassScout remains the source of truth 
 
 ## Verified receiving interface
 
-The existing `https://getyourfield.com/api/ingest` capability endpoint accepted the existing ClassScout credential and returned HTTP 200 during this work. Credentials remain in ClassScout's ignored local environment; none were copied into Paperclip or its model context. The provider patch envelope is:
+At the time of this work the `https://getyourfield.com/api/ingest` capability endpoint (the factory now uses `https://classscout.ai/api/ingest`, and `classscout_handoff.py` names that origin) accepted the existing ClassScout credential and returned HTTP 200 during this work. Credentials remain in ClassScout's ignored local environment; none were copied into Paperclip or its model context. The provider patch envelope is:
 
 ```json
 {"operations":[{"resource":"provider","action":"patch","id":"existing-provider-id","patch":{"phone":"source-supported value"}}]}
@@ -16,7 +16,7 @@ This is a contract example, not a submitted change. The receiving handler is `sr
 
 ## Prepared review packets
 
-`classscout_handoff.py` combines exported batch evidence with a bounded read-only catalog snapshot and writes `classscout-handoff-20261028.json`. It generates review packets, not publication approval. It never writes the catalog or enables a schedule.
+`classscout_handoff.py` combines exported batch evidence with a bounded read-only catalog snapshot and writes `classscout-handoff-20261028.json`. That output and the exported batch input `batch-20261028.json` are kept local, not in Git: they quote real third-party business contact details, so `.gitignore` excludes them. The script generates review packets, not publication approval. It never writes the catalog or enables a schedule.
 
 - Existing listings are flagged for improvement rather than duplicated.
 - Only a missing phone or email can become a proposed `provider.patch` operation. Matching contacts are no-ops; different nonempty contacts require conflict review.

@@ -1,3 +1,4 @@
+"""Temporary round 3 helper, not a recurring automation: waits until results.json has a completed_utc value, then runs run-extra.py."""
 import json,pathlib,time,subprocess,sys
 root=pathlib.Path(__file__).parent
 while True:

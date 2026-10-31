@@ -1,3 +1,5 @@
+"""Tests that gateway.server.Runner passes an explicit non-thinking profile ('think' False) to image
+recognition and moderation, and leaves the request unchanged when the profile has no such control."""
 import json,unittest
 from unittest.mock import Mock,patch
 from gateway.server import Runner

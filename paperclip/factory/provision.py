@@ -29,6 +29,9 @@ for name,role,kind,capabilities in roles:
   agent=api('/agents/'+agent['id'],{key:value for key,value in payload.items() if key!='name'},'PATCH')
  config['agents'][agent['id']]={'name':name,'role':kind}
 if (ROOT/'factory.json').exists():
+ # Only the fields listed below are carried over from an existing factory.json. remote_llm is not among them, so a re-run
+ # writes a file without it and the metered Segmind lane stays off until it is added back. search_candidate_limit above is
+ # written as 2 only when no earlier file exists.
  previous=json.loads((ROOT/'factory.json').read_text())
  for field in ['automatic_quality_gate','growth_mode','search_candidate_limit','padel_enabled','reliability_enabled','padel_discovery_enabled','engine_clients','program_updates_enabled','sales']:
   if field in previous:config[field]=previous[field]

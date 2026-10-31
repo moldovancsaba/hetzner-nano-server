@@ -1,3 +1,6 @@
+"""Tests for the moderation server: image normalization (bad and animated images rejected), validation of
+upstream output, results that always require review (including null categories), the authenticated job
+API with idempotency, and queue capacity and expiry."""
 import base64,io,json,sys,threading,time,unittest,urllib.request,urllib.error
 from pathlib import Path
 from unittest.mock import patch

@@ -1,3 +1,6 @@
+"""Tests for source-evidence and write-safety rules: blocker classification, no invented price or timetable,
+expired camps, structured page metadata, venue identity by territory (also Hungarian text), program updates
+with readback, engine write-once receipts, bounded branch expansion."""
 import copy,json,time,unittest
 from unittest.mock import Mock,patch
 import worker,company_ops,publishing,formats,net,venue_identity as vi,engine_ops as engine,program_updates as programs,pipeline,quality_gate

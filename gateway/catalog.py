@@ -8,6 +8,8 @@ class SelectionError(Exception):
         super().__init__(code)
 
 def minimum_context(policy,tenant,task):
+    # The context a tenant may be served for a task: the policy's tenant_context_minimums, and for the paperclip
+    # tenant at least the verified 8192 on every task except the experimental Hungarian one.
     configured=policy.get('tenant_context_minimums',{}).get(tenant,{}).get(task,0)
     return max(configured,8192 if tenant=='paperclip' and task!='text_chat_hu' else 0)
 
@@ -44,6 +46,12 @@ class ModelCatalog:
                          'rankings':tasks,'blocked_reason':None if selectable else 'artifact_changed_since_test' if entry and not eligible else 'paperclip_context_profile_not_verified' if tenant=='paperclip' and eligible else 'not_tested_for_your_jobs'})
         return policy,rows
     def select(self,task,requested=None,tenant=None):
+        """Resolve a request to one installed, tested artifact, or raise SelectionError; never substitutes a model.
+
+        Automatic (no model, "auto" or the task name): the ranked default, which must also meet the tenant's
+        context minimum. Explicit: the named model must be in the policy for this task, installed, and carry the
+        digest it was tested with. The paperclip tenant is always held to its context minimum.
+        """
         policy=self.policy();automatic=requested is None or requested in {'auto',task}
         model=policy['defaults'][task] if automatic else requested
         if not isinstance(model,str):raise SelectionError('invalid_model')

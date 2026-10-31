@@ -1,4 +1,8 @@
-"""Run on the authorized server after copying sources and unit; preserves other keys/routes."""
+"""Legacy one-time deploy of the standalone moderation worker; superseded by the gateway.
+
+Run on the authorized server after copying sources and unit; preserves other keys and routes. It creates
+the Caddy @moderation block that gateway/deploy.py later looks for and rewrites.
+"""
 import datetime,json,os,pathlib,secrets,subprocess
 root=pathlib.Path('/opt/narimato-ai');keyfile=root/'api-keys.json'
 keys=json.loads(keyfile.read_text())

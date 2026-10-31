@@ -4,6 +4,9 @@ from publishing import ClassScout,sha,norm
 from net import canonical_url
 
 PUBLIC_FIELDS=('id','name','website','address','phone','email','borough','neighborhood','city','category','activityTypes','lastVerifiedAt','shortDescription','longDescription','price','pricePerClass','recurringPrograms','ageMinMonths','ageMaxMonths','fieldVerifications')
+# Reads one 'Name: value' line from a task description. Only the text before the first 'Question:' line is searched, so a
+# customer question cannot inject 'Factory workflow:' or 'Catalog provider:' lines. A repeated field name raises instead
+# of picking one. Workflow routing (operational.workflow) and every other caller of this function depend on it.
 def field(issue,name,default=''):
  text=issue.get('description') or ''
  if name=='Question':

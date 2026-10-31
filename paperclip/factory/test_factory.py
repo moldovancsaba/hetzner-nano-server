@@ -1,3 +1,6 @@
+"""Tests for the factory worker and its web fetcher (net): URL and DNS restrictions, redirect and compressed
+size limits, HTML text extraction, quote-verified fact validation, source URL caps, draft upsert,
+markdown image escaping and task lookup from the wake context."""
 import gzip,io,json,pathlib,tempfile,unittest
 from unittest.mock import patch,Mock
 import net,worker

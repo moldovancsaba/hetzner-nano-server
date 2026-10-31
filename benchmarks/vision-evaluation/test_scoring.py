@@ -1,3 +1,6 @@
+"""Tests for the vision evaluation scoring helpers: object-name matching without substring false classes,
+OCR text matching (spacing, case, digit identity), recognition and moderation scoring (abstentions,
+invalid or malformed output) and the Wilson score interval."""
 import unittest
 from scoring import object_labels,text_match,recognition_case,moderation_summary,wilson
 

@@ -33,6 +33,8 @@ async def login(request):
         return web.Response(text=PAGE, content_type='text/html')
     if request.headers.get('Origin') != ORIGIN:
         return web.Response(status=403, text='Forbidden')
+    # X-Real-IP is trusted only because Caddy overwrites it on /_access/* (header_up in the Caddyfile). If this port were
+    # reachable directly, a client could choose its own value and sidestep the per-IP attempt limit.
     ip = request.headers.get('X-Real-IP', request.remote)
     now = time.monotonic()
     attempts = [t for t in ATTEMPTS.pop(ip, []) if now-t < 900]
@@ -55,6 +57,8 @@ async def login(request):
     return response
 
 async def check(request):
+    # Called by Caddy's forward_auth for every request. API and WebSocket callers get a 401 JSON body, browsers a redirect
+    # to the login page. A foreign Origin is refused even on GET; unsafe methods must send exactly the public Origin.
     if not valid(request):
         uri = request.headers.get('X-Forwarded-Uri', '/')
         if uri.startswith(('/api', '/mcp')) or request.headers.get('Upgrade', '').lower() == 'websocket':
@@ -66,6 +70,8 @@ async def check(request):
         return web.Response(status=403, text='Forbidden origin')
     return web.Response(status=204)
 
+# Sessions are stateless signed tokens: logout only clears the cookie. A copied token stays valid until it expires or the
+# signing key changes.
 async def logout(request):
     if request.headers.get('Origin') != ORIGIN:
         return web.Response(status=403, text='Forbidden')

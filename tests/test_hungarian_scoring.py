@@ -1,3 +1,5 @@
+"""Tests for exact() in benchmarks/non-english/hu-round1/score.py: JSON numbers cannot stand in for booleans
+or null, int and float values differ, and accent changes or extra unsupported fields are mismatches."""
 import importlib.util,unittest
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('hu_scoring',Path(__file__).resolve().parents[1]/'benchmarks/non-english/hu-round1/score.py');module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)

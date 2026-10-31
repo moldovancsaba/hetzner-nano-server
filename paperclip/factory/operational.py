@@ -1,5 +1,7 @@
 """Route fixed factory workflows to the existing five roles."""
 import catalog
+# Workflow kind -> the role that must run it (checked in run). Routines are listed in workflows.json; the issue-driven kinds
+# (prepare_listing, refresh_provider, program_update, engine_candidate, padel_candidate) are created by other workflows.
 ROLES={'autonomous_coordination':'support','sales_connection':'support','sales_pipeline':'support','sales_briefing':'support','verify_catalog':'support','refresh_provider':'publication','publication_queue':'publication','audit_site':'quality','operations_digest':'support','support_answer':'support','prepare_listing':'publication','growth_dispatch':'search','recover_evidence':'support','padel_maintenance':'support','padel_intake':'support','padel_discovery':'search','padel_candidate':'support','reliability_round':'support','freshness_round':'support','knowledge_round':'support','program_queue':'support','program_update':'publication','engine_maintenance':'support','engine_discovery':'search','engine_candidate':'support','management_overview':'support'}
 def workflow(issue):return catalog.field(issue,'Factory workflow')
 def run(issue,board,config,web,database,execution):

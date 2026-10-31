@@ -10,6 +10,7 @@ def advance(previous, observed, now):
         old = pending.get(code, {})
         count = old.get('count',0)+1 if old.get('present') is present else 1
         pending[code] = {'present':present,'count':count}
+        # Debounce: a change (alert present or cleared) is acted on only after 3 consecutive samples agree.
         if count < 3:
             continue
         if present and code not in active:

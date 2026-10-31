@@ -1,3 +1,6 @@
+"""Tests for research.collect: normalizing Hugging Face and router metadata, screening scores, known-model
+and out-of-scope handling, hosted listings not counting as local eligibility, and keeping the registry
+when sources fail."""
 import json,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch

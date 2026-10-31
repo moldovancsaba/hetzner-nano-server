@@ -1,3 +1,6 @@
+"""Tests for the slg CRM client: an explicit workspace is required, cross-workspace calls and read-path
+mutations are refused, reads are capped, tool errors fail, and writes need the enable flag, are verified
+by readback and are never repeated."""
 import json,unittest
 from unittest.mock import Mock,patch
 import slg,worker,test_operations

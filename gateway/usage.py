@@ -29,7 +29,11 @@ class UsageStore:
             self.save(data)
 
 class LeaseStore(UsageStore):
-    """Private maintenance lease survives gateway restart while a deletion is in flight."""
+    """Private maintenance lease survives gateway restart while a deletion is in flight.
+
+    Only the inherited atomic save() is used. read() and record() do not apply to a lease file (its format is
+    not model-usage.v1); load() is its reader.
+    """
     def __init__(self,path):
         self.path=Path(path);self.path.parent.mkdir(parents=True,exist_ok=True)
     def load(self):

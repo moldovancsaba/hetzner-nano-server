@@ -1,4 +1,8 @@
-"""Run on the inference host after staging the tested chatbot context changes."""
+"""Run on the inference host after staging the tested chatbot context changes.
+
+Single use: it asserts the pre-update SHA-256 of every live source file it replaces, so it cannot run again
+once they have changed. Kept as the record of the Pandora and gateway context rollout.
+"""
 import ast,json,pathlib,shutil,subprocess,time,urllib.request,hashlib
 ROOT=pathlib.Path('/opt/narimato-ai');CODE=pathlib.Path('/opt/narimato-gateway');CHAT=pathlib.Path('/opt/narimato-chat');STAGE=pathlib.Path('/opt/narimato-chatbot-context-stage')
 files={'gateway/server.py':CODE/'gateway/server.py','gateway/catalog.py':CODE/'gateway/catalog.py','config/model-policy.json':CODE/'config/model-policy.json','chat/server.py':CHAT/'server.py','chat/context.py':CHAT/'context.py','chat/index.html':CHAT/'index.html','config/narimato-chat.service':pathlib.Path('/etc/systemd/system/narimato-chat.service')}

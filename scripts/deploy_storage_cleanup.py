@@ -1,4 +1,7 @@
-"""Server-side controlled update for content-free usage tracking and cleanup."""
+"""Server-side controlled update for content-free usage tracking and cleanup.
+
+It rolled out usage tracking and the storage policy. It did not install storage/cleaner.py or the cleanup timer.
+"""
 import ast,json,pathlib,secrets,subprocess,time,urllib.request
 ROOT=pathlib.Path('/opt/narimato-ai');STAGE=pathlib.Path('/opt/narimato-storage-update')
 files={

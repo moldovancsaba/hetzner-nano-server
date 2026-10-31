@@ -1,3 +1,6 @@
+"""Tests across the delivery pipeline: evidence address and branch matching with a bounded crawl, price and
+age-range parsing (formats), source checks in publishing, Padel intake and its no-replay rules, business
+metrics, and the automatic gate price-unit check."""
 import copy,json,time,unittest
 from unittest.mock import Mock,MagicMock,patch
 import worker,evidence,formats,publishing,quality_gate,padel,business_metrics

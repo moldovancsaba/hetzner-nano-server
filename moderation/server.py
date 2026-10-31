@@ -1,4 +1,9 @@
-"""Authenticated, bounded in-memory moderation jobs for human review."""
+"""Image normalization and inference for moderation, plus the retired standalone job service.
+
+The live gateway imports only normalize_image and infer from this module (gateway/server.py). The Jobs,
+Handler and Server classes below are the original standalone service on port 8089; its unit has been
+disabled since the gateway cutover and they are kept only for rollback.
+"""
 import base64
 import binascii
 import hashlib

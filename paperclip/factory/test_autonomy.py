@@ -1,3 +1,6 @@
+"""Tests for autonomy: planning and delivery of one successor task for a blocked task, with idempotent keys,
+a three-successor lineage cap and eligibility limits; also company_ops dispatch batching and the
+rotation order of blocked-source rechecks."""
 import copy,json,time,unittest
 from unittest.mock import Mock,patch
 import autonomy,worker,company_ops,catalog

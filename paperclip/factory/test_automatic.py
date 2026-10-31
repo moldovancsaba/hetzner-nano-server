@@ -1,3 +1,6 @@
+"""Tests for the automatic quality gate (quality_gate): verified contact refreshes and publications proceed
+without human approval, with a daily write cap, one write and no retry after an unknown outcome,
+held stale or unreviewed cases, core catalog verification and read-time dash handling."""
 import copy,json,pathlib,tempfile,time,unittest
 from unittest.mock import patch
 import quality_gate as q,worker,publishing,refresh

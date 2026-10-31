@@ -31,6 +31,8 @@ def main(archive):
  root=pathlib.Path(tempfile.mkdtemp(prefix='paperclip-restore-',dir='/root'));CURRENT_ROOT=root;os.chmod(root,0o700);tree=root/'archive';tree.mkdir()
  existing=command(['docker','ps','-a','--filter','name=^/'+NAME+'$','--format','{{.Names}}']).strip()
  if existing:raise ValueError('A previous isolated drill container must be inspected first')
+ # network_egress and production_files_changed are fixed declarations, not measurements. Egress is prevented by
+ # --network none below and the archive is extracted into a scratch copy, but nothing in this script checks either.
  proof={'started_at':time.time(),'network_egress':False,'production_files_changed':False}
  try:
   with tarfile.open(archive) as tar:
@@ -53,6 +55,7 @@ def main(archive):
    for name in files:
     p=pathlib.Path(parent)/name
     if not p.is_symlink():os.chown(p,1000,1000)
+  # The drill starts from the running production container's image id, so image_matches_production (set below) is true by construction.
   image=command(['docker','inspect','narimato-paperclip','--format','{{.Image}}']).strip()
   args=['docker','run','-d','--name',NAME,'--network','none','--memory','900m','--cpus','0.5','--pids-limit','384','--user','1000:1000','--entrypoint','sleep','-v',str(data)+':/paperclip','-w','/app',image,'infinity']
   command(args);proof['image_matches_production']=True

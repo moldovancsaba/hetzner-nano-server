@@ -1,3 +1,6 @@
+"""Round 2 text-only supplement runner preserved as originally executed, kept as a record; not the default runner.
+Runs ministral-3:3b with num_batch 32 on the shared cases, chat checks, native tool call and chat samples, including the Hungarian extraction case and Hungarian sample that supplement-text.py leaves out.
+Writes supplement-text.json."""
 import base64,datetime,json,pathlib,statistics,subprocess,time
 from fixtures import call,trim,unload,cases
 ROOT=pathlib.Path(__file__).parent
