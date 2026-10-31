@@ -1,6 +1,11 @@
-"""Retain per-task top three and recent real demand (window set in model-storage-policy.json); delete only under gateway lease."""
+"""Retain per-task top three and recent real demand (window set in model-storage-policy.json); delete only under gateway lease.
+
+Each run also writes a metadata-only report (cleanup-<UTC>.json, plus latest.json) and, when applying, prunes old ones."""
 import argparse,datetime,json,math,os,subprocess,time,urllib.error,urllib.request
 from pathlib import Path
+
+# Days to keep cleaner reports when the storage policy sets no keep_cleanup_report_days.
+REPORT_DAYS=30
 
 def reasons(model,policy,usage,loaded,now,storage=None):
     storage=storage or {};days=storage.get("keep_production_request_days",3);top=storage.get("keep_top_per_task",3);grace=storage.get("initial_inventory_history_grace_days",0)
@@ -18,12 +23,33 @@ def reasons(model,policy,usage,loaded,now,storage=None):
 
 def validate_storage(storage):
     # The retention window and the history grace are checked against bounds, so an owner change of either needs no
-# code change and a typo cannot evict everything. keep_top_per_task is the exception: only 3 is accepted.
+    # code change and a typo cannot evict everything. keep_top_per_task is the exception: only 3 is accepted.
+    # keep_cleanup_report_days is optional (REPORT_DAYS applies when it is absent), so the cleaner and the
+    # policy file can be deployed in either order.
     assert storage['version']=='model-storage.v2' and storage['automatic_weight_deletion'] is True
     assert storage['keep_top_per_task']==3
     assert isinstance(storage['keep_production_request_days'],int) and 1<=storage['keep_production_request_days']<=30
     assert isinstance(storage['initial_inventory_history_grace_days'],int) and 0<=storage['initial_inventory_history_grace_days']<=30
+    assert 'keep_cleanup_report_days' not in storage or isinstance(storage['keep_cleanup_report_days'],int) and 7<=storage['keep_cleanup_report_days']<=365
     return storage
+
+def prune_reports(state,days,now):
+    """Delete cleanup-<UTC>.json reports older than `days` days and return how many were deleted.
+
+    Only this run's own metadata reports are candidates. latest.json is never touched. A report that removed a
+    model is kept: it is the audit trail of the deleted weights (identity, digest, reasons). A report that
+    cannot be read is kept too. A file that cannot be deleted is skipped; pruning never fails a run.
+    """
+    pruned=0
+    try:candidates=sorted(state.glob('cleanup-*.json'))
+    except OSError:return 0
+    for path in candidates:
+        try:
+            if path.stat().st_mtime>=now-days*86400:continue
+            if any(row.get('removed') for row in json.loads(path.read_text()).get('models',[])):continue
+            path.unlink();pruned+=1
+        except (OSError,ValueError,AttributeError):continue
+    return pruned
 
 def validate_usage(data):
     assert data['version']=='model-usage.v1' and isinstance(data['models'],dict) and isinstance(data['bootstrap_inventory'],dict)
@@ -44,7 +70,7 @@ def main(apply=False,state=Path('/var/lib/narimato-model-cleanup')):
     def save():
         tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(report,indent=2)+'\n');tmp.chmod(0o600);tmp.replace(path)
         tmp=state/'latest.tmp';tmp.write_text(json.dumps(report,indent=2)+'\n');tmp.chmod(0o600);tmp.replace(state/'latest.json')
-    save();lease=None;key=os.environ['GATEWAY_MAINTENANCE_KEY']
+    save();lease=None;report_days=REPORT_DAYS;key=os.environ['GATEWAY_MAINTENANCE_KEY']
     endpoint='http://127.0.0.1:8090/internal/model-storage'
     try:
         if apply:
@@ -56,6 +82,7 @@ def main(apply=False,state=Path('/var/lib/narimato-model-cleanup')):
         usage=validate_usage(json.loads(usage_path.read_text()))
         policy_path=Path('/opt/narimato-gateway/config/model-policy.json');policy=json.loads(policy_path.read_text())
         storage=validate_storage(json.loads(Path('/opt/narimato-ai/model-storage-policy.json').read_text()))
+        report_days=storage.get('keep_cleanup_report_days',REPORT_DAYS)
         if not policy.get('defaults') or not policy.get('models'):raise ValueError('Missing ranked policy')
         inventory=request('http://127.0.0.1:11434/api/tags')['models']
         report['usage_tracking_started_at']=usage['tracking_started_at'];report['policy_id']=policy['policy_id']
@@ -84,6 +111,8 @@ def main(apply=False,state=Path('/var/lib/narimato-model-cleanup')):
         if lease:
             try:request(endpoint,{'action':'release','lease':lease},key)
             except Exception:report['lease_release_failed']=True
+        # A dry run changes nothing except its own report; only an applying run prunes old ones.
+        if apply:report['reports_pruned']=prune_reports(state,report_days,time.time())
         report['finished_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();save()
     return report
 

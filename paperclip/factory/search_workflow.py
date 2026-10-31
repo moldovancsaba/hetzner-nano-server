@@ -2,6 +2,7 @@
 import datetime,hashlib,json,os,re,time,urllib.parse
 from zoneinfo import ZoneInfo
 from net import canonical_url
+import issue_pages
 from search_budget import Budget,BudgetWait
 from brave import Brave,SearchError
 
@@ -76,9 +77,9 @@ def queued_issue(board,config,agent,database):
  return None
 
 def research_backlog(board,config,database):
- # One unpaged call: the Paperclip API answers a single default page (500 rows), so this count is a lower bound if more
- # ClassScout tasks than that are active. issue_pages.fetch pages through the whole list but is not used here.
- project=next(k for k,v in config['projects'].items() if v=='ClassScout');rows=board.call('/companies/'+config['company_id']+'/issues?'+urllib.parse.urlencode({'projectId':project,'status':'backlog,todo,in_progress,in_review'}));rows=rows if isinstance(rows,list) else rows.get('issues',[]);active={r['id']:r for r in rows if r['status'] not in {'done','cancelled'} and '[Factory test]' not in r.get('title','')};research=next(k for k,v in config['agents'].items() if v['role']=='research')
+ # Pages through every matching task (issue_pages.fetch): the Paperclip API answers one default page of 500 rows, and a single
+ # call would undercount the backlog above that and let discovery run past its limit.
+ project=next(k for k,v in config['projects'].items() if v=='ClassScout');filters=urllib.parse.urlencode({'projectId':project,'status':'backlog,todo,in_progress,in_review'});rows=issue_pages.fetch(lambda path:board.call(path+'&'+filters),config['company_id']);active={r['id']:r for r in rows if r['status'] not in {'done','cancelled'} and '[Factory test]' not in r.get('title','')};research=next(k for k,v in config['agents'].items() if v['role']=='research')
  with database() as db:
   ids={r[0] for r in db.execute('SELECT issue_id FROM entities')}|{r[0] for r in db.execute("SELECT issue_id FROM runs WHERE role='research'")}
  ids|={i['id'] for i in rows if i.get('assigneeAgentId')==research}

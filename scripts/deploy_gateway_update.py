@@ -1,8 +1,16 @@
-"""Run on Hetzner after staging reviewed files in /opt/narimato-gateway-update.
+"""RETIRED. Do not use this to update the gateway.
 
-It ships only the five files in FILES. The gateway modules added later (usage.py, metrics.py, hungarian.py,
-long_context.py) are not among them, so it cannot update today's gateway on its own.
+It was written to ship reviewed files from /opt/narimato-gateway-update on one occasion (the ranked-defaults
+change). It copies only the five files in FILES, so it leaves out gateway/usage.py, metrics.py, hungarian.py and
+long_context.py, which gateway/server.py imports. It also stops narimato-chat and swaps the Caddyfile for a 503
+page while it runs. There is no tracked replacement installer. Policy-only changes hot-reload; a source upgrade
+needs a drained queue and a controlled restart with the complete reviewed tree (docs/JOB-ROUTER.md, "Operations and
+changing assignments"; docs/MODEL-POLICY.md for the policy workflow). The script stays as a record of the
+maintenance sequence: 503 page, drain, stop, copy, start, verify discovery, restore Caddy, with rollback on error.
+It refuses to run unless --allow-retired-incomplete-deploy is given, and that flag does not complete the file list.
 """
+import sys
+if '--allow-retired-incomplete-deploy' not in sys.argv:sys.exit('scripts/deploy_gateway_update.py is retired: it ships only five of the gateway files. Read its docstring before using it.')
 import ast,json,pathlib,subprocess,time,urllib.request
 ROOT=pathlib.Path('/opt/narimato-ai');CODE=pathlib.Path('/opt/narimato-gateway');STAGE=pathlib.Path('/opt/narimato-gateway-update')
 FILES=['gateway/server.py','gateway/catalog.py','moderation/server.py','config/model-policy.json','config/job-routes.json']

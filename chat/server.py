@@ -15,6 +15,10 @@ PASSWORD_HASH=os.environ['CHAT_PASSWORD_HASH']
 SESSION=secrets.token_urlsafe(48)
 WORKER=threading.BoundedSemaphore(1)
 ORIGIN='https://chatbotapi.haho.ai'
+# Caddy limits /chat bodies with `max_size 128KB`, which Caddy reads as 128,000 bytes (config/Caddyfile.example).
+# This check uses the same number, so a request sent straight to this loopback port is judged as the proxy would
+# judge it. tests/test_chat_body_limit.py compares the two.
+MAX_BODY=128_000
 class Handler(BaseHTTPRequestHandler):
  def log_message(self,*args): pass
  def send(self,status,body,kind='text/html; charset=utf-8',headers=None):
@@ -33,7 +37,7 @@ class Handler(BaseHTTPRequestHandler):
   if self.headers.get('Origin')!=ORIGIN:return self.send(403,'Forbidden')
   try:
    n=int(self.headers.get('Content-Length','0'))
-   if not 0<n<=256*1024:return self.send(413,'Request too large')
+   if not 0<n<=MAX_BODY:return self.send(413,'Request too large')
    raw=self.rfile.read(n)
   except Exception:return self.send(400,'Invalid request')
   if self.path=='/chat/login':

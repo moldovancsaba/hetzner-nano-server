@@ -28,6 +28,14 @@ from PIL import Image
 
 TTL = 300
 QUEUE_TTL = 180
+# Admission limits: jobs waiting for the single worker, and jobs one tenant may have queued or running.
+# Paperclip shares the CPU queue with the client products and may hold only one at a time.
+QUEUE_CAPACITY = 8
+DEFAULT_TENANT_LIMIT = 4
+TENANT_LIMITS = {'paperclip': 1}
+# Seconds the runner waits for one native call. Text on an extended-context profile (num_ctx above 2048) uses
+# the profile's own timeout_seconds instead; see job_timeout.
+NATIVE_TIMEOUT = 120
 ROUTES = json.loads((Path(__file__).resolve().parents[1] / 'config/job-routes.json').read_text())['routes']
 POLICY_PATH = Path(__file__).resolve().parents[1] / 'config/model-policy.json'
 # ROUTES[task]['model'] is a snapshot of the ranked default taken once at start-up. It is only used to
@@ -48,7 +56,25 @@ class UpstreamError(Exception):
 _NATIVE_TIMING = threading.local()
 
 
-def native(path, body=None, timeout=120):
+def tenant_limit(tenant):
+    """Jobs the tenant may have queued or running at once; submit enforces it and status reports it."""
+    return TENANT_LIMITS.get(tenant, DEFAULT_TENANT_LIMIT)
+
+
+def job_timeout(task, payload):
+    """Longest the runner waits on the native call for this job, in seconds.
+
+    Mirrors Runner.__call__: only text carrying an extended-context runtime profile has its own
+    timeout_seconds (900 on the verified 8K profile); every other job waits NATIVE_TIMEOUT. status() reports
+    it so the monitor can tell a long legitimate job from a stuck one.
+    """
+    profile = payload.get('_runtime_profile') if task == 'text_chat' and isinstance(payload, dict) else None
+    if isinstance(profile, dict) and profile.get('num_ctx', 2048) > 2048 and isinstance(profile.get('timeout_seconds'), (int, float)):
+        return profile['timeout_seconds']
+    return NATIVE_TIMEOUT
+
+
+def native(path, body=None, timeout=NATIVE_TIMEOUT):
     request = urllib.request.Request('http://127.0.0.1:11434' + path,
               data=json.dumps(body).encode() if body is not None else None,
               headers={'Content-Type': 'application/json'})
@@ -108,7 +134,7 @@ class Runner:
         try:
             if task in {'text_chat','text_chat_hu'}:
                 if task == 'text_chat_hu':
-                    result = hungarian_completion(native('/api/chat', hungarian_request(payload,profile), timeout=120))
+                    result = hungarian_completion(native('/api/chat', hungarian_request(payload,profile), timeout=NATIVE_TIMEOUT))
                 elif profile.get('num_ctx', 2048) > 2048:
                     request = native_request(payload, profile)
                     result = native_completion(native('/api/chat', request, timeout=profile['timeout_seconds']), request)
@@ -304,10 +330,10 @@ class Scheduler:
                 return None, 'model_storage_maintenance'
             if self.circuit_open:
                 return None, 'upstream_unavailable'
-            if len(self.rows) >= 64 or len(self.queue) >= 8:
+            if len(self.rows) >= 64 or len(self.queue) >= QUEUE_CAPACITY:
                 return None, 'busy'
             tenant_pending = sum(row['_tenant'] == tenant and row['status'] in {'queued', 'running'} for row in self.rows.values())
-            if tenant_pending >= (1 if tenant == 'paperclip' else 4):
+            if tenant_pending >= tenant_limit(tenant):
                 return None, 'busy'
             model = selected_model or ROUTES[task]['model']
             if self.usage:
@@ -366,13 +392,14 @@ class Scheduler:
             self.clean()
             return {'status': 'degraded' if self.circuit_open else 'ok', 'policy': 'fifo',
                     'active_task': self.rows[self.active]['task'] if self.active else None,
-                    # per_service_limit reports the default of 4; the paperclip tenant is limited to 1
-                    # (see the admission check in submit), which this field does not reflect.
-                    'queued': len(self.queue), 'queue_capacity': 8, 'per_service_limit': 4,
+                    # per_service_limit is the calling tenant's own admission limit, the one submit enforces.
+                    'queued': len(self.queue), 'queue_capacity': QUEUE_CAPACITY, 'per_service_limit': tenant_limit(tenant),
                     'own_pending': sum(r['_tenant'] == tenant and r['status'] in {'queued', 'running'} for r in self.rows.values()),
                     'counters': dict(self.counts), 'last_model_switch': copy.deepcopy(self.last_switch),
                     'durability': 'memory_only', 'result_retention_seconds': TTL,
                     'active_for_seconds': round(time.time()-self.rows[self.active]['started_at'], 3) if self.active else 0,
+                    # Seconds the active job may legitimately run (its native-call timeout); null when idle.
+                    'active_timeout_seconds': self.rows[self.active].get('_timeout') if self.active else None,
                     'oldest_wait_seconds': round(max((time.time()-self.rows[jid]['created_at'] for jid in self.queue), default=0), 3),
                     'metrics_write_failures': self.metrics.failures if self.metrics else 0,
                     'model_storage_maintenance': bool(self.maintenance)}
@@ -418,6 +445,7 @@ class Scheduler:
                 row.update(status='running', started_at=time.time())
                 self.active = job_id
                 payload = row['_payload']
+                row['_timeout'] = job_timeout(row['task'], payload)
             uncertain = False
             try:
                 result, switch = self.runner(row['task'], payload, row['model'])

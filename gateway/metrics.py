@@ -27,6 +27,17 @@ def route_name(path):
     return 'internal' if path.startswith('/internal/') else 'other'
 
 
+def is_liveness_poll(method, route, purpose, http_status):
+    """True for the 30-second status polls of the host monitor and the external watchdog.
+
+    Both request GET /v1/queue marked as a test: the monitor with a project key (answered 200), the
+    watchdog without one (answered 401). Together they would write about 5,800 events a day and fill most of
+    MAX_EVENTS, so Metrics.record does not store them. A production-marked request, any other route and any
+    other status (including 429 and 5xx) are still stored.
+    """
+    return method == 'GET' and route == '/v1/queue' and purpose == 'test' and http_status in {200, 401}
+
+
 def distribution(values):
     values = sorted(v for v in values if v is not None)
     if not values:
@@ -83,8 +94,14 @@ class Metrics:
         return obj
 
     def record(self, event, tenant='unknown', purpose='production', **fields):
+        """Store one event; False when it was refused or not stored (unknown event, liveness poll, write failure).
+
+        Only a write failure counts toward `failures`.
+        """
         try:
             if event not in EVENTS:
+                return False
+            if event == 'http' and is_liveness_poll(fields.get('method'), fields.get('route'), purpose, fields.get('http_status')):
                 return False
             row = {'at': self.clock(), 'event': event,
                    'tenant': tenant if tenant in TENANTS else 'unknown',
@@ -174,6 +191,7 @@ class Metrics:
                 'retention_days': 30, 'event_cap': MAX_EVENTS, 'write_failures_since_restart': self.failures,
                 'projects': reports,
                 'notes': ['Purpose is declared by the caller; unmarked tests look like production.',
+                          'Test-marked GET /v1/queue polls answered 200 or 401 (the host monitor and external watchdog) are not stored.',
                           'Completion proves server output; acknowledgement proves a client deleted its retained result.',
                           'No request bodies, answers, image hashes, job IDs, IPs or credentials are retained.']}
 

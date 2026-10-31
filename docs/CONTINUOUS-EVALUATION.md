@@ -8,7 +8,7 @@ Units: `narimato-model-discovery.timer` and `narimato-model-discovery.service`. 
 
 An independent hourly [model cleaner](AUTO-MODEL-CLEANUP.md) now retains top-three-per-task or 3-day production-used weights. It is not part of discovery. Pause it before operator download/native benchmark experiments, then restore/verify production and re-enable it.
 
-The collector is a low-priority, restricted service with no Docker privileges or API keys, 10% CPU quota, 160 MiB memory cap and eight-minute execution timeout. Each public read must start at an allowlisted source host over HTTPS and is bounded to 20 seconds and 16 MiB per response; redirects are followed without re-checking the host (see Known limitations in [OPERATIONS.md](OPERATIONS.md)). Local Ollama inventory is read-only metadata. No remote code, README instruction, model binary, dataset or script is downloaded/executed.
+The collector is a low-priority, restricted service with no Docker privileges or API keys, 10% CPU quota, 160 MiB memory cap and eight-minute execution timeout. Each public read must start at an allowlisted source host over HTTPS and is bounded to 20 seconds and 16 MiB per response; every redirect target is re-checked against the same allowlist and must be HTTPS. Local Ollama inventory is read-only metadata. No remote code, README instruction, model binary, dataset or script is downloaded/executed.
 
 ## Sources and confidence
 

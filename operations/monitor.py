@@ -15,6 +15,21 @@ from operations.alerts import advance
 from operations.notifications import deliver_pending
 
 
+# A job may run until its native call times out (up to 900 s on the 8K text profile), and a model switch comes
+# first, so "stuck" is the limit the gateway reports for the active job plus a grace period. 300 s is the floor:
+# it covers jobs on the 120 s timeout and a gateway that does not report the limit.
+STUCK_FLOOR_SECONDS = 300
+STUCK_GRACE_SECONDS = 120
+
+
+def stuck_after(queue):
+    """Seconds one job may stay active before it counts as stuck, from the queue report's active_timeout_seconds."""
+    limit = queue.get('active_timeout_seconds')
+    if isinstance(limit, (int, float)) and not isinstance(limit, bool) and limit > 0:
+        return max(STUCK_FLOOR_SECONDS, limit + STUCK_GRACE_SECONDS)
+    return STUCK_FLOOR_SECONDS
+
+
 def evaluate(snapshot):
     alerts = {}
     if not snapshot.get('gateway_reachable'):
@@ -22,8 +37,9 @@ def evaluate(snapshot):
     queue = snapshot.get('queue', {})
     if queue.get('status') == 'degraded':
         alerts['inference_circuit_open'] = {'severity':'critical','message':'Inference is blocked after an uncertain upstream failure. Inspect active native work before recovery.'}
-    if queue.get('active_for_seconds', 0) > 300:
-        alerts['inference_stuck'] = {'severity':'critical','message':'One inference job has been active for over five minutes.'}
+    stuck = stuck_after(queue)
+    if queue.get('active_for_seconds', 0) > stuck:
+        alerts['inference_stuck'] = {'severity':'critical','message':'One inference job has been active for over %d seconds.' % stuck}
     if queue.get('oldest_wait_seconds', 0) > 60:
         alerts['queue_delay'] = {'severity':'warning','message':'Queued work has waited over one minute.'}
     if queue.get('metrics_write_failures', 0):

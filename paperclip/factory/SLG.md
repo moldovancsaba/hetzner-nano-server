@@ -46,8 +46,8 @@ raw scoped key. The service manager loads it into the restricted worker environm
 logs. Local input may be saved at `private/slg-api-key.txt` for installation and
 should be kept private. Backup bundles include the installed credential file.
 
-`factory.json` initially has `sales.brands=[]`, `crm_writes_enabled=false` and
-`delivery_enabled=false`. `provision.py` preserves the `sales` block on a re-run (it does not preserve `remote_llm`; see Known limitations in [../README.md](../README.md#known-limitations)). The `delivery_enabled` flag is not read by any code. Unknown or
+`factory.json` initially has `sales.brands=[]` and `crm_writes_enabled=false`.
+`provision.py` preserves the `sales` block on a re-run. Unknown or
 cross-workspace requests fail before transport. CRM mutations retain durable
 request/receipt state and confirm the resulting record. Lost/invalid receipts or
 failed readback become uncertain and stop replay, including across different

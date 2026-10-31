@@ -31,10 +31,7 @@
       "role": "search"
     }
   },
-  "pilot_brand": "ClassScout",
   "publishing_enabled": true,
-  "outreach_enabled": false,
-  "max_source_pages_per_task": 2,
   "reviewer_user_id": "local-board",
   "search_enabled": true,
   "search_candidate_limit": 3,
@@ -48,14 +45,10 @@
   ],
   "automatic_quality_gate": {
     "enabled": true,
-    "policy": "classscout-auto-v6",
     "daily_write_limit": 20
   },
   "growth_mode": {
-    "enabled": true,
-    "coverage": "NYC children activities across all five boroughs",
-    "campaign": "classscout-nyc-v1",
-    "active_research_limit": 10
+    "enabled": true
   },
   "padel_enabled": true,
   "reliability_enabled": true,
@@ -75,7 +68,6 @@
   },
   "sales": {
     "brands": [],
-    "crm_writes_enabled": false,
-    "delivery_enabled": false
+    "crm_writes_enabled": false
   }
 }

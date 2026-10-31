@@ -1,4 +1,7 @@
-"""Bounded public metadata discovery; never downloads weights or executes remote text."""
+"""Bounded public metadata discovery; never downloads weights or executes remote text.
+
+Every request, and every redirect target, must be https on an allowlisted host (HOSTS); reads are capped by
+config max_response_bytes and a 20 s timeout."""
 import argparse,datetime,gzip,hashlib,json,re,sqlite3,time,urllib.parse,urllib.request,shutil
 from pathlib import Path
 
@@ -57,10 +60,19 @@ def classify(row,known):
  row['screening_score']=score;row['screening_reasons']=reasons;row['runtime_eligibility']='unverified';row['language_approval']='none'
  return row
 
-def fetch(url,limit):
- if urllib.parse.urlsplit(url).scheme!='https' or urllib.parse.urlsplit(url).hostname not in {'huggingface.co','openrouter.ai','ollama.com','api.github.com'}:raise ValueError('Source host not allowlisted')
+HOSTS={'huggingface.co','openrouter.ai','ollama.com','api.github.com'}
+def allowed(url):
+ parts=urllib.parse.urlsplit(url);return parts.scheme=='https' and parts.hostname in HOSTS
+class AllowlistedRedirects(urllib.request.HTTPRedirectHandler):
+ """Applies the host allowlist to every redirect target, so a listed host cannot send the collector elsewhere."""
+ def redirect_request(self,req,fp,code,msg,headers,newurl):
+  if not allowed(urllib.parse.urljoin(req.full_url,newurl)):raise ValueError('Redirect target host not allowlisted')
+  return super().redirect_request(req,fp,code,msg,headers,newurl)
+def fetch(url,limit,opener=None):
+ """Read at most `limit` bytes from an allowlisted https URL; `opener` is injectable for tests."""
+ if not allowed(url):raise ValueError('Source host not allowlisted')
  req=urllib.request.Request(url,headers={'User-Agent':UA,'Accept':'application/json, text/html;q=0.8'})
- with urllib.request.urlopen(req,timeout=20) as response:
+ with (opener or urllib.request.build_opener(AllowlistedRedirects)).open(req,timeout=20) as response:
   raw=response.read(limit+1)
  if len(raw)>limit:raise ValueError('Source response exceeds metadata budget')
  return raw

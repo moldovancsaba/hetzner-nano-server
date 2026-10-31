@@ -1,9 +1,10 @@
 """Tests for publishing: mapping source pages to a listing (schedules, class price, location, same-host
 sources, media checks) and run(), which publishes only with a valid human approval and an unchanged
-packet and source, writes once, and does not retry a lost or partial write."""
+packet and source, writes once, and does not retry a lost or partial write. The timetable and price
+refusals are tested on formats, the parsers the production path uses."""
 import copy,json,pathlib,tempfile,unittest
 from unittest.mock import Mock,patch
-import worker,publishing as p
+import formats,worker,publishing as p
 
 class PublishingTests(unittest.TestCase):
  def brief(self):return {'Publication name':'Keylab','Borough':'Brooklyn','Neighborhood':'Carroll Gardens','Activity':'Music','Format':'Classes','Draft reference':'a'*32,'urls':['https://example.org/classes']}
@@ -12,11 +13,11 @@ class PublishingTests(unittest.TestCase):
  def test_complete_source_mapping_keeps_groups_and_price(self):
   n,proof=p.normalize_sources(self.brief(),[self.page()],[{'field':'address','value':'94 Luquer St','quote':'at 94 Luquer St'}]);self.assertEqual(n['neighborhoodRaw'],'Carroll Gardens');self.assertEqual(n['ageRangesRaw'],['9–12','Teens']);self.assertEqual(len(proof['schedules']),2);self.assertEqual(proof['price']['amount'],42)
  def test_facility_hours_cannot_become_class_timetable(self):
-  with self.assertRaises(ValueError):p.program_schedules('Opening hours Monday 9:00 am, 60 minutes. Classes for ages 9-12.')
+  with self.assertRaises(ValueError):formats.schedules('Opening hours Monday 9:00 am, 60 minutes. Classes for ages 9-12.')
  def test_session_fee_cannot_become_class_price(self):
-  with self.assertRaises(ValueError):p.class_price('Camp costs $175 per day and $500 per semester.')
+  with self.assertRaises(ValueError):formats.price('Camp costs $175 per day and $500 per semester.')
  def test_multiple_class_prices_require_review(self):
-  with self.assertRaises(ValueError):p.class_price('$42 per class; $25 per class')
+  with self.assertRaises(ValueError):formats.price('$42 per class; $25 per class')
  def test_nav_location_cannot_override_editorial_location(self):
   brief=self.brief();brief['Neighborhood']='Imaginary Place'
   with self.assertRaises(ValueError):p.normalize_sources(brief,[self.page()],[])
@@ -131,9 +132,9 @@ class PublishingTests(unittest.TestCase):
    with self.assertRaises(ValueError):p.run(i,b,{'company_id':'company'},w,worker.database,c,execution={'agent_id':'pubagent','run_id':'run'})
    c.call.assert_not_called()
  def test_invalid_clock_is_not_a_class_time(self):
-  with self.assertRaises(ValueError):p.program_schedules('Ages 9-12 - Fridays 25:99 pm, 60 minutes')
+  with self.assertRaises(ValueError):formats.schedules('Ages 9-12 - Fridays 25:99 pm, 60 minutes')
  def test_duplicate_class_rows_are_collapsed(self):
-  line='Ages 9-12 - Fridays 3:30 pm, 60 minutes';self.assertEqual(len(p.program_schedules(line+' '+line)),1)
+  line='Ages 9-12 - Fridays 3:30 pm, 60 minutes';self.assertEqual(len(formats.schedules(line+' '+line)),1)
  def test_lost_response_does_not_retry_write(self):
   with tempfile.TemporaryDirectory() as d,patch.object(worker,'STATE',pathlib.Path(d)):
    i,b,w,c,a=self.scenario();c.call.side_effect=TimeoutError()

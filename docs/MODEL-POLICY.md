@@ -103,7 +103,7 @@ A daily server-side metadata-discovery timer is now active; no unattended benchm
 
 ## Verification
 
-[Live model-policy verification](../results/model-policy/public-verification.json) records actual discovery and model choices. [Shared queue guide](JOB-ROUTER.md) covers retention, FIFO limits, circuit recovery, polling and client timeout constraints. `scripts/deploy_gateway_update.py` is a server-side staged update helper for the five files it lists (`gateway/server.py`, `gateway/catalog.py`, `moderation/server.py`, `config/model-policy.json`, `config/job-routes.json`); it drains the queue, backs up replaced files privately, validates Caddy maintenance and rolls back on readiness failure. It does not ship the other modules the gateway imports; see Known limitations in [OPERATIONS.md](OPERATIONS.md). A policy-only change needs no helper: replace `config/model-policy.json` atomically.
+[Live model-policy verification](../results/model-policy/public-verification.json) records actual discovery and model choices. [Shared queue guide](JOB-ROUTER.md) covers retention, FIFO limits, circuit recovery, polling and client timeout constraints. `scripts/deploy_gateway_update.py` is a server-side staged update helper for the five files it lists (`gateway/server.py`, `gateway/catalog.py`, `moderation/server.py`, `config/model-policy.json`, `config/job-routes.json`); it drains the queue, backs up replaced files privately, validates Caddy maintenance and rolls back on readiness failure. It is retired: it does not ship the other modules the gateway imports and refuses to run without an explicit flag. A policy-only change needs no helper: replace `config/model-policy.json` atomically.
 
 ## Weight retention
 

@@ -772,6 +772,9 @@
         "failed"
       ],
       "tested_digest": "f58c0dd0f7a41d140f9d0cc65d2e4fc4e210ce0c7a8107ce130ff54ffec3b7d9",
+      "ranked_tasks": [
+        "text_chat"
+      ],
       "decision": {
         "state": "evaluated_not_promoted",
         "reason": "8/14 English checks versus Granite 14/14; the artifact reports no native tool support (tool check failed). Hungarian, scored separately, 2/24 strict structured against the unchanged 20/24 gate.",
@@ -792,6 +795,9 @@
         "completed"
       ],
       "tested_digest": "f61e489f75bce580924d3646671e58ba7f386ac2782c4582b36ff6a647e56a06",
+      "ranked_tasks": [
+        "text_chat"
+      ],
       "decision": {
         "state": "evaluated_not_promoted",
         "reason": "8/14 English checks versus Granite 14/14; no native tool support; declared 4K context cannot replace the verified 8K default. Hungarian, scored separately, 0/24 strict structured.",
@@ -813,6 +819,9 @@
         "completed"
       ],
       "tested_digest": "a238e01ddaef6f36639574030394f2e346ea3ce28bff8522e9f18985e9e57c09",
+      "ranked_tasks": [
+        "image_moderation"
+      ],
       "decision": {
         "state": "evaluated_not_promoted",
         "reason": "Recognition halted by the contract stop after three consecutive incomplete image responses (0/32 valid, 0/8 counts). Separate moderation completed 38/41 valid responses with macro F2 0.160 versus the Qwen3.5 0.8B default at 0.694.",

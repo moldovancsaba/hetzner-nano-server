@@ -1,6 +1,32 @@
-"""Isolated recovery of app, native SQL, factory SQLite and access gate; no network egress."""
+"""Isolated recovery of app, native SQL, factory SQLite and access gate; no network egress.
+
+The safety statements in the report are measured, not declared: the container's network namespace is inspected for any way
+out, the production configuration files are compared before and after, and the image is compared with the one production
+runs after the drill container has started. The drill fails when a measurement contradicts the statement."""
 import gzip,hashlib,json,os,pathlib,re,shutil,signal,sqlite3,subprocess,sys,tarfile,tempfile,time
 NAME='paperclip-recovery-drill';PROCESSES=[];CURRENT_ROOT=None
+# Production configuration and secrets that change only by a deliberate edit. The live factory database is left out because
+# the running worker writes it all the time. The drill must leave every file here as it found it.
+WATCHED=['/opt/narimato-factory/factory.json','/opt/narimato-factory/workflows.json','/opt/narimato-paperclip/.env','/opt/narimato-paperclip/compose.yaml','/opt/narimato-paperclip/local-ai.json','/etc/paperclip-access.env','/etc/caddy/Caddyfile','/etc/systemd/system/narimato-factory.service']
+def fingerprint(paths):
+ """Size and SHA-256 of every file that exists. Contents are compared, never stored; a rewrite that leaves bytes alone is not a change."""
+ result={}
+ for path in paths:
+  p=pathlib.Path(path)
+  if p.is_file():data=p.read_bytes();result[path]=(len(data),hashlib.sha256(data).hexdigest())
+ return result
+
+def changed_files(before,after):
+ """Paths added, removed or rewritten between two fingerprints."""
+ return sorted(path for path in set(before)|set(after) if before.get(path)!=after.get(path))
+
+def egress_paths(dev_text,route_text,mode):
+ """Ways out of the drill container's network namespace, from /proc/<pid>/net/dev, /proc/<pid>/net/route and Docker's network mode.
+ A namespace with only loopback, no route and mode none cannot reach another host."""
+ interfaces=sorted(name for name in (line.split(':',1)[0].strip() for line in dev_text.splitlines()[2:] if ':' in line) if name!='lo')
+ routes=[line.split()[0] for line in route_text.splitlines()[1:] if line.split() and line.split()[0]!='lo']
+ return {'network_mode':mode,'interfaces':interfaces,'routes':len(routes),'egress':mode!='none' or bool(interfaces) or bool(routes)}
+
 def command(args,timeout=180,env=None):
  r=subprocess.run(args,capture_output=True,text=True,timeout=timeout,env=env)
  if r.returncode:
@@ -31,9 +57,9 @@ def main(archive):
  root=pathlib.Path(tempfile.mkdtemp(prefix='paperclip-restore-',dir='/root'));CURRENT_ROOT=root;os.chmod(root,0o700);tree=root/'archive';tree.mkdir()
  existing=command(['docker','ps','-a','--filter','name=^/'+NAME+'$','--format','{{.Names}}']).strip()
  if existing:raise ValueError('A previous isolated drill container must be inspected first')
- # network_egress and production_files_changed are fixed declarations, not measurements. Egress is prevented by
- # --network none below and the archive is extracted into a scratch copy, but nothing in this script checks either.
- proof={'started_at':time.time(),'network_egress':False,'production_files_changed':False}
+ # network_egress, production_files_changed and image_matches_production are measured below; --network none and the scratch
+ # copy of the archive are how the drill tries to make them hold, and the measurements are what is reported.
+ proof={'started_at':time.time()};production_before=fingerprint(WATCHED)
  try:
   with tarfile.open(archive) as tar:
    for m in tar.getmembers():
@@ -55,10 +81,11 @@ def main(archive):
    for name in files:
     p=pathlib.Path(parent)/name
     if not p.is_symlink():os.chown(p,1000,1000)
-  # The drill starts from the running production container's image id, so image_matches_production (set below) is true by construction.
+  # The drill starts from the image id the production container runs now; image_matches_production is compared again once the drill container is up.
   image=command(['docker','inspect','narimato-paperclip','--format','{{.Image}}']).strip()
   args=['docker','run','-d','--name',NAME,'--network','none','--memory','900m','--cpus','0.5','--pids-limit','384','--user','1000:1000','--entrypoint','sleep','-v',str(data)+':/paperclip','-w','/app',image,'infinity']
-  command(args);proof['image_matches_production']=True
+  command(args);proof['image_matches_production']=command(['docker','inspect',NAME,'--format','{{.Image}}']).strip()==command(['docker','inspect','narimato-paperclip','--format','{{.Image}}']).strip()
+  if not proof['image_matches_production']:raise ValueError('The drill container does not run the production image')
   bootstrap=root/'restore.mjs';bootstrap.write_text('''import { createRequire } from 'node:module';import fs from 'node:fs';
 const require=createRequire('/app/server/package.json');const {default:EmbeddedPostgres}=await import(require.resolve('embedded-postgres'));
 const pg=new EmbeddedPostgres({databaseDir:'/paperclip/instances/default/db',user:'paperclip',password:'paperclip',port:54329,persistent:true,initdbFlags:['--encoding=UTF8','--locale=C','--lc-messages=C'],onLog:()=>{},onError:()=>{}});
@@ -112,6 +139,12 @@ status,body=get('/');assert status==200 and b'<html' in body.lower()
 print(json.dumps({'password_gate_restored':True,'locked_dashboard_refused':True,'native_ui':True,'company_api':True,'factory_dashboard':True,'factory_metrics':True,'published_receipts_restored':metrics['funnel']['published'],'active_agents_in_clone':sum(a['status']!='paused' for a in metrics['operations']['team'])}))
 ''')
   result=json.loads(command(ns+['python3',str(checker),str(tree/'etc/paperclip-access.env')],timeout=180));assert result['active_agents_in_clone']==0;proof.update(result)
+  # Measured with every drill process still running, so anything they opened would show.
+  paths=egress_paths(pathlib.Path('/proc/'+pid+'/net/dev').read_text(),pathlib.Path('/proc/'+pid+'/net/route').read_text(),command(['docker','inspect',NAME,'--format','{{.HostConfig.NetworkMode}}']).strip())
+  proof['network_egress']=paths['egress'];proof['network_interfaces']=paths['interfaces'];proof['network_mode']=paths['network_mode']
+  if proof['network_egress']:raise ValueError('The drill container has a network path out')
+  rewritten=changed_files(production_before,fingerprint(WATCHED));proof['production_files_changed']=bool(rewritten);proof['production_files_checked']=len(production_before)
+  if rewritten:raise ValueError('Production configuration changed during the drill')
   proof.update(completed_at=time.time(),status='passed',scope='Isolated full stack: SQL, persistent files, secrets, factory state, native UI, proxy and password gate. Public DNS/TLS issuance and real host failover are not exercised.')
   destination=pathlib.Path('/opt/narimato-factory/restore-drill-latest.json');destination.write_text(json.dumps(proof,indent=2)+'\n');destination.chmod(0o644)
   print(json.dumps(proof))

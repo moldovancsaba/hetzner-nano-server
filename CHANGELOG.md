@@ -2,14 +2,31 @@
 
 Everything that reached `main` of [hetzner-nano-server](https://github.com/moldovancsaba/hetzner-nano-server), newest first. The repository has no version numbers or tags, so a release is the state of `main` at the end of a day (dates are commit dates); every commit is listed under its day with a link. Each entry says what changed for operators and clients, not just which files moved. For the reasoning behind a change read [docs/HISTORY.md](docs/HISTORY.md); for the system as it stands read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-Covers history up to `d2a9f33`. `python3 scripts/check_changelog.py` lists any later commit that is not yet in these notes; run it before a release and add the entry in the same change set as the work it describes. A commit that changes this file carries its own notes (it cannot link its own hash), so the check does not list it; it gets its link when the marker next moves past it.
+Covers history up to `b8be171`. `python3 scripts/check_changelog.py` lists any later commit that is not yet in these notes; run it before a release and add the entry in the same change set as the work it describes. A commit that changes this file carries its own notes (it cannot link its own hash), so the check does not list it; it gets its link when the marker next moves past it.
 
 Sections used: **Added** (new capability), **Changed** (behaviour, policy or defaults), **Fixed** (a defect corrected), **Security**, **Operations** (deployment, hosts, retention), **Documentation**.
 
 ## 2026-10-31
 
+### Fixed
+Eighteen of the 22 defects found by the documentation review are fixed in the repository, each with a unit test; the status of every one is in [docs/GAP-ANALYSIS-2026-10-30.md](docs/GAP-ANALYSIS-2026-10-30.md#defects-found-while-checking). **None is deployed:** the hosts run the previous files until the copy steps in [docs/OPERATIONS.md](docs/OPERATIONS.md#fixed-in-the-repository-not-deployed-yet) are done.
+- **Gateway queue report.** `GET /v1/queue` reports the calling tenant's own `per_service_limit` (1 for Paperclip, not always 4) and a new `active_timeout_seconds` for the running job. The host monitor flags a job as stuck after that timeout plus 120 s (at least 300 s), so a valid 900 s job on the 8K profile no longer raises a critical alert.
+- **Metrics cap.** The monitor's and external watchdog's 30-second `GET /v1/queue` polls (test-marked, answered 200 or 401) are no longer stored, so they stop using about 172,800 of the 200,000 events kept over 30 days.
+- **Cleaner reports.** The hourly cleaner deletes `cleanup-*.json` reports older than `keep_cleanup_report_days` (30), except `latest.json` and any report that removed a model.
+- **Chat body limit.** The chat server's check is 128,000 bytes, the same as Caddy's, instead of an unreachable 256 KiB.
+- **Discovery collector.** Redirect targets are checked against the host allowlist and must be HTTPS; the tested-model index lists the three models whose ranked tasks were missing.
+- **`provision.py` keeps the metered Segmind lane.** A re-run keeps every setting it does not derive from the live company (`remote_llm`, switches, limits) and writes 3 as the first-install candidate limit instead of 2.
+- **Recovery bundle and restore drill.** The bundle includes the Segmind env file. The restore drill now measures its network, production-file and image assertions and fails if one is false; before, three of them were written as constants.
+- **SLG setup.** `configure-slg.py` leaves existing schedule triggers as they are instead of re-enabling every one.
+- **Discovery backlog.** `research_backlog` counts every active task; before, it read one page of 500.
+- **Dashboard billing line.** It names the metered Segmind lane and shows the last 24 hours' calls and cost from the ledger once the lane is on; before, it always read "Free local models".
+
+### Changed
+- `scripts/deploy_gateway_update.py` is retired (it left out four modules the gateway imports; it now refuses to run without an explicit flag); `scripts/verify_gateway.py` takes job types and defaults from `config/job-routes.json` and `config/model-policy.json`; `tests/test_gateway.py` reads the text default from the policy.
+- Removed eight `factory.json` keys that no code reads, and three unused single-format parsers from `publishing.py`; the publication tests now call the parsers production uses.
+
 ### Documentation
-- Documentation and comment review of 2026-10-30; the findings, including 22 behaviour defects that are recorded but not changed, are in [docs/GAP-ANALYSIS-2026-10-30.md](docs/GAP-ANALYSIS-2026-10-30.md).
+- Documentation and comment review of 2026-10-30 ([b8be171](https://github.com/moldovancsaba/hetzner-nano-server/commit/b8be171)); the findings are in [docs/GAP-ANALYSIS-2026-10-30.md](docs/GAP-ANALYSIS-2026-10-30.md). Three of the 22 defects wait for an owner decision (an expired automatic packet, the gate switch on engine and program writes, the second Padel path) and one is by design (one identity for both engines).
 - Added the system architecture ([docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)), a benchmark and ranking index ([docs/BENCHMARKS.md](docs/BENCHMARKS.md)), code conventions ([docs/CODE-CONVENTIONS.md](docs/CODE-CONVENTIONS.md)), a dated gap analysis ([docs/GAP-ANALYSIS-2026-10-30.md](docs/GAP-ANALYSIS-2026-10-30.md)) and these release notes.
 - Rewrote the README as an entry point with a documentation map and repository map; the dated round-by-round paragraphs moved to the benchmark index.
 - Corrected statements that no longer matched the code across the operating, access, job-router, model-policy, retention, backlog and Paperclip documents, and added a Known limitations section to the operations and Paperclip pages.

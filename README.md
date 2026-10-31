@@ -79,4 +79,4 @@ python3 -m unittest discover -s tests                       # gateway, chat, pol
 cd paperclip/factory && python3 -m unittest discover -p 'test_*.py'   # factory tests
 ```
 
-The unit tests need Pillow, and the gateway tests also need the `tokenizers` package; the factory tests need Pillow. `verify_*` scripts call the public API with test-purpose requests and write evidence under `results/`; read a script's docstring before running it against production, because some deploy and verify scripts are single use or have known stale assertions (see [docs/OPERATIONS.md](docs/OPERATIONS.md#known-limitations)).
+The unit tests need Pillow, and the gateway tests also need the `tokenizers` package; the factory tests need Pillow. `verify_*` scripts call the public API with test-purpose requests and write evidence under `results/`; read a script's docstring before running it against production, because the deploy scripts are single use or retired (see [docs/OPERATIONS.md](docs/OPERATIONS.md#known-limitations)).

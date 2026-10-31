@@ -1,8 +1,25 @@
 """Install a confirmed workspace credential and commission read-only SLG operations."""
 import argparse,json,pathlib,re,subprocess,sys
-# The remote script ends with workflows_setup.setup(True). That also writes enabled=true to every scheduled trigger in
-# the routine list, not only the SLG routines, so a trigger paused by hand is switched back on.
-REMOTE=r'''
+# The remote script registers the SLG routines through workflows_setup.setup, which also visits every other routine. SLG
+# routines are manual-only and have no schedule trigger, so the only thing setup could change outside them is the enabled
+# flag of the existing schedule triggers. GUARD stops that: each existing trigger keeps the value it has, and the mode
+# passed to setup is the one the factory already runs in (workflows.json), never a forced True.
+GUARD=r'''
+import json
+def run_setup_preserving_triggers(w,root):
+ """Run w.setup in the factory's current schedule mode and leave every existing schedule trigger as it is."""
+ mode=root/'workflows.json';schedules=mode.exists() and json.loads(mode.read_text()).get('schedules_enabled') is True
+ original=w.api;current={}
+ def api(path,body=None,method=None):
+  if method=='PATCH' and path.startswith('/routine-triggers/') and isinstance(body,dict) and path.rsplit('/',1)[1] in current:body={**body,'enabled':current[path.rsplit('/',1)[1]]}
+  result=original(path,body,method)
+  if method is None and body is None and path.startswith('/routines/') and path.count('/')==2 and isinstance(result,dict):current.update({t['id']:t.get('enabled') for t in result.get('triggers',[])})
+  return result
+ w.api=api
+ try:return w.setup(schedules)
+ finally:w.api=original
+'''
+REMOTE=GUARD+r'''
 import sys,json,re,pathlib,subprocess,sqlite3
 sys.path.insert(0,'/opt/narimato-factory');import slg,workflows_setup as w
 v=json.load(sys.stdin);brand=v['brand'];key=v['key']
@@ -18,9 +35,9 @@ with sqlite3.connect('file:/var/lib/narimato-factory/factory.sqlite3?mode=ro',ur
 env.write_text("SLG_SCOPED_KEYS='"+encoded+"'\n");env.chmod(0o600)
 sales=config.setdefault('sales',{});sales.setdefault('brands',[])
 if brand not in sales['brands']:sales['brands'].append(brand)
-sales['crm_writes_enabled']=False;sales['delivery_enabled']=False;path.write_text(json.dumps(config,indent=2)+'\n')
+sales['crm_writes_enabled']=False;path.write_text(json.dumps(config,indent=2)+'\n')
 subprocess.run(['systemctl','restart','narimato-factory'],check=True)
-state=w.setup(True);runs=[]
+state=run_setup_preserving_triggers(w,root);runs=[]
 for r in state['routines']:
  if r['kind'] in {'sales_connection','sales_pipeline'}:
   result=w.api('/routines/'+r['id']+'/run',{'source':'api','idempotencyKey':'slg-commission-'+brand+'-'+r['id'],'variables':{'slg_brand':brand}})

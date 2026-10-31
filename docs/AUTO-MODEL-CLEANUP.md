@@ -66,7 +66,7 @@ Policies/evidence: `/opt/narimato-gateway/config/model-policy.json`, `/opt/narim
 
 Maintenance key: `/etc/narimato-model-cleanup.env`, root-only; also read by the gateway unit. Do not copy it into project/browser environments or public docs.
 
-Audit state: `/var/lib/narimato-model-cleanup/latest.json` and timestamped metadata-only cleanup reports. These preserve deletion identities/digests and keep reasons; model/test history remains in Git independently.
+Audit state: `/var/lib/narimato-model-cleanup/latest.json` and timestamped metadata-only cleanup reports. These preserve deletion identities/digests and keep reasons; model/test history remains in Git independently. With `--apply`, the cleaner deletes `cleanup-*.json` reports older than `keep_cleanup_report_days`, except any report that removed a model (the deletion audit trail) and `latest.json`; `reports_pruned` in the report counts them.
 
 ```sh
 ssh -i /Users/chappie/.ssh/hetzner_ai root@2.31.100.246 'systemctl list-timers narimato-model-cleanup.timer --no-pager'
@@ -92,6 +92,7 @@ See [verification](../results/auto-cleanup/README.md), [retention policy](DATA-R
 | `keep_top_per_task` | `3` | yes, must equal `3` | Keep rank 1–3 in every task ranking; another value fails validation |
 | `keep_production_request_days` | `3` | yes, integer 1–30 | Keep models with an admitted production request within this many days |
 | `initial_inventory_history_grace_days` | `0` | yes, integer 0–30 | Keep models in the first-run inventory for this many days after tracking started; `0` protects nothing |
+| `keep_cleanup_report_days` | `30` | yes, integer 7–365; 30 when absent | Delete `cleanup-*.json` reports without removals older than this many days (applied runs only) |
 | `hard_free_disk_floor_gib`, `target_free_disk_gib`, `target_weight_cache_gib` | `4`, `8`, `16` | no | Capacity-planning targets for operators. The disk alerts use fixed values of 4 GiB (critical) and 6 GiB (warning) in `operations/monitor.py` |
 | `pin_all_ranked_defaults` | `true` | no | Informational. Defaults are always kept because the cleaner keeps every model named in `defaults` (`current_default`) |
 | `exclude_test_requests` | `true` | no | Informational. Test requests are excluded by the gateway, which records no demand for `X-Request-Purpose: test` (`gateway/usage.py`) |

@@ -29,7 +29,7 @@ A completed job proves server generation. A client DELETE proves only that a cli
 
 The gateway's private SQLite database is `/var/lib/narimato-gateway/metrics.sqlite3`, under its existing private systemd state directory. Its fixed columns contain timestamps, normalized endpoint templates, HTTP method/status, known project/task/model identifiers, outcome/error codes, timings and disconnect flags. No request/response body, prompt, photo, image hash, job ID, idempotency key, user identity, IP, raw URL/query or credential is stored. The request log cannot create arbitrary new content fields. Unknown routes are reduced to a constant; job paths become `:id` templates.
 
-Metadata expires after 30 days and is capped at 200,000 events, with a 64 MiB database-page ceiling and bounded WAL/checkpoint configuration. Maintenance runs on writes. Startup storage failure disables analytics and raises a visible operational fault while inference remains available; the independent model-use ledger retains its existing admission protection. Write failures do not intentionally fail otherwise valid inference. The public API reports its live write-failure counter; a standalone read-only report cannot know that in-process counter and reports null. The watchdogs' own 30-second polls are recorded as events too; see Known limitations in [OPERATIONS.md](OPERATIONS.md).
+Metadata expires after 30 days and is capped at 200,000 events, with a 64 MiB database-page ceiling and bounded WAL/checkpoint configuration. Maintenance runs on writes. Startup storage failure disables analytics and raises a visible operational fault while inference remains available; the independent model-use ledger retains its existing admission protection. Write failures do not intentionally fail otherwise valid inference. The public API reports its live write-failure counter; a standalone read-only report cannot know that in-process counter and reports null. The host monitor's and external watchdog's own 30-second `GET /v1/queue` polls (test-marked, answered 200 or 401) are not stored, so they do not use the cap; every other request is.
 
 Always mark synthetic checks with `X-Request-Purpose: test`. The server cannot detect an unmarked test automatically. Polling/discovery/DELETE have HTTP metadata but never extend production model-demand retention. The benchmark's private reference images and approved datasets remain separate from this operational database.
 
@@ -38,7 +38,7 @@ Always mark synthetic checks with `X-Request-Purpose: test`. The server cannot d
 The inference host runs `narimato-monitor.service` every 30 seconds, with a 128 MiB/10% CPU ceiling. Three consecutive samples raise or recover an alert. Identical ongoing conditions do not repeatedly notify. It checks:
 
 - required services and the inference container;
-- an open upstream circuit or an active job older than five minutes;
+- an open upstream circuit or an active job older than its timeout plus two minutes (at least five minutes);
 - oldest queue wait over 60 seconds;
 - operational-metrics read/write failure;
 - disk below 6 GiB (warning) or 4 GiB (critical), and OOM termination;

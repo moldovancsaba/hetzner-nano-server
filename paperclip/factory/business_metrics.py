@@ -33,9 +33,9 @@ def snapshot(database,config,tasks=None,agents=None):
  operations=operating_snapshot(database,config,list(tasks.values()),agents,live)
  delivery=delivery_snapshot(database,config,tasks)
  blocked=[{'identifier':r['identifier'],'title':r['title'],'url':'https://paperclip.haho.ai/NAR/issues/'+r['identifier']} for r in tasks.values() if r['status']=='blocked']
- # definitions.model_usage below says "Free local model usage". The metered Segmind lane is reported separately under
- # remote_llm (segmind.report), not in the token and billing figures of the operations snapshot.
- return {**operations,'delivery':delivery,'updated_at':publishing.stamp(),'timezone':'Europe/Budapest','mode':'Growth mode' if config.get('growth_mode',{}).get('enabled') else 'Standard','funnel':{'research_drafts':len(entities),'source_checked':states['ready_for_human_review'],'needs_evidence':states['needs_more_evidence'],'published':published,'updates_verified':updates.get('applied',0),'writes_uncertain':updates.get('uncertain',0)+program_updates.get('uncertain',0)+program_updates.get('partial',0)+sum(p['status'] in {'uncertain','partial','publishing'} for p in packets),'write_attempts_total':attempts},'source_states':dict(states),'updates':updates,'last_24h_runs':runs,'by_market':list(groups.values()),'blocked':blocked[:30],'search_budget':Budget(database).status(),'remote_llm':remote_llm_report(database,config),'daily_write_limit':config.get('automatic_quality_gate',{}).get('daily_write_limit',0),'recovery':{'attempts':len(recovery),'fields_recovered':sum(len(r.get('recovered_fields',r.get('added_fields',[]))) for r in recovery)},'padel':json.loads(padel_report[0]) if padel_report else {'tenant_verified':False,'status':'No connection run yet'},'definitions':{'published':'Confirmed ClassScout private save and matching core public catalog read.','source_checked':'Name/address evidence passed; this does not establish complete publication readiness.','by_market':'Research intent groups; source claims are separately checked.','write_attempts_total':'Reservations across catalog writes and evidence intake, including uncertain replies.','model_usage':'Free local model usage; token counts cover recorded successful extraction calls only. Hosting is separate.'}}
+ # The token figures cover local models only. The metered Segmind lane is reported under remote_llm (segmind.report); the
+ # operations snapshot's billing line only summarizes it (billing_line).
+ return {**operations,'delivery':delivery,'updated_at':publishing.stamp(),'timezone':'Europe/Budapest','mode':'Growth mode' if config.get('growth_mode',{}).get('enabled') else 'Standard','funnel':{'research_drafts':len(entities),'source_checked':states['ready_for_human_review'],'needs_evidence':states['needs_more_evidence'],'published':published,'updates_verified':updates.get('applied',0),'writes_uncertain':updates.get('uncertain',0)+program_updates.get('uncertain',0)+program_updates.get('partial',0)+sum(p['status'] in {'uncertain','partial','publishing'} for p in packets),'write_attempts_total':attempts},'source_states':dict(states),'updates':updates,'last_24h_runs':runs,'by_market':list(groups.values()),'blocked':blocked[:30],'search_budget':Budget(database).status(),'remote_llm':remote_llm_report(database,config),'daily_write_limit':config.get('automatic_quality_gate',{}).get('daily_write_limit',0),'recovery':{'attempts':len(recovery),'fields_recovered':sum(len(r.get('recovered_fields',r.get('added_fields',[]))) for r in recovery)},'padel':json.loads(padel_report[0]) if padel_report else {'tenant_verified':False,'status':'No connection run yet'},'definitions':{'published':'Confirmed ClassScout private save and matching core public catalog read.','source_checked':'Name/address evidence passed; this does not establish complete publication readiness.','by_market':'Research intent groups; source claims are separately checked.','write_attempts_total':'Reservations across catalog writes and evidence intake, including uncertain replies.','model_usage':'Free local model usage; token counts cover recorded successful extraction calls only. Hosting is separate. Metered Segmind spend is reported under remote_llm.'}}
 
 def remote_llm_report(database,config):
  """Segmind spend for the dashboard; a failure here must never take the rest of the dashboard down."""
@@ -43,6 +43,24 @@ def remote_llm_report(database,config):
   import segmind
   return segmind.report(database,config)
  except Exception:return {'enabled':False,'error':'Segmind spend is temporarily unavailable.'}
+
+def billing_line(database,config,since):
+ """Billing text for the inference block: local models are free; while the metered Segmind lane is on, the line says so and
+ carries the last day's calls and cost from the ledger (failed calls cost nothing, an unconfirmed call counts at its ceiling,
+ as in segmind.Ledger). It reads the ledger only and never calls Segmind."""
+ free='Free local models'
+ try:
+  import segmind
+  if not segmind.settings(config):return {'billing':free,'metered_calls_24h':None,'metered_cost_24h':None}
+ except ValueError:return {'billing':free,'metered_calls_24h':None,'metered_cost_24h':None}
+ try:
+  with database() as db:
+   if not db.execute("SELECT 1 FROM sqlite_master WHERE name='remote_llm_calls'").fetchone():calls,cost=0,0.0
+   else:calls,cost=db.execute("SELECT count(*),COALESCE(SUM(CASE WHEN status='failed' THEN 0 ELSE COALESCE(cost,ceiling) END),0) FROM remote_llm_calls WHERE reserved_at>=?",(since,)).fetchone()
+ except Exception:return {'billing':free+'; metered Segmind lane on (spend unavailable)','metered_calls_24h':None,'metered_cost_24h':None}
+ cost=round(cost,4)
+ text=free+' plus metered Segmind: '+str(calls)+' call'+('' if calls==1 else 's')+', $'+format(cost,'g')+' in 24 h' if calls else free+'; metered Segmind lane on (no calls in 24 h)'
+ return {'billing':text,'metered_calls_24h':calls,'metered_cost_24h':cost}
 
 
 def epoch(value):
@@ -113,9 +131,9 @@ def operating_snapshot(database,config,tasks,agents=None,live=False,clock=time.t
  for r in sorted(rows,key=lambda r:r['finished_at'] or r['started_at'],reverse=True)[:12]:
   activity.append({**link(by_id[r['issue_id']]),'outcome':r['status'],'role':r['role'],'at':r['finished_at'] or r['started_at']})
  outcomes=collections.Counter(r['status'] for r in recent);finished=sum(outcomes[k] for k in ['completed','failed','blocked'])
- # 'billing' is a fixed label. It does not reflect the Segmind lane, although 'models' can list a segmind: model taken from
- # run metrics; Segmind calls report no total_tokens, so they are not counted in tokens_24h.
- return {'operations':{'task_counts':dict(collections.Counter(t['status'] for t in tasks)),'runs_24h':dict(outcomes),'completion_rate_24h':round(100*outcomes['completed']/finished) if finished else None,'median_run_seconds_24h':round(statistics.median(durations),1) if durations else None,'model_waits':len(waits),'writes_today':writes_today,'team_available':available,'team':team,'projects':projects,'activity':activity,'upcoming':upcoming[:7]},'inference':{'billing':'Free local models','tokens_24h':tokens,'recorded_calls_24h':calls,'models':sorted(models),'contexts':sorted(contexts),'generation_slots':1,'coverage':'Recorded successful extraction calls only; other work and failed calls may not report tokens.'}}
+ # 'billing' comes from billing_line (the Segmind ledger). Segmind calls report no total_tokens, so they are not counted in
+ # tokens_24h although 'models' can list a segmind: model taken from run metrics.
+ return {'operations':{'task_counts':dict(collections.Counter(t['status'] for t in tasks)),'runs_24h':dict(outcomes),'completion_rate_24h':round(100*outcomes['completed']/finished) if finished else None,'median_run_seconds_24h':round(statistics.median(durations),1) if durations else None,'model_waits':len(waits),'writes_today':writes_today,'team_available':available,'team':team,'projects':projects,'activity':activity,'upcoming':upcoming[:7]},'inference':{**billing_line(database,config,since),'tokens_24h':tokens,'recorded_calls_24h':calls,'models':sorted(models),'contexts':sorted(contexts),'generation_slots':1,'coverage':'Recorded successful extraction calls only; other work and failed calls may not report tokens.'}}
 
 
 def delivery_snapshot(database,config,tasks,clock=time.time):

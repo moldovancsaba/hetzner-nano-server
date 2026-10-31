@@ -8,5 +8,5 @@
   "max_pending_jobs": 1,
   "long_inputs": "Use asynchronous jobs; keep source excerpts compact. Token counting reserves output and template space.",
   "credential_file": "/etc/paperclip-local-ai.env",
-  "agent_status": "Research, quality and support roles plus approval-gated ClassScout publication coordinator deployed; model remains 8K."
+  "agent_status": "Five roles are deployed: Research Analyst, Content Quality Reviewer, Support Drafter, Publication Coordinator and Search Coordinator. The Publication Coordinator prepares ClassScout listings and the automatic quality gate decides whether each is published; the model remains 8K."
 }

@@ -2,8 +2,10 @@
 import datetime,json,re,time,urllib.request,urllib.parse,urllib.error
 import catalog,evidence,padel,publishing,quality_gate,venue_identity
 SPECS={'padel-africa':{'origin':padel.ORIGIN,'project':'Padel Africa'},'sportolok':{'origin':'https://sportolok.vercel.app','project':'Sportolok'}}
-# Inherits token() from padel.Client, so the Padel SSO client-credentials token (cached in one module-level variable,
-# not per engine) is also sent to the other engine origin, sportolok.vercel.app. This assumes both engines accept that identity.
+# Inherits token() from padel.Client: one Management machine identity (scopes management:ingest.write and
+# management:catalog.read, no audience in the request), cached in a single module-level variable, is sent to both engine
+# origins, including sportolok.vercel.app. Management is the shared engine behind Padel Africa and Sportolok, so one identity
+# serves both; a per-engine cache would mint the same token twice. A credential rotation must cover both engines.
 class Client(padel.Client):
  def __init__(self,slug):
   if slug not in SPECS:raise ValueError('Unknown engine client')

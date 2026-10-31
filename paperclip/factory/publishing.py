@@ -91,36 +91,7 @@ def parse_brief(issue):
  if len(hosts)!=1:raise ValueError('All publication sources must belong to the same provider host')
  fields['urls']=urls;return fields
 
-# age_ranges, program_schedules and class_price are older single-format parsers. The production path uses formats.ages,
-# formats.schedules and formats.price (see normalize_sources); these three are not used by it and are kept for their tests.
-def age_ranges(text):
- rows=[]
- for m in re.finditer(r'\bages?\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\b',text,re.I):
-  lo,hi=map(int,m.groups())
-  if not 0<=lo<=hi<=17:continue
-  if (lo,hi) not in [(x['min'],x['max']) for x in rows]:rows.append({'min':lo,'max':hi,'quote':m.group(0)})
- if not rows:raise ValueError('Missing explicit numerical child age ranges; fetch a program page with stated ages')
- return rows
-
 def buckets(lo,hi):return [label for a,b,label in [(0,2,'0–2'),(3,5,'3–5'),(6,8,'6–8'),(9,12,'9–12'),(13,17,'Teens')] if lo<=b and hi>=a]
-def program_schedules(text):
- rows=[]
- pattern=r'ages?\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\s*[-–:]?\s*(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)s?\s+(\d{1,2}:\d{2}\s*[ap]m)\s*[,;]?\s*(\d{1,3})\s*minutes'
- for m in re.finditer(pattern,text,re.I):
-  lo,hi=int(m[1]),int(m[2]);duration=int(m[5]);clock=m[4]
-  if not 0<=lo<=hi<=17 or not 15<=duration<=240:continue
-  hour,minute=map(int,re.findall(r'\d+',clock)[:2])
-  if not 1<=hour<=12 or not 0<=minute<=59:continue
-  if any(x['age_min']==lo and x['age_max']==hi and x['daysOfWeek']==[m[3].capitalize()] and norm(x['startTime'])==norm(clock) for x in rows):continue
-  rows.append({'daysOfWeek':[m[3].capitalize()],'startTime':clock,'timeText':clock+' ('+str(duration)+' minutes)','title':'Ages '+str(lo)+'–'+str(hi),'summary':m[0],'age_min':lo,'age_max':hi,'quote':m[0]})
- if not rows:raise ValueError('Missing explicit age-specific class timetable and duration; facility hours cannot satisfy this requirement')
- return rows
-
-def class_price(text):
- matches=list(re.finditer(r'\$(\d+(?:\.\d{1,2})?)\s*per\s*class\b',text,re.I))
- amounts={float(m[1]) for m in matches}
- if len(amounts)!=1:raise ValueError('Missing or ambiguous per-class price. Session/camp prices must not be treated as per-class fees')
- return {'evidence':'stated','amount':next(iter(amounts)),'currency':'USD','unit':'class','sourceText':matches[0][0]}
 
 # Third-party lists and directories describe many providers; they never establish one provider's listing.
 LISTING_HOSTS={'newyorkfamily.com','newyorkloveskids.com','nymetroparents.com','amny.com','coursehorse.com','mommypoppins.com','activityhero.com','kidsdancemap.com','growingupnyc.cityofnewyork.us','yelp.com','tripadvisor.com','timeout.com','facebook.com','instagram.com','eventbrite.com','patch.com','care.com'}

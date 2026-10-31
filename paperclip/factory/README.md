@@ -47,7 +47,7 @@ Model defaults follow the shared gateway's ranked `auto` policy, currently Grani
 
 Run tests with `python3 -m unittest discover -s paperclip/factory -p 'test_*.py'`. Live acceptance tasks use the `[Factory test]` prefix, which marks gateway inference as test traffic. Never use that prefix for ordinary business tasks.
 
-`provision.py` is an owner-side, idempotent scaffolding command run on the Paperclip host. It preserves known project/agent IDs and a fixed list of existing `factory.json` fields (not `remote_llm`; see [Known limitations](../README.md#known-limitations)), enables a thirty-minute recovery heartbeat only for the Search Coordinator and requires board approval for hiring. `pilot.py` is an operator test helper, not a module to import.
+`provision.py` is an owner-side, idempotent scaffolding command run on the Paperclip host. It preserves known project/agent IDs and every existing `factory.json` setting it does not derive from the live company (including `remote_llm`), enables a thirty-minute recovery heartbeat only for the Search Coordinator and requires board approval for hiring. `pilot.py` is an operator test helper, not a module to import.
 
 Use the parent `snapshot.sh` for a restricted recovery bundle including a consistent SQLite backup. An isolated PostgreSQL backup restore passed on 28 October; a full replacement-host recovery remains untested.
 

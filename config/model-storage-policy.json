@@ -18,6 +18,7 @@
   },
   "keep_top_per_task": 3,
   "keep_production_request_days": 3,
+  "keep_cleanup_report_days": 30,
   "exclude_test_requests": true,
   "initial_inventory_history_grace_days": 0,
   "protect_resident_and_queued_models": true,

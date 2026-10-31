@@ -7,7 +7,7 @@ A review of this repository's documentation, code comments, architecture descrip
 - **Examined:** 197 tracked Python files, 74 tracked Markdown documents (38 outside the benchmark and result archives), the `config/` snapshots and the 39 commits of history.
 - **Mechanical checks:** every Markdown link and backticked path against the tracked files; comment, docstring and module-docstring coverage of every Python file; repeated figures compared across documents.
 - **Verification against code:** two read-only passes mapped the inference host and the Paperclip host and compared each concrete claim in the documents (numbers, limits, schedules, endpoints, file names, counts) with the code or configuration. Findings were re-checked against the source before any edit; one claim in a first report (11 gate checks) was wrong and the code says 12.
-- **Safety of the code edits:** every changed Python file was compared with `HEAD` after removing docstrings (`scripts/check_comment_only.py`). Of the 88 changed tracked files, 87 differ only in comments and docstrings; the 88th, `tests/test_hungarian_api.py`, has `unittest.main()` moved from the middle of the file to the end so the second test class runs when the file is executed directly. The 364 factory tests pass and the `tests/` directory gives the same results as `HEAD` (one failure and two errors that need the real Pillow and `tokenizers` packages). Nothing was deployed, so the servers still run the previous (comment-different, behaviour-identical) files.
+- **Safety of the comment edits (commit [b8be171](https://github.com/moldovancsaba/hetzner-nano-server/commit/b8be171)):** every changed Python file was compared with `HEAD` after removing docstrings (`scripts/check_comment_only.py`). Of the 88 changed tracked files, 87 differ only in comments and docstrings; the 88th, `tests/test_hungarian_api.py`, has `unittest.main()` moved from the middle of the file to the end so the second test class runs when the file is executed directly. The 364 factory tests pass and the `tests/` directory gives the same results as `HEAD` (one failure and two errors that need the real Pillow and `tokenizers` packages). Nothing was deployed, so the servers still run the previous (comment-different, behaviour-identical) files.
 
 ## Summary
 
@@ -21,7 +21,7 @@ A review of this repository's documentation, code comments, architecture descrip
 | Module docstrings | 52 of 197 Python files had none | All have one |
 | Misleading comments | Comments and docstrings that contradicted or misdescribed the code | Corrected |
 | Missing explanation | Invariants, boundaries and ordering rules with no comment | Commented |
-| Behaviour defects found while checking | 22 | Documented, not changed (below) |
+| Behaviour defects found while checking | 22 | 18 fixed in the repository on 2026-10-31 (not yet deployed), 1 by design, 3 awaiting an owner decision (below) |
 
 ## Documentation contradictions fixed
 
@@ -64,34 +64,34 @@ Cross-references were already sound: no broken Markdown link existed, and the 21
 
 Module-level and boundary documentation is now complete. Function-level documentation is still thin by design: the dense house style puts many short functions in each file, and the conventions ask for comments on what is not obvious rather than on every function. A function-by-function pass for the public entry points of the factory is the next step if that standard is wanted.
 
-## Defects found while checking, not changed
+## Defects found while checking
 
-These are behaviour, not documentation, so they were recorded where a reader meets them (the Known limitations sections of [OPERATIONS.md](OPERATIONS.md#known-limitations) and [../paperclip/README.md](../paperclip/README.md#known-limitations)) and are listed here with a suggested handling. None was verified by running it against production.
+These are behaviour, not documentation. The review recorded them without changing them; on 2026-10-31 the owner asked for them to be fixed, and the status column says what became of each. **18 are fixed in the repository, 1 is by design and 3 wait for an owner decision (#5, #7, #11). Nothing is deployed:** the hosts run the previous files until the copy steps in [OPERATIONS.md](OPERATIONS.md#fixed-in-the-repository-not-deployed-yet) are done. Each fix has a unit test (factory suite 399 tests; `tests/` 130 tests with Pillow installed, one skipped when the tokenizer file is absent). No defect was reproduced or verified against production. What remains is recorded in the Known limitations sections of [OPERATIONS.md](OPERATIONS.md#known-limitations) and [../paperclip/README.md](../paperclip/README.md#known-limitations).
 
-| # | Where | Effect | Suggested handling |
+| # | Where | Effect (as found) | Status on 2026-10-31 |
 | --- | --- | --- | --- |
-| 1 | `paperclip/factory/provision.py:36` | Re-running it writes a `factory.json` without `remote_llm` (the Segmind lane goes off), and writes `search_candidate_limit` as 2 when no earlier file exists | Preserve `remote_llm` and the limit |
-| 2 | `paperclip/snapshot.sh:17-28` | The recovery bundle does not contain `/etc/paperclip-segmind.env` | Add it to the bundle list |
-| 3 | `factory/engine_ops.py:7-17`, `padel.py:6-8` | One cached Padel SSO token is also sent to the Sportolok engine | Confirm both engines are meant to accept it, or cache per audience |
-| 4 | `factory/search_workflow.py:81` | `research_backlog` reads one unpaged page of 500 issues, so the discovery limit can be wrong above 500 active tasks | Use `issue_pages` |
-| 5 | `factory/publishing.py:281`, `pipeline.py:57`, `refresh.py:78` | A packet older than 48 h raises "approval expired" on every re-run until the brief changes, also in automatic mode (read from the code, not reproduced) | Decide the expiry rule for automatic mode |
-| 6 | `paperclip/restore-drill.py:36,61` | Three recorded assertions are constants, not measurements | Measure them or label them as declarations in the output |
-| 7 | `factory/program_updates.py:85`, `engine_ops.py:87`, `padel.py:66` | These write paths ignore the gate switch and have no human mode; they share the daily cap | Decide whether the switch should cover them |
-| 8 | `paperclip/configure-slg.py:23` | Ends with `setup(True)`, which re-enables every scheduled trigger | Enable only the SLG routines |
-| 9 | `factory/business_metrics.py:118` | The billing label is always "Free local models" although a metered lane exists | Derive it from the ledger |
-| 10 | `factory.json` | Eight keys are never read (`pilot_brand`, `outreach_enabled`, `max_source_pages_per_task`, `automatic_quality_gate.policy`, `growth_mode.coverage`, `.campaign`, `.active_research_limit`, `sales.delivery_enabled`) | Remove or wire them |
-| 11 | `company_ops.py` and `engine_ops.py` | Two code paths for Padel discovery and candidates | Remove the unused one |
-| 12 | `gateway/server.py` `status()` | `per_service_limit` is always 4, but the Paperclip tenant is limited to 1 | Report the tenant's own limit |
-| 13 | `operations/monitor.py:25` against the 900 s text timeout | The 300 s "stuck" alert can fire during a valid long job | Align the threshold with the profile timeout |
-| 14 | `operations/monitor.py`, `external_watchdog.py` | Their own polls add about 2,880 events a day each, about 172,800 of the 200,000-row metrics cap over 30 days | Exclude them from the cap or count them separately |
-| 15 | `storage/cleaner.py` | Cleaner reports are never pruned (about 24 files a day) | Add retention |
-| 16 | `scripts/deploy_gateway_update.py` | Ships five files and omits four modules the gateway imports; other deploy scripts are single use | Retire it or give it the full file list; no script installs the cleaner, collector, monitor or their units |
-| 17 | `scripts/verify_gateway.py:21,38` | Asserts old job types and model defaults, so it fails against today's API | Derive expectations from the live policy |
-| 18 | `tests/test_gateway.py` | Hard-codes the text default; needs the real tokenizer | Read the default from the policy; document the dependency |
-| 19 | `research/collect.py:61-63` | The host allowlist is checked on the first URL and not on redirect targets | Re-check after redirects |
-| 20 | `chat/server.py` | The 256 KiB body check is unreachable because Caddy caps `/chat` at 128 KB | Align the two limits |
-| 21 | `config/tested-models.json` | Lags the generated policy by three `ranked_tasks` entries | Rebuild with `scripts/build_tested_model_index.py` |
-| 22 | `paperclip/local-ai.json:11`, `factory/test_publishing.py` | A stale approval-gated sentence in a config snapshot; tests that exercise code the production path no longer uses | Update the snapshot text; test `formats` instead |
+| 1 | `paperclip/factory/provision.py:36` | Re-running it writes a `factory.json` without `remote_llm` (the Segmind lane goes off), and writes `search_candidate_limit` as 2 when no earlier file exists | **Fixed.** A re-run keeps every setting it does not derive from the live company, including `remote_llm`; a first install writes the code default of 3 candidates |
+| 2 | `paperclip/snapshot.sh:17-28` | The recovery bundle does not contain `/etc/paperclip-segmind.env` | **Fixed.** `snapshot.sh` adds `/etc/paperclip-segmind.env` when it exists |
+| 3 | `factory/engine_ops.py:7-17`, `padel.py:6-8` | One cached Padel SSO token is also sent to the Sportolok engine | **By design.** One Management machine identity serves both engines and a per-engine cache would mint the same token; documented in the Paperclip README. That Sportolok accepts it was not tested against the live host |
+| 4 | `factory/search_workflow.py:81` | `research_backlog` reads one unpaged page of 500 issues, so the discovery limit can be wrong above 500 active tasks | **Fixed.** The backlog count pages through every issue with `issue_pages` |
+| 5 | `factory/publishing.py:281`, `pipeline.py:57`, `refresh.py:78` | A packet older than 48 h raises "approval expired" on every re-run until the brief changes, also in automatic mode (read from the code, not reproduced) | **Owner decision.** Options: keep failing closed; skip the 48 h check in automatic mode (the gate already re-fetches the pages and requires a fetch under one hour old), which is the recommendation; or expire the packet and prepare a fresh one |
+| 6 | `paperclip/restore-drill.py:36,61` | Three recorded assertions are constants, not measurements | **Fixed.** The drill measures network paths, hashes eight production files before and after, and compares the image after startup; it fails when one is false |
+| 7 | `factory/program_updates.py:85`, `engine_ops.py:87`, `padel.py:66` | These write paths ignore the gate switch and have no human mode; they share the daily cap | **Owner decision.** Options: leave as documented; or make `quality_gate.reserve` refuse when the switch is off, which also stops program, engine and Padel writes (recommended) |
+| 8 | `paperclip/configure-slg.py:23` | Ends with `setup(True)`, which re-enables every scheduled trigger | **Fixed.** `configure-slg.py` leaves existing triggers as they are and uses the schedule mode the factory already runs in |
+| 9 | `factory/business_metrics.py:118` | The billing label is always "Free local models" although a metered lane exists | **Fixed.** `business_metrics.billing_line` derives the label and the last 24 hours' calls and cost from the Segmind ledger |
+| 10 | `factory.json` | Eight keys are never read (`pilot_brand`, `outreach_enabled`, `max_source_pages_per_task`, `automatic_quality_gate.policy`, `growth_mode.coverage`, `.campaign`, `.active_research_limit`, `sales.delivery_enabled`) | **Fixed.** The eight keys are removed from `factory.json` and dropped by `provision.py` on a re-run; `test_factory_config.py` flags keys no runtime code names (it catches six of the eight by name) |
+| 11 | `company_ops.py` and `engine_ops.py` | Two code paths for Padel discovery and candidates | **Owner decision.** The old path is still reachable when `engine_clients['padel-africa']` is off, so it is not dead; removal means editing `operational.py`, `search_workflow.py`, `company_ops.py` and `test_company_ops.py` |
+| 12 | `gateway/server.py` `status()` | `per_service_limit` is always 4, but the Paperclip tenant is limited to 1 | **Fixed.** `status()` reports the calling tenant's own limit, from the function `submit` enforces |
+| 13 | `operations/monitor.py:25` against the 900 s text timeout | The 300 s "stuck" alert can fire during a valid long job | **Fixed.** The queue report carries `active_timeout_seconds`; the monitor flags a job after that plus 120 s, at least 300 s |
+| 14 | `operations/monitor.py`, `external_watchdog.py` | Their own polls add about 2,880 events a day each, about 172,800 of the 200,000-row metrics cap over 30 days | **Fixed.** Test-marked `GET /v1/queue` polls answered 200 or 401 are not stored; all other requests are |
+| 15 | `storage/cleaner.py` | Cleaner reports are never pruned (about 24 files a day) | **Fixed.** Reports older than `keep_cleanup_report_days` (30) are pruned on applied runs, except `latest.json` and any report that removed a model |
+| 16 | `scripts/deploy_gateway_update.py` | Ships five files and omits four modules the gateway imports; other deploy scripts are single use | **Fixed by retiring.** The script refuses to run without an explicit flag. No tracked script installs the cleaner, collector, monitor or their units; that stays documented |
+| 17 | `scripts/verify_gateway.py:21,38` | Asserts old job types and model defaults, so it fails against today's API | **Fixed.** Job types per service come from `config/job-routes.json` and defaults from `config/model-policy.json` |
+| 18 | `tests/test_gateway.py` | Hard-codes the text default; needs the real tokenizer | **Fixed.** The text default is read from the policy; the text-job test is skipped with a reason when the tokenizer file is missing, and the dependency is documented |
+| 19 | `research/collect.py:61-63` | The host allowlist is checked on the first URL and not on redirect targets | **Fixed.** A redirect handler re-checks every target against the allowlist and requires HTTPS |
+| 20 | `chat/server.py` | The 256 KiB body check is unreachable because Caddy caps `/chat` at 128 KB | **Fixed.** The chat server's limit is 128,000 bytes, the same as Caddy's, and a test compares it with `config/Caddyfile.example`. A very long conversation is still refused with 413 |
+| 21 | `config/tested-models.json` | Lags the generated policy by three `ranked_tasks` entries | **Fixed.** Regenerated with `scripts/build_tested_model_index.py`; nine lines added |
+| 22 | `paperclip/local-ai.json:11`, `factory/test_publishing.py` | A stale approval-gated sentence in a config snapshot; tests that exercise code the production path no longer uses | **Fixed.** The snapshot text names the five roles and the automatic gate; the tests call `formats`; the three unused single-format parsers were removed from `publishing.py` |
 
 Also noted: `BACKLOG.md` states that it is the repository's task backlog, while planning and status are meant to live on the project board. That is an owner decision about where the backlog lives, so it was left as written.
 

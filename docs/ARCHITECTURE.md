@@ -1,6 +1,6 @@
 # Architecture
 
-How the two hosts, the model gateway and the ClassScout research factory fit together, where state lives, and which limits and boundaries the code enforces. This page describes the system as the code stands; for decisions and dates read [HISTORY.md](HISTORY.md), for operating steps [OPERATIONS.md](OPERATIONS.md), for what changed when [../CHANGELOG.md](../CHANGELOG.md).
+How the two hosts, the model gateway and the ClassScout research factory fit together, where state lives, and which limits and boundaries the code enforces. This page describes the system as the code in this repository stands. Where the hosts still run older files, [OPERATIONS.md](OPERATIONS.md#fixed-in-the-repository-not-deployed-yet) lists what is waiting to be copied. For decisions and dates read [HISTORY.md](HISTORY.md), for operating steps [OPERATIONS.md](OPERATIONS.md), for what changed when [../CHANGELOG.md](../CHANGELOG.md).
 
 Contents: [System context](#system-context) · [Inference host](#inference-host) · [Paperclip host](#paperclip-host) · [Security boundaries](#security-boundaries) · [Where a fact is decided](#where-a-fact-is-decided) · [Limits and known gaps](#limits-and-known-gaps)
 
@@ -135,7 +135,7 @@ One worker runs one job at a time. The values below are the code's, not the targ
 | Queue length / retained rows | 8 / 64 |
 | Queued plus running per tenant | 4 (1 for `paperclip`) |
 | Result retention / queue wait | 300 s / 180 s |
-| Body limit | 6 MiB for the camera tenant, 256 KiB for others (Caddy caps earlier: 128 KB, 6 MB for moderation) |
+| Body limit | 6 MiB for the camera tenant, 256 KiB for others (Caddy caps earlier: 128 KB for `/chat`, 6 MB for moderation; the chat server repeats the 128,000-byte limit) |
 | Synchronous chat wait | 100 s, then 504; input over 4096 counted tokens is refused |
 | Ollama (compose) | one parallel request, one loaded model, queue 8, 2048-token default context, 30 min keep-alive, 2 CPUs, 2800 MiB |
 | Extended text profile | 8192 tokens; budget is `num_ctx − max_tokens − 1536` counted with a hash-pinned tokenizer |
@@ -179,7 +179,7 @@ Request bodies, prompts, images and outputs are never written to disk. See [DATA
 
 ### Deploy and verify
 
-Deploy scripts run on the server, are hash-guarded and mostly single-use; the verify scripts run from the Mac against the public API and send test-purpose requests. `scripts/deploy_dashboard.py` is the one re-runnable deploy. The per-script purposes are in [OPERATIONS.md](OPERATIONS.md); retired or single-use scripts say so in their docstrings.
+Deploy scripts run on the server, are hash-guarded and mostly single-use; the verify scripts run from the Mac against the public API and send test-purpose requests. `scripts/deploy_dashboard.py` is the one re-runnable deploy. The per-script purposes are in [OPERATIONS.md](OPERATIONS.md); retired or single-use scripts say so in their docstrings. `scripts/deploy_gateway_update.py` is retired: it refuses to run without an explicit flag.
 
 ## Paperclip host
 

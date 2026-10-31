@@ -48,7 +48,7 @@ A lost publishing response is recorded as **uncertain** before any retry can occ
 - Fixed receiving origin: `https://classscout.ai` (`publishing.ClassScout.BASE`; the shared catalog, moved from getyourfield.com in the v3 policy). Preparation uses `/api/content-intelligence/prepare-review`; delivery uses `/api/content-intelligence/publish-reviewed`; identity reads use only `provider.get` via `/api/ingest`.
 - Official images are qualified and hosted by the existing ClassScout media pipeline. The verified canary produced an accepted R2 image. The worker does not forge media provenance. When no official image qualifies, the only placeholder it accepts is ClassScout's own hosted category banner, marked as such in the packet (see "A missing image is not a blocker" below).
 - Publication uses a separate single-slot lock from inference/research; a long local-model job does not hold the publication slot. Model inference remains unchanged at the selected 8K profile.
-- The recovery archive includes the new service environment and consistent publication ledger. An isolated full-application restore drill (`restore-drill.py`) has since passed (see [WORKFLOWS.md](WORKFLOWS.md)); real host replacement has not been exercised. The Segmind key file is not part of the recovery bundle (see [Known limitations](../README.md#known-limitations)).
+- The recovery archive includes the new service environment and consistent publication ledger. An isolated full-application restore drill (`restore-drill.py`) has since passed (see [WORKFLOWS.md](WORKFLOWS.md)); real host replacement has not been exercised. The Segmind key file is part of the recovery bundle.
 
 ## Source, age, name and contact checks (2026-10-30)
 

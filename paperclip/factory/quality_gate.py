@@ -2,7 +2,7 @@
 import datetime,json,re,time,urllib.parse,urllib.request
 # publishing imports this module too; see the note at the top of publishing.py.
 import publishing,formats
-# The policy version recorded with every decision. factory.json's automatic_quality_gate.policy is informational only.
+# The policy version recorded with every decision; it is defined here only (factory.json carries the switch and the daily cap, not a version).
 VERSION='classscout-auto-v6'
 # Content-update allowlist: used by check_refresh (field_allowlist) and by refresh.ContactUpdates.apply.
 FIELDS={'phone','email','shortDescription','longDescription'}
