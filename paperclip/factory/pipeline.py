@@ -1,12 +1,9 @@
 """Idempotent source-to-quality-to-publication handoffs with explicit editorial scope."""
 import json,re,time
-import catalog,publishing,quality_gate
+import candidates,catalog,publishing,quality_gate
 
 def initialize(database):
- with database() as db:
-  db.execute('CREATE TABLE IF NOT EXISTS pipeline_links(link_key TEXT PRIMARY KEY,kind TEXT,source_issue TEXT,target_issue TEXT,target_identifier TEXT,created_at REAL)')
-  db.execute('CREATE TABLE IF NOT EXISTS publication_cursor(id INTEGER PRIMARY KEY CHECK(id=1),offset INTEGER)')
-  db.execute('INSERT OR IGNORE INTO publication_cursor VALUES(1,0)')
+ with database() as db:db.execute('CREATE TABLE IF NOT EXISTS pipeline_links(link_key TEXT PRIMARY KEY,kind TEXT,source_issue TEXT,target_issue TEXT,target_identifier TEXT,created_at REAL)')
 def prefix(issue):return '[Factory test] ' if issue['title'].startswith('[Factory test]') else ''
 def metadata(issue):
  lines=[]
@@ -87,12 +84,8 @@ def after_quality(issue,result,board,config,database,web=None):
 def run_queue(issue,board,config,web,database,execution):
  import growth
  initialize(database)
- with database() as db:
-  offset=db.execute('SELECT offset FROM publication_cursor WHERE id=1').fetchone()[0]
-  entities=[dict(r) for r in db.execute("SELECT * FROM entities WHERE brand='ClassScout' AND status='ready_for_human_review' ORDER BY updated_at DESC,id LIMIT 5 OFFSET ?",(offset,))]
-  if not entities and offset:
-   offset=0;entities=[dict(r) for r in db.execute("SELECT * FROM entities WHERE brand='ClassScout' AND status='ready_for_human_review' ORDER BY updated_at DESC,id LIMIT 5")]
-  db.execute('UPDATE publication_cursor SET offset=? WHERE id=1',(offset+len(entities),))
+ # The five candidates touched longest ago, stamped now: whatever happens to them below, they go to the back of the line.
+ with database() as db:entities=candidates.take(db,'ready_for_human_review',5)
  advanced=[];gaps=[]
  for row in entities[:5]:
   source=board.call('/issues/'+row['issue_id'])

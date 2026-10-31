@@ -22,6 +22,7 @@ Eighteen of the 22 defects found by the documentation review are fixed in the re
 - **Dashboard billing line.** It names the metered Segmind lane and shows the last 24 hours' calls and cost from the ledger once the lane is on; before, it always read "Free local models".
 
 ### Changed
+- **Candidates are worked oldest-touched first.** Every candidate now has a last-touched time (`candidate_touches`), and the publication queue and the evidence recheck queue always take the candidates touched longest ago, stamping them as they are selected. A blocked, failing or skipped candidate moves behind all the others instead of holding a slot; the queue visits every ready draft before it repeats any. Before, the publication queue paged through newest-first with an offset that moved as drafts changed, and yesterday 88 of its 231 checks (at least) were repeats. Tests: `test_candidates.py`. Not deployed.
 - `scripts/deploy_gateway_update.py` is retired (it left out four modules the gateway imports; it now refuses to run without an explicit flag); `scripts/verify_gateway.py` takes job types and defaults from `config/job-routes.json` and `config/model-policy.json`; `tests/test_gateway.py` reads the text default from the policy.
 - Removed eight `factory.json` keys that no code reads, and three unused single-format parsers from `publishing.py`; the publication tests now call the parsers production uses.
 

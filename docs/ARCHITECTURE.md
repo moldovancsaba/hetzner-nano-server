@@ -219,7 +219,7 @@ flowchart TD
   R --> D[(entities: draft)]
   D --> Q[worker.quality<br/>re-fetch, recover name and address]
   Q --> RFR[ready_for_human_review]
-  RFR --> QU[pipeline.run_queue<br/>5 per run, :15 and :45]
+  RFR --> QU[pipeline.run_queue<br/>5 oldest-touched per run, :15 and :45]
   QU --> B[growth.infer<br/>editorial brief, optional Segmind choice]
   B --> P[publishing.run<br/>sources, ages, schedule, price]
   P --> CSP[ClassScout prepare-review<br/>image or category banner]
@@ -250,7 +250,8 @@ The gate version is `classscout-auto-v6`. Other workflows reuse the same reserva
 | --- | --- |
 | `worker.py` | `runs`, `sources`, `entities`, `facts`, `quality_reviews`, `model_waits` |
 | `publishing.py`, `quality_gate.py` | `publication_packets`, `automatic_decisions` |
-| `pipeline.py` | `pipeline_links`, `publication_cursor` |
+| `pipeline.py` | `pipeline_links` (the earlier `publication_cursor` table is no longer read or written; existing databases still hold it) |
+| `candidates.py` | `candidate_touches` |
 | `catalog.py` | `catalog_cursor`, `catalog_checks`, `workflow_reports` |
 | `refresh.py`, `program_updates.py`, `portfolio.py` | `refresh_packets`, `program_packets`, `program_queue_checks` |
 | `evidence.py` | `evidence_recovery`, `evidence_rechecks` |

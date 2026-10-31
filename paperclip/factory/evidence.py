@@ -1,6 +1,6 @@
 """Literal source recovery and branch-specific identity; no inferred contact corrections."""
 import json,re,time,urllib.parse
-import publishing
+import candidates,publishing
 from net import canonical_url
 STREET=re.compile(r'\b\d{1,6}(?:-\d{1,4})?[ \t]+(?:(?:[A-Za-z0-9][A-Za-z0-9.\'’-]*|[NSEW])[ \t]+){1,7}?(?:Street|Avenue|Boulevard|Road|Drive|Lane|Place|Court|Terrace|Parkway|St\.?|Ave\.?|Blvd\.?|Rd\.?|Dr\.?|Ln\.?|Pl\.?|Ct\.?|Way)\b',re.I)
 def address_key(value):
@@ -125,7 +125,8 @@ def run_queue(issue,board,config,web,database,execution):
  import pipeline
  with database() as db:
   db.execute('CREATE TABLE IF NOT EXISTS evidence_rechecks(entity_id TEXT PRIMARY KEY,queued_at REAL,task_id TEXT)')
-  entities=[dict(r) for r in db.execute("SELECT e.* FROM entities e LEFT JOIN evidence_rechecks r ON r.entity_id=e.id WHERE e.brand='ClassScout' AND e.status='needs_more_evidence' AND (r.queued_at IS NULL OR r.queued_at<?) ORDER BY e.updated_at LIMIT 2",(time.time()-86400,))]
+  # The two candidates touched longest ago that were not rechecked in the last day; skipped or failed ones still move back.
+  entities=candidates.take(db,'needs_more_evidence',2,where='AND NOT EXISTS(SELECT 1 FROM evidence_rechecks r WHERE r.entity_id=e.id AND r.queued_at>=?)',args=(time.time()-86400,))
  children=[];quality=next(k for k,v in config['agents'].items() if v['role']=='quality')
  for entity in entities:
   source=board.call('/issues/'+entity['issue_id'])
