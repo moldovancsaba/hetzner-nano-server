@@ -21,7 +21,7 @@ A review of this repository's documentation, code comments, architecture descrip
 | Module docstrings | 52 of 197 Python files had none | All have one |
 | Misleading comments | Comments and docstrings that contradicted or misdescribed the code | Corrected |
 | Missing explanation | Invariants, boundaries and ordering rules with no comment | Commented |
-| Behaviour defects found while checking | 22 | 18 fixed in the repository on 2026-10-31 (not yet deployed), 1 by design, 3 awaiting an owner decision (below) |
+| Behaviour defects found while checking | 22 | 18 fixed and deployed on 2026-10-31, 1 by design, 3 awaiting an owner decision (below) |
 
 ## Documentation contradictions fixed
 
@@ -66,7 +66,7 @@ Module-level and boundary documentation is now complete. Function-level document
 
 ## Defects found while checking
 
-These are behaviour, not documentation. The review recorded them without changing them; on 2026-10-31 the owner asked for them to be fixed, and the status column says what became of each. **18 are fixed in the repository, 1 is by design and 3 wait for an owner decision (#5, #7, #11). Nothing is deployed:** the hosts run the previous files until the copy steps in [OPERATIONS.md](OPERATIONS.md#fixed-in-the-repository-not-deployed-yet) are done. Each fix has a unit test (factory suite 399 tests; `tests/` 130 tests with Pillow installed, one skipped when the tokenizer file is absent). No defect was reproduced or verified against production. What remains is recorded in the Known limitations sections of [OPERATIONS.md](OPERATIONS.md#known-limitations) and [../paperclip/README.md](../paperclip/README.md#known-limitations).
+These are behaviour, not documentation. The review recorded them without changing them; on 2026-10-31 the owner asked for them to be fixed, and the status column says what became of each. **18 are fixed, 1 is by design and 3 wait for an owner decision (#5, #7, #11). The 18 were deployed to both hosts on 2026-10-31;** the record, with what was checked and what was not, is in [OPERATIONS.md](OPERATIONS.md#deployed-on-2026-10-31). Each fix has a unit test (factory suite 399 tests; `tests/` 130 tests with Pillow installed, one skipped when the tokenizer file is absent). No defect was reproduced or verified against production. What remains is recorded in the Known limitations sections of [OPERATIONS.md](OPERATIONS.md#known-limitations) and [../paperclip/README.md](../paperclip/README.md#known-limitations).
 
 | # | Where | Effect (as found) | Status on 2026-10-31 |
 | --- | --- | --- | --- |

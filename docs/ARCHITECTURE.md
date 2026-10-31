@@ -1,6 +1,6 @@
 # Architecture
 
-How the two hosts, the model gateway and the ClassScout research factory fit together, where state lives, and which limits and boundaries the code enforces. This page describes the system as the code in this repository stands. Where the hosts still run older files, [OPERATIONS.md](OPERATIONS.md#fixed-in-the-repository-not-deployed-yet) lists what is waiting to be copied. For decisions and dates read [HISTORY.md](HISTORY.md), for operating steps [OPERATIONS.md](OPERATIONS.md), for what changed when [../CHANGELOG.md](../CHANGELOG.md).
+How the two hosts, the model gateway and the ClassScout research factory fit together, where state lives, and which limits and boundaries the code enforces. This page describes the system as the code in this repository stands. Files copied to the hosts, and what was left, are recorded in [OPERATIONS.md](OPERATIONS.md#deployed-on-2026-10-31). For decisions and dates read [HISTORY.md](HISTORY.md), for operating steps [OPERATIONS.md](OPERATIONS.md), for what changed when [../CHANGELOG.md](../CHANGELOG.md).
 
 Contents: [System context](#system-context) · [Inference host](#inference-host) · [Paperclip host](#paperclip-host) · [Security boundaries](#security-boundaries) · [Where a fact is decided](#where-a-fact-is-decided) · [Limits and known gaps](#limits-and-known-gaps)
 
