@@ -850,6 +850,17 @@
         "weights_removed": true,
         "retest_only_if": "Runner stop and resume logic fixed, then one owner-approved maintenance window (about 2 hours of exclusive inference); a repeat on the unfixed harness is barred."
       }
+    },
+    {
+      "model": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
+      "canonical": "phi4mini",
+      "evidence": [
+        "benchmarks/non-english/hu-round4/results.json"
+      ],
+      "outcomes": [
+        "failed"
+      ],
+      "tested_digest": "4eb13d0bc4f419125723803f7cb7f24a09e658056e06a73bb47330f1f5a8bcbc"
     }
   ],
   "source_hashes": {
@@ -869,6 +880,7 @@
     "benchmarks/non-english/hu-round2/results.json": "69b8e8b468342a2a9b55a8adcc4fa40632d3b6543f0f3ee9b486c5bde3388f4a",
     "benchmarks/camera-specialists/results.json": "f0b838fac81ba89660c31e70ca9696d853f4ecca6dceb4cdbf348a79f561ff7a",
     "benchmarks/round6/results.json": "cefcf3da507050a153b7faa7fba0986244d41066d86f41a80034a54b6e7e78f1",
-    "benchmarks/non-english/hu-round3/results.json": "51b3a9bf4ed0a4af5cc288d1167258bf800c9219c3e883d56c6329d1d54d1040"
+    "benchmarks/non-english/hu-round3/results.json": "51b3a9bf4ed0a4af5cc288d1167258bf800c9219c3e883d56c6329d1d54d1040",
+    "benchmarks/non-english/hu-round4/results.json": "62289c5f6e7ec4fe4438286bc87e0f3a675b192a6e334365c3875a2afa4ddf8a"
   }
 }

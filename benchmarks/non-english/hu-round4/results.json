@@ -1,0 +1,133 @@
+{
+  "version": "hungarian-evaluation.v1",
+  "language": "hu",
+  "started_utc": "2026-10-31T10:15:13.398394+00:00",
+  "settings": {
+    "num_ctx": 1024,
+    "num_batch": 8,
+    "num_predict": 192,
+    "temperature": 0,
+    "memory_mib": 2800
+  },
+  "runtime": {
+    "version": "0.40.11"
+  },
+  "fixture_sha256": "e9e20c87959ca09e791bbdd57df483fbf31db3c2187745c2354663f458b1201f",
+  "models": [
+    {
+      "model": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
+      "status": "failed",
+      "tests": [
+        {
+          "ok": true,
+          "response": "{\"city\": \"Budapesten\", \"children\": 2}",
+          "done_reason": "stop",
+          "load_seconds": 6.1406,
+          "prompt_tokens": 104,
+          "output_tokens": 15,
+          "tool_calls": [],
+          "seconds": 19.6184,
+          "peak_cgroup_bytes": 2936012800,
+          "id": "city-number",
+          "kind": "structured",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "ok": true,
+          "response": "{\n  \"cityName\": \"Pécs\"\n}",
+          "done_reason": "stop",
+          "load_seconds": 0.0088,
+          "prompt_tokens": 108,
+          "output_tokens": 13,
+          "tool_calls": [],
+          "seconds": 9.1793,
+          "peak_cgroup_bytes": 2936012800,
+          "id": "case-ending",
+          "kind": "structured",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "ok": false,
+          "error_type": "RuntimeError",
+          "error": "{\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}",
+          "seconds": 0.3377,
+          "peak_cgroup_bytes": 2935873536,
+          "id": "negated-count",
+          "kind": "structured",
+          "json_valid": false,
+          "correct": false
+        }
+      ],
+      "operating_profile": {
+        "num_ctx": 1024,
+        "num_batch": 8
+      },
+      "tag": {
+        "name": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
+        "model": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
+        "modified_at": "2026-10-31T10:15:28.555257143Z",
+        "size": 2117533770,
+        "digest": "4eb13d0bc4f419125723803f7cb7f24a09e658056e06a73bb47330f1f5a8bcbc",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi3",
+          "families": [
+            "phi3"
+          ],
+          "parameter_size": "3.84B",
+          "quantization_level": "Q3_K_M",
+          "context_length": 131072,
+          "embedding_length": 3072,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      },
+      "show": {
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "phi3",
+          "families": [
+            "phi3"
+          ],
+          "parameter_size": "3.84B",
+          "quantization_level": "Q3_K_M"
+        },
+        "template": "{{- if or .System .Tools }}<|system|>{{ if .System }}{{ .System }}{{ end }}\n{{- if .Tools }}{{ if not .System }}You are a helpful assistant with some tools.{{ end }}<|tool|>{{ .Tools }}<|/tool|><|end|>\n{{- end }}\n{{- end }}\n{{- range $i, $_ := .Messages }}\n{{- $last := eq (len (slice $.Messages $i)) 1 -}}\n{{- if ne .Role \"system\" }}<|{{ .Role }}|>{{ .Content }}\n{{- if .ToolCalls }}<|tool_call|>[{{ range .ToolCalls }}{\"name\":\"{{ .Function.Name }}\",\"arguments\":{{ .Function.Arguments }}{{ end }}]<|/tool_call|>\n{{- end }}\n{{- if not $last }}<|end|>\n{{- end }}\n{{- if and (ne .Role \"assistant\") $last }}<|end|><|assistant|>{{ end }}\n{{- end }}\n{{- end }}",
+        "parameters": null
+      },
+      "memory_before": {
+        "current_bytes": 815366144,
+        "events": {
+          "low": 0,
+          "high": 0,
+          "max": 231688,
+          "oom": 0,
+          "oom_kill": 0,
+          "oom_group_kill": 0
+        }
+      },
+      "error_type": "RuntimeError",
+      "error": "OOM during Hungarian evaluation",
+      "oom_kill_delta": 1
+    }
+  ],
+  "restore": {
+    "ok": true,
+    "response": "READY",
+    "done_reason": "stop",
+    "load_seconds": 4.3472,
+    "prompt_tokens": 33,
+    "output_tokens": 2,
+    "tool_calls": [],
+    "seconds": 5.1206,
+    "peak_cgroup_bytes": 2935996416
+  },
+  "finished_utc": "2026-10-31T10:16:19.505465+00:00"
+}

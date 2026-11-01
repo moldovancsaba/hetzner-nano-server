@@ -1,6 +1,6 @@
 {
-  "generated_utc": "2026-10-29T11:25:19.717565+00:00",
-  "model_variants_attempted": 52,
+  "generated_utc": "2026-10-31T10:17:52.293857+00:00",
+  "model_variants_attempted": 53,
   "hardware": "Hetzner CAX11 \u00b7 2 shared ARM64 CPU \u00b7 4 GB RAM \u00b7 no GPU",
   "defaults": {
     "text_chat": "granite4:1b-h",
@@ -653,6 +653,16 @@
       ],
       "sources": [
         "benchmarks/round6/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
+      "outcomes": [
+        "failed"
+      ],
+      "sources": [
+        "benchmarks/non-english/hu-round4/results.json"
       ],
       "ranked_tasks": []
     }
@@ -2062,6 +2072,28 @@
           "median_seconds": 11.039,
           "ranking_eligible": false,
           "api_eligible": false
+        }
+      ]
+    },
+    {
+      "label": "Hungarian \u00b7 Phi-4 Mini follow-up",
+      "date": "2026-10-31T10:16:19.505465+00:00",
+      "policy": "Same frozen 24 structured + six chat + five synthetic Habi cases, scored separately from English, at the served ctx1024/batch8 profile. Phi-4 Mini Q3_K_M (2.12 GB) answered the first two structured cases incorrectly and its runner was then killed for memory at the 2800 MiB native cap; the run was stopped after 3 of 35 cases and the free-form review was not performed (recorded as not performed, not as zero). Q4_K_M (2.49 GB) does not fit the cap.",
+      "source": "benchmarks/non-english/hu-round4/rankings.json",
+      "rows": [
+        {
+          "model": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
+          "status": "failed",
+          "profile": "ctx1024/batch8",
+          "correct": 0,
+          "total": 24,
+          "json_valid": 2,
+          "chat_usable": null,
+          "chat_total": 6,
+          "client_regression_usable": null,
+          "client_regression_total": 5,
+          "median_seconds": 9.1793,
+          "ranking_eligible": false
         }
       ]
     },

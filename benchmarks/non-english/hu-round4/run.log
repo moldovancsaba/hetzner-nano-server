@@ -1,0 +1,6 @@
+START hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M
+CASE city-number False 19.6184
+CASE case-ending False 9.1793
+CASE negated-count False 0.3377
+DONE hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M failed
+FINISHED

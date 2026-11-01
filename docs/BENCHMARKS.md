@@ -11,7 +11,7 @@ The deployed defaults come from these rankings through [MODEL-POLICY.md](MODEL-P
 | English text and structured tasks | [ENGLISH.md](../benchmarks/rankings/ENGLISH.md) | Granite 4 1B Hybrid |
 | General image recognition | [IMAGES.md](../benchmarks/rankings/IMAGES.md) | MiniCPM-V 4.6 Q5_K_M on the frozen 32-image cohort |
 | Image moderation (review assistance only) | [MODERATION.md](../benchmarks/rankings/MODERATION.md) | Qwen3.5 0.8B, narrowly (macro F2 0.694 against 0.690 for MiniCPM); the difference does not establish general superiority |
-| Hungarian text (experimental) | [language-specific evaluation](../benchmarks/non-english/REPORT.md) | no model passed the quality gate; the best measured profile is available for explicit testing only |
+| Hungarian text (experimental) | [language-specific evaluation](../benchmarks/non-english/REPORT.md), [round 4](../benchmarks/non-english/hu-round4/REPORT.md) | no model passed the quality gate; the best measured profile is available for explicit testing only |
 
 Live defaults are whatever `/v1/models` and `/v1/job-types` report; this table records the last evidence, not the deployment.
 

@@ -9,6 +9,7 @@ SOURCES.append('benchmarks/non-english/hu-round2/results.json')
 SOURCES.append('benchmarks/camera-specialists/results.json')
 SOURCES.append('benchmarks/round6/results.json')
 SOURCES.append('benchmarks/non-english/hu-round3/results.json')
+SOURCES.append('benchmarks/non-english/hu-round4/results.json')
 def canonical(name):
  name=name.lower().removeprefix('hf.co/').removeprefix('https://huggingface.co/')
  if '/' in name:name=name.rsplit('/',1)[-1].split(':')[0]

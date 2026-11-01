@@ -8,6 +8,9 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 
 ## 2026-10-31
 
+### Added
+- **Hungarian round 4: Phi-4 Mini measured and rejected.** The one plausible small candidate not yet tested (Q3_K_M, 2.12 GB) got the same 35 frozen cases at the served ctx1024/batch8 profile. It answered the first two structured cases incorrectly and its runner was killed for memory at the 2800 MiB cap on the third, so the run stopped after 3 of 35 cases; the served Qwen3-4B profile and every default are unchanged. The attempt is in the tested-model index (so the daily discovery will not repeat it unchanged) and on the public dashboard. The host was restored afterwards. [Report](benchmarks/non-english/hu-round4/REPORT.md).
+
 ### Fixed
 Eighteen of the 22 defects found by the documentation review are fixed in the repository, each with a unit test; the status of every one is in [docs/GAP-ANALYSIS-2026-10-30.md](docs/GAP-ANALYSIS-2026-10-30.md#defects-found-while-checking). **All of them were deployed to both hosts on 2026-10-31** (what was copied, what was checked and what was not: [docs/OPERATIONS.md](docs/OPERATIONS.md#deployed-on-2026-10-31)).
 - **Gateway queue report.** `GET /v1/queue` reports the calling tenant's own `per_service_limit` (1 for Paperclip, not always 4) and a new `active_timeout_seconds` for the running job. The host monitor flags a job as stuck after that timeout plus 120 s (at least 300 s), so a valid 900 s job on the 8K profile no longer raises a critical alert.

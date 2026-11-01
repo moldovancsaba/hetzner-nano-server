@@ -1,0 +1,29 @@
+{
+  "scope": "Hungarian-only Phi-4 Mini follow-up; no English/default changes without passing the original gate.",
+  "models": [
+    "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M"
+  ],
+  "settings": {
+    "num_ctx": 1024,
+    "num_batch": 8,
+    "num_predict": 192,
+    "temperature": 0,
+    "memory_mib": 2800
+  },
+  "model_profiles": {
+    "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M": {"num_ctx": 1024, "num_batch": 8}
+  },
+  "why_this_profile": "Identical to the served Qwen3-4B Q3_K_M Hungarian profile (ctx1024/batch8, 2800 MiB native cap), so scores and memory are like-for-like. Q4_K_M (2.49 GB) does not fit the cap.",
+  "provenance": {
+    "Phi-4-mini-instruct Q3_K_M": {
+      "upstream": "microsoft/Phi-4-mini-instruct",
+      "upstream_revision": "cfbefacb99257ffa30c83adab238a50856ac3083",
+      "gguf_repo": "unsloth/Phi-4-mini-instruct-GGUF",
+      "gguf_revision": "78eb92a46fc37e6b524df991ed9aca9bc6aa7b80",
+      "gguf_file": "Phi-4-mini-instruct-Q3_K_M.gguf",
+      "gguf_size_bytes": 2117532640,
+      "gguf_sha256": "8eb40b196ca664365bb0012eac556e9700345fcf68b41cfc35e8bf4a47687653",
+      "license": "MIT"
+    }
+  }
+}

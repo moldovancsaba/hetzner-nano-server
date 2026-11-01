@@ -1,0 +1,44 @@
+{
+  "version": "hungarian-round4.v1",
+  "generated_utc": "2026-10-31T10:16:19.505465+00:00",
+  "scope": "Hungarian-only frozen follow-up (Phi-4 Mini Q3_K_M); six original chat cases assistant-reviewed when the structured gate is passed; five Habi-derived synthetic regressions separate. No independent native-speaker certification or long-context recall test.",
+  "ranking_policy": "Unchanged >=20/24 strict structured and >=5/6 usable original chat, complete and zero OOM. Habi regressions separately reported.",
+  "served_baseline": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M scored 17/24 structured and 3/6 usable chat at ctx1024/batch8",
+  "rows": [
+    {
+      "model": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
+      "status": "failed",
+      "profile": "ctx1024/batch8",
+      "correct": 0,
+      "total": 24,
+      "json_valid": 2,
+      "chat_usable": null,
+      "chat_total": 6,
+      "client_regression_usable": null,
+      "chat_review": "not performed: structured gate (>=20/24) failed",
+      "client_regression_total": 5,
+      "median_seconds": 9.1793,
+      "peak_cgroup_bytes": 2936012800,
+      "oom_kill_delta": 1,
+      "ranking_eligible": false,
+      "checks": [
+        {
+          "id": "city-number",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "case-ending",
+          "json_valid": true,
+          "correct": false
+        },
+        {
+          "id": "negated-count",
+          "json_valid": false,
+          "correct": false
+        }
+      ]
+    }
+  ],
+  "winner": null
+}
