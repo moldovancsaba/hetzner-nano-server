@@ -39,7 +39,7 @@ def guarded(fn):
   stop.set();thread.join(2);maintenance('release',held);time.sleep(2)
 def prepare(candidate):
  model=candidate['model'];unload()
- if model.lower() not in initial:
+ if not any(m['name'].lower()==model.lower() for m in get('/api/tags')['models']):
   budget=candidate.get('expected_primary_bytes',0)+candidate.get('maximum_projector_bytes',0)+plan['settings']['disk_staging_margin_bytes']
   assert shutil.disk_usage('/').free>4*1024**3+budget,'Disk preflight refuses to cross 4 GiB floor'
   with (ROOT/'pull.log').open('w') as log:subprocess.run(['docker','exec','narimato-ollama','ollama','pull',model],check=True,stdout=log,stderr=subprocess.STDOUT,timeout=600)
