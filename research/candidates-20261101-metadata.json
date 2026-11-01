@@ -1,0 +1,118 @@
+{
+  "scope": "Metadata-only shortlist review; no inference, downloads or eligibility approval.",
+  "sources": [
+    {
+      "model": "KoalaAI/NSFW_Detection",
+      "error": "HTTPError"
+    },
+    {
+      "model": "Marqo/nsfw-image-detection-384",
+      "revision": "0c26ec22111b83f106d72a55f611ec35962bcb65",
+      "task": "image-classification",
+      "license": "apache-2.0",
+      "files": [
+        {
+          "name": "model.safetensors",
+          "bytes": 22404720,
+          "sha256": "6bf2e0f64a1d20169736c2836e3a787b12379fdc08ba87f7d94a7a3d58eeefce"
+        }
+      ],
+      "parameter_info": {
+        "parameters": {
+          "F32": 5597762
+        },
+        "total": 5597762
+      }
+    },
+    {
+      "model": "google/siglip2-base-patch16-224",
+      "revision": "75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2",
+      "task": "zero-shot-image-classification",
+      "license": "apache-2.0",
+      "files": [
+        {
+          "name": "model.safetensors",
+          "bytes": 1500800904,
+          "sha256": "612923381c76ec5a9bed335d1c48827e3f2e506ac31b044b63b2031fadee6a0b"
+        }
+      ],
+      "parameter_info": {
+        "parameters": {
+          "F32": 375187970
+        },
+        "total": 375187970
+      }
+    },
+    {
+      "model": "NYTK/PULI-GPTrio",
+      "revision": "186b03329681ac45d06bdfd9bc3e76a33204d64d",
+      "task": "text-generation",
+      "license": "cc-by-nc-4.0",
+      "files": [
+        {
+          "name": "model-00001-of-00004.safetensors",
+          "bytes": 4988065272,
+          "sha256": "cb298c6f6f71106dc872361ba2398decf3151cad5f470c2d63268444e380f19c"
+        },
+        {
+          "name": "model-00002-of-00004.safetensors",
+          "bytes": 4967383968,
+          "sha256": "acf94f68ee364d3057354e1c524925517215d68e8b9cc20ce8bc26441428fa64"
+        },
+        {
+          "name": "model-00003-of-00004.safetensors",
+          "bytes": 4161853768,
+          "sha256": "b8d9c106053b49c2dcf51ad4fc7a925eb89d24dafd0fcf136b4f4e033558fc9d"
+        },
+        {
+          "name": "model-00004-of-00004.safetensors",
+          "bytes": 1228931200,
+          "sha256": "034d9cce4de2b45a16b7497d939348ea6a91f91dc78d641ee32ebc3b9e2f69bd"
+        }
+      ],
+      "parameter_info": {
+        "parameters": {
+          "F16": 7673094144
+        },
+        "total": 7673094144
+      }
+    },
+    {
+      "model": "sambanovasystems/SambaLingo-Hungarian-Chat",
+      "revision": "c2615872f7d2871603692d5274e5f54e0cfde7bc",
+      "task": "text-generation",
+      "license": "llama2",
+      "files": [
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "bytes": 4989316656,
+          "sha256": "6bb1a09ce5f3ebea732635e15306ac42ff3f5f4126f279684212b4141cffc0c3"
+        },
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "bytes": 4924322336,
+          "sha256": "2f16e647fd2f040fc69ed050a617ce0e6af3865dee9c1216133db679640937c6"
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "bytes": 3978462184,
+          "sha256": "67f2a6e3870708cd60efd87dc61e9dd4a05917fce03fb0e31575379a2064b5d5"
+        }
+      ],
+      "parameter_info": {
+        "parameters": {
+          "BF16": 6946033664
+        },
+        "total": 6946033664
+      }
+    },
+    {
+      "model": "Helsinki-NLP/opus-mt-en-hu",
+      "revision": "f2ee4d3f21c0ec85db4eb55d00b3ecc55fbd9d9b",
+      "task": "translation",
+      "license": "apache-2.0",
+      "files": [],
+      "parameter_info": null
+    }
+  ]
+}

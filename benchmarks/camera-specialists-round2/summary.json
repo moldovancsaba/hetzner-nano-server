@@ -1,0 +1,37 @@
+{
+  "version": "camera-specialists-round2.v1",
+  "generated_utc": "2026-11-01T19:54:50.741486+00:00",
+  "rows": [
+    {
+      "model": "Marqo/nsfw-image-detection-384",
+      "status": "completed",
+      "total_images": 41,
+      "valid": 41,
+      "median_seconds": 0.19577,
+      "p95_seconds": 0.225459,
+      "true_positives": 3,
+      "false_positives": 1,
+      "macro_f2": 0.75,
+      "macro_detection_recall": 0.75,
+      "benchmark_version": "binary-nsfw-41.v1",
+      "ranking_eligible": false,
+      "binary_confusion": {
+        "tp": 3,
+        "tn": 35,
+        "fp": 1,
+        "fn": 1,
+        "unknown": 1,
+        "invalid": 0
+      },
+      "positive_recall_wilson95": [
+        0.30064184258240184,
+        0.9544127391902995
+      ],
+      "specificity_wilson95": [
+        0.8583028134672614,
+        0.9950795928601897
+      ],
+      "scope": "Only nudity/sexualContent union. Threshold fixed at 0.5 before inference. No held-out threshold calibration; not nine-category moderation or twelve-reason approval."
+    }
+  ]
+}

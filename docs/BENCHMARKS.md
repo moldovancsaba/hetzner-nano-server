@@ -45,3 +45,7 @@ The first synthetic check of the original text model (`scripts/benchmark.py`, a 
 ## Running a new round
 
 A round is unfinished until the ranking sources, the generated `config/model-policy.json`, the installed winning artifacts, the deployed policy, API discovery, actual `auto` jobs and the documentation agree. Procedure and gates: [CONTINUOUS-EVALUATION.md](CONTINUOUS-EVALUATION.md), [MODEL-POLICY.md](MODEL-POLICY.md), [AGENTS.md](../AGENTS.md). Then rebuild and publish the dashboard (`scripts/deploy_dashboard.py`).
+
+## Completed follow-up — 2026-11-01
+
+[InternVL continuation](../benchmarks/round6/INTERNVL-CONTINUATION.md): all remaining frozen image suites completed, recognition rank 4, moderation rank 1 under the unchanged F2 rule, with heavy negative-case abstention. [Marqo binary specialist](../benchmarks/camera-specialists-round2/README.md): 41 cases, 3/4 positives, one false alarm, .196-second median inference; not an API model or a nine-category score. Public comparison now lists 54 variants and 28 cohorts. English and Hungarian defaults are unchanged.

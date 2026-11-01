@@ -54,3 +54,9 @@ Use the dedicated Camera key and submit `task: image_moderation`, `model: auto` 
 For optional object/text observations, submit a separate `image_recognition` job with `model: auto`; it uses a different ranking. That result is not a moderation judgment and has not been validated for branded competitor or political-policy matching. There is no deployed twelve-reason ensemble endpoint, automatic multi-model fan-out or specialist routing contract in this release. Do not send undocumented task names or expect automatic retries to run another model.
 
 Keep request images and answers transient. Never collect live Camera images for future tests or training. Retain aggregate test evidence, artifact revisions, decisions and failure reasons after declining/removing weights.
+
+## Follow-up: 2026-11-01
+
+The [corrected InternVL suite](../benchmarks/round6/INTERNVL-CONTINUATION.md) is complete. It becomes the default moderation model under the unchanged macro-F2 ranking (.748), but abstains on 320/333 negative category checks. Human approval and handling of uncertain categories are essential; Qwen remains an explicit installed alternative with much higher specificity. Recognition still defaults to MiniCPM Q5.
+
+[Marqo tiny NSFW](../benchmarks/camera-specialists-round2/README.md) completed 41 binary cases: 3/4 positives detected, one false alarm, one unknown; median .196 seconds. No twelve-reason coverage or new API task follows from that result. The earlier pair/triple analysis is historical and does not include this new candidate; choosing a new combination needs a fresh held-out comparison, not a claim that the previous best still wins.

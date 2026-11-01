@@ -1,0 +1,39 @@
+{
+  "version": "camera-specialists-round2.v1",
+  "model": "Marqo/nsfw-image-detection-384",
+  "revision": "0c26ec22111b83f106d72a55f611ec35962bcb65",
+  "weights": {
+    "name": "model.safetensors",
+    "bytes": 22404720,
+    "sha256": "6bf2e0f64a1d20169736c2836e3a787b12379fdc08ba87f7d94a7a3d58eeefce"
+  },
+  "architecture": "vit_tiny_patch16_384",
+  "label_names": [
+    "NSFW",
+    "SFW"
+  ],
+  "nsfw_index": 0,
+  "threshold": 0.5,
+  "threshold_policy": "Fixed before inference; no evaluation-set threshold tuning; scores not calibrated probabilities.",
+  "scope": "41 frozen public research images, binary union of nudity and sexualContent only; human review always. Other Camera reasons not evaluated. No live inputs.",
+  "preprocessing": {
+    "resize_shorter_edge": 384,
+    "center_crop": 384,
+    "resampling": "PIL bicubic",
+    "mean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "std": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "resource_limits": {
+    "memory_mib": 2800,
+    "cpu": 2,
+    "hard_disk_floor_gib": 4
+  }
+}

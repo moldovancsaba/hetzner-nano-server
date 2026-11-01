@@ -1,0 +1,313 @@
+{
+  "version": "camera-specialists-round2.v1",
+  "started_utc": "2026-11-01T19:54:37.291852+00:00",
+  "models": [
+    {
+      "model": "Marqo/nsfw-image-detection-384",
+      "revision": "0c26ec22111b83f106d72a55f611ec35962bcb65",
+      "status": "completed",
+      "tests": [
+        {
+          "id": "harmful-236",
+          "valid": true,
+          "nsfw_score": 0.06535883992910385,
+          "detected": false,
+          "seconds": 0.225459
+        },
+        {
+          "id": "harmful-413",
+          "valid": true,
+          "nsfw_score": 0.0559241808950901,
+          "detected": false,
+          "seconds": 0.227166
+        },
+        {
+          "id": "harmful-546",
+          "valid": true,
+          "nsfw_score": 0.04687206819653511,
+          "detected": false,
+          "seconds": 0.196887
+        },
+        {
+          "id": "harmful-4845",
+          "valid": true,
+          "nsfw_score": 0.1717989146709442,
+          "detected": false,
+          "seconds": 0.196368
+        },
+        {
+          "id": "harmful-4926",
+          "valid": true,
+          "nsfw_score": 0.04834146425127983,
+          "detected": false,
+          "seconds": 0.234499
+        },
+        {
+          "id": "harmful-4930",
+          "valid": true,
+          "nsfw_score": 0.04645140841603279,
+          "detected": false,
+          "seconds": 0.197002
+        },
+        {
+          "id": "harmful-4918",
+          "valid": true,
+          "nsfw_score": 0.08392968028783798,
+          "detected": false,
+          "seconds": 0.197515
+        },
+        {
+          "id": "harmful-4852",
+          "valid": true,
+          "nsfw_score": 0.04286758229136467,
+          "detected": false,
+          "seconds": 0.198897
+        },
+        {
+          "id": "harmful-146",
+          "valid": true,
+          "nsfw_score": 0.06071777641773224,
+          "detected": false,
+          "seconds": 0.19668
+        },
+        {
+          "id": "harmful-250",
+          "valid": true,
+          "nsfw_score": 0.07820073515176773,
+          "detected": false,
+          "seconds": 0.19526
+        },
+        {
+          "id": "harmful-256",
+          "valid": true,
+          "nsfw_score": 0.040410928428173065,
+          "detected": false,
+          "seconds": 0.195161
+        },
+        {
+          "id": "harmful-263",
+          "valid": true,
+          "nsfw_score": 0.09887056052684784,
+          "detected": false,
+          "seconds": 0.19636
+        },
+        {
+          "id": "harmful-254",
+          "valid": true,
+          "nsfw_score": 0.04468810558319092,
+          "detected": false,
+          "seconds": 0.19589
+        },
+        {
+          "id": "harmful-4121",
+          "valid": true,
+          "nsfw_score": 0.04788120836019516,
+          "detected": false,
+          "seconds": 0.197999
+        },
+        {
+          "id": "harmful-4133",
+          "valid": true,
+          "nsfw_score": 0.06289918720722198,
+          "detected": false,
+          "seconds": 0.195135
+        },
+        {
+          "id": "harmful-1680",
+          "valid": true,
+          "nsfw_score": 0.17650344967842102,
+          "detected": false,
+          "seconds": 0.19621
+        },
+        {
+          "id": "harmful-3055",
+          "valid": true,
+          "nsfw_score": 0.05716298520565033,
+          "detected": false,
+          "seconds": 0.19577
+        },
+        {
+          "id": "harmful-1762",
+          "valid": true,
+          "nsfw_score": 0.9486780762672424,
+          "detected": true,
+          "seconds": 0.197131
+        },
+        {
+          "id": "harmful-1763",
+          "valid": true,
+          "nsfw_score": 0.9389957785606384,
+          "detected": true,
+          "seconds": 0.192728
+        },
+        {
+          "id": "harmful-1793",
+          "valid": true,
+          "nsfw_score": 0.9526938199996948,
+          "detected": true,
+          "seconds": 0.19179
+        },
+        {
+          "id": "harmful-126",
+          "valid": true,
+          "nsfw_score": 0.053954221308231354,
+          "detected": false,
+          "seconds": 0.192624
+        },
+        {
+          "id": "harmful-984",
+          "valid": true,
+          "nsfw_score": 0.1196281686425209,
+          "detected": false,
+          "seconds": 0.19411
+        },
+        {
+          "id": "harmful-4132",
+          "valid": true,
+          "nsfw_score": 0.8297860026359558,
+          "detected": true,
+          "seconds": 0.198469
+        },
+        {
+          "id": "harmful-4135",
+          "valid": true,
+          "nsfw_score": 0.0636398047208786,
+          "detected": false,
+          "seconds": 0.194795
+        },
+        {
+          "id": "harmful-4093",
+          "valid": true,
+          "nsfw_score": 0.05369846150279045,
+          "detected": false,
+          "seconds": 0.196323
+        },
+        {
+          "id": "harmful-4876",
+          "valid": true,
+          "nsfw_score": 0.07815238833427429,
+          "detected": false,
+          "seconds": 0.193002
+        },
+        {
+          "id": "harmful-251",
+          "valid": true,
+          "nsfw_score": 0.044697582721710205,
+          "detected": false,
+          "seconds": 0.192446
+        },
+        {
+          "id": "commons-19453383",
+          "valid": true,
+          "nsfw_score": 0.09131723642349243,
+          "detected": false,
+          "seconds": 0.194685
+        },
+        {
+          "id": "commons-2088109",
+          "valid": true,
+          "nsfw_score": 0.10602695494890213,
+          "detected": false,
+          "seconds": 0.193187
+        },
+        {
+          "id": "commons-9962028",
+          "valid": true,
+          "nsfw_score": 0.12015550583600998,
+          "detected": false,
+          "seconds": 0.194908
+        },
+        {
+          "id": "coco-222299",
+          "valid": true,
+          "nsfw_score": 0.05297762528061867,
+          "detected": false,
+          "seconds": 0.194494
+        },
+        {
+          "id": "coco-359219",
+          "valid": true,
+          "nsfw_score": 0.054392386227846146,
+          "detected": false,
+          "seconds": 0.193886
+        },
+        {
+          "id": "coco-98261",
+          "valid": true,
+          "nsfw_score": 0.062326282262802124,
+          "detected": false,
+          "seconds": 0.19474
+        },
+        {
+          "id": "commons-research-0",
+          "valid": true,
+          "nsfw_score": 0.06825947761535645,
+          "detected": false,
+          "seconds": 0.198229
+        },
+        {
+          "id": "commons-research-1",
+          "valid": true,
+          "nsfw_score": 0.0835811197757721,
+          "detected": false,
+          "seconds": 0.194772
+        },
+        {
+          "id": "commons-venus",
+          "valid": true,
+          "nsfw_score": 0.08205952495336533,
+          "detected": false,
+          "seconds": 0.19681
+        },
+        {
+          "id": "hate-text-a",
+          "valid": true,
+          "nsfw_score": 0.11575698107481003,
+          "detected": false,
+          "seconds": 0.19587
+        },
+        {
+          "id": "hate-text-b",
+          "valid": true,
+          "nsfw_score": 0.0895381048321724,
+          "detected": false,
+          "seconds": 0.195025
+        },
+        {
+          "id": "anti-hate-text",
+          "valid": true,
+          "nsfw_score": 0.08769738674163818,
+          "detected": false,
+          "seconds": 0.193242
+        },
+        {
+          "id": "similar-text",
+          "valid": true,
+          "nsfw_score": 0.11938758939504623,
+          "detected": false,
+          "seconds": 0.192157
+        },
+        {
+          "id": "neutral-star",
+          "valid": true,
+          "nsfw_score": 0.07294358313083649,
+          "detected": false,
+          "seconds": 0.199361
+        }
+      ],
+      "artifact_sha256": "646dc4c78697e9667218b98f85c48e42e37343eb0063ee51fbc7b158e04fb388",
+      "load_seconds": 0.1151788110146299,
+      "peak_process_rss_kib": 124812
+    }
+  ],
+  "threshold": 0.5,
+  "scope": "41 frozen public research images, binary union of nudity and sexualContent only; human review always. Other Camera reasons not evaluated. No live inputs.",
+  "runtime": {
+    "onnxruntime": "1.23.2",
+    "numpy": "2.5.4",
+    "hardware": "Hetzner CAX11 ARM64 CPU; 2800 MiB / 2 CPU isolated cgroup; native worker unloaded"
+  },
+  "manifest_sha256": "8d491c7cd5fd286b1fb4312e63b92bc5e6704860c0ab55c8e60e33ad9a9ea6ad",
+  "restore": true,
+  "finished_utc": "2026-11-01T19:54:50.741486+00:00"
+}

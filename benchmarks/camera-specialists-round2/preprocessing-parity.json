@@ -1,0 +1,171 @@
+{
+  "passed": true,
+  "images": 41,
+  "reference": "timm publisher transform, crop_pct=1.0 bicubic center crop",
+  "checks": [
+    {
+      "id": "harmful-236",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-413",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-546",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4845",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4926",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4930",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4918",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4852",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-146",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-250",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-256",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-263",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-254",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4121",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4133",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-1680",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-3055",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-1762",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-1763",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-1793",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-126",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-984",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4132",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4135",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4093",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-4876",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "harmful-251",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "commons-19453383",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "commons-2088109",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "commons-9962028",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "coco-222299",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "coco-359219",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "coco-98261",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "commons-research-0",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "commons-research-1",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "commons-venus",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "hate-text-a",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "hate-text-b",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "anti-hate-text",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "similar-text",
+      "max_pixel_error": 0.0
+    },
+    {
+      "id": "neutral-star",
+      "max_pixel_error": 0.0
+    }
+  ]
+}

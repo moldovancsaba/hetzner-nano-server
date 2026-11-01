@@ -1,0 +1,198 @@
+{
+  "model": "Marqo/nsfw-image-detection-384",
+  "revision": "0c26ec22111b83f106d72a55f611ec35962bcb65",
+  "source_sha256": "6bf2e0f64a1d20169736c2836e3a787b12379fdc08ba87f7d94a7a3d58eeefce",
+  "onnx_sha256": "646dc4c78697e9667218b98f85c48e42e37343eb0063ee51fbc7b158e04fb388",
+  "onnx_bytes": 22489943,
+  "torch": "2.15.0",
+  "timm": "1.0.30",
+  "onnxruntime": "1.31.1",
+  "labels": [
+    "NSFW",
+    "SFW"
+  ],
+  "preprocessing": {
+    "resize_shorter_edge": 384,
+    "center_crop": 384,
+    "resampling": "PIL bicubic",
+    "mean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "std": [
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "parity_images": 41,
+  "maximum_logit_error": 5.245208740234375e-06,
+  "checks": [
+    {
+      "id": "harmful-236",
+      "maximum_logit_error": 8.940696716308594e-07
+    },
+    {
+      "id": "harmful-413",
+      "maximum_logit_error": 1.1324882507324219e-06
+    },
+    {
+      "id": "harmful-546",
+      "maximum_logit_error": 2.1457672119140625e-06
+    },
+    {
+      "id": "harmful-4845",
+      "maximum_logit_error": 3.2782554626464844e-06
+    },
+    {
+      "id": "harmful-4926",
+      "maximum_logit_error": 1.1324882507324219e-06
+    },
+    {
+      "id": "harmful-4930",
+      "maximum_logit_error": 1.430511474609375e-06
+    },
+    {
+      "id": "harmful-4918",
+      "maximum_logit_error": 3.5762786865234375e-06
+    },
+    {
+      "id": "harmful-4852",
+      "maximum_logit_error": 1.430511474609375e-06
+    },
+    {
+      "id": "harmful-146",
+      "maximum_logit_error": 1.9073486328125e-06
+    },
+    {
+      "id": "harmful-250",
+      "maximum_logit_error": 2.1904706954956055e-06
+    },
+    {
+      "id": "harmful-256",
+      "maximum_logit_error": 9.5367431640625e-07
+    },
+    {
+      "id": "harmful-263",
+      "maximum_logit_error": 2.384185791015625e-07
+    },
+    {
+      "id": "harmful-254",
+      "maximum_logit_error": 1.430511474609375e-06
+    },
+    {
+      "id": "harmful-4121",
+      "maximum_logit_error": 7.152557373046875e-07
+    },
+    {
+      "id": "harmful-4133",
+      "maximum_logit_error": 9.5367431640625e-07
+    },
+    {
+      "id": "harmful-1680",
+      "maximum_logit_error": 1.6689300537109375e-06
+    },
+    {
+      "id": "harmful-3055",
+      "maximum_logit_error": 1.430511474609375e-06
+    },
+    {
+      "id": "harmful-1762",
+      "maximum_logit_error": 8.344650268554688e-07
+    },
+    {
+      "id": "harmful-1763",
+      "maximum_logit_error": 2.1457672119140625e-06
+    },
+    {
+      "id": "harmful-1793",
+      "maximum_logit_error": 1.430511474609375e-06
+    },
+    {
+      "id": "harmful-126",
+      "maximum_logit_error": 4.76837158203125e-07
+    },
+    {
+      "id": "harmful-984",
+      "maximum_logit_error": 3.5762786865234375e-07
+    },
+    {
+      "id": "harmful-4132",
+      "maximum_logit_error": 5.245208740234375e-06
+    },
+    {
+      "id": "harmful-4135",
+      "maximum_logit_error": 1.9073486328125e-06
+    },
+    {
+      "id": "harmful-4093",
+      "maximum_logit_error": 6.258487701416016e-07
+    },
+    {
+      "id": "harmful-4876",
+      "maximum_logit_error": 1.1920928955078125e-06
+    },
+    {
+      "id": "harmful-251",
+      "maximum_logit_error": 1.430511474609375e-06
+    },
+    {
+      "id": "commons-19453383",
+      "maximum_logit_error": 3.0994415283203125e-06
+    },
+    {
+      "id": "commons-2088109",
+      "maximum_logit_error": 7.152557373046875e-07
+    },
+    {
+      "id": "commons-9962028",
+      "maximum_logit_error": 3.4421682357788086e-06
+    },
+    {
+      "id": "coco-222299",
+      "maximum_logit_error": 9.5367431640625e-07
+    },
+    {
+      "id": "coco-359219",
+      "maximum_logit_error": 1.9073486328125e-06
+    },
+    {
+      "id": "coco-98261",
+      "maximum_logit_error": 9.797513484954834e-07
+    },
+    {
+      "id": "commons-research-0",
+      "maximum_logit_error": 2.6226043701171875e-06
+    },
+    {
+      "id": "commons-research-1",
+      "maximum_logit_error": 4.85801137983799e-07
+    },
+    {
+      "id": "commons-venus",
+      "maximum_logit_error": 9.5367431640625e-07
+    },
+    {
+      "id": "hate-text-a",
+      "maximum_logit_error": 8.419156074523926e-07
+    },
+    {
+      "id": "hate-text-b",
+      "maximum_logit_error": 1.043081283569336e-06
+    },
+    {
+      "id": "anti-hate-text",
+      "maximum_logit_error": 4.76837158203125e-07
+    },
+    {
+      "id": "similar-text",
+      "maximum_logit_error": 2.1122395992279053e-06
+    },
+    {
+      "id": "neutral-star",
+      "maximum_logit_error": 1.6689300537109375e-06
+    }
+  ],
+  "scope": "Export parity only, local Mac CPU; benchmark latency measured separately on ARM64 Hetzner."
+}

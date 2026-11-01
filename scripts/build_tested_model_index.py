@@ -10,6 +10,11 @@ SOURCES.append('benchmarks/camera-specialists/results.json')
 SOURCES.append('benchmarks/round6/results.json')
 SOURCES.append('benchmarks/non-english/hu-round3/results.json')
 SOURCES.append('benchmarks/non-english/hu-round4/results.json')
+# Optional completed continuations remain independent evidence, not new model counts.
+for followup in ['benchmarks/round6/internvl-completion.json','benchmarks/camera-specialists-round2/results.json']:
+ if (ROOT/followup).exists():
+  data=json.loads((ROOT/followup).read_text())
+  if data.get('finished_utc'):SOURCES.append(followup)
 def canonical(name):
  name=name.lower().removeprefix('hf.co/').removeprefix('https://huggingface.co/')
  if '/' in name:name=name.rsplit('/',1)[-1].split(':')[0]

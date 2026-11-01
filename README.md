@@ -7,6 +7,8 @@ Source, configuration, measurements and operating documentation for two small He
 
 For how the pieces fit, read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). For what changed and when, read [CHANGELOG.md](CHANGELOG.md).
 
+Latest model evaluation: [InternVL full continuation](benchmarks/round6/INTERNVL-CONTINUATION.md) and [Marqo binary Camera specialist](benchmarks/camera-specialists-round2/README.md), completed 1 November 2026. The public comparison records 54 attempted variants; current defaults and trade-offs are in [MODEL-POLICY.md](docs/MODEL-POLICY.md).
+
 ## Start here
 
 1. Read this file and [docs/ACCESS.md](docs/ACCESS.md) before running any command.

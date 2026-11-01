@@ -1,0 +1,16 @@
+{
+  "checked_utc": "2026-11-01T20:01:13.293060+00:00",
+  "verification_passed": true,
+  "public_checks": 11,
+  "consumed_test_result_delete_statuses": [
+    200,
+    200,
+    200
+  ],
+  "public_variants": 54,
+  "public_cohorts": 28,
+  "dashboard_defaults_match": true,
+  "queue_status": "ok",
+  "scope": "Synthetic test jobs only; no live payloads or private queue details exported.",
+  "current_merged_tables_match": true
+}

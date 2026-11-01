@@ -1,12 +1,12 @@
 {
-  "generated_utc": "2026-10-31T10:17:52.293857+00:00",
-  "model_variants_attempted": 53,
+  "generated_utc": "2026-11-01T20:00:59.038430+00:00",
+  "model_variants_attempted": 54,
   "hardware": "Hetzner CAX11 \u00b7 2 shared ARM64 CPU \u00b7 4 GB RAM \u00b7 no GPU",
   "defaults": {
     "text_chat": "granite4:1b-h",
     "image_recognition": "minicpm-v4.6:q5_K_M",
     "text_chat_hu": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
-    "image_moderation": "qwen3.5:0.8b"
+    "image_moderation": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M"
   },
   "models": [
     {
@@ -652,9 +652,13 @@
         "completed"
       ],
       "sources": [
-        "benchmarks/round6/results.json"
+        "benchmarks/round6/results.json",
+        "benchmarks/round6/internvl-completion.json"
       ],
-      "ranked_tasks": []
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ]
     },
     {
       "model": "hf.co/unsloth/Phi-4-mini-instruct-GGUF:Q3_K_M",
@@ -663,6 +667,16 @@
       ],
       "sources": [
         "benchmarks/non-english/hu-round4/results.json"
+      ],
+      "ranked_tasks": []
+    },
+    {
+      "model": "Marqo/nsfw-image-detection-384",
+      "outcomes": [
+        "completed"
+      ],
+      "sources": [
+        "benchmarks/camera-specialists-round2/results.json"
       ],
       "ranked_tasks": []
     }
@@ -2198,6 +2212,291 @@
           "macro_detection_recall": 0.75,
           "true_positives": 3,
           "false_positives": 1,
+          "benchmark_version": "binary-nsfw-41.v1",
+          "ranking_eligible": false
+        }
+      ]
+    },
+    {
+      "label": "InternVL corrected continuation \u00b7 Recognition",
+      "date": "2026-11-01T19:54:36.478022+00:00",
+      "policy": "Same frozen public research suites; prior runner fault retained in original evidence. Partial or failed suites do not establish readiness. Human review required.",
+      "source": "benchmarks/round6/internvl-summary.json",
+      "rows": [
+        {
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "total_images": 32,
+          "valid": 28,
+          "valid_rate": 0.875,
+          "object_reference_f1": 0.6229166666666667,
+          "object_recall": 0.6215277777777778,
+          "ocr_target_recall": 0.875,
+          "ocr_correct": 7.0,
+          "ocr_total": 8,
+          "readiness_score": 0.7111458333333334,
+          "count_correct": 7,
+          "count_total": 8,
+          "median_seconds": 74.9368,
+          "p95_seconds": 97.1185
+        }
+      ]
+    },
+    {
+      "label": "InternVL corrected continuation \u00b7 Moderation",
+      "date": "2026-11-01T19:54:36.478022+00:00",
+      "policy": "Same frozen public research suites; prior runner fault retained in original evidence. Partial or failed suites do not establish readiness. Human review required.",
+      "source": "benchmarks/round6/internvl-summary.json",
+      "rows": [
+        {
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.7483719983719984,
+          "macro_detection_recall": 0.787037037037037,
+          "macro_specificity": 0.011932985617196143,
+          "median_seconds": 53.2962,
+          "ranking_eligible": true
+        }
+      ]
+    },
+    {
+      "label": "Current merged recognition ranking",
+      "date": "2026-11-01T19:55:28.531342+00:00",
+      "policy": "Same frozen recognition evaluation; full current ordering including the corrected InternVL continuation. Recognition is separate from moderation.",
+      "source": "benchmarks/round6/rankings-with-internvl.json",
+      "rows": [
+        {
+          "model": "minicpm-v4.6:q5_K_M",
+          "total_images": 32,
+          "valid": 32,
+          "valid_rate": 1.0,
+          "object_reference_f1": 0.8933531746031746,
+          "object_recall": 0.8784722222222222,
+          "ocr_target_recall": 1.0,
+          "ocr_correct": 8.0,
+          "ocr_total": 8,
+          "readiness_score": 0.9306795634920635,
+          "count_correct": 7,
+          "count_total": 8,
+          "median_seconds": 24.93175,
+          "p95_seconds": 27.8466,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "minicpm-v4.6:1b",
+          "readiness_score": 0.8070337301587303,
+          "valid": 29,
+          "total_images": 32,
+          "valid_rate": 0.90625,
+          "object_reference_f1": 0.770436507936508,
+          "object_recall": 0.75,
+          "ocr_target_recall": 0.875,
+          "ocr_correct": 7.0,
+          "ocr_total": 8,
+          "count_correct": 5,
+          "count_total": 8,
+          "median_seconds": 24.1478,
+          "p95_seconds": 30.6779,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "qwen3.5:0.8b",
+          "readiness_score": 0.7996180555555555,
+          "valid": 29,
+          "total_images": 32,
+          "valid_rate": 0.90625,
+          "object_reference_f1": 0.7590277777777777,
+          "object_recall": 0.7395833333333334,
+          "ocr_target_recall": 0.875,
+          "ocr_correct": 7.0,
+          "ocr_total": 8,
+          "count_correct": 8,
+          "count_total": 8,
+          "median_seconds": 47.6412,
+          "p95_seconds": 56.5382,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "total_images": 32,
+          "valid": 28,
+          "valid_rate": 0.875,
+          "object_reference_f1": 0.6229166666666667,
+          "object_recall": 0.6215277777777778,
+          "ocr_target_recall": 0.875,
+          "ocr_correct": 7.0,
+          "ocr_total": 8,
+          "readiness_score": 0.7111458333333334,
+          "count_correct": 7,
+          "count_total": 8,
+          "median_seconds": 74.9368,
+          "p95_seconds": 97.1185,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+          "readiness_score": 0.7044097222222222,
+          "valid": 26,
+          "total_images": 32,
+          "valid_rate": 0.8125,
+          "object_reference_f1": 0.6798611111111111,
+          "object_recall": 0.6875,
+          "ocr_target_recall": 0.75,
+          "ocr_correct": 6.0,
+          "ocr_total": 8,
+          "count_correct": 8,
+          "count_total": 8,
+          "median_seconds": 6.8347,
+          "p95_seconds": 10.1194,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+          "readiness_score": 0.39979166666666666,
+          "valid": 14,
+          "total_images": 32,
+          "valid_rate": 0.4375,
+          "object_reference_f1": 0.3458333333333333,
+          "object_recall": 0.3333333333333333,
+          "ocr_target_recall": 0.5,
+          "ocr_correct": 4.0,
+          "ocr_total": 8,
+          "count_correct": 3,
+          "count_total": 8,
+          "median_seconds": 9.667850000000001,
+          "p95_seconds": 10.1803,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+          "readiness_score": 0.2874305555555555,
+          "valid": 10,
+          "total_images": 32,
+          "valid_rate": 0.3125,
+          "object_reference_f1": 0.24027777777777778,
+          "object_recall": 0.22916666666666666,
+          "ocr_target_recall": 0.375,
+          "ocr_correct": 3.0,
+          "ocr_total": 8,
+          "count_correct": 2,
+          "count_total": 8,
+          "median_seconds": 9.68775,
+          "p95_seconds": 10.465,
+          "benchmark_version": "vision-evaluation.v1"
+        }
+      ]
+    },
+    {
+      "label": "Current merged moderation ranking",
+      "date": "2026-11-01T19:54:36.478022+00:00",
+      "policy": "Frozen macro-F2 first, specificity second. Negative abstentions do not reduce F2: compare specificity and review workload. InternVL leads F2 but has almost no definite-negative coverage. Human review always.",
+      "source": "benchmarks/round6/moderation-with-internvl-summary.json",
+      "rows": [
+        {
+          "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.7483719983719984,
+          "macro_detection_recall": 0.787037037037037,
+          "macro_specificity": 0.011932985617196143,
+          "median_seconds": 53.2962,
+          "ranking_eligible": true,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "qwen3.5:0.8b",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.6942988785094049,
+          "macro_detection_recall": 0.737037037037037,
+          "macro_specificity": 0.9487924865633844,
+          "median_seconds": 37.889,
+          "ranking_eligible": true,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "minicpm-v4.6:1b",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.6896775728297467,
+          "macro_detection_recall": 0.7648148148148148,
+          "macro_specificity": 0.7798999761848059,
+          "median_seconds": 22.441,
+          "ranking_eligible": true,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+          "status": "completed",
+          "total": 41,
+          "valid": 41,
+          "macro_f2": 0.45015316067947647,
+          "macro_detection_recall": 0.43148148148148147,
+          "macro_specificity": 1.0,
+          "median_seconds": 7.3328,
+          "ranking_eligible": true,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
+          "status": "completed",
+          "total": 41,
+          "valid": 36,
+          "macro_f2": 0.3406986373332332,
+          "macro_detection_recall": 0.8425925925925926,
+          "macro_specificity": 0.27081725688536834,
+          "median_seconds": 7.3964,
+          "ranking_eligible": true,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/LiquidAI/LFM2.5-VL-450M-Extract-GGUF:Q8_0",
+          "status": "completed",
+          "total": 41,
+          "valid": 40,
+          "macro_f2": 0.2183811277001241,
+          "macro_detection_recall": 0.5833333333333334,
+          "macro_specificity": 0.49910595792948736,
+          "median_seconds": 6.6178,
+          "ranking_eligible": true,
+          "benchmark_version": "vision-evaluation.v1"
+        },
+        {
+          "model": "hf.co/ggml-org/SmolVLM2-256M-Video-Instruct-GGUF:Q8_0",
+          "status": "completed",
+          "total": 41,
+          "valid": 38,
+          "macro_f2": 0.15957222853774577,
+          "macro_detection_recall": 0.2537037037037037,
+          "macro_specificity": 0.44723553887640577,
+          "median_seconds": 48.6128,
+          "ranking_eligible": true,
+          "benchmark_version": "vision-evaluation.v1"
+        }
+      ]
+    },
+    {
+      "label": "Camera specialists \u00b7 Marqo binary NSFW",
+      "date": "2026-11-01T19:54:50.741486+00:00",
+      "policy": "Same 41 images, fixed threshold 0.5. Nudity/sexual-content union only; four positives, not nine-category or twelve-reason certification. Human review required.",
+      "source": "benchmarks/camera-specialists-round2/summary.json",
+      "rows": [
+        {
+          "model": "Marqo/nsfw-image-detection-384",
+          "status": "completed",
+          "total_images": 41,
+          "valid": 41,
+          "median_seconds": 0.19577,
+          "p95_seconds": 0.225459,
+          "true_positives": 3,
+          "false_positives": 1,
+          "macro_f2": 0.75,
+          "macro_detection_recall": 0.75,
           "benchmark_version": "binary-nsfw-41.v1",
           "ranking_eligible": false
         }

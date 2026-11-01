@@ -26,6 +26,23 @@ def build():
   if (ROOT/path).exists():
    value=read(path);rows=value['rows'] if isinstance(value,dict) else value
    data['cohorts'].append({'label':label,'date':value.get('generated_utc') if isinstance(value,dict) else None,'policy':policy,'source':path,'rows':[safe(x) for x in rows]})
+ continuation='benchmarks/round6/internvl-summary.json'
+ if (ROOT/continuation).exists():
+  followup=read(continuation)
+  for field,label in [('recognition','Recognition'),('moderation','Moderation')]:
+   if followup.get(field):data['cohorts'].append({'label':'InternVL corrected continuation · '+label,'date':followup['finished_utc'],'policy':'Same frozen public research suites; prior runner fault retained in original evidence. Partial or failed suites do not establish readiness. Human review required.','source':continuation,'rows':[safe(followup[field])]})
+ current_recognition='benchmarks/round6/rankings-with-internvl.json'
+ if (ROOT/current_recognition).exists():
+  current=read(current_recognition)
+  data['cohorts'].append({'label':'Current merged recognition ranking','date':current.get('generated_utc'),'policy':'Same frozen recognition evaluation; full current ordering including the corrected InternVL continuation. Recognition is separate from moderation.','source':current_recognition,'rows':[safe(r) for r in current['image']]})
+ current_moderation='benchmarks/round6/moderation-with-internvl-summary.json'
+ if (ROOT/current_moderation).exists():
+  current=sorted(read(current_moderation),key=lambda r:(-r['macro_f2'],-r['macro_specificity'],-r['valid']/r['total'],r['median_seconds'],r['model']))
+  data['cohorts'].append({'label':'Current merged moderation ranking','date':read(continuation).get('finished_utc') if (ROOT/continuation).exists() else None,'policy':'Frozen macro-F2 first, specificity second. Negative abstentions do not reduce F2: compare specificity and review workload. InternVL leads F2 but has almost no definite-negative coverage. Human review always.','source':current_moderation,'rows':[safe(r) for r in current]})
+ specialist='benchmarks/camera-specialists-round2/summary.json'
+ if (ROOT/specialist).exists():
+  followup=read(specialist)
+  data['cohorts'].append({'label':'Camera specialists · Marqo binary NSFW','date':followup['generated_utc'],'policy':'Same 41 images, fixed threshold 0.5. Nudity/sexual-content union only; four positives, not nine-category or twelve-reason certification. Human review required.','source':specialist,'rows':[safe(r) for r in followup['rows']]})
  data['experimental_tasks']=[task for task,model in data['defaults'].items() if read('config/model-policy.json')['models'][model]['tasks'][task].get('experimental')]
  (ROOT/'dashboard/results.json').write_text(json.dumps(data,indent=2)+'\n')
  print(f"Built {data['model_variants_attempted']} variants, {len(data['cohorts'])} historical cohorts")

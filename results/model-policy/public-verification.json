@@ -71,6 +71,18 @@
     "object": "list",
     "data": [
       {
+        "id": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+        "size_bytes": 1105635678,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
         "id": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
         "object": "model",
         "owned_by": "local",
@@ -292,18 +304,6 @@
         "blocked_reason": "not_tested_for_your_jobs"
       },
       {
-        "id": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
-        "size_bytes": 483116964,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
         "id": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
         "object": "model",
         "owned_by": "local",
@@ -314,74 +314,6 @@
         "default_for": [],
         "rankings": {},
         "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
-        "size_bytes": 1705126334,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
-        "size_bytes": 545590747,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "granite3.2-vision:2b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
-        "size_bytes": 2437852465,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
-        "size_bytes": 1045157764,
-        "selectable_for": [
-          "text_chat"
-        ],
-        "default_for": [],
-        "rankings": {
-          "text_chat": {
-            "rank": 16,
-            "metrics": {
-              "model": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
-              "passed": 5,
-              "total": 14,
-              "json_valid": 12,
-              "native_tool_passed": false,
-              "median_seconds": 2.237
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            }
-          }
-        },
-        "blocked_reason": null
       },
       {
         "id": "granite4:1b-h",
@@ -407,7 +339,7 @@
               "native_tool_passed": true,
               "median_seconds": 3.028
             },
-            "evidence": "benchmarks/round6/rankings.json",
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 8192,
@@ -466,210 +398,6 @@
         "blocked_reason": null
       },
       {
-        "id": "granite4:350m",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
-        "size_bytes": 708458314,
-        "selectable_for": [
-          "text_chat"
-        ],
-        "default_for": [],
-        "rankings": {
-          "text_chat": {
-            "rank": 7,
-            "metrics": {
-              "model": "granite4:350m",
-              "passed": 10,
-              "total": 14,
-              "json_valid": 14,
-              "native_tool_passed": true,
-              "median_seconds": 3.36
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            }
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "granite3.3:2b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
-        "size_bytes": 1545321637,
-        "selectable_for": [
-          "text_chat"
-        ],
-        "default_for": [],
-        "rankings": {
-          "text_chat": {
-            "rank": 6,
-            "metrics": {
-              "model": "granite3.3:2b",
-              "passed": 10,
-              "total": 14,
-              "json_valid": 14,
-              "native_tool_passed": true,
-              "median_seconds": 3.107
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            }
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "moondream:1.8b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
-        "size_bytes": 1738451197,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "smollm2:1.7b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
-        "size_bytes": 1820428533,
-        "selectable_for": [
-          "text_chat"
-        ],
-        "default_for": [],
-        "rankings": {
-          "text_chat": {
-            "rank": 13,
-            "metrics": {
-              "model": "smollm2:1.7b",
-              "passed": 8,
-              "total": 14,
-              "json_valid": 12,
-              "native_tool_passed": true,
-              "median_seconds": 2.14
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            }
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "llama3.2:1b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
-        "size_bytes": 1321098329,
-        "selectable_for": [
-          "text_chat"
-        ],
-        "default_for": [],
-        "rankings": {
-          "text_chat": {
-            "rank": 12,
-            "metrics": {
-              "model": "llama3.2:1b",
-              "passed": 8,
-              "total": 14,
-              "json_valid": 14,
-              "native_tool_passed": false,
-              "median_seconds": 1.633
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            }
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "gemma3:1b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
-        "size_bytes": 806067407,
-        "selectable_for": [
-          "text_chat"
-        ],
-        "default_for": [],
-        "rankings": {
-          "text_chat": {
-            "rank": 17,
-            "metrics": {
-              "model": "gemma3:1b",
-              "passed": 4,
-              "total": 14,
-              "json_valid": 14,
-              "native_tool_passed": false,
-              "median_seconds": 2.683
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            }
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "qwen2.5:1.5b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
-        "size_bytes": 986061892,
-        "selectable_for": [
-          "text_chat"
-        ],
-        "default_for": [],
-        "rankings": {
-          "text_chat": {
-            "rank": 9,
-            "metrics": {
-              "model": "qwen2.5:1.5b",
-              "passed": 8,
-              "total": 14,
-              "json_valid": 14,
-              "native_tool_passed": true,
-              "median_seconds": 2.066
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            }
-          }
-        },
-        "blocked_reason": null
-      },
-      {
         "id": "qwen3:0.6b",
         "object": "model",
         "owned_by": "local",
@@ -691,7 +419,7 @@
               "native_tool_passed": true,
               "median_seconds": 1.11
             },
-            "evidence": "benchmarks/round6/rankings.json",
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
@@ -723,7 +451,7 @@
               "native_tool_passed": true,
               "median_seconds": 2.01
             },
-            "evidence": "benchmarks/round6/rankings.json",
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
@@ -734,7 +462,7 @@
         "blocked_reason": null
       }
     ],
-    "policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+    "policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
     "defaults": {
       "text_chat": "granite4:1b-h",
       "text_chat_hu": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M"
@@ -743,6 +471,300 @@
   "camera_discovery": {
     "object": "list",
     "data": [
+      {
+        "id": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+        "size_bytes": 1105635678,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [
+          "image_moderation"
+        ],
+        "rankings": {
+          "image_recognition": {
+            "rank": 4,
+            "metrics": {
+              "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+              "total_images": 32,
+              "valid": 28,
+              "valid_rate": 0.875,
+              "object_reference_f1": 0.6229166666666667,
+              "object_recall": 0.6215277777777778,
+              "ocr_target_recall": 0.875,
+              "ocr_correct": 7.0,
+              "ocr_total": 8,
+              "readiness_score": 0.7111458333333334,
+              "count_correct": 7,
+              "count_total": 8,
+              "median_seconds": 74.9368,
+              "p95_seconds": 97.1185,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              },
+              "max_image_dimension": 640,
+              "evidence": "benchmarks/round6/internvl-completion.json"
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 4
+          },
+          "image_moderation": {
+            "rank": 1,
+            "metrics": {
+              "true_positives": 23,
+              "known_correct": 27,
+              "false_positives": 9,
+              "median_seconds": 53.2962,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 4,
+                  "tn": 0,
+                  "fp": 4,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 33,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5101091635454027,
+                    1
+                  ],
+                  "specificity": 0.0
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 2,
+                  "tn": 3,
+                  "fp": 2,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 32,
+                  "review_unknown": 1,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.08108108108108109
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 1,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 37,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.02631578947368421
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 0,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 39,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.0
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 0,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 2,
+                  "review_negative": 39,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 0.0
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 3,
+                  "tn": 0,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 37,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.0
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 3,
+                  "tn": 0,
+                  "fp": 1,
+                  "fn": 0,
+                  "review_positive": 1,
+                  "review_negative": 33,
+                  "review_unknown": 2,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.75,
+                  "detection_recall": 0.75,
+                  "recall_wilson_95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "specificity": 0.0
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 1,
+                  "tn": 0,
+                  "fp": 1,
+                  "fn": 0,
+                  "review_positive": 2,
+                  "review_negative": 36,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.35714285714285715,
+                  "detection_recall": 0.3333333333333333,
+                  "recall_wilson_95": [
+                    0.06149194472039621,
+                    0.7923403991979522
+                  ],
+                  "specificity": 0.0
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 5,
+                  "tn": 0,
+                  "fp": 1,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 34,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.9615384615384616,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5655175352168251,
+                    1
+                  ],
+                  "specificity": 0.0
+                }
+              },
+              "macro_f2": 0.7483719983719984,
+              "macro_specificity": 0.011932985617196143,
+              "macro_detection_recall": 0.787037037037037,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 1
+          }
+        },
+        "blocked_reason": null
+      },
       {
         "id": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
         "object": "model",
@@ -796,7 +818,7 @@
               "max_image_dimension": 640,
               "evidence": "benchmarks/round5/results.json"
             },
-            "evidence": "benchmarks/round6/rankings.json",
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
@@ -820,9 +842,7 @@
           "image_moderation",
           "image_recognition"
         ],
-        "default_for": [
-          "image_moderation"
-        ],
+        "default_for": [],
         "rankings": {
           "image_recognition": {
             "rank": 3,
@@ -851,7 +871,7 @@
               "benchmark_version": "vision-evaluation.v1",
               "evidence": "benchmarks/vision-evaluation/recognition-results.json"
             },
-            "evidence": "benchmarks/round6/rankings.json",
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
@@ -869,7 +889,7 @@
             "profile_evidence": "config/runtime-context-profiles.json"
           },
           "image_moderation": {
-            "rank": 1,
+            "rank": 2,
             "metrics": {
               "true_positives": 21,
               "known_correct": 337,
@@ -1097,7 +1117,7 @@
                 "think": false
               }
             },
-            "evidence": "benchmarks/round6/moderation-summary.json",
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
@@ -1105,7 +1125,7 @@
               "think": false
             },
             "ranking_tier": "broader_moderation_evaluation",
-            "current_rank": 1
+            "current_rank": 2
           }
         },
         "blocked_reason": null
@@ -1149,7 +1169,7 @@
               "benchmark_version": "vision-evaluation.v1",
               "evidence": "benchmarks/vision-evaluation/recognition-results.json"
             },
-            "evidence": "benchmarks/round6/rankings.json",
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
@@ -1159,7 +1179,7 @@
             "current_rank": 2
           },
           "image_moderation": {
-            "rank": 2,
+            "rank": 3,
             "metrics": {
               "true_positives": 22,
               "known_correct": 282,
@@ -1386,302 +1406,14 @@
                 "num_batch": 32
               }
             },
-            "evidence": "benchmarks/round6/moderation-summary.json",
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
               "num_batch": 32
             },
             "ranking_tier": "broader_moderation_evaluation",
-            "current_rank": 2
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "93036d144d877ae03cb90f1d69b889406391dc5470af9154e9233457fdf05b8e",
-        "size_bytes": 483116964,
-        "selectable_for": [
-          "image_moderation",
-          "image_recognition"
-        ],
-        "default_for": [],
-        "rankings": {
-          "image_recognition": {
-            "rank": 5,
-            "metrics": {
-              "model": "hf.co/LiquidAI/LFM2-VL-450M-GGUF:Q8_0",
-              "readiness_score": 0.39979166666666666,
-              "valid": 14,
-              "total_images": 32,
-              "valid_rate": 0.4375,
-              "object_reference_f1": 0.3458333333333333,
-              "object_recall": 0.3333333333333333,
-              "ocr_target_recall": 0.5,
-              "ocr_correct": 4.0,
-              "ocr_total": 8,
-              "count_correct": 3,
-              "count_total": 8,
-              "median_seconds": 9.667850000000001,
-              "p95_seconds": 10.1803,
-              "tested_profile": {
-                "max_image_edge": 640,
-                "num_ctx": 2048,
-                "num_batch": 32
-              },
-              "max_image_dimension": 640,
-              "benchmark_version": "vision-evaluation.v1",
-              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
-            },
-            "evidence": "benchmarks/round6/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            },
-            "ranking_tier": "broader_service_evaluation",
-            "current_rank": 5
-          },
-          "image_moderation": {
-            "rank": 4,
-            "metrics": {
-              "true_positives": 23,
-              "known_correct": 114,
-              "false_positives": 204,
-              "median_seconds": 7.3964,
-              "categories": {
-                "nudity": {
-                  "positive": 4,
-                  "negative": 37,
-                  "unknown": 0,
-                  "tp": 3,
-                  "tn": 3,
-                  "fp": 30,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 1,
-                  "invalid_negative": 4,
-                  "definite_unknown": 0,
-                  "f2": 0.30612244897959184,
-                  "detection_recall": 0.75,
-                  "recall_wilson_95": [
-                    0.30064184258240184,
-                    0.9544127391902995
-                  ],
-                  "specificity": 0.08108108108108109
-                },
-                "sexualContent": {
-                  "positive": 2,
-                  "negative": 37,
-                  "unknown": 2,
-                  "tp": 2,
-                  "tn": 17,
-                  "fp": 17,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 0,
-                  "invalid_negative": 3,
-                  "definite_unknown": 0,
-                  "f2": 0.37037037037037035,
-                  "detection_recall": 1.0,
-                  "recall_wilson_95": [
-                    0.34238022750665303,
-                    1
-                  ],
-                  "specificity": 0.4594594594594595
-                },
-                "middleFinger": {
-                  "positive": 3,
-                  "negative": 38,
-                  "unknown": 0,
-                  "tp": 2,
-                  "tn": 24,
-                  "fp": 9,
-                  "fn": 1,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 0,
-                  "invalid_negative": 5,
-                  "definite_unknown": 0,
-                  "f2": 0.43478260869565216,
-                  "detection_recall": 0.6666666666666666,
-                  "recall_wilson_95": [
-                    0.2076596008020477,
-                    0.9385080552796037
-                  ],
-                  "specificity": 0.631578947368421
-                },
-                "hateSymbols": {
-                  "positive": 2,
-                  "negative": 39,
-                  "unknown": 0,
-                  "tp": 2,
-                  "tn": 16,
-                  "fp": 18,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 0,
-                  "invalid_negative": 5,
-                  "definite_unknown": 0,
-                  "f2": 0.35714285714285715,
-                  "detection_recall": 1.0,
-                  "recall_wilson_95": [
-                    0.34238022750665303,
-                    1
-                  ],
-                  "specificity": 0.41025641025641024
-                },
-                "hateWords": {
-                  "positive": 2,
-                  "negative": 39,
-                  "unknown": 0,
-                  "tp": 2,
-                  "tn": 10,
-                  "fp": 24,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 0,
-                  "invalid_negative": 5,
-                  "definite_unknown": 0,
-                  "f2": 0.29411764705882354,
-                  "detection_recall": 1.0,
-                  "recall_wilson_95": [
-                    0.34238022750665303,
-                    1
-                  ],
-                  "specificity": 0.2564102564102564
-                },
-                "alcohol": {
-                  "positive": 3,
-                  "negative": 37,
-                  "unknown": 1,
-                  "tp": 2,
-                  "tn": 5,
-                  "fp": 28,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 1,
-                  "invalid_negative": 4,
-                  "definite_unknown": 1,
-                  "f2": 0.23809523809523808,
-                  "detection_recall": 0.6666666666666666,
-                  "recall_wilson_95": [
-                    0.2076596008020477,
-                    0.9385080552796037
-                  ],
-                  "specificity": 0.13513513513513514
-                },
-                "drugs": {
-                  "positive": 4,
-                  "negative": 34,
-                  "unknown": 3,
-                  "tp": 2,
-                  "tn": 13,
-                  "fp": 18,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 2,
-                  "invalid_negative": 3,
-                  "definite_unknown": 3,
-                  "f2": 0.2777777777777778,
-                  "detection_recall": 0.5,
-                  "recall_wilson_95": [
-                    0.15003898915214947,
-                    0.8499610108478506
-                  ],
-                  "specificity": 0.38235294117647056
-                },
-                "violence": {
-                  "positive": 3,
-                  "negative": 37,
-                  "unknown": 1,
-                  "tp": 3,
-                  "tn": 3,
-                  "fp": 30,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 0,
-                  "invalid_negative": 4,
-                  "definite_unknown": 0,
-                  "f2": 0.3333333333333333,
-                  "detection_recall": 1.0,
-                  "recall_wilson_95": [
-                    0.4385029682449546,
-                    1
-                  ],
-                  "specificity": 0.08108108108108109
-                },
-                "weapons": {
-                  "positive": 5,
-                  "negative": 35,
-                  "unknown": 1,
-                  "tp": 5,
-                  "tn": 0,
-                  "fp": 30,
-                  "fn": 0,
-                  "review_positive": 0,
-                  "review_negative": 0,
-                  "review_unknown": 0,
-                  "invalid": 5,
-                  "invalid_positive": 0,
-                  "invalid_negative": 5,
-                  "definite_unknown": 1,
-                  "f2": 0.45454545454545453,
-                  "detection_recall": 1.0,
-                  "recall_wilson_95": [
-                    0.5655175352168251,
-                    1
-                  ],
-                  "specificity": 0.0
-                }
-              },
-              "macro_f2": 0.3406986373332332,
-              "macro_specificity": 0.27081725688536834,
-              "macro_detection_recall": 0.8425925925925926,
-              "valid": 36,
-              "total": 41,
-              "benchmark_version": "vision-evaluation.v1",
-              "tested_profile": {
-                "max_image_edge": 640,
-                "num_ctx": 2048,
-                "num_batch": 32
-              }
-            },
-            "evidence": "benchmarks/round6/moderation-summary.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            },
-            "ranking_tier": "broader_moderation_evaluation",
-            "current_rank": 4
+            "current_rank": 3
           }
         },
         "blocked_reason": null
@@ -1700,7 +1432,7 @@
         "default_for": [],
         "rankings": {
           "image_recognition": {
-            "rank": 4,
+            "rank": 5,
             "metrics": {
               "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
               "readiness_score": 0.7044097222222222,
@@ -1725,17 +1457,17 @@
               "benchmark_version": "vision-evaluation.v1",
               "evidence": "benchmarks/vision-evaluation/recognition-results.json"
             },
-            "evidence": "benchmarks/round6/rankings.json",
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
               "num_batch": 32
             },
             "ranking_tier": "broader_service_evaluation",
-            "current_rank": 4
+            "current_rank": 5
           },
           "image_moderation": {
-            "rank": 3,
+            "rank": 4,
             "metrics": {
               "true_positives": 13,
               "known_correct": 346,
@@ -1962,137 +1694,17 @@
                 "num_batch": 32
               }
             },
-            "evidence": "benchmarks/round6/moderation-summary.json",
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
             "profile": {
               "max_image_edge": 640,
               "num_ctx": 2048,
               "num_batch": 32
             },
             "ranking_tier": "broader_moderation_evaluation",
-            "current_rank": 3
+            "current_rank": 4
           }
         },
         "blocked_reason": null
-      },
-      {
-        "id": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "19c7714a4edfdd47694dfdbfa38dd56026b95452423b5900b483ac84c355183a",
-        "size_bytes": 1705126334,
-        "selectable_for": [
-          "image_recognition"
-        ],
-        "default_for": [],
-        "rankings": {
-          "image_recognition": {
-            "rank": 1006,
-            "metrics": {
-              "model": "hf.co/ggml-org/SmolVLM2-2.2B-Instruct-GGUF:Q4_K_M",
-              "schema_passed": 5,
-              "schema_total": 5,
-              "max_image_dimension": 640,
-              "raw_passed": 12,
-              "raw_total": 12,
-              "first_photo_seconds": 45.7948,
-              "first_poster_seconds": 36.7059
-            },
-            "evidence": "benchmarks/round4/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            },
-            "ranking_tier": "legacy_screening_not_comparable",
-            "current_rank": null
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "3904de461d26985a56c6e3b269d1b0fe63086a6d3fd6d5153aff950cfc1dc3ce",
-        "size_bytes": 545590747,
-        "selectable_for": [
-          "image_recognition"
-        ],
-        "default_for": [],
-        "rankings": {
-          "image_recognition": {
-            "rank": 1009,
-            "metrics": {
-              "model": "hf.co/ggml-org/SmolVLM-500M-Instruct-GGUF:Q8_0",
-              "schema_passed": 3,
-              "schema_total": 5,
-              "max_image_dimension": 640,
-              "raw_passed": 4,
-              "raw_total": 12,
-              "first_photo_seconds": 11.6969,
-              "first_poster_seconds": 8.7731
-            },
-            "evidence": "benchmarks/round4/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            },
-            "ranking_tier": "legacy_screening_not_comparable",
-            "current_rank": null
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "granite3.2-vision:2b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "3be41a661804ad72cd08269816c5a145f1df6479ad07e2b3a7e29dba575d2669",
-        "size_bytes": 2437852465,
-        "selectable_for": [
-          "image_recognition"
-        ],
-        "default_for": [],
-        "rankings": {
-          "image_recognition": {
-            "rank": 1007,
-            "metrics": {
-              "model": "granite3.2-vision:2b",
-              "schema_passed": 5,
-              "schema_total": 5,
-              "max_image_dimension": 320,
-              "raw_passed": 12,
-              "raw_total": 12,
-              "first_photo_seconds": 55.8249,
-              "first_poster_seconds": 53.0938
-            },
-            "evidence": "benchmarks/round4/rankings.json",
-            "profile": {
-              "max_image_edge": 320,
-              "num_ctx": 2048,
-              "num_batch": 32
-            },
-            "ranking_tier": "legacy_screening_not_comparable",
-            "current_rank": null
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "hf.co/QuantFactory/EuroLLM-1.7B-Instruct-GGUF:Q4_K_M",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "8dfea35a1cc396f929ce477790e4c1b0c4715ef6f4cca847b3f4e1e265c2881f",
-        "size_bytes": 1045157764,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
       },
       {
         "id": "granite4:1b-h",
@@ -2101,114 +1713,6 @@
         "installed": true,
         "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
         "size_bytes": 1558945427,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "granite4:350m",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "5eee845b49c4b72ef9e385463a1e2ea9f6f937e08b019f3bbecec12bc1927221",
-        "size_bytes": 708458314,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "granite3.3:2b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
-        "size_bytes": 1545321637,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "moondream:1.8b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "55fc3abd386771e5b5d1bbcc732f3c3f4df6e9f9f08f1131f9cc27ba2d1eec5b",
-        "size_bytes": 1738451197,
-        "selectable_for": [
-          "image_recognition"
-        ],
-        "default_for": [],
-        "rankings": {
-          "image_recognition": {
-            "rank": 1013,
-            "metrics": {
-              "model": "moondream:1.8b",
-              "schema_passed": 2,
-              "schema_total": 5,
-              "max_image_dimension": 640,
-              "raw_passed": 0,
-              "raw_total": 12,
-              "first_photo_seconds": 30.0797,
-              "first_poster_seconds": 26.5006
-            },
-            "evidence": "benchmarks/round4/rankings.json",
-            "profile": {
-              "max_image_edge": 640,
-              "num_ctx": 2048,
-              "num_batch": 32
-            },
-            "ranking_tier": "legacy_screening_not_comparable",
-            "current_rank": null
-          }
-        },
-        "blocked_reason": null
-      },
-      {
-        "id": "smollm2:1.7b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "cef4a1e09247f018ca0c482ad4c2ce1474aba5e87f245dacf97f07948d05d8b4",
-        "size_bytes": 1820428533,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "llama3.2:1b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
-        "size_bytes": 1321098329,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "gemma3:1b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "97558784bdc9175075a72655bf360b15da17df6b3b9e5182af9f8c0c8e58ba7c",
-        "size_bytes": 806067407,
-        "selectable_for": [],
-        "default_for": [],
-        "rankings": {},
-        "blocked_reason": "not_tested_for_your_jobs"
-      },
-      {
-        "id": "qwen2.5:1.5b",
-        "object": "model",
-        "owned_by": "local",
-        "installed": true,
-        "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
-        "size_bytes": 986061892,
         "selectable_for": [],
         "default_for": [],
         "rankings": {},
@@ -2239,16 +1743,16 @@
         "blocked_reason": "not_tested_for_your_jobs"
       }
     ],
-    "policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+    "policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
     "defaults": {
-      "image_moderation": "qwen3.5:0.8b",
+      "image_moderation": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
       "image_recognition": "minicpm-v4.6:q5_K_M"
     }
   },
   "auto_text": {
-    "id": "chatcmpl-c9d7b998147c56e39caa83fa",
+    "id": "chatcmpl-95cf7e5e5490c29244ba79db",
     "object": "chat.completion",
-    "created": 1793273004,
+    "created": 1793563023,
     "model": "granite4:1b-h",
     "choices": [
       {
@@ -2267,9 +1771,9 @@
     }
   },
   "explicit_text": {
-    "id": "chatcmpl-564",
+    "id": "chatcmpl-274",
     "object": "chat.completion",
-    "created": 1793273007,
+    "created": 1793563026,
     "model": "qwen3:0.6b",
     "system_fingerprint": "fp_ollama",
     "choices": [
@@ -2277,7 +1781,7 @@
         "index": 0,
         "message": {
           "role": "assistant",
-          "content": "Say READY! \ud83d\ude80"
+          "content": "Ready! \ud83d\ude80 Let me know what you need!"
         },
         "finish_reason": "stop"
       }
@@ -2287,14 +1791,14 @@
       "prompt_tokens_details": {
         "cached_tokens": 0
       },
-      "completion_tokens": 7,
-      "total_tokens": 26
+      "completion_tokens": 13,
+      "total_tokens": 32
     }
   },
   "explicit_former_alias": {
-    "id": "chatcmpl-503",
+    "id": "chatcmpl-643",
     "object": "chat.completion",
-    "created": 1793273012,
+    "created": 1793563031,
     "model": "qwen3:1.7b",
     "system_fingerprint": "fp_ollama",
     "choices": [
@@ -2318,14 +1822,14 @@
   },
   "image_jobs": [
     {
-      "id": "soFAIkD8pScdwnxP7QgFrdtprHcUZiy_",
+      "id": "2CWY1Sf0X8KKyvnQz364Eoxua5WOThwP",
       "task": "image_recognition",
       "model": "minicpm-v4.6:q5_K_M",
       "status": "completed",
       "request_purpose": "test",
-      "created_at": 1793273012.3320405,
+      "created_at": 1793563031.7066734,
       "selection": "auto",
-      "model_policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+      "model_policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
       "model_digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
       "model_profile": {
         "max_image_edge": 640,
@@ -2335,18 +1839,18 @@
       },
       "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
       "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
-      "started_at": 1793273012.3330297,
+      "started_at": 1793563031.7076764,
       "model_switch": {
         "target_model": "minicpm-v4.6:q5_K_M",
         "unloaded_models": [
           "qwen3:1.7b"
         ],
-        "unload_wait_seconds": 0.1078,
-        "inference_wall_seconds": 27.0819,
-        "model_load_seconds": 3.665106504
+        "unload_wait_seconds": 0.1109,
+        "inference_wall_seconds": 27.9996,
+        "model_load_seconds": 3.666149693
       },
       "queue_wait_seconds": 0.001,
-      "finished_at": 1793273039.527247,
+      "finished_at": 1793563059.8224068,
       "result": {
         "schema_version": "camera-recognition.v1",
         "model": "minicpm-v4.6:q5_K_M",
@@ -2362,14 +1866,14 @@
       "queue_position": null
     },
     {
-      "id": "tJmNai9csnPEN5AMpY7EAbnP5ARUjwl0",
+      "id": "sKTIUBjDu_gTXyP5GXA0_oIJKntbHS4A",
       "task": "image_recognition",
       "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
       "status": "completed",
       "request_purpose": "test",
-      "created_at": 1793273012.5391712,
+      "created_at": 1793563032.236726,
       "selection": "explicit",
-      "model_policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
+      "model_policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
       "model_digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
       "model_profile": {
         "max_image_edge": 640,
@@ -2378,18 +1882,18 @@
       },
       "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
       "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
-      "started_at": 1793273039.5283248,
+      "started_at": 1793563059.8235776,
       "model_switch": {
         "target_model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
         "unloaded_models": [
           "minicpm-v4.6:q5_K_M"
         ],
-        "unload_wait_seconds": 0.1277,
-        "inference_wall_seconds": 7.9249,
-        "model_load_seconds": 1.554032202
+        "unload_wait_seconds": 0.1352,
+        "inference_wall_seconds": 8.1447,
+        "model_load_seconds": 1.550561046
       },
-      "queue_wait_seconds": 26.9892,
-      "finished_at": 1793273047.6097112,
+      "queue_wait_seconds": 27.5869,
+      "finished_at": 1793563068.1055865,
       "result": {
         "schema_version": "camera-recognition.v1",
         "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
@@ -2411,15 +1915,15 @@
       "queue_position": null
     },
     {
-      "id": "UKLdUUYESVv0DWd5YfPBnF3c4IDMabXT",
+      "id": "dOmos3wbh32X4dO22E_L8AZRlUkY-RF4",
       "task": "image_moderation",
-      "model": "qwen3.5:0.8b",
+      "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
       "status": "completed",
       "request_purpose": "test",
-      "created_at": 1793273012.7533755,
+      "created_at": 1793563032.746862,
       "selection": "auto",
-      "model_policy_id": "2fa66c02e5c937de3abbba640ee195a3f95e99d692a2af58f969a0eed518c054",
-      "model_digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+      "model_policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
+      "model_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
       "model_profile": {
         "max_image_edge": 640,
         "num_ctx": 2048,
@@ -2428,41 +1932,43 @@
       },
       "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
       "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
-      "started_at": 1793273047.610659,
+      "started_at": 1793563068.1064188,
       "model_switch": {
-        "target_model": "qwen3.5:0.8b",
+        "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
         "unloaded_models": [
           "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
         ],
-        "unload_wait_seconds": 0.0512,
-        "inference_wall_seconds": 57.2854,
-        "model_load_seconds": 5.553
+        "unload_wait_seconds": 0.0506,
+        "inference_wall_seconds": 100.4716,
+        "model_load_seconds": 2.8597
       },
-      "queue_wait_seconds": 34.8573,
-      "finished_at": 1793273104.9736505,
+      "queue_wait_seconds": 35.3596,
+      "finished_at": 1793563168.6436605,
       "result": {
         "schema_version": "camera-moderation.v1",
-        "model": "qwen3.5:0.8b",
+        "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
         "review_required": true,
         "automated_decision": "none",
-        "signal": "no_flags_detected",
-        "flags": [],
+        "signal": "flagged",
+        "flags": [
+          "nudity"
+        ],
         "categories": {
-          "nudity": "not_detected",
+          "nudity": "detected",
           "sexualContent": "not_detected",
-          "middleFinger": "not_detected",
-          "hateSymbols": "not_detected",
-          "hateWords": "not_detected",
-          "alcohol": "not_detected",
-          "drugs": "not_detected",
-          "violence": "not_detected",
-          "weapons": "not_detected"
+          "middleFinger": "uncertain",
+          "hateSymbols": "uncertain",
+          "hateWords": "uncertain",
+          "alcohol": "uncertain",
+          "drugs": "uncertain",
+          "violence": "uncertain",
+          "weapons": "uncertain"
         },
-        "evidence": "The image shows two cats lying on a pink surface with remote control objects nearby. There are no nudity, sexual content, middle finger, hate symbols, hate words, alcohol, drugs, violence, or weapons depicted.",
+        "evidence": "Two cats are lying on a pink surface, with remote controls nearby.",
         "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
         "timing": {
-          "model_load_seconds": 5.553,
-          "inference_seconds": 57.2786
+          "model_load_seconds": 2.8597,
+          "inference_seconds": 100.4654
         }
       },
       "queue_position": null

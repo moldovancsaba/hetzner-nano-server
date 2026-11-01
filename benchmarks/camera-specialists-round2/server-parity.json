@@ -1,0 +1,213 @@
+{
+  "passed": true,
+  "images": 41,
+  "maximum_score_error": 1.5497207641601562e-06,
+  "reference": "Original timm CPU scores versus recorded Hetzner ARM64 ONNX results; no additional server inference",
+  "checks": [
+    {
+      "id": "harmful-236",
+      "absolute_score_error": 8.940696716308594e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-413",
+      "absolute_score_error": 2.60770320892334e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-546",
+      "absolute_score_error": 1.1175870895385742e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4845",
+      "absolute_score_error": 7.897615432739258e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4926",
+      "absolute_score_error": 2.60770320892334e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4930",
+      "absolute_score_error": 1.1175870895385742e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4918",
+      "absolute_score_error": 1.564621925354004e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4852",
+      "absolute_score_error": 1.1175870895385742e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-146",
+      "absolute_score_error": 7.82310962677002e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-250",
+      "absolute_score_error": 1.7881393432617188e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-256",
+      "absolute_score_error": 3.3527612686157227e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-263",
+      "absolute_score_error": 1.9371509552001953e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-254",
+      "absolute_score_error": 1.1175870895385742e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4121",
+      "absolute_score_error": 1.4901161193847656e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4133",
+      "absolute_score_error": 1.4901161193847656e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-1680",
+      "absolute_score_error": 8.940696716308594e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-3055",
+      "absolute_score_error": 3.725290298461914e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-1762",
+      "absolute_score_error": 0.0,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-1763",
+      "absolute_score_error": 0.0,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-1793",
+      "absolute_score_error": 0.0,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-126",
+      "absolute_score_error": 1.1175870895385742e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-984",
+      "absolute_score_error": 1.1175870895385742e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4132",
+      "absolute_score_error": 1.5497207641601562e-06,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4135",
+      "absolute_score_error": 6.705522537231445e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4093",
+      "absolute_score_error": 5.21540641784668e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-4876",
+      "absolute_score_error": 1.564621925354004e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "harmful-251",
+      "absolute_score_error": 6.332993507385254e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "commons-19453383",
+      "absolute_score_error": 2.1606683731079102e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "commons-2088109",
+      "absolute_score_error": 7.450580596923828e-09,
+      "decision_matched": true
+    },
+    {
+      "id": "commons-9962028",
+      "absolute_score_error": 6.705522537231445e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "coco-222299",
+      "absolute_score_error": 4.0978193283081055e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "coco-359219",
+      "absolute_score_error": 1.1175870895385742e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "coco-98261",
+      "absolute_score_error": 5.960464477539063e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "commons-research-0",
+      "absolute_score_error": 0.0,
+      "decision_matched": true
+    },
+    {
+      "id": "commons-research-1",
+      "absolute_score_error": 2.2351741790771484e-08,
+      "decision_matched": true
+    },
+    {
+      "id": "commons-venus",
+      "absolute_score_error": 7.450580596923828e-09,
+      "decision_matched": true
+    },
+    {
+      "id": "hate-text-a",
+      "absolute_score_error": 1.4156103134155273e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "hate-text-b",
+      "absolute_score_error": 2.905726432800293e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "anti-hate-text",
+      "absolute_score_error": 0.0,
+      "decision_matched": true
+    },
+    {
+      "id": "similar-text",
+      "absolute_score_error": 1.1175870895385742e-07,
+      "decision_matched": true
+    },
+    {
+      "id": "neutral-star",
+      "absolute_score_error": 3.725290298461914e-08,
+      "decision_matched": true
+    }
+  ]
+}

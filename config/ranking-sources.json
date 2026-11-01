@@ -1,7 +1,7 @@
 {
-  "english_and_images": "benchmarks/round6/rankings.json",
-  "moderation": "benchmarks/round6/moderation-summary.json",
-  "moderation_raw": "benchmarks/round6/moderation-results.json",
+  "english_and_images": "benchmarks/round6/rankings-with-internvl.json",
+  "moderation": "benchmarks/round6/moderation-with-internvl-summary.json",
+  "moderation_raw": "benchmarks/round6/moderation-with-internvl-results.json",
   "digest_evidence": [
     "benchmarks/capabilities/results.json",
     "benchmarks/round2/results.json",
@@ -13,7 +13,8 @@
     "benchmarks/vision-evaluation/recognition-results.json",
     "benchmarks/vision-evaluation/moderation-results.json",
     "benchmarks/round5/results.json",
-    "benchmarks/round6/results.json"
+    "benchmarks/round6/results.json",
+    "benchmarks/round6/internvl-completion.json"
   ],
   "runtime_profiles": "config/runtime-context-profiles.json",
   "legacy_screening": "benchmarks/round4/rankings.json",

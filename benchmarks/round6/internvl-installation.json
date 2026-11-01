@@ -1,0 +1,6 @@
+{
+  "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+  "digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+  "installed": true,
+  "reason": "Complete task evaluation; new top-ranked moderation artifact"
+}

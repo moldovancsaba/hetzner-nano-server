@@ -114,12 +114,20 @@
       "retest_only_if": "Changed artifact, runtime or image-output profile; no unchanged repeat."
     },
     "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M": {
-      "state": "incomplete_runner_stop",
-      "reason": "Evaluation halted by a runner exception (StopIteration) after 9 of 32 recognition cases returned (median about 49 s, p95 about 85 s, 0 OOM). Robustness, counting and moderation never ran. This is a harness fault, not a quality verdict: the model is unranked and unscored beyond those 9 responses, and the resume step wrongly treated the earlier stop as final.",
+      "state": "tested_complete_ranked",
+      "reason": "Corrected continuation completed 32 recognition, 9 robustness, 8 counting, 41 moderation and one moderation injection case. Recognition rank 4, readiness .711; moderation leads the frozen macro-F2 rule at .748 versus .694, but abstains on 320/333 labelled-negative category checks (macro specificity .0119). Human review always; abstention is not clearance. Original runner fault remains in immutable evidence.",
       "artifact_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
-      "evidence": "benchmarks/round6/REPORT.md",
+      "evidence": "benchmarks/round6/internvl-summary.json",
+      "weights_removed": false,
+      "retest_only_if": "Changed condition or fresh held-out evaluation; do not retune thresholds on this evaluation set."
+    },
+    "Marqo/nsfw-image-detection-384": {
+      "state": "tested_binary_only",
+      "reason": "41/41 completed at fixed .5 threshold; 3/4 binary positives, 1 false alarm among 36 negatives, 1 unknown; median .196 seconds. Export and preprocessing verified against timm. Not nine-category moderation or a current public API model. Requires a fresh held-out review before integration.",
+      "artifact_digest": "646dc4c78697e9667218b98f85c48e42e37343eb0063ee51fbc7b158e04fb388",
+      "evidence": "benchmarks/camera-specialists-round2/summary.json",
       "weights_removed": true,
-      "retest_only_if": "Runner stop and resume logic fixed, then one owner-approved maintenance window (about 2 hours of exclusive inference); a repeat on the unfixed harness is barred."
+      "retest_only_if": "New held-out split or predeclared changed condition; no test-set threshold tuning."
     }
   }
 }

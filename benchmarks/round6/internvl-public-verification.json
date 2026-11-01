@@ -1,0 +1,1978 @@
+{
+  "checks": [
+    {
+      "name": "Text installed discovery",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Camera installed discovery",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Wrong-task override blocked",
+      "status": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "name": "Untested override blocked",
+      "status": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "name": "Auto text follows ranking",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Explicit Qwen is a real override",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Explicit former alias selects actual Qwen",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "Submit image_recognition auto",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Submit image_recognition hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Submit image_moderation auto",
+      "status": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "name": "Restore ranking default",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    }
+  ],
+  "text_discovery": {
+    "object": "list",
+    "data": [
+      {
+        "id": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+        "size_bytes": 1105635678,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "a4981cf368a06e6ad0d6e1c3117c468297e613b1fae864f50be6bb88e1b66eeb",
+        "size_bytes": 2075620622,
+        "selectable_for": [
+          "text_chat_hu"
+        ],
+        "default_for": [
+          "text_chat_hu"
+        ],
+        "rankings": {
+          "text_chat_hu": {
+            "rank": 1,
+            "metrics": {
+              "model": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+              "language": "hu",
+              "status": "completed",
+              "profile": "ctx1024/batch8",
+              "correct": 17,
+              "total": 24,
+              "json_valid": 24,
+              "chat_usable": 3,
+              "chat_total": 6,
+              "chat_reviewed": 6,
+              "median_seconds": 15.231,
+              "peak_cgroup_bytes": 2936012800,
+              "oom_kill_delta": 0,
+              "ranking_eligible": false,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 1024,
+                "num_batch": 8,
+                "think": false
+              },
+              "checks": [
+                {
+                  "id": "city-number",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "case-ending",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "negated-count",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "ages",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "missing-price",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "accents",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "number-words",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "negative-activity",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "price-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "time-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "cancel-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "place-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "book-intent",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "unknown-intent",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "listing-match",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "listing-abstain",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "listing-budget",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "capacity",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "date",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "opening",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "injection",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "unknown-address",
+                  "json_valid": true,
+                  "correct": false
+                },
+                {
+                  "id": "cancellation",
+                  "json_valid": true,
+                  "correct": true
+                },
+                {
+                  "id": "consent",
+                  "json_valid": true,
+                  "correct": true
+                }
+              ],
+              "api_eligible": true
+            },
+            "evidence": "benchmarks/non-english/hu-round1/rankings.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 1024,
+              "num_batch": 8,
+              "think": false
+            },
+            "ranking_tier": "hungarian_experimental",
+            "current_rank": 1,
+            "language": "hu",
+            "experimental": true,
+            "quality_gate_passed": false,
+            "tenant_profiles": {
+              "paperclip": {
+                "max_image_edge": 640,
+                "num_ctx": 1024,
+                "num_batch": 8,
+                "think": false
+              }
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "minicpm-v4.6:q5_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+        "size_bytes": 1686550252,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "qwen3.5:0.8b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "size_bytes": 1322069277,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "minicpm-v4.6:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
+        "size_bytes": 1637848812,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+        "size_bytes": 482045956,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "granite4:1b-h",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "size_bytes": 1558945427,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [
+          "text_chat"
+        ],
+        "rankings": {
+          "text_chat": {
+            "rank": 1,
+            "metrics": {
+              "model": "granite4:1b-h",
+              "passed": 14,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 3.028
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
+            },
+            "tenant_profiles": {
+              "paperclip": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              },
+              "classscout": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              },
+              "habigoal": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              },
+              "pandora": {
+                "max_image_edge": 640,
+                "num_ctx": 8192,
+                "num_batch": 128,
+                "max_output_tokens": 1024,
+                "timeout_seconds": 900,
+                "prompt_cache_mib": 128,
+                "context_checkpoints": 2
+              }
+            },
+            "tenant_profile_evidence": {
+              "paperclip": "config/runtime-context-profiles.json",
+              "classscout": "config/runtime-context-profiles.json",
+              "habigoal": "config/runtime-context-profiles.json",
+              "pandora": "config/runtime-context-profiles.json"
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "qwen3:0.6b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "size_bytes": 522653767,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 2,
+            "metrics": {
+              "model": "qwen3:0.6b",
+              "passed": 12,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 1.11
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "qwen3:1.7b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "size_bytes": 1359293444,
+        "selectable_for": [
+          "text_chat"
+        ],
+        "default_for": [],
+        "rankings": {
+          "text_chat": {
+            "rank": 3,
+            "metrics": {
+              "model": "qwen3:1.7b",
+              "passed": 12,
+              "total": 14,
+              "json_valid": 14,
+              "native_tool_passed": true,
+              "median_seconds": 2.01
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            }
+          }
+        },
+        "blocked_reason": null
+      }
+    ],
+    "policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
+    "defaults": {
+      "text_chat": "granite4:1b-h",
+      "text_chat_hu": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M"
+    }
+  },
+  "camera_discovery": {
+    "object": "list",
+    "data": [
+      {
+        "id": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+        "size_bytes": 1105635678,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [
+          "image_moderation"
+        ],
+        "rankings": {
+          "image_recognition": {
+            "rank": 4,
+            "metrics": {
+              "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+              "total_images": 32,
+              "valid": 28,
+              "valid_rate": 0.875,
+              "object_reference_f1": 0.6229166666666667,
+              "object_recall": 0.6215277777777778,
+              "ocr_target_recall": 0.875,
+              "ocr_correct": 7.0,
+              "ocr_total": 8,
+              "readiness_score": 0.7111458333333334,
+              "count_correct": 7,
+              "count_total": 8,
+              "median_seconds": 74.9368,
+              "p95_seconds": 97.1185,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              },
+              "max_image_dimension": 640,
+              "evidence": "benchmarks/round6/internvl-completion.json"
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 4
+          },
+          "image_moderation": {
+            "rank": 1,
+            "metrics": {
+              "true_positives": 23,
+              "known_correct": 27,
+              "false_positives": 9,
+              "median_seconds": 53.2962,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 4,
+                  "tn": 0,
+                  "fp": 4,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 33,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5101091635454027,
+                    1
+                  ],
+                  "specificity": 0.0
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 2,
+                  "tn": 3,
+                  "fp": 2,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 32,
+                  "review_unknown": 1,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.08108108108108109
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 1,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 37,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.02631578947368421
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 0,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 39,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.0
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 0,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 2,
+                  "review_negative": 39,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 0.0
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 3,
+                  "tn": 0,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 37,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.0
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 3,
+                  "tn": 0,
+                  "fp": 1,
+                  "fn": 0,
+                  "review_positive": 1,
+                  "review_negative": 33,
+                  "review_unknown": 2,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.75,
+                  "detection_recall": 0.75,
+                  "recall_wilson_95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "specificity": 0.0
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 1,
+                  "tn": 0,
+                  "fp": 1,
+                  "fn": 0,
+                  "review_positive": 2,
+                  "review_negative": 36,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.35714285714285715,
+                  "detection_recall": 0.3333333333333333,
+                  "recall_wilson_95": [
+                    0.06149194472039621,
+                    0.7923403991979522
+                  ],
+                  "specificity": 0.0
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 5,
+                  "tn": 0,
+                  "fp": 1,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 34,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.9615384615384616,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5655175352168251,
+                    1
+                  ],
+                  "specificity": 0.0
+                }
+              },
+              "macro_f2": 0.7483719983719984,
+              "macro_specificity": 0.011932985617196143,
+              "macro_detection_recall": 0.787037037037037,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 1
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q3_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "a4981cf368a06e6ad0d6e1c3117c468297e613b1fae864f50be6bb88e1b66eeb",
+        "size_bytes": 2075620622,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "minicpm-v4.6:q5_K_M",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+        "size_bytes": 1686550252,
+        "selectable_for": [
+          "image_recognition"
+        ],
+        "default_for": [
+          "image_recognition"
+        ],
+        "rankings": {
+          "image_recognition": {
+            "rank": 1,
+            "metrics": {
+              "model": "minicpm-v4.6:q5_K_M",
+              "total_images": 32,
+              "valid": 32,
+              "valid_rate": 1.0,
+              "object_reference_f1": 0.8933531746031746,
+              "object_recall": 0.8784722222222222,
+              "ocr_target_recall": 1.0,
+              "ocr_correct": 8.0,
+              "ocr_total": 8,
+              "readiness_score": 0.9306795634920635,
+              "count_correct": 7,
+              "count_total": 8,
+              "median_seconds": 24.93175,
+              "p95_seconds": 27.8466,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              },
+              "max_image_dimension": 640,
+              "evidence": "benchmarks/round5/results.json"
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 1
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "qwen3.5:0.8b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
+        "size_bytes": 1322069277,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 3,
+            "metrics": {
+              "model": "qwen3.5:0.8b",
+              "readiness_score": 0.7996180555555555,
+              "valid": 29,
+              "total_images": 32,
+              "valid_rate": 0.90625,
+              "object_reference_f1": 0.7590277777777777,
+              "object_recall": 0.7395833333333334,
+              "ocr_target_recall": 0.875,
+              "ocr_correct": 7.0,
+              "ocr_total": 8,
+              "count_correct": 8,
+              "count_total": 8,
+              "median_seconds": 47.6412,
+              "p95_seconds": 56.5382,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              },
+              "max_image_dimension": 640,
+              "benchmark_version": "vision-evaluation.v1",
+              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 3,
+            "benchmark_profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "profile_evidence": "config/runtime-context-profiles.json"
+          },
+          "image_moderation": {
+            "rank": 2,
+            "metrics": {
+              "true_positives": 21,
+              "known_correct": 337,
+              "false_positives": 11,
+              "median_seconds": 37.889,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 4,
+                  "tn": 35,
+                  "fp": 2,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.9090909090909091,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5101091635454027,
+                    1
+                  ],
+                  "specificity": 0.9459459459459459
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 2,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 2,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 1.0
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 35,
+                  "fp": 3,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.9210526315789473
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 38,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.9743589743589743
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 38,
+                  "fp": 0,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 0.9743589743589743
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 3,
+                  "tn": 32,
+                  "fp": 4,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.7894736842105263,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.8648648648648649
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 2,
+                  "tn": 32,
+                  "fp": 1,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 3,
+                  "f2": 0.5263157894736842,
+                  "detection_recall": 0.5,
+                  "recall_wilson_95": [
+                    0.15003898915214947,
+                    0.8499610108478506
+                  ],
+                  "specificity": 0.9411764705882353
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 1,
+                  "tn": 35,
+                  "fp": 1,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.35714285714285715,
+                  "detection_recall": 0.3333333333333333,
+                  "recall_wilson_95": [
+                    0.06149194472039621,
+                    0.7923403991979522
+                  ],
+                  "specificity": 0.9459459459459459
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 4,
+                  "tn": 34,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 1,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 0.8,
+                  "recall_wilson_95": [
+                    0.37553462976252533,
+                    0.9637758913675698
+                  ],
+                  "specificity": 0.9714285714285714
+                }
+              },
+              "macro_f2": 0.6942988785094049,
+              "macro_specificity": 0.9487924865633844,
+              "macro_detection_recall": 0.737037037037037,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32,
+                "think": false
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32,
+              "think": false
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 2
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "minicpm-v4.6:1b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "e95583acac773b45d95469c069db44808c87295f924183f4c942d52616b2d132",
+        "size_bytes": 1637848812,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 2,
+            "metrics": {
+              "model": "minicpm-v4.6:1b",
+              "readiness_score": 0.8070337301587303,
+              "valid": 29,
+              "total_images": 32,
+              "valid_rate": 0.90625,
+              "object_reference_f1": 0.770436507936508,
+              "object_recall": 0.75,
+              "ocr_target_recall": 0.875,
+              "ocr_correct": 7.0,
+              "ocr_total": 8,
+              "count_correct": 5,
+              "count_total": 8,
+              "median_seconds": 24.1478,
+              "p95_seconds": 30.6779,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              },
+              "max_image_dimension": 640,
+              "benchmark_version": "vision-evaluation.v1",
+              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 2
+          },
+          "image_moderation": {
+            "rank": 3,
+            "metrics": {
+              "true_positives": 22,
+              "known_correct": 282,
+              "false_positives": 20,
+              "median_seconds": 22.441,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 4,
+                  "tn": 29,
+                  "fp": 2,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 6,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.9090909090909091,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.5101091635454027,
+                    1
+                  ],
+                  "specificity": 0.7837837837837838
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 2,
+                  "tn": 22,
+                  "fp": 10,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 5,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 2,
+                  "f2": 0.5,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.5945945945945946
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 33,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 5,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.868421052631579
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 32,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 0.8205128205128205
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 31,
+                  "fp": 1,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 0.7948717948717948
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 3,
+                  "tn": 33,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 4,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.4385029682449546,
+                    1
+                  ],
+                  "specificity": 0.8918918918918919
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 3,
+                  "tn": 25,
+                  "fp": 4,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 5,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 3,
+                  "f2": 0.6521739130434783,
+                  "detection_recall": 0.75,
+                  "recall_wilson_95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "specificity": 0.7352941176470589
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 1,
+                  "tn": 27,
+                  "fp": 3,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.3125,
+                  "detection_recall": 0.3333333333333333,
+                  "recall_wilson_95": [
+                    0.06149194472039621,
+                    0.7923403991979522
+                  ],
+                  "specificity": 0.7297297297297297
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 4,
+                  "tn": 28,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 7,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 0.8,
+                  "recall_wilson_95": [
+                    0.37553462976252533,
+                    0.9637758913675698
+                  ],
+                  "specificity": 0.8
+                }
+              },
+              "macro_f2": 0.6896775728297467,
+              "macro_specificity": 0.7798999761848059,
+              "macro_detection_recall": 0.7648148148148148,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 3
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+        "size_bytes": 482045956,
+        "selectable_for": [
+          "image_moderation",
+          "image_recognition"
+        ],
+        "default_for": [],
+        "rankings": {
+          "image_recognition": {
+            "rank": 5,
+            "metrics": {
+              "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+              "readiness_score": 0.7044097222222222,
+              "valid": 26,
+              "total_images": 32,
+              "valid_rate": 0.8125,
+              "object_reference_f1": 0.6798611111111111,
+              "object_recall": 0.6875,
+              "ocr_target_recall": 0.75,
+              "ocr_correct": 6.0,
+              "ocr_total": 8,
+              "count_correct": 8,
+              "count_total": 8,
+              "median_seconds": 6.8347,
+              "p95_seconds": 10.1194,
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              },
+              "max_image_dimension": 640,
+              "benchmark_version": "vision-evaluation.v1",
+              "evidence": "benchmarks/vision-evaluation/recognition-results.json"
+            },
+            "evidence": "benchmarks/round6/rankings-with-internvl.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_service_evaluation",
+            "current_rank": 5
+          },
+          "image_moderation": {
+            "rank": 4,
+            "metrics": {
+              "true_positives": 13,
+              "known_correct": 346,
+              "false_positives": 0,
+              "median_seconds": 7.3328,
+              "categories": {
+                "nudity": {
+                  "positive": 4,
+                  "negative": 37,
+                  "unknown": 0,
+                  "tp": 3,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.7894736842105263,
+                  "detection_recall": 0.75,
+                  "recall_wilson_95": [
+                    0.30064184258240184,
+                    0.9544127391902995
+                  ],
+                  "specificity": 1.0
+                },
+                "sexualContent": {
+                  "positive": 2,
+                  "negative": 37,
+                  "unknown": 2,
+                  "tp": 0,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 2,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 1.0
+                },
+                "middleFinger": {
+                  "positive": 3,
+                  "negative": 38,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 38,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.7142857142857143,
+                  "detection_recall": 0.6666666666666666,
+                  "recall_wilson_95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "specificity": 1.0
+                },
+                "hateSymbols": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 2,
+                  "tn": 39,
+                  "fp": 0,
+                  "fn": 0,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 1.0,
+                  "detection_recall": 1.0,
+                  "recall_wilson_95": [
+                    0.34238022750665303,
+                    1
+                  ],
+                  "specificity": 1.0
+                },
+                "hateWords": {
+                  "positive": 2,
+                  "negative": 39,
+                  "unknown": 0,
+                  "tp": 0,
+                  "tn": 39,
+                  "fp": 0,
+                  "fn": 2,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 0,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.6576197724933469
+                  ],
+                  "specificity": 1.0
+                },
+                "alcohol": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 2,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.7142857142857143,
+                  "detection_recall": 0.6666666666666666,
+                  "recall_wilson_95": [
+                    0.2076596008020477,
+                    0.9385080552796037
+                  ],
+                  "specificity": 1.0
+                },
+                "drugs": {
+                  "positive": 4,
+                  "negative": 34,
+                  "unknown": 3,
+                  "tp": 0,
+                  "tn": 34,
+                  "fp": 0,
+                  "fn": 4,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 3,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    0,
+                    0.4898908364545973
+                  ],
+                  "specificity": 1.0
+                },
+                "violence": {
+                  "positive": 3,
+                  "negative": 37,
+                  "unknown": 1,
+                  "tp": 0,
+                  "tn": 37,
+                  "fp": 0,
+                  "fn": 3,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.0,
+                  "detection_recall": 0.0,
+                  "recall_wilson_95": [
+                    5.551115123125783e-17,
+                    0.5614970317550454
+                  ],
+                  "specificity": 1.0
+                },
+                "weapons": {
+                  "positive": 5,
+                  "negative": 35,
+                  "unknown": 1,
+                  "tp": 4,
+                  "tn": 35,
+                  "fp": 0,
+                  "fn": 1,
+                  "review_positive": 0,
+                  "review_negative": 0,
+                  "review_unknown": 0,
+                  "invalid": 0,
+                  "invalid_positive": 0,
+                  "invalid_negative": 0,
+                  "definite_unknown": 1,
+                  "f2": 0.8333333333333334,
+                  "detection_recall": 0.8,
+                  "recall_wilson_95": [
+                    0.37553462976252533,
+                    0.9637758913675698
+                  ],
+                  "specificity": 1.0
+                }
+              },
+              "macro_f2": 0.45015316067947647,
+              "macro_specificity": 1.0,
+              "macro_detection_recall": 0.43148148148148147,
+              "valid": 41,
+              "total": 41,
+              "benchmark_version": "vision-evaluation.v1",
+              "tested_profile": {
+                "max_image_edge": 640,
+                "num_ctx": 2048,
+                "num_batch": 32
+              }
+            },
+            "evidence": "benchmarks/round6/moderation-with-internvl-summary.json",
+            "profile": {
+              "max_image_edge": 640,
+              "num_ctx": 2048,
+              "num_batch": 32
+            },
+            "ranking_tier": "broader_moderation_evaluation",
+            "current_rank": 4
+          }
+        },
+        "blocked_reason": null
+      },
+      {
+        "id": "granite4:1b-h",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+        "size_bytes": 1558945427,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "qwen3:0.6b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "7df6b6e09427a769808717c0a93cadc4ae99ed4eb8bf5ca557c90846becea435",
+        "size_bytes": 522653767,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      },
+      {
+        "id": "qwen3:1.7b",
+        "object": "model",
+        "owned_by": "local",
+        "installed": true,
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "size_bytes": 1359293444,
+        "selectable_for": [],
+        "default_for": [],
+        "rankings": {},
+        "blocked_reason": "not_tested_for_your_jobs"
+      }
+    ],
+    "policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
+    "defaults": {
+      "image_moderation": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+      "image_recognition": "minicpm-v4.6:q5_K_M"
+    }
+  },
+  "auto_text": {
+    "id": "chatcmpl-95cf7e5e5490c29244ba79db",
+    "object": "chat.completion",
+    "created": 1793563023,
+    "model": "granite4:1b-h",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "READY"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 33,
+      "completion_tokens": 2,
+      "total_tokens": 35
+    }
+  },
+  "explicit_text": {
+    "id": "chatcmpl-274",
+    "object": "chat.completion",
+    "created": 1793563026,
+    "model": "qwen3:0.6b",
+    "system_fingerprint": "fp_ollama",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Ready! \ud83d\ude80 Let me know what you need!"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 19,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens": 13,
+      "total_tokens": 32
+    }
+  },
+  "explicit_former_alias": {
+    "id": "chatcmpl-643",
+    "object": "chat.completion",
+    "created": 1793563031,
+    "model": "qwen3:1.7b",
+    "system_fingerprint": "fp_ollama",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "READY."
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 19,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens": 3,
+      "total_tokens": 22
+    }
+  },
+  "image_jobs": [
+    {
+      "id": "2CWY1Sf0X8KKyvnQz364Eoxua5WOThwP",
+      "task": "image_recognition",
+      "model": "minicpm-v4.6:q5_K_M",
+      "status": "completed",
+      "request_purpose": "test",
+      "created_at": 1793563031.7066734,
+      "selection": "auto",
+      "model_policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
+      "model_digest": "0e195f4c8bb27940c087daaa6770945d3b1aae64522f5fed37ac708ea20b3a44",
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793563031.7076764,
+      "model_switch": {
+        "target_model": "minicpm-v4.6:q5_K_M",
+        "unloaded_models": [
+          "qwen3:1.7b"
+        ],
+        "unload_wait_seconds": 0.1109,
+        "inference_wall_seconds": 27.9996,
+        "model_load_seconds": 3.666149693
+      },
+      "queue_wait_seconds": 0.001,
+      "finished_at": 1793563059.8224068,
+      "result": {
+        "schema_version": "camera-recognition.v1",
+        "model": "minicpm-v4.6:q5_K_M",
+        "description": "Two tabby cats are lying on a pink blanket, appearing to be asleep. A remote control is visible near the left cat, and another remote is near the right cat.",
+        "objects": [
+          "cat",
+          "blanket",
+          "remote control"
+        ],
+        "visible_text": [],
+        "limitations": "Experimental visual description; verify details. Not a moderation decision."
+      },
+      "queue_position": null
+    },
+    {
+      "id": "sKTIUBjDu_gTXyP5GXA0_oIJKntbHS4A",
+      "task": "image_recognition",
+      "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+      "status": "completed",
+      "request_purpose": "test",
+      "created_at": 1793563032.236726,
+      "selection": "explicit",
+      "model_policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
+      "model_digest": "9e22c0accb336f223bb75e126fac603d173cb67bed2a12f8c450221ef845487f",
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32
+      },
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793563059.8235776,
+      "model_switch": {
+        "target_model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "unloaded_models": [
+          "minicpm-v4.6:q5_K_M"
+        ],
+        "unload_wait_seconds": 0.1352,
+        "inference_wall_seconds": 8.1447,
+        "model_load_seconds": 1.550561046
+      },
+      "queue_wait_seconds": 27.5869,
+      "finished_at": 1793563068.1055865,
+      "result": {
+        "schema_version": "camera-recognition.v1",
+        "model": "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0",
+        "description": "Two cats lying on a pink blanket, one with a striped pattern and the other with a tabby pattern, both resting with their paws up. A remote control is visible on the left side of the image.",
+        "objects": [
+          "cat 1",
+          "cat 2",
+          "remote control",
+          "pink blanket",
+          "cat 1's paw",
+          "cat 2's paw",
+          "remote control's buttons"
+        ],
+        "visible_text": [
+          "remote control"
+        ],
+        "limitations": "Experimental visual description; verify details. Not a moderation decision."
+      },
+      "queue_position": null
+    },
+    {
+      "id": "dOmos3wbh32X4dO22E_L8AZRlUkY-RF4",
+      "task": "image_moderation",
+      "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+      "status": "completed",
+      "request_purpose": "test",
+      "created_at": 1793563032.746862,
+      "selection": "auto",
+      "model_policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4",
+      "model_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+      "model_profile": {
+        "max_image_edge": 640,
+        "num_ctx": 2048,
+        "num_batch": 32,
+        "think": false
+      },
+      "image_sha256": "cf6f3c4befa148732c7453e0de5afab00f682427435fead2d88b07a9615cdac2",
+      "normalized_sha256": "a4b607211704d52d5b192e9d223271cb7f732d14105f3902ab0be10cbd35b272",
+      "started_at": 1793563068.1064188,
+      "model_switch": {
+        "target_model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "unloaded_models": [
+          "hf.co/LiquidAI/LFM2.5-VL-450M-GGUF:Q8_0"
+        ],
+        "unload_wait_seconds": 0.0506,
+        "inference_wall_seconds": 100.4716,
+        "model_load_seconds": 2.8597
+      },
+      "queue_wait_seconds": 35.3596,
+      "finished_at": 1793563168.6436605,
+      "result": {
+        "schema_version": "camera-moderation.v1",
+        "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
+        "review_required": true,
+        "automated_decision": "none",
+        "signal": "flagged",
+        "flags": [
+          "nudity"
+        ],
+        "categories": {
+          "nudity": "detected",
+          "sexualContent": "not_detected",
+          "middleFinger": "uncertain",
+          "hateSymbols": "uncertain",
+          "hateWords": "uncertain",
+          "alcohol": "uncertain",
+          "drugs": "uncertain",
+          "violence": "uncertain",
+          "weapons": "uncertain"
+        },
+        "evidence": "Two cats are lying on a pink surface, with remote controls nearby.",
+        "limitations": "Experimental screening; missed content and false alarms are known. No flags is not approval.",
+        "timing": {
+          "model_load_seconds": 2.8597,
+          "inference_seconds": 100.4654
+        }
+      },
+      "queue_position": null
+    }
+  ],
+  "passed": true
+}

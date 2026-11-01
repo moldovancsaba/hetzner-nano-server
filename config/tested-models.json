@@ -835,20 +835,25 @@
       "model": "hf.co/bartowski/OpenGVLab_InternVL3_5-1B-GGUF:Q4_K_M",
       "canonical": "opengvlabinternvl351b",
       "evidence": [
-        "benchmarks/round6/results.json"
+        "benchmarks/round6/results.json",
+        "benchmarks/round6/internvl-completion.json"
       ],
       "outcomes": [
         "failed",
         "completed"
       ],
       "tested_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
+      "ranked_tasks": [
+        "image_recognition",
+        "image_moderation"
+      ],
       "decision": {
-        "state": "incomplete_runner_stop",
-        "reason": "Evaluation halted by a runner exception (StopIteration) after 9 of 32 recognition cases returned (median about 49 s, p95 about 85 s, 0 OOM). Robustness, counting and moderation never ran. This is a harness fault, not a quality verdict: the model is unranked and unscored beyond those 9 responses, and the resume step wrongly treated the earlier stop as final.",
+        "state": "tested_complete_ranked",
+        "reason": "Corrected continuation completed 32 recognition, 9 robustness, 8 counting, 41 moderation and one moderation injection case. Recognition rank 4, readiness .711; moderation leads the frozen macro-F2 rule at .748 versus .694, but abstains on 320/333 labelled-negative category checks (macro specificity .0119). Human review always; abstention is not clearance. Original runner fault remains in immutable evidence.",
         "artifact_digest": "26f00df14a5475051c363c017be6647f577ce6f2ca5f161e3beec1552ffac809",
-        "evidence": "benchmarks/round6/REPORT.md",
-        "weights_removed": true,
-        "retest_only_if": "Runner stop and resume logic fixed, then one owner-approved maintenance window (about 2 hours of exclusive inference); a repeat on the unfixed harness is barred."
+        "evidence": "benchmarks/round6/internvl-summary.json",
+        "weights_removed": false,
+        "retest_only_if": "Changed condition or fresh held-out evaluation; do not retune thresholds on this evaluation set."
       }
     },
     {
@@ -861,6 +866,24 @@
         "failed"
       ],
       "tested_digest": "4eb13d0bc4f419125723803f7cb7f24a09e658056e06a73bb47330f1f5a8bcbc"
+    },
+    {
+      "model": "Marqo/nsfw-image-detection-384",
+      "canonical": "nsfwimagedetection384",
+      "evidence": [
+        "benchmarks/camera-specialists-round2/results.json"
+      ],
+      "outcomes": [
+        "completed"
+      ],
+      "decision": {
+        "state": "tested_binary_only",
+        "reason": "41/41 completed at fixed .5 threshold; 3/4 binary positives, 1 false alarm among 36 negatives, 1 unknown; median .196 seconds. Export and preprocessing verified against timm. Not nine-category moderation or a current public API model. Requires a fresh held-out review before integration.",
+        "artifact_digest": "646dc4c78697e9667218b98f85c48e42e37343eb0063ee51fbc7b158e04fb388",
+        "evidence": "benchmarks/camera-specialists-round2/summary.json",
+        "weights_removed": true,
+        "retest_only_if": "New held-out split or predeclared changed condition; no test-set threshold tuning."
+      }
     }
   ],
   "source_hashes": {
@@ -881,6 +904,8 @@
     "benchmarks/camera-specialists/results.json": "f0b838fac81ba89660c31e70ca9696d853f4ecca6dceb4cdbf348a79f561ff7a",
     "benchmarks/round6/results.json": "cefcf3da507050a153b7faa7fba0986244d41066d86f41a80034a54b6e7e78f1",
     "benchmarks/non-english/hu-round3/results.json": "51b3a9bf4ed0a4af5cc288d1167258bf800c9219c3e883d56c6329d1d54d1040",
-    "benchmarks/non-english/hu-round4/results.json": "62289c5f6e7ec4fe4438286bc87e0f3a675b192a6e334365c3875a2afa4ddf8a"
+    "benchmarks/non-english/hu-round4/results.json": "62289c5f6e7ec4fe4438286bc87e0f3a675b192a6e334365c3875a2afa4ddf8a",
+    "benchmarks/round6/internvl-completion.json": "c1d90e25838eddc08c6b3989a0e6c11b8d97560f9d88d953c7827f7acc14bf8c",
+    "benchmarks/camera-specialists-round2/results.json": "195f39fc92353e3e301654f716e097e25d9da3e21e5adb1dc940a44cd8ee4a7e"
   }
 }
