@@ -1,0 +1,13 @@
+# Source ordering and bounded exploration
+
+Source ranking orders existing independently fetched offers. It does not fetch, search, qualify a business candidate or authorize a destination write. Factory source publication remains opt-in and production source admission is off.
+
+The existing coordination hook selects at most two due offers. It rotates between pending application/client scopes, then makes four ranked allocations and one exploration allocation per scope. Ranked work uses the documented 25/20/20/15/10/10 weights. Official branch/program classification and linked gap relevance are distinct from freshness. Novelty, undercoverage and historical yield currently receive zero credit when unmeasured; they are not inferred from a model score. Gap relevance comes only from the exact native task and client lineage saved by the bounded gap consumer.
+
+Exploration chooses the least previously allocated eligible source family, then the oldest offer. Allocation state, score, mode and feature values are durable. A network retry reconciles the original allocation, bytes and operation UUID without consuming another exploration slot. Actual broker and search budgets remain independent and unchanged. Expired offers become visible holds before transport; no replacement search or publication is initiated.
+
+Selection reads a bounded window of 64 pending offers per scope and at most eight scopes, using a pending-scope index. Large held backlogs remain operational work; this selector does not delete receipts or resolve uncertain destination effects. Recent cohort-yield instrumentation and owner-reviewed coverage/novelty inputs remain separate evaluation work. Zero feature credit means unknown evidence, not measured zero yield.
+
+The aggregate snapshot streams causal events rather than retaining every payload in memory. Events beyond a missing predecessor remain visible in delivery history and feedback-waiting counts, but cannot inflate accepted, qualified or destination-confirmed totals. Matching readback requires actual checked fields and a content revision. Counts cover observations received during the last 24 hours, not necessarily currently published inventory. History is capped at twenty observations per client and excludes raw pages, source claims, contacts and customer messages.
+
+Verification uses temporary SQLite databases and synthetic packets. The focused tests exercise ranked/exploration allocation, scope fairness, retry identity, source expiry, native gap correlation, causal waiting, bounded history and private snapshot schema rejection. No paid request or business write is used to test ordering.

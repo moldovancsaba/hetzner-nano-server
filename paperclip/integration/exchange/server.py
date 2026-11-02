@@ -14,7 +14,7 @@ import time
 import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from .contract import CLIENTS, ExchangeError, MAX_REQUEST, encode
+from .contract import CLIENTS, ExchangeError, MAX_REQUEST, MAX_RESPONSE, encode
 from .store import Store
 
 LOG = logging.getLogger('source_exchange')
@@ -62,7 +62,11 @@ class Application:
         if method == 'GET' and route == '/snapshot':
             if 'status:read' not in principal['scopes']:raise ExchangeError('forbidden',403)
             from .snapshot import snapshot
-            return 200, encode(snapshot(self.store,principal))
+            value=snapshot(self.store,principal)
+            self.store.contract.validate('AggregateSnapshot',value)
+            raw=encode(value)
+            if len(raw)>MAX_RESPONSE:raise ExchangeError('capacity_hold',503,True,60)
+            return 200, raw
         if method == 'GET' and route == '/status':
             return 200, encode(self.store.status(principal))
         if method == 'GET' and re.fullmatch(r'/operations/[a-f0-9-]{36}', route):

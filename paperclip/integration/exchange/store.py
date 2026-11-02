@@ -155,6 +155,7 @@ class Store:
                 if db.execute("SELECT count(*) FROM messages WHERE kind='source_offer' AND application=? AND client=? AND created>=?", (app, client, now - now % 86400)).fetchone()[0] >= self.daily:
                     raise ExchangeError('capacity_hold', 429, True, 3600)
             else:
+                if timestamp(value['occurred_at'])>now+300:raise ExchangeError('invalid_request')
                 self.validate_event_reference(db, value, app, client)
                 if db.execute("SELECT count(*) FROM messages WHERE kind='event' AND application=? AND client=? AND created>=?", (app, client, now - now % 86400)).fetchone()[0] >= 1000:
                     raise ExchangeError('capacity_hold', 429, True, 3600)

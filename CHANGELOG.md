@@ -122,3 +122,7 @@ Added opt-in factory evidence/outbox and causal feedback hooks, a GDS-only resul
 ### Readback attribution refinement
 
 Combined views report verified operations without claiming every operation changed a record. Missing processing coverage stays unmeasured. Qualification aggregates shared branch candidates once across source packet lineages.
+
+### Causal delivery history and GDS company shell
+
+Added durable fair source allocation with one-fifth exploration, typed bounded causal snapshots and a GDS replacement for the company overview. Missing predecessor events cannot inflate outcome totals; matching readback requires fields and revision evidence. Browser checks cover disclosures, retained refresh focus and zero WCAG findings. Admission, claims and business imports remain off; no new schedule or paid call.

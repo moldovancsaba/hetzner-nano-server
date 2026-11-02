@@ -57,5 +57,58 @@
     },
     "inbox_id": "00000000-0000-4000-8000-000000000005",
     "broker_generation": "00000000-0000-4000-8000-000000000006"
+  },
+  "aggregate_snapshot": {
+    "schema_version": "1.1",
+    "as_of": "2026-11-02T10:00:00Z",
+    "observed_through": "2026-11-02T10:00:00Z",
+    "window_seconds": 86400,
+    "coverage": "partial",
+    "clients": [
+      {
+        "scope": {
+          "application": "classscout",
+          "client": "NYC"
+        },
+        "paperclip": {
+          "source_offers": 0,
+          "research_examinations": null,
+          "coverage": "source-offers-only"
+        },
+        "exchange": {
+          "unprocessed": 0,
+          "oldest_pending_seconds": null,
+          "events_waiting": 0
+        },
+        "openclaw": {
+          "qualified": null,
+          "accepted_operations": 0,
+          "destination_confirmed": 0,
+          "public_listings": 0,
+          "uncertain_evaluations": 0,
+          "rejections": {},
+          "observed_through": null,
+          "coverage": "not_measured"
+        },
+        "spend": {
+          "gbp": null,
+          "basis": "not_measured"
+        },
+        "next_action": null,
+        "timeline": []
+      }
+    ],
+    "status": {
+      "schema_version": "1.1",
+      "checked_at": "2026-11-02T10:00:00Z",
+      "observed_through": "2026-11-02T10:00:00Z",
+      "broker_generation": "00000000-0000-4000-8000-000000000099",
+      "status": "healthy",
+      "source_pending": 0,
+      "events_pending": 0,
+      "held_count": 0,
+      "oldest_pending_seconds": null,
+      "last_consumer_contact": null
+    }
   }
 }

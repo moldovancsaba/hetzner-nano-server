@@ -314,3 +314,7 @@ This page does not repeat defects. They are recorded where they are fixed or tra
 ### Source exchange results and runtime hooks
 
 The canonical exchange stores scoped original-byte receipts on loopback 9091. Opt-in factory hooks save offers within evidence transactions and consume causal feedback during existing coordination. Caddy protects the GDS assets and injects a separate read-only snapshot credential server-side. Metadata deployment does not restart the factory. Business source admission, claims and client writer delegation are separate gates.
+
+### Company shell and causal aggregate revision
+
+The protected company overview and exchange view share the GDS build. Caddy serves both without restarting business workers; the existing protected factory metrics API supplies native operations. Exchange aggregates stream only causally applied events, bound history per client and expose pending predecessors explicitly. Immutable source allocation state reserves one fifth for approved exploration; unknown ranking signals receive no credit. The canonical release manifest versions the complete schema bundle.

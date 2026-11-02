@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperclip\u2013OpenClaw Source Exchange",
-    "version": "1.0.0-rc1",
+    "version": "1.0.0-rc2",
     "description": "Versioned source exchange implementation contract. Loopback service behind scoped machine HTTPS; no search, inference, customer-send or destination write capability."
   },
   "servers": [
@@ -448,54 +448,14 @@
           }
         ],
         "x-required-scope": "status:read",
-        "description": "Bounded scoped aggregate with explicit per-producer coverage. Never raw source/contact bodies. Missing qualification, source effort or spend instrumentation is null, not zero.",
+        "description": "Bounded scoped aggregate with explicit per-producer coverage. Never raw source/contact bodies. Missing qualification, source effort or spend instrumentation is null, not zero. Counts cover observations received during the last 24 hours; delivery history is bounded to twenty observations per client. Causally incomplete feedback is visible but is not counted as an accepted or confirmed effect.",
         "responses": {
           "200": {
             "description": "Aggregate snapshot",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "required": [
-                    "schema_version",
-                    "as_of",
-                    "observed_through",
-                    "window_seconds",
-                    "coverage",
-                    "clients",
-                    "status"
-                  ],
-                  "properties": {
-                    "schema_version": {
-                      "const": "1.1"
-                    },
-                    "as_of": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "observed_through": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "window_seconds": {
-                      "type": "integer",
-                      "const": 86400
-                    },
-                    "coverage": {
-                      "const": "partial"
-                    },
-                    "clients": {
-                      "type": "array",
-                      "maxItems": 8,
-                      "items": {
-                        "type": "object"
-                      }
-                    },
-                    "status": {
-                      "$ref": "#/components/schemas/ServiceStatus"
-                    }
-                  },
-                  "additionalProperties": false
+                  "$ref": "#/components/schemas/AggregateSnapshot"
                 }
               }
             }
@@ -982,7 +942,32 @@
           "checked_fields",
           "content_revision"
         ],
-        "description": "public is valid only for found_matching with an independently checked authoritative publication predicate. Missing or unavailable readback is never evidence of publication."
+        "description": "public is valid only for found_matching with an independently checked authoritative publication predicate. Missing or unavailable readback is never evidence of publication.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "result": {
+                  "const": "found_matching"
+                }
+              },
+              "required": [
+                "result"
+              ]
+            },
+            "then": {
+              "properties": {
+                "checked_fields": {
+                  "minItems": 1
+                },
+                "content_revision": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
       },
       "GapPayload": {
         "type": "object",
@@ -1431,6 +1416,313 @@
           "retryable",
           "retry_after_seconds"
         ]
+      },
+      "DeliveryObservation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phase": {
+            "enum": [
+              "source_offered",
+              "intake_received",
+              "queued",
+              "checked",
+              "not_checked",
+              "rejected",
+              "submission_accepted",
+              "uncertain",
+              "gap_report",
+              "delivery_readback",
+              "feedback_waiting"
+            ]
+          },
+          "reference": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "reason_code": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 80,
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "qualified": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "publication": {
+            "enum": [
+              "public",
+              "not_public",
+              "unknown",
+              null
+            ]
+          },
+          "readback_result": {
+            "enum": [
+              "found_matching",
+              "found_conflict",
+              "missing",
+              "unavailable",
+              null
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "occurred_at",
+          "phase",
+          "reference",
+          "reason_code",
+          "qualified",
+          "publication",
+          "readback_result"
+        ]
+      },
+      "ClientSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "paperclip": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "source_offers": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "research_examinations": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "coverage": {
+                "const": "source-offers-only"
+              }
+            },
+            "required": [
+              "source_offers",
+              "research_examinations",
+              "coverage"
+            ]
+          },
+          "exchange": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "unprocessed": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "oldest_pending_seconds": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "events_waiting": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "unprocessed",
+              "oldest_pending_seconds"
+            ]
+          },
+          "openclaw": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "qualified": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "accepted_operations": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "destination_confirmed": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "public_listings": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "uncertain_evaluations": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "rejections": {
+                "type": "object",
+                "maxProperties": 10,
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "propertyNames": {
+                  "pattern": "^[a-z0-9_-]{1,80}$"
+                }
+              },
+              "observed_through": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "coverage": {
+                "enum": [
+                  "events-only",
+                  "not_measured"
+                ]
+              }
+            },
+            "required": [
+              "qualified",
+              "accepted_operations",
+              "destination_confirmed",
+              "public_listings",
+              "uncertain_evaluations",
+              "rejections",
+              "observed_through",
+              "coverage"
+            ]
+          },
+          "spend": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "gbp": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "basis": {
+                "enum": [
+                  "not_measured",
+                  "estimated",
+                  "metered"
+                ]
+              }
+            },
+            "required": [
+              "gbp",
+              "basis"
+            ]
+          },
+          "next_action": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1000
+          },
+          "timeline": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/DeliveryObservation"
+            }
+          }
+        },
+        "required": [
+          "scope",
+          "paperclip",
+          "exchange",
+          "openclaw",
+          "spend",
+          "next_action"
+        ]
+      },
+      "AggregateSnapshot": {
+        "type": "object",
+        "required": [
+          "schema_version",
+          "as_of",
+          "observed_through",
+          "window_seconds",
+          "coverage",
+          "clients",
+          "status"
+        ],
+        "properties": {
+          "schema_version": {
+            "const": "1.1"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "observed_through": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "window_seconds": {
+            "type": "integer",
+            "const": 86400
+          },
+          "coverage": {
+            "const": "partial"
+          },
+          "clients": {
+            "type": "array",
+            "maxItems": 8,
+            "items": {
+              "$ref": "#/components/schemas/ClientSnapshot"
+            }
+          },
+          "status": {
+            "$ref": "#/components/schemas/ServiceStatus"
+          }
+        },
+        "additionalProperties": false
       }
     }
   },

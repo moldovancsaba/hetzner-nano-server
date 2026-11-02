@@ -33,7 +33,15 @@ paperclip.haho.ai {
 				header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; connect-src 'self'"
 				file_server
 			}
-			@company_results path /factory /factory/ /factory/metrics
+			@company_shell path /factory /factory/
+			handle @company_shell {
+				root * /opt/source-exchange/dashboard
+				rewrite * /index.html
+				header Cache-Control no-store
+				header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; connect-src 'self'"
+				file_server
+			}
+			@company_results path /factory/metrics
 			handle @company_results {
 				reverse_proxy 127.0.0.1:9089
 			}

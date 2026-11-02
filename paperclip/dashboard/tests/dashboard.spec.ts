@@ -48,3 +48,20 @@ test('dark mode empty state, stale warning and malformed refresh retain verified
   await expect(page.getByRole('alert')).toContainText('format is not supported');
   await expect(page.getByRole('cell', { name: 'NYC', exact: true })).toBeVisible();
 });
+test('delivery history separates durable intake, causal waits and nonpublic readback',async({page})=>{
+  const at=new Date().toISOString();
+  const base={occurred_at:at,reference:'fixture-reference',reason_code:null,qualified:null,publication:null,readback_result:null};
+  const client={...snapshot.clients[0],exchange:{...snapshot.clients[0].exchange,events_waiting:1},openclaw:{...snapshot.clients[0].openclaw,coverage:'events-only'},timeline:[
+    {...base,id:'offer:fixture',phase:'source_offered'},
+    {...base,id:'intake:fixture',phase:'intake_received'},
+    {...base,id:'event:pending',phase:'feedback_waiting',reason_code:'awaiting_predecessor'},
+    {...base,id:'event:readback',phase:'delivery_readback',publication:'not_public',readback_result:'found_matching'},
+  ]};
+  await page.route('**/factory/exchange-snapshot',route=>route.fulfill({json:{...snapshot,clients:[client]}}));
+  await page.goto('/factory/exchange/');
+  for(const name of ['Source offered','Intake saved','Feedback awaiting earlier evidence','Verified not public','found matching'])await expect(page.getByRole('cell',{name,exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'NYC delivery history'})).toBeVisible();
+  await page.addScriptTag({path:axePath});
+  const result=await page.evaluate(async()=>(window as unknown as {axe:{run:(v:unknown,o:unknown)=>Promise<{violations:unknown[]}>}}).axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));
+  expect(result.violations).toEqual([]);
+});

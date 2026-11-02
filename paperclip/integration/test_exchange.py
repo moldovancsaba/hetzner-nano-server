@@ -124,6 +124,9 @@ class ExchangeTests(unittest.TestCase):
             with self.assertRaises(ExchangeError):self.store.contract.parse(raw)
         value = self.offer();value['extraction_recipe_id'] = 'unknown'
         with self.assertRaises(ExchangeError):self.call(self.pc, '/source-offers', value)
+        value=self.offer();self.call(self.pc,'/source-offers',value)
+        event=copy.deepcopy(self.example['outcome_event']);event['payload']['packet_id']=value['packet_id'];event['occurred_at']=iso(self.now+301)
+        with self.assertRaises(ExchangeError):self.call(self.oc,'/events',event)
 
     def test_scope_and_consumer_identity_fences(self):
         value = self.offer();value['scope'] = {'application':'classscout','client':'LA'}
@@ -177,6 +180,49 @@ class ExchangeTests(unittest.TestCase):
         event=copy.deepcopy(self.example['outcome_event'])
         event['payload']={'event_type':'delivery_readback','packet_id':uid(),'destination_operation_id':uid(),'readback':{'destination_type':'ingest_card','destination_id':'card','checked_at':iso(self.now),'result':'found_matching','publication':'public','verification_ref':'test','checked_fields':['name'],'content_revision':'v1'}}
         with self.assertRaises(ExchangeError):self.store.contract.validate('OutcomeEvent',event)
+        readback=event['payload']['readback'];readback.update(destination_type='provider',publication='not_public',content_revision=None)
+        with self.assertRaises(ExchangeError):self.store.contract.validate('OutcomeEvent',event)
+        readback.update(content_revision='revision',checked_fields=[])
+        with self.assertRaises(ExchangeError):self.store.contract.validate('OutcomeEvent',event)
+
+    def test_snapshot_waits_for_causal_predecessor_and_keeps_scoped_history_private(self):
+        from exchange.snapshot import snapshot
+        offer=self.offer();self.call(self.pc,'/source-offers',offer)
+        _,claimed=self.claim();self.receipt(claimed['items'][0])
+        first=copy.deepcopy(self.example['outcome_event']);first.update(event_id=uid(),evaluation_id=uid(),revision=1,previous_event_id=None,occurred_at=iso(self.now))
+        first['payload'].update(packet_id=offer['packet_id'],candidate_ref='candidate:branch',state='queued',qualified=None)
+        second=copy.deepcopy(first);second.update(event_id=uid(),revision=2,previous_event_id=first['event_id'])
+        second['payload'].update(state='submission_accepted',qualified=True,destination_operation_id=uid())
+        self.call(self.oc,'/events',second)
+        row=snapshot(self.store,self.oc)['clients'][0]
+        self.assertEqual(row['openclaw']['accepted_operations'],0);self.assertEqual(row['exchange']['events_waiting'],1)
+        self.assertIn('feedback_waiting',{item['phase'] for item in row['timeline']})
+        self.call(self.oc,'/events',first)
+        value=snapshot(self.store,self.oc);row=value['clients'][0]
+        self.store.contract.validate('AggregateSnapshot',value)
+        self.assertEqual(row['openclaw']['accepted_operations'],1);self.assertEqual(row['openclaw']['qualified'],1)
+        self.assertEqual(row['exchange']['events_waiting'],0)
+        self.assertTrue({'source_offered','intake_received','queued','submission_accepted'}.issubset({item['phase'] for item in row['timeline']}))
+        raw=json.dumps(value);self.assertNotIn(offer['source_url'],raw)
+        for claim in offer['claims']:self.assertNotIn(claim['quote'],raw)
+        other=snapshot(self.store,{**self.oc,'clients':[{'application':'classscout','client':'BOS'}]})
+        self.assertNotIn(offer['packet_id'],json.dumps(other));self.assertEqual(other['clients'][0]['timeline'],[])
+        bad=copy.deepcopy(value);bad['clients'][0]['openclaw']['qualified']=-1
+        with self.assertRaises(ExchangeError):self.store.contract.validate('AggregateSnapshot',bad)
+        bad=copy.deepcopy(value);bad['clients'][0]['timeline'][0]['source_text']='Private payload must not be exported'
+        with self.assertRaises(ExchangeError):self.store.contract.validate('AggregateSnapshot',bad)
+
+    def test_snapshot_bounds_history_and_does_not_clear_uncertainty_on_queued_feedback(self):
+        from exchange.snapshot import snapshot
+        offer=self.offer();self.call(self.pc,'/source-offers',offer)
+        evaluation=uid();previous=None
+        for revision in range(1,26):
+            event=copy.deepcopy(self.example['outcome_event']);event.update(event_id=uid(),evaluation_id=evaluation,revision=revision,previous_event_id=previous,occurred_at=iso(self.now))
+            event['payload'].update(packet_id=offer['packet_id'],candidate_ref='candidate:one',state='uncertain' if revision==1 else 'queued',qualified=None)
+            self.call(self.oc,'/events',event);previous=event['event_id'];self.now+=1
+        value=snapshot(self.store,self.oc)['clients'][0]
+        self.assertEqual(value['openclaw']['uncertain_evaluations'],1)
+        self.assertEqual(len(value['timeline']),20)
 
 
 if __name__=='__main__':

@@ -114,6 +114,7 @@ class Contract:
                         raise ValueError()
             if name == 'OutcomeEvent' and value['payload']['event_type'] == 'delivery_readback':
                 r = value['payload']['readback']
+                if r['result']=='found_matching' and (not r['checked_fields'] or not r['content_revision']):raise ValueError()
                 if r['publication'] == 'public' and (r['destination_type'] not in {'provider', 'listing'} or r['result'] != 'found_matching'):
                     raise ValueError()
         except Exception as exc:

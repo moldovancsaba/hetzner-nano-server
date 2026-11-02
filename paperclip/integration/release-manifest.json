@@ -1,12 +1,12 @@
 {
-  "release": "1.0.0-rc1",
+  "release": "1.0.0-rc2",
   "wire_version": "1.1",
   "status": "implemented_candidate_pending_cross_application_review",
   "minimum_adapter_version": "1.0.0-rc1",
   "idempotency_namespace": "principal plus UUID, bound to method/route/original-byte digest",
   "files": {
-    "openapi.json": "db4178fe208b7a1a99b70c2b31cabf5885c5212d7c9d6aabe6c63cb976ad0b47",
-    "examples.json": "4330ca5a10df050b41de5b5f7ca020367656d31d32064858b6286f9ca332322e",
+    "openapi.json": "d3e407dbb53f77b0f01ea36c33310547f0f76858fcaebf04033ef6bf7b79c02f",
+    "examples.json": "1c1ff8be4fe54c2d5193e6b398255037af1146a28c200764c4419d2637537f2e",
     "acceptance-scenarios.json": "0fc96ce38d0d393c515e9418bbb8de977c20580a6ea8ecaded30d60e9af98808"
   },
   "activation_requires": [
@@ -14,5 +14,6 @@
     "receiver operation and revision enforcement",
     "fault and restore evidence",
     "real-host shadow and natural pilot observation"
-  ]
+  ],
+  "compatibility_note": "Additive bounded snapshot history and typed nested aggregates. Found-matching readback requires actual fields and a nonempty content revision; current adapters already provide these. Source admission remains disabled."
 }

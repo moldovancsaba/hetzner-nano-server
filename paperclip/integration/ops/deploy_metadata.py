@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 REMOTE = r'''
-import base64,datetime,hashlib,json,os,pathlib,shutil,sqlite3,subprocess,sys,tempfile
+import base64,datetime,hashlib,json,os,pathlib,re,shutil,sqlite3,subprocess,sys,tempfile
 payload=json.load(sys.stdin)
 root=pathlib.Path('/opt/source-exchange')
 config=json.loads(pathlib.Path('/etc/source-exchange/config.json').read_text())
@@ -22,13 +22,18 @@ shutil.copy2(caddy,backup/'Caddyfile');had_snippet=snippet.exists()
 if had_snippet:shutil.copy2(snippet,backup/'dashboard.caddy')
 for name in ['exchange','dashboard']:
  if (root/name).exists():shutil.copytree(root/name,backup/name)
+artifacts=['openapi.json','examples.json','release-manifest.json','acceptance-scenarios.json']
+for name in artifacts:
+ if (root/name).is_file():shutil.copy2(root/name,backup/name)
 with sqlite3.connect(config['database']) as original,sqlite3.connect(backup/'exchange.sqlite3') as saved:original.backup(saved)
 os.chmod(backup/'exchange.sqlite3',0o600)
-old=caddy.read_text();marker='\t\t\t@company_results path /factory /factory/ /factory/metrics'
-if '/etc/caddy/source-exchange-dashboard.caddy' not in old:
- if old.count(marker)!=1:raise RuntimeError('Unexpected live Caddy layout; no mutation performed')
- updated=old.replace(marker,payload['caddy_block']+marker)
-else:updated=old
+old=caddy.read_text()
+match=re.search(r'^\t\t\t@company_results path ([^\n]+)$',old,re.M)
+if not match or set(match[1].split()) not in ({'/factory','/factory/','/factory/metrics'},{'/factory/metrics'}):raise RuntimeError('Unexpected live Caddy layout; no mutation performed')
+start=old.find('\t\t\t@exchange_snapshot ')
+if start<0:start=match.start()
+if start>match.start():raise RuntimeError('Unexpected owned proxy block')
+updated=old[:start]+payload['caddy_block']+payload['company_matcher']+old[match.end():]
 try:
  for relative,encoded in payload['files'].items():
   target=root/relative
@@ -53,6 +58,9 @@ except BaseException:
   if (backup/name).exists():
    if (root/name).exists():shutil.rmtree(root/name)
    shutil.copytree(backup/name,root/name)
+ for name in artifacts:
+  if (backup/name).is_file():shutil.copy2(backup/name,root/name)
+  elif (root/name).exists(): (root/name).unlink()
  subprocess.run(['systemctl','restart','source-exchange'],capture_output=True)
  subprocess.run(['systemctl','reload','caddy'],capture_output=True)
  raise RuntimeError('Deployment failed; previous code and proxy restored') from None
@@ -76,6 +84,11 @@ def main():
             if not path.is_file() or '__pycache__' in path.parts or (prefix=='exchange' and path.suffix!='.py'):continue
             if path.is_symlink():raise RuntimeError('Symlink artifacts are not supported')
             files[prefix+'/'+str(path.relative_to(source))]=base64.b64encode(path.read_bytes()).decode()
+    manifest=json.loads((integration/'release-manifest.json').read_text())
+    for name in ['openapi.json','examples.json','release-manifest.json','acceptance-scenarios.json']:
+        content=(integration/name).read_bytes()
+        if name in manifest['files'] and hashlib.sha256(content).hexdigest()!=manifest['files'][name]:raise RuntimeError('Canonical release manifest does not match '+name)
+        files[name]=base64.b64encode(content).decode()
     digest=hashlib.sha256(json.dumps(files,sort_keys=True).encode()).hexdigest()
     if not args.apply:
         print(json.dumps({'apply':False,'files':len(files),'artifact_sha256':digest}));return
@@ -84,7 +97,8 @@ def main():
     credentials=json.loads(credential_path.read_text())
     caddy=(paperclip/'Caddyfile').read_text()
     start=caddy.index('\t\t\t@exchange_snapshot ');end=caddy.index('\t\t\t@company_results ',start)
-    body={'files':files,'dashboard_token':credentials['dashboard']['token'],'caddy_block':caddy[start:end]}
+    matcher=caddy[end:].splitlines()[0]
+    body={'files':files,'dashboard_token':credentials['dashboard']['token'],'caddy_block':caddy[start:end],'company_matcher':matcher}
     # Remote code reads private material from stdin, never process arguments or environment.
     import shlex
     result=subprocess.run(['ssh','-i',args.ssh_key,'-o','BatchMode=yes','-o','ConnectTimeout=10',args.host,'python3 -c '+shlex.quote(REMOTE)],input=json.dumps(body).encode(),capture_output=True,timeout=90)

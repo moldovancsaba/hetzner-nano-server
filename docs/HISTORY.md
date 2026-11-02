@@ -196,3 +196,5 @@ The owner approved testing the one untried small Hungarian candidate. Preflight:
 Added the canonical versioned contract and a durable transport implementation with scoped authentication, exact original-request replay, fenced consumer leases, causal projection, source outbox and isolated fault tests. Operator tools preserve unresolved receipts and require offline reconciliation before restore-generation rotation. Implementation does not itself activate source admission, client business jobs or destination authority.
 
 2026-11-02: implemented opt-in source-exchange factory hooks and protected GDS aggregate results. Metadata-only deployment validates and backs up the existing proxy/service while preserving business workers. Tested the exact staged factory snapshot independently of other local development.
+
+2026-11-02: replaced the company visual bootstrap with GDS views and added bounded delivery history, causal aggregate validation and fair durable source selection. Business activation stays gated.

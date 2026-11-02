@@ -41,7 +41,7 @@ def sync_offers(database,settings,limit=2):
  module=modules()
  with database() as db:
   module.initialize(db)
-  rows=[dict(r) for r in db.execute("SELECT * FROM exchange_source_outbox WHERE state='pending' AND next_at<=? ORDER BY rowid LIMIT ?",(time.time(),limit))]
+  rows=module.select_offers(db,limit=limit)
  sent=0
  for row in rows:
   try:
