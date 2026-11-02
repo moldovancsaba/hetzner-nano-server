@@ -20,7 +20,7 @@ def snapshot(store, principal, window=86400):
                 if payload.get('state')=='submission_accepted' and operation:accepted.add(operation)
                 if 'qualified' in payload and payload['qualified'] is not None:
                     measured_qualification=True
-                    if payload['qualified']:qualified.add(evaluation)
+                    if payload['qualified']:qualified.add(payload.get('candidate_ref',evaluation))
                 if payload['event_type']=='delivery_readback':
                     readback=payload['readback']
                     identity=(operation,readback['destination_type'],readback['destination_id'])

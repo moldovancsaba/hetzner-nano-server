@@ -80,7 +80,7 @@ export function Dashboard() {
   const rows = data?.clients.map((client) => ({
     key: `${client.scope.application}/${client.scope.client}`, client: client.scope.client,
     sources: value(client.paperclip.source_offers), qualified: value(client.openclaw.qualified),
-    accepted: value(client.openclaw.accepted_operations), confirmed: value(client.openclaw.destination_confirmed), published: value(client.openclaw.public_listings),
+    accepted: value(client.openclaw.coverage === 'not_measured' ? null : client.openclaw.accepted_operations), confirmed: value(client.openclaw.coverage === 'not_measured' ? null : client.openclaw.destination_confirmed), published: value(client.openclaw.coverage === 'not_measured' ? null : client.openclaw.public_listings),
     waiting: value(client.exchange.unprocessed), uncertain: value(client.openclaw.uncertain_evaluations),
     observed: date(client.openclaw.observed_through), action: client.next_action || (client.openclaw.coverage === 'not_measured' ? 'Awaiting verified processing evidence' : 'No action recorded'),
   })) || [];
@@ -96,7 +96,7 @@ export function Dashboard() {
         {stale && <StateBlock variant="empty" title="Older results" description="The last snapshot is more than an hour old. Refresh to check for current evidence." />}
         <SimpleDataTable loading={loading && !data} rows={rows} getRowKey={(row) => row.key} emptyTitle="No enrolled client results" emptyDescription="Results appear after an enrolled client exchanges and processes evidence." columns={[
           {key:'client',header:'Client'},{key:'sources',header:'Paperclip sources'},{key:'qualified',header:'Qualified'},
-          {key:'accepted',header:'Accepted operations'},{key:'confirmed',header:'Confirmed changes'},{key:'published',header:'Public listings'},
+          {key:'accepted',header:'Accepted operations'},{key:'confirmed',header:'Verified operations'},{key:'published',header:'Public listings'},
           {key:'waiting',header:'Waiting'},{key:'uncertain',header:'Uncertain'},{key:'observed',header:'Processing observed through'},{key:'action',header:'Next action'},
         ]} />
         <BodyText>Accepted cards and private leads are separate from public listings. A received packet is not a qualified candidate. Unavailable measurements do not mean zero results.</BodyText>

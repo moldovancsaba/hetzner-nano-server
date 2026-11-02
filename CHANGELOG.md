@@ -118,3 +118,7 @@ The inference host was set up on 2026-10-26: server and key creation, Docker and
 ## Source exchange adapters and combined results
 
 Added opt-in factory evidence/outbox and causal feedback hooks, a GDS-only results view, bounded streamed snapshot validation and a metadata-only gated deployment path. Admission and claims remain disabled; no business worker restart or new notification cadence. The staged factory snapshot passes 420 tests, broker passes 16, dashboard browser checks pass 3.
+
+### Readback attribution refinement
+
+Combined views report verified operations without claiming every operation changed a record. Missing processing coverage stays unmeasured. Qualification aggregates shared branch candidates once across source packet lineages.
