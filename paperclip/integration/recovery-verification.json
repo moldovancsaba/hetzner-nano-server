@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-11-02T14:10:33.390887+00:00",
+  "source_commit": "3ee76072f3632b282e7e690861fee1d805d4b7af",
+  "integration_tests": 33,
+  "exact_staged_native_factory_tests": 424,
+  "openclaw_isolated_tests": 53,
+  "executed_isolated_faults": [
+    "SIGKILL inside uncommitted SQLite transaction: rollback and integrity verified",
+    "SIGKILL after source receipt commit: original bytes/operation replay without second message",
+    "Private consistent backup restored under rotated broker generation: original operation receipt preserved and old lease refused",
+    "Re-enrolled source and event inboxes acknowledge replacement leases without retaining old receipt state"
+  ],
+  "production_observations": {
+    "native_hook_release": "healthy, disabled business hooks",
+    "native_database": "eight additive exchange tables installed under idle-fenced restart",
+    "broker_admission": false,
+    "broker_claims": false
+  },
+  "limits": [
+    "No production restore over business state was attempted",
+    "Retention policy adoption remains an operating-owner gate",
+    "No production RPO or RTO guarantee inferred from local faults",
+    "No natural shadow or live source-yield result inferred"
+  ]
+}
