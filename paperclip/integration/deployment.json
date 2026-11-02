@@ -15,9 +15,9 @@
     "caddy": "validated-and-reloaded"
   },
   "metadata_release": {
-    "checked_at": "2026-11-02T11:21:24.118476+00:00",
-    "source_commit": "a91dbe0",
-    "artifact_sha256": "83ea35e32cf67188b753d24f22ea0f05dbc3cf3b8ac98e5091722a52c04d5487",
+    "checked_at": "2026-11-02T11:32:47.473573+00:00",
+    "source_commit": "cf334b5",
+    "artifact_sha256": "484cdab218ff02993f619fedec22ca0a9d7e74d7bfe453723ac50eb4bef64385",
     "service": "active",
     "caddy": "validated-and-reloaded",
     "factory_workers_restarted": false,
@@ -27,6 +27,8 @@
     "unauthenticated_machine_status": 401,
     "authenticated_scoped_snapshot": 200,
     "source_admission": false,
-    "claims_enabled": false
+    "claims_enabled": false,
+    "anonymous_browser_status": 303,
+    "anonymous_snapshot_proxy_status": 303
   }
 }
