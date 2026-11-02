@@ -21,7 +21,7 @@ test('keyboard operation, explicit missing evidence and automated accessibility'
     const engine = (window as unknown as { axe: { run: (v: unknown, o: unknown) => Promise<{ violations: { id: string; impact: string }[] }> } }).axe;
     return (await engine.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa'] } })).violations;
   });
-  expect(violations.filter(v => ['critical', 'serious'].includes(v.impact))).toEqual([]);
+  expect(violations).toEqual([]);
   await page.screenshot({ path: '/tmp/paperclip-exchange-dashboard.png', fullPage: true });
 });
 test('error and stale content remain explicit at narrow width', async ({ page }) => {
