@@ -188,6 +188,17 @@ class ExchangeTests(unittest.TestCase):
         readback.update(content_revision='revision',checked_fields=[])
         with self.assertRaises(ExchangeError):self.store.contract.validate('OutcomeEvent',event)
 
+    def test_shadow_feedback_does_not_claim_measured_catalog_yield(self):
+        from exchange.snapshot import snapshot
+        offer=self.offer();self.call(self.pc,'/source-offers',offer)
+        event=copy.deepcopy(self.example['outcome_event']);event.update(event_id=uid(),evaluation_id=uid(),revision=1,previous_event_id=None,occurred_at=iso(self.now))
+        event['payload'].update(packet_id=offer['packet_id'],candidate_ref='candidate:shadow',state='checked',qualified=None,checker_version='paperclip-shadow-v1')
+        self.call(self.oc,'/events',event)
+        row=snapshot(self.store,self.oc)['clients'][0]
+        self.assertEqual(row['openclaw']['coverage'],'not_measured')
+        self.assertIsNone(row['openclaw']['qualified'])
+        self.assertIn('shadow feedback',row['next_action'])
+
     def test_snapshot_waits_for_causal_predecessor_and_keeps_scoped_history_private(self):
         from exchange.snapshot import snapshot
         offer=self.offer();self.call(self.pc,'/source-offers',offer)

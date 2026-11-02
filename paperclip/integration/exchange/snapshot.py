@@ -43,7 +43,7 @@ def snapshot(store, principal, window=86400):
             measured_qualification=False;measured_processing=False;latest=None
             for row in events:
                 event=json.loads(row[0]);payload=event['payload'];evaluation=event['evaluation_id']
-                measured_processing=True
+                measured_processing=measured_processing or payload.get('checker_version')!='paperclip-shadow-v1'
                 if latest is None or timestamp(event['occurred_at'])>timestamp(latest):latest=event['occurred_at']
                 evaluations.setdefault(evaluation,False)
                 if payload.get('state')=='uncertain':evaluations[evaluation]=True
@@ -67,7 +67,7 @@ def snapshot(store, principal, window=86400):
                                      'uncertain_evaluations':sum(bool(state) for state in evaluations.values()),
                                      'rejections':dict(sorted(reasons.items(),key=lambda kv:(-kv[1],kv[0]))[:10]),
                                      'observed_through':latest,'coverage':'events-only' if measured_processing else 'not_measured'},
-                         'spend':{'gbp':None,'basis':'not_measured'},'next_action':'Reconcile feedback awaiting its predecessor' if waiting else None,
+                         'spend':{'gbp':None,'basis':'not_measured'},'next_action':'Reconcile feedback awaiting its predecessor' if waiting else 'Only shadow feedback observed; catalog delivery has not been exercised' if latest and not measured_processing else None,
                          'timeline':timeline(db,app,client,since)})
     return {'schema_version':'1.1','as_of':iso(now),'observed_through':iso(now),'window_seconds':window,
             'coverage':'partial','clients':rows,'status':store.status(principal)}
