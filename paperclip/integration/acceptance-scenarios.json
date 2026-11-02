@@ -1,0 +1,146 @@
+{
+  "status": "required acceptance scenarios; not executed implementation tests",
+  "schema_version": "1.0",
+  "cases": [
+    {
+      "id": "lost-source-response",
+      "setup": "Broker commits offer, HTTP response is lost; producer retries original operation.",
+      "required_observation": "One stored offer; same receipt, no second packet."
+    },
+    {
+      "id": "changed-idempotency-body",
+      "setup": "Reuse a committed operation UUID with changed body or route.",
+      "required_observation": "409; original operation and source intact."
+    },
+    {
+      "id": "duplicate-source-new-operation",
+      "setup": "Same packet UUID arrives with a different transport operation UUID.",
+      "required_observation": "Same source identity; altered packet content conflicts; no duplicate business candidate."
+    },
+    {
+      "id": "crash-before-local-commit",
+      "setup": "Mac dies after claim but before inbox/receive receipt commit.",
+      "required_observation": "No acknowledgement; lease can expire and redeliver."
+    },
+    {
+      "id": "crash-after-local-commit",
+      "setup": "Mac saves inbox and receipt, then dies before remote acknowledgement.",
+      "required_observation": "Redelivery deduplicates against durable receipt; one inbox item."
+    },
+    {
+      "id": "crash-after-candidate-insert",
+      "setup": "Due job commits candidate insertion, inbox transition and outcome event, then dies.",
+      "required_observation": "One canonical candidate; outbox resumes; no second import."
+    },
+    {
+      "id": "queue-migration",
+      "setup": "Migrate original candidate files containing duplicates, pending transient cases and source metadata.",
+      "required_observation": "Preserve complete original entries/order; verify rollback; no legacy JSON writer remains active."
+    },
+    {
+      "id": "stale-lease",
+      "setup": "Consumer A resumes after its lease was replaced by consumer B.",
+      "required_observation": "A cannot acknowledge current work; an exact already-committed receipt remains retrievable."
+    },
+    {
+      "id": "wrong-client",
+      "setup": "NYC-scoped key offers/claims/acknowledges a BOS or SLG item.",
+      "required_observation": "403 or a scope-filtered empty claim; no cross-client payload disclosure or state change."
+    },
+    {
+      "id": "wrong-key",
+      "setup": "Missing, revoked or browser-password credential calls each route.",
+      "required_observation": "401; no source/body/queue information leaked."
+    },
+    {
+      "id": "offline-mac",
+      "setup": "Mac stays offline for one day; broker and Paperclip remain active.",
+      "required_observation": "Bounded backlog retained; backpressure stops offers; recovery catches up without duplicate processing."
+    },
+    {
+      "id": "offline-broker",
+      "setup": "Exchange is unreachable while normal jobs have valid local inputs.",
+      "required_observation": "Local outboxes retain events; short sync budget; existing safe work continues."
+    },
+    {
+      "id": "disk-full",
+      "setup": "Broker or receiver cannot durably commit.",
+      "required_observation": "503/no ack; held observable state; never success for unsaved data."
+    },
+    {
+      "id": "source-changed",
+      "setup": "Consumer refetch differs from transferred page hash.",
+      "required_observation": "Transferred claims invalidated; fresh gate or not_checked, no stale write."
+    },
+    {
+      "id": "private-target",
+      "setup": "Offer points/redirects/resolves to loopback, private or reserved IP, or DNS changes after validation.",
+      "required_observation": "All source/robots/image fetch paths refuse; no connection to private destination."
+    },
+    {
+      "id": "oversized-payload",
+      "setup": "Send >64 KiB JSON, oversized decompression, extra fields or unsupported schema version.",
+      "required_observation": "Bounded rejection before processing; healthy tenants continue."
+    },
+    {
+      "id": "unknown-source-policy",
+      "setup": "Offer references an unapproved/unknown policy review or refused source.",
+      "required_observation": "No policy mutation, source use or candidate promotion; explicit refusal/hold."
+    },
+    {
+      "id": "model-network-failure",
+      "setup": "A source cannot be checked because of network/model dependency.",
+      "required_observation": "not_checked/deferred; no terminal source-quality refusal or claim that facts are absent."
+    },
+    {
+      "id": "concurrent-destination-writes",
+      "setup": "Both current integrations update the same destination revision.",
+      "required_observation": "Exactly one applies; other returns precondition conflict; source/payload preserved for fresh review."
+    },
+    {
+      "id": "lost-destination-response",
+      "setup": "Destination commits but writer loses its response.",
+      "required_observation": "Same operation/readback reconciles; no new-ID retry and no duplicate record."
+    },
+    {
+      "id": "accepted-not-public",
+      "setup": "Management accepts an ingest card but does not publish a listing.",
+      "required_observation": "submission_accepted only; public remains unknown/not_public until exact readback."
+    },
+    {
+      "id": "event-redelivery",
+      "setup": "Paperclip commits event reconciliation but loses its acknowledgement response.",
+      "required_observation": "Same durable event receipt; no repeated gap task or double-counted publication."
+    },
+    {
+      "id": "shared-quota",
+      "setup": "Both systems request search while the account is at its allowance boundary.",
+      "required_observation": "Single authoritative reservation; no second local allowance; uncertain provider dispatch remains counted."
+    },
+    {
+      "id": "restored-old-snapshot",
+      "setup": "Restore a backup older than recent acknowledgements or destination commits.",
+      "required_observation": "Draining pauses; reconcile exact operations and quota high-water marks before replay."
+    },
+    {
+      "id": "paused-business-job",
+      "setup": "Transport receives an item while jobs.json pauses the client/worker.",
+      "required_observation": "Durable receipt permitted; no job/model/write starts and no pause override."
+    },
+    {
+      "id": "source-poisoning",
+      "setup": "Fetched page or event text asks to change gates, execute commands or send credentials.",
+      "required_observation": "Text remains untrusted data; no tool/scope/policy changes."
+    },
+    {
+      "id": "held-and-expired",
+      "setup": "Repeated transport faults or seven-day-old source offer.",
+      "required_observation": "Visible held/expired state; no silent deletion or automatic publication; stable controlled replay identity."
+    },
+    {
+      "id": "rollback",
+      "setup": "Disable source import after some messages and destination writes completed.",
+      "required_observation": "Receipts, revisions and quotas retained; backward-compatible code rollback; no old database overwrite."
+    }
+  ]
+}

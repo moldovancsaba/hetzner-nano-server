@@ -1,0 +1,20 @@
+{
+  "status": "structural checks passed; no implementation tests or live exchange performed",
+  "operations": 8,
+  "resolved_local_schema_references": 33,
+  "unique_acceptance_scenarios": 28,
+  "checks": [
+    "JSON parsing",
+    "all local schema references resolve",
+    "unique operation IDs",
+    "authenticated scopes on all operations",
+    "idempotency header on each mutation",
+    "path parameters declared",
+    "top-level example fields and required keys",
+    "unique acceptance case IDs"
+  ],
+  "limits": [
+    "Not full OpenAPI meta-schema or nested JSON Schema validation.",
+    "Scenarios specify future required implementation behavior; they have not been executed against a service."
+  ]
+}

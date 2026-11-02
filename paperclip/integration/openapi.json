@@ -1,0 +1,1466 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Paperclip\u2013OpenClaw Source Exchange",
+    "version": "1.0.0-rc1",
+    "description": "Versioned source exchange implementation contract. Loopback service behind scoped machine HTTPS; no search, inference, customer-send or destination write capability."
+  },
+  "servers": [
+    {
+      "url": "https://paperclip.haho.ai/integrations/v1",
+      "description": "Proposed HTTPS origin; not enabled by this contract."
+    }
+  ],
+  "paths": {
+    "/source-offers": {
+      "post": {
+        "operationId": "storeSourceOffer",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "sources:write",
+        "responses": {
+          "202": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoredReceipt"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SourceOffer"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Persisted UUID, unique to the authenticated principal. The first commit binds it to method, exact route and original UTF-8 body SHA-256. Any changed route or body conflicts. Replays return the saved original response, even if its lease expired.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/deliveries/claim": {
+      "post": {
+        "operationId": "claimSources",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "sources:claim",
+        "responses": {
+          "200": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimSourcesResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Persisted UUID, unique to the authenticated principal. The first commit binds it to method, exact route and original UTF-8 body SHA-256. Any changed route or body conflicts. Replays return the saved original response, even if its lease expired.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/deliveries/{delivery_id}/receipt": {
+      "post": {
+        "operationId": "acknowledgeSource",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "sources:claim",
+        "responses": {
+          "200": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcknowledgedReceipt"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntakeReceipt"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Persisted UUID, unique to the authenticated principal. The first commit binds it to method, exact route and original UTF-8 body SHA-256. Any changed route or body conflicts. Replays return the saved original response, even if its lease expired.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "delivery_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/events": {
+      "post": {
+        "operationId": "storeOutcomeEvent",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "events:write",
+        "responses": {
+          "202": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoredReceipt"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutcomeEvent"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Persisted UUID, unique to the authenticated principal. The first commit binds it to method, exact route and original UTF-8 body SHA-256. Any changed route or body conflicts. Replays return the saved original response, even if its lease expired.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/events/claim": {
+      "post": {
+        "operationId": "claimEvents",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "events:claim",
+        "responses": {
+          "200": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimEventsResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Persisted UUID, unique to the authenticated principal. The first commit binds it to method, exact route and original UTF-8 body SHA-256. Any changed route or body conflicts. Replays return the saved original response, even if its lease expired.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/events/{delivery_id}/receipt": {
+      "post": {
+        "operationId": "acknowledgeEvent",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "events:claim",
+        "responses": {
+          "200": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcknowledgedReceipt"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntakeReceipt"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Persisted UUID, unique to the authenticated principal. The first commit binds it to method, exact route and original UTF-8 body SHA-256. Any changed route or body conflicts. Replays return the saved original response, even if its lease expired.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "delivery_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/operations/{operation_id}": {
+      "get": {
+        "operationId": "getOwnOperation",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "operations:read",
+        "responses": {
+          "200": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationStatus"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "operation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "description": "Return only this principal\u2019s immutable operation result including exact route, request digest, original HTTP status and response. Never rerun an expired claim on lookup."
+      }
+    },
+    "/status": {
+      "get": {
+        "operationId": "getTransportStatus",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "status:read",
+        "responses": {
+          "200": {
+            "description": "Committed result after durable persistence. Replays return the stored original response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceStatus"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Bounded error; retry only when retryable, with original request identity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "description": "Read-only metadata filtered to the caller scope; credentials, source bodies and contact text are excluded."
+      }
+    },
+    "/snapshot": {
+      "get": {
+        "operationId": "readAggregateSnapshot",
+        "security": [
+          {
+            "ScopedBearer": []
+          }
+        ],
+        "x-required-scope": "status:read",
+        "description": "Bounded scoped aggregate with explicit per-producer coverage. Never raw source/contact bodies. Missing qualification, source effort or spend instrumentation is null, not zero.",
+        "responses": {
+          "200": {
+            "description": "Aggregate snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "schema_version",
+                    "as_of",
+                    "observed_through",
+                    "window_seconds",
+                    "coverage",
+                    "clients",
+                    "status"
+                  ],
+                  "properties": {
+                    "schema_version": {
+                      "const": "1.1"
+                    },
+                    "as_of": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "observed_through": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "window_seconds": {
+                      "type": "integer",
+                      "const": 86400
+                    },
+                    "coverage": {
+                      "const": "partial"
+                    },
+                    "clients": {
+                      "type": "array",
+                      "maxItems": 8,
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "status": {
+                      "$ref": "#/components/schemas/ServiceStatus"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Scoped typed error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ScopedBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Independent revocable machine identity; scopes and application/client allowlists enforced server-side. Browser password and session cookies do not authorize this API."
+      }
+    },
+    "schemas": {
+      "Scope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "application": {
+            "type": "string",
+            "enum": [
+              "classscout",
+              "management",
+              "salesleadgenerator"
+            ]
+          },
+          "client": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 48,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,47}$"
+          }
+        },
+        "required": [
+          "application",
+          "client"
+        ],
+        "description": "Application/client pairs are allowlisted by authenticated identity and the existing destination registry. Enum membership alone grants no access."
+      },
+      "PublicClaim": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "type": "string",
+            "enum": [
+              "name",
+              "address",
+              "ages",
+              "price",
+              "schedule",
+              "activity",
+              "program_url"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048
+          },
+          "page_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "field",
+          "value",
+          "quote",
+          "source_url",
+          "page_sha256"
+        ]
+      },
+      "SourceOffer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema_version": {
+            "const": "1.1"
+          },
+          "packet_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048
+          },
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "official_branch",
+              "official_program",
+              "official_contact",
+              "directory_lead"
+            ]
+          },
+          "fetched_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "page_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "provider_name_hint": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "branch_hint": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "gap_fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "identity",
+                "address",
+                "children",
+                "ages",
+                "price",
+                "schedule",
+                "program_dates",
+                "contact",
+                "activity"
+              ]
+            },
+            "maxItems": 9
+          },
+          "policy_review_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "producer_task_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicClaim"
+            },
+            "maxItems": 10
+          },
+          "extraction_recipe_id": {
+            "type": "string",
+            "enum": [
+              "factory-visible-text-v1",
+              "raw-http-body-v1"
+            ]
+          },
+          "digest_kind": {
+            "type": "string",
+            "enum": [
+              "visible_text_sha256",
+              "raw_body_sha256"
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "packet_id",
+          "scope",
+          "source_url",
+          "source_kind",
+          "fetched_at",
+          "expires_at",
+          "page_sha256",
+          "policy_review_ref",
+          "producer_task_ref",
+          "gap_fields",
+          "claims",
+          "extraction_recipe_id",
+          "digest_kind"
+        ],
+        "description": "Immutable public-source lead, never publication authority. Runtime checks enforce public-IP HTTPS, source permissions, expiry, same-source claim hashes/quotes, and branch identity. Directory leads cannot carry official claims."
+      },
+      "StoredReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resource_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "broker_saved"
+            ]
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "operation_id",
+          "resource_id",
+          "state",
+          "received_at"
+        ]
+      },
+      "ClaimRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "lease_seconds": {
+            "type": "integer",
+            "minimum": 120,
+            "maximum": 300
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "inbox_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "broker_generation": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "limit",
+          "lease_seconds",
+          "scope",
+          "inbox_id",
+          "broker_generation"
+        ]
+      },
+      "SourceDelivery": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delivery_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lease_token": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "lease_expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "offer": {
+            "$ref": "#/components/schemas/SourceOffer"
+          },
+          "broker_generation": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "lease_token",
+          "lease_expires_at",
+          "offer",
+          "broker_generation"
+        ]
+      },
+      "ClaimSourcesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SourceDelivery"
+            },
+            "maxItems": 10
+          },
+          "retry_after_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3600
+          }
+        },
+        "required": [
+          "items",
+          "retry_after_seconds"
+        ]
+      },
+      "IntakeReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lease_token": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "local_receipt_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "disposition": {
+            "type": "string",
+            "enum": [
+              "received",
+              "duplicate",
+              "policy_refused",
+              "expired"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "local_reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "inbox_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "broker_generation": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "lease_token",
+          "local_receipt_id",
+          "disposition",
+          "reason_code",
+          "local_reference",
+          "scope",
+          "inbox_id",
+          "broker_generation"
+        ],
+        "description": "received acknowledges a durably stored local inbox item, not successful validation or publication. Expired leases fail unless the exact previously committed operation is being replayed."
+      },
+      "AcknowledgedReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delivery_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "acknowledged"
+            ]
+          },
+          "acknowledged_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "operation_id",
+          "delivery_id",
+          "state",
+          "acknowledged_at"
+        ]
+      },
+      "Readback": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "destination_type": {
+            "type": "string",
+            "enum": [
+              "provider",
+              "lead",
+              "ingest_card",
+              "listing"
+            ]
+          },
+          "destination_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "checked_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "found_matching",
+              "found_conflict",
+              "missing",
+              "unavailable"
+            ]
+          },
+          "publication": {
+            "type": "string",
+            "enum": [
+              "public",
+              "not_public",
+              "unknown"
+            ]
+          },
+          "verification_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "checked_fields": {
+            "type": "array",
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "content_revision": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 160
+          }
+        },
+        "required": [
+          "destination_type",
+          "destination_id",
+          "checked_at",
+          "result",
+          "publication",
+          "verification_ref",
+          "checked_fields",
+          "content_revision"
+        ],
+        "description": "public is valid only for found_matching with an independently checked authoritative publication predicate. Missing or unavailable readback is never evidence of publication."
+      },
+      "GapPayload": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "event_type": {
+            "const": "gap_report"
+          },
+          "candidate_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "gap_fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "identity",
+                "address",
+                "children",
+                "ages",
+                "price",
+                "schedule",
+                "program_dates",
+                "contact",
+                "activity"
+              ]
+            },
+            "maxItems": 9
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048
+          },
+          "evidence_fingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "checker_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z0-9_-]+$"
+          }
+        },
+        "required": [
+          "event_type",
+          "candidate_ref",
+          "gap_fields",
+          "evidence_fingerprint",
+          "checker_version",
+          "reason_code"
+        ]
+      },
+      "OutcomePayload": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "event_type": {
+            "const": "processing_outcome"
+          },
+          "packet_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "candidate_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "checked",
+              "not_checked",
+              "rejected",
+              "submission_accepted",
+              "uncertain"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "checker_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "destination_operation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "qualified": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "operation_kind": {
+            "type": "string",
+            "enum": [
+              "new_record",
+              "field_improvement"
+            ]
+          }
+        },
+        "required": [
+          "event_type",
+          "packet_id",
+          "candidate_ref",
+          "state",
+          "reason_code",
+          "checker_version"
+        ]
+      },
+      "ReadbackPayload": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "event_type": {
+            "const": "delivery_readback"
+          },
+          "packet_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "destination_operation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "readback": {
+            "$ref": "#/components/schemas/Readback"
+          }
+        },
+        "required": [
+          "event_type",
+          "packet_id",
+          "destination_operation_id",
+          "readback"
+        ]
+      },
+      "OutcomeEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema_version": {
+            "const": "1.1"
+          },
+          "event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "job_run_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "payload": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GapPayload"
+              },
+              {
+                "$ref": "#/components/schemas/OutcomePayload"
+              },
+              {
+                "$ref": "#/components/schemas/ReadbackPayload"
+              }
+            ]
+          },
+          "evaluation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "previous_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "event_id",
+          "scope",
+          "occurred_at",
+          "job_run_ref",
+          "payload",
+          "evaluation_id",
+          "revision",
+          "previous_event_id"
+        ],
+        "description": "Immutable public-source/status metadata only. No customer messages, contact objects, credentials, raw pages or search-result bodies. Producer identity is bound to authentication."
+      },
+      "EventDelivery": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delivery_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lease_token": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "lease_expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "event": {
+            "$ref": "#/components/schemas/OutcomeEvent"
+          },
+          "broker_generation": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "lease_token",
+          "lease_expires_at",
+          "event",
+          "broker_generation"
+        ]
+      },
+      "ClaimEventsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventDelivery"
+            },
+            "maxItems": 10
+          },
+          "retry_after_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3600
+          }
+        },
+        "required": [
+          "items",
+          "retry_after_seconds"
+        ]
+      },
+      "OperationStatus": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "processing",
+              "committed",
+              "held"
+            ]
+          },
+          "resource_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "result_type": {
+            "type": "string",
+            "enum": [
+              "source_offer",
+              "source_claim",
+              "source_receipt",
+              "event",
+              "event_claim",
+              "event_receipt"
+            ]
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "method": {
+            "const": "POST"
+          },
+          "route": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "request_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "status_code": {
+            "type": "integer",
+            "minimum": 200,
+            "maximum": 599
+          },
+          "response": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "operation_id",
+          "state",
+          "resource_id",
+          "result_type",
+          "recorded_at",
+          "method",
+          "route",
+          "request_sha256",
+          "status_code",
+          "response"
+        ]
+      },
+      "ServiceStatus": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema_version": {
+            "const": "1.1"
+          },
+          "checked_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "healthy",
+              "degraded"
+            ]
+          },
+          "source_pending": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "events_pending": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "held_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "oldest_pending_seconds": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "last_consumer_contact": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "broker_generation": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "observed_through": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "schema_version",
+          "checked_at",
+          "status",
+          "source_pending",
+          "events_pending",
+          "held_count",
+          "oldest_pending_seconds",
+          "last_consumer_contact",
+          "broker_generation",
+          "observed_through"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "unauthorized",
+              "forbidden",
+              "invalid_request",
+              "idempotency_conflict",
+              "stale_lease",
+              "capacity_hold",
+              "not_found",
+              "unsupported_version",
+              "temporarily_unavailable"
+            ]
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "retry_after_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3600
+          }
+        },
+        "required": [
+          "code",
+          "request_id",
+          "retryable",
+          "retry_after_seconds"
+        ]
+      }
+    }
+  },
+  "x-idempotency": {
+    "hash": "SHA-256 of exact persisted UTF-8 request body bytes",
+    "scope": [
+      "principal",
+      "method",
+      "route",
+      "Idempotency-Key"
+    ],
+    "mismatch_status": 409
+  },
+  "x-error-statuses": {
+    "400": "invalid_request",
+    "401": "unauthorized",
+    "403": "forbidden",
+    "404": "not_found",
+    "409": "idempotency_conflict or stale_lease",
+    "413": "invalid_request (oversized body)",
+    "422": "unsupported_version or invalid_request",
+    "429": "capacity_hold with Retry-After",
+    "503": "temporarily_unavailable with Retry-After"
+  },
+  "x-consumer-enrollment": "Each claiming principal has a configured inbox UUID per direction. Changed inbox requires explicit operator re-enrollment and reconciliation; a consumer with missing DB must not reuse an identity.",
+  "x-restore": "Broker generation persists across ordinary restarts; isolated stale restore requires explicit generation rotation with draining disabled and destination/quota reconciliation.",
+  "x-digest-recipes": {
+    "factory-visible-text-v1": "visible_text_sha256; UTF-8 of factory net.PageParser.result text, SHA-256",
+    "raw-http-body-v1": "raw_body_sha256; exact bounded decoded HTTP entity bytes, SHA-256"
+  },
+  "x-causal-projection": "Store immutable events; project only contiguous revisions within evaluation_id, matching previous_event_id. Late earlier revisions cannot regress a verified outcome. New evaluation IDs are distinct histories.",
+  "x-authorization": "Credential grants exact application/client pairs and route capabilities. Claims require a single explicit scope. Browser Origin is refused; tokens are independent of human browser authentication."
+}

@@ -306,3 +306,7 @@ The Mac pulls a recovery bundle (Paperclip database dump, an online copy of the 
 ## Limits and known gaps
 
 This page does not repeat defects. They are recorded where they are fixed or tracked: [OPERATIONS.md](OPERATIONS.md#known-limitations) for the inference host, [../paperclip/README.md](../paperclip/README.md#known-limitations) for the Paperclip host, and the dated review in [GAP-ANALYSIS-2026-10-30.md](GAP-ANALYSIS-2026-10-30.md).
+
+## Source exchange implementation
+
+[The exchange package](../paperclip/integration/README.md) is a separate loopback service with its own private SQLite database and scoped machine grants. It transports public source evidence and outcome metadata; it has no inference, search or catalog-write capability. Destination authority remains application-owned. Admission and claims are disabled until their release gates pass.

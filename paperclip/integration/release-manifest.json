@@ -1,0 +1,18 @@
+{
+  "release": "1.0.0-rc1",
+  "wire_version": "1.1",
+  "status": "implemented_candidate_pending_cross_application_review",
+  "minimum_adapter_version": "1.0.0-rc1",
+  "idempotency_namespace": "principal plus UUID, bound to method/route/original-byte digest",
+  "files": {
+    "openapi.json": "db4178fe208b7a1a99b70c2b31cabf5885c5212d7c9d6aabe6c63cb976ad0b47",
+    "examples.json": "4330ca5a10df050b41de5b5f7ca020367656d31d32064858b6286f9ca332322e",
+    "acceptance-scenarios.json": "0fc96ce38d0d393c515e9418bbb8de977c20580a6ea8ecaded30d60e9af98808"
+  },
+  "activation_requires": [
+    "destination-reviewed NYC authority matrix",
+    "receiver operation and revision enforcement",
+    "fault and restore evidence",
+    "real-host shadow and natural pilot observation"
+  ]
+}

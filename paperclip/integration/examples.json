@@ -1,0 +1,61 @@
+{
+  "status": "synthetic contract examples; never submit as live candidates",
+  "source_offer": {
+    "schema_version": "1.1",
+    "packet_id": "00000000-0000-4000-8000-000000000001",
+    "scope": {
+      "application": "classscout",
+      "client": "NYC"
+    },
+    "source_url": "https://provider.example/locations/queens/programs",
+    "source_kind": "official_program",
+    "fetched_at": "2026-11-01T18:00:00Z",
+    "expires_at": "2026-11-08T18:00:00Z",
+    "page_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "provider_name_hint": "Example Provider",
+    "branch_hint": "Queens branch; locality remains unverified",
+    "gap_fields": [
+      "ages",
+      "schedule"
+    ],
+    "policy_review_ref": "fixture-only-policy-review",
+    "producer_task_ref": "fixture-task-1",
+    "claims": [],
+    "extraction_recipe_id": "factory-visible-text-v1",
+    "digest_kind": "visible_text_sha256"
+  },
+  "outcome_event": {
+    "schema_version": "1.1",
+    "event_id": "00000000-0000-4000-8000-000000000002",
+    "scope": {
+      "application": "classscout",
+      "client": "NYC"
+    },
+    "occurred_at": "2026-11-01T18:01:00Z",
+    "job_run_ref": "fixture-run-1",
+    "payload": {
+      "event_type": "processing_outcome",
+      "packet_id": "00000000-0000-4000-8000-000000000001",
+      "candidate_ref": "fixture-candidate-1",
+      "state": "not_checked",
+      "reason_code": "page_changed",
+      "checker_version": "fixture-checker-1"
+    },
+    "evaluation_id": "00000000-0000-4000-8000-000000000004",
+    "revision": 1,
+    "previous_event_id": null
+  },
+  "source_intake_receipt": {
+    "lease_token": "fixture-opaque-token",
+    "local_receipt_id": "00000000-0000-4000-8000-000000000003",
+    "disposition": "received",
+    "reason_code": "inbox_committed",
+    "local_reference": "fixture-inbox-1",
+    "scope": {
+      "application": "classscout",
+      "client": "NYC"
+    },
+    "inbox_id": "00000000-0000-4000-8000-000000000005",
+    "broker_generation": "00000000-0000-4000-8000-000000000006"
+  }
+}

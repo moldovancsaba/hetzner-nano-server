@@ -1,0 +1,15 @@
+{
+  "database": "/var/lib/source-exchange/exchange.sqlite3",
+  "port": 9091,
+  "source_admission": false,
+  "claims_enabled": false,
+  "principals": [
+    {
+      "id": "openclaw",
+      "token_sha256": "REPLACE_WITH_SHA256_OF_A_PRIVATE_RANDOM_TOKEN",
+      "scopes": ["sources:claim", "events:write", "operations:read", "status:read"],
+      "clients": [{"application": "classscout", "client": "NYC"}],
+      "inbox_ids": {"sources": "REPLACE_WITH_ENROLLED_CONSUMER_UUID"}
+    }
+  ]
+}

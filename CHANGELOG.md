@@ -110,3 +110,7 @@ Eighteen of the 22 defects found by the documentation review are fixed in the re
 ## Before 2026-10-27
 
 The inference host was set up on 2026-10-26: server and key creation, Docker and Ollama with a pinned image, Caddy with HTTPS, firewall, DNS, project keys and the first Qwen3 1.7B baseline. The record is in [docs/HISTORY.md](docs/HISTORY.md); the repository's first commit is the 2026-10-27 import above.
+
+## Source exchange implementation
+
+- Added the scoped loopback broker, exact-byte operation receipts, fenced leases, bounded aggregate snapshots, factory outbox/projection helpers and offline recovery tools. Source admission and claims default to disabled; production commissioning and client activation have separate evidence gates. See [the exchange guide](paperclip/integration/README.md).

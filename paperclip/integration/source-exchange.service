@@ -1,0 +1,28 @@
+[Unit]
+Description=Paperclip OpenClaw durable source exchange
+After=network.target
+
+[Service]
+Type=simple
+User=source-exchange
+Group=source-exchange
+WorkingDirectory=/opt/source-exchange
+ExecStart=/opt/source-exchange/.venv/bin/python -m exchange.server --config /etc/source-exchange/config.json
+Restart=on-failure
+RestartSec=5
+StateDirectory=source-exchange
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_UNIX AF_INET
+IPAddressDeny=any
+IPAddressAllow=localhost
+MemoryMax=192M
+TasksMax=32
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
