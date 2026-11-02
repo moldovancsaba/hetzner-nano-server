@@ -188,6 +188,18 @@ class ExchangeTests(unittest.TestCase):
         readback.update(content_revision='revision',checked_fields=[])
         with self.assertRaises(ExchangeError):self.store.contract.validate('OutcomeEvent',event)
 
+    def test_latest_exact_listing_readback_supersedes_prior_publication(self):
+        from exchange.snapshot import snapshot
+        offer=self.offer();self.call(self.pc,'/source-offers',offer)
+        event=copy.deepcopy(self.example['outcome_event']);event.update(event_id=uid(),evaluation_id=uid(),revision=1,previous_event_id=None,occurred_at=iso(self.now))
+        event['payload']={'event_type':'delivery_readback','packet_id':offer['packet_id'],'destination_operation_id':uid(),'readback':{'destination_type':'provider','destination_id':'fixture-provider','checked_at':iso(self.now),'result':'found_matching','publication':'public','verification_ref':'fixture','checked_fields':['name'],'content_revision':'v1'}}
+        self.call(self.oc,'/events',event)
+        self.assertEqual(snapshot(self.store,self.oc)['clients'][0]['openclaw']['public_listings'],1)
+        second=copy.deepcopy(event);second.update(event_id=uid(),revision=2,previous_event_id=event['event_id'])
+        second['payload']['readback'].update(checked_at=iso(self.now+1),publication='not_public')
+        self.call(self.oc,'/events',second)
+        self.assertEqual(snapshot(self.store,self.oc)['clients'][0]['openclaw']['public_listings'],0)
+
     def test_shadow_feedback_does_not_claim_measured_catalog_yield(self):
         from exchange.snapshot import snapshot
         offer=self.offer();self.call(self.pc,'/source-offers',offer)

@@ -39,7 +39,7 @@ def snapshot(store, principal, window=86400):
             deliveries=db.execute("SELECT count(*),min(m.created) FROM messages m WHERE m.kind='source_offer' AND m.application=? AND m.client=? AND m.processed=0",(app,client)).fetchone()
             waiting=db.execute("SELECT count(*) "+EVENT_JOIN+" AND json_extract(m.body,'$.revision')>coalesce(p.revision,0)",(app,client,since)).fetchone()[0]
             events=db.execute("SELECT m.body "+EVENT_JOIN+APPLIED+" ORDER BY json_extract(m.body,'$.evaluation_id'),json_extract(m.body,'$.revision')",(app,client,since))
-            evaluations={};confirmed=set();published=set();accepted=set();qualified=set();reasons={}
+            evaluations={};confirmed=set();publication_states={};accepted=set();qualified=set();reasons={}
             measured_qualification=False;measured_processing=False;latest=None
             for row in events:
                 event=json.loads(row[0]);payload=event['payload'];evaluation=event['evaluation_id']
@@ -57,13 +57,18 @@ def snapshot(store, principal, window=86400):
                     evaluations[evaluation]=not (readback['result']=='found_matching' and readback['checked_fields'] and readback['content_revision'])
                     identity=(operation,readback['destination_type'],readback['destination_id'])
                     if readback['result']=='found_matching' and readback['checked_fields'] and readback['content_revision']:confirmed.add(identity)
-                    if readback['result']=='found_matching' and readback['content_revision'] and readback['publication']=='public' and readback['destination_type'] in ('provider','listing'):published.add((readback['destination_type'],readback['destination_id']))
+                    if readback['destination_type'] in ('provider','listing'):
+                        target=(readback['destination_type'],readback['destination_id']);checked=timestamp(readback['checked_at'])
+                        prior=publication_states.get(target)
+                        visible=readback['result']=='found_matching' and bool(readback['content_revision']) and readback['publication']=='public'
+                        if prior is None or checked>prior[0]:publication_states[target]=(checked,visible)
+                        elif checked==prior[0]:publication_states[target]=(checked,prior[1] and visible)
                 if payload.get('state')=='rejected':
                     code=payload.get('reason_code','unspecified');reasons[code]=reasons.get(code,0)+1
             rows.append({'scope':scope,'paperclip':{'source_offers':offered,'research_examinations':None,'coverage':'source-offers-only'},
                          'exchange':{'unprocessed':deliveries[0],'oldest_pending_seconds':None if deliveries[1] is None else max(0,int(now-deliveries[1])),'events_waiting':waiting},
                          'openclaw':{'qualified':len(qualified) if measured_qualification else None,'accepted_operations':len(accepted),
-                                     'destination_confirmed':len(confirmed),'public_listings':len(published),
+                                     'destination_confirmed':len(confirmed),'public_listings':sum(visible for checked,visible in publication_states.values()),
                                      'uncertain_evaluations':sum(bool(state) for state in evaluations.values()),
                                      'rejections':dict(sorted(reasons.items(),key=lambda kv:(-kv[1],kv[0]))[:10]),
                                      'observed_through':latest,'coverage':'events-only' if measured_processing else 'not_measured'},
