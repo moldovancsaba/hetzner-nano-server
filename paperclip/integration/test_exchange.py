@@ -277,6 +277,22 @@ with Store(sys.argv[1]).transaction() as db:
             self.assertEqual(db.execute('PRAGMA integrity_check').fetchone()[0],'ok')
             self.assertIsNone(db.execute("SELECT value FROM meta WHERE key='uncommitted-crash-marker'").fetchone())
 
+    def test_aggregate_reporter_cannot_claim_mutate_or_read_private_operation(self):
+        token='isolated-read-only-token-'+('x'*32)
+        reporter={'id':'aggregate','token_sha256':hashlib.sha256(token.encode()).hexdigest(),'scopes':['status:read'],'clients':[SCOPE,{'application':'salesleadgenerator','client':'cogmap'}]}
+        app=Application(self.store,[reporter])
+        headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','Idempotency-Key':uid()}
+        status,raw=app.dispatch('GET','/snapshot',headers)
+        self.assertEqual(status,200);self.assertEqual(len(json.loads(raw)['clients']),2)
+        with self.assertRaises(ExchangeError) as error:app.dispatch('POST','/source-offers',headers,encode(self.offer()))
+        self.assertEqual(error.exception.status,403)
+        claim={'scope':SCOPE,'inbox_id':uid(),'broker_generation':self.store.status(self.oc)['broker_generation'],'limit':1,'lease_seconds':300}
+        with self.assertRaises(ExchangeError) as error:app.dispatch('POST','/deliveries/claim',headers,encode(claim))
+        self.assertEqual(error.exception.status,403)
+        with self.assertRaises(ExchangeError) as error:app.dispatch('GET','/operations/'+uid(),headers)
+        self.assertEqual(error.exception.status,403)
+        with self.store.connection() as db:self.assertEqual(db.execute('SELECT count(*) FROM messages').fetchone()[0],0)
+
     def test_hard_process_death_after_commit_replays_exact_durable_receipt(self):
         operation=uid();value=self.offer();fixture=Path(self.tmp.name)/'crash-input.json'
         fixture.write_text(json.dumps({'principal':self.pc,'operation':operation,'offer':value}))

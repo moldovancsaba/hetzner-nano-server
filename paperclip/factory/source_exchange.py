@@ -30,7 +30,9 @@ def transport(settings,method,route,body=None,operation=None):
  token=path.read_text().strip()
  if len(token)<32:raise ValueError('Invalid exchange credential')
  request=urllib.request.Request('http://127.0.0.1:9091/integrations/v1'+route,data=body,method=method,headers={'Authorization':'Bearer '+token,'Content-Type':'application/json',**({'Idempotency-Key':operation} if operation else {})})
- with urllib.request.urlopen(request,timeout=10) as response:
+ remaining=settings.get('_deadline',time.monotonic()+10)-time.monotonic()
+ if remaining<=0:raise TimeoutError('Exchange turn budget exhausted')
+ with urllib.request.urlopen(request,timeout=min(10,remaining)) as response:
   raw=response.read(262145)
   if len(raw)>262144:raise ValueError('Exchange response too large')
   return json.loads(raw)
@@ -44,6 +46,7 @@ def sync_offers(database,settings,limit=2):
   rows=module.select_offers(db,limit=limit)
  sent=0
  for row in rows:
+  if settings.get('_deadline',time.monotonic()+10)-time.monotonic()<1:break
   try:
    response=transport(settings,'POST','/source-offers',bytes(row['body']),row['operation'])
    if response.get('operation_id')!=row['operation'] or response.get('state')!='broker_saved':raise ValueError('Invalid exchange receipt')
@@ -62,33 +65,46 @@ def dashboard_snapshot(config):
  return transport(settings,'GET','/snapshot')
 
 
-def event_turn(database,settings,limit=3):
+def event_turn(database,settings,limit=8):
  if not settings.get('events_enabled'):return {'state':'disabled'}
  import uuid,datetime
+ scopes=settings.get('event_scopes') or [settings['event_scope']]
+ if not isinstance(limit,int) or not 0<=limit<=8:raise ValueError('Event turn exceeds request bound')
+ if not isinstance(scopes,list) or not 1<=len(scopes)<=8 or any(not isinstance(scope,dict) or set(scope)!={'application','client'} or scope['application'] not in {'classscout','management','salesleadgenerator'} or not isinstance(scope['client'],str) or not 1<=len(scope['client'])<=80 for scope in scopes) or len({json.dumps(scope,sort_keys=True) for scope in scopes})!=len(scopes):raise ValueError('Bounded unique event scopes required')
  module=modules()
  with database() as db:
   module.initialize(db)
  completed=0
  for turn in range(limit):
+  if settings.get('_deadline',time.monotonic()+10)-time.monotonic()<1:break
   with database() as db:
    request=db.execute("SELECT * FROM exchange_event_requests WHERE state='pending' AND next_at<=? ORDER BY CASE WHEN route LIKE '%/receipt' THEN 0 ELSE 1 END,rowid LIMIT 1",(time.time(),)).fetchone()
    request=dict(request) if request else None
   if not request:
    with database() as db:
-    if db.execute("SELECT 1 FROM exchange_event_requests WHERE route='/events/claim' AND state IN ('pending','held') LIMIT 1").fetchone():break
+    cursor=db.execute("SELECT value FROM exchange_selection_cursor WHERE key='event_scope_cursor'").fetchone()
+    index=int(cursor[0])%len(scopes) if cursor else 0
+    scope=scopes[index]
+    pending=db.execute("SELECT 1 FROM exchange_event_requests WHERE route='/events/claim' AND state IN ('pending','held') AND json_extract(body,'$.scope.application')=? AND json_extract(body,'$.scope.client')=? LIMIT 1",(scope['application'],scope['client'])).fetchone()
+    db.execute("INSERT INTO exchange_selection_cursor VALUES('event_scope_cursor',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",(str((index+1)%len(scopes)),))
+    if pending:continue
    status=transport(settings,'GET','/status')
-   body={'scope':settings['event_scope'],'inbox_id':settings['event_inbox_id'],'broker_generation':status['broker_generation'],'limit':1,'lease_seconds':300}
+   body={'scope':scope,'inbox_id':settings['event_inbox_id'],'broker_generation':status['broker_generation'],'limit':min(5,max(1,limit-turn-2)),'lease_seconds':300}
    with database() as db:db.execute("INSERT INTO exchange_event_requests(id,route,body,state) VALUES(?,'/events/claim',?,'pending')",(str(uuid.uuid4()),json.dumps(body,separators=(',',':')).encode()))
    continue
-  if request['route']=='/events/claim' and limit-turn<2:break
+  claim=json.loads(request['body']) if request['route']=='/events/claim' else None
+  if claim and (claim['scope'] not in scopes):
+   with database() as db:db.execute("UPDATE exchange_event_requests SET state='held',error='scope-no-longer-enrolled' WHERE id=?",(request['id'],))
+   continue
+  if claim and limit-turn<1+claim['limit']:break
   try:
    response=transport(settings,'POST',request['route'],bytes(request['body']),request['id'])
    if request['route']=='/events/claim':
-    if not isinstance(response.get('items'),list) or len(response['items'])>10:raise ValueError('Invalid event claim')
+    if not isinstance(response.get('items'),list) or len(response['items'])>claim['limit']:raise ValueError('Invalid event claim')
     with database() as db:
      for item in response['items']:
       event=item['event']
-      if event['scope']!=settings['event_scope']:raise ValueError('Event belongs to another scope')
+      if event['scope']!=claim['scope']:raise ValueError('Event belongs to another scope')
       expires=datetime.datetime.fromisoformat(item['lease_expires_at'].replace('Z','+00:00')).timestamp()
       if expires<=time.time():continue
       module.project(db,event)
@@ -125,6 +141,7 @@ def deliver_gaps(database,settings,board,config,limit=2):
   rows=[dict(r) for r in db.execute("SELECT * FROM exchange_gap_intents WHERE state='pending' ORDER BY created LIMIT ?",(limit,))]
  delivered=0
  for row in rows:
+  if settings.get('_deadline',time.monotonic()+30)-time.monotonic()<26:break
   project=next((p for p,s in settings.get('projects',{}).items() if s=={'application':row['application'],'client':row['client']}),None)
   agent=next((k for k,v in config['agents'].items() if v['role']=='research'),None)
   with database() as db:
@@ -148,8 +165,9 @@ def deliver_gaps(database,settings,board,config,limit=2):
 
 def coordinate(database,settings,board,config):
  if not any(settings.get(key) for key in ['offers_enabled','events_enabled','gap_tasks_enabled']):return {'state':'disabled'}
+ settings={**settings,'_deadline':time.monotonic()+30}
  try:
   return {'offers':sync_offers(database,settings),'events':event_turn(database,settings),'gaps':deliver_gaps(database,settings,board,config)}
- except (OSError,ValueError,RuntimeError) as error:
+ except (OSError,ValueError,RuntimeError,KeyError,TypeError) as error:
   # A transport outage cannot prevent the existing native coordination turn.
   return {'state':'held','reason':type(error).__name__}

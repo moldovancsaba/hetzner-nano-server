@@ -91,5 +91,37 @@ class HookTests(unittest.TestCase):
   self.assertEqual(hooks.deliver_gaps(self.database,settings,Board(),config)['delivered'],1)
   self.assertEqual(seen[0],seen[1]);self.assertTrue(json.loads(seen[0])['allowDuplicate'])
 
+ def test_multiple_event_scopes_receive_fair_claims_with_same_turn_acknowledgments(self):
+  import uuid
+  from exchange.store import Store
+  from exchange.contract import encode,iso
+  now=time.time();scopes=[{'application':'classscout','client':client} for client in ['NYC','BOS']]
+  inbox=str(uuid.uuid4());broker=Store(Path(self.tmp.name)/'multi-broker.sqlite3',initialize=True)
+  reader={'id':'factory','clients':scopes,'scopes':['events:claim','status:read'],'inbox_ids':{'events':inbox}}
+  writer={'id':'mac','clients':scopes,'scopes':['events:write']}
+  for scope in scopes:
+   for i in range(5):
+    event={'schema_version':'1.1','event_id':str(uuid.uuid4()),'scope':scope,'occurred_at':iso(now),'job_run_ref':'fixture','evaluation_id':str(uuid.uuid4()),'revision':1,'previous_event_id':None,'payload':{'event_type':'gap_report','candidate_ref':'candidate-'+str(i),'gap_fields':['address'],'evidence_fingerprint':'a'*64,'checker_version':'fixture','reason_code':'missing-address'}}
+    broker.mutation(writer,str(uuid.uuid4()),'/events',encode(event))
+  claimed=[]
+  def transport(settings,method,route,body=None,operation=None):
+   if method=='GET':return broker.status(reader)
+   if route=='/events/claim':claimed.append(json.loads(body)['scope']['client'])
+   return json.loads(broker.mutation(reader,operation,route,body)[1])
+  settings={**self.settings,'events_enabled':True,'event_scopes':scopes,'event_inbox_id':inbox}
+  with patch.object(hooks,'transport',side_effect=transport):
+   hooks.event_turn(self.database,settings)
+   with broker.connection() as db:
+    self.assertEqual(db.execute('SELECT count(*) FROM deliveries').fetchone()[0],5)
+    self.assertEqual(db.execute('SELECT count(*) FROM deliveries WHERE acked IS NOT NULL').fetchone()[0],5)
+   hooks.event_turn(self.database,settings)
+  self.assertEqual(claimed[:2],['NYC','BOS'])
+  with broker.connection() as db:self.assertEqual(db.execute('SELECT count(*) FROM deliveries WHERE acked IS NULL').fetchone()[0],0)
+
+ def test_exhausted_turn_budget_does_not_start_transport(self):
+  settings={**self.settings,'events_enabled':True,'event_scope':{'application':'classscout','client':'NYC'},'_deadline':time.monotonic()-1}
+  with patch.object(hooks,'transport',side_effect=AssertionError('budget exhausted')):
+   self.assertEqual(hooks.event_turn(self.database,settings),{'completed':0})
+
 
 if __name__=='__main__':unittest.main()
