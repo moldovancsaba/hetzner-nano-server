@@ -15,11 +15,11 @@
     "caddy": "validated-and-reloaded"
   },
   "metadata_release": {
-    "checked_at": "2026-11-02T11:32:47.473573+00:00",
-    "source_commit": "cf334b5",
-    "artifact_sha256": "484cdab218ff02993f619fedec22ca0a9d7e74d7bfe453723ac50eb4bef64385",
+    "checked_at": "2026-11-02T13:52:42.487618+00:00",
+    "source_commit": "75f707b781a8afe4abeba26f70e1e039aef54777",
+    "artifact_sha256": "163089f78efe8fc936d7700d7591394ad4210114076b94d0f6c2da9b1ba9e388",
     "service": "active",
-    "caddy": "validated-and-reloaded",
+    "caddy": "validated-reloaded",
     "factory_workers_restarted": false,
     "dashboard_path": "/factory/exchange/",
     "snapshot_browser_proxy": "/factory/exchange-snapshot",
@@ -29,6 +29,12 @@
     "source_admission": false,
     "claims_enabled": false,
     "anonymous_browser_status": 303,
-    "anonymous_snapshot_proxy_status": 303
+    "anonymous_snapshot_proxy_status": 303,
+    "canonical_release": "1.0.0-rc3",
+    "company_dashboard_path": "/factory/",
+    "business_activation": false,
+    "dashboard_browser_tests": 6,
+    "automated_wcag_findings": 0,
+    "manual_screen_reader_review": "pending"
   }
 }
