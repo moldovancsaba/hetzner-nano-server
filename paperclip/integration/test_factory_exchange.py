@@ -37,6 +37,32 @@ class FactoryTests(unittest.TestCase):
             with self.assertRaises(ValueError):initialize(self.db,create=explicit)
         self.assertIsNone(self.db.execute("SELECT name FROM sqlite_master WHERE name='exchange_native_intents'").fetchone())
 
+    def test_transfer_excerpt_excludes_contact_values_but_retains_literal_provider_fact(self):
+        text='Fixture Studio, 123 Main Street. Contact owner@fixture.example or +1 212 555 0100.'
+        page={'url':'https://fixture.example','text':text,'sha256':hashlib.sha256(text.encode()).hexdigest(),'fetched_at':1793613600}
+        with self.db:packet=offer(self.db,{'application':'classscout','client':'NYC'},'task',page,[{'field':'name','value':'Fixture Studio','quote':text}],'reviewed',now=1793613600)
+        body=json.loads(self.db.execute('SELECT body FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone()[0])
+        self.assertEqual(body['claims'][0]['quote'],'Fixture Studio')
+        self.assertNotIn('owner@fixture.example',json.dumps(body));self.assertNotIn('+1 212',json.dumps(body))
+
+    def test_local_outbox_quota_preserves_original_offers_and_stops_growth(self):
+        with self.db:
+            for index in range(20):self.assertIsNotNone(self.source('quota-'+str(index)))
+            self.assertIsNone(self.source('quota-overflow'))
+        self.assertEqual(self.db.execute('SELECT count(*) FROM exchange_source_outbox').fetchone()[0],20)
+        hold=self.db.execute("SELECT value FROM exchange_selection_cursor WHERE key='offer_hold:classscout:NYC'").fetchone()
+        self.assertEqual(json.loads(hold[0])['reason'],'local-capacity')
+
+    def test_unchanged_evidence_can_reuse_original_fresh_offer_bytes(self):
+        now=1793613600;scope={'application':'classscout','client':'NYC'}
+        page={'url':'https://fixture.example','text':'Fixture Studio','sha256':hashlib.sha256(b'Fixture Studio').hexdigest(),'fetched_at':now}
+        with self.db:first=offer(self.db,scope,'same-task',page,[],'reviewed',now=now,reuse_unchanged=True)
+        page['fetched_at']=now+100
+        with self.db:second=offer(self.db,scope,'same-task',page,[],'reviewed',now=now+100,reuse_unchanged=True)
+        self.assertEqual(first,second)
+        body=json.loads(self.db.execute('SELECT body FROM exchange_source_outbox').fetchone()[0])
+        self.assertEqual(body['fetched_at'],'2026-11-02T10:00:00Z')
+
     def test_out_of_order_duplicate_and_nonregressing_outcomes(self):
         first=copy.deepcopy(self.examples['outcome_event']);first['payload']['state']='submission_accepted'
         later=copy.deepcopy(first);later.update(event_id=str(uuid.uuid4()),revision=2,previous_event_id=first['event_id']);later['payload']['state']='queued'
@@ -86,7 +112,7 @@ class FactoryTests(unittest.TestCase):
             repeated=select_offers(self.db,1,1793613602)[0]
         self.assertEqual(first['body'],repeated['body']);self.assertEqual(first['operation'],repeated['operation'])
         self.assertEqual(self.db.execute('SELECT count(*) FROM exchange_source_selection').fetchone()[0],1)
-        self.assertEqual(self.db.execute("SELECT value FROM exchange_selection_cursor WHERE key!='last_scope'").fetchone()[0],'1')
+        self.assertEqual(self.db.execute('SELECT value FROM exchange_selection_cursor WHERE key=?',(json.dumps(['classscout','NYC'],separators=(',',':')),)).fetchone()[0],'1')
 
     def test_scoped_turns_are_fair_and_do_not_mutate_source_bytes(self):
         with self.db:

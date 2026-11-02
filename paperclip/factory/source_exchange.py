@@ -1,6 +1,7 @@
 """Opt-in exchange hooks inside existing factory transactions and coordination turns."""
 import importlib
 import json
+import logging
 import os
 import sys
 import time
@@ -20,7 +21,29 @@ def save_offer(db,config,issue,page,facts):
  if not settings.get('offers_enabled'):return None
  scope=settings.get('projects',{}).get(issue.get('projectId'))
  if scope is None:return None
- return modules().offer(db,scope,issue['id'],page,facts,settings['policy_revision'],source_kind='directory_lead')
+ module=modules()
+ from exchange.contract import ExchangeError
+ try:return module.offer(db,scope,issue['id'],page,facts,settings['policy_revision'],source_kind='directory_lead',reuse_unchanged=True)
+ except (ValueError,ExchangeError) as error:
+  logging.warning('source_offer_held type=%s application=%s client=%s',type(error).__name__,scope['application'],scope['client'])
+  return None
+
+
+def save_verified_page(database,job,page):
+ path=Path(os.environ.get('FACTORY_CONFIG','/opt/narimato-factory/factory.json'))
+ config=json.loads(path.read_text()) if path.is_file() else {}
+ if not config.get('source_exchange',{}).get('offers_enabled'):return None
+ if job.get('project_id') not in config['source_exchange'].get('projects',{}):return None
+ # The page was already independently fetched by the normal search workflow; no search response is exported.
+ import evidence
+ facts=evidence.literal_facts(page)
+ with database() as db:
+  try:
+   return save_offer(db,config,{'id':job['issue_id'],'projectId':job['project_id']},page,facts)
+  except (ValueError,importlib.import_module('exchange.contract').ExchangeError):
+   # Nontransferable evidence does not invalidate the native verified-page handoff.
+   db.execute("INSERT INTO exchange_selection_cursor VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",('verified_page_export_hold',json.dumps({'at':time.time(),'reason':'public-contract-refused'})))
+   return None
 
 
 def transport(settings,method,route,body=None,operation=None):

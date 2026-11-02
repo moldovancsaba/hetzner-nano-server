@@ -15,19 +15,23 @@ def patch_hooks(name, source):
             "  import source_exchange\n  source_exchange.save_offer(db,json.loads(CONFIG_PATH.read_text()) if CONFIG_PATH.exists() else {},issue,page,facts)\n"),
         'autonomy.py': (
             ' initialize(database)\n handoffs=company_ops.dispatch_pending(board,config,database,limit=10)\n',
-            " import source_exchange\n source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)\n")}
+            " import source_exchange\n source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)\n"),
+        'search_workflow.py': (
+            "   pages.append({'url':page['url'],'title':page['title'][:160],'sha256':page['sha256'],'fetched_at':page['fetched_at']})\n",
+            "   import source_exchange\n   source_exchange.save_verified_page(database,job,page)\n")}
     anchor, hook = patches[name]
     if hook in source:
         if source.count(hook) != 1:
             raise ValueError('Duplicate exchange hook')
         return source
-    target='source_exchange.save_offer' if name=='worker.py' else 'source_exchange.coordinate'
+    target={'worker.py':'source_exchange.save_offer','autonomy.py':'source_exchange.coordinate','search_workflow.py':'source_exchange.save_verified_page'}[name]
     if target in source or source.count(anchor) != 1:
         raise ValueError('Native source does not match the reviewed insertion boundary')
     if name == 'worker.py':
         updated = source.replace(anchor, anchor + hook)
-    else:
+    elif name=='autonomy.py':
         updated = source.replace(anchor, ' initialize(database)\n' + hook + anchor.split('\n', 1)[1])
+    else:updated=source.replace(anchor,hook+anchor)
     compile(updated, name, 'exec')
     return updated
 
@@ -66,7 +70,8 @@ if any(settings.get(key) for key in ['offers_enabled','events_enabled','gap_task
 for name,expected in payload['expected'].items():
  if hashlib.sha256((root/name).read_bytes()).hexdigest()!=expected:raise RuntimeError('Native source changed since preflight')
 scope={};exec(payload['patcher'],scope)
-files={name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in ['worker.py','autonomy.py']}
+if set(payload['expected'])-{'worker.py','autonomy.py','search_workflow.py'}:raise RuntimeError('Unexpected native deployment file')
+files={name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
 files['source_exchange.py']=base64.b64decode(payload['module'])
 for name,body in files.items():compile(body,name,'exec')
 sys.path.insert(0,'/opt/source-exchange')
@@ -128,11 +133,13 @@ def main():
     parser.add_argument('--ssh-key',required=True)
     parser.add_argument('--expected-worker-sha256',required=True)
     parser.add_argument('--expected-autonomy-sha256',required=True)
+    parser.add_argument('--expected-search-sha256')
     parser.add_argument('--apply',action='store_true')
     args=parser.parse_args()
     import inspect
     module=Path(__file__).resolve().parents[2]/'factory/source_exchange.py'
     payload={'apply':args.apply,'expected':{'worker.py':args.expected_worker_sha256,'autonomy.py':args.expected_autonomy_sha256},'module':base64.b64encode(module.read_bytes()).decode(),'patcher':inspect.getsource(patch_hooks)}
+    if args.expected_search_sha256:payload['expected']['search_workflow.py']=args.expected_search_sha256
     result=subprocess.run(['ssh','-i',args.ssh_key,'-o','BatchMode=yes','-o','ConnectTimeout=10',args.host,'python3 -c '+shlex.quote(REMOTE)],input=json.dumps(payload).encode(),capture_output=True,timeout=70)
     if result.returncode:
         raise SystemExit('Factory release refused or needs recovery; inspect private host service and backup state. No customer data is printed.')

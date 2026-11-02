@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperclip\u2013OpenClaw Source Exchange",
-    "version": "1.0.0-rc3",
+    "version": "1.0.0-rc4",
     "description": "Versioned source exchange implementation contract. Loopback service behind scoped machine HTTPS; no search, inference, customer-send or destination write capability."
   },
   "servers": [
@@ -520,18 +520,21 @@
           "value": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 400
+            "maxLength": 400,
+            "pattern": "^(?![\\s\\S]*[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,})(?![\\s\\S]*(?:\\+\\d[\\d .()\\-]{6,}\\d|\\b\\d{7,15}\\b|\\(\\d{2,4}\\)[\\d .\\-]{5,}\\d|\\b\\d{2,4}[ .\\-]\\d{3,4}[ .\\-]\\d{3,4}\\b))[\\s\\S]*$"
           },
           "quote": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 240
+            "maxLength": 240,
+            "pattern": "^(?![\\s\\S]*[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,})(?![\\s\\S]*(?:\\+\\d[\\d .()\\-]{6,}\\d|\\b\\d{7,15}\\b|\\(\\d{2,4}\\)[\\d .\\-]{5,}\\d|\\b\\d{2,4}[ .\\-]\\d{3,4}[ .\\-]\\d{3,4}\\b))[\\s\\S]*$"
           },
           "source_url": {
             "type": "string",
             "format": "uri",
             "pattern": "^https://",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Public HTTPS URL only. The release public_url validator also refuses credential-bearing and contact-value query parameters, encoded contact email addresses, private hosts and unsupported ports."
           },
           "page_sha256": {
             "type": "string",
@@ -544,7 +547,8 @@
           "quote",
           "source_url",
           "page_sha256"
-        ]
+        ],
+        "description": "Public provider facts only. Contact-shaped email/telephone values are refused in values and excerpts. Producers may use a shorter literal excerpt; personal contact extraction remains local to the consuming application."
       },
       "SourceOffer": {
         "type": "object",
@@ -564,7 +568,8 @@
             "type": "string",
             "format": "uri",
             "pattern": "^https://",
-            "maxLength": 2048
+            "maxLength": 2048,
+            "description": "Public HTTPS URL only. The release public_url validator also refuses credential-bearing and contact-value query parameters, encoded contact email addresses, private hosts and unsupported ports."
           },
           "source_kind": {
             "type": "string",
@@ -590,7 +595,8 @@
           "provider_name_hint": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 200
+            "maxLength": 200,
+            "pattern": "^(?![\\s\\S]*[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,})(?![\\s\\S]*(?:\\+\\d[\\d .()\\-]{6,}\\d|\\b\\d{7,15}\\b|\\(\\d{2,4}\\)[\\d .\\-]{5,}\\d|\\b\\d{2,4}[ .\\-]\\d{3,4}[ .\\-]\\d{3,4}\\b))[\\s\\S]*$"
           },
           "branch_hint": {
             "type": "string",

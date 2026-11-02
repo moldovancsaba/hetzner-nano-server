@@ -293,6 +293,16 @@ with Store(sys.argv[1]).transaction() as db:
         self.assertEqual(error.exception.status,403)
         with self.store.connection() as db:self.assertEqual(db.execute('SELECT count(*) FROM messages').fetchone()[0],0)
 
+    def test_source_envelope_refuses_contact_values_hidden_inside_public_quotes(self):
+        for contact in ['person@fixture.example','+44 20 1234 5678','(212) 555-0100','212-555-0100','2125550100']:
+            value=self.offer();value['claims']=[{'field':'activity','value':'Classes','quote':'Classes. '+contact,'source_url':value['source_url'],'page_sha256':value['page_sha256']}]
+            with self.assertRaises(ExchangeError):self.call(self.pc,'/source-offers',value)
+        value=self.offer();value['claims']=[{'field':'activity','value':'Classes','quote':'Classes begin 2026-11-02. Prices are 20 to 30 GBP.','source_url':value['source_url'],'page_sha256':value['page_sha256']}]
+        self.call(self.pc,'/source-offers',value)
+        for url in ['https://fixture.example/contact?email=person%40fixture.example','https://fixture.example/people/person%40fixture.example','https://fixture.example/contact?phone=2125550100']:
+            value=self.offer();value['source_url']=url
+            with self.assertRaises(ExchangeError):self.call(self.pc,'/source-offers',value)
+
     def test_hard_process_death_after_commit_replays_exact_durable_receipt(self):
         operation=uid();value=self.offer();fixture=Path(self.tmp.name)/'crash-input.json'
         fixture.write_text(json.dumps({'principal':self.pc,'operation':operation,'offer':value}))

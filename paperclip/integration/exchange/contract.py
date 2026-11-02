@@ -59,8 +59,9 @@ def public_url(value):
             if '.' not in host:
                 return False
         for key, _ in urllib.parse.parse_qsl(p.query):
-            if re.search(r'token|password|secret|api.?key|signature|authorization', key, re.I):
+            if re.search(r'token|password|secret|api.?key|signature|authorization|email|phone|mobile|telephone', key, re.I):
                 return False
+        if re.search(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}',urllib.parse.unquote(value)):return False
         return True
     except (ValueError, UnicodeError):
         return False

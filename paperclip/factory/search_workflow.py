@@ -129,6 +129,8 @@ def verified_pages(rows,job,web,database,maximum):
    elif job['kind']=='padel':
     if not re.search(r'\bpadel\b',page['text'],re.I):continue
    elif not re.search(r'kids?|children|famil(?:y|ies)|ages?|tuition|classes',page['text'],re.I):continue
+   import source_exchange
+   source_exchange.save_verified_page(database,job,page)
    pages.append({'url':page['url'],'title':page['title'][:160],'sha256':page['sha256'],'fetched_at':page['fetched_at']})
   except Exception:continue
  return pages

@@ -123,5 +123,20 @@ class HookTests(unittest.TestCase):
   with patch.object(hooks,'transport',side_effect=AssertionError('budget exhausted')):
    self.assertEqual(hooks.event_turn(self.database,settings),{'completed':0})
 
+ def test_verified_page_handoff_offers_evidence_without_a_model_or_search(self):
+  path=Path(self.tmp.name)/'factory.json';path.write_text(json.dumps({'source_exchange':self.settings}))
+  facts=[{'field':'name','value':'Fixture Studio','quote':'Fixture Studio'}]
+  with patch.dict('os.environ',{'FACTORY_CONFIG':str(path)}),patch('evidence.literal_facts',return_value=facts):
+   packet=hooks.save_verified_page(self.database,{'issue_id':'native-search-task','project_id':'project'},self.page)
+  self.assertIsNotNone(packet)
+  with self.database() as db:body=json.loads(db.execute('SELECT body FROM exchange_source_outbox').fetchone()[0])
+  self.assertEqual(body['producer_task_ref'],'native-search-task')
+  self.assertEqual(body['claims'][0]['quote'],'Fixture Studio')
+
+ def test_disabled_verified_page_export_never_opens_database(self):
+  path=Path(self.tmp.name)/'factory.json';path.write_text(json.dumps({'source_exchange':{}}))
+  with patch.dict('os.environ',{'FACTORY_CONFIG':str(path)}):
+   self.assertIsNone(hooks.save_verified_page(None,{'issue_id':'native','project_id':'project'},self.page))
+
 
 if __name__=='__main__':unittest.main()

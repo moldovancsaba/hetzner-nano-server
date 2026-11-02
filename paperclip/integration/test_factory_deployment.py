@@ -9,10 +9,11 @@ deployment=importlib.util.module_from_spec(spec);spec.loader.exec_module(deploym
 
 class DeploymentTests(unittest.TestCase):
     def test_patch_preserves_current_native_work_and_is_idempotent(self):
-        for name in ['worker.py','autonomy.py']:
+        for name in ['worker.py','autonomy.py','search_workflow.py']:
             source=(Path(__file__).parents[1]/'factory'/name).read_text()
             if name=='worker.py':hook="  import source_exchange\n  source_exchange.save_offer(db,json.loads(CONFIG_PATH.read_text()) if CONFIG_PATH.exists() else {},issue,page,facts)\n"
-            else:hook=" import source_exchange\n source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)\n"
+            elif name=='autonomy.py':hook=" import source_exchange\n source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)\n"
+            else:hook="   import source_exchange\n   source_exchange.save_verified_page(database,job,page)\n"
             baseline=source.replace(hook,'')
             updated=deployment.patch_hooks(name,baseline)
             self.assertEqual(updated,source)

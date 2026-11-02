@@ -46,3 +46,11 @@ Create a new consistent private snapshot, including unresolved operations:
 A stale restore requires admission/draining off, isolated integrity and destination/quota reconciliation, and a new restore generation. The offline rotate-generation command requires a reconciliation reason and refuses to proceed while the service singleton is held. Ordinary restart preserves the generation. Never restore an older database over newer receipts or use code rollback to resurrect stale catalog writes.
 
 Keep pending, held and uncertain messages and receipts. No retention job or backup schedule is installed by this package. Recurring off-host coverage, retention adoption and measured recovery targets remain explicit activation requirements. A local FULL-synchronous SQLite commit is not independent-host replication.
+
+## RC4 public evidence and native page handoff
+
+RC4 retains wire version 1.1. Public claim values, quotes and provider hints reject contact-shaped strings; URL validation rejects contact query fields and email-bearing URLs. Independently fetched pages stay private. Only bounded literal non-contact evidence crosses the broker. If a surrounding quotation contains a contact, the producer uses the literal value itself when safe; unsafe values are omitted. Validation failure holds an offer without invalidating the factory's own evidence.
+
+The existing verified-page step now saves source offers without waiting for model research, in the same native workflow and without another search or model request. Exact unchanged live observations reuse their immutable packet. Local offer admission serializes per-client capacity and daily limits in the existing exchange cursor store. Capacity refusal records a typed hold and preserves native work. No extra business schedule is introduced.
+
+The third reviewed insertion boundary is search_workflow.py. Deploy it only after checking its current remote digest, alongside worker.py and autonomy.py, with the idle-fenced deployment helper. Source and event flags remain disabled until the reviewed pilot cutover.
