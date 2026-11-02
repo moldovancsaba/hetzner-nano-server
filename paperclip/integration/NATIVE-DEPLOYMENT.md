@@ -1,0 +1,13 @@
+# Native factory hook deployment
+
+The metadata broker and GDS views have a separate release path from the native factory. `ops/deploy_factory.py` inserts only the owned evidence-transaction and existing-coordinator hooks into the current server sources. It never uploads local worker.py or autonomy.py wholesale. Existing search, program, publishing and other developers' changes are preserved.
+
+Run without `--apply` first. Supply the freshly observed SHA-256 of both native source files using `--expected-worker-sha256` and `--expected-autonomy-sha256`. The helper refuses source drift, ambiguous insertion boundaries, missing native state, invalid source, or enabled source-exchange business flags. The installed canonical exchange module must already import successfully. The preflight performs no research, task execution or destination write.
+
+With `--apply`, busy work is a hold: both active ledger runs and HTTP handler threads must be absent. The helper briefly freezes the idle service and repeats both checks, then queues termination while frozen before thawing. This prevents a new handler starting between the final idle check and termination. It never kills a running handler to make the release proceed. Unsupported freeze or failed checks refuse the release; thaw is attempted on every exit path.
+
+The stopped service receives a private consistent SQLite backup with integrity verification. The helper explicitly installs the eight empty exchange tables, preserving all existing native tables, then atomically installs the three source files and a systemd module-path drop-in. The factory configuration, native schedules, budgets, credentials and publishing switches are unchanged. Source business flags remain absent/off. Starting the service is followed by its read-only health check.
+
+If a release fails before the service starts, prior source and unit configuration are restored and the service is started. If the new service has begun native work, rollback first requires the same idle checks; a running task is preserved and the release reports a recovery hold. The forensic SQLite backup is never copied over a newer business database. The empty additive exchange schema can remain during code rollback. Preserve its receipts once exchange work is enabled.
+
+Before enabling source hooks, complete source policy/scope enrollment, secure native machine credential provisioning, matching broker/Mac flags and natural shadow observation. This disabled-hook deployment does not authorize a writer grant, source admission, queue migration, business import or additional schedule. Recovery tests use temporary isolated stores and actual child-process death; they establish local transaction/receipt behavior, not production RPO/RTO or pilot yield.

@@ -235,20 +235,20 @@ class Store:
     def claim(self, db, principal, kind, value, operation, app, client, now):
         self.consumer(db, principal, kind, value, app, client, now)
         source = kind == 'source_claim'
+        generation = self.generation(db)
         rows = db.execute('''SELECT m.* FROM messages m LEFT JOIN deliveries d ON d.message=m.id AND d.consumer=?
-            WHERE m.kind=? AND m.application=? AND m.client=? AND (d.message IS NULL OR d.inbox<>? OR (d.acked IS NULL AND d.lease_end<=?))
+            WHERE m.kind=? AND m.application=? AND m.client=? AND (d.message IS NULL OR d.inbox<>? OR (d.acked IS NULL AND (d.lease_end<=? OR d.generation<>?)))
             AND (m.kind<>'source_offer' OR m.processed=0)
             AND (m.kind='source_offer' OR m.expires IS NULL OR m.expires>?) ORDER BY m.created,m.id LIMIT ?''',
-            (principal['id'], 'source_offer' if source else 'event', app, client, value['inbox_id'], now, now, value['limit'])).fetchall()
+            (principal['id'], 'source_offer' if source else 'event', app, client, value['inbox_id'], now, generation, now, value['limit'])).fetchall()
         items = []
-        generation = self.generation(db)
         for row in rows:
             token, end = secrets.token_urlsafe(32), now + value['lease_seconds']
             item = {'delivery_id': row['id'], 'lease_token': token, 'lease_expires_at': iso(end),
                     'broker_generation': generation, 'offer' if source else 'event': json.loads(row['body'])}
             if len(encode({'items': items + [item], 'retry_after_seconds': 60})) > MAX_RESPONSE:
                 break
-            db.execute('INSERT INTO deliveries VALUES(?,?,?,?,?,?,NULL,NULL) ON CONFLICT(message,consumer) DO UPDATE SET inbox=excluded.inbox,generation=excluded.generation,token=excluded.token,lease_end=excluded.lease_end',
+            db.execute('INSERT INTO deliveries VALUES(?,?,?,?,?,?,NULL,NULL) ON CONFLICT(message,consumer) DO UPDATE SET inbox=excluded.inbox,generation=excluded.generation,token=excluded.token,lease_end=excluded.lease_end,acked=NULL,receipt=NULL',
                        (row['id'], principal['id'], value['inbox_id'], generation, token, end))
             items.append(item)
         return 200, {'items': items, 'retry_after_seconds': 60 if not items else 0}, operation

@@ -4,6 +4,9 @@ import hashlib
 import json
 import os
 import sqlite3
+import signal
+import subprocess
+import sys
 import tempfile
 import threading
 import unittest
@@ -229,6 +232,7 @@ class ExchangeTests(unittest.TestCase):
         _,claim=self.claim();old=claim['items'][0];self.receipt(old)
         restored={**self.oc,'inbox_ids':{'sources':uid()}}
         _,fresh=self.claim(restored)
+        self.receipt(fresh['items'][0],restored)
         self.assertEqual(fresh['items'][0]['offer']['packet_id'],offer['packet_id'])
         with self.assertRaises(ExchangeError):self.receipt(old)
         event=copy.deepcopy(self.example['outcome_event']);event.update(event_id=uid(),evaluation_id=uid(),revision=1,previous_event_id=None,occurred_at=iso(self.now));event['payload'].update(packet_id=offer['packet_id'],state='rejected')
@@ -244,6 +248,7 @@ class ExchangeTests(unittest.TestCase):
         restored={**self.pc,'inbox_ids':{'events':uid()}}
         _,replayed=self.claim(restored,'/events/claim')
         self.assertEqual(replayed['items'][0]['event']['event_id'],event['event_id'])
+        self.receipt(replayed['items'][0],restored,'/events')
 
     def test_missing_or_partial_broker_state_requires_explicit_recovery(self):
         missing=Path(self.tmp.name)/'missing.sqlite3'
@@ -257,6 +262,50 @@ class ExchangeTests(unittest.TestCase):
         with self.assertRaises(sqlite3.Error):
             with self.store.connection():pass
         self.assertFalse(self.path.exists())
+
+    def test_hard_process_death_rolls_back_uncommitted_state(self):
+        script='''import os,signal,sys
+from exchange.store import Store
+with Store(sys.argv[1]).transaction() as db:
+ db.execute("INSERT INTO meta VALUES('uncommitted-crash-marker','not-durable')")
+ os.kill(os.getpid(),signal.SIGKILL)
+'''
+        child=subprocess.run([sys.executable,'-c',script,str(self.path)],cwd=Path(__file__).parent,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,timeout=10)
+        self.assertEqual(child.returncode,-signal.SIGKILL)
+        reopened=Store(self.path)
+        with reopened.connection() as db:
+            self.assertEqual(db.execute('PRAGMA integrity_check').fetchone()[0],'ok')
+            self.assertIsNone(db.execute("SELECT value FROM meta WHERE key='uncommitted-crash-marker'").fetchone())
+
+    def test_hard_process_death_after_commit_replays_exact_durable_receipt(self):
+        operation=uid();value=self.offer();fixture=Path(self.tmp.name)/'crash-input.json'
+        fixture.write_text(json.dumps({'principal':self.pc,'operation':operation,'offer':value}))
+        script='''import json,os,signal,sys
+from exchange.store import Store
+from exchange.contract import encode
+value=json.load(open(sys.argv[2]))
+Store(sys.argv[1]).mutation(value['principal'],value['operation'],'/source-offers',encode(value['offer']))
+os.kill(os.getpid(),signal.SIGKILL)
+'''
+        child=subprocess.run([sys.executable,'-c',script,str(self.path),str(fixture)],cwd=Path(__file__).parent,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,timeout=10)
+        self.assertEqual(child.returncode,-signal.SIGKILL)
+        self.store=Store(self.path,clock=lambda:self.now)
+        first=self.call(self.pc,'/source-offers',value,operation)
+        self.assertEqual(first,self.call(self.pc,'/source-offers',value,operation))
+        with self.store.connection() as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM operations').fetchone()[0],1)
+            self.assertEqual(db.execute('SELECT count(*) FROM messages').fetchone()[0],1)
+
+    def test_consistent_backup_restore_preserves_receipts_and_fences_old_generation(self):
+        operation=uid();offer=self.offer();original=self.call(self.pc,'/source-offers',offer,operation)
+        _,claim=self.claim();old=claim['items'][0]
+        backup=Path(self.tmp.name)/'restored.sqlite3';self.store.backup(backup)
+        subprocess.run([sys.executable,'-m','exchange.manage','rotate-generation','--database',str(backup),'--reason','Isolated restore acceptance with retained original receipts'],cwd=Path(__file__).parent,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,timeout=10)
+        self.store=Store(backup,clock=lambda:self.now)
+        self.assertEqual(self.call(self.pc,'/source-offers',offer,operation),original)
+        self.assertNotEqual(self.store.status(self.oc)['broker_generation'],old['broker_generation'])
+        with self.assertRaises(ExchangeError):self.receipt(old)
+        _,fresh=self.claim();self.assertEqual(fresh['items'][0]['offer']['packet_id'],offer['packet_id'])
 
 
 if __name__=='__main__':
