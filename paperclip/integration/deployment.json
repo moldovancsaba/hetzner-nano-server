@@ -1,0 +1,17 @@
+{
+  "checked_at": 1793615117.8042262,
+  "runtime_sha256": "151c60964054a23502fe83e25d9c828a46d59b94f99c560e8974d3856ad3f72c",
+  "source_commit": "fb7fa56db1c5bf8520b5d8edc83206160b400b6a",
+  "service": "source-exchange.service",
+  "origin": "https://paperclip.haho.ai/integrations/v1",
+  "admission": false,
+  "claims": false,
+  "business_activation": false,
+  "result": {
+    "service": "installed",
+    "bind": "loopback",
+    "source_admission": false,
+    "claims_enabled": false,
+    "caddy": "validated-and-reloaded"
+  }
+}

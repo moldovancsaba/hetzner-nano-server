@@ -102,6 +102,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length', str(len(body)))
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Request-Id', getattr(self, 'request_id', 'unavailable'))
         self.send_header('Connection', 'close')
         if retry_after:
             self.send_header('Retry-After', str(retry_after))
@@ -110,13 +111,15 @@ class Handler(BaseHTTPRequestHandler):
         self.close_connection = True
 
     def handle_request(self):
-        request_id = str(uuid.uuid4())
+        request_id = self.request_id = str(uuid.uuid4())
+        started = time.monotonic()
+        principal_id, scope, operation, reason = None, None, None, None
         status = 500
         try:
             if len(self.path) > 256 or '?' in self.path or not self.path.startswith('/integrations/v1/'):
                 raise ExchangeError('not_found', 404)
             # Authenticate before reading a body, and refuse ambiguous HTTP framing.
-            self.server.app.authenticate(self.headers.get('Authorization'), self.headers.get('Origin'))
+            principal_id = self.server.app.authenticate(self.headers.get('Authorization'), self.headers.get('Origin'))['id']
             if self.headers.get('Transfer-Encoding') is not None or len(self.headers.get_all('Content-Length', [])) > 1 or len(self.headers.get_all('Authorization', [])) != 1 or len(self.headers.get_all('Idempotency-Key', [])) > 1:
                 raise ExchangeError('invalid_request', 400)
             raw = b''
@@ -132,15 +135,23 @@ class Handler(BaseHTTPRequestHandler):
                     raise ExchangeError('invalid_request', 400)
             route = self.path[len('/integrations/v1'):]
             status, body = self.server.app.dispatch(self.command, route, self.headers, raw)
+            if raw:
+                parsed = self.server.app.store.contract.parse(raw)
+                incoming = parsed.get('scope', {})
+                if incoming.get('client') in CLIENTS.get(incoming.get('application'), set()):scope = incoming
+                candidate = self.headers.get('Idempotency-Key')
+                try:operation = str(uuid.UUID(candidate))
+                except (ValueError,TypeError):pass
             self.respond(status, body)
         except ExchangeError as e:
             status = e.status
+            reason = e.code
             self.respond(status, encode({'code': e.code, 'request_id': request_id, 'retryable': e.retryable, 'retry_after_seconds': e.retry_after}), e.retry_after)
         except (sqlite3.Error, OSError, RuntimeError):
             status = 503
             self.respond(status, encode({'code': 'temporarily_unavailable', 'request_id': request_id, 'retryable': True, 'retry_after_seconds': 60}), 60)
         finally:
-            LOG.info('%s', json.dumps({'request_id': request_id, 'status': status, 'method': self.command}))
+            LOG.info('%s', json.dumps({'request_id': request_id, 'status': status, 'method': self.command, 'principal':principal_id, 'scope':scope, 'operation_id':operation, 'reason':reason, 'duration_ms':round((time.monotonic()-started)*1000)}))
 
     do_GET = do_POST = do_PUT = do_DELETE = do_OPTIONS = handle_request
 

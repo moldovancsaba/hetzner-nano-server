@@ -7,6 +7,11 @@ paperclip.haho.ai {
 		Strict-Transport-Security "max-age=31536000"
 		X-Robots-Tag "noindex, nofollow"
 	}
+	@source_exchange path /integrations/v1/source-offers /integrations/v1/deliveries/claim /integrations/v1/deliveries/*/receipt /integrations/v1/events /integrations/v1/events/claim /integrations/v1/events/*/receipt /integrations/v1/operations/* /integrations/v1/status /integrations/v1/snapshot
+	handle @source_exchange {
+		reverse_proxy 127.0.0.1:9091
+	}
+
 	handle /_access/* {
 		reverse_proxy 127.0.0.1:8088 {
 			header_up X-Real-IP {remote_host}
@@ -16,6 +21,17 @@ paperclip.haho.ai {
 		route {
 			forward_auth 127.0.0.1:8088 {
 				uri /_access/check
+			}
+			@exchange_snapshot path /factory/exchange-snapshot
+			handle @exchange_snapshot {
+				rewrite * /integrations/v1/snapshot
+				import /etc/caddy/source-exchange-dashboard.caddy
+			}
+			handle_path /factory/exchange/* {
+				root * /opt/source-exchange/dashboard
+				header Cache-Control no-store
+				header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; connect-src 'self'"
+				file_server
 			}
 			@company_results path /factory /factory/ /factory/metrics
 			handle @company_results {

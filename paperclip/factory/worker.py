@@ -33,7 +33,7 @@ def normalized(value):return re.sub(r'\s+',' ',str(value)).strip().casefold()
 def digest(value):return hashlib.sha256(value.encode()).hexdigest()
 @contextlib.contextmanager
 def database():
- connection=sqlite3.connect(STATE/'factory.sqlite3',timeout=10);connection.row_factory=sqlite3.Row;connection.execute('PRAGMA foreign_keys=ON')
+ connection=sqlite3.connect(STATE/'factory.sqlite3',timeout=10);connection.row_factory=sqlite3.Row;connection.execute('PRAGMA foreign_keys=ON');connection.execute('PRAGMA synchronous=FULL')
  try:
   with connection:yield connection
  finally:connection.close()
@@ -132,6 +132,8 @@ def save_draft(brand,issue,page,facts):
   # A new research pass replaces its prior draft facts; old source provenance remains.
   db.execute('DELETE FROM facts WHERE entity_id=?',(entity_id,))
   for fact in facts:db.execute('INSERT INTO facts VALUES(?,?,?,?,?)',(entity_id,fact['field'],fact['value'],fact['quote'],source_id))
+  import source_exchange
+  source_exchange.save_offer(db,json.loads(CONFIG_PATH.read_text()) if CONFIG_PATH.exists() else {},issue,page,facts)
  return entity_id
 
 # Escapes HTML and markdown control characters before untrusted page text or error text is posted as a Paperclip comment.
@@ -391,6 +393,21 @@ class Handler(BaseHTTPRequestHandler):
  def do_GET(self):
   if self.path in {'/factory','/factory/'}:
    data=(Path(__file__).with_name('dashboard.html')).read_bytes();self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.send_header('Cache-Control','no-store');self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'");self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data);return
+  if self.path=='/factory/exchange-snapshot':
+   try:
+    import source_exchange
+    return self.respond(200,source_exchange.dashboard_snapshot(json.loads(CONFIG_PATH.read_text())))
+   except Exception:return self.respond(503,{'error':'Exchange results are not available'})
+  if self.path.startswith('/factory/exchange/'):
+   from urllib.parse import unquote
+   relative=unquote(self.path[len('/factory/exchange/'):]) or 'index.html'
+   root=Path(os.environ.get('SOURCE_EXCHANGE_DASHBOARD',str(Path(__file__).resolve().parent.parent/'dashboard'/'dist')))
+   target=(root/relative).resolve()
+   if not target.is_relative_to(root.resolve()) or not target.is_file():return self.respond(404,{'error':'Not found'})
+   import mimetypes
+   data=target.read_bytes()
+   if len(data)>4000000:return self.respond(503,{'error':'Dashboard asset exceeds limit'})
+   self.send_response(200);self.send_header('Content-Type',mimetypes.guess_type(target.name)[0] or 'application/octet-stream');self.send_header('X-Content-Type-Options','nosniff');self.send_header('Cache-Control','no-store');self.send_header('Content-Length',str(len(data)));self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; connect-src 'self'");self.end_headers();self.wfile.write(data);return
   if self.path=='/factory/metrics':
    try:
     import business_metrics

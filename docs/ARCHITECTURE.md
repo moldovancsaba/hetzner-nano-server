@@ -310,3 +310,7 @@ This page does not repeat defects. They are recorded where they are fixed or tra
 ## Source exchange implementation
 
 [The exchange package](../paperclip/integration/README.md) is a separate loopback service with its own private SQLite database and scoped machine grants. It transports public source evidence and outcome metadata; it has no inference, search or catalog-write capability. Destination authority remains application-owned. Admission and claims are disabled until their release gates pass.
+
+### Source exchange results and runtime hooks
+
+The canonical exchange stores scoped original-byte receipts on loopback 9091. Opt-in factory hooks save offers within evidence transactions and consume causal feedback during existing coordination. Caddy protects the GDS assets and injects a separate read-only snapshot credential server-side. Metadata deployment does not restart the factory. Business source admission, claims and client writer delegation are separate gates.

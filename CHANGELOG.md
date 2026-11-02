@@ -114,3 +114,7 @@ The inference host was set up on 2026-10-26: server and key creation, Docker and
 ## Source exchange implementation
 
 - Added the scoped loopback broker, exact-byte operation receipts, fenced leases, bounded aggregate snapshots, factory outbox/projection helpers and offline recovery tools. Source admission and claims default to disabled; production commissioning and client activation have separate evidence gates. See [the exchange guide](paperclip/integration/README.md).
+
+## Source exchange adapters and combined results
+
+Added opt-in factory evidence/outbox and causal feedback hooks, a GDS-only results view, bounded streamed snapshot validation and a metadata-only gated deployment path. Admission and claims remain disabled; no business worker restart or new notification cadence. The staged factory snapshot passes 420 tests, broker passes 16, dashboard browser checks pass 3.

@@ -113,6 +113,8 @@ def deliver(board,config,database,clock=time.time):
 def run(issue,board,config,web,database,execution):
  if not config.get('reliability_enabled') or config['projects'].get(issue.get('projectId'))!='Factory Operations':raise ValueError('Autonomous coordination is not enabled in this project')
  initialize(database)
+ import source_exchange
+ source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)
  handoffs=company_ops.dispatch_pending(board,config,database,limit=10)
  tasks=company_ops.issue_rows(board,config);planning=plan(tasks,board,config,database);delivery=deliver(board,config,database)
  with database() as db:
