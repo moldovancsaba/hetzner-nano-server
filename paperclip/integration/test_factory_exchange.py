@@ -74,6 +74,20 @@ class FactoryTests(unittest.TestCase):
         row=self.db.execute('SELECT revision,body FROM exchange_projection').fetchone()
         self.assertEqual(row[0],2);self.assertEqual(json.loads(row[1])['payload']['state'],'submission_accepted')
 
+    def test_gap_field_combinations_cannot_reset_an_exhausted_field_budget(self):
+        event=copy.deepcopy(self.examples['outcome_event'])
+        event['payload']={'event_type':'gap_report','candidate_ref':'candidate','gap_fields':['address','price'],'evidence_fingerprint':'a'*64,'checker_version':'1','reason_code':'missing_address'}
+        with self.db:
+            self.assertIsNotNone(gap_intent(self.db,event,1000000))
+            event['payload'].update(gap_fields=['address'],evidence_fingerprint='b'*64)
+            self.assertIsNotNone(gap_intent(self.db,event,1000001))
+            event['payload'].update(gap_fields=['address','schedule'],evidence_fingerprint='c'*64)
+            identity=gap_intent(self.db,event,1000002)
+            self.assertEqual(self.db.execute('SELECT gap FROM exchange_gap_intents WHERE id=?',(identity,)).fetchone()[0],'schedule')
+            self.assertEqual(gap_intent(self.db,event,1000003),identity)
+            event['payload'].update(gap_fields=['address'],evidence_fingerprint='d'*64)
+            self.assertIsNone(gap_intent(self.db,event,1000004))
+
     def test_gap_intents_deduplicate_and_limit_two_per_72_hours(self):
         event=copy.deepcopy(self.examples['outcome_event'])
         event['payload']={'event_type':'gap_report','candidate_ref':'candidate','gap_fields':['address'],'evidence_fingerprint':'a'*64,'checker_version':'1','reason_code':'missing_address'}

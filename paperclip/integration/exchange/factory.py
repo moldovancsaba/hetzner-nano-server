@@ -129,12 +129,19 @@ def gap_intent(db,event,now=None):
     payload=event['payload']
     if payload['event_type']!='gap_report':return None
     scope=event['scope'];app,client=scope['application'],scope['client'];candidate=payload['candidate_ref']
-    fields=','.join(sorted(payload['gap_fields']));fingerprint=payload['evidence_fingerprint']
-    # A changed checker does not reset the unchanged-evidence allowance.
+    fields=','.join(sorted(set(payload['gap_fields'])));fingerprint=payload['evidence_fingerprint']
+    if not fields:return None
+    if not db.in_transaction:db.execute('BEGIN IMMEDIATE')
+    # The event identity remains stable when an exhausted field is omitted from new work.
     key=str(uuid.uuid5(uuid.NAMESPACE_URL,json.dumps([scope,candidate,fields,fingerprint])))
     existing=db.execute('SELECT id FROM exchange_gap_intents WHERE id=?',(key,)).fetchone()
     if existing:return existing[0]
-    if db.execute("SELECT count(*) FROM exchange_gap_intents WHERE application=? AND client=? AND candidate=? AND gap=? AND created>=?",(app,client,candidate,fields,now-72*3600)).fetchone()[0]>=2:return None
+    eligible=[]
+    for field in fields.split(','):
+        count=db.execute("SELECT count(*) FROM exchange_gap_intents WHERE application=? AND client=? AND candidate=? AND instr(','||gap||',',?)>0 AND created>=?",(app,client,candidate,','+field+',',now-72*3600)).fetchone()[0]
+        if count<2:eligible.append(field)
+    if not eligible:return None
+    fields=','.join(eligible)
     db.execute('INSERT INTO exchange_gap_intents(id,application,client,candidate,fingerprint,gap,created) VALUES(?,?,?,?,?,?,?)',(key,app,client,candidate,fingerprint,fields,now))
     return key
 
