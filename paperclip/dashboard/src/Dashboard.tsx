@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { readBoundedJSON } from './data';
 import { Anchor, BodyText, Box, Container, Group, PageTitle, SectionTitle, SemanticButton, SimpleDataTable, Stack, StateBlock } from '@sovereignsquad/gds/client';
 
-const phases: Record<string, string> = { source_offered: 'Source offered', intake_received: 'Intake saved', queued: 'Queued', checked: 'Checked', not_checked: 'Not checked', rejected: 'Rejected', submission_accepted: 'Operation accepted', uncertain: 'Uncertain outcome', gap_report: 'Evidence gap reported', delivery_readback: 'Destination readback', feedback_waiting: 'Feedback awaiting earlier evidence' };
+const phases: Record<string, string> = { source_offered: 'Source offered', source_expired: 'Source offer expired', source_refused: 'Source offer refused', intake_received: 'Intake saved', queued: 'Queued', checked: 'Checked', not_checked: 'Not checked', rejected: 'Rejected', submission_accepted: 'Operation accepted', uncertain: 'Uncertain outcome', gap_report: 'Evidence gap reported', delivery_readback: 'Destination readback', feedback_waiting: 'Feedback awaiting earlier evidence' };
 type Observation = { id: string; occurred_at: string; phase: string; reference: string; reason_code: string | null; qualified: boolean | null; publication: string | null; readback_result: string | null };
 type Client = {
   scope: { application: string; client: string };

@@ -27,7 +27,7 @@ class ExchangeTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.now = 1793613600.0
         self.path = Path(self.tmp.name) / 'exchange.sqlite3'
-        self.store = Store(self.path, clock=lambda: self.now)
+        self.store = Store(self.path, clock=lambda: self.now, initialize=True)
         self.pc = {'id': 'paperclip', 'clients': [SCOPE], 'scopes': ['sources:write', 'events:claim', 'operations:read', 'status:read'], 'inbox_ids': {'events': uid()}}
         self.oc = {'id': 'openclaw', 'clients': [SCOPE], 'scopes': ['sources:claim', 'events:write', 'operations:read', 'status:read'], 'inbox_ids': {'sources': uid()}}
         self.example = json.loads((Path(__file__).parent / 'examples.json').read_text())
@@ -223,6 +223,40 @@ class ExchangeTests(unittest.TestCase):
         value=snapshot(self.store,self.oc)['clients'][0]
         self.assertEqual(value['openclaw']['uncertain_evaluations'],1)
         self.assertEqual(len(value['timeline']),20)
+
+    def test_reenrolled_inbox_recovers_unfinished_intake_and_fences_the_old_lease(self):
+        offer=self.offer();self.call(self.pc,'/source-offers',offer)
+        _,claim=self.claim();old=claim['items'][0];self.receipt(old)
+        restored={**self.oc,'inbox_ids':{'sources':uid()}}
+        _,fresh=self.claim(restored)
+        self.assertEqual(fresh['items'][0]['offer']['packet_id'],offer['packet_id'])
+        with self.assertRaises(ExchangeError):self.receipt(old)
+        event=copy.deepcopy(self.example['outcome_event']);event.update(event_id=uid(),evaluation_id=uid(),revision=1,previous_event_id=None,occurred_at=iso(self.now));event['payload'].update(packet_id=offer['packet_id'],state='rejected')
+        self.call(self.oc,'/events',event)
+        final={**restored,'inbox_ids':{'sources':uid()}}
+        self.assertEqual(self.claim(final)[1]['items'],[])
+
+    def test_reenrolled_event_consumer_can_rebuild_from_retained_acknowledged_events(self):
+        offer=self.offer();self.call(self.pc,'/source-offers',offer)
+        event=copy.deepcopy(self.example['outcome_event']);event.update(event_id=uid(),evaluation_id=uid(),revision=1,previous_event_id=None,occurred_at=iso(self.now));event['payload']['packet_id']=offer['packet_id']
+        self.call(self.oc,'/events',event)
+        _,claimed=self.claim(self.pc,'/events/claim');self.receipt(claimed['items'][0],self.pc,'/events')
+        restored={**self.pc,'inbox_ids':{'events':uid()}}
+        _,replayed=self.claim(restored,'/events/claim')
+        self.assertEqual(replayed['items'][0]['event']['event_id'],event['event_id'])
+
+    def test_missing_or_partial_broker_state_requires_explicit_recovery(self):
+        missing=Path(self.tmp.name)/'missing.sqlite3'
+        with self.assertRaises(RuntimeError):Store(missing)
+        self.assertFalse(missing.exists())
+        with self.assertRaises(FileExistsError):Store(self.path,initialize=True)
+        with self.store.connection() as db:db.execute('DROP TABLE deliveries')
+        with self.assertRaises(RuntimeError):Store(self.path)
+        with sqlite3.connect(self.path) as db:self.assertIsNone(db.execute("SELECT name FROM sqlite_master WHERE name='deliveries'").fetchone())
+        self.path.unlink()
+        with self.assertRaises(sqlite3.Error):
+            with self.store.connection():pass
+        self.assertFalse(self.path.exists())
 
 
 if __name__=='__main__':

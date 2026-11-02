@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperclip\u2013OpenClaw Source Exchange",
-    "version": "1.0.0-rc2",
+    "version": "1.0.0-rc3",
     "description": "Versioned source exchange implementation contract. Loopback service behind scoped machine HTTPS; no search, inference, customer-send or destination write capability."
   },
   "servers": [
@@ -645,6 +645,13 @@
               "visible_text_sha256",
               "raw_body_sha256"
             ]
+          },
+          "gap_root_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "pattern": "^[A-Za-z0-9:_-]+$",
+            "description": "Original opaque gap lineage, copied only from the exact scoped native research intent. Fresh observations do not reset the bounded follow-up allowance."
           }
         },
         "required": [
@@ -1442,7 +1449,9 @@
               "uncertain",
               "gap_report",
               "delivery_readback",
-              "feedback_waiting"
+              "feedback_waiting",
+              "source_expired",
+              "source_refused"
             ]
           },
           "reference": {

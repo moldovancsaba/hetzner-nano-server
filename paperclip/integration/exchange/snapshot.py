@@ -13,8 +13,10 @@ def timeline(db, app, client, since):
     rows=[]
     for row in db.execute("SELECT id,identity,created FROM messages WHERE kind='source_offer' AND application=? AND client=? AND created>=? ORDER BY created DESC,id LIMIT 20",(app,client,since)):
         rows.append({'id':'offer:'+row['id'],'occurred_at':iso(row['created']),'phase':'source_offered','reference':row['identity'],'reason_code':None,'qualified':None,'publication':None,'readback_result':None})
-    for row in db.execute("SELECT m.id,m.identity,max(d.acked) AS acked FROM messages m JOIN deliveries d ON d.message=m.id WHERE m.kind='source_offer' AND m.application=? AND m.client=? AND d.acked>=? GROUP BY m.id ORDER BY acked DESC,m.id LIMIT 20",(app,client,since)):
-        rows.append({'id':'intake:'+row['id'],'occurred_at':iso(row['acked']),'phase':'intake_received','reference':row['identity'],'reason_code':None,'qualified':None,'publication':None,'readback_result':None})
+    for row in db.execute("SELECT m.id,m.identity,d.consumer,d.acked,json_extract(d.receipt,'$.disposition') AS disposition FROM messages m JOIN deliveries d ON d.message=m.id WHERE m.kind='source_offer' AND m.application=? AND m.client=? AND d.acked>=? ORDER BY d.acked DESC,m.id LIMIT 20",(app,client,since)):
+        phase={'expired':'source_expired','policy_refused':'source_refused'}.get(row['disposition'],'intake_received')
+        identity='intake:'+row['id']+':'+hashlib.sha256(row['consumer'].encode()).hexdigest()[:12]
+        rows.append({'id':identity,'occurred_at':iso(row['acked']),'phase':phase,'reference':row['identity'],'reason_code':None,'qualified':None,'publication':None,'readback_result':None})
     query="SELECT m.id,m.body,p.revision AS applied_revision "+EVENT_JOIN+" ORDER BY m.created DESC,m.id LIMIT 20"
     for row in db.execute(query,(app,client,since)):
         event=json.loads(row['body']);payload=event['payload'];applied=event['revision']<=(row['applied_revision'] or 0)

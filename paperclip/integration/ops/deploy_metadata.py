@@ -13,7 +13,9 @@ root=pathlib.Path('/opt/source-exchange')
 config=json.loads(pathlib.Path('/etc/source-exchange/config.json').read_text())
 if config.get('source_admission') or config.get('claims_enabled'):raise RuntimeError('Metadata-only deployment requires admission and claims disabled')
 if not any(p['id']=='dashboard' and p['token_sha256']==hashlib.sha256(payload['dashboard_token'].encode()).hexdigest() for p in config['principals']):raise RuntimeError('Dashboard principal mismatch')
-with sqlite3.connect(config['database']) as db:
+database=pathlib.Path(config['database'])
+if not database.is_file():raise RuntimeError('Existing broker state required; refusing implicit recreation')
+with sqlite3.connect(database.resolve().as_uri()+'?mode=rw',uri=True) as db:
  if db.execute('SELECT count(*) FROM messages').fetchone()[0]:raise RuntimeError('Use the business-aware release procedure for a nonempty broker')
 backup=pathlib.Path('/var/backups/source-exchange')/datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 backup.mkdir(parents=True,mode=0o700);os.chmod(backup.parent,0o700)

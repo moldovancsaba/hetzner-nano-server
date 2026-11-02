@@ -13,7 +13,7 @@ from exchange.contract import encode
 class FactoryTests(unittest.TestCase):
     def setUp(self):
         self.db=sqlite3.connect(':memory:');self.addCleanup(self.db.close)
-        initialize(self.db);self.db.commit()
+        initialize(self.db,create=True);self.db.commit()
         self.examples=json.loads((Path(__file__).parent/'examples.json').read_text())
 
     def test_evidence_outbox_rollback_and_stable_packet(self):
@@ -30,6 +30,12 @@ class FactoryTests(unittest.TestCase):
             a=offer(self.db,scope,'task1',page,[],'review1',now=now)
             b=offer(self.db,scope,'task1',page,[],'review1',now=now)
         self.assertEqual(a,b);self.assertEqual(self.db.execute('SELECT count(*) FROM exchange_source_outbox').fetchone()[0],1)
+
+    def test_missing_factory_exchange_state_cannot_silently_recreate_receipts(self):
+        self.db.execute('DROP TABLE exchange_native_intents');self.db.commit()
+        for explicit in (False,True):
+            with self.assertRaises(ValueError):initialize(self.db,create=explicit)
+        self.assertIsNone(self.db.execute("SELECT name FROM sqlite_master WHERE name='exchange_native_intents'").fetchone())
 
     def test_out_of_order_duplicate_and_nonregressing_outcomes(self):
         first=copy.deepcopy(self.examples['outcome_event']);first['payload']['state']='submission_accepted'
@@ -110,6 +116,18 @@ class FactoryTests(unittest.TestCase):
             selected=select_offers(self.db,2,1793613601)
         self.assertIn(targeted,{row['packet'] for row in selected})
         self.assertNotIn(ordinary,{row['packet'] for row in selected})
+
+    def test_new_observation_or_claims_get_a_new_packet_without_mutating_saved_bytes(self):
+        now=1793613600;text='Independent source text'
+        page={'url':'https://fixture.example/program','text':text,'sha256':hashlib.sha256(text.encode()).hexdigest(),'fetched_at':now}
+        scope={'application':'classscout','client':'NYC'}
+        with self.db:
+            original=offer(self.db,scope,'task',page,[],'reviewed',now=now)
+            body=self.db.execute('SELECT body FROM exchange_source_outbox WHERE packet=?',(original,)).fetchone()[0]
+            refreshed=offer(self.db,scope,'task',{**page,'fetched_at':now+1},[],'reviewed',now=now+1)
+            corrected=offer(self.db,scope,'task',page,[{'field':'name','value':'Independent','quote':text}],'reviewed',now=now)
+        self.assertEqual(len({original,refreshed,corrected}),3)
+        self.assertEqual(self.db.execute('SELECT body FROM exchange_source_outbox WHERE packet=?',(original,)).fetchone()[0],body)
 
 
 if __name__=='__main__':unittest.main()

@@ -62,17 +62,14 @@ def dashboard_snapshot(config):
  return transport(settings,'GET','/snapshot')
 
 
-def event_turn(database,settings,limit=2):
+def event_turn(database,settings,limit=3):
  if not settings.get('events_enabled'):return {'state':'disabled'}
  import uuid,datetime
  module=modules()
  with database() as db:
   module.initialize(db)
-  db.execute('''CREATE TABLE IF NOT EXISTS exchange_event_requests(
-   id TEXT PRIMARY KEY,route TEXT NOT NULL,body BLOB NOT NULL,state TEXT NOT NULL,
-   next_at REAL NOT NULL DEFAULT 0,attempts INTEGER NOT NULL DEFAULT 0,error TEXT)''')
  completed=0
- for _ in range(limit):
+ for turn in range(limit):
   with database() as db:
    request=db.execute("SELECT * FROM exchange_event_requests WHERE state='pending' AND next_at<=? ORDER BY CASE WHEN route LIKE '%/receipt' THEN 0 ELSE 1 END,rowid LIMIT 1",(time.time(),)).fetchone()
    request=dict(request) if request else None
@@ -80,9 +77,10 @@ def event_turn(database,settings,limit=2):
    with database() as db:
     if db.execute("SELECT 1 FROM exchange_event_requests WHERE route='/events/claim' AND state IN ('pending','held') LIMIT 1").fetchone():break
    status=transport(settings,'GET','/status')
-   body={'scope':settings['event_scope'],'inbox_id':settings['event_inbox_id'],'broker_generation':status['broker_generation'],'limit':5,'lease_seconds':180}
+   body={'scope':settings['event_scope'],'inbox_id':settings['event_inbox_id'],'broker_generation':status['broker_generation'],'limit':1,'lease_seconds':300}
    with database() as db:db.execute("INSERT INTO exchange_event_requests(id,route,body,state) VALUES(?,'/events/claim',?,'pending')",(str(uuid.uuid4()),json.dumps(body,separators=(',',':')).encode()))
    continue
+  if request['route']=='/events/claim' and limit-turn<2:break
   try:
    response=transport(settings,'POST',request['route'],bytes(request['body']),request['id'])
    if request['route']=='/events/claim':
@@ -124,8 +122,6 @@ def deliver_gaps(database,settings,board,config,limit=2):
  from urllib.parse import urlsplit
  with database() as db:
   module.initialize(db)
-  db.execute('''CREATE TABLE IF NOT EXISTS exchange_native_intents(
-   id TEXT PRIMARY KEY,body BLOB NOT NULL,next_at REAL NOT NULL DEFAULT 0,attempts INTEGER NOT NULL DEFAULT 0)''')
   rows=[dict(r) for r in db.execute("SELECT * FROM exchange_gap_intents WHERE state='pending' ORDER BY created LIMIT ?",(limit,))]
  delivered=0
  for row in rows:
@@ -138,11 +134,11 @@ def deliver_gaps(database,settings,board,config,limit=2):
   if saved and saved['next_at']>time.time():continue
   value=json.loads(event[0]);url=value['payload'].get('source_url')
   if not url or urlsplit(url).scheme!='https':continue
-  body=json.loads(saved['body']) if saved else {'idempotencyKey':row['id'],'title':'Resolve evidence gap: '+row['client']+' '+row['gap'],'projectId':project,'status':'todo','assigneeAgentId':agent,'reviewPolicy':'anyone','description':'Factory workflow: source_research\nOpenClaw gap request: '+row['id']+'\nMissing evidence fields: '+row['gap']+'\n\n'+url+'\n\nFind independent official evidence for the stated fields. Source ownership, branch and client rules remain mandatory. No catalog mutation or customer message is permitted.'}
+  body=json.loads(saved['body']) if saved else {'idempotencyKey':row['id'],'allowDuplicate':True,'title':'Resolve evidence gap: '+row['client']+' '+row['gap'],'projectId':project,'status':'todo','assigneeAgentId':agent,'reviewPolicy':'anyone','description':'Factory workflow: source_research\nOpenClaw gap request: '+row['id']+'\nMissing evidence fields: '+row['gap']+'\n\n'+url+'\n\nFind independent official evidence for the stated fields. Source ownership, branch and client rules remain mandatory. No catalog mutation or customer message is permitted.'}
   with database() as db:db.execute('INSERT OR IGNORE INTO exchange_native_intents(id,body) VALUES(?,?)',(row['id'],json.dumps(body,separators=(',',':')).encode()))
   try:
    result=board.call('/companies/'+config['company_id']+'/issues',body)
-   if result.get('companyId')!=config['company_id'] or result.get('projectId')!=project or result.get('description')!=body['description'] or not result.get('id'):raise ValueError('Native receipt does not match intent')
+   if result.get('companyId')!=config['company_id'] or result.get('projectId')!=project or result.get('description')!=body['description'] or result.get('title')!=body['title'] or not isinstance(result.get('id'),str) or not 1<=len(result['id'])<=128:raise ValueError('Native receipt does not match intent')
    with database() as db:db.execute("UPDATE exchange_gap_intents SET state='delivered',native_task=? WHERE id=?",(result['id'],row['id']))
    delivered+=1
   except (ValueError,RuntimeError,OSError):

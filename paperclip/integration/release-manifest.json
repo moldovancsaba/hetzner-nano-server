@@ -1,11 +1,11 @@
 {
-  "release": "1.0.0-rc2",
+  "release": "1.0.0-rc3",
   "wire_version": "1.1",
   "status": "implemented_candidate_pending_cross_application_review",
-  "minimum_adapter_version": "1.0.0-rc1",
+  "minimum_adapter_version": "1.0.0-rc3",
   "idempotency_namespace": "principal plus UUID, bound to method/route/original-byte digest",
   "files": {
-    "openapi.json": "d3e407dbb53f77b0f01ea36c33310547f0f76858fcaebf04033ef6bf7b79c02f",
+    "openapi.json": "ac48425fb0d0363979f83208c7caeb5fc9d6e93db94a256f73fc833d4c70323d",
     "examples.json": "1c1ff8be4fe54c2d5193e6b398255037af1146a28c200764c4419d2637537f2e",
     "acceptance-scenarios.json": "0fc96ce38d0d393c515e9418bbb8de977c20580a6ea8ecaded30d60e9af98808"
   },
@@ -15,5 +15,5 @@
     "fault and restore evidence",
     "real-host shadow and natural pilot observation"
   ],
-  "compatibility_note": "Additive bounded snapshot history and typed nested aggregates. Found-matching readback requires actual fields and a nonempty content revision; current adapters already provide these. Source admission remains disabled."
+  "compatibility_note": "Adds inherited gap root and explicit expiry/refusal history. RC3 adapters preserve bounded repair identity across fresh observations, acknowledge claims within one turn, refuse missing state and revalidate saved source claims before delegated writes. Source admission remains disabled."
 }

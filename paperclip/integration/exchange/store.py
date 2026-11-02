@@ -36,23 +36,30 @@ CREATE INDEX IF NOT EXISTS message_pending ON messages(kind,application,client,c
 
 
 class Store:
-    def __init__(self, path, *, clock=time.time, capacity=20, daily=20, contract=None):
+    def __init__(self, path, *, clock=time.time, capacity=20, daily=20, contract=None, initialize=False):
         self.path, self.clock = Path(path), clock
         self.capacity, self.daily, self.contract = capacity, daily, contract or Contract()
-        self.path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
-        fd = os.open(self.path, os.O_CREAT | os.O_WRONLY, 0o600)
+        if initialize:self.path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        elif not self.path.is_file():raise RuntimeError('Broker state missing; explicit initialization or reconciled recovery required')
+        fd = os.open(self.path, (os.O_CREAT | os.O_EXCL | os.O_WRONLY) if initialize else os.O_WRONLY, 0o600)
         os.close(fd)
-        os.chmod(self.path, 0o600)
+        if self.path.stat().st_mode & 0o077:raise RuntimeError('Broker database must be private')
         with self.connection() as db:
-            if db.execute('PRAGMA user_version').fetchone()[0] not in (0, 1):
-                raise RuntimeError('Unsupported exchange database version')
-            db.executescript(SCHEMA)
-            db.execute('INSERT OR IGNORE INTO meta VALUES(?,?)', ('generation', str(uuid.uuid4())))
-            db.execute('PRAGMA user_version=1')
+            if initialize:
+                db.executescript(SCHEMA)
+                db.execute('INSERT INTO meta VALUES(?,?)', ('generation', str(uuid.uuid4())))
+                db.execute('PRAGMA user_version=1')
+            else:
+                if db.execute('PRAGMA user_version').fetchone()[0]!=1:raise RuntimeError('Uninitialized or unsupported exchange database')
+                required={'meta','operations','messages','deliveries','consumer_contacts','projection'}
+                present={row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+                if not required<=present:raise RuntimeError('Broker schema is incomplete; refusing implicit recreation')
+                try:uuid.UUID(self.generation(db))
+                except (ValueError,TypeError):raise RuntimeError('Broker generation is unavailable') from None
 
     @contextlib.contextmanager
     def connection(self):
-        db = sqlite3.connect(self.path, timeout=5, isolation_level=None)
+        db = sqlite3.connect(self.path.resolve().as_uri()+'?mode=rw', timeout=5, isolation_level=None, uri=True)
         db.row_factory = sqlite3.Row
         try:
             db.execute('PRAGMA journal_mode=WAL')
@@ -229,9 +236,10 @@ class Store:
         self.consumer(db, principal, kind, value, app, client, now)
         source = kind == 'source_claim'
         rows = db.execute('''SELECT m.* FROM messages m LEFT JOIN deliveries d ON d.message=m.id AND d.consumer=?
-            WHERE m.kind=? AND m.application=? AND m.client=? AND (d.message IS NULL OR (d.acked IS NULL AND d.lease_end<=?))
-            AND (m.expires IS NULL OR m.expires>?) ORDER BY m.created,m.id LIMIT ?''',
-            (principal['id'], 'source_offer' if source else 'event', app, client, now, now, value['limit'])).fetchall()
+            WHERE m.kind=? AND m.application=? AND m.client=? AND (d.message IS NULL OR d.inbox<>? OR (d.acked IS NULL AND d.lease_end<=?))
+            AND (m.kind<>'source_offer' OR m.processed=0)
+            AND (m.kind='source_offer' OR m.expires IS NULL OR m.expires>?) ORDER BY m.created,m.id LIMIT ?''',
+            (principal['id'], 'source_offer' if source else 'event', app, client, value['inbox_id'], now, now, value['limit'])).fetchall()
         items = []
         generation = self.generation(db)
         for row in rows:

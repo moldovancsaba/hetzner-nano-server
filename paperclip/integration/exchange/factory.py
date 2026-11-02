@@ -6,8 +6,14 @@ import uuid
 from .contract import Contract, encode, iso, timestamp
 
 
-def initialize(db):
-    # The caller owns the transaction containing factory evidence and its outbox.
+def initialize(db, *, create=False):
+    required={'exchange_source_outbox','exchange_event_inbox','exchange_projection','exchange_gap_intents','exchange_source_selection','exchange_selection_cursor','exchange_event_requests','exchange_native_intents'}
+    present={row[0] for row in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    if required<=present:return
+    if not create:raise ValueError('Factory exchange state is missing; initialize once or recover explicitly')
+    if required&present:raise ValueError('Factory exchange state is partial; refusing implicit recreation')
+    if not db.in_transaction:db.execute('BEGIN IMMEDIATE')
+    # The caller commits the explicit schema installation transaction.
     db.execute('''CREATE TABLE IF NOT EXISTS exchange_source_outbox(
         packet TEXT PRIMARY KEY,operation TEXT UNIQUE NOT NULL,body BLOB NOT NULL,
         state TEXT NOT NULL DEFAULT 'pending',attempts INTEGER NOT NULL DEFAULT 0,
@@ -28,6 +34,11 @@ def initialize(db):
         packet TEXT PRIMARY KEY,application TEXT NOT NULL,client TEXT NOT NULL,family TEXT NOT NULL,
         mode TEXT NOT NULL,score REAL NOT NULL,features BLOB NOT NULL,selected REAL NOT NULL)''')
     db.execute('CREATE TABLE IF NOT EXISTS exchange_selection_cursor(key TEXT PRIMARY KEY,value TEXT NOT NULL)')
+    db.execute('''CREATE TABLE exchange_event_requests(
+        id TEXT PRIMARY KEY,route TEXT NOT NULL,body BLOB NOT NULL,state TEXT NOT NULL,
+        next_at REAL NOT NULL DEFAULT 0,attempts INTEGER NOT NULL DEFAULT 0,error TEXT)''')
+    db.execute('''CREATE TABLE exchange_native_intents(
+        id TEXT PRIMARY KEY,body BLOB NOT NULL,next_at REAL NOT NULL DEFAULT 0,attempts INTEGER NOT NULL DEFAULT 0)''')
     db.execute("CREATE INDEX IF NOT EXISTS exchange_pending_scope ON exchange_source_outbox(state,json_extract(body,'$.scope.application'),json_extract(body,'$.scope.client'),next_at)")
 
 
@@ -41,21 +52,23 @@ def offer(db, scope, task, page, facts, policy_revision, *, source_kind='directo
     if not policy_revision:raise ValueError('Reviewed source policy revision required')
     text_hash = hashlib.sha256(page['text'].encode()).hexdigest()
     if page['sha256'] != text_hash:raise ValueError('Source hash recipe mismatch')
-    packet = str(uuid.uuid5(uuid.NAMESPACE_URL, json.dumps([scope,task,page['url'],text_hash],sort_keys=True)))
-    gap=db.execute('SELECT gap FROM exchange_gap_intents WHERE native_task=? AND application=? AND client=? ORDER BY created DESC LIMIT 1',(task,scope['application'],scope['client'])).fetchone()
+    gap=db.execute('SELECT gap,candidate FROM exchange_gap_intents WHERE native_task=? AND application=? AND client=? ORDER BY created DESC LIMIT 1',(task,scope['application'],scope['client'])).fetchone()
     claims=[]
     for fact in facts:
         if fact['field'] in {'name','address','ages','price','schedule','activity','program_url'}:
             if fact['value'] not in fact['quote'] or fact['quote'] not in page['text']:
                 raise ValueError('Claim does not match independent source text')
             claims.append({'field':fact['field'],'value':fact['value'],'quote':fact['quote'],'source_url':page['url'],'page_sha256':text_hash})
-    value={'schema_version':'1.1','packet_id':packet,'scope':scope,'source_url':page['url'],
+    value={'schema_version':'1.1','scope':scope,'source_url':page['url'],
            'source_kind':source_kind,'fetched_at':iso(observed),'expires_at':iso(observed+7*86400),
            'page_sha256':text_hash,'extraction_recipe_id':'factory-visible-text-v1',
            'digest_kind':'visible_text_sha256','policy_review_ref':policy_revision,
            'producer_task_ref':task,'gap_fields':gap[0].split(',') if gap else [],'claims':claims[:10]}
     name=next((f['value'] for f in facts if f['field']=='name'),None)
     if name:value['provider_name_hint']=name[:200]
+    if gap:value['gap_root_ref']=gap[1]
+    packet=str(uuid.uuid5(uuid.NAMESPACE_URL,json.dumps(['source-offer-v2',value],sort_keys=True,separators=(',',':'))))
+    value['packet_id']=packet
     Contract().validate('SourceOffer',value)
     raw=encode(value)
     prior=db.execute('SELECT body FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone()
