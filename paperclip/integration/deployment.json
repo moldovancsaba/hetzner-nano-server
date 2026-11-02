@@ -13,5 +13,20 @@
     "source_admission": false,
     "claims_enabled": false,
     "caddy": "validated-and-reloaded"
+  },
+  "metadata_release": {
+    "checked_at": "2026-11-02T11:21:24.118476+00:00",
+    "source_commit": "a91dbe0",
+    "artifact_sha256": "83ea35e32cf67188b753d24f22ea0f05dbc3cf3b8ac98e5091722a52c04d5487",
+    "service": "active",
+    "caddy": "validated-and-reloaded",
+    "factory_workers_restarted": false,
+    "dashboard_path": "/factory/exchange/",
+    "snapshot_browser_proxy": "/factory/exchange-snapshot",
+    "unauthenticated_browser_access": "redirects-to-existing-sign-in",
+    "unauthenticated_machine_status": 401,
+    "authenticated_scoped_snapshot": 200,
+    "source_admission": false,
+    "claims_enabled": false
   }
 }
