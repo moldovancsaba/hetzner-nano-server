@@ -322,7 +322,7 @@ with Store(sys.argv[1]).transaction() as db:
             with self.assertRaises(ExchangeError):self.call(self.pc,'/source-offers',value)
         value=self.offer();value['claims']=[{'field':'activity','value':'Classes','quote':'Classes begin 2026-11-02. Prices are 20 to 30 GBP.','source_url':value['source_url'],'page_sha256':value['page_sha256']}]
         self.call(self.pc,'/source-offers',value)
-        for url in ['https://fixture.example/contact?email=person%40fixture.example','https://fixture.example/people/person%40fixture.example','https://fixture.example/contact?phone=2125550100']:
+        for url in ['https://fixture.example/contact?email=person%40fixture.example','https://fixture.example/people/person%40fixture.example','https://fixture.example/contact?phone=2125550100','https://fixture.example/program#access_token=private']:
             value=self.offer();value['source_url']=url
             with self.assertRaises(ExchangeError):self.call(self.pc,'/source-offers',value)
 

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Paperclip\u2013OpenClaw Source Exchange",
-    "version": "1.0.0-rc4",
+    "version": "1.0.0-rc5",
     "description": "Versioned source exchange implementation contract. Loopback service behind scoped machine HTTPS; no search, inference, customer-send or destination write capability."
   },
   "servers": [
@@ -616,7 +616,8 @@
                 "schedule",
                 "program_dates",
                 "contact",
-                "activity"
+                "activity",
+                "description"
               ]
             },
             "maxItems": 9
@@ -1007,7 +1008,8 @@
                 "schedule",
                 "program_dates",
                 "contact",
-                "activity"
+                "activity",
+                "description"
               ]
             },
             "maxItems": 9

@@ -54,3 +54,9 @@ RC4 retains wire version 1.1. Public claim values, quotes and provider hints rej
 The existing verified-page step now saves source offers without waiting for model research, in the same native workflow and without another search or model request. Exact unchanged live observations reuse their immutable packet. Local offer admission serializes per-client capacity and daily limits in the existing exchange cursor store. Capacity refusal records a typed hold and preserves native work. No extra business schedule is introduced.
 
 The third reviewed insertion boundary is search_workflow.py. Deploy it only after checking its current remote digest, alongside worker.py and autonomy.py, with the idle-fenced deployment helper. Source and event flags remain disabled until the reviewed pilot cutover.
+
+## RC5 existing-record evidence gaps
+
+RC5 adds description to both source-offer gap fields and gap-event fields. This supports the actual thin-description problem in Management and private leads without mislabelling it as an address or identity gap. The envelope remains wire version 1.1. Older pinned adapters reject the new field, so deploy and pin RC5 across the exchange before enabling existing-record gap requests. Source admission, imports, grants and job schedules are independent of this metadata release. Credential-bearing URL fragments are refused alongside credential-bearing query parameters.
+
+OpenClaw returns an opaque record-gap reference with field names and an evidence fingerprint. Paperclip's existing bounded repair intent maps a native research task back to that exact gap root; returned offers carry that root. Existing-record evidence is handled by the corresponding normal enrichment turn, with independent fetching and exact destination readback. It must not create a duplicate prospect merely because the source URL changed.

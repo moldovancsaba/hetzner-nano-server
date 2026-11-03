@@ -1,11 +1,11 @@
 {
-  "release": "1.0.0-rc4",
+  "release": "1.0.0-rc5",
   "wire_version": "1.1",
   "status": "implemented_candidate_pending_cross_application_review",
-  "minimum_adapter_version": "1.0.0-rc4",
+  "minimum_adapter_version": "1.0.0-rc5",
   "idempotency_namespace": "principal plus UUID, bound to method/route/original-byte digest",
   "files": {
-    "openapi.json": "739ff6691e8f25685605302e2b492d9d714e49012ddf3687eb82604755115865",
+    "openapi.json": "fac8f50f75acf06e9d74c7f747ce3b4501326998f51910ea2cec2c52537abe45",
     "examples.json": "1c1ff8be4fe54c2d5193e6b398255037af1146a28c200764c4419d2637537f2e",
     "acceptance-scenarios.json": "0fc96ce38d0d393c515e9418bbb8de977c20580a6ea8ecaded30d60e9af98808"
   },
@@ -15,5 +15,5 @@
     "fault and restore evidence",
     "real-host shadow and natural pilot observation"
   ],
-  "compatibility_note": "RC4 rejects contact-shaped values in transferred provider facts, uses bounded literal public excerpts, batches fair scoped feedback and supports source-linked destination reconciliation in adapters. Wire version stays 1.1; no source activation accompanies the release."
+  "compatibility_note": "RC5 adds the description evidence-gap field for existing-record enrichment. Deploy and pin all adapters before admitting this field; wire envelope remains 1.1. Source-only metadata deployment does not authorize imports or grants."
 }
