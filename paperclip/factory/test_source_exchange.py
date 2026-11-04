@@ -198,4 +198,70 @@ class HookTests(unittest.TestCase):
     with self.assertRaises(ValueError):hooks.require_native_catalog_writer(config,{'projectId':'project'})
 
 
+ def discovery_packet(self,task,*,complete=False):
+  text='Fixture Studio at 123 Main Street' if complete else 'Fixture Studio'
+  page={**self.page,'text':text,'sha256':hashlib.sha256(text.encode()).hexdigest()}
+  facts=[{'field':'name','value':'Fixture Studio','quote':'Fixture Studio'}]
+  if complete:facts.append({'field':'address','value':'123 Main Street','quote':'123 Main Street'})
+  with self.database() as db:return hooks.save_offer(db,{'source_exchange':self.settings},{'id':task,'projectId':'project'},page,facts)
+
+ def test_partial_discovery_does_not_fill_capacity_or_spend_rejected_reservations(self):
+  for index in range(4):self.assertIsNotNone(self.discovery_packet('partial-'+str(index)))
+  self.assertIsNone(self.discovery_packet('partial-overflow'))
+  for index in range(16):self.assertIsNotNone(self.discovery_packet('complete-'+str(index),complete=True))
+  self.assertIsNone(self.discovery_packet('full-capacity',complete=True))
+  with self.database() as db:
+   self.assertEqual(db.execute('SELECT count(*) FROM exchange_source_outbox').fetchone()[0],20)
+   quota=json.loads(db.execute("SELECT value FROM exchange_selection_cursor WHERE key='offer_quota:classscout:NYC'").fetchone()[0]);self.assertEqual(quota['count'],20)
+
+ def test_partial_retry_preserves_original_packet_even_after_exploration_cap(self):
+  first=self.discovery_packet('original')
+  for index in range(3):self.discovery_packet('partial-'+str(index))
+  self.assertEqual(self.discovery_packet('original'),first)
+  with self.database() as db:self.assertEqual(db.execute('SELECT count(*) FROM exchange_source_outbox').fetchone()[0],4)
+
+ def test_partial_export_hold_preserves_native_facts_in_the_callers_transaction(self):
+  for index in range(4):self.discovery_packet('partial-'+str(index))
+  with self.database() as db:
+   db.execute('CREATE TABLE native_fixture(value TEXT)');db.execute("INSERT INTO native_fixture VALUES('independent-fact')")
+   packet=hooks.save_offer(db,{'source_exchange':self.settings},{'id':'overflow','projectId':'project'},self.page,[])
+   self.assertIsNone(packet)
+  with self.database() as db:
+   self.assertEqual(db.execute('SELECT value FROM native_fixture').fetchone()[0],'independent-fact')
+   self.assertEqual(db.execute('SELECT count(*) FROM exchange_source_outbox').fetchone()[0],4)
+   hold=json.loads(db.execute("SELECT value FROM exchange_selection_cursor WHERE key='offer_hold:classscout:NYC'").fetchone()[0]);self.assertEqual(hold['reason'],'discovery-identity-exploration-cap')
+
+ def test_partial_record_gap_repairs_keep_their_own_existing_allowance(self):
+  for index in range(4):self.discovery_packet('partial-'+str(index))
+  with self.database() as db:
+   db.execute('INSERT INTO exchange_gap_intents VALUES(?,?,?,?,?,?,?,?,?)',('fixture-gap','classscout','NYC','record-gap:fixture','a'*64,'description',time.time(),'delivered','gap-task'))
+   packet=hooks.save_offer(db,{'source_exchange':self.settings},{'id':'gap-task','projectId':'project'},self.page,[])
+   self.assertIsNotNone(packet)
+   self.assertEqual(json.loads(db.execute('SELECT body FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone()[0])['gap_root_ref'],'record-gap:fixture')
+
+ def test_failed_export_rolls_back_only_its_savepoint(self):
+  with self.database() as db:
+   db.execute('CREATE TABLE native_fixture(value TEXT)');db.execute("INSERT INTO native_fixture VALUES('preserved')")
+   with patch.object(hooks.modules(),'offer',side_effect=ValueError('unsupported source')):
+    self.assertIsNone(hooks.save_offer(db,{'source_exchange':self.settings},{'id':'invalid','projectId':'project'},self.page,[]))
+  with self.database() as db:self.assertEqual(db.execute('SELECT value FROM native_fixture').fetchone()[0],'preserved')
+
+
+ def test_legacy_partial_rows_cannot_reset_exploration_allowance(self):
+  with self.database() as db:
+   for index in range(4):hooks.modules().offer(db,{'application':'classscout','client':'NYC'},'legacy-'+str(index),self.page,[],'reviewed')
+  self.assertIsNone(self.discovery_packet('new-partial'))
+  with self.database() as db:
+   self.assertEqual(db.execute('SELECT count(*) FROM exchange_source_outbox').fetchone()[0],4)
+   key='partial_discovery_quota:classscout:NYC';usage=json.loads(db.execute('SELECT value FROM exchange_selection_cursor WHERE key=?',(key,)).fetchone()[0]);self.assertEqual(usage['count'],4)
+   usage['day']='2000-01-01';db.execute('UPDATE exchange_selection_cursor SET value=? WHERE key=?',(json.dumps(usage),key))
+  self.assertIsNotNone(self.discovery_packet('later-day-partial'))
+
+ def test_private_leads_and_other_applications_do_not_inherit_classscout_identity_rules(self):
+  scope={'application':'salesleadgenerator','client':'seyu'};config={'source_exchange':{**self.settings,'projects':{'project':scope}}}
+  with self.database() as db:
+   for index in range(6):self.assertIsNotNone(hooks.save_offer(db,config,{'id':'lead-'+str(index),'projectId':'project'},self.page,[]))
+   self.assertEqual(db.execute("SELECT count(*) FROM exchange_selection_cursor WHERE key LIKE 'partial_discovery_quota:%'").fetchone()[0],0)
+
+
 if __name__=='__main__':unittest.main()

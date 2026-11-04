@@ -9,6 +9,7 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+from datetime import datetime,timezone
 
 
 def modules():
@@ -39,10 +40,40 @@ def save_offer(db,config,issue,page,facts):
  if scope is None:return None
  module=modules()
  from exchange.contract import ExchangeError
- try:return module.offer(db,scope,issue['id'],page,facts,settings['policy_revision'],source_kind='directory_lead',reuse_unchanged=True)
+ try:return discovery_offer(db,module,scope,issue,page,facts,settings['policy_revision'])
  except (ValueError,ExchangeError) as error:
   logging.warning('source_offer_held type=%s application=%s client=%s',type(error).__name__,scope['application'],scope['client'])
   return None
+
+
+def discovery_offer(db,module,scope,issue,page,facts,policy):
+ """Preserve the total allowance while reserving ClassScout discovery capacity for complete identity evidence."""
+ module.initialize(db)
+ if not db.in_transaction:db.execute('BEGIN IMMEDIATE')
+ before=db.execute('SELECT coalesce(max(rowid),0) FROM exchange_source_outbox').fetchone()[0]
+ db.execute('SAVEPOINT source_export_admission')
+ try:
+  packet=module.offer(db,scope,issue['id'],page,facts,policy,source_kind='directory_lead',reuse_unchanged=True)
+  row=db.execute('SELECT rowid,body FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone() if packet else None
+  value=json.loads(row[1]) if row else {}
+  partial=(scope['application']=='classscout' and row and row[0]>before and not value.get('gap_root_ref')
+           and (not value.get('provider_name_hint') or not any(claim['field']=='address' for claim in value['claims'])))
+  if partial:
+   key='partial_discovery_quota:'+scope['application']+':'+scope['client'];day=datetime.now(timezone.utc).strftime('%Y-%m-%d')
+   saved=db.execute('SELECT value FROM exchange_selection_cursor WHERE key=?',(key,)).fetchone()
+   usage=json.loads(saved[0]) if saved else None
+   legacy=db.execute("SELECT count(*) FROM exchange_source_outbox o WHERE rowid<=? AND json_extract(body,'$.scope.application')=? AND json_extract(body,'$.scope.client')=? AND json_extract(body,'$.gap_root_ref') IS NULL AND (json_extract(body,'$.provider_name_hint') IS NULL OR NOT EXISTS(SELECT 1 FROM json_each(o.body,'$.claims') c WHERE json_extract(c.value,'$.field')='address'))",(before,scope['application'],scope['client'])).fetchone()[0] if usage is None else 0
+   count=(usage['count'] if usage['day']==day else 0) if usage else min(4,legacy)
+   if count>=4:
+    db.execute('ROLLBACK TO source_export_admission');db.execute('RELEASE source_export_admission')
+    db.execute('INSERT INTO exchange_selection_cursor VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',(key,json.dumps({'day':day,'count':count})))
+    db.execute('INSERT INTO exchange_selection_cursor VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',('offer_hold:'+scope['application']+':'+scope['client'],json.dumps({'at':datetime.now(timezone.utc).isoformat(),'reason':'discovery-identity-exploration-cap'})))
+    return None
+   db.execute('INSERT INTO exchange_selection_cursor VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',(key,json.dumps({'day':day,'count':count+1})))
+  db.execute('RELEASE source_export_admission')
+  return packet
+ except BaseException:
+  db.execute('ROLLBACK TO source_export_admission');db.execute('RELEASE source_export_admission');raise
 
 
 def save_verified_page(database,job,page):
