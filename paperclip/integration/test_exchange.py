@@ -328,12 +328,12 @@ with Store(sys.argv[1]).transaction() as db:
 
     def test_hard_process_death_after_commit_replays_exact_durable_receipt(self):
         operation=uid();value=self.offer();fixture=Path(self.tmp.name)/'crash-input.json'
-        fixture.write_text(json.dumps({'principal':self.pc,'operation':operation,'offer':value}))
+        fixture.write_text(json.dumps({'principal':self.pc,'operation':operation,'offer':value,'now':self.now}))
         script='''import json,os,signal,sys
 from exchange.store import Store
 from exchange.contract import encode
 value=json.load(open(sys.argv[2]))
-Store(sys.argv[1]).mutation(value['principal'],value['operation'],'/source-offers',encode(value['offer']))
+Store(sys.argv[1],clock=lambda:value['now']).mutation(value['principal'],value['operation'],'/source-offers',encode(value['offer']))
 os.kill(os.getpid(),signal.SIGKILL)
 '''
         child=subprocess.run([sys.executable,'-c',script,str(self.path),str(fixture)],cwd=Path(__file__).parent,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE,timeout=10)

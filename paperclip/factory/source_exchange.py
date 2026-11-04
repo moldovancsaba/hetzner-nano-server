@@ -3,6 +3,7 @@ import importlib
 import json
 import logging
 import os
+import stat
 import sys
 import time
 import urllib.error
@@ -46,12 +47,30 @@ def save_verified_page(database,job,page):
    return None
 
 
+def credential_token(settings):
+ path=Path(settings['token_file'])
+ directory=os.environ.get('CREDENTIALS_DIRECTORY')
+ managed=bool(directory and path.parent.resolve()==Path(directory).resolve())
+ if path.is_symlink():raise ValueError('Exchange credential must be a regular file')
+ fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0))
+ try:
+  info=os.fstat(fd)
+  if not stat.S_ISREG(info.st_mode):raise ValueError('Exchange credential must be a regular file')
+  if managed:
+   parent=path.parent.stat()
+   if info.st_uid not in {0,os.geteuid()} or parent.st_uid not in {0,os.geteuid()} or stat.S_IMODE(info.st_mode) not in {0o400,0o440,0o600} or parent.st_mode&0o027:raise ValueError('Managed exchange credential is not protected')
+  elif info.st_mode&0o077:raise ValueError('Exchange credential must be private')
+  with os.fdopen(fd,'r',encoding='ascii') as source:
+   fd=None;token=source.read(513).strip()
+ finally:
+  if fd is not None:os.close(fd)
+ if not 32<=len(token)<=512 or any(ord(char)<33 or ord(char)>126 for char in token):raise ValueError('Invalid exchange credential')
+ return token
+
+
 def transport(settings,method,route,body=None,operation=None):
  if not route.startswith('/') or '?' in route or '..' in route:raise ValueError('Invalid exchange route')
- path=Path(settings['token_file'])
- if path.stat().st_mode & 0o077:raise ValueError('Exchange credential must be private')
- token=path.read_text().strip()
- if len(token)<32:raise ValueError('Invalid exchange credential')
+ token=credential_token(settings)
  request=urllib.request.Request('http://127.0.0.1:9091/integrations/v1'+route,data=body,method=method,headers={'Authorization':'Bearer '+token,'Content-Type':'application/json',**({'Idempotency-Key':operation} if operation else {})})
  remaining=settings.get('_deadline',time.monotonic()+10)-time.monotonic()
  if remaining<=0:raise TimeoutError('Exchange turn budget exhausted')

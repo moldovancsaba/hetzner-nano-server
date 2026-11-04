@@ -2,6 +2,7 @@
 import contextlib
 import hashlib
 import json
+import os
 import sqlite3
 import tempfile
 import time
@@ -12,6 +13,31 @@ import source_exchange as hooks
 
 
 class HookTests(unittest.TestCase):
+ def test_systemd_read_only_credentials_are_accepted_only_in_managed_directory(self):
+  directory=Path(tempfile.mkdtemp(dir=self.tmp.name));token=directory/'exchange-token';token.write_text('x'*48);token.chmod(0o440);directory.chmod(0o550)
+  with patch.dict(os.environ,{'CREDENTIALS_DIRECTORY':str(directory)}):
+   self.assertEqual(hooks.credential_token({'token_file':str(token)}),'x'*48)
+  with patch.dict(os.environ,{'CREDENTIALS_DIRECTORY':str(directory/'other')}):
+   with self.assertRaises(ValueError):hooks.credential_token({'token_file':str(token)})
+  directory.chmod(0o700)
+
+ def test_managed_credentials_refuse_shared_writes_public_reads_and_symlinks(self):
+  directory=Path(tempfile.mkdtemp(dir=self.tmp.name));token=directory/'exchange-token';token.write_text('x'*48)
+  with patch.dict(os.environ,{'CREDENTIALS_DIRECTORY':str(directory)}):
+   for mode in [0o444,0o460,0o640]:
+    token.chmod(mode)
+    with self.assertRaises(ValueError):hooks.credential_token({'token_file':str(token)})
+   token.chmod(0o440);directory.chmod(0o770)
+   with self.assertRaises(ValueError):hooks.credential_token({'token_file':str(token)})
+   directory.chmod(0o700);link=directory/'linked';link.symlink_to(token)
+   with self.assertRaises(ValueError):hooks.credential_token({'token_file':str(link)})
+
+ def test_private_file_credentials_remain_supported_without_managed_environment(self):
+  token=Path(self.tmp.name)/'private-token';token.write_text('x'*48);token.chmod(0o600)
+  with patch.dict(os.environ,{'CREDENTIALS_DIRECTORY':''}):
+   self.assertEqual(hooks.credential_token({'token_file':str(token)}),'x'*48)
+   token.write_text('x'*513)
+   with self.assertRaises(ValueError):hooks.credential_token({'token_file':str(token)})
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
   self.path=Path(self.tmp.name)/'factory.sqlite3'
