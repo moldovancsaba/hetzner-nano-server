@@ -55,6 +55,8 @@ def source_proof(id,draft,database,client,web,content=False):
  return baseline,patch,proof
 
 def run(issue,board,config,web,database,execution,client=None,writer=None):
+ import source_exchange
+ source_exchange.require_native_catalog_writer(config,issue)
  initialize(database);automatic=quality_gate.enabled(config,issue);client=client or catalog.Catalog();writer=writer or ContactUpdates();id=catalog.clean_id(catalog.field(issue,'Catalog provider'));draft=catalog.field(issue,'Draft reference')
  if not re.fullmatch(r'[a-f0-9]{32}',draft):raise ValueError('A verified draft reference is required')
  ih=publishing.sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']})

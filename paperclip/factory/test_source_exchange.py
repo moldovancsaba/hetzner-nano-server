@@ -170,4 +170,32 @@ class HookTests(unittest.TestCase):
    self.assertIsNone(hooks.save_verified_page(None,{'issue_id':'native','project_id':'project'},self.page))
 
 
+ def handoff_config(self):
+  scope={'application':'classscout','client':'NYC'}
+  return {'source_exchange':{'projects':{'project':scope},'destination_handoffs':{'project':{'scope':scope,'writer':'openclaw','writer_epoch':1,'review_ref':'isolated-handoff-review'}}}}
+
+ def test_handoff_blocks_all_three_writer_entries_before_any_dependency_work(self):
+  import publishing,refresh,program_updates
+  from unittest.mock import Mock
+  issue={'projectId':'project'};config=self.handoff_config()
+  for module in [publishing,refresh,program_updates]:
+   with self.subTest(module=module.__name__):
+    dependency=Mock(side_effect=AssertionError('handoff must precede native work'))
+    args=[issue,dependency,config,dependency,dependency]
+    kwargs={'execution':None} if module is publishing else {'execution':{}}
+    with self.assertRaisesRegex(ValueError,'delegated'):module.run(*args,**kwargs)
+    dependency.assert_not_called()
+
+ def test_handoff_is_project_scoped_and_never_follows_source_shadow_alone(self):
+  hooks.require_native_catalog_writer({'source_exchange':self.settings},{'projectId':'project'})
+  hooks.require_native_catalog_writer(self.handoff_config(),{'projectId':'different-project'})
+  with self.assertRaisesRegex(ValueError,'delegated'):hooks.require_native_catalog_writer(self.handoff_config(),{'projectId':'project'})
+
+ def test_invalid_handoff_scope_or_missing_review_cannot_allow_the_old_writer(self):
+  for change in [{'scope':{'application':'classscout','client':'BOS'}},{'review_ref':''},{'writer_epoch':True},{'writer':'paperclip'}]:
+   config=self.handoff_config();config['source_exchange']['destination_handoffs']['project'].update(change)
+   with self.subTest(change=change):
+    with self.assertRaises(ValueError):hooks.require_native_catalog_writer(config,{'projectId':'project'})
+
+
 if __name__=='__main__':unittest.main()

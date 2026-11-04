@@ -17,6 +17,21 @@ def modules():
  return importlib.import_module('exchange.factory')
 
 
+def require_native_catalog_writer(config,issue):
+ settings=config.get('source_exchange',{})
+ handoffs=settings.get('destination_handoffs',{})
+ if not isinstance(handoffs,dict):raise ValueError('Catalog handoff configuration requires review')
+ project=issue.get('projectId')
+ if project not in handoffs:return
+ handoff=handoffs[project];scope=settings.get('projects',{}).get(project)
+ if (not isinstance(handoff,dict) or scope is None or handoff.get('scope')!=scope
+     or scope.get('application')!='classscout' or handoff.get('writer')!='openclaw'
+     or type(handoff.get('writer_epoch')) is not int or handoff['writer_epoch']<1
+     or not isinstance(handoff.get('review_ref'),str) or not 1<=len(handoff['review_ref'])<=200):
+  raise ValueError('Catalog handoff does not match the reviewed project authority')
+ raise ValueError('Catalog writes are delegated to the assigned external writer. Preserve existing packets and reconcile uncertain effects before changing authority.')
+
+
 def save_offer(db,config,issue,page,facts):
  settings=config.get('source_exchange',{})
  if not settings.get('offers_enabled'):return None

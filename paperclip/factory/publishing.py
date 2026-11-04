@@ -227,6 +227,8 @@ def ensure_execution(issue,board,config,execution,input_hash):
  if run.get('status')!='running' or run.get('agentId')!=execution['agent_id'] or run.get('companyId')!=config['company_id']:raise ValueError('Publication execution is no longer active')
 
 def run(issue,board,config,web,database,client=None,execution=None):
+ import source_exchange
+ source_exchange.require_native_catalog_writer(config,issue)
  client=client or ClassScout();brief=parse_brief(issue);input_hash=sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']});reviewer=config.get('reviewer_user_id','local-board')
  with database() as db:
   initialize(db);row=db.execute('SELECT * FROM publication_packets WHERE issue_id=? ORDER BY created_at DESC LIMIT 1',(issue['id'],)).fetchone();packet=dict(row) if row else None

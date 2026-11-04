@@ -70,6 +70,8 @@ class Writer:
   with urllib.request.build_opener(catalog.NoRedirect).open(req,timeout=45) as r:return json.load(r)
 
 def run(issue,board,config,web,database,execution,client=None,writer=None):
+ import source_exchange
+ source_exchange.require_native_catalog_writer(config,issue)
  initialize(database);client=client or publishing.ClassScout();writer=writer or Writer();id=catalog.clean_id(catalog.field(issue,'Catalog provider'));row=client.existing_provider(id)
  if not row or row.get('ownerSub') or row.get('ownerManaged') or row.get('ownerManagedAt') or row.get('claimStatus') in {'claimed','claim_pending'}:raise ValueError('Program listing is absent or owner-managed')
  with database() as db:

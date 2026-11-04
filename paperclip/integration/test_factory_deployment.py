@@ -73,3 +73,39 @@ class ModuleReleaseTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):self.remote(fail=True)
         self.assertEqual(self.config.read_bytes(),before);self.assertEqual(self.module.read_text(),'prior_version=True\n')
         with sqlite3.connect(self.state) as db:self.assertEqual(db.execute('SELECT count(*) FROM business_effects').fetchone()[0],2)
+
+
+class WriterHandoffPatchTests(unittest.TestCase):
+    def test_three_writer_patches_preserve_current_code_and_are_idempotent(self):
+        hook=' import source_exchange\n source_exchange.require_native_catalog_writer(config,issue)\n'
+        for name in ['publishing.py','refresh.py','program_updates.py']:
+            source=(Path(__file__).parents[1]/'factory'/name).read_text();baseline=source.replace(hook,'');updated=deployment.patch_writer_handoff(name,baseline)
+            self.assertEqual(updated,source);self.assertEqual(deployment.patch_writer_handoff(name,updated),source)
+
+    def test_unknown_duplicate_or_moved_writer_entry_refuses_patch(self):
+        for source in ['def unrelated():pass\n','def run(config,issue):\n pass\ndef run(other):\n pass\n','def run(config,issue):\n source_exchange.require_native_catalog_writer(config,issue)\n']:
+            with self.assertRaises(ValueError):deployment.patch_writer_handoff('publishing.py',source)
+        with self.assertRaises(ValueError):deployment.patch_writer_handoff('unknown.py','def run(config,issue):\n pass\n')
+
+
+class WriterHandoffReleaseTests(ModuleReleaseTests):
+    def setUp(self):
+        import hashlib,inspect
+        super().setUp()
+        self.payload['module_only']=False;self.payload['writer_handoff']=True
+        self.payload['patcher']=inspect.getsource(deployment.patch_writer_handoff)
+        for name in ['publishing.py','refresh.py','program_updates.py']:
+            p=self.native/name;p.write_text('def run(issue,board,config,web,database):\n return "preserved-original"\n');self.payload['expected'][name]=hashlib.sha256(p.read_bytes()).hexdigest()
+
+    def test_writer_hook_release_preserves_configuration_and_installs_only_exact_patches(self):
+        before=self.config.read_bytes();self.payload['apply']=True;result=self.remote()
+        self.assertTrue(result['apply']);self.assertEqual(result['business_flags'],'preserved');self.assertEqual(self.config.read_bytes(),before)
+        for name in ['publishing.py','refresh.py','program_updates.py']:
+            text=(self.native/name).read_text();self.assertIn('source_exchange.require_native_catalog_writer(config,issue)',text);self.assertIn('return "preserved-original"',text)
+
+    def test_writer_release_failure_restores_all_callers_without_losing_new_business_rows(self):
+        import sqlite3
+        before={name:(self.native/name).read_bytes() for name in ['publishing.py','refresh.py','program_updates.py']};self.payload['apply']=True
+        with self.assertRaises(RuntimeError):self.remote(fail=True)
+        for name,raw in before.items():self.assertEqual((self.native/name).read_bytes(),raw)
+        with sqlite3.connect(self.state) as db:self.assertEqual(db.execute('SELECT count(*) FROM business_effects').fetchone()[0],2)
