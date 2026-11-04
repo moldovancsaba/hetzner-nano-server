@@ -51,8 +51,8 @@ def credential_token(settings):
  path=Path(settings['token_file'])
  directory=os.environ.get('CREDENTIALS_DIRECTORY')
  managed=bool(directory and path.parent.resolve()==Path(directory).resolve())
- if path.is_symlink():raise ValueError('Exchange credential must be a regular file')
- fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0))
+ if not stat.S_ISREG(path.lstat().st_mode):raise ValueError('Exchange credential must be a regular file')
+ fd=os.open(path,os.O_RDONLY|getattr(os,'O_NOFOLLOW',0)|getattr(os,'O_NONBLOCK',0))
  try:
   info=os.fstat(fd)
   if not stat.S_ISREG(info.st_mode):raise ValueError('Exchange credential must be a regular file')

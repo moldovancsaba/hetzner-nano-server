@@ -38,6 +38,11 @@ class HookTests(unittest.TestCase):
    self.assertEqual(hooks.credential_token({'token_file':str(token)}),'x'*48)
    token.write_text('x'*513)
    with self.assertRaises(ValueError):hooks.credential_token({'token_file':str(token)})
+
+ def test_nonregular_credential_is_refused_before_opening_or_network(self):
+  fifo=Path(self.tmp.name)/'not-a-token';os.mkfifo(fifo)
+  with patch.object(hooks.os,'open',side_effect=AssertionError('must refuse before opening FIFO')):
+   with self.assertRaises(ValueError):hooks.credential_token({'token_file':str(fifo)})
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
   self.path=Path(self.tmp.name)/'factory.sqlite3'
