@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-05T14:53:51.843245+00:00",
+  "checked_at": "2026-11-05T14:58:30.757246+00:00",
   "exact_staged_snapshot": true,
   "integration_tests": 60,
   "factory_tests": 458,
@@ -10,5 +10,16 @@
   "deployment_patches_only_exact_host_entrypoints": true,
   "configuration_changed": false,
   "authority_activated": false,
-  "deployment": "pending"
+  "deployment": "healthy",
+  "code_commit": "eae0d9e",
+  "deployed_files": {
+    "padel.py": "cc36d811640226c3c1a789c0ec9c33d30aa7c1abc22e48db9bcb0956916797c5",
+    "engine_ops.py": "f945f6b13f992bd7d6af4c95e34e9f188fbfa1c4e32022932eb6718dd275d0a3",
+    "publishing.py": "4e4e63a83556d6d6cd7b97108d89aef958ae67282a1aa23fc3d9bb676cfd7e47",
+    "refresh.py": "97a4282bfc798bc0b7cb66b8220698ab2f4b40d3307c929ab8a382a839c0e3b9",
+    "program_updates.py": "f92790157065c8de5c7cb5409b28025ec3b7e5f35306a84dd1c7863565f5e9f5",
+    "slg.py": "9c9073b7b4562ef20265c964f88023043f765fb7fbb32247559a4a32a3d726cc",
+    "source_exchange.py": "d68a401ed71763d1f3d7800779087cf9cc4c0b663b1d7a8a391f46c8cc3d5b9f",
+    "destination_handoff.py": "93ac803d650dc10eb2836749ed047782e68d63ab519cbcbd6de9ba0c6e1b4661"
+  }
 }
