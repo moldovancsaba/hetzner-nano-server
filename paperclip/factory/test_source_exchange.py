@@ -13,6 +13,30 @@ import source_exchange as hooks
 
 
 class HookTests(unittest.TestCase):
+ def test_additional_clients_never_inherit_the_original_nyc_policy(self):
+  nyc={'application':'classscout','client':'NYC'};bos={'application':'classscout','client':'BOS'}
+  self.assertEqual(hooks.project_policy(self.settings,'project',nyc),'test-policy')
+  settings={**self.settings,'projects':{'project':nyc,'boston':bos}}
+  for project,scope in [('project',nyc),('boston',bos)]:
+   with self.assertRaises(ValueError):hooks.project_policy(settings,project,scope)
+  settings['project_policies']={'project':{'scope':nyc,'review_ref':'original-nyc-review'},'boston':{'scope':bos,'review_ref':'separate-bos-review'}}
+  self.assertEqual(hooks.project_policy(settings,'boston',bos),'separate-bos-review')
+  self.assertEqual(hooks.project_policy(settings,'project',nyc),'original-nyc-review')
+
+ def test_mismatched_or_missing_project_review_refuses_before_outbox_reservation(self):
+  bos={'application':'classscout','client':'BOS'}
+  for policy in [None,{'scope':self.settings['projects']['project'],'review_ref':'wrong-scope'},{'scope':bos,'review_ref':''}]:
+   settings={**self.settings,'projects':{'project':bos}}
+   if policy is not None:settings['project_policies']={'project':policy}
+   with self.database() as db:self.assertIsNone(hooks.save_offer(db,{'source_exchange':settings},{'id':'task','projectId':'project'},self.page,[]))
+  with self.database() as db:self.assertEqual(db.execute('SELECT count(*) FROM exchange_source_outbox').fetchone()[0],0)
+
+ def test_new_scope_offer_carries_its_own_explicit_review_reference(self):
+  scope={'application':'classscout','client':'BOS'};settings={**self.settings,'projects':{'project':scope},'project_policies':{'project':{'scope':scope,'review_ref':'reviewed-boston-policy'}}}
+  with self.database() as db:
+   packet=hooks.save_offer(db,{'source_exchange':settings},{'id':'task','projectId':'project'},self.page,[])
+   self.assertEqual(json.loads(db.execute('SELECT body FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone()[0])['policy_review_ref'],'reviewed-boston-policy')
+
  def test_literal_export_retains_same_page_locality_without_mutating_native_facts(self):
   page={**self.page,'text':'Fixture Studio. Visit 123 Main Street, Brooklyn, NY 11201 for classes.'}
   facts=[{'field':'name','value':'Fixture Studio','quote':'Fixture Studio'},{'field':'address','value':'123 Main Street','quote':'123 Main Street'}]
@@ -295,7 +319,7 @@ class HookTests(unittest.TestCase):
   self.assertIsNotNone(self.discovery_packet('later-day-partial'))
 
  def test_private_leads_and_other_applications_do_not_inherit_classscout_identity_rules(self):
-  scope={'application':'salesleadgenerator','client':'seyu'};config={'source_exchange':{**self.settings,'projects':{'project':scope}}}
+  scope={'application':'salesleadgenerator','client':'seyu'};config={'source_exchange':{**self.settings,'projects':{'project':scope},'project_policies':{'project':{'scope':scope,'review_ref':'reviewed-seyu-policy'}}}}
   with self.database() as db:
    for index in range(6):self.assertIsNotNone(hooks.save_offer(db,config,{'id':'lead-'+str(index),'projectId':'project'},self.page,[]))
    self.assertEqual(db.execute("SELECT count(*) FROM exchange_selection_cursor WHERE key LIKE 'partial_discovery_quota:%'").fetchone()[0],0)

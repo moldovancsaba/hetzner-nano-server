@@ -9,3 +9,8 @@ The canonical public-claim contract still validates every exported value and quo
 OpenClaw independently refetches the page, validates the claims and ownership, checks youth suitability and asks the destination's location resolver to establish territory. A fuller exported address is evidence, not a qualification or permission to write.
 
 The adapter adds no source fetch, search, model call, task or schedule. Release it through the exact-digest, idle-fenced module-only deployment helper. Its focused tests cover literal locality retention, invalid quote refusal, cross-street and ambiguous locality handling, immutable native facts and stable original-packet replay. Deployment evidence belongs in the generated release record and the OpenClaw implementation state.
+
+
+## Per-project source policy
+
+`source_exchange.project_policies` binds each native project to an exact scope and source-policy review_ref. New clients cannot reuse the original global NYC approval. The original single-project NYC configuration retains its existing policy_revision for compatibility; once the project roster expands, every project, including NYC, needs an explicit matching policy entry. Missing, mismatched or empty references hold the offer before its outbox reservation and emit the typed source-project-policy-required diagnostic. No source mapping or policy review is created by deploying this guard.

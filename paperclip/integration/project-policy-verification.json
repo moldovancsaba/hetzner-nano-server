@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-05T08:33:05.120916+00:00",
+  "integration_tests": 51,
+  "factory_tests": 450,
+  "exact_staged_snapshot": true,
+  "log_sha256": "53f8e079d6363fb9935c38503b4e61be3bc2f4bdf9f65214844e4597903e5477",
+  "new_project_policy_scope_required": true,
+  "original_nyc_single_project_compatible": true,
+  "native_configuration_changed": false,
+  "source_exchange_sha256": "55d3b15c63a68f58b357d937227f632abbd8c286f1bc3b6ae435b0bfd70bd0a7",
+  "deployment": "pending"
+}

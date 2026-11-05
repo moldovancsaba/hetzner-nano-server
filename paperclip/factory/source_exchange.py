@@ -34,6 +34,9 @@ def require_native_catalog_writer(config,issue):
  raise ValueError('Catalog writes are delegated to the assigned external writer. Preserve existing packets and reconcile uncertain effects before changing authority.')
 
 
+class SourcePolicyHold(ValueError):pass
+
+
 def save_offer(db,config,issue,page,facts):
  settings=config.get('source_exchange',{})
  if not settings.get('offers_enabled'):return None
@@ -41,10 +44,28 @@ def save_offer(db,config,issue,page,facts):
  if scope is None:return None
  module=modules()
  from exchange.contract import ExchangeError
- try:return discovery_offer(db,module,scope,issue,page,facts,settings['policy_revision'])
+ try:return discovery_offer(db,module,scope,issue,page,facts,project_policy(settings,issue['projectId'],scope))
+ except SourcePolicyHold:
+  logging.warning('source_offer_held reason=source-project-policy-required application=%s client=%s',scope['application'],scope['client'])
+  return None
  except (ValueError,ExchangeError) as error:
   logging.warning('source_offer_held type=%s application=%s client=%s',type(error).__name__,scope['application'],scope['client'])
   return None
+
+
+def project_policy(settings,project,scope):
+ """Additional clients never inherit the original NYC source-policy approval."""
+ policies=settings.get('project_policies',{})
+ if not isinstance(policies,dict):raise SourcePolicyHold('Source project policies require exact review')
+ if project in policies:
+  policy=policies[project]
+  if not isinstance(policy,dict) or policy.get('scope')!=scope:raise SourcePolicyHold('Source policy scope mismatch')
+  reference=policy.get('review_ref')
+ elif len(settings.get('projects',{}))==1 and scope=={'application':'classscout','client':'NYC'}:
+  reference=settings.get('policy_revision')
+ else:raise SourcePolicyHold('Source project policy review missing')
+ if not isinstance(reference,str) or not 1<=len(reference)<=200:raise SourcePolicyHold('Exact source policy review reference required')
+ return reference
 
 
 def discovery_offer(db,module,scope,issue,page,facts,policy):
