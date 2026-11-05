@@ -16,7 +16,7 @@ Before enabling source hooks, complete source policy/scope enrollment, secure na
 
 The existing coordinator's exchange slice shares a thirty-second deadline. Broker requests use the remaining allowance. Native gap-task creation begins only when its existing call timeout fits that allowance; a timeout cannot grant more work to the slice. The coordinator continues its ordinary native duties after an unavailable or malformed exchange configuration.
 
-event_scopes may explicitly enroll up to eight unique application/client pairs in the same durable native inbox. The selection cursor rotates scopes across existing turns. Claims reserve enough request slots for the bounded returned batch and every acknowledgment; the response scope must match its exact saved claim body. Held work for one enrolled scope does not prevent choosing another. Batch handling improves feedback capacity without a new timer or a production-throughput claim. Keep observing actual queue age and saturation before expansion.
+event_scopes may explicitly enroll up to eight unique application/client pairs. Each additional scope requires a distinct producer identity, credential and durable event inbox. The selection cursor rotates scopes across existing turns. Claims reserve enough request slots for the bounded returned batch and every acknowledgment; the response scope must match its exact saved claim body. Held work for one enrolled scope does not prevent choosing another. Batch handling improves feedback capacity without a new timer or a production-throughput claim. Keep observing actual queue age and saturation before expansion.
 
 ## Scoped module repair during source-only operation
 
@@ -31,3 +31,11 @@ The three native ClassScout writer entry points (publication, contact/descriptio
 A reviewed destination_handoffs entry maps the exact native project ID to scope, writer openclaw, a positive integer writer_epoch and immutable review_ref. Scope must equal that project's existing source enrollment. Installing code does not add this configuration. Source-only protocol approval cannot enable a destination handoff or grant.
 
 Use deploy_factory.py --writer-handoff-hooks with exact current module, publishing, refresh and program digests for a source-preserving release. The helper inserts only the reviewed guard into the current host functions, compiles all four modules, uses the existing frozen idle gate and private consistent backup, and preserves configuration/schedules. A source mismatch or running handler aborts. Failure restores every prior module without replacing the business database. The unrelated worker, autonomy and search-workflow sources are not replaced.
+
+## Client-isolated producer credentials
+
+The original native producer identity and credential remain scoped to ClassScout NYC. `source_exchange.scope_credentials` maps an exact `application/client` key to a matching `scope`, private absolute `token_file`, and distinct UUID `event_inbox_id`. Additional clients never fall back to the NYC credential. Credential paths and inbox identifiers cannot be shared between configured scopes. Enrollment must also install a matching single-scope broker principal; the runtime cannot grant itself another scope.
+
+Offer delivery selects credentials from the saved offer scope while preserving its request bytes and operation ID. Event status, claims and receipts select the exact saved scope and inbox. A missing credential or changed inbox holds pending work instead of switching identities or generating replacement receipts. Existing NYC operations keep their original inbox and key. Dashboard/reporting access is commissioned separately.
+
+Deploy the selector through the module-only helper before preparing an enrollment manifest. Each enrollment binds its producer project, independent source-policy review, reader inbox, producer inbox and private credential preparation. Preserve credentials with the private ledgers during recovery. New credentials and source flags require that exact enrollment review; installing the selector alone changes no scopes, tokens, flags, budgets or schedules.

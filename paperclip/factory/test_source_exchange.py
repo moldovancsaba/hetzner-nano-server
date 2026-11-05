@@ -188,8 +188,8 @@ class HookTests(unittest.TestCase):
   from exchange.store import Store
   from exchange.contract import encode,iso
   now=time.time();scopes=[{'application':'classscout','client':client} for client in ['NYC','BOS']]
-  inbox=str(uuid.uuid4());broker=Store(Path(self.tmp.name)/'multi-broker.sqlite3',initialize=True)
-  reader={'id':'factory','clients':scopes,'scopes':['events:claim','status:read'],'inbox_ids':{'events':inbox}}
+  inbox=str(uuid.uuid4());bos_inbox=str(uuid.uuid4());broker=Store(Path(self.tmp.name)/'multi-broker.sqlite3',initialize=True)
+  readers={scope['client']:{'id':'factory-'+scope['client'],'clients':[scope],'scopes':['events:claim','status:read'],'inbox_ids':{'events':inbox if scope['client']=='NYC' else bos_inbox}} for scope in scopes}
   writer={'id':'mac','clients':scopes,'scopes':['events:write']}
   for scope in scopes:
    for i in range(5):
@@ -197,10 +197,12 @@ class HookTests(unittest.TestCase):
     broker.mutation(writer,str(uuid.uuid4()),'/events',encode(event))
   claimed=[]
   def transport(settings,method,route,body=None,operation=None):
+   reader=readers[settings['_credential_scope']['client']]
+   self.assertEqual(settings.get('token_file'),'/private/bos.token' if reader['id']=='factory-BOS' else None)
    if method=='GET':return broker.status(reader)
    if route=='/events/claim':claimed.append(json.loads(body)['scope']['client'])
    return json.loads(broker.mutation(reader,operation,route,body)[1])
-  settings={**self.settings,'events_enabled':True,'event_scopes':scopes,'event_inbox_id':inbox}
+  settings={**self.settings,'events_enabled':True,'event_scopes':scopes,'event_inbox_id':inbox,'scope_credentials':{'classscout/BOS':{'scope':scopes[1],'token_file':'/private/bos.token','event_inbox_id':bos_inbox}}}
   with patch.object(hooks,'transport',side_effect=transport):
    hooks.event_turn(self.database,settings)
    with broker.connection() as db:
@@ -209,6 +211,54 @@ class HookTests(unittest.TestCase):
    hooks.event_turn(self.database,settings)
   self.assertEqual(claimed[:2],['NYC','BOS'])
   with broker.connection() as db:self.assertEqual(db.execute('SELECT count(*) FROM deliveries WHERE acked IS NULL').fetchone()[0],0)
+
+ def test_non_nyc_producer_never_inherits_legacy_credentials(self):
+  scope={'application':'management','client':'sportolok'}
+  settings={**self.settings,'projects':{'project':scope},'project_policies':{'project':{'scope':scope,'review_ref':'separate-review'}}}
+  with self.database() as db:hooks.save_offer(db,{'source_exchange':settings},{'id':'task','projectId':'project'},self.page,[])
+  with patch.object(hooks,'transport',side_effect=AssertionError('NYC credential must not be used')):
+   self.assertEqual(hooks.sync_offers(self.database,settings)['sent'],0)
+   hooks.event_turn(self.database,{**settings,'events_enabled':True,'event_scopes':[scope]},limit=2)
+  with self.database() as db:
+   self.assertEqual(db.execute('SELECT state FROM exchange_source_outbox').fetchone()[0],'held')
+   self.assertEqual(db.execute('SELECT count(*) FROM exchange_event_requests').fetchone()[0],0)
+
+ def test_scoped_offer_retries_original_bytes_with_only_its_own_credential(self):
+  import uuid
+  scope={'application':'management','client':'sportolok'}
+  settings={**self.settings,'projects':{'project':scope},'project_policies':{'project':{'scope':scope,'review_ref':'separate-review'}},'scope_credentials':{'management/sportolok':{'scope':scope,'token_file':'/private/sportolok.token','event_inbox_id':str(uuid.uuid4())}}}
+  with self.database() as db:hooks.save_offer(db,{'source_exchange':settings},{'id':'task','projectId':'project'},self.page,[])
+  seen=[]
+  def send(selected,method,route,body,operation):
+   self.assertEqual(selected['token_file'],'/private/sportolok.token');self.assertEqual(selected['_credential_scope'],scope)
+   seen.append((body,operation))
+   if len(seen)==1:raise TimeoutError('lost original reply')
+   return {'operation_id':operation,'state':'broker_saved'}
+  with patch.object(hooks,'transport',side_effect=send):
+   hooks.sync_offers(self.database,settings)
+   with self.database() as db:db.execute('UPDATE exchange_source_outbox SET next_at=0')
+   self.assertEqual(hooks.sync_offers(self.database,settings)['sent'],1)
+  self.assertEqual(seen[0],seen[1]);self.assertNotIn('token_file',self.settings)
+
+ def test_reused_scoped_credential_or_inbox_is_rejected(self):
+  import uuid
+  scope={'application':'management','client':'sportolok'};inbox=str(uuid.uuid4())
+  record={'scope':scope,'token_file':'/private/sportolok.token','event_inbox_id':inbox}
+  for extra in [{'token_file':record['token_file']},{'event_inbox_id':inbox}]:
+   settings={**self.settings,**extra,'scope_credentials':{'management/sportolok':record}}
+   with self.assertRaises(hooks.ScopeCredentialHold):hooks.scoped_credentials(settings,scope)
+  with self.assertRaises(hooks.ScopeCredentialHold):hooks.scoped_credentials({'scope_credentials':{'management/padel-africa':record}},scope)
+
+ def test_scope_credential_change_holds_original_receipt_without_new_operation(self):
+  import uuid
+  scope={'application':'management','client':'sportolok'};original_inbox=str(uuid.uuid4());operation=str(uuid.uuid4())
+  body=json.dumps({'scope':scope,'inbox_id':original_inbox}).encode()
+  with self.database() as db:db.execute("INSERT INTO exchange_event_requests(id,route,body,state) VALUES(?,? ,?,'pending')",(operation,'/events/'+str(uuid.uuid4())+'/receipt',body))
+  settings={**self.settings,'events_enabled':True,'event_scopes':[scope],'scope_credentials':{'management/sportolok':{'scope':scope,'token_file':'/private/sportolok.token','event_inbox_id':str(uuid.uuid4())}}}
+  with patch.object(hooks,'transport',side_effect=AssertionError('Original inbox must be preserved')):hooks.event_turn(self.database,settings,limit=1)
+  with self.database() as db:
+   row=db.execute('SELECT id,body,state,error FROM exchange_event_requests').fetchone()
+   self.assertEqual(tuple(row),(operation,body,'held','scope-credential-not-enrolled'))
 
  def test_exhausted_turn_budget_does_not_start_transport(self):
   settings={**self.settings,'events_enabled':True,'event_scope':{'application':'classscout','client':'NYC'},'_deadline':time.monotonic()-1}

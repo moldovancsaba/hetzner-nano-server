@@ -164,6 +164,35 @@ def credential_token(settings):
  return token
 
 
+class ScopeCredentialHold(ValueError):pass
+
+
+def scoped_credentials(settings,scope):
+ """Select only an exact client credential; the original credential remains NYC-only."""
+ if not isinstance(scope,dict) or set(scope)!={'application','client'}:raise ScopeCredentialHold('Exact credential scope required')
+ clients={'classscout':{'NYC','BOS','LA'},'management':{'padel-africa','sportolok'},'salesleadgenerator':{'cogmap','seyu','dvsc'}}
+ if scope.get('application') not in clients or scope.get('client') not in clients[scope['application']]:raise ScopeCredentialHold('Unknown credential scope')
+ records=settings.get('scope_credentials',{})
+ if not isinstance(records,dict) or len(records)>8:raise ScopeCredentialHold('Bounded scoped credentials required')
+ paths=set();inboxes=set()
+ if settings.get('token_file'):paths.add(settings['token_file'])
+ if settings.get('event_inbox_id'):inboxes.add(settings['event_inbox_id'])
+ for key,record in records.items():
+  if not isinstance(record,dict) or not isinstance(record.get('scope'),dict):raise ScopeCredentialHold('Invalid scoped credential')
+  target=record['scope'];path=record.get('token_file');inbox=record.get('event_inbox_id')
+  if set(target)!={'application','client'} or key!=str(target['application'])+'/'+str(target['client']) or target['application'] not in clients or target['client'] not in clients[target['application']]:raise ScopeCredentialHold('Credential key and scope differ')
+  if not isinstance(path,str) or not Path(path).is_absolute() or path in paths or not isinstance(inbox,str) or inbox in inboxes:raise ScopeCredentialHold('Client credentials and inboxes must be distinct')
+  try:
+   import uuid
+   if str(uuid.UUID(inbox))!=inbox:raise ValueError()
+  except ValueError:raise ScopeCredentialHold('Invalid scoped event inbox') from None
+  paths.add(path);inboxes.add(inbox)
+ record=records.get(scope['application']+'/'+scope['client'])
+ if record:return {**settings,'token_file':record['token_file'],'event_inbox_id':record['event_inbox_id'],'_credential_scope':dict(scope)}
+ if scope!={'application':'classscout','client':'NYC'}:raise ScopeCredentialHold('Client producer credential is not enrolled')
+ return {**settings,'_credential_scope':dict(scope)}
+
+
 def transport(settings,method,route,body=None,operation=None):
  if not route.startswith('/') or '?' in route or '..' in route:raise ValueError('Invalid exchange route')
  token=credential_token(settings)
@@ -186,10 +215,13 @@ def sync_offers(database,settings,limit=2):
  for row in rows:
   if settings.get('_deadline',time.monotonic()+10)-time.monotonic()<1:break
   try:
-   response=transport(settings,'POST','/source-offers',bytes(row['body']),row['operation'])
+   selected=scoped_credentials(settings,json.loads(row['body'])['scope'])
+   response=transport(selected,'POST','/source-offers',bytes(row['body']),row['operation'])
    if response.get('operation_id')!=row['operation'] or response.get('state')!='broker_saved':raise ValueError('Invalid exchange receipt')
    with database() as db:db.execute("UPDATE exchange_source_outbox SET state='done',receipt=? WHERE packet=?",(json.dumps(response).encode(),row['packet']))
    sent+=1
+  except ScopeCredentialHold:
+   with database() as db:db.execute("UPDATE exchange_source_outbox SET state='held' WHERE packet=?",(row['packet'],))
   except urllib.error.HTTPError as error:
    with database() as db:db.execute('UPDATE exchange_source_outbox SET state=?,attempts=attempts+1,next_at=? WHERE packet=?',('held' if error.code in {400,401,403,409,413,415,422} else 'pending',time.time()+min(900,2**min(row['attempts']+1,10)),row['packet']))
   except (OSError,ValueError):
@@ -226,8 +258,10 @@ def event_turn(database,settings,limit=8):
     pending=db.execute("SELECT 1 FROM exchange_event_requests WHERE route='/events/claim' AND state IN ('pending','held') AND json_extract(body,'$.scope.application')=? AND json_extract(body,'$.scope.client')=? LIMIT 1",(scope['application'],scope['client'])).fetchone()
     db.execute("INSERT INTO exchange_selection_cursor VALUES('event_scope_cursor',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",(str((index+1)%len(scopes)),))
     if pending:continue
-   status=transport(settings,'GET','/status')
-   body={'scope':scope,'inbox_id':settings['event_inbox_id'],'broker_generation':status['broker_generation'],'limit':min(5,max(1,limit-turn-2)),'lease_seconds':300}
+   try:selected=scoped_credentials(settings,scope)
+   except ScopeCredentialHold:continue
+   status=transport(selected,'GET','/status')
+   body={'scope':scope,'inbox_id':selected['event_inbox_id'],'broker_generation':status['broker_generation'],'limit':min(5,max(1,limit-turn-2)),'lease_seconds':300}
    with database() as db:db.execute("INSERT INTO exchange_event_requests(id,route,body,state) VALUES(?,'/events/claim',?,'pending')",(str(uuid.uuid4()),json.dumps(body,separators=(',',':')).encode()))
    continue
   claim=json.loads(request['body']) if request['route']=='/events/claim' else None
@@ -236,7 +270,9 @@ def event_turn(database,settings,limit=8):
    continue
   if claim and limit-turn<1+claim['limit']:break
   try:
-   response=transport(settings,'POST',request['route'],bytes(request['body']),request['id'])
+   original=json.loads(request['body']);selected=scoped_credentials(settings,original['scope'])
+   if original['scope'] not in scopes or original['inbox_id']!=selected['event_inbox_id']:raise ScopeCredentialHold('Original event credential/inbox is no longer enrolled')
+   response=transport(selected,'POST',request['route'],bytes(request['body']),request['id'])
    if request['route']=='/events/claim':
     if not isinstance(response.get('items'),list) or len(response['items'])>claim['limit']:raise ValueError('Invalid event claim')
     with database() as db:
@@ -246,9 +282,9 @@ def event_turn(database,settings,limit=8):
       expires=datetime.datetime.fromisoformat(item['lease_expires_at'].replace('Z','+00:00')).timestamp()
       if expires<=time.time():continue
       module.project(db,event)
-      receipt={'scope':event['scope'],'inbox_id':settings['event_inbox_id'],'broker_generation':item['broker_generation'],'lease_token':item['lease_token'],'local_receipt_id':str(uuid.uuid5(uuid.UUID(settings['event_inbox_id']),event['event_id'])),'disposition':'received','reason_code':'event_projection_committed','local_reference':event['event_id']}
+      receipt={'scope':event['scope'],'inbox_id':selected['event_inbox_id'],'broker_generation':item['broker_generation'],'lease_token':item['lease_token'],'local_receipt_id':str(uuid.uuid5(uuid.UUID(selected['event_inbox_id']),event['event_id'])),'disposition':'received','reason_code':'event_projection_committed','local_reference':event['event_id']}
       # Receipt intent and causal projection commit together before broker acknowledgement.
-      operation=str(uuid.uuid5(uuid.UUID(settings['event_inbox_id']),item['delivery_id']+item['lease_token']))
+      operation=str(uuid.uuid5(uuid.UUID(selected['event_inbox_id']),item['delivery_id']+item['lease_token']))
       db.execute("INSERT OR IGNORE INTO exchange_event_requests(id,route,body,state) VALUES(?,?,?,'pending')",(operation,'/events/'+item['delivery_id']+'/receipt',json.dumps(receipt,separators=(',',':')).encode()))
      for row in db.execute("SELECT e.body FROM exchange_event_inbox e JOIN exchange_projection p ON p.application=e.application AND p.client=e.client AND p.evaluation=e.evaluation WHERE e.revision<=p.revision AND json_extract(e.body,'$.payload.event_type')='gap_report'").fetchall():module.gap_intent(db,json.loads(row[0]))
      db.execute("UPDATE exchange_event_requests SET state='done' WHERE id=?",(request['id'],))
@@ -256,6 +292,8 @@ def event_turn(database,settings,limit=8):
     if response.get('operation_id')!=request['id'] or response.get('state')!='acknowledged' or response.get('delivery_id')!=request['route'].split('/')[2]:raise ValueError('Invalid event acknowledgement')
     with database() as db:db.execute("UPDATE exchange_event_requests SET state='done' WHERE id=?",(request['id'],))
    completed+=1
+  except ScopeCredentialHold:
+   with database() as db:db.execute("UPDATE exchange_event_requests SET state='held',error='scope-credential-not-enrolled' WHERE id=?",(request['id'],))
   except urllib.error.HTTPError as error:
    code=None
    if error.code==409:

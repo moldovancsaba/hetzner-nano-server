@@ -8,5 +8,6 @@
   "original_nyc_single_project_compatible": true,
   "native_configuration_changed": false,
   "source_exchange_sha256": "55d3b15c63a68f58b357d937227f632abbd8c286f1bc3b6ae435b0bfd70bd0a7",
-  "deployment": "pending"
+  "deployment": "healthy",
+  "deployment_evidence_private": true
 }
