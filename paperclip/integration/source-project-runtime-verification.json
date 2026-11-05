@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-05T15:41:41.039516+00:00",
+  "checked_at": "2026-11-05T15:43:49.531057+00:00",
   "exact_staged_snapshot": true,
   "integration_tests": 66,
   "factory_tests": 470,
@@ -12,5 +12,13 @@
   "one_native_request_per_shared_turn": true,
   "paid_search_tests": 0,
   "production_source_plans_enabled": false,
-  "deployment": "pending"
+  "deployment": "healthy",
+  "code_commit": "6aa029d",
+  "deployed_files": {
+    "search_workflow.py": "51e547bde346eb23c0b0e9c1ff5aa94ce2d0eb4576d3da825969a5cd5c24165f",
+    "autonomy.py": "09ffcbddcd44060aa4d7a3599d8d64ac4f922aa9c8d97881c668ff76e887517d",
+    "worker.py": "135b44d1c868a3a8063dff542629d63a898e4e9d607655b55d679e11cf87fec3",
+    "source_exchange.py": "d68a401ed71763d1f3d7800779087cf9cc4c0b663b1d7a8a391f46c8cc3d5b9f",
+    "source_projects.py": "dd0da01de82d2d537b9de6306b21134f88a498f0f156fac236eb0242a0aeb4c3"
+  }
 }
