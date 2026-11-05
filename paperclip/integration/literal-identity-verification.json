@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-05T07:38:45.287690+00:00",
+  "integration_tests": 51,
+  "factory_tests": 447,
+  "exact_staged_snapshot": true,
+  "log_sha256": "5e788460ffa70a7237cd102e6102bd3c790dc6c138bdd3bb09de03f8aef9f2f1",
+  "source_exchange_sha256": "d26ced0747a4aa260f68c2c0ae7e4097061003dc4812aa73624a2324ecb1cb28",
+  "consumer_validation_gates_changed": false,
+  "factory_native_facts_mutated": false,
+  "search_or_model_calls_added": false,
+  "schedules_changed": false,
+  "deployment": "pending",
+  "observed_production_quality_benefit": "not_measured"
+}

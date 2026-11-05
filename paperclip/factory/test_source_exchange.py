@@ -13,6 +13,43 @@ import source_exchange as hooks
 
 
 class HookTests(unittest.TestCase):
+ def test_literal_export_retains_same_page_locality_without_mutating_native_facts(self):
+  page={**self.page,'text':'Fixture Studio. Visit 123 Main Street, Brooklyn, NY 11201 for classes.'}
+  facts=[{'field':'name','value':'Fixture Studio','quote':'Fixture Studio'},{'field':'address','value':'123 Main Street','quote':'123 Main Street'}]
+  original=json.dumps(facts)
+  exported=hooks.literal_identity_facts(page,facts)
+  self.assertEqual(exported[1]['value'],'123 Main Street, Brooklyn, NY 11201');self.assertEqual(exported[1]['quote'],exported[1]['value'])
+  self.assertEqual(json.dumps(facts),original);self.assertIn(exported[1]['quote'],page['text'])
+
+ def test_literal_export_never_infers_a_locality_or_selects_an_ambiguous_branch(self):
+  for text in ['123 Main Street. Brooklyn classes are popular.','123 Main Street\nBrooklyn, NY 11201','123 Main Street, Brooklyn, NY 11201 and 123 Main Street, Queens, NY 11375']:
+   facts=[{'field':'address','value':'123 Main Street','quote':'123 Main Street'}]
+   self.assertEqual(hooks.literal_identity_facts({**self.page,'text':text},facts),facts)
+
+ def test_literal_export_does_not_launder_invalid_quotes_or_cross_another_street(self):
+  facts=[{'field':'address','value':'123 Main Street','quote':'not the source'}]
+  page={**self.page,'text':'123 Main Street, Brooklyn, NY 11201. 456 Other Street, Queens, NY 11375.'}
+  self.assertEqual(hooks.literal_identity_facts(page,facts),facts)
+  valid=[{'field':'address','value':'123 Main Street','quote':'123 Main Street'}]
+  self.assertEqual(hooks.literal_identity_facts(page,valid)[0]['value'],'123 Main Street, Brooklyn, NY 11201')
+
+ def test_literal_export_adds_only_unique_owned_visible_name_and_street(self):
+  page={**self.page,'url':'https://fixturestudio.example/contact','title':'Fixture Studio','text':'Fixture Studio at 123 Main Street, Brooklyn, NY 11201.'}
+  self.assertEqual([fact['field'] for fact in hooks.literal_identity_facts(page,[])],['name','address'])
+  page['text']+=' Another studio is at 456 Other Street, Queens, NY 11375.'
+  self.assertEqual([fact['field'] for fact in hooks.literal_identity_facts(page,[])],['name'])
+  page['title']='Unrelated Directory';self.assertEqual(hooks.literal_identity_facts(page,[]),[])
+
+ def test_full_locality_offer_remains_public_contract_valid_and_original_packet_replays(self):
+  page={**self.page,'text':'Fixture Studio at 123 Main Street, Brooklyn, NY 11201.'};page['sha256']=hashlib.sha256(page['text'].encode()).hexdigest()
+  facts=[{'field':'name','value':'Fixture Studio','quote':'Fixture Studio'},{'field':'address','value':'123 Main Street','quote':'123 Main Street'}]
+  with self.database() as db:
+   packet=hooks.save_offer(db,{'source_exchange':self.settings},{'id':'task','projectId':'project'},page,facts)
+   first=db.execute('SELECT body,operation FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone()
+   self.assertEqual(json.loads(first[0])['claims'][1]['value'],'123 Main Street, Brooklyn, NY 11201')
+   self.assertEqual(hooks.save_offer(db,{'source_exchange':self.settings},{'id':'task','projectId':'project'},page,facts),packet)
+   self.assertEqual(tuple(db.execute('SELECT body,operation FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone()),tuple(first))
+
  def test_systemd_read_only_credentials_are_accepted_only_in_managed_directory(self):
   directory=Path(tempfile.mkdtemp(dir=self.tmp.name));token=directory/'exchange-token';token.write_text('x'*48);token.chmod(0o440);directory.chmod(0o550)
   with patch.dict(os.environ,{'CREDENTIALS_DIRECTORY':str(directory)}):

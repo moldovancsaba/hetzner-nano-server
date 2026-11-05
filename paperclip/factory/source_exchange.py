@@ -3,6 +3,7 @@ import importlib
 import json
 import logging
 import os
+import re
 import stat
 import sys
 import time
@@ -53,7 +54,8 @@ def discovery_offer(db,module,scope,issue,page,facts,policy):
  before=db.execute('SELECT coalesce(max(rowid),0) FROM exchange_source_outbox').fetchone()[0]
  db.execute('SAVEPOINT source_export_admission')
  try:
-  packet=module.offer(db,scope,issue['id'],page,facts,policy,source_kind='directory_lead',reuse_unchanged=True)
+  exported=literal_identity_facts(page,facts) if scope['application']=='classscout' else facts
+  packet=module.offer(db,scope,issue['id'],page,exported,policy,source_kind='directory_lead',reuse_unchanged=True)
   row=db.execute('SELECT rowid,body FROM exchange_source_outbox WHERE packet=?',(packet,)).fetchone() if packet else None
   value=json.loads(row[1]) if row else {}
   partial=(scope['application']=='classscout' and row and row[0]>before and not value.get('gap_root_ref')
@@ -74,6 +76,33 @@ def discovery_offer(db,module,scope,issue,page,facts,policy):
   return packet
  except BaseException:
   db.execute('ROLLBACK TO source_export_admission');db.execute('RELEASE source_export_admission');raise
+
+
+def literal_identity_facts(page,facts):
+ """Retain exact same-page name/locality evidence without inferring a searched market."""
+ import evidence
+ result=[dict(fact) for fact in facts];text=page['text']
+ if not any(fact.get('field')=='name' for fact in result):
+  names=[name for name in evidence.names(page) if name in text]
+  if len(names)==1:result.append({'field':'name','value':names[0],'quote':names[0]})
+ streets={evidence.address_key(match.group(0)):match.group(0) for match in evidence.STREET.finditer(text)}
+ addresses=[fact for fact in result if fact.get('field')=='address']
+ if not addresses and len(streets)==1:
+  value=next(iter(streets.values()));addresses=[{'field':'address','value':value,'quote':value}];result.extend(addresses)
+ for fact in addresses:
+  value=fact.get('value','');quote=fact.get('quote','')
+  if not value or value not in quote or quote not in text or ',' in value:continue
+  anchor=evidence.street(value)
+  if not anchor:continue
+  candidates=set()
+  for match in re.finditer(r'(?<![A-Za-z0-9])'+re.escape(anchor)+r'(?![A-Za-z0-9])',text):
+   suffix=re.match(r"[ \t]*,[ \t]*[A-Za-z][A-Za-z .'-]{1,59}?,[ \t]*[A-Z]{2}(?:[ \t]+\d{5}(?:-\d{4})?)?\b",text[match.end():match.end()+120])
+   if suffix:
+    candidate=text[match.start():match.end()+suffix.end()]
+    if len(candidate)<=240:candidates.add(candidate)
+  if len(candidates)==1:
+   literal=next(iter(candidates));fact.update(value=literal,quote=literal)
+ return result
 
 
 def save_verified_page(database,job,page):
