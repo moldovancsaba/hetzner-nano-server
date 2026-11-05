@@ -38,15 +38,17 @@ def patch_hooks(name, source):
 
 def patch_writer_handoff(name, source):
     import re
-    if name not in {'publishing.py','refresh.py','program_updates.py'}:raise ValueError('Unexpected writer handoff module')
-    hook=' import source_exchange\n source_exchange.require_native_catalog_writer(config,issue)\n'
-    matches=list(re.finditer(r'^def run\([^\n]*\):\n',source,re.M))
+    specs={'publishing.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'refresh.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'program_updates.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'engine_ops.py':('write_once',"destination_handoff.require_native_destination_writer(config,issue,'management',slug)",'destination_handoff'),'padel.py':('run',"destination_handoff.require_native_destination_writer(config,issue,'management','padel-africa')",'destination_handoff'),'slg.py':('mutate',"destination_handoff.require_native_destination_writer(config,issue,'salesleadgenerator',client.brand)",'destination_handoff')}
+    if name not in specs:raise ValueError('Unexpected writer handoff module')
+    function,call,module=specs[name];hook=' import '+module+'\n '+call+'\n'
+    pattern=r'^def '+function+r'\([^\n]*\):\n'+(r' """CRM writes are never equated to sent email or a won sale\."""\n' if name=='slg.py' else '')
+    matches=list(re.finditer(pattern,source,re.M))
     if len(matches)!=1:raise ValueError('Native writer entry point requires review')
     match=matches[0]
     if source[match.end():].startswith(hook):
         if source.count(hook)!=1:raise ValueError('Duplicate writer handoff hook')
         return source
-    if 'source_exchange.require_native_catalog_writer' in source:raise ValueError('Unknown writer handoff insertion')
+    if module+'.require_native_' in source:raise ValueError('Unknown writer handoff insertion')
     updated=source[:match.end()]+hook+source[match.end():]
     compile(updated,name,'exec')
     return updated
@@ -82,17 +84,23 @@ def stop_idle():
  return True
 configpath=root/'factory.json'
 configbytes=configpath.read_bytes();settings=json.loads(configbytes).get('source_exchange',{})
-module_only=payload.get('module_only') is True;writer_handoff=payload.get('writer_handoff') is True
+module_only=payload.get('module_only') is True;writer_handoff=payload.get('writer_handoff') is True;application_writers=payload.get('application_writers') is True
 if module_only and writer_handoff:raise RuntimeError('Conflicting native release modes')
+if application_writers and not writer_handoff:raise RuntimeError('Application writers require the handoff release mode')
 preserve_active=module_only or writer_handoff
 if not preserve_active and any(settings.get(key) for key in ['offers_enabled','events_enabled','gap_tasks_enabled']):raise RuntimeError('Disabled-hook deployment requires all business hooks off')
 for name,expected in payload['expected'].items():
  if hashlib.sha256((root/name).read_bytes()).hexdigest()!=expected:raise RuntimeError('Native source changed since preflight')
 scope={};exec(payload['patcher'],scope)
 allowed={'source_exchange.py','publishing.py','refresh.py','program_updates.py'} if writer_handoff else {'source_exchange.py'} if module_only else {'worker.py','autonomy.py','search_workflow.py'}
+if application_writers:allowed|={'engine_ops.py','padel.py','slg.py'}
 if set(payload['expected'])-allowed or (preserve_active and set(payload['expected'])!=allowed):raise RuntimeError('Unexpected native deployment file')
 files={name:scope['patch_writer_handoff'](name,(root/name).read_text()).encode() for name in allowed-{'source_exchange.py'}} if writer_handoff else {} if module_only else {name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
 files['source_exchange.py']=base64.b64decode(payload['module'])
+if application_writers:
+ target=root/'destination_handoff.py';expected=payload.get('expected_destination_guard')
+ if (target.exists() and (not expected or hashlib.sha256(target.read_bytes()).hexdigest()!=expected)) or (not target.exists() and expected):raise RuntimeError('Application writer guard source changed since preflight')
+ files['destination_handoff.py']=base64.b64decode(payload['destination_guard'])
 for name,body in files.items():compile(body,name,'exec')
 sys.path.insert(0,'/opt/source-exchange')
 from exchange.factory import initialize
@@ -158,19 +166,29 @@ def main():
     parser.add_argument('--expected-search-sha256')
     parser.add_argument('--exchange-module-only',action='store_true')
     parser.add_argument('--writer-handoff-hooks',action='store_true')
+    parser.add_argument('--application-writers',action='store_true')
     parser.add_argument('--expected-module-sha256')
     parser.add_argument('--expected-publishing-sha256')
     parser.add_argument('--expected-refresh-sha256')
     parser.add_argument('--expected-program-sha256')
+    parser.add_argument('--expected-engine-sha256')
+    parser.add_argument('--expected-padel-sha256')
+    parser.add_argument('--expected-slg-sha256')
+    parser.add_argument('--expected-destination-guard-sha256')
     parser.add_argument('--apply',action='store_true')
     args=parser.parse_args()
     import inspect
     module=Path(__file__).resolve().parents[2]/'factory/source_exchange.py'
     if args.exchange_module_only and args.writer_handoff_hooks:parser.error('Choose one native release mode')
     handoff_digests=[args.expected_publishing_sha256,args.expected_refresh_sha256,args.expected_program_sha256]
+    application_digests=[args.expected_engine_sha256,args.expected_padel_sha256,args.expected_slg_sha256]
+    if args.application_writers:
+        if not args.writer_handoff_hooks or not all(application_digests):parser.error('Application writer release requires handoff mode and all three exact application source digests')
+    elif any(application_digests) or args.expected_destination_guard_sha256:parser.error('Application writer digests require --application-writers')
     if args.writer_handoff_hooks:
         if not args.expected_module_sha256 or not all(handoff_digests) or any([args.expected_worker_sha256,args.expected_autonomy_sha256,args.expected_search_sha256]):parser.error('Writer handoff release requires only the current module and three writer digests')
         expected=dict(zip(['source_exchange.py','publishing.py','refresh.py','program_updates.py'],[args.expected_module_sha256,*handoff_digests]))
+        if args.application_writers:expected.update(zip(['engine_ops.py','padel.py','slg.py'],application_digests))
     elif any(handoff_digests):parser.error('Writer digests require writer handoff mode')
     elif args.exchange_module_only:
         if not args.expected_module_sha256 or any([args.expected_worker_sha256,args.expected_autonomy_sha256,args.expected_search_sha256]):parser.error('Module-only release requires only the existing module digest')
@@ -180,6 +198,7 @@ def main():
         expected={'worker.py':args.expected_worker_sha256,'autonomy.py':args.expected_autonomy_sha256}
         if args.expected_search_sha256:expected['search_workflow.py']=args.expected_search_sha256
     payload={'apply':args.apply,'module_only':args.exchange_module_only,'writer_handoff':args.writer_handoff_hooks,'expected':expected,'module':base64.b64encode(module.read_bytes()).decode(),'patcher':inspect.getsource(patch_hooks)+'\n'+inspect.getsource(patch_writer_handoff)}
+    if args.application_writers:payload.update(application_writers=True,destination_guard=base64.b64encode(module.with_name('destination_handoff.py').read_bytes()).decode(),expected_destination_guard=args.expected_destination_guard_sha256)
     result=subprocess.run(['ssh','-i',args.ssh_key,'-o','BatchMode=yes','-o','ConnectTimeout=10',args.host,'python3 -c '+shlex.quote(REMOTE)],input=json.dumps(payload).encode(),capture_output=True,timeout=70)
     if result.returncode:
         raise SystemExit('Factory release refused or needs recovery; inspect private host service and backup state. No customer data is printed.')

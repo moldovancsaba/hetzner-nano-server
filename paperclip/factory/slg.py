@@ -74,6 +74,8 @@ def initialize(database):
 # The CRM write path is built and tested but unreachable until a workflow uses it.
 def mutate(client,name,args,issue,board,config,database,execution):
  """CRM writes are never equated to sent email or a won sale."""
+ import destination_handoff
+ destination_handoff.require_native_destination_writer(config,issue,'salesleadgenerator',client.brand)
  initialize(database);settings=config.get('sales',{})
  if name not in WRITE or not settings.get('crm_writes_enabled') or client.brand not in settings.get('brands',[]):raise ValueError('SLG CRM writes are not enabled for this workspace')
  args=client.arguments(name,args);key=args.get('leadId') or publishing.sha({'companyName':args['companyName'],'url':args['url']});ph=publishing.sha({'brand':client.brand,'tool':name,'arguments':args})

@@ -36,6 +36,8 @@ def initialize(database):
 # program-update writes, this path has no human-approval mode: it records a gate decision and uses the daily cap, and the
 # reservation refuses while automatic_quality_gate.enabled is not true, so the switch stops it too.
 def run(issue,board,config,web,database,execution,client=None):
+ import destination_handoff
+ destination_handoff.require_native_destination_writer(config,issue,'management','padel-africa')
  initialize(database);client=client or Client();value=client.catalog();kind=catalog.field(issue,'Factory workflow');vertical=value['vertical'];current=value['catalog']
  if kind=='padel_maintenance':
   report={'brand':'Padel Africa','origin':ORIGIN,'tenant_verified':True,'catalog_total':current['total'],'rows_available':len(current['listings']),'truncated':current.get('truncated',False),'triage':value.get('triage',{}),'localities':vertical.get('discovery',{}).get('localities',[]),'checked_at':publishing.stamp(),'writes':0}

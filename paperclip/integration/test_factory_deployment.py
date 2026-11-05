@@ -109,3 +109,39 @@ class WriterHandoffReleaseTests(ModuleReleaseTests):
         with self.assertRaises(RuntimeError):self.remote(fail=True)
         for name,raw in before.items():self.assertEqual((self.native/name).read_bytes(),raw)
         with sqlite3.connect(self.state) as db:self.assertEqual(db.execute('SELECT count(*) FROM business_effects').fetchone()[0],2)
+
+
+class ApplicationWriterPatchTests(unittest.TestCase):
+    def test_application_writer_hooks_preserve_every_other_byte(self):
+        hooks={'engine_ops.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'management',slug)\n",'padel.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'management','padel-africa')\n",'slg.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'salesleadgenerator',client.brand)\n"}
+        for name,hook in hooks.items():
+            source=(Path(__file__).parents[1]/'factory'/name).read_text();self.assertEqual(source.count(hook),1)
+            updated=deployment.patch_writer_handoff(name,source.replace(hook,''));self.assertEqual(updated,source);self.assertEqual(deployment.patch_writer_handoff(name,updated),source)
+
+
+class ApplicationWriterReleaseTests(WriterHandoffReleaseTests):
+    def setUp(self):
+        import base64,hashlib
+        super().setUp();self.payload['application_writers']=True
+        self.payload['destination_guard']=base64.b64encode(b'guard_version=True\n').decode()
+        stubs={'engine_ops.py':'def write_once(issue,board,config,database,execution,client,slug,kind,body,proof):\n return "preserved-engine"\n','padel.py':'def run(issue,board,config,web,database,execution):\n return "preserved-padel"\n','slg.py':'def mutate(client,name,args,issue,board,config,database,execution):\n """CRM writes are never equated to sent email or a won sale."""\n return "preserved-slg"\n'}
+        for name,source in stubs.items():
+            p=self.native/name;p.write_text(source);self.payload['expected'][name]=hashlib.sha256(p.read_bytes()).hexdigest()
+
+    def test_application_release_installs_guard_and_preserves_all_configuration(self):
+        before=self.config.read_bytes();self.payload['apply']=True;result=self.remote();self.assertTrue(result['apply']);self.assertEqual(self.config.read_bytes(),before)
+        for name in ['engine_ops.py','padel.py','slg.py']:self.assertIn('destination_handoff.require_native_destination_writer',(self.native/name).read_text())
+        self.assertEqual((self.native/'destination_handoff.py').read_text(),'guard_version=True\n')
+
+    def test_unknown_existing_guard_refuses_before_mutation(self):
+        p=self.native/'destination_handoff.py';p.write_text('different_guard=True\n');self.payload['apply']=True
+        with self.assertRaises(RuntimeError):self.remote()
+        self.assertEqual(p.read_text(),'different_guard=True\n');self.assertNotIn('destination_handoff',(self.native/'padel.py').read_text())
+
+    def test_failed_application_release_removes_new_guard_and_preserves_new_business_rows(self):
+        import sqlite3
+        before={name:(self.native/name).read_bytes() for name in ['engine_ops.py','padel.py','slg.py']};self.payload['apply']=True
+        with self.assertRaises(RuntimeError):self.remote(fail=True)
+        for name,body in before.items():self.assertEqual((self.native/name).read_bytes(),body)
+        self.assertFalse((self.native/'destination_handoff.py').exists())
+        with sqlite3.connect(self.state) as db:self.assertEqual(db.execute('SELECT count(*) FROM business_effects').fetchone()[0],2)

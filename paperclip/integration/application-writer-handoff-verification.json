@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-05T14:53:51.843245+00:00",
+  "exact_staged_snapshot": true,
+  "integration_tests": 60,
+  "factory_tests": 458,
+  "log_sha256": "be500259ad996df83f0b6d76a06f2b52b3eaccd3e7e239a3792bb8923caefb51",
+  "selected_project_handoff_holds_before_reservations": true,
+  "unselected_project_behavior_preserved": true,
+  "scope_mismatch_held": true,
+  "deployment_patches_only_exact_host_entrypoints": true,
+  "configuration_changed": false,
+  "authority_activated": false,
+  "deployment": "pending"
+}

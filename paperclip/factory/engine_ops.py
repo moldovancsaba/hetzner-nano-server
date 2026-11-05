@@ -81,6 +81,8 @@ def candidate(issue,board,config,web,database,execution,client=None):
 # ('held'); any other unconfirmed outcome is 'uncertain' and is never replayed. No human-approval mode exists on this path,
 # and quality_gate.reserve refuses while automatic_quality_gate.enabled is not true, so the gate switch stops it.
 def write_once(issue,board,config,database,execution,client,slug,kind,body,proof):
+ import destination_handoff
+ destination_handoff.require_native_destination_writer(config,issue,'management',slug)
  initialize(database);ph=publishing.sha({'slug':slug,'kind':kind,'body':body,'proof':proof});item=body['id']
  with database() as db:
   previous=db.execute('SELECT status,receipt_json FROM engine_packets WHERE packet_hash=?',(ph,)).fetchone()
