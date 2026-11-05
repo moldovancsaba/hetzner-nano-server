@@ -55,7 +55,7 @@ def patch_writer_handoff(name, source):
 
 
 REMOTE = r'''
-import base64,datetime,hashlib,json,os,pathlib,shutil,sqlite3,subprocess,sys,time,urllib.request
+import base64,datetime,hashlib,json,os,pathlib,shutil,signal,sqlite3,subprocess,sys,time,urllib.request
 payload=json.load(sys.stdin)
 root=pathlib.Path('/opt/narimato-factory')
 state=pathlib.Path('/var/lib/narimato-factory/factory.sqlite3')
@@ -74,12 +74,20 @@ def idle():
  return threads==1 and runs==0
 def stop_idle():
  if not idle():return False
+ if command('systemctl','show',unit,'--property=Restart','--value') not in {'no','on-failure','on-abnormal','on-abort','on-watchdog'}:raise RuntimeError('Automatic restart policy requires separate drain review')
+ pid=int(command('systemctl','show',unit,'--property=MainPID','--value'));descriptor=os.pidfd_open(pid)
  try:
-  command('systemctl','freeze',unit)
-  if not idle():return False
-  # Queue termination while frozen; no handler can start after the final idle check.
-  command('systemctl','kill','--kill-whom=main','--signal=SIGTERM',unit)
- finally:command('systemctl','thaw',unit)
+  signal.pidfd_send_signal(descriptor,signal.SIGSTOP)
+  for _ in range(40):
+   if any(line.startswith('State:') and line.split()[1]=='T' for line in pathlib.Path('/proc/'+str(pid)+'/status').read_text().splitlines()):break
+   time.sleep(.025)
+  else:raise RuntimeError('Native process did not enter a verified pause')
+  if int(command('systemctl','show',unit,'--property=MainPID','--value'))!=pid or not idle():return False
+  signal.pidfd_send_signal(descriptor,signal.SIGTERM)
+ finally:
+  try:signal.pidfd_send_signal(descriptor,signal.SIGCONT)
+  except ProcessLookupError:pass
+  finally:os.close(descriptor)
  command('systemctl','stop',unit)
  return True
 configpath=root/'factory.json'
@@ -108,7 +116,11 @@ from exchange.contract import Contract
 Contract()
 if not payload['apply']:
  print(json.dumps({'apply':False,'idle':idle(),'business_flags':'preserved' if preserve_active else 'off','files':{name:hashlib.sha256(body).hexdigest() for name,body in files.items()}}));sys.exit(0)
-if not stop_idle():
+try:stopped=stop_idle()
+except BaseException:
+ if command('systemctl','show',unit,'--property=MainPID','--value')=='0':command('systemctl','start',unit)
+ raise RuntimeError('Native stop failed; existing configuration preserved') from None
+if not stopped:
  print(json.dumps({'apply':False,'state':'busy','business_flags':'preserved' if preserve_active else 'off','reason':'native run or HTTP handler active; no files or schema changed'}));sys.exit(0)
 backup=pathlib.Path('/var/backups/source-exchange')/('native-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
 previous={name:(root/name).exists() for name in files}

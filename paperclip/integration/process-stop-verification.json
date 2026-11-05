@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-05T15:16:28.834361+00:00",
+  "exact_staged_snapshot": true,
+  "integration_tests": 60,
+  "factory_tests": 458,
+  "log_sha256": "23d98306ee153f58508d3be067a76988b0f9135b7477d7e838bfae71615381b2",
+  "service_manager_freezing_removed": true,
+  "exact_pidfd_identity_and_paused_final_idle_check": true,
+  "busy_handler_resumes_without_termination": true,
+  "code_only_rollback_preserves_newer_business_rows": true,
+  "runtime_configuration_changed": false,
+  "deployment_needed": false,
+  "purpose": "Operator helper repair; existing installed source and writer modules are unchanged"
+}

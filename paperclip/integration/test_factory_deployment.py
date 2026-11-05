@@ -35,6 +35,7 @@ class ModuleReleaseTests(unittest.TestCase):
         with sqlite3.connect(self.state) as db:
             db.execute('CREATE TABLE runs(status TEXT)');db.execute('CREATE TABLE business_effects(id TEXT)');db.execute("INSERT INTO business_effects VALUES('original')")
         (self.root/'proc/123/task/123').mkdir(parents=True)
+        (self.root/'proc/123/status').write_text('State:\tT (stopped)\n')
         self.payload={'apply':False,'module_only':True,'expected':{'source_exchange.py':hashlib.sha256(self.module.read_bytes()).hexdigest()},'module':base64.b64encode(b'new_version=True\n').decode(),'patcher':'def patch_hooks(name,source):raise AssertionError("module release must not patch caller hooks")'}
 
     def remote(self,fail=False):
@@ -47,9 +48,9 @@ class ModuleReleaseTests(unittest.TestCase):
                 failures[0]=False
                 with sqlite3.connect(self.state) as db:db.execute("INSERT INTO business_effects VALUES('newer')")
                 raise RuntimeError('injected readiness failure')
-            return types.SimpleNamespace(stdout=b'123' if '--property=MainPID' in args else b'active')
+            return types.SimpleNamespace(stdout=b'123' if '--property=MainPID' in args else b'on-failure' if '--property=Restart' in args else b'active')
         output=io.StringIO()
-        with patch('sys.stdin',io.StringIO(json.dumps(self.payload))),contextlib.redirect_stdout(output),patch('subprocess.run',side_effect=command),patch('urllib.request.urlopen',return_value=io.StringIO('{"status":"ok"}')):
+        with patch('os.pidfd_open',return_value=9876,create=True),patch('os.close'),patch('signal.pidfd_send_signal',create=True),patch('sys.stdin',io.StringIO(json.dumps(self.payload))),contextlib.redirect_stdout(output),patch('subprocess.run',side_effect=command),patch('urllib.request.urlopen',return_value=io.StringIO('{"status":"ok"}')):
             try:exec(compile(source,'isolated-native-module-release','exec'),{})
             except SystemExit as exc:
                 if exc.code not in (0,None):raise
