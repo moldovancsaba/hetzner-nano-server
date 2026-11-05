@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-05T07:38:45.287690+00:00",
+  "checked_at": "2026-11-05T07:49:42.040404+00:00",
   "integration_tests": 51,
   "factory_tests": 447,
   "exact_staged_snapshot": true,
@@ -9,6 +9,9 @@
   "factory_native_facts_mutated": false,
   "search_or_model_calls_added": false,
   "schedules_changed": false,
-  "deployment": "pending",
-  "observed_production_quality_benefit": "not_measured"
+  "deployment": "healthy",
+  "observed_production_quality_benefit": "not_measured",
+  "deployed_commit": "aa671d4",
+  "factory_config_unchanged": true,
+  "native_hooks_installed": true
 }
