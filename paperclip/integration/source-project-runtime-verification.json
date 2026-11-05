@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-11-05T15:41:41.039516+00:00",
+  "exact_staged_snapshot": true,
+  "integration_tests": 66,
+  "factory_tests": 470,
+  "log_sha256": "1bd46d000f772053663404186328a60e464c462685aadec5f015359afc1f6c90",
+  "source_only_runtime_role_guard": true,
+  "ordinary_research_backlog_does_not_block_source_only_tasks": true,
+  "global_search_allowance_and_publishing_priority_preserved": true,
+  "native_business_handoff_forbidden": true,
+  "original_native_task_recovery": true,
+  "one_native_request_per_shared_turn": true,
+  "paid_search_tests": 0,
+  "production_source_plans_enabled": false,
+  "deployment": "pending"
+}

@@ -39,14 +39,14 @@ def parse(issue):
  if parent_hash and not re.fullmatch(r'[a-f0-9]{64}',parent_hash):raise ValueError('Invalid publication input reference')
  return {'queries':list(dict.fromkeys(queries)),'kind':kind,'host':host,'parent':parent,'parent_hash':parent_hash}
 
-def enqueue(issue,database):
+def enqueue(issue,database,source_project=None):
  initialize(database);spec=parse(issue);now=time.time();duplicates=[]
  with database() as db:
   db.execute('BEGIN IMMEDIATE');old=db.execute('SELECT * FROM search_jobs WHERE issue_id=?',(issue['id'],)).fetchone()
   if old:
    if json.loads(old['outcome_json']).get('requested_queries',json.loads(old['queries_json']))!=spec['queries'] or old['kind']!=spec['kind'] or old['source_host']!=spec['host'] or old['parent_publication']!=spec['parent'] or old['parent_input_hash']!=spec['parent_hash']:raise ValueError('This search task already has a durable intent. Create a new task for a changed query.')
    return dict(old)
-  recent=db.execute("SELECT issue_id,queries_json FROM search_jobs WHERE created_at>? AND status<>'cancelled'",(now-7*86400,)).fetchall();seen={fingerprint(q):r['issue_id'] for r in recent for q in json.loads(r['queries_json'])};queries=[]
+  recent=db.execute("SELECT issue_id,project_id,queries_json FROM search_jobs WHERE created_at>? AND status<>'cancelled'",(now-7*86400,)).fetchall();seen={fingerprint(q):r['issue_id'] for r in recent if source_project is None or r['project_id']==issue['projectId'] for q in json.loads(r['queries_json'])};queries=[]
   for q in spec['queries']:
    if fingerprint(q) in seen:duplicates.append(seen[fingerprint(q)])
    else:queries.append(q)
@@ -61,7 +61,7 @@ def queued_issue(board,config,agent,database):
  paused=research_backlog(board,config,database)>=10
  for row in rows:
   if row['status']=='delivery_pending' and time.time()<row['next_delivery_at']:continue
-  if row['kind']=='discovery' and paused:continue
+  if row['kind']=='discovery' and paused and row.get('project_id') not in config.get('source_exchange',{}).get('source_only_projects',{}):continue
   issue=board.call('/issues/'+row['issue_id'])
   if issue.get('assigneeAgentId')!=agent or issue['status'] in TERMINAL:
    with database() as db:db.execute("UPDATE search_jobs SET status='cancelled',updated_at=? WHERE issue_id=?",(time.time(),row['issue_id']))
@@ -128,9 +128,10 @@ def verified_pages(rows,job,web,database,maximum):
    if job['kind']=='sportolok':pass
    elif job['kind']=='padel':
     if not re.search(r'\bpadel\b',page['text'],re.I):continue
-   elif not re.search(r'kids?|children|famil(?:y|ies)|ages?|tuition|classes',page['text'],re.I):continue
+   elif job.get('_source_only_scope',{}).get('application')!='salesleadgenerator' and not re.search(r'kids?|children|famil(?:y|ies)|ages?|tuition|classes',page['text'],re.I):continue
    import source_exchange
-   source_exchange.save_verified_page(database,job,page)
+   packet=source_exchange.save_verified_page(database,job,page)
+   if job.get('_source_only_scope') and not packet:continue
    pages.append({'url':page['url'],'title':page['title'][:160],'sha256':page['sha256'],'fetched_at':page['fetched_at']})
   except Exception:continue
  return pages
@@ -140,6 +141,7 @@ def discovery_metadata(issue):
  return '\n'.join(k+': '+catalog.field(issue,k) for k in ['Discovery borough','Discovery activity','Discovery campaign','Discovery format'] if catalog.field(issue,k))
 
 def deliver(issue,board,config,job,outcome,database,execution):
+ if job.get('_source_only_scope'):return outcome
  research=next(k for k,v in config['agents'].items() if v['role']=='research')
  for page in ([] if job.get('kind')=='publishing' and job.get('parent_publication') else outcome.get('source_pages',[])):
   if page.get('research_id'):continue
@@ -183,19 +185,28 @@ def budget_markdown(budget):
 def run(issue,board,config,web,database,execution,client=None,budget=None):
  if not config.get('search_enabled'):raise ValueError('Brave Search is disabled')
  if not os.environ.get('BRAVE_SEARCH_API_KEY') and client is None:raise ValueError('Brave connection is not configured')
- budget=budget or Budget(database);job=enqueue(issue,database);outcome=json.loads(job['outcome_json']);locale=('HU','hu') if job['kind']=='sportolok' else ('ZA','en') if job['kind']=='padel' else ('US','en');client=client or Brave(budget,country=locale[0],language=locale[1])
+ import source_projects
+ source_project=source_projects.require_search_issue(config,issue,'search')
+ if source_project:
+  budget=budget or Budget(database);job=enqueue(issue,database,source_project);outcome=json.loads(job['outcome_json']);search_locale=(source_project['country'],source_project['language']);client=client or Brave(budget,country=search_locale[0],language=search_locale[1])
+ else:
+  budget=budget or Budget(database);job=enqueue(issue,database);outcome=json.loads(job['outcome_json']);locale=('HU','hu') if job['kind']=='sportolok' else ('ZA','en') if job['kind']=='padel' else ('US','en');client=client or Brave(budget,country=locale[0],language=locale[1])
+ if source_project:job['_source_only_scope']=source_project['scope']
  brand=config.get('projects',{}).get(issue.get('projectId'))
- if (job['kind']=='padel' and (brand!='Padel Africa' or not config.get('padel_discovery_enabled'))) or (job['kind']=='sportolok' and (brand!='Sportolok' or not config.get('engine_clients',{}).get('sportolok'))) or (job['kind'] not in {'padel','sportolok'} and brand!='ClassScout'):raise ValueError('Search purpose does not match the configured brand')
+ if not source_project and ((job['kind']=='padel' and (brand!='Padel Africa' or not config.get('padel_discovery_enabled'))) or (job['kind']=='sportolok' and (brand!='Sportolok' or not config.get('engine_clients',{}).get('sportolok'))) or (job['kind'] not in {'padel','sportolok'} and brand!='ClassScout')):raise ValueError('Search purpose does not match the configured brand')
  if job['status']=='deduplicated':return {'stage':'search_completed','markdown':'This query was already queued or processed within seven days. No additional Brave request was made. Related search task IDs: '+', '.join(outcome['duplicate_tasks'])+'\n\n'+budget_markdown(budget),'entities':[]}
  if job['status']=='completed':return {'stage':'search_completed','markdown':None,'entities':[]}
  if job['status']=='delivery_pending' and time.time()<job['next_delivery_at']:
   return {'stage':'search_waiting','markdown':None,'entities':[],'wake_at':job['next_delivery_at']}
  if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')
- backlog=research_backlog(board,config,database)
- with database() as db:head=db.execute("SELECT issue_id FROM search_jobs WHERE status IN ('queued','running','delivery_pending') AND (status<>'delivery_pending' OR next_delivery_at<=?) AND (?<10 OR kind<>'discovery') ORDER BY CASE WHEN kind='publishing' THEN 0 WHEN kind='discovery' OR (kind IN ('padel','sportolok') AND created_at<=?) THEN 1 ELSE 2 END,created_at LIMIT 1",(time.time(),backlog,time.time()-3600)).fetchone()
+ backlog=research_backlog(board,config,database) if 'ClassScout' in config.get('projects',{}).values() else 0
+ source_projects_roster=list(config.get('source_exchange',{}).get('source_only_projects',{}))
+ if len(source_projects_roster)>5:raise ValueError('Bounded source-only project roster required')
+ source_clause=' OR project_id IN ('+','.join('?' for _ in source_projects_roster)+')' if source_projects_roster else ''
+ with database() as db:head=db.execute("SELECT issue_id FROM search_jobs WHERE status IN ('queued','running','delivery_pending') AND (status<>'delivery_pending' OR next_delivery_at<=?) AND (?<10 OR kind<>'discovery'"+source_clause+") ORDER BY CASE WHEN kind='publishing' THEN 0 WHEN kind='discovery' OR (kind IN ('padel','sportolok') AND created_at<=?) THEN 1 ELSE 2 END,created_at LIMIT 1",(time.time(),backlog,*source_projects_roster,time.time()-3600)).fetchone()
  if head and head[0]!=issue['id']:
   text='Waiting behind a higher-priority or older search task.\n\n'+budget_markdown(budget);return {'stage':'search_waiting','markdown':notice(database,job,text),'entities':[]}
- capacity=max(0,10-backlog) if job['kind']=='discovery' else 5
+ capacity=10 if source_project else max(0,10-backlog) if job['kind']=='discovery' else 5
  if job['kind']=='discovery' and capacity==0:
   text='New discovery is paused: ten research drafts/tasks already await work or review. Publishing blockers can still be searched.\n\n'+budget_markdown(budget);return {'stage':'search_waiting','markdown':notice(database,job,text),'entities':[]}
  if not outcome.get('source_pages'):
@@ -225,7 +236,7 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
  lines=['## Search completed','','Independently checked source pages: '+str(len(outcome['source_pages']))+'. Research tasks: '+(', '.join(outcome['research_tasks']) or 'none; no eligible source page passed checks')+'.','']
  for p in outcome['source_pages']:lines.append('- '+p['title']+': '+p['url'])
  if outcome.get('publication_resumed'):lines+=['','Publication preparation resumed in '+outcome['publication_resumed']+'. It must still pass the configured fresh-source publication gate.']
- lines+=['',budget_markdown(budget),'','Search snippets are not listing evidence. Source research, quality review and the configured automatic catalog gate remain required.']
+ lines+=['',budget_markdown(budget),'','Source-only evidence export creates no native research, publication or CRM task. OpenClaw independently qualifies each page before any reviewed destination action.' if source_project else 'Search snippets are not listing evidence. Source research, quality review and the configured automatic catalog gate remain required.']
  return {'stage':'search_completed','markdown':'\n'.join(lines),'entities':[],'final_status':'done','automatic_progress':config.get('growth_mode',{}).get('enabled',False)}
 
 def request_gap_search(issue,board,config,message,database=None):

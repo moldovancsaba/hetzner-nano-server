@@ -114,13 +114,17 @@ def run(issue,board,config,web,database,execution):
  if not config.get('reliability_enabled') or config['projects'].get(issue.get('projectId'))!='Factory Operations':raise ValueError('Autonomous coordination is not enabled in this project')
  initialize(database)
  import source_exchange
+ source_deadline=time.monotonic()+30
  source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)
+ import source_projects
+ try:source_project_tasks=source_projects.coordinate(database,config,board,deadline=source_deadline)
+ except (OSError,ValueError,RuntimeError,KeyError,TypeError):source_project_tasks={'state':'source-project-runtime-held'}
  handoffs=company_ops.dispatch_pending(board,config,database,limit=10)
  tasks=company_ops.issue_rows(board,config);planning=plan(tasks,board,config,database);delivery=deliver(board,config,database)
  with database() as db:
   queued=db.execute("SELECT count(*) FROM company_dispatch WHERE status='queued'").fetchone()[0]
   oldest=db.execute("SELECT min(created_at) FROM autonomous_recovery WHERE status IN ('queued','creating','delivered')").fetchone()[0]
- report={'checked_at':time.time(),'handoffs_delivered':handoffs,'pending_handoffs':queued,'recovery':planning,'continuations':delivery,'oldest_recovery_wait_seconds':max(0,time.time()-oldest) if oldest else 0,'no_business_write_replay':True}
+ report={'checked_at':time.time(),'source_project_tasks':source_project_tasks,'handoffs_delivered':handoffs,'pending_handoffs':queued,'recovery':planning,'continuations':delivery,'oldest_recovery_wait_seconds':max(0,time.time()-oldest) if oldest else 0,'no_business_write_replay':True}
  with database() as db:db.execute('INSERT OR REPLACE INTO autonomy_ticks VALUES(?,?,?)',(issue['id'],json.dumps(report),time.time()))
  catalog.save_report(database,issue,'autonomous_coordination',report)
  return {'stage':'autonomous_coordination','entities':[],'final_status':'done','automatic_progress':True,'markdown':'Automatic coordination completed. Handoffs delivered: '+str(len(handoffs))+'. Remaining handoffs: '+str(queued)+'. Safe continuations: '+str(len(delivery['delivered']))+'. Evidence holds and all protected write packets remain guarded.'}

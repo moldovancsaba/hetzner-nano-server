@@ -20,6 +20,10 @@ def patch_hooks(name, source):
             "   pages.append({'url':page['url'],'title':page['title'][:160],'sha256':page['sha256'],'fetched_at':page['fetched_at']})\n",
             "   import source_exchange\n   source_exchange.save_verified_page(database,job,page)\n")}
     anchor, hook = patches[name]
+    if name=='search_workflow.py' and 'source_projects.require_search_issue' in source:
+        hook="   import source_exchange\n   packet=source_exchange.save_verified_page(database,job,page)\n   if job.get('_source_only_scope') and not packet:continue\n"
+    if name=='autonomy.py' and 'source_project_tasks' in source:
+        hook=" import source_exchange\n source_deadline=time.monotonic()+30\n source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)\n import source_projects\n try:source_project_tasks=source_projects.coordinate(database,config,board,deadline=source_deadline)\n except (OSError,ValueError,RuntimeError,KeyError,TypeError):source_project_tasks={'state':'source-project-runtime-held'}\n"
     if hook in source:
         if source.count(hook) != 1:
             raise ValueError('Duplicate exchange hook')
@@ -52,6 +56,19 @@ def patch_writer_handoff(name, source):
     updated=source[:match.end()]+hook+source[match.end():]
     compile(updated,name,'exec')
     return updated
+
+
+def patch_source_runtime(name,source,patches):
+    if set(patches)!={'worker.py','autonomy.py','search_workflow.py'} or name not in patches:raise ValueError('Exact source runtime modules required')
+    rows=patches[name]
+    if not isinstance(rows,list) or not 1<=len(rows)<=24 or any(set(row)!={'before','after'} or not all(isinstance(row[key],str) and 1<=len(row[key])<=16000 for key in ['before','after']) for row in rows):raise ValueError('Bounded explicit source runtime patches required')
+    if all(source.count(row['after'])==1 for row in rows):return source
+    if any(source.count(row['after']) for row in rows):raise ValueError('Partial source runtime patch requires review')
+    for row in rows:
+        if source.count(row['before'])!=1:raise ValueError('Native source runtime boundary changed')
+        source=source.replace(row['before'],row['after'],1)
+    compile(source,name,'exec')
+    return source
 
 
 REMOTE = r'''
@@ -93,22 +110,28 @@ def stop_idle():
 configpath=root/'factory.json'
 configbytes=configpath.read_bytes();settings=json.loads(configbytes).get('source_exchange',{})
 module_only=payload.get('module_only') is True;writer_handoff=payload.get('writer_handoff') is True;application_writers=payload.get('application_writers') is True
-if module_only and writer_handoff:raise RuntimeError('Conflicting native release modes')
+source_runtime=payload.get('source_runtime') is True
+if sum([module_only,writer_handoff,source_runtime])>1:raise RuntimeError('Conflicting native release modes')
 if application_writers and not writer_handoff:raise RuntimeError('Application writers require the handoff release mode')
-preserve_active=module_only or writer_handoff
+preserve_active=module_only or writer_handoff or source_runtime
 if not preserve_active and any(settings.get(key) for key in ['offers_enabled','events_enabled','gap_tasks_enabled']):raise RuntimeError('Disabled-hook deployment requires all business hooks off')
 for name,expected in payload['expected'].items():
  if hashlib.sha256((root/name).read_bytes()).hexdigest()!=expected:raise RuntimeError('Native source changed since preflight')
 scope={};exec(payload['patcher'],scope)
 allowed={'source_exchange.py','publishing.py','refresh.py','program_updates.py'} if writer_handoff else {'source_exchange.py'} if module_only else {'worker.py','autonomy.py','search_workflow.py'}
+if source_runtime:allowed|={'source_exchange.py'}
 if application_writers:allowed|={'engine_ops.py','padel.py','slg.py'}
 if set(payload['expected'])-allowed or (preserve_active and set(payload['expected'])!=allowed):raise RuntimeError('Unexpected native deployment file')
-files={name:scope['patch_writer_handoff'](name,(root/name).read_text()).encode() for name in allowed-{'source_exchange.py'}} if writer_handoff else {} if module_only else {name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
+files={name:scope['patch_source_runtime'](name,(root/name).read_text(),payload['source_project_patches']).encode() for name in allowed-{'source_exchange.py'}} if source_runtime else {name:scope['patch_writer_handoff'](name,(root/name).read_text()).encode() for name in allowed-{'source_exchange.py'}} if writer_handoff else {} if module_only else {name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
 files['source_exchange.py']=base64.b64decode(payload['module'])
 if application_writers:
  target=root/'destination_handoff.py';expected=payload.get('expected_destination_guard')
  if (target.exists() and (not expected or hashlib.sha256(target.read_bytes()).hexdigest()!=expected)) or (not target.exists() and expected):raise RuntimeError('Application writer guard source changed since preflight')
  files['destination_handoff.py']=base64.b64decode(payload['destination_guard'])
+if source_runtime:
+ target=root/'source_projects.py';expected=payload.get('expected_source_runtime')
+ if (target.exists() and (not expected or hashlib.sha256(target.read_bytes()).hexdigest()!=expected)) or (not target.exists() and expected):raise RuntimeError('Source project runtime changed since preflight')
+ files['source_projects.py']=base64.b64decode(payload['source_project_module'])
 for name,body in files.items():compile(body,name,'exec')
 sys.path.insert(0,'/opt/source-exchange')
 from exchange.factory import initialize
@@ -179,6 +202,8 @@ def main():
     parser.add_argument('--exchange-module-only',action='store_true')
     parser.add_argument('--writer-handoff-hooks',action='store_true')
     parser.add_argument('--application-writers',action='store_true')
+    parser.add_argument('--source-project-runtime',action='store_true')
+    parser.add_argument('--expected-source-runtime-sha256')
     parser.add_argument('--expected-module-sha256')
     parser.add_argument('--expected-publishing-sha256')
     parser.add_argument('--expected-refresh-sha256')
@@ -191,13 +216,17 @@ def main():
     args=parser.parse_args()
     import inspect
     module=Path(__file__).resolve().parents[2]/'factory/source_exchange.py'
-    if args.exchange_module_only and args.writer_handoff_hooks:parser.error('Choose one native release mode')
+    if sum([args.exchange_module_only,args.writer_handoff_hooks,args.source_project_runtime])>1:parser.error('Choose one native release mode')
+    if args.expected_source_runtime_sha256 and not args.source_project_runtime:parser.error('Source runtime digest requires --source-project-runtime')
     handoff_digests=[args.expected_publishing_sha256,args.expected_refresh_sha256,args.expected_program_sha256]
     application_digests=[args.expected_engine_sha256,args.expected_padel_sha256,args.expected_slg_sha256]
     if args.application_writers:
         if not args.writer_handoff_hooks or not all(application_digests):parser.error('Application writer release requires handoff mode and all three exact application source digests')
     elif any(application_digests) or args.expected_destination_guard_sha256:parser.error('Application writer digests require --application-writers')
-    if args.writer_handoff_hooks:
+    if args.source_project_runtime:
+        if not all([args.expected_worker_sha256,args.expected_autonomy_sha256,args.expected_search_sha256,args.expected_module_sha256]) or any(handoff_digests):parser.error('Source project runtime requires exact worker, autonomy, search and exchange module digests')
+        expected=dict(zip(['worker.py','autonomy.py','search_workflow.py','source_exchange.py'],[args.expected_worker_sha256,args.expected_autonomy_sha256,args.expected_search_sha256,args.expected_module_sha256]))
+    elif args.writer_handoff_hooks:
         if not args.expected_module_sha256 or not all(handoff_digests) or any([args.expected_worker_sha256,args.expected_autonomy_sha256,args.expected_search_sha256]):parser.error('Writer handoff release requires only the current module and three writer digests')
         expected=dict(zip(['source_exchange.py','publishing.py','refresh.py','program_updates.py'],[args.expected_module_sha256,*handoff_digests]))
         if args.application_writers:expected.update(zip(['engine_ops.py','padel.py','slg.py'],application_digests))
@@ -209,8 +238,9 @@ def main():
         if not args.expected_worker_sha256 or not args.expected_autonomy_sha256 or args.expected_module_sha256:parser.error('Hook release requires worker and autonomy digests')
         expected={'worker.py':args.expected_worker_sha256,'autonomy.py':args.expected_autonomy_sha256}
         if args.expected_search_sha256:expected['search_workflow.py']=args.expected_search_sha256
-    payload={'apply':args.apply,'module_only':args.exchange_module_only,'writer_handoff':args.writer_handoff_hooks,'expected':expected,'module':base64.b64encode(module.read_bytes()).decode(),'patcher':inspect.getsource(patch_hooks)+'\n'+inspect.getsource(patch_writer_handoff)}
+    payload={'apply':args.apply,'module_only':args.exchange_module_only,'writer_handoff':args.writer_handoff_hooks,'expected':expected,'module':base64.b64encode(module.read_bytes()).decode(),'patcher':inspect.getsource(patch_hooks)+'\n'+inspect.getsource(patch_writer_handoff)+'\n'+inspect.getsource(patch_source_runtime)}
     if args.application_writers:payload.update(application_writers=True,destination_guard=base64.b64encode(module.with_name('destination_handoff.py').read_bytes()).decode(),expected_destination_guard=args.expected_destination_guard_sha256)
+    if args.source_project_runtime:payload.update(source_runtime=True,source_project_module=base64.b64encode(module.with_name('source_projects.py').read_bytes()).decode(),source_project_patches=json.loads(Path(__file__).with_name('source_project_patches.json').read_text()),expected_source_runtime=args.expected_source_runtime_sha256)
     result=subprocess.run(['ssh','-i',args.ssh_key,'-o','BatchMode=yes','-o','ConnectTimeout=10',args.host,'python3 -c '+shlex.quote(REMOTE)],input=json.dumps(payload).encode(),capture_output=True,timeout=70)
     if result.returncode:
         raise SystemExit('Factory release refused or needs recovery; inspect private host service and backup state. No customer data is printed.')

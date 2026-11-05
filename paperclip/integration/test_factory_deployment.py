@@ -1,5 +1,6 @@
 """Native deployment patches preserve all source outside the exact owned hooks."""
 import importlib.util
+import json
 import unittest
 from pathlib import Path
 
@@ -14,6 +15,9 @@ class DeploymentTests(unittest.TestCase):
             if name=='worker.py':hook="  import source_exchange\n  source_exchange.save_offer(db,json.loads(CONFIG_PATH.read_text()) if CONFIG_PATH.exists() else {},issue,page,facts)\n"
             elif name=='autonomy.py':hook=" import source_exchange\n source_exchange.coordinate(database,config.get('source_exchange',{}),board,config)\n"
             else:hook="   import source_exchange\n   source_exchange.save_verified_page(database,job,page)\n"
+            if name=='search_workflow.py' and 'source_projects.require_search_issue' in source:hook="   import source_exchange\n   packet=source_exchange.save_verified_page(database,job,page)\n   if job.get('_source_only_scope') and not packet:continue\n"
+            if name=='autonomy.py' and 'source_project_tasks' in source:
+                patches=json.loads((Path(__file__).parent/'ops/source_project_patches.json').read_text());hook=patches['autonomy.py'][0]['after']
             baseline=source.replace(hook,'')
             updated=deployment.patch_hooks(name,baseline)
             self.assertEqual(updated,source)
@@ -145,4 +149,40 @@ class ApplicationWriterReleaseTests(WriterHandoffReleaseTests):
         with self.assertRaises(RuntimeError):self.remote(fail=True)
         for name,body in before.items():self.assertEqual((self.native/name).read_bytes(),body)
         self.assertFalse((self.native/'destination_handoff.py').exists())
+        with sqlite3.connect(self.state) as db:self.assertEqual(db.execute('SELECT count(*) FROM business_effects').fetchone()[0],2)
+
+
+class SourceRuntimePatchTests(unittest.TestCase):
+    def test_explicit_patches_preserve_unrelated_native_changes_and_are_idempotent(self):
+        patches=json.loads((Path(__file__).parent/'ops/source_project_patches.json').read_text())
+        for name,rows in patches.items():
+            source=(Path(__file__).parents[1]/'factory'/name).read_text();baseline=source
+            for row in reversed(rows):
+                self.assertEqual(baseline.count(row['after']),1);baseline=baseline.replace(row['after'],row['before'],1)
+            self.assertEqual(deployment.patch_source_runtime(name,baseline,patches),source)
+            self.assertEqual(deployment.patch_source_runtime(name,source,patches),source)
+            partial=baseline.replace(rows[0]['before'],rows[0]['after'],1)
+            with self.assertRaises(ValueError):deployment.patch_source_runtime(name,partial,patches)
+
+
+class SourceRuntimeReleaseTests(ModuleReleaseTests):
+    def setUp(self):
+        import base64,hashlib,inspect
+        super().setUp();self.payload['module_only']=False;self.payload['source_runtime']=True
+        patches=json.loads((Path(__file__).parent/'ops/source_project_patches.json').read_text());self.payload['source_project_patches']=patches;self.payload['source_project_module']=base64.b64encode(b'source_runtime_version=True\n').decode();self.payload['patcher']=inspect.getsource(deployment.patch_source_runtime)
+        for name,rows in patches.items():
+            baseline=(Path(__file__).parents[1]/'factory'/name).read_text()
+            for row in reversed(rows):baseline=baseline.replace(row['after'],row['before'],1)
+            path=self.native/name;path.write_text(baseline);self.payload['expected'][name]=hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def test_runtime_release_installs_default_off_code_and_preserves_config(self):
+        before=self.config.read_bytes();self.payload['apply']=True;result=self.remote()
+        self.assertTrue(result['apply']);self.assertEqual(self.config.read_bytes(),before);self.assertEqual((self.native/'source_projects.py').read_text(),'source_runtime_version=True\n');self.assertIn('source_projects.require_search_issue',(self.native/'worker.py').read_text())
+
+    def test_runtime_failure_rolls_back_callers_and_new_module_without_replacing_business_rows(self):
+        import sqlite3
+        before={name:(self.native/name).read_bytes() for name in ['worker.py','autonomy.py','search_workflow.py']};self.payload['apply']=True
+        with self.assertRaises(RuntimeError):self.remote(fail=True)
+        for name,body in before.items():self.assertEqual((self.native/name).read_bytes(),body)
+        self.assertFalse((self.native/'source_projects.py').exists())
         with sqlite3.connect(self.state) as db:self.assertEqual(db.execute('SELECT count(*) FROM business_effects').fetchone()[0],2)

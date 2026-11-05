@@ -280,14 +280,19 @@ def execute(body):
   brand=config['projects'].get(issue.get('projectId'))
   if not brand:raise ValueError('Assign the task to one of the configured brand projects')
   role=config['agents'][agent_id]['role']
-  if role in {'publication','search'} and brand!='ClassScout' and not (role=='search' and (brand=='Padel Africa' and config.get('padel_discovery_enabled') or brand=='Sportolok' and config.get('engine_clients',{}).get('sportolok'))):raise ValueError('Publishing is enabled only for the ClassScout pilot')
+  import source_projects
+  source_project=source_projects.require_search_issue(config,issue,role)
+  if not source_project and role in {'publication','search'} and brand!='ClassScout' and not (role=='search' and (brand=='Padel Africa' and config.get('padel_discovery_enabled') or brand=='Sportolok' and config.get('engine_clients',{}).get('sportolok'))):raise ValueError('Publishing is enabled only for the ClassScout pilot')
   board.call('/issues/'+issue['id']+'/checkout',{'agentId':agent_id,'expectedStatuses':['todo','backlog','in_progress','in_review'] if role in {'publication','search'} or retry_due else ['todo','backlog','in_progress']})
   with database() as db:db.execute('INSERT INTO runs VALUES(?,?,?,?,?,?,?,?,?)',(run_id,issue['id'],agent_id,role,'running',None,None,now(),None))
   purpose='test' if issue['title'].startswith('[Factory test]') else 'production'
   import operational
   workflow=operational.workflow(issue)
   if workflow in {'source_research','source_quality'} and role!= {'source_research':'research','source_quality':'quality'}[workflow]:raise ValueError('This source workflow is assigned to the wrong factory role')
-  if workflow and workflow not in {'source_research','source_quality'}:
+  if source_project:
+   import search_workflow
+   result=search_workflow.run(issue,board,config,WEB,database,execution={'agent_id':agent_id,'run_id':run_id})
+  elif workflow and workflow not in {'source_research','source_quality'}:
    result=operational.run(issue,board,config,WEB,database,{'agent_id':agent_id,'run_id':run_id})
   elif role=='publication':
    if not config.get('publishing_enabled'):raise ValueError('Publication workflow is disabled')
