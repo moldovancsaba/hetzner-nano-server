@@ -8,10 +8,11 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 # HU is a supported language, but not a supported country in the web-search contract.
 # Keep geographic terms in the query; worldwide Hungarian results still pass venue territory checks.
 CONTRACT='web-locale-v2'
-LOCALES={'sportolok':('ALL','hu'),'padel':('ZA','en')}
+# Racket Land is worldwide: the padel kind carries no country bias, the queued locality names the place.
+LOCALES={'sportolok':('ALL','hu'),'padel':('ALL','en')}
 def locale(kind):return LOCALES.get(kind,('US','en'))
 def validate(query,country,language):
- if (country,language) not in {('US','en'),('ZA','en'),('ALL','hu')}:raise SearchError('Invalid configured Brave country/language')
+ if (country,language) not in {('US','en'),('ZA','en'),('ALL','en'),('ALL','hu')}:raise SearchError('Invalid configured Brave country/language')
  if not isinstance(query,str) or not query.strip() or len(query)>600 or len(query.split())>75:raise SearchError('Invalid Brave query length; maximum 600 characters and 75 words')
 
 def validation_fields(error):
