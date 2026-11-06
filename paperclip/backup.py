@@ -1,4 +1,4 @@
-"""Fetch and verify a complete Paperclip recovery bundle; retain seven verified copies."""
+"""Fetch and verify daily Paperclip recovery bundles; retain seven days on both hosts."""
 import datetime,gzip,hashlib,json,os,pathlib,re,sqlite3,subprocess,sys,tarfile,tempfile,time
 from zoneinfo import ZoneInfo
 BASE=pathlib.Path(__file__).resolve().parents[1];DEST=BASE/'private/paperclip/daily-backups';SSH=['ssh','-o','BatchMode=yes','-o','ConnectTimeout=20','-i','/Users/chappie/.ssh/hetzner_ai','root@2.29.113.132'];PATTERN=r'paperclip-recovery-\d{8}T\d{6}Z\.tar\.gz'
@@ -32,6 +32,9 @@ def verify(path,expected):
 def main():
  os.umask(0o077);DEST.mkdir(parents=True,mode=0o700,exist_ok=True)
  latest=DEST/'latest.json'
+ if '--prune-only' in sys.argv:
+  from backup_retention import prune
+  result=prune(DEST,apply=True);print(json.dumps(result));return
  if latest.exists() and '--force' not in sys.argv and time.time()<json.loads(latest.read_text()).get('next_due_at',0):
   print(json.dumps({'status':'not_due'}));return
  info=json.loads(execute(SSH+['python3 /opt/narimato-paperclip/scheduled-backup.py create']))
@@ -40,16 +43,11 @@ def main():
  execute(['scp','-q','-o','BatchMode=yes','-o','ConnectTimeout=20','-i','/Users/chappie/.ssh/hetzner_ai','root@2.29.113.132:/root/paperclip-scheduled-backups/'+info['name'],str(part)])
  part.chmod(0o600);checks=verify(part,info['sha256']);os.replace(part,final)
  manifest={**info,**checks,'verified_at':time.time()};final.with_suffix('.verified.json').write_text(json.dumps(manifest,indent=2)+'\n')
- # A prior file name format is never guessed or removed.
- manifests=sorted(DEST.glob('paperclip-recovery-*.tar.verified.json'),reverse=True)
- if not manifests:manifests=sorted(DEST.glob('paperclip-recovery-*.verified.json'),reverse=True)
- for marker in manifests[7:]:
-  name=json.loads(marker.read_text())['name']
-  if re.fullmatch(PATTERN,name):(DEST/name).unlink(missing_ok=True);marker.unlink()
- retained=min(7,len(manifests));execute(SSH+['python3 /opt/narimato-paperclip/scheduled-backup.py confirm'],json.dumps({**info,'retained':retained}).encode())
+ from backup_retention import prune
+ retained=prune(DEST,apply=True)['retained'];execute(SSH+['python3 /opt/narimato-paperclip/scheduled-backup.py confirm'],json.dumps({**info,'retained':retained}).encode())
  local=datetime.datetime.now(ZoneInfo('Europe/Budapest'));due=local.replace(hour=3,minute=20,second=0,microsecond=0)
  if due<=local:due+=datetime.timedelta(days=1)
- status={'next_due_at':due.timestamp(),'status':'verified','verified_at':time.time(),'archive':info['name'],'retained':retained,**checks};(DEST/'latest.json').write_text(json.dumps(status,indent=2)+'\n');print(json.dumps(status))
+ status={'next_due_at':due.timestamp(),'status':'verified','verified_at':time.time(),'archive':info['name'],'retained':retained,'retention_days':7,**checks};(DEST/'latest.json').write_text(json.dumps(status,indent=2)+'\n');print(json.dumps(status))
 if __name__=='__main__':
  try:main()
  except Exception as e:

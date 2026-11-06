@@ -14,5 +14,5 @@ class SnapshotTests(unittest.TestCase):
   text=script.read_text()
   for name in ['classscout','brave','segmind','padel','slg']:self.assertRegex(text,r'if \[ -f /etc/paperclip-'+name+r'\.env \]; then\n  set -- "\$@" etc/paperclip-'+name+r'\.env\nfi')
  def test_bundle_is_written_after_the_factory_snapshot(self):
-  text=script.read_text();self.assertLess(text.index('worker.py backup'),text.index('tar --exclude'))
+  text=script.read_text();self.assertLess(text.index('worker.py backup'),text.index('archive_snapshot.py --output'))
 if __name__=='__main__':unittest.main()

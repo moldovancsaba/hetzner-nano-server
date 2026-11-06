@@ -24,8 +24,6 @@
 		<key>Minute</key>
 		<integer>20</integer>
 	</dict>
-	<key>StartInterval</key>
-	<integer>3600</integer>
 	<key>WorkingDirectory</key>
 	<string>/Users/Shared/Projects/hetzner</string>
 </dict>

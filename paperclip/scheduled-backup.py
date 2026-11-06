@@ -8,6 +8,9 @@ def digest(path):
  return h.hexdigest()
 def run(mode):
  ROOT.mkdir(mode=0o700,exist_ok=True)
+ if mode=='prune':
+  from backup_retention import prune
+  return prune(ROOT,apply=True)
  if mode=='create':
   r=subprocess.run(['/opt/narimato-paperclip/snapshot.sh'],capture_output=True,text=True,timeout=600)
   if r.returncode:raise RuntimeError('snapshot_failed')
@@ -23,11 +26,10 @@ def run(mode):
   (ROOT/(name+'.verified.json')).write_text(json.dumps({'verified_at':time.time(),'sha256':data['sha256']}));os.chmod(ROOT/(name+'.verified.json'),0o600)
   status={'status':'Verified off-server','verified_at':time.time(),'next_run':'Daily at 03:20 Budapest','destination':'Owner Mac','archive':name,'sha256':data['sha256'],'sqlite_integrity':'ok','retained_off_server':data.get('retained',1)}
   p=pathlib.Path('/opt/narimato-factory/backup-status.json');tmp=p.with_suffix('.tmp');tmp.write_text(json.dumps(status,indent=2)+'\n');tmp.chmod(0o644);os.replace(tmp,p)
-  verified=sorted(ROOT.glob('*.tar.gz.verified.json'),reverse=True)
-  for marker in verified[14:]:
-   archive=ROOT/marker.name.removesuffix('.verified.json')
-   if re.fullmatch(PATTERN,archive.name):archive.unlink(missing_ok=True);marker.unlink()
-  return {'status':'verified','retained_on_server':min(14,len(verified))}
+  from backup_retention import prune,prune_sql
+  retention=prune(ROOT,apply=True)
+  native=prune_sql(pathlib.Path('/opt/narimato-paperclip/data/instances/default/data/backups'),apply=True)
+  return {'status':'verified','retained_on_server':retention['retained'],'retention_days':7,'native_sql_daily_points':native['retained']}
  raise ValueError('Unknown snapshot action')
 if __name__=='__main__':
  try:print(json.dumps(run(sys.argv[1])))
