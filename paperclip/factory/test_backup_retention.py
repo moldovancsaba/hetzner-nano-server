@@ -19,7 +19,7 @@ class RetentionTests(unittest.TestCase):
 
  def test_a_verified_new_daily_point_replaces_its_earlier_copy(self):
   with tempfile.TemporaryDirectory() as tmp:
-   root=Path(tmp);old=self.add(root,'20261106T020000Z');latest=self.add(root,'20261106T090000Z');pending=self.add(root,'20261106T093000Z',verified=False)
+   root=Path(tmp);old=self.add(root,'20261106T020000Z');latest=self.add(root,'20261106T090000Z');pending=self.add(root,'20261107T093000Z',verified=False)
    result=module.prune(root,now=NOW,apply=True);self.assertFalse(old.exists());self.assertTrue(latest.exists());self.assertTrue(pending.exists());self.assertEqual(result['removed'][0]['reason'],'newer-verified-daily-point')
 
  def test_no_verified_backup_or_changed_latest_prevents_deletion(self):
@@ -40,5 +40,12 @@ class RetentionTests(unittest.TestCase):
    root=Path(tmp)
    for stamp in ['20261001-090000','20261105-020000','20261105-090000','20261106-090000']:(root/('paperclip-'+stamp+'.sql.gz')).write_bytes(gzip.compress(b'complete SQL fixture'))
    result=module.prune_sql(root,now=NOW,apply=True);self.assertEqual(result['retained'],2);self.assertTrue((root/'paperclip-20261106-090000.sql.gz').exists());self.assertFalse((root/'paperclip-20261105-020000.sql.gz').exists())
+
+ def test_calendar_boundaries_cannot_retain_an_eighth_daily_point(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp)
+   for age in range(8):
+    captured=datetime.datetime.fromtimestamp(NOW-age*86400+60,datetime.timezone.utc);self.add(root,captured.strftime('%Y%m%dT%H%M%SZ'))
+   self.assertEqual(module.prune(root,now=NOW,apply=True)['retained'],7)
 
 if __name__=='__main__':unittest.main()

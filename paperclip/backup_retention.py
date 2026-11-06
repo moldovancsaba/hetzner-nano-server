@@ -37,10 +37,11 @@ def prune(directory,*,now=None,apply=False):
  if digest(latest['path'])!=latest['sha256']:raise ValueError('Latest verified recovery point changed')
  daily={}
  for row in verified:daily.setdefault(row['day'],row['path'].name)
+ retained_days=set(sorted(daily,reverse=True)[:7])
  removed=[]
  for row in rows:
   if row is latest:continue
-  expired=row['captured']<=now-RETENTION_SECONDS
+  expired=row['captured']<=now-RETENTION_SECONDS or bool(row['sha256'] and row['day'] not in retained_days)
   superseded=bool(row['sha256'] and daily.get(row['day'])!=row['path'].name)
   if not (expired or superseded):continue
   if apply:
@@ -63,9 +64,10 @@ def prune_sql(directory,*,now=None,apply=False):
  with gzip.open(latest['path'],'rb') as stream:
   while stream.read(1024*1024):pass
  for row in rows:daily.setdefault(row['day'],row['path'].name)
+ retained_days=set(sorted(daily,reverse=True)[:7])
  removed=[]
  for row in rows[1:]:
-  if row['captured']<=now-RETENTION_SECONDS or daily[row['day']]!=row['path'].name:
+  if row['captured']<=now-RETENTION_SECONDS or row['day'] not in retained_days or daily[row['day']]!=row['path'].name:
    if apply:row['path'].unlink()
    removed.append(row['path'].name)
  return {'retention_days':7,'daily_sql_points':True,'retained':len(rows)-len(removed),'removed':removed,'applied':apply}
