@@ -1,6 +1,6 @@
 # Budgeted Brave Search
 
-Brave is connected to the Paperclip host through a server-only Search Coordinator. Scope: ClassScout discovery and publication-gap searches, plus Padel Africa (search purpose `padel`) and Sportolok (`sportolok`) discovery. Other roles still use source pages directly where possible. Search does not replace evidence checks or the publication gate (automatic quality gate, or human approval when the gate is off).
+Brave is connected to the Paperclip host through a server-only Search Coordinator. Scope: ClassScout discovery and publication-gap searches, plus Racket Land (search purpose `padel`, a compatibility name; its Paperclip project is still called Padel Africa) and Sportolok (`sportolok`) discovery. Other roles still use source pages directly where possible. Search does not replace evidence checks or the publication gate (automatic quality gate, or human approval when the gate is off).
 
 ## Use it from the dashboard
 
@@ -12,7 +12,7 @@ Search query: site:provider.example kids classes pricing schedule
 Source host: provider.example
 ```
 
-Use `discovery` for new providers or `support` for public provider information. The accepted purposes are `publishing`, `discovery`, `support`, `padel` and `sportolok` (`search_workflow.parse`); the last two are created by the Padel and Sportolok discovery routines. `Source host` is optional for discovery; include it when researching a known provider. Queries must contain public business/location/activity terms, not customer emails, phone numbers, credentials or private conversation text. One task can contain up to three distinct `Search query:` lines; those form a burst that borrows future slots. Reuse existing sources before requesting another search.
+Use `discovery` for new providers or `support` for public provider information. The accepted purposes are `publishing`, `discovery`, `support`, `padel` and `sportolok` (`search_workflow.parse`); the last two are created by the Racket Land (`padel`) and Sportolok discovery routines. `Source host` is optional for discovery; include it when researching a known provider. Queries must contain public business/location/activity terms, not customer emails, phone numbers, credentials or private conversation text. One task can contain up to three distinct `Search query:` lines; those form a burst that borrows future slots. Reuse existing sources before requesting another search.
 
 The coordinator fetches eligible result pages independently and creates at most **`search_candidate_limit` research tasks per search job** (3 in `factory.json`; hard implementation ceiling five; new discovery is further capped at ten minus the research backlog). For `padel` and `sportolok` searches the follow-up tasks are venue-verification tasks for the Management engine clients rather than listing research. Research tasks trigger their own Content Quality Reviewer tasks. Candidates remain provisional: source-url duplication is filtered early; physical identity and duplicates are checked during research and by the canonical publishing gate. Different branches on the same domain are not merged.
 
@@ -35,7 +35,7 @@ Cooldowns and reservations survive restarts. Requests crossing a billing/day bou
 ## Retention and credentials
 
 - Root-only secret: `/etc/paperclip-brave.env`, read by `narimato-factory.service`. It is not passed to model prompts, agent process environments, browser code or issue text.
-- Fixed endpoint: `https://api.search.brave.com/res/v1/web/search`, web results only, locale US/en for ClassScout, ZA/en for Padel Africa and ALL/hu for Sportolok (`brave.py` accepts only these three), strict safe search, count 20, extra snippets enabled, no automatic pagination or redirects.
+- Fixed endpoint: `https://api.search.brave.com/res/v1/web/search`, web results only, locale US/en for ClassScout, ALL/en for the `padel` purpose (Racket Land, worldwide: no country bias) and ALL/hu for Sportolok (`brave.py` accepts US/en, ZA/en, ALL/en and ALL/hu; since 2026-11-06 09:37 UTC the `padel` purpose no longer uses ZA/en, the committed `brave.py` carries the same edit, see [RACKET-LAND-ALIGNMENT.md](../integration/RACKET-LAND-ALIGNMENT.md#native-search-lane-brave-locale)), strict safe search, count 20, extra snippets enabled, no automatic pagination or redirects.
 - Brave response bodies, snippets and result titles remain in RAM. Persistent result caching is disabled until storage rights for this account's plan are confirmed.
 - Durable data consists of our query intents/fingerprints, task links, quota audit metadata, and independently fetched source-page URLs/titles/hashes. No raw customer chat is sent to search or retained for training.
 - Tables: `search_account`, `search_attempts`, `search_jobs` in the existing protected factory SQLite database. Seven-day intent deduplication prevents repeated searches; direct-source evidence follows the normal factory policy.

@@ -88,6 +88,15 @@ A second Paperclip deployment followed at 09:09 UTC from commit [b9cac4b](https:
 
 **Not done:** the cleaner's report pruning and the collector's redirect check run on their next timer runs and have not yet been seen working; the restore drill, the new `snapshot.sh` bundle and `configure-slg.py` were copied but not run; `provision.py` was copied but not run, so the eight unused keys are still in the live `factory.json` (the code ignores them); the files that changed only in comments in [b8be171](https://github.com/moldovancsaba/hetzner-nano-server/commit/b8be171) were not copied, except where a file above also carries them.
 
+## Racket Land: deployed (2026-11-06)
+
+Racket Land replaced Padel Africa on 2026-11-05. On 2026-11-06 the worldwide plain-page rules, link patterns, refused racket directories, the Racket Land wording of `padel.py` and the factory dashboard page, and a Brave locale without country bias for the `padel` kind were released to the Paperclip host (details and backups in [the alignment note](../paperclip/integration/RACKET-LAND-ALIGNMENT.md#status-2026-11-06-deployed-to-the-paperclip-host)). What is left:
+
+1. **Release `worker.py` only together with its dashboard build.** The repository version is ahead of the host's (idempotent issue creation, a ClassScout street filter, `/factory` served from the GDS build in `dashboard/dist` or `SOURCE_EXCHANGE_DASHBOARD`). Copied alone it makes `/factory` return 404. It needs the build and its own digest-guarded plan. The delivery code of 2026-11-01 to 11-05 and the `brave.py` locale edit are committed (merge of 2026-11-06) and equal the host.
+2. Release the files outside the runtime mode on their own: `workflows_setup.py` (the form label reaches Paperclip when its `--activate` command is next run), `provision.py` and the React dashboard build (`CompanyDashboard.tsx`).
+3. Add `('ALL','en')` to `source_projects.py` if a Racket Land source project is ever planned.
+4. Check the first scheduled `padel` discovery after 09:37 UTC on 2026-11-06 (`search_attempts` status and the places the results come from). No manual paid search was run.
+
 ## Known limitations
 
 Behaviour of the current code, scripts and configuration that is recorded here and not changed. The review's remaining open decisions are listed in the [gap analysis](GAP-ANALYSIS-2026-10-30.md#defects-found-while-checking); the Paperclip-host ones are in [../paperclip/README.md](../paperclip/README.md#known-limitations).
