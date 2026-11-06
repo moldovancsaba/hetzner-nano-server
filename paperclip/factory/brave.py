@@ -5,11 +5,28 @@ class SearchError(ValueError):
  def __init__(self,code,retryable=False):self.code=code;self.retryable=retryable;super().__init__(code)
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs):return None
+# HU is a supported language, but not a supported country in the web-search contract.
+# Keep geographic terms in the query; worldwide Hungarian results still pass venue territory checks.
+CONTRACT='web-locale-v2'
+LOCALES={'sportolok':('ALL','hu'),'padel':('ZA','en')}
+def locale(kind):return LOCALES.get(kind,('US','en'))
+def validate(query,country,language):
+ if (country,language) not in {('US','en'),('ZA','en'),('ALL','hu')}:raise SearchError('Invalid configured Brave country/language')
+ if not isinstance(query,str) or not query.strip() or len(query)>600 or len(query.split())>75:raise SearchError('Invalid Brave query length; maximum 600 characters and 75 words')
+
+def validation_fields(error):
+ """Keep only known parameter names from 422 diagnostics, never reflected inputs or response text."""
+ try:
+  value=json.loads(error.read(32768));items=value.get('error',{}).get('meta',{}).get('errors',[])
+  fields=sorted({str(part) for item in items for part in item.get('loc',[]) if part in {'q','country','search_lang','ui_lang','count','safesearch','result_filter'}})
+  return '; invalid request fields: '+', '.join(fields) if fields else '; request parameters rejected'
+ except Exception:return '; request parameters rejected'
 class Brave:
  def __init__(self,budget,opener=None,sleep=time.sleep,country='US',language='en'):
-  if (country,language) not in {('US','en'),('ZA','en'),('HU','hu')}:raise ValueError('Unconfigured search locale')
+  validate('configuration check',country,language)
   self.budget=budget;self.opener=opener or urllib.request.build_opener(NoRedirect);self.sleep=sleep;self.country=country;self.language=language
  def search(self,query,token):
+  validate(query,self.country,self.language)
   key=os.environ.get('BRAVE_SEARCH_API_KEY')
   if not key:raise SearchError('Brave connection is not configured')
   for attempt in range(3):
@@ -31,7 +48,7 @@ class Brave:
     return rows[:20]
   except urllib.error.HTTPError as error:
    headers={k:v for k,v in error.headers.items() if k.lower().startswith('x-ratelimit-') or k.lower()=='retry-after'};self.budget.finish(token,'failed',error.code,headers)
-   raise SearchError('Brave returned HTTP '+str(error.code),error.code==429 or error.code>=500) from None
+   raise SearchError('Brave returned HTTP '+str(error.code)+(validation_fields(error) if error.code==422 else ''),error.code==429 or error.code>=500) from None
   except SearchError:raise
   except Exception:
    self.budget.finish(token,'uncertain');raise SearchError('Brave response was not confirmed; attempt counted conservatively',True) from None
