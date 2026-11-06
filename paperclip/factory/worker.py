@@ -61,7 +61,13 @@ def request_json(url,body=None,headers=None,method=None,timeout=25):
 
 class Board:
  def __init__(self,token,run):self.headers={'Authorization':'Bearer '+token,'X-Paperclip-Run-Id':run}
- def call(self,path,body=None,method=None):return request_json(PAPERCLIP+path,body,self.headers,method)
+ def call(self,path,body=None,method=None):
+  creating=bool(body is not None and re.fullmatch(r'/companies/[^/]+/issues',path) and (method is None or method=='POST') and body.get('idempotencyKey'))
+  # Native allowDuplicate disables broad 48-hour title dedup, while the exact idempotency key remains authoritative.
+  if creating:body={**body,'allowDuplicate':True}
+  result=request_json(PAPERCLIP+path,body,self.headers,method)
+  if creating and (not isinstance(result,dict) or result.get('companyId')!=path.split('/')[2] or result.get('projectId')!=body.get('projectId') or result.get('title')!=body['title'].strip() or result.get('description')!=body.get('description')):raise ValueError('Native task receipt does not match its exact factory intent; no handoff acknowledged')
+  return result
 
 class Model:
  def __init__(self,purpose):
@@ -188,10 +194,14 @@ def quality(issue,brand):
   if entity is None:raise ValueError('Link the research task as this task’s parent, or include its draft reference.')
   rows=[dict(row) for row in db.execute('SELECT f.*,s.url FROM facts f JOIN sources s ON s.id=f.source_id WHERE f.entity_id=?',(entity['id'],))]
  recovery=None
+ if brand=='ClassScout':
+  import evidence
+  rows=[r for r in rows if r['field']!='address' or evidence.street(r['value'])]
  if brand=='ClassScout' and {'name','address'}-{r['field'] for r in rows}:
   import evidence
   recovery=evidence.recover(dict(entity),database,WEB)
   with database() as db:rows=[dict(row) for row in db.execute('SELECT f.*,s.url FROM facts f JOIN sources s ON s.id=f.source_id WHERE f.entity_id=?',(entity['id'],))]
+  rows=[r for r in rows if r['field']!='address' or evidence.street(r['value'])]
  pages={};verified=[];changed=[]
  source_host=urllib.parse.urlsplit(entity['source_url']).hostname.removeprefix('www.')
  for url in dict.fromkeys([entity['source_url']]+[r['url'] for r in rows]):
