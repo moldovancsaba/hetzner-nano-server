@@ -1,0 +1,54 @@
+{
+  "engine_ops.py": [
+    {
+      "before": "  value=self.call('/api/machine/catalog');v=value.get('vertical',{});scope=v.get('territoryScope',{})\n  if v.get('slug')!=self.slug or not v.get('taxonomy') or not v.get('locales') or scope.get('kind') not in {'countries','continent'}:raise ValueError('Engine tenant or declared scope unavailable')\n  if self.slug=='padel-africa' and scope!={'kind':'continent','continent':'Africa'}:raise ValueError('Padel Africa territory changed; review contract')\n  if self.slug=='sportolok' and ('hu-HU' not in v['locales'] or 'HU' not in scope.get('countries',[])):raise ValueError('Sportolok language or home territory changed')\n",
+      "after": "  value=self.call('/api/machine/catalog');v=value.get('vertical',{});scope=v.get('territoryScope',{})\n  if self.slug=='padel-africa':\n   import racket_policy\n   racket_policy.validate(v)\n  elif v.get('slug')!=self.slug or not v.get('taxonomy') or not v.get('locales') or scope.get('kind') not in {'countries','continent'}:raise ValueError('Engine tenant or declared scope unavailable')\n  if self.slug=='sportolok' and ('hu-HU' not in v['locales'] or 'HU' not in scope.get('countries',[])):raise ValueError('Sportolok language or home territory changed')\n"
+    }
+  ],
+  "padel.py": [
+    {
+      "before": "\"\"\"Padel Africa's existing machine catalog and evidence-intake contracts.\"\"\"\nimport hashlib,json,os,re,threading,time,urllib.request,urllib.parse\n",
+      "after": "\"\"\"Racket Land machine catalog and evidence intake; legacy packet identities are retained.\"\"\"\nimport hashlib,json,os,re,threading,time,urllib.request,urllib.parse\n"
+    },
+    {
+      "before": "from net import canonical_url\nORIGIN='https://padel-africa.doneisbetter.com'\nLOCK=threading.Lock();TOKEN=None\n",
+      "after": "from net import canonical_url\nORIGIN='https://racket.land'\nLOCK=threading.Lock();TOKEN=None\n"
+    },
+    {
+      "before": "  value=self.call('/api/machine/catalog')\n  if value.get('vertical',{}).get('slug')!='padel-africa' or value.get('vertical',{}).get('territoryScope')!={'kind':'continent','continent':'Africa'}:raise ValueError('Padel tenant identity or territory does not match; no write allowed')\n  if len(value.get('catalog',{}).get('listings',[]))>500:raise ValueError('Padel catalog contract changed')\n",
+      "after": "  value=self.call('/api/machine/catalog')\n  import racket_policy\n  racket_policy.validate(value.get('vertical',{}))\n  if len(value.get('catalog',{}).get('listings',[]))>500:raise ValueError('Padel catalog contract changed')\n"
+    },
+    {
+      "before": " if kind=='padel_maintenance':\n  report={'brand':'Padel Africa','origin':ORIGIN,'tenant_verified':True,'catalog_total':current['total'],'rows_available':len(current['listings']),'truncated':current.get('truncated',False),'triage':value.get('triage',{}),'localities':vertical.get('discovery',{}).get('localities',[]),'checked_at':publishing.stamp(),'writes':0}\n  catalog.save_report(database,issue,kind,report)\n  return {'stage':'padel_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Padel Africa connection\\n\\nAuthenticated tenant and Africa territory verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the Padel source intake form; the receiving engine owns extraction and publication.','report':report}\n if kind!='padel_intake':raise ValueError('Unsupported Padel workflow')\n",
+      "after": " if kind=='padel_maintenance':\n  report={'brand':'Racket Land','origin':ORIGIN,'tenant_verified':True,'catalog_total':current['total'],'rows_available':len(current['listings']),'truncated':current.get('truncated',False),'triage':value.get('triage',{}),'localities':vertical.get('discovery',{}).get('localities',[]),'checked_at':publishing.stamp(),'writes':0}\n  catalog.save_report(database,issue,kind,report)\n  return {'stage':'padel_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land connection\\n\\nAuthenticated Racket Land tenant and worldwide policy verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the racket-sport source intake form; the receiving engine owns extraction and publication.','report':report}\n if kind!='padel_intake':raise ValueError('Unsupported Padel workflow')\n"
+    },
+    {
+      "before": " if not url.startswith('https://') or not all(3<=len(x)<=180 for x in [name,city,address]) or not re.search(r'\\d',address):raise ValueError('Provide a focused HTTPS official source and exact provider, city and street address')\n if city not in vertical.get('discovery',{}).get('localities',[]):raise ValueError('City is not in the receiving Padel vertical discovery scope')\n page=web.page(url)\n if __import__('evidence').host(page['url'])!=__import__('evidence').host(url) or not all(publishing.norm(x) in publishing.norm(page['text']) for x in [name,city,address]) or not re.search(r'\\bpadel\\b',page['text'],re.I):raise ValueError('Official page must literally support provider, city, street and padel activity')\n for listing in current['listings']:\n",
+      "after": " if not url.startswith('https://') or not all(3<=len(x)<=180 for x in [name,city,address]) or not re.search(r'\\d',address):raise ValueError('Provide a focused HTTPS official source and exact provider, city and street address')\n import racket_policy\n racket_policy.validate(vertical)\n page=web.page(url)\n if __import__('evidence').host(page['url'])!=__import__('evidence').host(url) or not all(publishing.norm(x) in publishing.norm(page['text']) for x in [name,city,address]) or not racket_policy.matches(page['text'],vertical):raise ValueError('Official page must literally support provider, city, street and a declared racket offering')\n for listing in current['listings']:\n"
+    }
+  ],
+  "venue_identity.py": [
+    {
+      "before": " if isinstance(v,dict):v=v.get('name') or v.get('@id') or ''\n value=fold(v).strip();return str(v).upper() if re.fullmatch('[A-Za-z]{2}',str(v)) else COUNTRIES.get(value)\ndef allowed_country(code,scope):\n if not code:return False\n if scope.get('kind')=='continent':return scope.get('continent')=='Africa' and code in AFRICA\n",
+      "after": " if isinstance(v,dict):v=v.get('name') or v.get('@id') or ''\n value=fold(v).strip()\n if re.fullmatch('[A-Za-z]{2}',str(v)):return str(v).upper()\n import racket_policy\n normalized=re.sub(r'[^a-z0-9]+',' ',value.replace('\u2019','').replace(\"'\",'')).strip()\n return COUNTRIES.get(value) or racket_policy.countries().get(normalized)\ndef allowed_country(code,scope):\n if not code:return False\n if scope.get('kind')=='unrestricted':\n  import racket_policy\n  return code in set(racket_policy.countries().values())\n if scope.get('kind')=='continent':return scope.get('continent')=='Africa' and code in AFRICA\n"
+    },
+    {
+      "before": " direct=identities(root,vertical['territoryScope'])\n if len(direct)==1 and direct[0].get('city') and (vertical['slug']!='padel-africa' or re.search(r'\\bpadel\\b',root['text'],re.I)):return direct[0]\n # Directories may contribute links only. No directory fact enters an intake packet.\n",
+      "after": " direct=identities(root,vertical['territoryScope'])\n import racket_policy\n if len(direct)==1 and direct[0].get('city') and (racket_policy.matches(root['text'],vertical) if vertical['slug']=='racket-land' else vertical['slug']!='padel-africa' or re.search(r'\\bpadel\\b',root['text'],re.I)):return direct[0]\n # Directories may contribute links only. No directory fact enters an intake packet.\n"
+    },
+    {
+      "before": " for page in pages:\n  if vertical['slug']=='padel-africa' and not re.search(r'\\bpadel\\b',page['text'],re.I):continue\n",
+      "after": " for page in pages:\n  if vertical['slug']=='racket-land' and not racket_policy.matches(page['text'],vertical):continue\n  if vertical['slug']=='padel-africa' and not re.search(r'\\bpadel\\b',page['text'],re.I):continue\n"
+    }
+  ],
+  "search_workflow.py": [
+    {
+      "before": "   elif job['kind']=='padel':\n    if not re.search(r'\\bpadel\\b',page['text'],re.I):continue\n",
+      "after": "   elif job['kind']=='padel':\n    import racket_policy\n    if not racket_policy.matches(page['text'],job.get('_racket_vertical',{})):continue\n"
+    },
+    {
+      "before": " if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')\n",
+      "after": " if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')\n if job['kind']=='padel':\n  import engine_ops\n  job['_racket_vertical']=engine_ops.Client('padel-africa').catalog()['vertical']\n"
+    }
+  ]
+}

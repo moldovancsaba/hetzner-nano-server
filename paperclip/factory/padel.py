@@ -1,8 +1,8 @@
-"""Padel Africa's existing machine catalog and evidence-intake contracts."""
+"""Racket Land machine catalog and evidence intake; legacy packet identities are retained."""
 import hashlib,json,os,re,threading,time,urllib.request,urllib.parse
 import catalog,publishing,quality_gate
 from net import canonical_url
-ORIGIN='https://padel-africa.doneisbetter.com'
+ORIGIN='https://racket.land'
 LOCK=threading.Lock();TOKEN=None
 class Client:
  def token(self):
@@ -26,7 +26,8 @@ class Client:
    return json.loads(raw)
  def catalog(self):
   value=self.call('/api/machine/catalog')
-  if value.get('vertical',{}).get('slug')!='padel-africa' or value.get('vertical',{}).get('territoryScope')!={'kind':'continent','continent':'Africa'}:raise ValueError('Padel tenant identity or territory does not match; no write allowed')
+  import racket_policy
+  racket_policy.validate(value.get('vertical',{}))
   if len(value.get('catalog',{}).get('listings',[]))>500:raise ValueError('Padel catalog contract changed')
   return value
 
@@ -40,15 +41,16 @@ def run(issue,board,config,web,database,execution,client=None):
  destination_handoff.require_native_destination_writer(config,issue,'management','padel-africa')
  initialize(database);client=client or Client();value=client.catalog();kind=catalog.field(issue,'Factory workflow');vertical=value['vertical'];current=value['catalog']
  if kind=='padel_maintenance':
-  report={'brand':'Padel Africa','origin':ORIGIN,'tenant_verified':True,'catalog_total':current['total'],'rows_available':len(current['listings']),'truncated':current.get('truncated',False),'triage':value.get('triage',{}),'localities':vertical.get('discovery',{}).get('localities',[]),'checked_at':publishing.stamp(),'writes':0}
+  report={'brand':'Racket Land','origin':ORIGIN,'tenant_verified':True,'catalog_total':current['total'],'rows_available':len(current['listings']),'truncated':current.get('truncated',False),'triage':value.get('triage',{}),'localities':vertical.get('discovery',{}).get('localities',[]),'checked_at':publishing.stamp(),'writes':0}
   catalog.save_report(database,issue,kind,report)
-  return {'stage':'padel_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Padel Africa connection\n\nAuthenticated tenant and Africa territory verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the Padel source intake form; the receiving engine owns extraction and publication.','report':report}
+  return {'stage':'padel_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land connection\n\nAuthenticated Racket Land tenant and worldwide policy verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the racket-sport source intake form; the receiving engine owns extraction and publication.','report':report}
  if kind!='padel_intake':raise ValueError('Unsupported Padel workflow')
  url=canonical_url(catalog.field(issue,'Official source URL'));name=catalog.field(issue,'Provider name');city=catalog.field(issue,'City');address=catalog.field(issue,'Street address')
  if not url.startswith('https://') or not all(3<=len(x)<=180 for x in [name,city,address]) or not re.search(r'\d',address):raise ValueError('Provide a focused HTTPS official source and exact provider, city and street address')
- if city not in vertical.get('discovery',{}).get('localities',[]):raise ValueError('City is not in the receiving Padel vertical discovery scope')
+ import racket_policy
+ racket_policy.validate(vertical)
  page=web.page(url)
- if __import__('evidence').host(page['url'])!=__import__('evidence').host(url) or not all(publishing.norm(x) in publishing.norm(page['text']) for x in [name,city,address]) or not re.search(r'\bpadel\b',page['text'],re.I):raise ValueError('Official page must literally support provider, city, street and padel activity')
+ if __import__('evidence').host(page['url'])!=__import__('evidence').host(url) or not all(publishing.norm(x) in publishing.norm(page['text']) for x in [name,city,address]) or not racket_policy.matches(page['text'],vertical):raise ValueError('Official page must literally support provider, city, street and a declared racket offering')
  for listing in current['listings']:
   if publishing.norm(listing.get('name'))==publishing.norm(name) or listing.get('source',{}).get('sourceUrl')==page['url']:raise ValueError('An existing Padel listing matches; this new-source connector will not duplicate or overwrite it')
  source_text=page['text']

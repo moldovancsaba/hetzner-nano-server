@@ -23,8 +23,10 @@ class Client(padel.Client):
    return json.loads(raw)
  def catalog(self):
   value=self.call('/api/machine/catalog');v=value.get('vertical',{});scope=v.get('territoryScope',{})
-  if v.get('slug')!=self.slug or not v.get('taxonomy') or not v.get('locales') or scope.get('kind') not in {'countries','continent'}:raise ValueError('Engine tenant or declared scope unavailable')
-  if self.slug=='padel-africa' and scope!={'kind':'continent','continent':'Africa'}:raise ValueError('Padel Africa territory changed; review contract')
+  if self.slug=='padel-africa':
+   import racket_policy
+   racket_policy.validate(v)
+  elif v.get('slug')!=self.slug or not v.get('taxonomy') or not v.get('locales') or scope.get('kind') not in {'countries','continent'}:raise ValueError('Engine tenant or declared scope unavailable')
   if self.slug=='sportolok' and ('hu-HU' not in v['locales'] or 'HU' not in scope.get('countries',[])):raise ValueError('Sportolok language or home territory changed')
   if len(value.get('catalog',{}).get('listings',[]))>500:raise ValueError('Engine catalog bound changed')
   return value

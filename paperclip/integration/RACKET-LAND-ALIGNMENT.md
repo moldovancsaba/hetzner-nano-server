@@ -1,0 +1,15 @@
+# Racket Land connection
+
+Racket Land replaces Padel Africa at https://racket.land. The authenticated application declares the canonical vertical `racket-land`, worldwide `unrestricted` territory and racket-sport discovery vocabulary. Its taxonomy uses `racket-club`; the application accepts its old category alias. The native transport scope, project ID, scoped credentials, receipt tables, packet IDs and original operations retain their existing `padel-africa` identity. Renaming those durable identities would strand uncertain requests and is a separate migration.
+
+The native engine and evidence-intake clients use the new origin and verify the new application identity and explicit worldwide policy. Source pages need a sport word declared by that authenticated policy. A venue's own supported city and country determine location; the finite discovery-locality list is search intent and cannot restrict worldwide admission. Existing ownership, exact street, duplicate, bounded evidence and destination handoff gates still apply. Unknown countries remain held. Country names and valid codes use the bundled public IANA/Intl registry with its provenance; existing application aliases are preserved.
+
+The existing native search lane reads that application vocabulary before searching and uses it to screen independently fetched pages. It does not create a replacement account, schedule, search allowance, source identity or destination grant. Existing `padel` workflow names remain compatibility identifiers, not a restriction to that sport. Sportolok continues to use its own country and language policy.
+
+## Release and recovery
+
+Use `ops/deploy_factory.py --racket-land-runtime --runtime-digests /absolute/private/digests.json`. The digest manifest names engine_ops.py, padel.py, venue_identity.py, search_workflow.py, source_exchange.py and the two new support files. Missing support files are represented by null; existing files require their exact digest. The bounded patch specification preserves unrelated current native work. The original source-exchange module is unchanged.
+
+The helper defaults to a read-only plan. Applying requires the existing verified idle pidfd stop, consistent private backup, exact source/configuration comparisons and healthy restart. A busy process is preserved. Readiness failure restores prior code without overwriting newer business or receipt databases. No manual business task or paid search is part of verification. After release, inspect the read-only authenticated application catalog through the installed client and verify service health and unchanged configuration. Natural source outcomes are measured separately; passing a connection check does not establish a published listing.
+
+For rollback, restore the captured code and support files only under the same idle/recovery protocol. The former Africa-only code will hold against the new application identity; it must not silently reinterpret worldwide sources as African sources. Preserve all original requests, source credentials, writer fences and receipt history.

@@ -71,6 +71,20 @@ def patch_source_runtime(name,source,patches):
     return source
 
 
+def patch_racket_runtime(name,source,patches):
+    expected={'engine_ops.py','padel.py','venue_identity.py','search_workflow.py'}
+    if set(patches)!=expected or name not in expected:raise ValueError('Exact racket runtime modules required')
+    rows=patches[name]
+    if not isinstance(rows,list) or not 1<=len(rows)<=24 or any(set(row)!={'before','after'} or not all(isinstance(row[key],str) and 1<=len(row[key])<=16000 for key in ['before','after']) for row in rows):raise ValueError('Bounded explicit racket runtime patches required')
+    if all(source.count(row['after'])==1 for row in rows):return source
+    if any(source.count(row['after']) for row in rows):raise ValueError('Partial racket runtime patch requires review')
+    for row in rows:
+        if source.count(row['before'])!=1:raise ValueError('Native racket runtime boundary changed')
+        source=source.replace(row['before'],row['after'],1)
+    compile(source,name,'exec')
+    return source
+
+
 REMOTE = r'''
 import base64,datetime,hashlib,json,os,pathlib,shutil,signal,sqlite3,subprocess,sys,time,urllib.request
 payload=json.load(sys.stdin)
@@ -111,19 +125,28 @@ configpath=root/'factory.json'
 configbytes=configpath.read_bytes();settings=json.loads(configbytes).get('source_exchange',{})
 module_only=payload.get('module_only') is True;writer_handoff=payload.get('writer_handoff') is True;application_writers=payload.get('application_writers') is True
 source_runtime=payload.get('source_runtime') is True
-if sum([module_only,writer_handoff,source_runtime])>1:raise RuntimeError('Conflicting native release modes')
+racket_runtime=payload.get('racket_runtime') is True
+if sum([module_only,writer_handoff,source_runtime,racket_runtime])>1:raise RuntimeError('Conflicting native release modes')
 if application_writers and not writer_handoff:raise RuntimeError('Application writers require the handoff release mode')
-preserve_active=module_only or writer_handoff or source_runtime
+preserve_active=module_only or writer_handoff or source_runtime or racket_runtime
 if not preserve_active and any(settings.get(key) for key in ['offers_enabled','events_enabled','gap_tasks_enabled']):raise RuntimeError('Disabled-hook deployment requires all business hooks off')
 for name,expected in payload['expected'].items():
  if hashlib.sha256((root/name).read_bytes()).hexdigest()!=expected:raise RuntimeError('Native source changed since preflight')
 scope={};exec(payload['patcher'],scope)
 allowed={'source_exchange.py','publishing.py','refresh.py','program_updates.py'} if writer_handoff else {'source_exchange.py'} if module_only else {'worker.py','autonomy.py','search_workflow.py'}
 if source_runtime:allowed|={'source_exchange.py'}
+if racket_runtime:allowed={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py'}
 if application_writers:allowed|={'engine_ops.py','padel.py','slg.py'}
 if set(payload['expected'])-allowed or (preserve_active and set(payload['expected'])!=allowed):raise RuntimeError('Unexpected native deployment file')
-files={name:scope['patch_source_runtime'](name,(root/name).read_text(),payload['source_project_patches']).encode() for name in allowed-{'source_exchange.py'}} if source_runtime else {name:scope['patch_writer_handoff'](name,(root/name).read_text()).encode() for name in allowed-{'source_exchange.py'}} if writer_handoff else {} if module_only else {name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
+files={} if racket_runtime else {name:scope['patch_source_runtime'](name,(root/name).read_text(),payload['source_project_patches']).encode() for name in allowed-{'source_exchange.py'}} if source_runtime else {name:scope['patch_writer_handoff'](name,(root/name).read_text()).encode() for name in allowed-{'source_exchange.py'}} if writer_handoff else {} if module_only else {name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
 files['source_exchange.py']=base64.b64decode(payload['module'])
+if racket_runtime:
+ files={name:scope['patch_racket_runtime'](name,(root/name).read_text(),payload['racket_patches']).encode() for name in allowed-{'source_exchange.py'}}
+ files['source_exchange.py']=base64.b64decode(payload['module'])
+ for name in ['racket_policy.py','racket_countries.json']:
+  target=root/name;expected=payload['expected_racket_files'].get(name)
+  if (target.exists() and (not expected or hashlib.sha256(target.read_bytes()).hexdigest()!=expected)) or (not target.exists() and expected):raise RuntimeError('Racket support file changed since preflight')
+  files[name]=base64.b64decode(payload['racket_files'][name])
 if application_writers:
  target=root/'destination_handoff.py';expected=payload.get('expected_destination_guard')
  if (target.exists() and (not expected or hashlib.sha256(target.read_bytes()).hexdigest()!=expected)) or (not target.exists() and expected):raise RuntimeError('Application writer guard source changed since preflight')
@@ -132,7 +155,11 @@ if source_runtime:
  target=root/'source_projects.py';expected=payload.get('expected_source_runtime')
  if (target.exists() and (not expected or hashlib.sha256(target.read_bytes()).hexdigest()!=expected)) or (not target.exists() and expected):raise RuntimeError('Source project runtime changed since preflight')
  files['source_projects.py']=base64.b64decode(payload['source_project_module'])
-for name,body in files.items():compile(body,name,'exec')
+for name,body in files.items():
+ if name.endswith('.py'):compile(body,name,'exec')
+ else:
+  value=json.loads(body)
+  if name!='racket_countries.json' or not isinstance(value.get('codes'),dict) or len(set(value['codes'].values()))<240:raise RuntimeError('Worldwide country registry unavailable')
 sys.path.insert(0,'/opt/source-exchange')
 from exchange.factory import initialize
 from exchange.contract import Contract
@@ -203,6 +230,8 @@ def main():
     parser.add_argument('--writer-handoff-hooks',action='store_true')
     parser.add_argument('--application-writers',action='store_true')
     parser.add_argument('--source-project-runtime',action='store_true')
+    parser.add_argument('--racket-land-runtime',action='store_true')
+    parser.add_argument('--runtime-digests')
     parser.add_argument('--expected-source-runtime-sha256')
     parser.add_argument('--expected-module-sha256')
     parser.add_argument('--expected-publishing-sha256')
@@ -216,6 +245,15 @@ def main():
     args=parser.parse_args()
     import inspect
     module=Path(__file__).resolve().parents[2]/'factory/source_exchange.py'
+    if args.racket_land_runtime:
+        if not args.runtime_digests or any([args.exchange_module_only,args.writer_handoff_hooks,args.source_project_runtime,args.application_writers]):parser.error('Racket runtime requires its explicit digest manifest and no other release mode')
+        expected=json.loads(Path(args.runtime_digests).read_text())
+        if set(expected)!={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py','racket_policy.py','racket_countries.json'}:parser.error('Exact racket runtime digests required')
+        payload={'apply':args.apply,'racket_runtime':True,'expected':{key:value for key,value in expected.items() if key not in {'racket_policy.py','racket_countries.json'}},'module':base64.b64encode(module.read_bytes()).decode(),'patcher':inspect.getsource(patch_racket_runtime),'racket_patches':json.loads(Path(__file__).with_name('racket_runtime_patches.json').read_text()),'expected_racket_files':{key:expected[key] for key in ['racket_policy.py','racket_countries.json']},'racket_files':{key:base64.b64encode(module.with_name(key).read_bytes()).decode() for key in ['racket_policy.py','racket_countries.json']}}
+        result=subprocess.run(['ssh','-i',args.ssh_key,'-o','BatchMode=yes','-o','ConnectTimeout=10',args.host,'python3 -c '+shlex.quote(REMOTE)],input=json.dumps(payload).encode(),capture_output=True,timeout=70)
+        if result.returncode:raise SystemExit('Racket runtime release refused or needs recovery; inspect private service and backup state.')
+        print(json.dumps(json.loads(result.stdout)));return
+    if args.runtime_digests:parser.error('Runtime digests require racket runtime mode')
     if sum([args.exchange_module_only,args.writer_handoff_hooks,args.source_project_runtime])>1:parser.error('Choose one native release mode')
     if args.expected_source_runtime_sha256 and not args.source_project_runtime:parser.error('Source runtime digest requires --source-project-runtime')
     handoff_digests=[args.expected_publishing_sha256,args.expected_refresh_sha256,args.expected_program_sha256]

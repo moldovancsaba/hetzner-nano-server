@@ -127,7 +127,8 @@ def verified_pages(rows,job,web,database,maximum):
    if job['source_host'] and final_host!=job['source_host']:continue
    if job['kind']=='sportolok':pass
    elif job['kind']=='padel':
-    if not re.search(r'\bpadel\b',page['text'],re.I):continue
+    import racket_policy
+    if not racket_policy.matches(page['text'],job.get('_racket_vertical',{})):continue
    elif job.get('_source_only_scope',{}).get('application')!='salesleadgenerator' and not re.search(r'kids?|children|famil(?:y|ies)|ages?|tuition|classes',page['text'],re.I):continue
    import source_exchange
    packet=source_exchange.save_verified_page(database,job,page)
@@ -199,6 +200,9 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
  if job['status']=='delivery_pending' and time.time()<job['next_delivery_at']:
   return {'stage':'search_waiting','markdown':None,'entities':[],'wake_at':job['next_delivery_at']}
  if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')
+ if job['kind']=='padel':
+  import engine_ops
+  job['_racket_vertical']=engine_ops.Client('padel-africa').catalog()['vertical']
  backlog=research_backlog(board,config,database) if 'ClassScout' in config.get('projects',{}).values() else 0
  source_projects_roster=list(config.get('source_exchange',{}).get('source_only_projects',{}))
  if len(source_projects_roster)>5:raise ValueError('Bounded source-only project roster required')

@@ -8,9 +8,16 @@ def fold(v):return ''.join(c for c in unicodedata.normalize('NFKD',str(v)).casef
 def key(v):return re.sub(r'[^a-z0-9]','',fold(v))
 def country_code(v):
  if isinstance(v,dict):v=v.get('name') or v.get('@id') or ''
- value=fold(v).strip();return str(v).upper() if re.fullmatch('[A-Za-z]{2}',str(v)) else COUNTRIES.get(value)
+ value=fold(v).strip()
+ if re.fullmatch('[A-Za-z]{2}',str(v)):return str(v).upper()
+ import racket_policy
+ normalized=re.sub(r'[^a-z0-9]+',' ',value.replace('’','').replace("'",'')).strip()
+ return COUNTRIES.get(value) or racket_policy.countries().get(normalized)
 def allowed_country(code,scope):
  if not code:return False
+ if scope.get('kind')=='unrestricted':
+  import racket_policy
+  return code in set(racket_policy.countries().values())
  if scope.get('kind')=='continent':return scope.get('continent')=='Africa' and code in AFRICA
  return scope.get('kind')=='countries' and code in scope.get('countries',[])
 def provider_host(host):return not any(d in host for d in DENIED)
@@ -41,7 +48,8 @@ def identities(page,scope):
 def resolve(url,web,vertical):
  root=web.page(url);host=evidence.host(root['url']);pending=[];pages=[root]
  direct=identities(root,vertical['territoryScope'])
- if len(direct)==1 and direct[0].get('city') and (vertical['slug']!='padel-africa' or re.search(r'\bpadel\b',root['text'],re.I)):return direct[0]
+ import racket_policy
+ if len(direct)==1 and direct[0].get('city') and (racket_policy.matches(root['text'],vertical) if vertical['slug']=='racket-land' else vertical['slug']!='padel-africa' or re.search(r'\bpadel\b',root['text'],re.I)):return direct[0]
  # Directories may contribute links only. No directory fact enters an intake packet.
  if not provider_host(host):
   for raw in root.get('links',[]):
@@ -54,6 +62,7 @@ def resolve(url,web,vertical):
   except Exception:continue
  options=[];vocabulary=vertical.get('discovery',{});scope=vertical['territoryScope']
  for page in pages:
+  if vertical['slug']=='racket-land' and not racket_policy.matches(page['text'],vertical):continue
   if vertical['slug']=='padel-africa' and not re.search(r'\bpadel\b',page['text'],re.I):continue
   for option in identities(page,scope):
    if not option['city']:

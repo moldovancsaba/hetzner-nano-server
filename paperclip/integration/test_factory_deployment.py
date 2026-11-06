@@ -9,6 +9,16 @@ deployment=importlib.util.module_from_spec(spec);spec.loader.exec_module(deploym
 
 
 class DeploymentTests(unittest.TestCase):
+    def test_racket_upgrade_preserves_current_work_and_original_receipt_paths(self):
+        patches=json.loads((Path(__file__).parent/'ops/racket_runtime_patches.json').read_text())
+        for name,rows in patches.items():
+            current=(Path(__file__).parents[1]/'factory'/name).read_text();original=current
+            for row in reversed(rows):original=original.replace(row['after'],row['before'],1)
+            self.assertEqual(deployment.patch_racket_runtime(name,original,patches),current)
+            self.assertEqual(deployment.patch_racket_runtime(name,current,patches),current)
+        with self.assertRaises(ValueError):deployment.patch_racket_runtime('worker.py','',patches)
+        with self.assertRaises(ValueError):deployment.patch_racket_runtime('padel.py','changed unknown source',patches)
+
     def test_patch_preserves_current_native_work_and_is_idempotent(self):
         for name in ['worker.py','autonomy.py','search_workflow.py']:
             source=(Path(__file__).parents[1]/'factory'/name).read_text()
