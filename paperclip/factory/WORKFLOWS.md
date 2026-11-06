@@ -261,7 +261,7 @@ Seven live access checks passed (unauthenticated, authenticated, tampered and ex
 
 ### 5. Next brand: Padel Africa
 
-> **Update 2026-11-06 (deployed to the host 09:37 UTC).** The routine below keeps the title `Discover Padel Africa sources` and the `padel` search purpose. Its Brave locale is now country `ALL` with English, so Racket Land searches carry no country bias (a host-only edit of `brave.py`; the committed file still lacks the `web-locale-v2` contract, see [RACKET-LAND-ALIGNMENT.md](../integration/RACKET-LAND-ALIGNMENT.md#native-search-lane-brave-locale)). The text below is the record of 28 October.
+> **Update 2026-11-06 (partly deployed to the host on 2026-11-06; the rest is open, see the alignment note).** Racket Land (https://racket.land) replaced Padel Africa on 2026-11-05: every racket sport, the whole world, `territoryScope: unrestricted`. The text below is the dated record of 28 October and is not rewritten. The Paperclip project name `Padel Africa`, the routine titles and the `padel_*` workflow names are kept on purpose because the host matches them by exact name; only displayed copy and the intake form's city label (now "City of the venue") changed. The factory validates the worldwide policy and reads a plain page's country from the full registry and its city from the page's address line; see [RACKET-LAND-ALIGNMENT.md](../integration/RACKET-LAND-ALIGNMENT.md). The repository still does not match the host (the delivery code of 2026-11-01 is uncommitted).
 
 Padel Africa was selected from the validated local client registry. Its existing instance is `https://padel-africa.doneisbetter.com`, with a separate client database and canonical machine/feed contracts. The authenticated machine catalog confirmed vertical `padel-africa`, continent `Africa`, 944 eligible catalog records and a capped 500-row slice. The slice is not a complete catalog dump; the receiving engine remains responsible for canonical deduplication and publication.
 
@@ -303,7 +303,7 @@ The hourly **Recover stalled company work** routine runs at :25 Budapest. It cla
 
 ### Discovery and Padel Africa
 
-> **Update 2026-11-06 (repository only, not deployed).** The routine below keeps the title `Discover Padel Africa sources` and the `padel` search purpose. In the committed code its Brave locale is still South Africa and English; the worldwide locale policy is described, not implemented, in [RACKET-LAND-ALIGNMENT.md](../integration/RACKET-LAND-ALIGNMENT.md#native-search-lane-what-must-change-once-the-delivery-code-is-committed). The text below is the record of 28 October.
+> **Update 2026-11-06 (deployed to the host 09:37 UTC).** The routine below keeps the title `Discover Padel Africa sources` and the `padel` search purpose. Its Brave locale is now country `ALL` with English, so Racket Land searches carry no country bias (a host-only edit of `brave.py`; the committed file still lacks the `web-locale-v2` contract, see [RACKET-LAND-ALIGNMENT.md](../integration/RACKET-LAND-ALIGNMENT.md#native-search-lane-brave-locale)). The text below is the record of 28 October.
 
 ClassScout searches now emphasize official program registration, timetable, ages and tuition, and prefer program/class/pricing/schedule URL paths before generic homepages. These are discovery priorities, not claims that every result is publishable. All publication requirements still need literal current evidence.
 
