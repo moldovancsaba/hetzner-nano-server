@@ -65,7 +65,15 @@ class Board:
   creating=bool(body is not None and re.fullmatch(r'/companies/[^/]+/issues',path) and (method is None or method=='POST') and body.get('idempotencyKey'))
   # Native allowDuplicate disables broad 48-hour title dedup, while the exact idempotency key remains authoritative.
   if creating:body={**body,'allowDuplicate':True}
-  result=request_json(PAPERCLIP+path,body,self.headers,method)
+  # A status update (PATCH) is idempotent, and Paperclip answers a rare transient HTTP 500 (a failed workspace_finalize insert) that
+  # rolls the update back; the run then fails and its hand-off meets a 409 ownership conflict. Retry that update, bounded and spaced
+  # beyond Postgres' one-second lock wait. Creating calls (comments, interactions, issues) are never retried here.
+  for attempt in range(3 if method=='PATCH' else 1):
+   try:
+    result=request_json(PAPERCLIP+path,body,self.headers,method);break
+   except RuntimeError as error:
+    if attempt==2 or method!='PATCH' or not re.match(r'Service returned HTTP (500|502|503|504):',str(error)):raise
+    time.sleep(2+3*attempt)
   if creating and (not isinstance(result,dict) or result.get('companyId')!=path.split('/')[2] or result.get('projectId')!=body.get('projectId') or result.get('title')!=body['title'].strip() or result.get('description')!=body.get('description')):raise ValueError('Native task receipt does not match its exact factory intent; no handoff acknowledged')
   return result
 
