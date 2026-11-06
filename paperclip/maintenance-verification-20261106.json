@@ -1,0 +1,110 @@
+{
+  "checked_at": "2026-11-06T07:21:02.411241+00:00",
+  "status": "maintenance-completed",
+  "scope": "Paperclip host and owner Mac; no core activation performed during maintenance",
+  "server": {
+    "available_bytes": 8646455296,
+    "total_bytes": 39956590592,
+    "restore_scratch_count": 0,
+    "containers": [
+      "narimato-paperclip Up 43 minutes (healthy)"
+    ],
+    "services": {
+      "narimato-factory.service": "active",
+      "source-exchange.service": "active"
+    },
+    "full_backup_count": 7,
+    "full_backup_bytes": 10165681081,
+    "native_hourly_backup_disabled": true,
+    "memory": {
+      "MemTotal": "3906244 kB",
+      "MemAvailable": "1974804 kB",
+      "SwapTotal": "2097148 kB",
+      "SwapFree": "1649504 kB"
+    }
+  },
+  "mac": {
+    "before_cleanup_available_bytes": 2317303808,
+    "after_cleanup_available_bytes": 17313136640,
+    "available_bytes": 17370857472,
+    "recovered_bytes": 14995832832,
+    "preserved_active_builds_and_caches": true
+  },
+  "server_cleanup": {
+    "failed_restore_logical_bytes_removed": 4037542099,
+    "small_diagnostics_retained": true,
+    "original_reserved_blocks_restored": 401138
+  },
+  "backup": {
+    "cadence": "daily at 03:20 Europe/Budapest",
+    "retention_days": 7,
+    "retained_on_server": 7,
+    "retained_on_mac": 7,
+    "latest_verified_archive": "paperclip-recovery-20261106T063825Z.tar.gz",
+    "latest_archive_bytes": 49629455,
+    "mac_start_interval": null,
+    "mac_calendar": {
+      "Hour": 3,
+      "Minute": 20
+    },
+    "next_due_at": 1794018000.0,
+    "native_sql_snapshots_per_new_archive": 1
+  },
+  "full_stack_restore": {
+    "started_at": 1793949224.113653,
+    "host_memory_available_before_bytes": 2019033088,
+    "factory_tables": 57,
+    "image_matches_production": true,
+    "container_memory_limit_bytes": 1887436800,
+    "configured_node_heap_mib": 1280,
+    "database_restore_budget_seconds": 744,
+    "native_database": {
+      "companies": 1,
+      "agents": 5,
+      "issues": 8093,
+      "agents_paused": true,
+      "triggers_disabled": true
+    },
+    "password_gate_restored": true,
+    "locked_dashboard_refused": true,
+    "native_ui": true,
+    "company_api": true,
+    "factory_dashboard": true,
+    "factory_metrics": true,
+    "factory_metrics_latency_seconds": 41.875,
+    "factory_metrics_response_budget_seconds": 90,
+    "published_receipts_restored": 35,
+    "active_agents_in_clone": 0,
+    "network_egress": false,
+    "network_interfaces": [],
+    "network_mode": "none",
+    "production_files_changed": false,
+    "production_files_checked": 8,
+    "completed_at": 1793949565.581147,
+    "status": "passed",
+    "scope": "Isolated full stack: SQL, persistent files, secrets, factory state, native UI, proxy and password gate. Public DNS/TLS issuance and real host failover are not exercised."
+  },
+  "code_validation": {
+    "commit": "278dc59462aedf253c22c8953ef5fcf51e60ed62",
+    "exact_index_integration_tests_passed": 67,
+    "exact_index_factory_tests_passed": 484
+  },
+  "preserved": {
+    "live_databases": true,
+    "seven_daily_recovery_points": true,
+    "source_and_uncommitted_work": true,
+    "credentials_and_receipts": true,
+    "business_job_schedules": true,
+    "mojeek_monthly_cap_gbp": 5
+  },
+  "limitations": [
+    "Isolated full-stack recovery does not prove replacement-host DNS/TLS or real failover",
+    "Factory metrics took 41.875 seconds in the half-CPU recovery clone; production latency was not measured by this test",
+    "Six older larger backup points remain protected until normal daily rotation; build outputs will grow again"
+  ],
+  "next_core_work": [
+    "Activate approved cogmap, seyu and dvsc source-only manifests after their existing idle and fresh recovery checks",
+    "Complete destination authority engineering, client reviews and natural qualification before grants or imports",
+    "Complete natural pilot, accessibility acceptance and replacement-host failover verification"
+  ]
+}
