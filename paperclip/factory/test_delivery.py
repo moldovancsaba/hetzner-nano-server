@@ -1,6 +1,6 @@
 """Tests across the delivery pipeline: evidence address and branch matching with a bounded crawl, price and
-age-range parsing (formats), source checks in publishing, Padel intake and its no-replay rules, business
-metrics, and the automatic gate price-unit check."""
+age-range parsing (formats), source checks in publishing, Racket Land source intake (padel.py, legacy name) and its
+no-replay rules, business metrics, and the automatic gate price-unit check."""
 import copy,json,time,unittest
 from unittest.mock import Mock,MagicMock,patch
 import worker,evidence,formats,publishing,quality_gate,padel,business_metrics
@@ -104,10 +104,13 @@ class DeliveryTests(unittest.TestCase):
   for _ in range(2):
    with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   self.assertEqual(c.call.call_count,1)
- def test_padel_city_outside_vertical_scope_cannot_be_submitted(self):
+ def test_padel_city_the_page_does_not_state_cannot_be_submitted(self):
   i,b,w,c=self.padel_scenario();i['description']=i['description'].replace('Cape Town','New York')
   with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   c.call.assert_not_called()
+ def test_padel_city_outside_the_declared_localities_is_accepted_when_the_page_states_it(self):
+  i,b,w,c=self.padel_scenario();i['description']=i['description'].replace('Cape Town','New York');w.page.return_value=self.page(text='Example Padel at 12 Main Street in New York offers padel courts.')
+  r=padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(r['stage'],'padel_evidence_accepted');self.assertEqual(c.call.call_count,1)
  def test_padel_duplicate_listing_is_held(self):
   i,b,w,c=self.padel_scenario();c.catalog.return_value['catalog']['listings']=[{'name':'Example Padel'}]
   with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)

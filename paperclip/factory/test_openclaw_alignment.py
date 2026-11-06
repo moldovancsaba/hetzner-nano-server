@@ -1,6 +1,7 @@
 """Tests for source-evidence and write-safety rules: blocker classification, no invented price or timetable,
-expired camps, structured page metadata, venue identity by territory (also Hungarian text), program updates
-with readback, engine write-once receipts, bounded branch expansion."""
+expired camps, structured page metadata, venue identity by territory (Racket Land's worldwide scope first; the legacy
+continent scope and Hungarian text keep their own rules), program updates with readback, engine write-once receipts,
+bounded branch expansion."""
 import copy,json,time,unittest
 from unittest.mock import Mock,patch
 import worker,company_ops,publishing,formats,net,venue_identity as vi,engine_ops as engine,program_updates as programs,pipeline,quality_gate
@@ -28,22 +29,31 @@ class AlignmentTests(unittest.TestCase):
  def test_structured_metadata_is_bounded_and_not_model_instructions(self):
   p=net.PageParser();p.feed('<meta property="og:site_name" content="Example Padel"><script type="application/ld+json">'+json.dumps({'@type':'SportsActivityLocation','name':'Example Padel','url':'https://examplepadel.org','address':{'streetAddress':'12 Main Road','addressLocality':'Cape Town','addressCountry':'ZA'}})+'</script><p>Visible page content only.</p>')
   self.assertEqual(len(p.structured),1);self.assertNotIn('SportsActivityLocation',p.result()[0]);self.assertEqual(p.metadata['og:site_name'],'Example Padel')
- def venue(self,slug='padel-africa'):
+ WORLD={'kind':'unrestricted'};AFRICA={'kind':'continent','continent':'Africa'}
+ def vertical(self,slug='racket-land'):
+  if slug=='racket-land':return {'slug':slug,'territoryScope':self.WORLD,'taxonomy':{'racket-club':'Racket clubs'},'discovery':{'vocabulary':{'requiredTopicWords':['padel','tennis','squash']}}}
+  return {'slug':slug,'territoryScope':self.AFRICA}
+ def venue(self,slug='racket-land'):
   hu=slug=='sportolok';name='Árvíztűrő Sport';url='https://arvizturo-sport.hu/' if hu else 'https://examplepadel.org/';name=name if hu else 'Example Padel';street='Hunyadi János út 6.' if hu else '12 Main Road';city='Budapest' if hu else 'Cape Town';country='HU' if hu else 'ZA'
   page={'url':url,'title':name,'text':f'{name} {street} {city}. Sport és edzés.' if hu else f'{name} at {street} in {city}, South Africa offers padel courts.','sha256':'hash','fetched_at':time.time(),'links':[],'metadata':{},'structured':[{'@type':'SportsActivityLocation','name':name,'url':url,'address':{'streetAddress':street,'addressLocality':city,'addressCountry':country}}]}
   return page
  def test_hungarian_source_values_are_preserved_verbatim(self):
   page=self.venue('sportolok');found=vi.identities(page,{'kind':'countries','countries':['HU']});self.assertEqual(found[0]['name'],'Árvíztűrő Sport');self.assertEqual(found[0]['address'],'Hunyadi János út 6.')
  def test_directory_cannot_be_its_own_provider_evidence(self):
-  page=self.venue();page['url']='https://padellands.com/venue/example';self.assertEqual(vi.identities(page,{'kind':'continent','continent':'Africa'}),[])
+  for scope in [self.WORLD,self.AFRICA]:
+   page=self.venue();page['url']='https://padellands.com/venue/example';self.assertEqual(vi.identities(page,scope),[])
  def test_structured_outside_territory_is_rejected(self):
-  page=self.venue();page['structured'][0]['address']['addressCountry']='US';self.assertEqual(vi.identities(page,{'kind':'continent','continent':'Africa'}),[])
+  page=self.venue();page['structured'][0]['address']['addressCountry']='US';self.assertEqual(vi.identities(page,self.AFRICA),[])
+  self.assertEqual(vi.identities(page,self.WORLD)[0]['country'],'US')
+  page['structured'][0]['address']['addressCountry']='Atlantis';self.assertEqual(vi.identities(page,self.WORLD),[])
  def test_query_locality_cannot_assign_source_city(self):
-  page=self.venue();page['structured'][0]['address']['addressLocality']='Nairobi';self.assertEqual(vi.identities(page,{'kind':'continent','continent':'Africa'}),[])
+  for scope in [self.WORLD,self.AFRICA]:
+   page=self.venue();page['structured'][0]['address']['addressLocality']='Nairobi';self.assertEqual(vi.identities(page,scope),[])
  def test_focused_venue_never_inherits_headquarters(self):
-  page=self.venue();web=Mock();web.page.return_value=page
-  result=vi.resolve(page['url'],web,{'slug':'padel-africa','territoryScope':{'kind':'continent','continent':'Africa'}})
-  self.assertEqual(result['city'],'Cape Town');self.assertEqual(web.page.call_count,1)
+  for slug in ['racket-land','padel-africa']:
+   page=self.venue();web=Mock();web.page.return_value=page
+   result=vi.resolve(page['url'],web,self.vertical(slug))
+   self.assertEqual((result['city'],result['country']),('Cape Town','ZA'));self.assertEqual(web.page.call_count,1)
  def test_program_patch_preserves_other_programs_and_structured_schedule(self):
   p=self.h.page();p['text']='Example Center at 12 Main Street. Ages 5-10 - Mondays 9:00 am, 45 minutes. $150 per month.'
   row=self.h.row();row['recurringPrograms']=[{'id':'a','title':'Ages 5-10','ageMinMonths':60,'ageMaxMonths':120,'daysOfWeek':['Monday'],'timeText':'9:00 am (45 minutes)','price':{'evidence':'unknown','sourceUrl':p['url']}},{'id':'b','title':'Other program','ageMinMonths':144,'ageMaxMonths':180,'daysOfWeek':['Sunday'],'timeText':'5pm'}]
@@ -100,9 +110,9 @@ class AlignmentTests(unittest.TestCase):
   self.assertEqual(len(links),3);self.assertEqual(sha,'a');self.assertTrue(all(x.startswith('https://examplepadel.com/venues/') for x in links))
  def test_branch_expansion_only_queues_independent_checks(self):
   issue={'id':'branch','title':'Check source','projectId':'pa','description':'Official source URL: https://examplepadel.com/'};web=Mock();client=Mock();client.catalog.return_value={'vertical':{'territoryScope':{}}}
-  with patch('venue_identity.resolve',side_effect=ValueError('multiple')),patch('venue_identity.branch_links',return_value=(['https://examplepadel.com/venues/one'],'hash')):
+  with patch('venue_identity.resolve',side_effect=ValueError('multiple')),patch('venue_identity.branch_links',return_value=(['https://examplepadel.com/venues/one'],'hash')) as expand:
    result=engine.candidate(issue,Mock(),self.config,web,worker.database,{},client)
-  self.assertEqual(result['stage'],'engine_source_expanded');client.call.assert_not_called()
+  self.assertEqual(result['stage'],'engine_source_expanded');client.call.assert_not_called();expand.assert_called_once_with('https://examplepadel.com/',web,{'territoryScope':{}})
   with worker.database() as db:body=json.loads(db.execute('SELECT payload_json FROM company_dispatch').fetchone()[0])
   self.assertNotIn('parentId',body);self.assertIn('Branch depth: 1',body['description']);self.assertEqual(body['assigneeAgentId'],'ops')
  def test_branch_expansion_does_not_recurse(self):

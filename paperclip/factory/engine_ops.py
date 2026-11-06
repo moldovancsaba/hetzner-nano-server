@@ -52,7 +52,7 @@ def candidate(issue,board,config,web,database,execution,client=None):
   if depth!='0':
    if not venue_identity.provider_host(evidence.host(url)):return done('engine_source_rejected','Screened out: a third-party directory page cannot establish the official venue identity. No listing was accepted.')
    raise
-  links,source_hash=venue_identity.branch_links(url,web)
+  links,source_hash=venue_identity.branch_links(url,web,v)
   if not links:
    if not venue_identity.provider_host(evidence.host(url)):return done('engine_source_rejected','Screened out: third-party directory has no usable first-party venue link. No venue facts or listing were accepted.')
    raise
