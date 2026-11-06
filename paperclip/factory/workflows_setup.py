@@ -13,6 +13,7 @@ def setup(activate=False,run_digest=False):
   specs=[(kind,title,role,project,{'verify_catalog':'0 * * * *','publication_queue':'15,45 * * * *','audit_site':'30 8 * * *'}.get(kind,cron)) for kind,title,role,project,cron in specs]
   specs.append(('growth_dispatch','Run ClassScout discovery','search',classscout,'*/30 * * * *'))
  specs.append(('recover_evidence','Recover missing ClassScout evidence','support',classscout,'20 * * * *'))
+ # Project and routine titles keep the name "Padel Africa": the live host matches them by exact title. Racket Land is the display name.
  if config.get('padel_enabled'):
   padel_project=next(k for k,v in config['projects'].items() if v=='Padel Africa')
   specs.extend([('padel_maintenance','Check Padel Africa catalog','support',padel_project,'10 9 * * *'),('padel_intake','Submit a Padel Africa source','support',padel_project,None)])
@@ -42,18 +43,18 @@ def setup(activate=False,run_digest=False):
   if kind=='program_queue':description='Factory workflow: program_queue\n\nQueue existing unclaimed same-branch program checks. Keep unmatched programs and manual owner work intact. Current source evidence and canonical validation remain mandatory.'
   if kind in {'engine_maintenance','engine_discovery','management_overview'}:description='Factory workflow: '+kind+'\n\nUse the authenticated vertical contract for this project. Keep literal source evidence and native hard/safety gates. Customer sending and Hungarian rewriting remain disabled.'
   if kind=='growth_dispatch':description='Factory workflow: growth_dispatch\n\nDispatch the next evidence-seeking ClassScout NYC campaign intent only when the shared Brave budget and production queue have capacity. Child search tasks use the existing cooldown, quota, evidence and automatic publication policies.'
-  if kind=='padel_discovery':description='Factory workflow: padel_discovery\n\nQueue one official-source discovery intent in the next canonical Padel Africa city. Shared Brave reserve, cooldown and all tenant/receipt checks apply. No forced publication.'
+  if kind=='padel_discovery':description='Factory workflow: padel_discovery\n\nQueue one official-source discovery intent in the next declared locality of the Racket Land vertical. Shared Brave reserve, cooldown and all tenant/receipt checks apply. No forced publication.'
   if kind=='autonomous_coordination':description='Factory workflow: autonomous_coordination\n\nDeliver up to ten due handoffs, plan at most two safe evidence continuations, and verify stopped executions. Preserve all packet/receipt and human review gates. No inference or Brave requests in the coordinator; downstream tasks retain their own guards. Never retry unchanged source evidence without a released parser change.'
   if kind=='reliability_round':description='Factory workflow: reliability_round\n\nClassify held work, surface exact evidence requirements, bounded retries and stopping rules. Saved evidence may resume through an independent continuation; uncertain writes are never replayed.'
   if kind=='freshness_round':description='Factory workflow: freshness_round\n\nRecheck up to three existing ClassScout providers against official source pages. Changed evidence feeds the independent research/quality/update pipeline. Claimed providers remain protected. Program price/schedule changes require a dedicated canonical contract.'
   if kind=='knowledge_round':description='Factory workflow: knowledge_round\n\nPrepare reusable source-grounded public-information answers for up to three exact branches; expire after 24h and invalidate failed rechecks. Record evidence gaps. No customer messages.'
-  if kind=='padel_maintenance':description='Factory workflow: padel_maintenance\n\nVerify the authenticated Padel Africa tenant and Africa territory, then record its bounded machine catalog and engine lifecycle counts. No catalog writes or external messages.'
+  if kind=='padel_maintenance':description='Factory workflow: padel_maintenance\n\nVerify the authenticated Racket Land tenant and its worldwide territory policy, then record its bounded machine catalog and engine lifecycle counts. No catalog writes or external messages.'
   if kind=='padel_intake':description='Factory workflow: padel_intake\nOfficial source URL: {{source_url}}\nProvider name: {{provider_name}}\nCity: {{city}}\nStreet address: {{address}}'
   if kind=='support_answer':description='Factory workflow: support_answer\nProvider name: {{provider_name}}\nQuestion: {{question}}'
   body={'title':title,'description':description,'projectId':project,'assigneeAgentId':roles[role],'status':'active','concurrencyPolicy':'skip_if_active','catchUpPolicy':'skip_missed','activityGatePolicy':'always'}
   if kind.startswith('sales_'):body.update(concurrencyPolicy='always_enqueue',variables=[{'name':'slg_brand','label':'SLG workspace slug','type':'text','required':True}]+([{'name':'slg_lead_id','label':'Exact SLG lead ID','type':'text','required':True}] if kind=='sales_briefing' else []))
   if kind=='support_answer':body.update(concurrencyPolicy='always_enqueue',variables=[{'name':'provider_name','label':'Provider name or listing link','type':'text','required':True},{'name':'question','label':'Question','type':'text','required':True}])
-  if kind=='padel_intake':body.update(concurrencyPolicy='always_enqueue',variables=[{'name':name,'label':label,'type':'text','required':True} for name,label in [('source_url','Official source URL'),('provider_name','Provider name'),('city','City in Padel Africa coverage'),('address','Exact street address')]])
+  if kind=='padel_intake':body.update(concurrencyPolicy='always_enqueue',variables=[{'name':name,'label':label,'type':'text','required':True} for name,label in [('source_url','Official source URL'),('provider_name','Provider name'),('city','City of the venue'),('address','Exact street address')]])
   if matches:
    saved=api('/routines/'+matches[0]['id'])
    allowed_assignees={roles[role]}
