@@ -88,15 +88,15 @@ A second Paperclip deployment followed at 09:09 UTC from commit [b9cac4b](https:
 
 **Not done:** the cleaner's report pruning and the collector's redirect check run on their next timer runs and have not yet been seen working; the restore drill, the new `snapshot.sh` bundle and `configure-slg.py` were copied but not run; `provision.py` was copied but not run, so the eight unused keys are still in the live `factory.json` (the code ignores them); the files that changed only in comments in [b8be171](https://github.com/moldovancsaba/hetzner-nano-server/commit/b8be171) were not copied, except where a file above also carries them.
 
-## Racket Land: repository only (2026-11-06)
+## Racket Land: deployed (2026-11-06)
 
-Racket Land replaced Padel Africa on 2026-11-05. The worldwide plain-page rules, the link patterns, the refused racket directories and the new wording are in the repository (branch `racket-land-worldwide`) and **are not deployed to the Paperclip host**. The repository does not match the host: the host runs the 2026-11-01 delivery code, which exists only as uncommitted changes in the owner's original checkout. Steps that remain, in order:
+Racket Land replaced Padel Africa on 2026-11-05. On 2026-11-06 the worldwide plain-page rules, link patterns, refused racket directories, the Racket Land wording of `padel.py` and the factory dashboard page, and a Brave locale without country bias for the `padel` kind were released to the Paperclip host (details and backups in [the alignment note](../paperclip/integration/RACKET-LAND-ALIGNMENT.md#status-2026-11-06-deployed-to-the-paperclip-host)). What is left:
 
-1. Commit the earlier session's uncommitted delivery code (`brave.py`, `search_workflow.py`, `worker.py` and the other modified and untracked files) so that the repository matches the host, then bring this branch onto it.
-2. Rebuild the `search_workflow.py` rows (and, if those files differ, the others) of `paperclip/integration/ops/racket_runtime_patches.json` against that committed code. The rows for `engine_ops.py`, `padel.py` and `venue_identity.py` assume the host files equal the parent of 3c42953.
-3. Operator, on the host: write the private digest file for `ops/deploy_factory.py --racket-land-runtime`, read the plan, then apply under the idle, backup and health protocol described in [the alignment note](../paperclip/integration/RACKET-LAND-ALIGNMENT.md#release-and-recovery).
-4. Implement the Brave locale policy described in the same note (the `padel` purpose still searches as South Africa and English).
-5. Release the files outside that mode on their own: `dashboard.html`, `workflows_setup.py` (the form label reaches Paperclip when its `--activate` command is next run) and the React dashboard build.
+1. **Commit the uncommitted delivery code** in the owner's original checkout (`brave.py`, `search_workflow.py`, `worker.py` and the other modified and untracked files; the host runs it) so the repository matches the host, **including the two edits of `brave.py` that exist only on the host** (the `padel` kind as `('ALL','en')` and `('ALL','en')` in the reviewed pairs). Until then, never deploy `brave.py` from git: it would restore the South Africa bias.
+2. Bring branch `racket-land-worldwide` onto main after that commit.
+3. Release the files outside the runtime mode on their own: `workflows_setup.py` (the form label reaches Paperclip when its `--activate` command is next run), `provision.py` and the React dashboard build (`CompanyDashboard.tsx`).
+4. Add `('ALL','en')` to `source_projects.py` if a Racket Land source project is ever planned.
+5. Check the first scheduled `padel` discovery after 09:37 UTC on 2026-11-06 (`search_attempts` status and the places the results come from). No manual paid search was run.
 
 ## Known limitations
 

@@ -51,7 +51,7 @@ Run tests with `python3 -m unittest discover -s paperclip/factory -p 'test_*.py'
 
 Use the parent `snapshot.sh` for a restricted recovery bundle including a consistent SQLite backup. An isolated PostgreSQL backup restore passed on 28 October; a full replacement-host recovery remains untested.
 
-Racket Land status (2026-11-06): the worldwide source rules, the link patterns and the displayed copy are changed in the repository only. Nothing is deployed to the Paperclip host and the repository does not match it; see [the alignment note](../integration/RACKET-LAND-ALIGNMENT.md#status-2026-11-06-repository-only).
+Racket Land status (2026-11-06): the worldwide source rules, the link patterns, the displayed dashboard copy and the country-neutral Brave locale of the `padel` kind are deployed to the Paperclip host (09:34-09:37 UTC); `workflows_setup.py`, `provision.py` and the React dashboard are not, and the delivery code of 2026-11-01 on the host is still uncommitted; see [the alignment note](../integration/RACKET-LAND-ALIGNMENT.md#status-2026-11-06-deployed-to-the-paperclip-host).
 
 Live pilot evidence and measured limits: [ACCEPTANCE.md](ACCEPTANCE.md).
 
