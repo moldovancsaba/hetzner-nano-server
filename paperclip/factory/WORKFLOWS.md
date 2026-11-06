@@ -24,7 +24,7 @@ The other fourteen routines, all from `workflows.json` (role per `operational.py
 | `reliability_round` | :25 every hour | Support Drafter |
 | `freshness_round` | :35 every 6 hours | Support Drafter |
 | `knowledge_round` | :50 every 6 hours | Support Drafter |
-| `program_queue` | 09:40 daily | Support Drafter |
+| `program_queue` | :10 and :40 hourly | Support Drafter |
 | `padel_maintenance` | 09:10 daily | Support Drafter |
 | `padel_intake` (Padel source form) | on demand | Support Drafter |
 | `padel_discovery` | 10:05 and 16:05 daily | Search Coordinator |
@@ -540,3 +540,20 @@ The successor still has an evidence hold; no solved venue, catalog write or new
 publication is claimed by this recovery. Controlled tests prove repeat-tick and
 same-contract stopping behavior, while the two real scheduled ticks demonstrate
 scheduler → worker → durable queue → native task handoff and reporting.
+
+
+## Automatic delivery maintenance — 1 November 2026
+
+`packet_renewal.py` extends the existing five-minute company coordinator. It plans up to two expired or narrowly parser-affected, never-submitted ClassScout packet renewals and delivers up to two per tick, using a durable `packet_renewals` ledger. The original packet is atomically superseded before successor creation; a lost reply reuses the same native idempotency key. Original issues and historical execution guards are preserved. Only unchanged briefs with intact packets, enabled automatic gates and no human rejection qualify. A lineage has at most three renewals; task creation retries back off and stop after three errors. Fresh preparation failures before a new packet is saved remain eligible through the same bounded controller. A released physical-address parser also allows one fresh preparation for a contact proof containing a non-street model value; arbitrary policy holds do not earn this exception. There is no replay of submitted, partial or uncertain writes. Human-mode approvals retain their 48-hour expiry.
+
+Editorial inference can inspect up to four current same-host pages, preferring location pages for identity gaps and program pages for class evidence. New focused pages can earn independent research and quality checks, recorded in `evidence_followups`; a source URL/hash is tried once per root and a root earns at most three tasks. Publication queue holds are isolated per candidate and include a gap category. The exact focused official URLs used for an inferred brief are carried into the publication handoff. Non-street model values cannot supply ClassScout physical identity or introduce a false address conflict. Missing ages, contacts and borough conflicts select relevant site-restricted search terms; all existing Brave quotas and source checks apply. Neither query locations nor directory text become branch identity.
+
+The program queue runs at :10 and :40 each hour. It includes recorded publications and known structured-program records, rotates candidates with saved check timestamps, inspects at most twelve records and creates at most three tasks. Each skipped record has a reason in its workflow report. Active checks are not duplicated. A page-level fee is not assigned across multiple age groups without scoped price evidence. Existing registration/price/schedule source URLs are preferred before the homepage and a four-page, program-focused crawl. `program_updates_enabled` applies at queue and run time. Reports distinguish unavailable sources, no supported change, proposed changes and verified write receipts. An unavailable page is not reported as a successful unchanged-source check. Programs are never invented to demonstrate activity; unmatched programs and owner/admin changes remain protected.
+
+Sportolok's corrected search contract and one-time legacy recovery are documented in [BRAVE.md](BRAVE.md#request-contract-recovery). All downstream runs retain the shared search cooldown, local model queue and metered-model ceilings. Customer-support replies remain drafts; SLG is outside this delivery.
+
+Keyed native factory issue creation uses `allowDuplicate=true` to disable Paperclip’s broad recent-title deduplication while retaining its exact idempotency-key check. Company, project, title and description must match the returned receipt. The coordinator checks focused research receipts and can repair an old wrong-root title collision once with a new stable key; the unrelated task is preserved. Owner edits in the correct task remain held. `handoff_receipt_checks` records current verification and `handoff_receipt_history` retains prior mismatches when a corrected receipt is later verified.
+
+The native issue list does not include `executionBlocker`. Recovery can fetch up to ten exact task details per round for eligible read-only tasks without a factory run, or with a failed factory run. `native_recovery_checks` caches only the native execution markers for unchanged task revisions for an hour, retaining positive recovery hints across the two-successor round cap; a changed revision can be checked again. Evidence-blocked and completed factory runs do not earn this fallback. Detail reads establish the stopped execution before the existing three-successor, active-run, scope and protected-packet guards apply.
+
+Literal physical-address recovery may replace a non-street active model fact even when the page hash is unchanged. It checks the exact previous value and quote before replacement; valid physical addresses are never overwritten by that repair.

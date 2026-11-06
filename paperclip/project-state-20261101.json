@@ -1,0 +1,373 @@
+{
+  "checked_at": "2026-11-01T08:13:28.628253+00:00",
+  "config": {
+    "automatic_quality_gate": {
+      "enabled": true,
+      "policy": "classscout-auto-v6",
+      "daily_write_limit": 20
+    },
+    "remote_llm": {
+      "enabled": true,
+      "model": "gemini-3.8-flash",
+      "daily_calls": 150,
+      "monthly_calls": 3000,
+      "daily_cost": 0.4,
+      "monthly_cost": 10.0
+    },
+    "sales": {
+      "brands": [],
+      "crm_writes_enabled": false,
+      "delivery_enabled": false
+    },
+    "engine_clients": {
+      "padel-africa": true,
+      "sportolok": true
+    },
+    "publishing_enabled": true,
+    "reliability_enabled": true,
+    "program_updates_enabled": true,
+    "search_candidate_limit": 3,
+    "growth_mode": {
+      "enabled": true,
+      "coverage": "NYC children activities across all five boroughs",
+      "campaign": "classscout-nyc-v1",
+      "active_research_limit": 10
+    }
+  },
+  "project_names": [
+    "ClassScout",
+    "Sportolok",
+    "Management",
+    "Padel Africa",
+    "Factory Operations",
+    "Sales Lead Generator"
+  ],
+  "agents": [
+    {
+      "name": "Research Analyst",
+      "role": "research",
+      "status": "idle"
+    },
+    {
+      "name": "Content Quality Reviewer",
+      "role": "quality",
+      "status": "idle"
+    },
+    {
+      "name": "Publication Coordinator",
+      "role": "publication",
+      "status": "idle"
+    },
+    {
+      "name": "Support Drafter",
+      "role": "support",
+      "status": "idle"
+    },
+    {
+      "name": "Search Coordinator",
+      "role": "search",
+      "status": "idle"
+    }
+  ],
+  "issues": {
+    "production": 3174,
+    "states": {
+      "done": 2634,
+      "backlog": 4,
+      "blocked": 156,
+      "in_review": 359,
+      "cancelled": 21
+    }
+  },
+  "runs_24h": [
+    {
+      "role": "publication",
+      "status": "blocked",
+      "n": 54
+    },
+    {
+      "role": "publication",
+      "status": "completed",
+      "n": 76
+    },
+    {
+      "role": "publication",
+      "status": "failed",
+      "n": 1
+    },
+    {
+      "role": "quality",
+      "status": "completed",
+      "n": 127
+    },
+    {
+      "role": "research",
+      "status": "blocked",
+      "n": 10
+    },
+    {
+      "role": "research",
+      "status": "completed",
+      "n": 95
+    },
+    {
+      "role": "search",
+      "status": "completed",
+      "n": 85
+    },
+    {
+      "role": "support",
+      "status": "blocked",
+      "n": 10
+    },
+    {
+      "role": "support",
+      "status": "completed",
+      "n": 381
+    }
+  ],
+  "drafts": [
+    {
+      "status": "needs_more_evidence",
+      "n": 32
+    },
+    {
+      "status": "ready_for_human_review",
+      "n": 371
+    }
+  ],
+  "publications": [
+    {
+      "status": "awaiting_approval",
+      "n": 4
+    },
+    {
+      "status": "published",
+      "n": 11
+    }
+  ],
+  "contact_updates": [
+    {
+      "status": "applied",
+      "n": 31
+    },
+    {
+      "status": "awaiting_approval",
+      "n": 7
+    },
+    {
+      "status": "rejected_by_catalog",
+      "n": 1
+    }
+  ],
+  "program_updates": [],
+  "engine_packets": [
+    {
+      "slug": "padel-africa",
+      "kind": "intake",
+      "status": "accepted",
+      "n": 1
+    },
+    {
+      "slug": "padel-africa",
+      "kind": "publish",
+      "status": "published",
+      "n": 1
+    }
+  ],
+  "searches": [
+    {
+      "kind": "discovery",
+      "status": "completed",
+      "n": 83
+    },
+    {
+      "kind": "padel",
+      "status": "completed",
+      "n": 8
+    },
+    {
+      "kind": "publishing",
+      "status": "completed",
+      "n": 10
+    },
+    {
+      "kind": "publishing",
+      "status": "deduplicated",
+      "n": 3
+    },
+    {
+      "kind": "sportolok",
+      "status": "needs_attention",
+      "n": 8
+    }
+  ],
+  "dispatch": [
+    {
+      "status": "delivered",
+      "n": 445
+    }
+  ],
+  "recoveries": [
+    {
+      "status": "handed_off",
+      "n": 28
+    }
+  ],
+  "slg": {
+    "credential_file_exists": false,
+    "packets": [],
+    "briefing_count": 0
+  },
+  "remote_by_month": [
+    {
+      "month_key": "2026-10",
+      "status": "succeeded",
+      "n": 264,
+      "cost": 0.76419
+    },
+    {
+      "month_key": "2026-11",
+      "status": "succeeded",
+      "n": 43,
+      "cost": 0.13654
+    }
+  ],
+  "candidate_touches": 264,
+  "recent_errors": [
+    {
+      "error": "No official page uniquely confirmed the catalog street and provider identity; no correction was proposed",
+      "count": 12
+    },
+    {
+      "error": "Catalog location is not a specific street address; branch correction is held",
+      "count": 12
+    },
+    {
+      "error": "Official source does not uniquely establish one venue, city, street and declared country. Directory and multiple-branch evidence remain held.",
+      "count": 10
+    },
+    {
+      "error": "Missing explicit numerical child age ranges in months or years; checked 4 source pages. Add a focused official program/pricing/schedule page and correct the brief.",
+      "count": 6
+    },
+    {
+      "error": "Automatic quality hold: unambiguous_contacts",
+      "count": 6
+    },
+    {
+      "error": "The brief borough Bronx conflicts with the verified address, which names Brooklyn; checked 4 source pages. Add a focused official program/pricing/schedule page and correct the brief.",
+      "count": 4
+    },
+    {
+      "error": "Source could not be read: FetchError; checked 4 source pages. Add a focused official program/pricing/schedule page and correct the brief.",
+      "count": 4
+    },
+    {
+      "error": "No source-backed draft could be prepared. https://www.schools.nyc.gov/schools/X051: Model output was incomplete; no record accepted",
+      "count": 2
+    }
+  ],
+  "autonomy_latest": {
+    "at": 1793520623.307249,
+    "report": {
+      "checked_at": 1793520623.3071325,
+      "handoffs_delivered": [],
+      "pending_handoffs": 0,
+      "recovery": {
+        "planned": [],
+        "skipped": {}
+      },
+      "continuations": {
+        "delivered": [],
+        "held": []
+      },
+      "oldest_recovery_wait_seconds": 0,
+      "no_business_write_replay": true
+    }
+  },
+  "remote_state": [
+    {
+      "blocked_until": 0.0,
+      "reason": null
+    }
+  ],
+  "backup-status.json": {
+    "status": "Verified off-server",
+    "verified_at": 1793499724.6888163,
+    "next_run": "Daily at 03:20 Budapest",
+    "destination": "Owner Mac",
+    "archive": "paperclip-recovery-20261101T022026Z.tar.gz",
+    "sha256": "d2fee87058dcf21a5ba51b6a0a9fdf0dde7cbf7a279a238b7b4f0591472ee948",
+    "sqlite_integrity": "ok",
+    "retained_off_server": 7
+  },
+  "restore-drill-latest.json": {
+    "started_at": 1793192007.157778,
+    "network_egress": false,
+    "production_files_changed": false,
+    "factory_tables": 34,
+    "image_matches_production": true,
+    "native_database": {
+      "companies": 1,
+      "agents": 5,
+      "issues": 169,
+      "agents_paused": true,
+      "triggers_disabled": true
+    },
+    "password_gate_restored": true,
+    "locked_dashboard_refused": true,
+    "native_ui": true,
+    "company_api": true,
+    "factory_dashboard": true,
+    "factory_metrics": true,
+    "published_receipts_restored": 1,
+    "active_agents_in_clone": 0,
+    "completed_at": 1793192106.5225687,
+    "status": "passed",
+    "scope": "Isolated full stack: SQL, persistent files, secrets, factory state, native UI, proxy and password gate. Public DNS/TLS issuance and real host failover are not exercised."
+  },
+  "workflows.json": {
+    "count": 19,
+    "enabled": 19
+  },
+  "review": {
+    "purpose": "Refresh project understanding since the 2026-10-29 live audit; read-only production review",
+    "repository_head": "6c1e6fb895ad16e8c9cea67fa08da79fae918591",
+    "baseline_factory_snapshot": "6cbe3c0",
+    "runtime_python_matches_repository_after_docstring_normalization": true,
+    "local_factory_tests": {
+      "passed": 416,
+      "inference_calls": 0,
+      "search_calls": 0
+    },
+    "unrelated_worktree_changes_preserved": true,
+    "production_mutations": false,
+    "notes": [
+      "Five existing agent roles and nineteen native routines remain.",
+      "Local Granite 8K extraction is now augmented by an owner-enabled metered Segmind lane.",
+      "Segmind also chooses among quoted editorial-brief candidates; it cannot invent scope or replace local facts.",
+      "ClassScout category banners are accepted as explicitly marked image placeholders.",
+      "Candidate queues are oldest-touched-first with transactional selection.",
+      "Every automatic business-write reservation now obeys the master automatic-quality-gate switch.",
+      "Complete issue pagination is shared by planner, recovery, dashboard and backlog readers.",
+      "SLG remains unconfigured, no dedicated sales agent or outbound communication enabled.",
+      "Sportolok search remains in needs_attention; its eight provider failures were HTTP 422.",
+      "An old restore report is not proof that the subsequently hardened restore helper was run again."
+    ],
+    "known_current_gaps": {
+      "expired_unsubmitted_publication_packets": 4,
+      "expired_unsubmitted_refresh_packets": 1,
+      "structured_program_updates_recorded": 0,
+      "sportolok_search_jobs_needing_attention": 8
+    },
+    "orientation_files": [
+      "docs/ARCHITECTURE.md",
+      "docs/GAP-ANALYSIS-2026-10-30.md",
+      "docs/OPERATIONS.md",
+      "paperclip/factory/WORKFLOWS.md",
+      "paperclip/factory/SEGMIND.md",
+      "paperclip/factory/SLG.md"
+    ]
+  }
+}

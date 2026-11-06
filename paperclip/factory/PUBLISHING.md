@@ -36,7 +36,7 @@ Existing listings are held for the established improvement/owner workflow. This 
 
 ## Changes and failures
 
-Approval never covers a modified payload or evidence packet. Changing the task brief creates a fresh preparation and requires a fresh approval. If source text changed or approval expired, update the brief with a refresh note and reassign it for preparation; the old approval cannot publish the revised record. Rejected packets require a changed brief before resubmission.
+Approval never covers a modified payload or evidence packet. Changing the task brief creates a fresh preparation and requires a fresh approval. In human mode, if source text changed or approval expired, update the brief with a refresh note and reassign it for preparation; the old approval cannot publish the revised record. Automatic expired, never-submitted packets are superseded and freshly prepared through the scheduled renewal controller; this is not approval of the old payload. Rejected packets require a changed brief before resubmission.
 
 A lost publishing response is recorded as **uncertain** before any retry can occur. A partial receipt is retained as **partial**, not published. The same task and another packet for the same target cannot automatically repeat an uncertain write. Inspect the existing catalog entity, source proof and receipt before operator reconciliation. Do not erase the ledger or create a fresh task to evade it.
 

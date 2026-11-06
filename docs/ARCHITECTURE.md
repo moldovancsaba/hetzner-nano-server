@@ -253,6 +253,11 @@ The gate version is `classscout-auto-v6`. Other workflows reuse the same reserva
 | `pipeline.py` | `pipeline_links` (the earlier `publication_cursor` table is no longer read or written; existing databases still hold it) |
 | `candidates.py` | `candidate_touches` |
 | `catalog.py` | `catalog_cursor`, `catalog_checks`, `workflow_reports` |
+| `autonomy.py` detail probes | `native_recovery_checks` |
+| `packet_renewal.py` | `packet_renewals` |
+| `search_workflow.py` contract recovery | `search_contract_recovery` |
+| `evidence.py` focused followups | `evidence_followups` |
+| `company_ops.py` handoff verification | `handoff_receipt_checks`, `handoff_receipt_history` |
 | `refresh.py`, `program_updates.py`, `portfolio.py` | `refresh_packets`, `program_packets`, `program_queue_checks` |
 | `evidence.py` | `evidence_recovery`, `evidence_rechecks` |
 | `growth.py` | `growth_cursor`, `commissioning_checks` |
@@ -306,6 +311,8 @@ The Mac pulls a recovery bundle (Paperclip database dump, an online copy of the 
 ## Limits and known gaps
 
 This page does not repeat defects. They are recorded where they are fixed or tracked: [OPERATIONS.md](OPERATIONS.md#known-limitations) for the inference host, [../paperclip/README.md](../paperclip/README.md#known-limitations) for the Paperclip host, and the dated review in [GAP-ANALYSIS-2026-10-30.md](GAP-ANALYSIS-2026-10-30.md).
+
+Automatic unsubmitted-packet renewal, focused evidence followups and bounded twice-hourly program checks are described in [the operating workflows](../paperclip/factory/WORKFLOWS.md#automatic-delivery-maintenance--1-november-2026).
 
 ## Source exchange implementation
 

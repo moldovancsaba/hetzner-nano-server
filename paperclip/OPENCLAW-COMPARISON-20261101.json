@@ -1,0 +1,506 @@
+{
+  "checked_at": "2026-11-01T18:23:41.179510+00:00",
+  "timezone_for_display": "Europe/Budapest",
+  "method": "Read-only code, operating-policy, live registry/cron, history and Paperclip SQLite/API inspection. No business jobs, inference, searches, messages, deployment or schedule changes.",
+  "openclaw": {
+    "workspace_commit": "b2bb520b4555b8be836e95ab96f95f5c7f2a6816",
+    "runtime_version": "OpenClaw 2026.7.1-2 (0790d9f)",
+    "enabled_jobs": 40,
+    "paused": false,
+    "applications": {
+      "salesleadgenerator": {
+        "businessLogicSource": "GET /api/sales-settings/<client>?tenantId=default",
+        "clients": [
+          "cogmap",
+          "seyu",
+          "dvsc"
+        ]
+      },
+      "classscout": {
+        "businessLogicSource": "territory settings per client (city); more logic later",
+        "clients": [
+          "NYC",
+          "BOS",
+          "LA"
+        ]
+      },
+      "management": {
+        "businessLogicSource": "vertical pack per instance (VERTICAL env) - taxonomy, locales and discovery query templates are declared in verticals/<slug>/index.ts",
+        "clients": [
+          "padel-africa",
+          "sportolok"
+        ]
+      }
+    },
+    "cron": [
+      {
+        "name": "worker-tick",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "*/10 * * * *",
+          "tz": "Europe/Budapest"
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "not-requested"
+      },
+      {
+        "name": "ollama-keepalive",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "*/10 * * * *",
+          "tz": "Europe/Budapest"
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "not-requested"
+      },
+      {
+        "name": "contentcreator-checks",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "45 * * * *",
+          "tz": "Europe/Budapest",
+          "staggerMs": 0
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "not-requested"
+      },
+      {
+        "name": "contentcreator-hourly-report",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "0 * * * *",
+          "tz": "Europe/Budapest",
+          "staggerMs": 300000
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "delivered"
+      },
+      {
+        "name": "padel-africa-seed",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "10 */4 * * *",
+          "tz": "Europe/Budapest",
+          "staggerMs": 0
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "not-requested"
+      },
+      {
+        "name": "sportolok-seed",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "25 */4 * * *",
+          "tz": "Europe/Budapest",
+          "staggerMs": 0
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "not-requested"
+      },
+      {
+        "name": "classscout-seed",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "40 */4 * * *",
+          "tz": "Europe/Budapest"
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "not-requested"
+      },
+      {
+        "name": "classscout-directory-seed",
+        "enabled": true,
+        "schedule": {
+          "kind": "cron",
+          "expr": "40 2-22/4 * * *",
+          "tz": "Europe/Budapest"
+        },
+        "last_run_status": "ok",
+        "last_delivery_status": "not-requested"
+      }
+    ],
+    "ollama_resident": "NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL            \nqwen2.5:7b    845dbda0ea48    5.5 GB    100% GPU     32768      llamacpp    2 hours from now",
+    "alerts": {
+      "checked_at": "2026-11-01T17:45:26Z",
+      "failed": [],
+      "deferred": [],
+      "alerts": [
+        "host: WARN disk 14.6 GiB free (94% used); WARN swap 14.1 GiB in use"
+      ]
+    },
+    "disk_free_gib": 15.67,
+    "swap": "vm.swapusage: total = 15360.00M  used = 14613.19M  free = 746.81M  (encrypted)",
+    "newest_backup_at": "2026-10-29T11:23:42.737887+00:00",
+    "discovery_24h": {
+      "cogmap-discovery": {
+        "runs": 5,
+        "reported_deliveries": 0,
+        "unknown_yield_runs": 0,
+        "failed_runs": 0,
+        "deferred_runs": 0,
+        "execution_seconds": 733,
+        "last_at": "2026-11-01T14:52:43+00:00"
+      },
+      "seyu-discovery": {
+        "runs": 5,
+        "reported_deliveries": 1,
+        "unknown_yield_runs": 0,
+        "failed_runs": 0,
+        "deferred_runs": 0,
+        "execution_seconds": 636,
+        "last_at": "2026-11-01T15:06:33+00:00"
+      },
+      "dvsc-discovery": {
+        "runs": 5,
+        "reported_deliveries": 1,
+        "unknown_yield_runs": 0,
+        "failed_runs": 0,
+        "deferred_runs": 0,
+        "execution_seconds": 782,
+        "last_at": "2026-11-01T15:22:24+00:00"
+      },
+      "BOS-discovery": {
+        "runs": 6,
+        "reported_deliveries": 1,
+        "unknown_yield_runs": 0,
+        "failed_runs": 0,
+        "deferred_runs": 0,
+        "execution_seconds": 1122,
+        "last_at": "2026-11-01T16:17:55+00:00"
+      },
+      "LA-discovery": {
+        "runs": 6,
+        "reported_deliveries": 0,
+        "unknown_yield_runs": 1,
+        "failed_runs": 1,
+        "deferred_runs": 0,
+        "execution_seconds": 886,
+        "last_at": "2026-11-01T16:35:26+00:00"
+      },
+      "NYC-discovery": {
+        "runs": 6,
+        "reported_deliveries": 1,
+        "unknown_yield_runs": 0,
+        "failed_runs": 0,
+        "deferred_runs": 0,
+        "execution_seconds": 1237,
+        "last_at": "2026-11-01T15:56:04+00:00"
+      },
+      "padel-africa-discovery": {
+        "runs": 6,
+        "reported_deliveries": 2,
+        "unknown_yield_runs": 0,
+        "failed_runs": 0,
+        "deferred_runs": 0,
+        "execution_seconds": 1842,
+        "last_at": "2026-11-01T17:33:19+00:00"
+      },
+      "sportolok-discovery": {
+        "runs": 6,
+        "reported_deliveries": 4,
+        "unknown_yield_runs": 0,
+        "failed_runs": 0,
+        "deferred_runs": 0,
+        "execution_seconds": 1887,
+        "last_at": "2026-11-01T17:48:01+00:00"
+      }
+    },
+    "recorded_event_counts_24h": {
+      "LA": {
+        "page-never-mentions-children": 171,
+        "wrong-site-not-the-business": 31,
+        "model-says-not-a-provider": 29,
+        "page-unreadable": 33,
+        "model-reply-unusable": 28,
+        "search-unavailable-NOT-CHECKED": 28,
+        "MODEL-UNREACHABLE": 28,
+        "robots-disallow-page": 28,
+        "spent-recently": 89,
+        "already-a-client-record": 17,
+        "candidate-examined": 14,
+        "fetch-http-403": 1,
+        "candidate-queued": 11,
+        "directory-or-social": 33,
+        "duplicate-in-batch": 21,
+        "dead": 12,
+        "fetch-readable": 1,
+        "no sourced street address": 1,
+        "longDescription failed the publish": 1,
+        "time-budget-fetch-model-build": 1
+      },
+      "BOS": {
+        "page-never-mentions-children": 35,
+        "candidate-qualified": 1,
+        "upsert-accepted": 1,
+        "spent-recently": 62,
+        "readback-confirmed": 1,
+        "model-says-not-a-provider": 5,
+        "page-unreadable": 2,
+        "wrong-site-not-the-business": 5,
+        "no sourced street address": 10,
+        "already-a-client-record": 22,
+        "candidate-queued": 15,
+        "duplicate-in-batch": 13,
+        "directory-or-social": 12,
+        "dead": 2,
+        "candidate-examined": 14,
+        "time-budget-fetch-model-build": 1
+      },
+      "NYC": {
+        "dropped-no-website": 41,
+        "duplicate-in-batch": 62,
+        "robots-disallow-page": 6,
+        "already-a-client-record": 29,
+        "page-unreadable": 14,
+        "spent-recently": 33,
+        "wrong-site-not-the-business": 5,
+        "candidate-qualified": 1,
+        "upsert-accepted": 1,
+        "model-says-not-a-provider": 2,
+        "readback-confirmed": 1,
+        "candidate-queued": 30,
+        "directory-or-social": 42,
+        "dead": 5,
+        "no sourced street address": 3,
+        "candidate-examined": 21,
+        "address zip is not in NYC": 1,
+        "page-never-mentions-children": 1,
+        "fetch-readable": 3,
+        "image too small to be a real photo": 1,
+        "fetch-http-502": 2,
+        "time-budget-fetch-model-build": 1
+      },
+      "padel-africa": {
+        "model-says-out-of-scope": 52,
+        "category-outside-taxonomy": 5,
+        "page-unreadable": 20,
+        "robots-disallowed": 7,
+        "not-their-own-site": 19,
+        "already-known-domain": 17,
+        "already-known-name": 4,
+        "reply-unparseable": 6,
+        "country-unresolved": 5,
+        "candidate-qualified": 2,
+        "delivered": 2,
+        "candidate-examined": 45,
+        "fetch-empty-extraction": 1,
+        "directory-mined": 1,
+        "time-budget-fetch-model-submit": 3,
+        "fetch-transport-SSLCertVerificationError": 1,
+        "fetch-http-403": 3,
+        "fetch-http-308": 2,
+        "spent-recently": 6,
+        "fetch-http-402": 1
+      },
+      "sportolok": {
+        "robots-disallowed": 18,
+        "already-known-domain": 21,
+        "page-unreadable": 10,
+        "model-says-out-of-scope": 70,
+        "not-their-own-site": 17,
+        "category-outside-taxonomy": 4,
+        "already-known-name": 2,
+        "candidate-qualified": 4,
+        "delivered": 4,
+        "candidate-examined": 41,
+        "fetch-http-302": 1,
+        "time-budget-fetch-model-submit": 3,
+        "forbidden-host": 1
+      },
+      "cogmap": {
+        "known-domain": 43,
+        "robots-disallow": 28,
+        "no-country-unsourced": 6,
+        "spent-recently": 69,
+        "page-unreadable": 16,
+        "candidate-qualified": 11,
+        "no-contact-on-the-page": 11,
+        "known-name": 1,
+        "not-an-org-or-unsourced": 4,
+        "candidate-examined": 21,
+        "fetch-http-403": 1,
+        "time-budget-fetch-model-submit": 2,
+        "fetch-readable": 1,
+        "fetch-http-400": 1,
+        "fetch-http-308": 1
+      },
+      "seyu": {
+        "readback-confirmed": 2,
+        "spent-recently": 40,
+        "robots-disallow": 23,
+        "no-country-unsourced": 3,
+        "known-domain": 18,
+        "page-unreadable": 25,
+        "candidate-qualified": 18,
+        "no-contact-on-the-page": 16,
+        "candidate-examined": 25,
+        "delivered": 1,
+        "fetch-http-403": 7,
+        "not-an-org-or-unsourced": 1,
+        "time-budget-fetch-model-submit": 1,
+        "fetch-readable": 1,
+        "fetch-http-400": 1,
+        "api-400": 1
+      },
+      "dvsc": {
+        "spent-recently": 32,
+        "robots-disallow": 10,
+        "page-unreadable": 32,
+        "known-domain": 14,
+        "candidate-qualified": 12,
+        "no-contact-on-the-page": 11,
+        "no-country-unsourced": 12,
+        "candidate-examined": 24,
+        "fetch-readable": 1,
+        "fetch-http-403": 4,
+        "not-an-org-or-unsourced": 3,
+        "fetch-fetch-RemoteDisconnected": 1,
+        "fetch-http-404": 1,
+        "time-budget-fetch-model-submit": 2,
+        "delivered": 1
+      }
+    },
+    "malformed_telemetry_rows_all_history": 0,
+    "worker_24h": {
+      "execution_seconds": 12886,
+      "observed_idle_seconds": 28287,
+      "queue_wait_samples": 61
+    },
+    "source_sha256": {
+      "SSOT.md": "19c29621c030f2abd6049b0d1bb882388f58bb464c4682f7020d2074554c06cf",
+      "worker.py": "910d65a693cb980c378e11874eb42a08d0dec34225b5f713b7cc7cc859dd1115",
+      "discover.py": "aa261af5b9fef7b8898365c3bed4bca92f041dd55faafa3e487529f835ecc56c",
+      "cs_create.py": "a1625481d6e118c568f05cd4468c085fc092dc26aa4e80e00d4ee708690943a5",
+      "websearch.py": "46a98785914daa5bf9470a2234e861c831ca454f4734806c3a2e702f98e8c7be",
+      "official_evidence.py": "9322454085836e085d4c29bc1c2f0a25b1a53bfceea13aae85e9e5ebe3006e97",
+      "local_state.py": "836fc046ba93a303a1d53661f705156bcf50a2c815d4cb20259a8b60d81084e8",
+      "provledger.py": "9b56911df3a86f414441e52b3a7c38425d7291d2e330e46e65391d10e3023876",
+      "discovery_search.py": "10f93edbf597323c6b5c7ce1ca436e9652e03ee38f041ac25554c34467b7e3f9",
+      "work_budget.py": "3feb3e8740ba7500abb7644479df8423a793229a6390eeb61c6606f3a831e0e1",
+      "job_breaker.py": "6aeec2a248419ef792dae04a1fad0721ea587a54ef440365abe0888ef42729bd"
+    }
+  },
+  "paperclip": {
+    "checked_at": "2026-11-01T18:23:41.888381+00:00",
+    "projects": [
+      "ClassScout",
+      "Sportolok",
+      "Management",
+      "Padel Africa",
+      "Factory Operations",
+      "Sales Lead Generator"
+    ],
+    "roles": [
+      "research",
+      "quality",
+      "support",
+      "publication",
+      "search"
+    ],
+    "sales": {
+      "brands": [],
+      "crm_writes_enabled": false,
+      "delivery_enabled": false
+    },
+    "flags": {
+      "publishing_enabled": true,
+      "program_updates_enabled": true,
+      "search_enabled": true,
+      "engine_clients": {
+        "padel-africa": true,
+        "sportolok": true
+      }
+    },
+    "routine_count": 19,
+    "health": {
+      "status": "ok",
+      "mode": "source research with budgeted Brave discovery",
+      "search_enabled": true,
+      "publishing": "automatic quality gate",
+      "outreach": false
+    },
+    "publication_packets": [
+      {
+        "status": "published",
+        "count": 15
+      },
+      {
+        "status": "superseded",
+        "count": 4
+      }
+    ],
+    "refresh_packets": [
+      {
+        "status": "applied",
+        "count": 38
+      },
+      {
+        "status": "awaiting_approval",
+        "count": 3
+      },
+      {
+        "status": "rejected_by_catalog",
+        "count": 1
+      },
+      {
+        "status": "superseded",
+        "count": 6
+      }
+    ],
+    "engine_packets": [
+      {
+        "status": "accepted",
+        "count": 2
+      },
+      {
+        "status": "published",
+        "count": 1
+      }
+    ],
+    "search_jobs": [
+      {
+        "status": "completed",
+        "count": 117
+      },
+      {
+        "status": "deduplicated",
+        "count": 3
+      },
+      {
+        "status": "needs_attention",
+        "count": 8
+      }
+    ]
+  },
+  "paperclip_source_sha256": {
+    "worker.py": "d47d16a2c015f0af3454d329ab11fb90ff38446ebc0df82488b64609eb1b992a",
+    "net.py": "f56a07122358a08e7323b9ab097c4cec4a3a5b73e4b65ee81041364cb49b16f7",
+    "publishing.py": "9a93d37d165f5964b4c093df2a3b9be1868aea354f16f1475875a688a2645707",
+    "refresh.py": "90cbf8ce2d836035cb5b9ffae48a39cf053332a68e7afaf09b72fafabdf19ea3",
+    "quality_gate.py": "e72c04fa1ab6ad5e3c00bd85745e781ed4e204d9a2a9f54057b6f2a76286e88d",
+    "slg.py": "6c700e0d3ee5c38fa6809386056d24904a72019ea79dc16c252521ab26e89b71",
+    "engine_ops.py": "902754ef5cf14a86f2753090c463a393a11e26b4598a0532f4ba7284801292a4",
+    "company_ops.py": "9c91fece9f002103aa40a0a0a6b10fb05cee3f503ad9a3cb2885f442471b015b",
+    "packet_renewal.py": "474a7ce6f785046ac023d366d56519b5935196120982a68a1e3f208f3efdbc7a",
+    "search_workflow.py": "43ab40a633cefa772fa8e8c8e008ec463f7dbd67284fdbe7f4707d6ee1808275",
+    "brave.py": "7860fc64a71d0bbb251144959a3fdc4e704349f2df1159fc22488d11c7fb664a"
+  },
+  "previous_release_evidence": {
+    "path": "delivery-acceptance-20261101.json",
+    "checked_at": "2026-11-01T13:26:28.946489+00:00"
+  },
+  "limits": [
+    "Sequential snapshots, not a simultaneous transaction.",
+    "Worker delivered counts mean reported acceptance, not universal public publication. Telemetry events are raw recorded counts and may describe overlapping stages.",
+    "No matched-input quality/speed benchmark; context capacity alone does not establish quality.",
+    "Security and shared-writer concerns are code-review findings, not exploited production incidents.",
+    "No secrets, private ledgers or configuration containing credentials were opened or copied."
+  ]
+}

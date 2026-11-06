@@ -1,0 +1,1064 @@
+{
+  "checked_at": "2026-11-01T09:12:45.361898+00:00",
+  "scope": "Owner-authorized delivery stages 1-4; no SLG activation or customer sending",
+  "deployment": {
+    "deployed_at": "2026-11-01T08:47:25.442756+00:00",
+    "backup": "/root/backups/factory-delivery-20261101T084724Z",
+    "staging_tests": 449,
+    "files": {
+      "autonomy.py": "e6966f86405c620959fbc55eb971dc3ee494c1d8a7ca5d84326c21dda8d7a2ff",
+      "brave.py": "7860fc64a71d0bbb251144959a3fdc4e704349f2df1159fc22488d11c7fb664a",
+      "company_ops.py": "4892b235675cc2091847bb112ebcf00958f8049c9d492ff5134f2d08d331f589",
+      "evidence.py": "a5fa49107a6d8a8abc97fbccef5fe41678e61484c98c7e2cb88d6e87eb726b25",
+      "growth.py": "24139841f4eee1d7d5ce0562adce5a91743c4ceed2252baefd81d4cdef5dd2a8",
+      "packet_renewal.py": "474a7ce6f785046ac023d366d56519b5935196120982a68a1e3f208f3efdbc7a",
+      "pipeline.py": "9ae04aa5e3b33e49319ab350d64277b80778e7b87d03b26c25879c9e43d64559",
+      "portfolio.py": "3a731c4e0eacd34dc0e39e22d78fd0e1173b19dc75d89e1f0ab77ce02b018441",
+      "program_updates.py": "30db21caeb5ca7426c37179091292ec0f569ddf3a6941d585d6f55cf4fc796a7",
+      "publishing.py": "9a93d37d165f5964b4c093df2a3b9be1868aea354f16f1475875a688a2645707",
+      "refresh.py": "90cbf8ce2d836035cb5b9ffae48a39cf053332a68e7afaf09b72fafabdf19ea3",
+      "search_workflow.py": "43ab40a633cefa772fa8e8c8e008ec463f7dbd67284fdbe7f4707d6ee1808275",
+      "test_automatic.py": "e732a18d0273862192f093d910b05576208dbf10272101f22946b6e11e2c3e80",
+      "test_autonomy.py": "2b2a9c5d516c0240d47377c869319bf4dd054ebb793e12a1d3b4dbf01ddd9616",
+      "test_backup.py": "553eaf63261f0dd5c58a911bc082b270a6f38fbcf12dffffbde4e7ade4bc144f",
+      "test_billing_line.py": "1ad86893bb7d9185fa935a498c19cd0771992a7389dfa49046fd20601923b24a",
+      "test_blocker_recovery.py": "85007465e0727780ca1a497e5e1150ca707e63658562d5aad554be4c3d3d1fbb",
+      "test_candidates.py": "be0a6eea452f2b4d993b181fa722149c027ecd97ec22b1a820fd814e2cb43fa4",
+      "test_company_ops.py": "b30390bee62bc82cca0de0a3d4e0af1b1ec508cc5588f50e1973e5b48f73afd3",
+      "test_configure_slg.py": "8ad8d0c3f64024b0a8256db4dd789d00811d48dd46cccf004c1c2ddbe31192d3",
+      "test_dashboard.py": "9b24fdfbdcbfc0838f8642cb9ea17c1a0ca64afc7a6e86f716a18faf0560e6a2",
+      "test_delivery.py": "58b49c51ca18891d433ace0011c5591bf4f9eb9b84b1fab56dff4072511f4e4f",
+      "test_delivery_round.py": "efc7ed001ea69ce55471436210fb7b3b063ab1a04b56fba0da7d9788f64a282a",
+      "test_factory.py": "de543880909f6a0b2814045bf31f7f5bef73dfd719f1409a9d975206149e57af",
+      "test_factory_config.py": "261341864b382e9b117be69b8082e348b2ac7c203b381c2e0624e5faf75e18dd",
+      "test_gate_switch.py": "be286a530b80b6a4686cda10f5879bc3a5a579c431e66a6a49e3ff4be9926c32",
+      "test_growth.py": "a77ddfda1faa7ece81fd46a1799c1ad1fb92fa7d7ef0e8af8e47238a63cb08a0",
+      "test_handoff.py": "85fca469680556b132312f70e24d917d26453ef6b938641f8c6a2292b2243882",
+      "test_literal_fallback.py": "ca602fed075bc6de41080e5207ee51bb19891c11c6f997b2e51e9fad190b04be",
+      "test_openclaw_alignment.py": "3389d21093f53c327948b974289cd00720d3c256fb5351d298756861f7034bc3",
+      "test_operations.py": "439e00351885288fc5b7555a044a1249bf0e79d2a288cb9c029df3257e271a30",
+      "test_provision.py": "ae51d3157479f379388c76b5ea9f88768da5b183dae3772db173f6f7b6f51588",
+      "test_publishing.py": "c8b32392359b49732e9adc45d2c8c95fc0f9863cad8277743349261dff749f59",
+      "test_recovery.py": "0015ad9fc6235d042ad29e71ac318860dc137d5fb02b9a37b1e797fa860b8436",
+      "test_research_backlog.py": "77d2438fe1f29fae9eadb759feb2b74757fc6a3e1394de8da12298e6cc113652",
+      "test_restore_drill.py": "1fb0eed3aeb8a8e7d4cfb995bfe6cf0e3e774a0bf46c07dd3fe8891fa4bde409",
+      "test_search.py": "8c25384590de2a75ea5d141a225569d697d18e1740e85de60f893bf4f7171f6a",
+      "test_segmind.py": "8395ec5f3d0fb0a17106a70dff5af83758dab73c332afd1a63ae867433316cc9",
+      "test_slg.py": "dba878b906f4732430b575116657a9e324c99c686d5261d60ba33e1eed420f54",
+      "test_snapshot.py": "68964a06d40e39eb69e00588546e794092a45c80900c2bba473b4dc432dc9bd4",
+      "workflows_setup.py": "42d7eaa5f63425e55241116dba253b72429964dbd45f7673c6a7cc4e8f3e6dce",
+      "worker.py": "d47d16a2c015f0af3454d329ab11fb90ff38446ebc0df82488b64609eb1b992a",
+      "README.md": "59e9a2c1b04389100a796aa43937c7227edf32bf8089b34db6fc007ec7c2b51d",
+      "BRAVE.md": "a83133de391a4faada3d5e2845c8b0b27341988e124c108c478bc9829c624520",
+      "PUBLISHING.md": "1c7449dfcfb1757e7d8b0ae6c219ec60c12f1febb276fd6ab1b6f6b3e65f6e58",
+      "WORKFLOWS.md": "2b465b5542ee158a6db100eee953f0e3c17482846aa1b0d51af01da49557c858"
+    },
+    "program_schedule": {
+      "previous": "40 9 * * *",
+      "new": "10,40 * * * *",
+      "enabled": true
+    },
+    "production_config_changed": false,
+    "followup_at": "2026-11-01T08:52:37.451431+00:00",
+    "followup_backup": "/root/backups/factory-delivery-followup-20261101",
+    "final_at": "2026-11-01T08:55:48.818671+00:00",
+    "final_backup": "/root/backups/factory-delivery-final-20261101",
+    "release_at": "2026-11-01T08:57:49.105222+00:00",
+    "release_backup": "/root/backups/factory-delivery-evidence-20261101",
+    "receipts_at": "2026-11-01T09:10:41.152273+00:00",
+    "receipts_backup": "/root/backups/factory-delivery-receipts-20261101"
+  },
+  "controlled_tests": {
+    "local_passed": 449,
+    "isolated_server_passed": 449,
+    "synthetic_inference_calls": 0,
+    "diagnostic_brave_requests": 0
+  },
+  "runtime": {
+    "service": "active",
+    "native_container_health": "healthy",
+    "health": {
+      "status": "ok",
+      "mode": "source research with budgeted Brave discovery",
+      "search_enabled": true,
+      "publishing": "automatic quality gate",
+      "outreach": false
+    },
+    "source_hashes_match_deployment": {
+      "autonomy.py": true,
+      "brave.py": true,
+      "company_ops.py": true,
+      "evidence.py": true,
+      "growth.py": true,
+      "packet_renewal.py": true,
+      "pipeline.py": true,
+      "portfolio.py": true,
+      "program_updates.py": true,
+      "publishing.py": true,
+      "refresh.py": true,
+      "search_workflow.py": true,
+      "test_automatic.py": true,
+      "test_autonomy.py": true,
+      "test_backup.py": true,
+      "test_billing_line.py": true,
+      "test_blocker_recovery.py": true,
+      "test_candidates.py": true,
+      "test_company_ops.py": true,
+      "test_configure_slg.py": true,
+      "test_dashboard.py": true,
+      "test_delivery.py": true,
+      "test_delivery_round.py": true,
+      "test_factory.py": true,
+      "test_factory_config.py": true,
+      "test_gate_switch.py": true,
+      "test_growth.py": true,
+      "test_handoff.py": true,
+      "test_literal_fallback.py": true,
+      "test_openclaw_alignment.py": true,
+      "test_operations.py": true,
+      "test_provision.py": true,
+      "test_publishing.py": true,
+      "test_recovery.py": true,
+      "test_research_backlog.py": true,
+      "test_restore_drill.py": true,
+      "test_search.py": true,
+      "test_segmind.py": true,
+      "test_slg.py": true,
+      "test_snapshot.py": true,
+      "workflows_setup.py": true,
+      "worker.py": true,
+      "README.md": true,
+      "BRAVE.md": true,
+      "PUBLISHING.md": true,
+      "WORKFLOWS.md": true
+    }
+  },
+  "expired_baseline_packets": [
+    {
+      "table": "publication_packets",
+      "original": {
+        "id": "4fb6f137-bc88-4bee-8fef-ff71e42d4f39",
+        "identifier": "NAR-359",
+        "status": "blocked",
+        "stage": "evidence_hold",
+        "error": "Source content changed after preparation; a new review is required"
+      },
+      "original_packet_status": "superseded",
+      "renewal_chain": [
+        {
+          "delivery": "delivered",
+          "task": {
+            "id": "55a85d55-6d67-46e3-a80f-1876262b2e16",
+            "identifier": "NAR-3215",
+            "status": "done",
+            "stage": "published",
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "table": "publication_packets",
+      "original": {
+        "id": "9d30f737-3a0d-4e85-bbad-c7f4fee866c8",
+        "identifier": "NAR-685",
+        "status": "blocked",
+        "stage": "evidence_hold",
+        "error": "Source content changed after preparation; a new review is required"
+      },
+      "original_packet_status": "superseded",
+      "renewal_chain": [
+        {
+          "delivery": "delivered",
+          "task": {
+            "id": "0a9ee7aa-8789-4382-aa83-41d4f20783e0",
+            "identifier": "NAR-3245",
+            "status": "blocked",
+            "stage": "source_gap_waiting",
+            "error": "The brief borough Bronx conflicts with the verified address, which names Brooklyn; checked 4 source pages. Add a focused official program/pricing/schedule page and correct the brief."
+          }
+        }
+      ]
+    },
+    {
+      "table": "publication_packets",
+      "original": {
+        "id": "3a4421e4-29eb-4247-8106-b114ce8f83f6",
+        "identifier": "NAR-951",
+        "status": "blocked",
+        "stage": "quality_hold",
+        "error": "Automatic quality hold: official_contacts"
+      },
+      "original_packet_status": "superseded",
+      "renewal_chain": [
+        {
+          "delivery": "delivered",
+          "task": {
+            "id": "bf4afa5d-f9d1-4eab-bfa6-8a23fd538203",
+            "identifier": "NAR-3246",
+            "status": "blocked",
+            "stage": "evidence_hold",
+            "error": "The publication name looks like a page title (it contains \"|\"); a clean provider name is required; checked 4 source pages. Add a focused official program/pricing/schedule page and correct the brief."
+          }
+        }
+      ]
+    },
+    {
+      "table": "publication_packets",
+      "original": {
+        "id": "e5ef4c11-8de2-4c38-b3a2-8e6e51cd119d",
+        "identifier": "NAR-1122",
+        "status": "blocked",
+        "stage": "quality_hold",
+        "error": "Automatic quality hold: official_contacts"
+      },
+      "original_packet_status": "superseded",
+      "renewal_chain": [
+        {
+          "delivery": "delivered",
+          "task": {
+            "id": "6a57b0bb-09b2-4880-ba3e-5352d7a1933b",
+            "identifier": "NAR-3257",
+            "status": "done",
+            "stage": "published",
+            "error": null
+          }
+        }
+      ]
+    },
+    {
+      "table": "refresh_packets",
+      "original": {
+        "id": "6408d99d-4d47-4e18-a97a-3a8ecec87ef8",
+        "identifier": "NAR-433",
+        "status": "blocked",
+        "stage": "quality_hold",
+        "error": "Automatic quality hold: unambiguous_contacts"
+      },
+      "original_packet_status": "superseded",
+      "renewal_chain": [
+        {
+          "delivery": "delivered",
+          "task": {
+            "id": "04120157-def2-4705-96a2-5ead70ddd3e1",
+            "identifier": "NAR-3214",
+            "status": "blocked",
+            "stage": "quality_hold",
+            "error": "Automatic quality hold: unambiguous_contacts"
+          }
+        },
+        {
+          "delivery": "delivered",
+          "task": {
+            "id": "966a2868-52fc-4262-bfbb-7b76d1a9c4c9",
+            "identifier": "NAR-3234",
+            "status": "done",
+            "stage": "refresh_applied",
+            "error": null
+          }
+        }
+      ]
+    }
+  ],
+  "legacy_sportolok_searches": [
+    {
+      "original_issue": "d4a46402-b45f-45c7-8017-1f396ffaac78",
+      "recovery": {
+        "task": {
+          "id": "ba5b0dcf-2676-40c4-867b-215d7eaa957a",
+          "identifier": "NAR-3216",
+          "status": "done",
+          "stage": "search_completed",
+          "error": null
+        },
+        "status": "completed",
+        "attempts": 1,
+        "directly_fetched_pages": 3,
+        "downstream_tasks": [
+          "NAR-3236",
+          "NAR-3237",
+          "NAR-3238"
+        ]
+      }
+    },
+    {
+      "original_issue": "9b30f2d1-f4af-4c36-b197-405cba24753c",
+      "recovery": {
+        "task": {
+          "id": "37bc6be5-ad04-49d7-84b7-1a92f410e891",
+          "identifier": "NAR-3220",
+          "status": "in_review",
+          "stage": "search_waiting",
+          "error": null
+        },
+        "status": "queued",
+        "attempts": 0,
+        "directly_fetched_pages": 0,
+        "downstream_tasks": []
+      }
+    },
+    {
+      "original_issue": "41b5685b-70eb-4ae3-ae3b-293990d90c9f",
+      "recovery": {
+        "task": {
+          "id": "6b7eaade-968d-4eef-961d-f60219bc84c8",
+          "identifier": "NAR-3235",
+          "status": "in_review",
+          "stage": "search_waiting",
+          "error": null
+        },
+        "status": "queued",
+        "attempts": 0,
+        "directly_fetched_pages": 0,
+        "downstream_tasks": []
+      }
+    },
+    {
+      "original_issue": "276b6a3a-5687-4d94-8083-5e836d5a5728",
+      "recovery": {
+        "task": {
+          "id": "32483653-72fa-47c3-8792-adec179635c0",
+          "identifier": "NAR-3247",
+          "status": "in_review",
+          "stage": "search_waiting",
+          "error": null
+        },
+        "status": "queued",
+        "attempts": 0,
+        "directly_fetched_pages": 0,
+        "downstream_tasks": []
+      }
+    },
+    {
+      "original_issue": "e91897c3-174d-4b08-82a6-65f46a77ab2b",
+      "recovery": {
+        "task": {
+          "id": "8337e376-3f7c-4073-a46c-cb68d67baace",
+          "identifier": "NAR-3258",
+          "status": "in_review",
+          "stage": "search_waiting",
+          "error": null
+        },
+        "status": "queued",
+        "attempts": 0,
+        "directly_fetched_pages": 0,
+        "downstream_tasks": []
+      }
+    },
+    {
+      "original_issue": "352e007e-6f10-4025-ad94-9eab31ca70b6",
+      "recovery": {
+        "task": {
+          "id": "7b393d7e-3317-48eb-9f66-9ff30592fdbd",
+          "identifier": "NAR-3262",
+          "status": "in_review",
+          "stage": "search_waiting",
+          "error": null
+        },
+        "status": "queued",
+        "attempts": 0,
+        "directly_fetched_pages": 0,
+        "downstream_tasks": []
+      }
+    },
+    {
+      "original_issue": "26671694-e857-4d54-a80f-3306839cbb3d",
+      "recovery": null
+    },
+    {
+      "original_issue": "3f40df94-b52a-4737-bc38-d68b43848755",
+      "recovery": null
+    }
+  ],
+  "new_brave_attempts": [
+    {
+      "status": "succeeded",
+      "http_status": 200,
+      "reserved_at": 1793523637.9673684
+    }
+  ],
+  "new_verified_publications": [
+    {
+      "task": {
+        "id": "55a85d55-6d67-46e3-a80f-1876262b2e16",
+        "identifier": "NAR-3215",
+        "status": "done",
+        "stage": "published",
+        "error": null
+      },
+      "provider_id": "prov-art-lab",
+      "private_verified": true,
+      "public_verified": true
+    },
+    {
+      "task": {
+        "id": "6a57b0bb-09b2-4880-ba3e-5352d7a1933b",
+        "identifier": "NAR-3257",
+        "status": "done",
+        "stage": "published",
+        "error": null
+      },
+      "provider_id": "prov-lana-s-gymnastics-club",
+      "private_verified": true,
+      "public_verified": true
+    }
+  ],
+  "new_verified_contact_content_updates": [
+    {
+      "task": {
+        "id": "de5f11ff-068c-4f17-a8ad-c7e63f8f7672",
+        "identifier": "NAR-3218",
+        "status": "done",
+        "stage": "refresh_applied",
+        "error": null
+      },
+      "provider_id": "prov-tinyout-culture-lab-lic",
+      "fields": [
+        "phone"
+      ],
+      "private_verified": true,
+      "public_verified": true
+    },
+    {
+      "task": {
+        "id": "9b3b2a42-f43a-40f0-9710-102c3154c111",
+        "identifier": "NAR-3219",
+        "status": "done",
+        "stage": "refresh_applied",
+        "error": null
+      },
+      "provider_id": "prov-tinyout-primetime-sports",
+      "fields": [
+        "phone"
+      ],
+      "private_verified": true,
+      "public_verified": true
+    },
+    {
+      "task": {
+        "id": "c246912a-2b4b-4c83-8be5-fd366c7caffc",
+        "identifier": "NAR-3233",
+        "status": "done",
+        "stage": "refresh_applied",
+        "error": null
+      },
+      "provider_id": "prov-tinyout-the-therapy-gym",
+      "fields": [
+        "email",
+        "phone"
+      ],
+      "private_verified": true,
+      "public_verified": true
+    },
+    {
+      "task": {
+        "id": "966a2868-52fc-4262-bfbb-7b76d1a9c4c9",
+        "identifier": "NAR-3234",
+        "status": "done",
+        "stage": "refresh_applied",
+        "error": null
+      },
+      "provider_id": "prov-tinyout-huan-yu-education-center",
+      "fields": [
+        "phone"
+      ],
+      "private_verified": true,
+      "public_verified": true
+    },
+    {
+      "task": {
+        "id": "1fdfb389-823a-4004-a1ce-bd8312198f31",
+        "identifier": "NAR-3251",
+        "status": "done",
+        "stage": "refresh_applied",
+        "error": null
+      },
+      "provider_id": "prov-tinyout-staten-island-basketball-league",
+      "fields": [
+        "phone"
+      ],
+      "private_verified": true,
+      "public_verified": true
+    }
+  ],
+  "focused_research_followups": [
+    {
+      "source_url": "https://sundogtheatre.org/about-us/",
+      "root_issue": "e2bf070c-302e-43dd-85a6-7b5ae675259d",
+      "dispatch_status": "delivered",
+      "research": {
+        "id": "a584c2c2-5795-4049-ac01-cf14dec0cafb",
+        "identifier": "NAR-3230",
+        "status": "done",
+        "stage": "research_review",
+        "error": null
+      },
+      "independent_quality": [
+        {
+          "id": "632e592f-c280-442c-b15c-16474e38f2da",
+          "identifier": "NAR-3243",
+          "status": "in_review",
+          "stage": "research_review",
+          "error": null
+        }
+      ]
+    },
+    {
+      "source_url": "https://wagner.edu/lifelong-learning/location/",
+      "root_issue": "dad10d7d-7e2e-42ed-948b-8ede63972a09",
+      "dispatch_status": "delivered",
+      "research": {
+        "id": "650f545d-2a37-49d9-bed2-0a3c704f87d8",
+        "identifier": "NAR-3231",
+        "status": "done",
+        "stage": "research_review",
+        "error": null
+      },
+      "independent_quality": [
+        {
+          "id": "5597b980-0a09-485e-ad19-c42ca1c485ea",
+          "identifier": "NAR-3254",
+          "status": "in_review",
+          "stage": "research_review",
+          "error": null
+        }
+      ]
+    },
+    {
+      "source_url": "https://www.codeninjas.com/Camps",
+      "root_issue": "7e2ac191-2fe9-443a-9115-6199e4ecaadb",
+      "dispatch_status": "delivered",
+      "research": {
+        "id": "72baaa62-bc6d-4393-9644-e52a6f8a36cb",
+        "identifier": "NAR-3232",
+        "status": "done",
+        "stage": "research_review",
+        "error": null
+      },
+      "independent_quality": [
+        {
+          "id": "88a6e18b-8105-40e1-a296-8102f0e088d8",
+          "identifier": "NAR-3256",
+          "status": "blocked",
+          "stage": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "source_url": "https://brooklynschoolofexcellence.com/about-us/",
+      "root_issue": "cbda3cf6-6993-45a5-8a23-ecb410798dbf",
+      "dispatch_status": "delivered",
+      "research": {
+        "id": "f8d2b9da-57f2-431e-8f75-4566d7cc231d",
+        "identifier": "NAR-3261",
+        "status": "done",
+        "stage": "research_review",
+        "error": null
+      },
+      "independent_quality": []
+    }
+  ],
+  "program_reports": [
+    {
+      "task": {
+        "id": "b6e9109a-4aa7-4ad7-8ea5-d11ba6399b6c",
+        "identifier": "NAR-3221",
+        "status": "done",
+        "stage": "program_queue",
+        "error": null
+      },
+      "kind": "program_queue",
+      "report": {
+        "checked": [
+          {
+            "provider_id": "prov-tinyout-the-art-center",
+            "status": "queued",
+            "task": "NAR-3223"
+          },
+          {
+            "provider_id": "prov-tinyout-ms-sue-x27-s-place",
+            "status": "queued",
+            "task": "NAR-3224"
+          },
+          {
+            "provider_id": "prov-tinyout-lucent-music-amp-arts",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-happy-day-play-family-learning-at-bernikow-jcc-g",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-forever-young-kids",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-burgdorff-cultural-center",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-brooklyn-click-and-connect",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-bat-haus",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-arts-in-mission",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-ny-sluggers-academy",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-lehman-center-for-the-performing-arts",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-city-island-theatre-group",
+            "status": "no_existing_structured_programs"
+          }
+        ],
+        "created": [
+          "NAR-3223",
+          "NAR-3224"
+        ],
+        "scan_limit": 12,
+        "task_limit": 3
+      }
+    },
+    {
+      "task": {
+        "id": "08eac9bb-e583-4f4b-b7f7-2b7a1866bbf0",
+        "identifier": "NAR-3223",
+        "status": "done",
+        "stage": "program_no_change",
+        "error": null
+      },
+      "kind": "program_update",
+      "report": {
+        "provider_id": "prov-tinyout-the-art-center",
+        "pages_checked": [
+          "https://theartcenter.nyc/pages/after-school-classes",
+          "https://theartcenter.nyc/products/kids-monday-315-415pm",
+          "https://theartcenter.nyc/products/kids-monday-420-520pm",
+          "https://theartcenter.nyc/products/kids-wednesdays-420-520pm"
+        ],
+        "existing_programs": 1,
+        "changed_programs": [],
+        "outcome": "no_supported_change"
+      }
+    },
+    {
+      "task": {
+        "id": "ef9f963b-177a-4d86-b4d4-2aa25b3eb4a2",
+        "identifier": "NAR-3224",
+        "status": "done",
+        "stage": "program_no_change",
+        "error": null
+      },
+      "kind": "program_update",
+      "report": {
+        "provider_id": "prov-tinyout-ms-sue-x27-s-place",
+        "pages_checked": [
+          "https://www.mssuesplace.com/"
+        ],
+        "existing_programs": 1,
+        "changed_programs": [],
+        "outcome": "no_supported_change"
+      }
+    },
+    {
+      "task": {
+        "id": "ee6dd16e-4a7a-4f34-955b-054a4399fcb0",
+        "identifier": "NAR-3252",
+        "status": "done",
+        "stage": "program_queue",
+        "error": null
+      },
+      "kind": "program_queue",
+      "report": {
+        "checked": [
+          {
+            "provider_id": "prov-tinyout-two-the-moon",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-toc-toc-spanish-for-kids",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-tiger-badminton-training-center",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-team-jucao-long-island-city-brazilian-jiu-jitsu",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-sol-dance-center",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-sing-lic",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-shall-we-dance-of-ny",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-renew-queens",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-o-x27-donnell-academy-of-irish-dance",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-noguchi-museum",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-mind-builders-creative-art-center",
+            "status": "no_existing_structured_programs"
+          },
+          {
+            "provider_id": "prov-tinyout-making-strides-learning-center",
+            "status": "no_existing_structured_programs"
+          }
+        ],
+        "created": [],
+        "scan_limit": 12,
+        "task_limit": 3
+      }
+    }
+  ],
+  "handoff_receipt_checks": [
+    {
+      "request_key": "focused-evidence-1d2899529cb3f6cb78ade748eac531dfbace8d00faac54cfc39898c711c5c2af",
+      "target_issue": "a584c2c2-5795-4049-ac01-cf14dec0cafb",
+      "outcome": "matched",
+      "checked_at": 1793524294.6985893
+    },
+    {
+      "request_key": "focused-evidence-26b820304c72f8c92b5a5c19478ad35acfdedfe422cb455caf835c528f776b72",
+      "target_issue": "650f545d-2a37-49d9-bed2-0a3c704f87d8",
+      "outcome": "matched",
+      "checked_at": 1793524295.3752542
+    },
+    {
+      "request_key": "focused-evidence-52a419dc95f0e55903ac0b9c51f7eb1a43a3f4b93fb47ad6e5790eaff88d84de",
+      "target_issue": "72baaa62-bc6d-4393-9644-e52a6f8a36cb",
+      "outcome": "matched",
+      "checked_at": 1793524295.649068
+    },
+    {
+      "request_key": "focused-evidence-b57a83b65eedeb139fcf7e3858378326742b9a9f5fd455ca289b2c899967c424",
+      "target_issue": "a584c2c2-5795-4049-ac01-cf14dec0cafb",
+      "outcome": "mismatch",
+      "checked_at": 1793524296.0164695
+    }
+  ],
+  "program_schedule": {
+    "cronExpression": "10,40 * * * *",
+    "timezone": "Europe/Budapest",
+    "enabled": true,
+    "nextRunAt": "2026-11-01T09:40:00.000Z"
+  },
+  "routine_count": 19,
+  "coordinator_ticks": [
+    {
+      "at": 1793523012.2519581,
+      "report": {
+        "checked_at": 1793523012.2517993,
+        "packet_renewals": {
+          "planned": 2,
+          "delivered": [
+            "NAR-3214",
+            "NAR-3215"
+          ],
+          "held": []
+        },
+        "search_contract_recoveries": [
+          "NAR-3216"
+        ],
+        "handoffs_delivered": [],
+        "pending_handoffs": 0,
+        "recovery": {
+          "planned": [],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 0,
+        "no_business_write_replay": true
+      }
+    },
+    {
+      "at": 1793523312.9855993,
+      "report": {
+        "checked_at": 1793523312.9853666,
+        "packet_renewals": {
+          "planned": 2,
+          "delivered": [
+            "NAR-3218",
+            "NAR-3219"
+          ],
+          "held": []
+        },
+        "search_contract_recoveries": [
+          "NAR-3220"
+        ],
+        "handoffs_delivered": [],
+        "pending_handoffs": 0,
+        "recovery": {
+          "planned": [],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 0,
+        "no_business_write_replay": true
+      }
+    },
+    {
+      "at": 1793523622.9861343,
+      "report": {
+        "checked_at": 1793523622.9860103,
+        "packet_renewals": {
+          "planned": 2,
+          "delivered": [
+            "NAR-3233",
+            "NAR-3234"
+          ],
+          "held": []
+        },
+        "search_contract_recoveries": [
+          "NAR-3235"
+        ],
+        "handoffs_delivered": [
+          "NAR-3230",
+          "NAR-3231",
+          "NAR-3232",
+          "NAR-3230"
+        ],
+        "pending_handoffs": 0,
+        "recovery": {
+          "planned": [],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 0,
+        "no_business_write_replay": true
+      }
+    },
+    {
+      "at": 1793523923.2152388,
+      "report": {
+        "checked_at": 1793523923.2150784,
+        "packet_renewals": {
+          "planned": 2,
+          "delivered": [
+            "NAR-3245",
+            "NAR-3246"
+          ],
+          "held": []
+        },
+        "search_contract_recoveries": [
+          "NAR-3247"
+        ],
+        "handoffs_delivered": [
+          "NAR-3241",
+          "NAR-3242",
+          "NAR-3243"
+        ],
+        "pending_handoffs": 1,
+        "recovery": {
+          "planned": [
+            {
+              "source": "NAR-3236",
+              "condition": "parser_contract",
+              "request_key": "auto-recovery-b3940741aee24e97d1400b8c022a7a76592df4f7b370aab94155f7788852351c"
+            },
+            {
+              "source": "NAR-3237",
+              "condition": "parser_contract",
+              "request_key": "auto-recovery-6eadcc8da5cf2837d900c02732cff82dd17e053b49ebd28b1258bf6fe66dc353"
+            }
+          ],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [
+            {
+              "source": "NAR-3236",
+              "continuation": "NAR-3248",
+              "original_retained": true
+            },
+            {
+              "source": "NAR-3237",
+              "continuation": "NAR-3249",
+              "original_retained": true
+            }
+          ],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 0,
+        "no_business_write_replay": true
+      }
+    },
+    {
+      "at": 1793524224.3282533,
+      "report": {
+        "checked_at": 1793524224.3280911,
+        "packet_renewals": {
+          "planned": 1,
+          "delivered": [
+            "NAR-3257"
+          ],
+          "held": []
+        },
+        "search_contract_recoveries": [
+          "NAR-3258"
+        ],
+        "handoffs_delivered": [
+          "NAR-3254",
+          "NAR-3255",
+          "NAR-3256"
+        ],
+        "pending_handoffs": 0,
+        "recovery": {
+          "planned": [
+            {
+              "source": "NAR-3238",
+              "condition": "parser_contract",
+              "request_key": "auto-recovery-83bc21b94cad3546224625ab14ce6eaf5ef8c23a3a3a54bf17cd28cd3893e2ee"
+            }
+          ],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [
+            {
+              "source": "NAR-3238",
+              "continuation": "NAR-3259",
+              "original_retained": true
+            }
+          ],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 0,
+        "no_business_write_replay": true
+      }
+    },
+    {
+      "at": 1793524302.2499871,
+      "report": {
+        "checked_at": 1793524302.249812,
+        "packet_renewals": {
+          "planned": 0,
+          "delivered": [],
+          "held": []
+        },
+        "search_contract_recoveries": [
+          "NAR-3262"
+        ],
+        "handoffs_delivered": [
+          "NAR-3261"
+        ],
+        "pending_handoffs": 0,
+        "recovery": {
+          "planned": [],
+          "skipped": {}
+        },
+        "continuations": {
+          "delivered": [],
+          "held": []
+        },
+        "oldest_recovery_wait_seconds": 0,
+        "no_business_write_replay": true
+      }
+    }
+  ],
+  "retained_limits": {
+    "automatic_quality_gate": {
+      "enabled": true,
+      "policy": "classscout-auto-v6",
+      "daily_write_limit": 20
+    },
+    "remote_llm": {
+      "enabled": true,
+      "model": "gemini-3.8-flash",
+      "daily_calls": 150,
+      "monthly_calls": 3000,
+      "daily_cost": 0.4,
+      "monthly_cost": 10.0
+    }
+  },
+  "commissioning": {
+    "started_at": "2026-11-01T08:59:32.216310+00:00",
+    "trigger": "api commissioning of native routines; not a cron acceptance claim",
+    "routines": [
+      {
+        "kind": "program_queue",
+        "routine_id": "d6666776-f149-4541-8f1c-50d796c42c39",
+        "result": {
+          "id": "0c901c23-edac-4cdd-ae19-45ed58f06b21",
+          "status": "issue_created",
+          "executionIssueId": null
+        }
+      },
+      {
+        "kind": "publication_queue",
+        "routine_id": "48cd987a-a4e5-43ac-bd74-ffe22e58e252",
+        "result": {
+          "id": "974670d2-ed08-4c2d-a981-ab7436003ec3",
+          "status": "issue_created",
+          "executionIssueId": null
+        }
+      },
+      {
+        "kind": "autonomous_coordination",
+        "purpose": "Verify narrowly repaired wrong-provider handoff through the native controller",
+        "routine_id": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+        "result": {
+          "id": "fdd7b501-e922-4c4b-aa03-ad2765143ea8",
+          "companyId": "c561073b-69f4-4194-91b3-1e1d982f8935",
+          "routineId": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+          "triggerId": null,
+          "source": "api",
+          "status": "issue_created",
+          "triggeredAt": "2026-11-01T09:11:30.545Z",
+          "routineRevisionId": "52f250ef-ef64-4ec0-876e-0b6221f07d64",
+          "responsibleUserId": "local-board",
+          "idempotencyKey": "delivery-20261101-receipt-commissioning",
+          "triggerPayload": null,
+          "dispatchFingerprint": "b11a4d9d0a9838ce77b3ddc9394a87925bd3f59f4623337d6950b75dabca717e",
+          "linkedIssueId": "44a9eab7-96fd-4ee0-82bf-b0ca66d3357f",
+          "coalescedIntoRunId": null,
+          "failureReason": null,
+          "completedAt": null,
+          "createdAt": "2026-11-01T09:11:30.542Z",
+          "updatedAt": "2026-11-01T09:11:31.080Z"
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "Program writes require a real source-backed change; no fixture write was used to manufacture a receipt.",
+    "Original blocked history is retained; successors record current outcomes.",
+    "Remaining corrected searches obey shared cooldown and allowance; queued is not completed.",
+    "Full host restore and sales activation are outside stages 1-4."
+  ]
+}

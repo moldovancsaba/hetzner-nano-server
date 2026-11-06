@@ -6,6 +6,20 @@ Covers history up to `b8be171`. `python3 scripts/check_changelog.py` lists any l
 
 Sections used: **Added** (new capability), **Changed** (behaviour, policy or defaults), **Fixed** (a defect corrected), **Security**, **Operations** (deployment, hosts, retention), **Documentation**.
 
+## 2026-11-01 — Proposed OpenClaw integration
+
+### Documentation
+- Prepare a source-exchange workflow, scoped API contract, synthetic examples and required failure scenarios for Paperclip and OpenClaw. The plan includes transactional intake, independent evidence checks, destination write coordination, shared search accounting and a limited NYC pilot. No endpoint or runtime behavior is enabled. [Plan](paperclip/INTEGRATION-PLAN-20261101.md).
+- Extend the delivery scope through production service installation, scoped credential provisioning, activation on both systems, live bidirectional acceptance, recovery verification and operational handover. Distinguish deployment, verified live exchange and evaluated pilot outcomes; no activation was performed by this planning update.
+
+## 2026-11-01 — Paperclip automatic delivery maintenance
+
+- Fix Sportolok web-search country/language parameters, validate requests before dispatch, redact 422 diagnostics and queue one-time corrected-contract successors under the shared Brave budget.
+- Freshly prepare expired automatic publication/contact packets with bounded durable scheduled renewal, preserving human declines, native execution history and every submitted/uncertain write. Recovery hydrates bounded native details when issue-list summaries omit a stopped execution.
+- Follow focused official pages for editorial evidence, bound and deduplicate independent research, isolate publication queue holds, and expose evidence categories. Disable native broad title dedup for keyed factory tasks, verify exact handoff receipts and automatically repair a recorded wrong-provider research handoff with retained audit history.
+- Expand structured-program selection to known programs and publications; preserve active tasks, report skips, prefer program provenance and check runtime flags. Run bounded scans twice hourly.
+- Validation: 453 local and isolated server checks passed for this release. Live scheduled acceptance is recorded separately in `paperclip/delivery-acceptance-20261101.json`.
+
 ## 2026-10-31
 
 ### Added

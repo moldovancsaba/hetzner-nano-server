@@ -1,0 +1,74 @@
+{
+  "started_at": "2026-11-01T08:59:32.216310+00:00",
+  "trigger": "api commissioning of native routines; not a cron acceptance claim",
+  "routines": [
+    {
+      "kind": "program_queue",
+      "routine_id": "d6666776-f149-4541-8f1c-50d796c42c39",
+      "result": {
+        "id": "0c901c23-edac-4cdd-ae19-45ed58f06b21",
+        "status": "issue_created",
+        "executionIssueId": null
+      }
+    },
+    {
+      "kind": "publication_queue",
+      "routine_id": "48cd987a-a4e5-43ac-bd74-ffe22e58e252",
+      "result": {
+        "id": "974670d2-ed08-4c2d-a981-ab7436003ec3",
+        "status": "issue_created",
+        "executionIssueId": null
+      }
+    },
+    {
+      "kind": "autonomous_coordination",
+      "purpose": "Verify narrowly repaired wrong-provider handoff through the native controller",
+      "routine_id": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+      "result": {
+        "id": "fdd7b501-e922-4c4b-aa03-ad2765143ea8",
+        "companyId": "c561073b-69f4-4194-91b3-1e1d982f8935",
+        "routineId": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+        "triggerId": null,
+        "source": "api",
+        "status": "issue_created",
+        "triggeredAt": "2026-11-01T09:11:30.545Z",
+        "routineRevisionId": "52f250ef-ef64-4ec0-876e-0b6221f07d64",
+        "responsibleUserId": "local-board",
+        "idempotencyKey": "delivery-20261101-receipt-commissioning",
+        "triggerPayload": null,
+        "dispatchFingerprint": "b11a4d9d0a9838ce77b3ddc9394a87925bd3f59f4623337d6950b75dabca717e",
+        "linkedIssueId": "44a9eab7-96fd-4ee0-82bf-b0ca66d3357f",
+        "coalescedIntoRunId": null,
+        "failureReason": null,
+        "completedAt": null,
+        "createdAt": "2026-11-01T09:11:30.542Z",
+        "updatedAt": "2026-11-01T09:11:31.080Z"
+      }
+    },
+    {
+      "kind": "autonomous_coordination",
+      "purpose": "Verify bounded native-detail recovery after the final staged release",
+      "routine_id": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+      "result": {
+        "id": "692ce0c0-5ab2-4fe7-8e26-722c1dd76a81",
+        "companyId": "c561073b-69f4-4194-91b3-1e1d982f8935",
+        "routineId": "bedd1b73-a0bb-470b-8100-d7f6c71227a9",
+        "triggerId": null,
+        "source": "api",
+        "status": "issue_created",
+        "triggeredAt": "2026-11-01T13:17:13.805Z",
+        "routineRevisionId": "52f250ef-ef64-4ec0-876e-0b6221f07d64",
+        "responsibleUserId": "local-board",
+        "idempotencyKey": "delivery-20261101-native-detail-451",
+        "triggerPayload": null,
+        "dispatchFingerprint": "b11a4d9d0a9838ce77b3ddc9394a87925bd3f59f4623337d6950b75dabca717e",
+        "linkedIssueId": "e0ff18c3-42fa-4c02-992b-0faa151ba3f1",
+        "coalescedIntoRunId": null,
+        "failureReason": null,
+        "completedAt": null,
+        "createdAt": "2026-11-01T13:17:13.802Z",
+        "updatedAt": "2026-11-01T13:17:14.439Z"
+      }
+    }
+  ]
+}

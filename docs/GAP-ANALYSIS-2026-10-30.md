@@ -100,3 +100,7 @@ Also noted: `BACKLOG.md` states that it is the repository's task backlog, while 
 - [CODE-CONVENTIONS.md](CODE-CONVENTIONS.md) states the comment rules, the one-source rule for documents, and that an architecture or release-note change ships in the same commit as the work.
 - `python3 scripts/check_changelog.py` fails when a commit is missing from the release notes; `python3 scripts/check_comment_only.py` proves a documentation-only change did not touch code.
 - The documents that restate figures now link to where the figure is generated or enforced ([ARCHITECTURE.md](ARCHITECTURE.md#where-a-fact-is-decided)).
+
+## Subsequent resolution — 1 November 2026
+
+Item #5 was authorized by the owner as delivery stage 2 and resolved by fresh preparation of expired automatic packets, with bounded scheduled successors and protected historical receipts. Human approvals still expire after 48 hours. See [the renewal policy](../paperclip/factory/WORKFLOWS.md#automatic-delivery-maintenance--1-november-2026); the original findings above remain a dated record.
