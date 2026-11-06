@@ -17,20 +17,20 @@ class DeploymentTests(unittest.TestCase):
             self.assertEqual(deployment.patch_racket_runtime(name,original,patches),current)
             self.assertEqual(deployment.patch_racket_runtime(name,current,patches),current)
         with self.assertRaises(ValueError):deployment.patch_racket_runtime('worker.py','',patches)
-        with self.assertRaises(ValueError):deployment.patch_racket_runtime('padel.py','changed unknown source',patches)
+        with self.assertRaises(ValueError):deployment.patch_racket_runtime('racket_land.py','changed unknown source',patches)
 
     def test_racket_land_search_has_no_country_bias_and_still_refuses_unreviewed_locales(self):
         patches=json.loads((Path(__file__).parent/'ops/racket_runtime_patches.json').read_text())
         # The host's own lines (web-locale-v2 contract), which the committed brave.py does not carry.
         host=("class SearchError(ValueError):\n pass\nCONTRACT='web-locale-v2'\n"
-              "LOCALES={'sportolok':('ALL','hu'),'padel':('ZA','en')}\n"
+              "LOCALES={'sportolok':('ALL','hu'),'racket':('ZA','en')}\n"
               "def locale(kind):return LOCALES.get(kind,('US','en'))\n"
               "def validate(query,country,language):\n"
               " if (country,language) not in {('US','en'),('ZA','en'),('ALL','hu')}:raise SearchError('Invalid configured Brave country/language')\n")
         patched=deployment.patch_racket_runtime('brave.py',host,patches)
         self.assertEqual(deployment.patch_racket_runtime('brave.py',patched,patches),patched)
         scope={};exec(compile(patched,'brave.py','exec'),scope)
-        self.assertEqual(scope['locale']('padel'),('ALL','en'))
+        self.assertEqual(scope['locale']('racket'),('ALL','en'))
         self.assertEqual(scope['locale']('sportolok'),('ALL','hu'))
         self.assertEqual(scope['locale']('classscout'),('US','en'))
         for pair in [('ALL','en'),('ALL','hu'),('ZA','en'),('US','en')]:scope['validate']('padel club',*pair)
@@ -147,7 +147,7 @@ class WriterHandoffReleaseTests(ModuleReleaseTests):
 
 class ApplicationWriterPatchTests(unittest.TestCase):
     def test_application_writer_hooks_preserve_every_other_byte(self):
-        hooks={'engine_ops.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'management',slug)\n",'padel.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'management','padel-africa')\n",'slg.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'salesleadgenerator',client.brand)\n"}
+        hooks={'engine_ops.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'management',slug)\n",'racket_land.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'management',CLIENT)\n",'slg.py':" import destination_handoff\n destination_handoff.require_native_destination_writer(config,issue,'salesleadgenerator',client.brand)\n"}
         for name,hook in hooks.items():
             source=(Path(__file__).parents[1]/'factory'/name).read_text();self.assertEqual(source.count(hook),1)
             updated=deployment.patch_writer_handoff(name,source.replace(hook,''));self.assertEqual(updated,source);self.assertEqual(deployment.patch_writer_handoff(name,updated),source)
@@ -158,23 +158,23 @@ class ApplicationWriterReleaseTests(WriterHandoffReleaseTests):
         import base64,hashlib
         super().setUp();self.payload['application_writers']=True
         self.payload['destination_guard']=base64.b64encode(b'guard_version=True\n').decode()
-        stubs={'engine_ops.py':'def write_once(issue,board,config,database,execution,client,slug,kind,body,proof):\n return "preserved-engine"\n','padel.py':'def run(issue,board,config,web,database,execution):\n return "preserved-padel"\n','slg.py':'def mutate(client,name,args,issue,board,config,database,execution):\n """CRM writes are never equated to sent email or a won sale."""\n return "preserved-slg"\n'}
+        stubs={'engine_ops.py':'def write_once(issue,board,config,database,execution,client,slug,kind,body,proof):\n return "preserved-engine"\n','racket_land.py':'def run(issue,board,config,web,database,execution):\n return "preserved-padel"\n','slg.py':'def mutate(client,name,args,issue,board,config,database,execution):\n """CRM writes are never equated to sent email or a won sale."""\n return "preserved-slg"\n'}
         for name,source in stubs.items():
             p=self.native/name;p.write_text(source);self.payload['expected'][name]=hashlib.sha256(p.read_bytes()).hexdigest()
 
     def test_application_release_installs_guard_and_preserves_all_configuration(self):
         before=self.config.read_bytes();self.payload['apply']=True;result=self.remote();self.assertTrue(result['apply']);self.assertEqual(self.config.read_bytes(),before)
-        for name in ['engine_ops.py','padel.py','slg.py']:self.assertIn('destination_handoff.require_native_destination_writer',(self.native/name).read_text())
+        for name in ['engine_ops.py','racket_land.py','slg.py']:self.assertIn('destination_handoff.require_native_destination_writer',(self.native/name).read_text())
         self.assertEqual((self.native/'destination_handoff.py').read_text(),'guard_version=True\n')
 
     def test_unknown_existing_guard_refuses_before_mutation(self):
         p=self.native/'destination_handoff.py';p.write_text('different_guard=True\n');self.payload['apply']=True
         with self.assertRaises(RuntimeError):self.remote()
-        self.assertEqual(p.read_text(),'different_guard=True\n');self.assertNotIn('destination_handoff',(self.native/'padel.py').read_text())
+        self.assertEqual(p.read_text(),'different_guard=True\n');self.assertNotIn('destination_handoff',(self.native/'racket_land.py').read_text())
 
     def test_failed_application_release_removes_new_guard_and_preserves_new_business_rows(self):
         import sqlite3
-        before={name:(self.native/name).read_bytes() for name in ['engine_ops.py','padel.py','slg.py']};self.payload['apply']=True
+        before={name:(self.native/name).read_bytes() for name in ['engine_ops.py','racket_land.py','slg.py']};self.payload['apply']=True
         with self.assertRaises(RuntimeError):self.remote(fail=True)
         for name,body in before.items():self.assertEqual((self.native/name).read_bytes(),body)
         self.assertFalse((self.native/'destination_handoff.py').exists())

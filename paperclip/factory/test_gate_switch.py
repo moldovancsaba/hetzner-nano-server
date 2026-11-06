@@ -3,7 +3,7 @@ quality_gate.reserve now refuses for the paths that have no human mode (program 
 Padel intake). With the switch off no request is sent, no packet is stored and the gate decision stays unused."""
 import unittest
 from unittest.mock import Mock,patch
-import engine_ops,padel,program_updates as programs,quality_gate as q,worker
+import engine_ops,racket_land,program_updates as programs,quality_gate as q,worker
 import test_delivery,test_openclaw_alignment,test_operations
 
 HOLD='Automatic quality hold:'
@@ -46,8 +46,8 @@ class GateSwitchTests(unittest.TestCase):
  def test_padel_intake_stops_when_the_switch_is_off(self):
   h=test_delivery.DeliveryTests();h.setUp()
   try:
-   i,b,w,c=h.padel_scenario()
-   with self.assertRaises(ValueError) as caught:padel.run(i,b,{'company_id':'company','automatic_quality_gate':{'enabled':False}},w,worker.database,{'run_id':'run','agent_id':'support'},c)
-   self.assertTrue(str(caught.exception).startswith(HOLD));c.call.assert_not_called();self.assertEqual(self.rows('padel_packets'),0)
+   i,b,w,c=h.racket_scenario()
+   with self.assertRaises(ValueError) as caught:racket_land.run(i,b,{'company_id':'company','automatic_quality_gate':{'enabled':False}},w,worker.database,{'run_id':'run','agent_id':'support'},c)
+   self.assertTrue(str(caught.exception).startswith(HOLD));c.call.assert_not_called();self.assertEqual(self.rows('racket_packets'),0)
   finally:h.tearDown()
 if __name__=='__main__':unittest.main()

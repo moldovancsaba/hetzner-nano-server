@@ -9,7 +9,7 @@ import test_operations,test_search
 class CompanyTests(unittest.TestCase):
  def setUp(self):
   self.helper=test_operations.OperationalTests();self.helper.setUp();ops.initialize(worker.database)
-  self.config={'company_id':'company','reliability_enabled':True,'padel_enabled':True,'padel_discovery_enabled':True,'projects':{'project':'ClassScout','padel':'Padel Africa','ops':'Factory Operations'},'agents':{'research':{'role':'research'},'quality':{'role':'quality'},'publisher':{'role':'publication'},'support':{'role':'support'},'search':{'role':'search'}}}
+  self.config={'company_id':'company','reliability_enabled':True,'racket_enabled':True,'racket_discovery_enabled':True,'projects':{'project':'ClassScout','racket':'Racket Land','ops':'Factory Operations'},'agents':{'research':{'role':'research'},'quality':{'role':'quality'},'publisher':{'role':'publication'},'support':{'role':'support'},'search':{'role':'search'}}}
   self.issue={'id':'routine','title':'Routine','projectId':'project'}
  def tearDown(self):self.helper.tearDown()
  def stored(self):
@@ -55,23 +55,23 @@ class CompanyTests(unittest.TestCase):
  def run_padel_kind(self,kind,engine_clients):
   import operational
   config={**self.config,'engine_clients':engine_clients,'agents':{**self.config['agents'],'search':{'role':'search'},'support':{'role':'support'}}}
-  issue={**self.issue,'projectId':'padel','description':'Factory workflow: '+kind}
-  role='search' if kind=='padel_discovery' else 'support'
+  issue={**self.issue,'projectId':'racket','description':'Factory workflow: '+kind}
+  role='search' if kind=='racket_discovery' else 'support'
   return operational.run(issue,Mock(),config,Mock(),worker.database,{'run_id':'r','agent_id':role})
  def test_padel_discovery_and_candidates_go_to_the_engine_client(self):
-  for kind,function in [('padel_discovery','discover'),('padel_candidate','candidate')]:
+  for kind,function in [('racket_discovery','discover'),('racket_candidate','candidate')]:
    with patch('engine_ops.'+function,return_value={'stage':kind}) as engine:self.assertEqual(self.run_padel_kind(kind,{'padel-africa':True}),{'stage':kind})
    engine.assert_called_once()
  def test_padel_kinds_fail_clearly_when_the_engine_client_is_not_configured(self):
-  for kind in ['padel_discovery','padel_candidate']:
+  for kind in ['racket_discovery','racket_candidate']:
    for clients in [{},{'sportolok':True},{'padel-africa':False}]:
     with self.assertRaisesRegex(ValueError,'engine client is not configured'):self.run_padel_kind(kind,clients)
  def test_the_older_padel_implementation_is_gone(self):
-  for name in ['padel_discovery','padel_candidate','queue_padel_candidate']:self.assertFalse(hasattr(ops,name),name)
-  with worker.database() as db:self.assertIsNone(db.execute("SELECT 1 FROM sqlite_master WHERE name='padel_discovery_cursor'").fetchone())
+  for name in ['racket_discovery','racket_candidate','queue_padel_candidate']:self.assertFalse(hasattr(ops,name),name)
+  with worker.database() as db:self.assertIsNone(db.execute("SELECT 1 FROM sqlite_master WHERE name='racket_discovery_cursor'").fetchone())
  def test_padel_and_sportolok_sources_are_handed_to_the_engine_path_only(self):
-  job={'kind':'padel','parent_publication':None};page={'url':'https://examplepadel.org/','title':'Example Padel','text':'Padel','sha256':'h'}
-  issue={**self.issue,'projectId':'padel','description':'Padel city: Cape Town'}
+  job={'kind':'racket','parent_publication':None};page={'url':'https://examplepadel.org/','title':'Example Padel','text':'Padel','sha256':'h'}
+  issue={**self.issue,'projectId':'racket','description':'Padel city: Cape Town'}
   config={**self.config,'engine_clients':{'padel-africa':True}}
   outcome={'source_pages':[dict(page)],'research_tasks':[]}
   with patch('portfolio.queue_engine_candidate',return_value={'id':'child','identifier':'NAR-1'}) as queue,patch('search_workflow.active'),patch('search_workflow.persist_outcome'):
@@ -80,7 +80,7 @@ class CompanyTests(unittest.TestCase):
   with patch('search_workflow.active'),self.assertRaisesRegex(ValueError,'Engine clients are not configured'):
    sw.deliver(issue,Mock(),{**self.config,'engine_clients':{}},job,{'source_pages':[dict(page)],'research_tasks':[]},worker.database,{'run_id':'r','agent_id':'research'})
  def test_wrong_brand_workflows_are_rejected(self):
-  with self.assertRaises(ValueError):ops.run({**self.issue,'description':'Factory workflow: knowledge_round','projectId':'padel'},Mock(),self.config,Mock(),worker.database,{})
+  with self.assertRaises(ValueError):ops.run({**self.issue,'description':'Factory workflow: knowledge_round','projectId':'racket'},Mock(),self.config,Mock(),worker.database,{})
  def test_delivery_metric_does_not_count_completed_run_as_publication(self):
   t={'id':'task','status':'done','title':'Research done'};stamp=datetime.datetime.now(datetime.timezone.utc).isoformat()
   with worker.database() as db:db.execute('INSERT INTO runs VALUES(?,?,?,?,?,?,?,?,?)',('r','task','research','research','completed','{}',None,stamp,stamp))
@@ -126,8 +126,8 @@ class SearchReliabilityTests(unittest.TestCase):
   self.assertEqual(ops.dispatch_pending(board,self.config(),worker.database),[])
   self.assertEqual(board.call.call_count,1)
  def test_aged_padel_search_is_not_starved_by_new_classscout_intents(self):
-  sw.enqueue(self.issue('padel',purpose='padel',query='padel club Cape Town official courts'),worker.database);sw.enqueue(self.issue('new',purpose='discovery',query='official kids programs Manhattan'),worker.database)
-  with worker.database() as db:db.execute("UPDATE search_jobs SET created_at=? WHERE issue_id='padel'",(time.time()-7200,))
+  sw.enqueue(self.issue('racket',purpose='racket',query='padel club Cape Town official courts'),worker.database);sw.enqueue(self.issue('new',purpose='discovery',query='official kids programs Manhattan'),worker.database)
+  with worker.database() as db:db.execute("UPDATE search_jobs SET created_at=? WHERE issue_id='racket'",(time.time()-7200,))
   board=Mock();board.call.side_effect=lambda path:{'id':path.split('/')[-1],'status':'in_progress','assigneeAgentId':'search'}
   with patch('search_workflow.research_backlog',return_value=0):chosen=sw.queued_issue(board,self.config(),'search',worker.database)
-  self.assertEqual(chosen['id'],'padel')
+  self.assertEqual(chosen['id'],'racket')

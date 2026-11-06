@@ -1,12 +1,12 @@
 """Shared Management-engine operations, scoped by each authenticated vertical contract."""
 import datetime,json,re,time,urllib.request,urllib.parse,urllib.error
-import catalog,evidence,padel,publishing,quality_gate,venue_identity
-SPECS={'padel-africa':{'origin':padel.ORIGIN,'project':'Padel Africa'},'sportolok':{'origin':'https://sportolok.vercel.app','project':'Sportolok'}}
-# Inherits token() from padel.Client: one Management machine identity (scopes management:ingest.write and
+import catalog,evidence,publishing,quality_gate,racket_land,venue_identity
+SPECS={racket_land.CLIENT:{'origin':racket_land.ORIGIN,'project':'Racket Land'},'sportolok':{'origin':'https://sportolok.vercel.app','project':'Sportolok'}}
+# Inherits token() from racket_land.Client: one Management machine identity (scopes management:ingest.write and
 # management:catalog.read, no audience in the request), cached in a single module-level variable, is sent to both engine
-# origins, including sportolok.vercel.app. Management is the shared engine behind Padel Africa and Sportolok, so one identity
+# origins, including sportolok.vercel.app. Management is the shared engine behind Racket Land and Sportolok, so one identity
 # serves both; a per-engine cache would mint the same token twice. A credential rotation must cover both engines.
-class Client(padel.Client):
+class Client(racket_land.Client):
  def __init__(self,slug):
   if slug not in SPECS:raise ValueError('Unknown engine client')
   self.slug=slug;self.origin=SPECS[slug]['origin']
@@ -23,7 +23,7 @@ class Client(padel.Client):
    return json.loads(raw)
  def catalog(self):
   value=self.call('/api/machine/catalog');v=value.get('vertical',{});scope=v.get('territoryScope',{})
-  if self.slug=='padel-africa':
+  if self.slug==racket_land.CLIENT:
    import racket_policy
    racket_policy.validate(v)
   elif v.get('slug')!=self.slug or not v.get('taxonomy') or not v.get('locales') or scope.get('kind') not in {'countries','continent'}:raise ValueError('Engine tenant or declared scope unavailable')
@@ -165,10 +165,10 @@ def discover(issue,board,config,web,database,execution,client=None):
  import search_workflow
  search_workflow.initialize(database)
  with database() as db:
-  pending=db.execute("SELECT count(*) FROM search_jobs WHERE kind=? AND status IN ('queued','running','delivery_pending')",('padel' if slug=='padel-africa' else 'sportolok',)).fetchone()[0]
+  pending=db.execute("SELECT count(*) FROM search_jobs WHERE kind=? AND status IN ('queued','running','delivery_pending')",('racket' if slug==racket_land.CLIENT else 'sportolok',)).fetchone()[0]
   db.execute('INSERT OR IGNORE INTO engine_cursor VALUES(?,0)',(slug,));position=db.execute('SELECT position FROM engine_cursor WHERE slug=?',(slug,)).fetchone()[0]
  if pending:return done('engine_discovery_waiting','This client already has a pending discovery intent; no duplicate was queued.')
- city=localities[position%len(localities)];query=templates[(position//len(localities))%len(templates)].replace('{locality}',city);kind='padel' if slug=='padel-africa' else 'sportolok';agent=next(k for k,v in config['agents'].items() if v['role']=='search');day=datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+ city=localities[position%len(localities)];query=templates[(position//len(localities))%len(templates)].replace('{locality}',city);kind='racket' if slug==racket_land.CLIENT else 'sportolok';agent=next(k for k,v in config['agents'].items() if v['role']=='search');day=datetime.datetime.now(datetime.timezone.utc).date().isoformat()
  child=board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'engine-discovery-'+slug+'-'+day+'-'+publishing.sha(query),'title':'Discover official sources: '+city,'description':'Search purpose: '+kind+'\nSearch query: '+query+'\nEngine client: '+slug+'\n\nSearch intent is not location evidence. Use the authenticated vertical territory and literal source values.','projectId':issue['projectId'],'status':'todo','assigneeAgentId':agent,'reviewPolicy':'anyone'})
  with database() as db:db.execute('UPDATE engine_cursor SET position=position+1 WHERE slug=?',(slug,))
  return done('engine_discovery','Queued '+child['identifier']+' from the engine’s own query template and locality rotation.')

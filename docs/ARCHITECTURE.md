@@ -205,7 +205,7 @@ The factory has no scheduler of its own. Timing comes from 19 native Paperclip r
 | Support and audit | `support.py`, `site_audit.py`, `company_ops.py`, `portfolio.py` |
 | Autonomy and recovery | `autonomy.py`, `company_ops.py` |
 | Reporting | `business_metrics.py`, `operations_digest.py`, `dashboard.html` |
-| Engines | `padel.py` (Racket Land), `engine_ops.py`, `racket_policy.py` with `racket_countries.json`, `slg.py` |
+| Engines | `racket_land.py` (Racket Land), `engine_ops.py`, `racket_policy.py` with `racket_countries.json`, `slg.py` |
 | Setup and one-off helpers | `provision.py`, `workflows_setup.py`, `pilot.py`, `run_batch.py`, `rework_bmf.py`, `export_batch.py`, `classscout_handoff.py` |
 
 The five roles are Research Analyst (`research`), Content Quality Reviewer (`quality`), Support Drafter (`support`), Publication Coordinator (`publication`) and Search Coordinator (`search`). A task names its workflow on a `Factory workflow:` line; `operational.ROLES` fixes which role may run each workflow, and a mismatch is refused. Model access is serialized by locks per role group.
@@ -240,7 +240,7 @@ Key properties the code enforces:
 - **Human mode.** With the gate off, approval must be a human-only confirmation bound to the packet hash, resolved by the reviewer and not by an agent, and it expires after 48 hours.
 - **Missing image.** ClassScout's own hosted category banner is accepted as a marked placeholder (`image_placeholder` in the packet proof); any other image must come from the official page.
 
-The gate version is `classscout-auto-v6`. Other workflows reuse the same reservation and decision tables: contact and content refresh (`refresh.py`), structured program updates (`program_updates.py`), engine intake and publication (`engine_ops.py`, `padel.py`).
+The gate version is `classscout-auto-v6`. Other workflows reuse the same reservation and decision tables: contact and content refresh (`refresh.py`), structured program updates (`program_updates.py`), engine intake and publication (`engine_ops.py`, `racket_land.py`).
 
 ### Factory database
 
@@ -264,7 +264,7 @@ The gate version is `classscout-auto-v6`. Other workflows reuse the same reserva
 | `search_budget.py`, `search_workflow.py` | `search_account`, `search_attempts`, `search_jobs`, `source_attempts` |
 | `segmind.py` | `remote_llm_calls`, `remote_llm_state`, `remote_llm_balance` |
 | `company_ops.py`, `autonomy.py` | `company_blockers`, `company_dispatch`, `blocker_sources`, `freshness_checks`, `support_knowledge`, `autonomous_recovery`, `autonomy_ticks` |
-| `engine_ops.py`, `padel.py`, `slg.py`, `site_audit.py` | `engine_packets`, `engine_attempts`, `engine_cursor`, `padel_packets`, `slg_packets`, `slg_briefings`, `audit_findings` |
+| `engine_ops.py`, `racket_land.py`, `slg.py`, `site_audit.py` | `engine_packets`, `engine_attempts`, `engine_cursor`, `racket_packets`, `slg_packets`, `slg_briefings`, `audit_findings` |
 
 ### External integrations
 

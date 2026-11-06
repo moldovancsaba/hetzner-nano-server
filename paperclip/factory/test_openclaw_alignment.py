@@ -10,7 +10,7 @@ import test_operations,test_publishing
 class AlignmentTests(unittest.TestCase):
  def setUp(self):
   self.h=test_operations.OperationalTests();self.h.setUp()
-  self.config={'company_id':'company','projects':{'cs':'ClassScout','pa':'Padel Africa','hu':'Sportolok','mg':'Management'},'agents':{'pub':{'role':'publication'},'ops':{'role':'support'},'qa':{'role':'quality'},'search':{'role':'search'},'research':{'role':'research'}},'engine_clients':{'padel-africa':True,'sportolok':True},'automatic_quality_gate':{'enabled':True,'daily_write_limit':20},'reliability_enabled':True,'operational_workflows_enabled':True}
+  self.config={'company_id':'company','projects':{'cs':'ClassScout','pa':'Racket Land','hu':'Sportolok','mg':'Management'},'agents':{'pub':{'role':'publication'},'ops':{'role':'support'},'qa':{'role':'quality'},'search':{'role':'search'},'research':{'role':'research'}},'engine_clients':{'padel-africa':True,'sportolok':True},'automatic_quality_gate':{'enabled':True,'daily_write_limit':20},'reliability_enabled':True,'operational_workflows_enabled':True}
  def tearDown(self):self.h.tearDown()
  def test_uncertain_venue_is_not_an_uncertain_write(self):
   self.assertNotEqual(company_ops.classify('Multi-branch or uncertain sources are held')[0],'write_verification')

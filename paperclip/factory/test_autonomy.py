@@ -8,7 +8,7 @@ import test_operations
 class AutonomyTests(unittest.TestCase):
  def setUp(self):
   self.h=test_operations.OperationalTests();self.h.setUp();autonomy.initialize(worker.database)
-  self.config={'company_id':'company','reliability_enabled':True,'projects':{'cs':'ClassScout','pa':'Padel Africa','ops':'Factory Operations'},'agents':{'r':{'role':'research'},'q':{'role':'quality'},'s':{'role':'support'},'p':{'role':'publication'},'search':{'role':'search'}}}
+  self.config={'company_id':'company','reliability_enabled':True,'projects':{'cs':'ClassScout','pa':'Racket Land','ops':'Factory Operations'},'agents':{'r':{'role':'research'},'q':{'role':'quality'},'s':{'role':'support'},'p':{'role':'publication'},'search':{'role':'search'}}}
   self.source={'id':'source','identifier':'NAR-S','title':'Evidence check','companyId':'company','projectId':'cs','description':'Factory workflow: source_research\nhttps://example.org','status':'blocked','reviewPolicy':'anyone','updatedAt':'2026-10-28T00:00:00Z'}
   self.issues={'source':copy.deepcopy(self.source)};self.creates=[];self.children={};self.fail_reply=False;self.fail_close=False
   self.board=Mock();self.board.call.side_effect=self.call
@@ -64,7 +64,7 @@ class AutonomyTests(unittest.TestCase):
   autonomy.deliver(self.board,self.config,worker.database);self.assertEqual(len(self.creates),1);self.assertEqual(self.issues['source']['status'],'blocked')
   self.assertFalse(any(c.args[0].endswith('/comments') or len(c.args)>2 and c.args[2]=='PATCH' for c in self.board.call.call_args_list))
  def test_publication_workflows_are_not_eligible_for_stopped_run_recovery(self):
-  for kind in ['prepare_listing','refresh_provider','program_update','padel_intake','sales_pipeline']:
+  for kind in ['prepare_listing','refresh_provider','program_update','racket_intake','sales_pipeline']:
    self.issues['source']['description']='Factory workflow: '+kind;self.assertEqual(self.plan()['planned'],[])
  def test_evidence_hold_with_stopped_blocker_does_not_become_transport_failure(self):
   self.issues['source']['description']='Factory workflow: source_quality';self.issues['source']['executionBlocker']={'runId':'native','runStatus':'failed'}

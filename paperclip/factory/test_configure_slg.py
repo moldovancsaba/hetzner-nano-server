@@ -43,7 +43,7 @@ class ConfigureSlgTests(unittest.TestCase):
  def test_guard_leaves_a_hand_paused_trigger_paused_and_the_rest_enabled(self):
   self.scheduled('Verify existing ClassScout listings')['enabled']=False;before=self.paperclip.enabled()
   state=self.guarded(workflows_setup,self.root)
-  self.assertEqual(self.paperclip.enabled(),before);self.assertFalse(self.scheduled('Verify existing ClassScout listings')['enabled']);self.assertTrue(self.scheduled('Discover Padel Africa sources')['enabled'])
+  self.assertEqual(self.paperclip.enabled(),before);self.assertFalse(self.scheduled('Verify existing ClassScout listings')['enabled']);self.assertTrue(self.scheduled('Discover Racket Land sources')['enabled'])
   self.assertIs(workflows_setup.api,self.paperclip);self.assertTrue(json.loads((self.root/'workflows.json').read_text())['schedules_enabled']);self.assertIn('sales_pipeline',{r['kind'] for r in state['routines']})
  def test_guard_does_not_enable_schedules_that_are_off(self):
   workflows_setup.setup(False);self.assertFalse(any(v for values in self.paperclip.enabled().values() for v in values))
@@ -54,8 +54,8 @@ class ConfigureSlgTests(unittest.TestCase):
   for title in ['Check SLG workspace connection','Review SLG partner pipeline','Prepare SLG partner briefing']:self.assertEqual(titles.count(title),1)
   self.assertTrue(all(not r['triggers'] for r in self.paperclip.routines.values() if r['title'].startswith(('Check SLG','Review SLG','Prepare SLG'))))
  def test_guard_gives_a_missing_trigger_the_current_schedule_mode(self):
-  routine=next(r for r in self.paperclip.routines.values() if r['title']=='Check Padel Africa catalog');routine['triggers']=[]
-  self.guarded(workflows_setup,self.root);self.assertTrue(self.scheduled('Check Padel Africa catalog')['enabled'])
+  routine=next(r for r in self.paperclip.routines.values() if r['title']=='Check Racket Land catalog');routine['triggers']=[]
+  self.guarded(workflows_setup,self.root);self.assertTrue(self.scheduled('Check Racket Land catalog')['enabled'])
  def test_guard_restores_the_api_even_when_setup_fails(self):
   with mock.patch.object(workflows_setup,'setup',side_effect=RuntimeError('boom')),self.assertRaises(RuntimeError):self.guarded(workflows_setup,self.root)
   self.assertIs(workflows_setup.api,self.paperclip)

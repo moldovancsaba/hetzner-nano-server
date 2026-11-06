@@ -110,7 +110,7 @@ def resolve(url,web,vertical):
  root=web.page(url);host=evidence.host(root['url']);pending=[];pages=[root]
  direct=identities(root,vertical['territoryScope'])
  import racket_policy
- if len(direct)==1 and direct[0].get('city') and (racket_policy.matches(root['text'],vertical) if vertical['slug']=='racket-land' else vertical['slug']!='padel-africa' or re.search(r'\bpadel\b',root['text'],re.I)):return direct[0]
+ if len(direct)==1 and direct[0].get('city') and (racket_policy.matches(root['text'],vertical) if vertical['slug']=='racket-land' else True):return direct[0]
  # Directories may contribute links only. No directory fact enters an intake packet.
  links=link_patterns(vertical)
  if not provider_host(host):
@@ -125,7 +125,6 @@ def resolve(url,web,vertical):
  options=[];vocabulary=vertical.get('discovery',{});scope=vertical['territoryScope']
  for page in pages:
   if vertical['slug']=='racket-land' and not racket_policy.matches(page['text'],vertical):continue
-  if vertical['slug']=='padel-africa' and not re.search(r'\bpadel\b',page['text'],re.I):continue
   for option in identities(page,scope):
    if not option['city']:
     # A city not read from the page is taken only when exactly one declared locality is written on it, else the page stays

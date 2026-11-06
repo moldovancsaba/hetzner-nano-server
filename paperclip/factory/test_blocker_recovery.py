@@ -29,7 +29,7 @@ class BlockerRecoveryTests(unittest.TestCase):
  def test_directories_do_not_become_official_venue_sources(self):
   for h in ['www.timeout.com','padelvs.com','padellands.com']:self.assertFalse(venue_identity.provider_host(h))
  def test_directory_leaf_screening_completes_without_accepting_a_venue(self):
-  config={'projects':{'pa':'Padel Africa'},'engine_clients':{'padel-africa':True}};issue={'id':'i','projectId':'pa','description':'Official source URL: https://padelvs.com/en/club/example\nBranch depth: 1'};client=Mock();client.catalog.return_value={'vertical':{}}
+  config={'projects':{'pa':'Racket Land'},'engine_clients':{'padel-africa':True}};issue={'id':'i','projectId':'pa','description':'Official source URL: https://padelvs.com/en/club/example\nBranch depth: 1'};client=Mock();client.catalog.return_value={'vertical':{}}
   with patch('venue_identity.resolve',side_effect=ValueError('missing facts')):result=engine_ops.candidate(issue,Mock(),config,Mock(),worker.database,{},client)
   self.assertEqual(result['stage'],'engine_source_rejected');client.call.assert_not_called()
  def test_extraction_error_is_not_misclassified_by_tuition_in_url(self):

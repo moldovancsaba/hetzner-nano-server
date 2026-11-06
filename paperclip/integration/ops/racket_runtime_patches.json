@@ -5,34 +5,10 @@
       "after": "   raise\n  links,source_hash=venue_identity.branch_links(url,web,v)\n  if not links:\n"
     }
   ],
-  "padel.py": [
+  "racket_land.py": [
     {
       "before": "\"\"\"Racket Land machine catalog and evidence intake; legacy packet identities are retained.\"\"\"\nimport hashlib,json,os,re,threading,time,urllib.request,urllib.parse\n",
-      "after": "\"\"\"Racket Land machine catalog and evidence intake. The PADEL_SSO_* credentials, padel_packets table and padel_* workflow\nnames are legacy identities kept on purpose: renaming them would strand receipts and break title matching.\"\"\"\nimport hashlib,json,os,re,threading,time,urllib.request,urllib.parse\n"
-    },
-    {
-      "before": " def call(self,path,body=None):\n  if path not in {'/api/machine/catalog','/api/ingest'}:raise ValueError('Unsupported Padel machine operation')\n  if path=='/api/ingest' and (not body or set(body)!={'id','sourceText','sourceUrl','sourcePool'} or body['sourcePool']!='ingest' or len(body['sourceText'])>50000):raise ValueError('Padel connector accepts only bounded new source evidence; no forced publication or raw patch')\n  req=urllib.request.Request(ORIGIN+path,data=json.dumps(body).encode() if body else None,headers={'Authorization':'Bearer '+self.token(),'Content-Type':'application/json'})\n  with urllib.request.build_opener(catalog.NoRedirect).open(req,timeout=45) as r:\n   raw=r.read(8*1024*1024+1)\n   if len(raw)>8*1024*1024:raise ValueError('Padel response exceeded its bound')\n   return json.loads(raw)\n",
-      "after": " def call(self,path,body=None):\n  if path not in {'/api/machine/catalog','/api/ingest'}:raise ValueError('Unsupported Racket Land machine operation')\n  if path=='/api/ingest' and (not body or set(body)!={'id','sourceText','sourceUrl','sourcePool'} or body['sourcePool']!='ingest' or len(body['sourceText'])>50000):raise ValueError('Racket Land connector accepts only bounded new source evidence; no forced publication or raw patch')\n  req=urllib.request.Request(ORIGIN+path,data=json.dumps(body).encode() if body else None,headers={'Authorization':'Bearer '+self.token(),'Content-Type':'application/json'})\n  with urllib.request.build_opener(catalog.NoRedirect).open(req,timeout=45) as r:\n   raw=r.read(8*1024*1024+1)\n   if len(raw)>8*1024*1024:raise ValueError('Racket Land response exceeded its bound')\n   return json.loads(raw)\n"
-    },
-    {
-      "before": "  racket_policy.validate(value.get('vertical',{}))\n  if len(value.get('catalog',{}).get('listings',[]))>500:raise ValueError('Padel catalog contract changed')\n  return value\n",
-      "after": "  racket_policy.validate(value.get('vertical',{}))\n  if len(value.get('catalog',{}).get('listings',[]))>500:raise ValueError('Racket Land catalog contract changed')\n  return value\n"
-    },
-    {
-      "before": "  return {'stage':'padel_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land connection\\n\\nAuthenticated Racket Land tenant and worldwide policy verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the racket-sport source intake form; the receiving engine owns extraction and publication.','report':report}\n if kind!='padel_intake':raise ValueError('Unsupported Padel workflow')\n url=canonical_url(catalog.field(issue,'Official source URL'));name=catalog.field(issue,'Provider name');city=catalog.field(issue,'City');address=catalog.field(issue,'Street address')\n",
-      "after": "  return {'stage':'padel_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land connection\\n\\nAuthenticated Racket Land tenant and worldwide policy verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the racket-sport source intake form; the receiving engine owns extraction and publication.','report':report}\n if kind!='padel_intake':raise ValueError('Unsupported Racket Land workflow')\n url=canonical_url(catalog.field(issue,'Official source URL'));name=catalog.field(issue,'Provider name');city=catalog.field(issue,'City');address=catalog.field(issue,'Street address')\n"
-    },
-    {
-      "before": " for listing in current['listings']:\n  if publishing.norm(listing.get('name'))==publishing.norm(name) or listing.get('source',{}).get('sourceUrl')==page['url']:raise ValueError('An existing Padel listing matches; this new-source connector will not duplicate or overwrite it')\n source_text=page['text']\n",
-      "after": " for listing in current['listings']:\n  if publishing.norm(listing.get('name'))==publishing.norm(name) or listing.get('source',{}).get('sourceUrl')==page['url']:raise ValueError('An existing Racket Land listing matches; this new-source connector will not duplicate or overwrite it')\n source_text=page['text']\n"
-    },
-    {
-      "before": "  pending=db.execute(\"SELECT 1 FROM padel_packets WHERE json_extract(body_json,'$.id')=? AND status IN ('submitting','uncertain')\",(body['id'],)).fetchone()\n if pending:raise ValueError('Padel source identity has an unresolved submission; it will not be replayed')\n if old:\n  if old['status']=='accepted':return {'stage':'padel_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'Source evidence was already accepted by the Padel engine. No second submission was sent; publication remains a separate engine outcome.'}\n  raise ValueError('Padel evidence has an unresolved submission; reconcile it before another write')\n if issue['title'].startswith('[Factory test]'):raise ValueError('Synthetic factory tests cannot submit real Padel evidence')\n ih=publishing.sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']});publishing.ensure_execution(issue,board,config,execution,ih)\n",
-      "after": "  pending=db.execute(\"SELECT 1 FROM padel_packets WHERE json_extract(body_json,'$.id')=? AND status IN ('submitting','uncertain')\",(body['id'],)).fetchone()\n if pending:raise ValueError('Racket Land source identity has an unresolved submission; it will not be replayed')\n if old:\n  if old['status']=='accepted':return {'stage':'padel_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'Source evidence was already accepted by the Racket Land engine. No second submission was sent; publication remains a separate engine outcome.'}\n  raise ValueError('Racket Land evidence has an unresolved submission; reconcile it before another write')\n if issue['title'].startswith('[Factory test]'):raise ValueError('Synthetic factory tests cannot submit real Racket Land evidence')\n ih=publishing.sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']});publishing.ensure_execution(issue,board,config,execution,ih)\n"
-    },
-    {
-      "before": "  receipt=client.call('/api/ingest',body)\n  if receipt.get('cardId')!=body['id'] or not isinstance(receipt.get('created'),bool):raise ValueError('No definitive Padel intake receipt')\n except Exception:\n  with database() as db:db.execute(\"UPDATE padel_packets SET status='uncertain' WHERE packet_hash=?\",(ph,))\n  raise ValueError('Padel submission outcome is uncertain; it will not be resent automatically') from None\n with database() as db:db.execute(\"UPDATE padel_packets SET status='accepted',receipt_json=? WHERE packet_hash=?\",(json.dumps(receipt),ph))\n return {'stage':'padel_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Padel source receipt\\n\\nEvidence '+('accepted for engine processing' if receipt['created'] else 'already exists in the engine; no reprocessing was requested')+'. Card: '+body['id']+'. Engine state: '+str(receipt.get('state','unknown'))+'. This receipt does not claim public publication.'}\n",
-      "after": "  receipt=client.call('/api/ingest',body)\n  if receipt.get('cardId')!=body['id'] or not isinstance(receipt.get('created'),bool):raise ValueError('No definitive Racket Land intake receipt')\n except Exception:\n  with database() as db:db.execute(\"UPDATE padel_packets SET status='uncertain' WHERE packet_hash=?\",(ph,))\n  raise ValueError('Racket Land submission outcome is uncertain; it will not be resent automatically') from None\n with database() as db:db.execute(\"UPDATE padel_packets SET status='accepted',receipt_json=? WHERE packet_hash=?\",(json.dumps(receipt),ph))\n return {'stage':'padel_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land source receipt\\n\\nEvidence '+('accepted for engine processing' if receipt['created'] else 'already exists in the engine; no reprocessing was requested')+'. Card: '+body['id']+'. Engine state: '+str(receipt.get('state','unknown'))+'. This receipt does not claim public publication.'}\n"
+      "after": "\"\"\"Racket Land machine catalog and evidence intake. Credentials are RACKET_SSO_*; the stored packets are in racket_packets.\"\"\"\nimport hashlib,json,os,re,threading,time,urllib.request,urllib.parse\n"
     }
   ],
   "venue_identity.py": [
@@ -67,18 +43,18 @@
   ],
   "search_workflow.py": [
     {
-      "before": "   elif job['kind']=='padel':\n    if not re.search(r'\\bpadel\\b',page['text'],re.I):continue\n",
-      "after": "   elif job['kind']=='padel':\n    import racket_policy\n    if not racket_policy.matches(page['text'],job.get('_racket_vertical',{})):continue\n"
+      "before": "   elif job['kind']=='racket':\n    if not re.search(r'\\bpadel\\b',page['text'],re.I):continue\n",
+      "after": "   elif job['kind']=='racket':\n    import racket_policy\n    if not racket_policy.matches(page['text'],job.get('_racket_vertical',{})):continue\n"
     },
     {
       "before": " if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')\n",
-      "after": " if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')\n if job['kind']=='padel':\n  import engine_ops\n  job['_racket_vertical']=engine_ops.Client('padel-africa').catalog()['vertical']\n"
+      "after": " if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')\n if job['kind']=='racket':\n  import engine_ops\n  job['_racket_vertical']=engine_ops.Client(engine_ops.racket_land.CLIENT).catalog()['vertical']\n"
     }
   ],
   "brave.py": [
     {
-      "before": "LOCALES={'sportolok':('ALL','hu'),'padel':('ZA','en')}\n",
-      "after": "# Racket Land is worldwide: the padel kind carries no country bias, the queued locality names the place.\nLOCALES={'sportolok':('ALL','hu'),'padel':('ALL','en')}\n"
+      "before": "LOCALES={'sportolok':('ALL','hu'),'racket':('ZA','en')}\n",
+      "after": "# Racket Land is worldwide: the racket kind carries no country bias, the queued locality names the place.\nLOCALES={'sportolok':('ALL','hu'),'racket':('ALL','en')}\n"
     },
     {
       "before": "if (country,language) not in {('US','en'),('ZA','en'),('ALL','hu')}:raise SearchError",

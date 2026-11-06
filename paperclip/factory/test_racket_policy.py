@@ -5,7 +5,7 @@ import copy
 import re
 import unittest
 from unittest.mock import Mock,patch
-import engine_ops,padel,racket_policy,venue_identity
+import engine_ops,racket_land,racket_policy,venue_identity
 
 def vertical(localities=None):
  value={'slug':'racket-land','territoryScope':{'kind':'unrestricted'},'taxonomy':{'racket-club':'Racket clubs'},'locales':['en','fr','pt'],'discovery':{'vocabulary':{'requiredTopicWords':['tennis','padel','squash','badminton','pickleball','frescobol','tamburello']}}}
@@ -23,7 +23,7 @@ class RacketPolicyTests(unittest.TestCase):
   with patch.object(client,'call',return_value={'vertical':vertical(),'catalog':{'listings':[]}}):self.assertEqual(client.catalog()['vertical']['slug'],'racket-land')
   old=vertical();old.update(slug='padel-africa',territoryScope={'kind':'continent','continent':'Africa'})
   with patch.object(client,'call',return_value={'vertical':old}),self.assertRaises(ValueError):client.catalog()
-  self.assertEqual(client.origin,'https://racket.land');self.assertEqual(padel.ORIGIN,'https://racket.land')
+  self.assertEqual(client.origin,'https://racket.land');self.assertEqual(racket_land.ORIGIN,'https://racket.land')
 
  def test_actual_countries_worldwide_and_unknown_country_remain_distinct(self):
   for name,code in [('United States','US'),('United Kingdom','GB'),('Singapore','SG'),('Australia','AU'),('Japan','JP'),('Brazil','BR'),('South Africa','ZA')]:

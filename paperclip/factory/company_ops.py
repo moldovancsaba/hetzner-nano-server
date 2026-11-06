@@ -1,4 +1,4 @@
-"""Bounded recovery, official-source freshness and support knowledge. Padel and Sportolok discovery lives in engine_ops."""
+"""Bounded recovery, official-source freshness and support knowledge. Racket Land and Sportolok discovery lives in engine_ops."""
 import datetime,json,re,time,urllib.parse
 import catalog,evidence,issue_pages,publishing,search_workflow
 from search_budget import Budget
@@ -101,7 +101,7 @@ def recheck_blocked(tasks,board,config,web,database):
     workflow=catalog.field(task,'Factory workflow')
     if catalog.field(task,'Draft reference') and catalog.field(task,'Publication name'):agent=role(config,'publication')
     elif workflow in {'source_research','source_quality'}:agent=role(config,'research' if workflow=='source_research' else 'quality')
-    elif workflow=='engine_candidate' and config['projects'].get(task.get('projectId')) in {'Padel Africa','Sportolok'}:agent=role(config,'support')
+    elif workflow=='engine_candidate' and config['projects'].get(task.get('projectId')) in {'Racket Land','Sportolok'}:agent=role(config,'support')
     else:agent=None
     if agent:
      child=board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'changed-evidence-'+task['id']+'-'+source_hash,'title':'Recover changed evidence: '+task['title'][:110],'projectId':task['projectId'],'description':(task.get('description') or '')+'\nRecovery of: '+task['id'],'status':'todo','assigneeAgentId':agent,'reviewPolicy':'anyone'})
@@ -208,12 +208,12 @@ def dispatch_pending(board,config,database,limit=3):
  for request in requests:
   try:
    source=board.call('/issues/'+request['source_issue']);body=json.loads(request['payload_json']);current=publishing.sha({'description':source.get('description'),'title':source['title'],'project':source['projectId']})
-   if current!=request['input_hash'] or source.get('companyId')!=config['company_id'] or config['projects'].get(source.get('projectId')) not in {'ClassScout','Padel Africa','Sportolok'} or source.get('status')=='cancelled' or unresolved(database,source):
+   if current!=request['input_hash'] or source.get('companyId')!=config['company_id'] or config['projects'].get(source.get('projectId')) not in {'ClassScout','Racket Land','Sportolok'} or source.get('status')=='cancelled' or unresolved(database,source):
     with database() as db:db.execute("UPDATE company_dispatch SET status='cancelled' WHERE request_key=?",(request['request_key'],))
     continue
    if body.get('assigneeAgentId') not in {k for k,v in config['agents'].items() if v['role'] in {'publication','search','quality','support','research'}} or body.get('projectId')!=source['projectId'] or body.get('status')!='todo' or 'parentId' in body:raise ValueError('Invalid company dispatch request')
    if config['agents'].get(body.get('assigneeAgentId'),{}).get('role')=='research' and (catalog.field(body,'Factory workflow')!='source_research' or config['projects'].get(source['projectId'])!='ClassScout'):raise ValueError('Unsupported focused research request')
-   if config['agents'].get(body.get('assigneeAgentId'),{}).get('role')=='support' and (catalog.field(body,'Factory workflow')!='engine_candidate' or config['projects'].get(source['projectId']) not in {'Padel Africa','Sportolok'}):raise ValueError('Unsupported engine coordination request')
+   if config['agents'].get(body.get('assigneeAgentId'),{}).get('role')=='support' and (catalog.field(body,'Factory workflow')!='engine_candidate' or config['projects'].get(source['projectId']) not in {'Racket Land','Sportolok'}):raise ValueError('Unsupported engine coordination request')
    body.setdefault('idempotencyKey',request['request_key'])
    child=board.call('/companies/'+config['company_id']+'/issues',body)
    with database() as db:

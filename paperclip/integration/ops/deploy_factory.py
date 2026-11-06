@@ -42,7 +42,7 @@ def patch_hooks(name, source):
 
 def patch_writer_handoff(name, source):
     import re
-    specs={'publishing.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'refresh.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'program_updates.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'engine_ops.py':('write_once',"destination_handoff.require_native_destination_writer(config,issue,'management',slug)",'destination_handoff'),'padel.py':('run',"destination_handoff.require_native_destination_writer(config,issue,'management','padel-africa')",'destination_handoff'),'slg.py':('mutate',"destination_handoff.require_native_destination_writer(config,issue,'salesleadgenerator',client.brand)",'destination_handoff')}
+    specs={'publishing.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'refresh.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'program_updates.py':('run','source_exchange.require_native_catalog_writer(config,issue)','source_exchange'),'engine_ops.py':('write_once',"destination_handoff.require_native_destination_writer(config,issue,'management',slug)",'destination_handoff'),'racket_land.py':('run',"destination_handoff.require_native_destination_writer(config,issue,'management',CLIENT)",'destination_handoff'),'slg.py':('mutate',"destination_handoff.require_native_destination_writer(config,issue,'salesleadgenerator',client.brand)",'destination_handoff')}
     if name not in specs:raise ValueError('Unexpected writer handoff module')
     function,call,module=specs[name];hook=' import '+module+'\n '+call+'\n'
     pattern=r'^def '+function+r'\([^\n]*\):\n'+(r' """CRM writes are never equated to sent email or a won sale\."""\n' if name=='slg.py' else '')
@@ -72,7 +72,7 @@ def patch_source_runtime(name,source,patches):
 
 
 def patch_racket_runtime(name,source,patches):
-    expected={'engine_ops.py','padel.py','venue_identity.py','search_workflow.py','brave.py'}
+    expected={'engine_ops.py','racket_land.py','venue_identity.py','search_workflow.py','brave.py'}
     if set(patches)!=expected or name not in expected:raise ValueError('Exact racket runtime modules required')
     rows=patches[name]
     if not isinstance(rows,list) or not 1<=len(rows)<=24 or any(set(row)!={'before','after'} or not all(isinstance(row[key],str) and 1<=len(row[key])<=16000 for key in ['before','after']) for row in rows):raise ValueError('Bounded explicit racket runtime patches required')
@@ -135,8 +135,8 @@ for name,expected in payload['expected'].items():
 scope={};exec(payload['patcher'],scope)
 allowed={'source_exchange.py','publishing.py','refresh.py','program_updates.py'} if writer_handoff else {'source_exchange.py'} if module_only else {'worker.py','autonomy.py','search_workflow.py'}
 if source_runtime:allowed|={'source_exchange.py'}
-if racket_runtime:allowed={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py','brave.py'}
-if application_writers:allowed|={'engine_ops.py','padel.py','slg.py'}
+if racket_runtime:allowed={'source_exchange.py','engine_ops.py','racket_land.py','venue_identity.py','search_workflow.py','brave.py'}
+if application_writers:allowed|={'engine_ops.py','racket_land.py','slg.py'}
 if set(payload['expected'])-allowed or (preserve_active and set(payload['expected'])!=allowed):raise RuntimeError('Unexpected native deployment file')
 files={} if racket_runtime else {name:scope['patch_source_runtime'](name,(root/name).read_text(),payload['source_project_patches']).encode() for name in allowed-{'source_exchange.py'}} if source_runtime else {name:scope['patch_writer_handoff'](name,(root/name).read_text()).encode() for name in allowed-{'source_exchange.py'}} if writer_handoff else {} if module_only else {name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
 files['source_exchange.py']=base64.b64decode(payload['module'])
@@ -238,7 +238,7 @@ def main():
     parser.add_argument('--expected-refresh-sha256')
     parser.add_argument('--expected-program-sha256')
     parser.add_argument('--expected-engine-sha256')
-    parser.add_argument('--expected-padel-sha256')
+    parser.add_argument('--expected-racket-land-sha256')
     parser.add_argument('--expected-slg-sha256')
     parser.add_argument('--expected-destination-guard-sha256')
     parser.add_argument('--apply',action='store_true')
@@ -248,7 +248,7 @@ def main():
     if args.racket_land_runtime:
         if not args.runtime_digests or any([args.exchange_module_only,args.writer_handoff_hooks,args.source_project_runtime,args.application_writers]):parser.error('Racket runtime requires its explicit digest manifest and no other release mode')
         expected=json.loads(Path(args.runtime_digests).read_text())
-        if set(expected)!={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py','brave.py','racket_policy.py','racket_countries.json'}:parser.error('Exact racket runtime digests required')
+        if set(expected)!={'source_exchange.py','engine_ops.py','racket_land.py','venue_identity.py','search_workflow.py','brave.py','racket_policy.py','racket_countries.json'}:parser.error('Exact racket runtime digests required')
         payload={'apply':args.apply,'racket_runtime':True,'expected':{key:value for key,value in expected.items() if key not in {'racket_policy.py','racket_countries.json'}},'module':base64.b64encode(module.read_bytes()).decode(),'patcher':inspect.getsource(patch_racket_runtime),'racket_patches':json.loads(Path(__file__).with_name('racket_runtime_patches.json').read_text()),'expected_racket_files':{key:expected[key] for key in ['racket_policy.py','racket_countries.json']},'racket_files':{key:base64.b64encode(module.with_name(key).read_bytes()).decode() for key in ['racket_policy.py','racket_countries.json']}}
         result=subprocess.run(['ssh','-i',args.ssh_key,'-o','BatchMode=yes','-o','ConnectTimeout=10',args.host,'python3 -c '+shlex.quote(REMOTE)],input=json.dumps(payload).encode(),capture_output=True,timeout=70)
         if result.returncode:raise SystemExit('Racket runtime release refused or needs recovery; inspect private service and backup state.')
@@ -257,7 +257,7 @@ def main():
     if sum([args.exchange_module_only,args.writer_handoff_hooks,args.source_project_runtime])>1:parser.error('Choose one native release mode')
     if args.expected_source_runtime_sha256 and not args.source_project_runtime:parser.error('Source runtime digest requires --source-project-runtime')
     handoff_digests=[args.expected_publishing_sha256,args.expected_refresh_sha256,args.expected_program_sha256]
-    application_digests=[args.expected_engine_sha256,args.expected_padel_sha256,args.expected_slg_sha256]
+    application_digests=[args.expected_engine_sha256,args.expected_racket_land_sha256,args.expected_slg_sha256]
     if args.application_writers:
         if not args.writer_handoff_hooks or not all(application_digests):parser.error('Application writer release requires handoff mode and all three exact application source digests')
     elif any(application_digests) or args.expected_destination_guard_sha256:parser.error('Application writer digests require --application-writers')
@@ -267,7 +267,7 @@ def main():
     elif args.writer_handoff_hooks:
         if not args.expected_module_sha256 or not all(handoff_digests) or any([args.expected_worker_sha256,args.expected_autonomy_sha256,args.expected_search_sha256]):parser.error('Writer handoff release requires only the current module and three writer digests')
         expected=dict(zip(['source_exchange.py','publishing.py','refresh.py','program_updates.py'],[args.expected_module_sha256,*handoff_digests]))
-        if args.application_writers:expected.update(zip(['engine_ops.py','padel.py','slg.py'],application_digests))
+        if args.application_writers:expected.update(zip(['engine_ops.py','racket_land.py','slg.py'],application_digests))
     elif any(handoff_digests):parser.error('Writer digests require writer handoff mode')
     elif args.exchange_module_only:
         if not args.expected_module_sha256 or any([args.expected_worker_sha256,args.expected_autonomy_sha256,args.expected_search_sha256]):parser.error('Module-only release requires only the existing module digest')

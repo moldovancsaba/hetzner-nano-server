@@ -31,9 +31,9 @@ class HandoffTests(unittest.TestCase):
    with self.subTest(change=change),self.assertRaisesRegex(ValueError,'requires review|does not match'):guard.require_native_destination_writer(config,{'projectId':'project'},'management','padel-africa')
 
  def test_mutation_entrypoints_hold_before_any_database_fetch_or_dependency(self):
-  import engine_ops,padel,slg
+  import engine_ops,racket_land,slg
   issue={'projectId':'project'}
-  for call in [lambda:engine_ops.write_once(issue,None,self.config(),None,None,None,'padel-africa','intake',None,None),lambda:padel.run(issue,None,self.config(),None,None,None),lambda:slg.mutate(slg.Client('cogmap'),'slg_capture_lead',{},issue,None,self.config('salesleadgenerator','cogmap'),None,None)]:
+  for call in [lambda:engine_ops.write_once(issue,None,self.config(),None,None,None,'padel-africa','intake',None,None),lambda:racket_land.run(issue,None,self.config(),None,None,None),lambda:slg.mutate(slg.Client('cogmap'),'slg_capture_lead',{},issue,None,self.config('salesleadgenerator','cogmap'),None,None)]:
    with self.assertRaisesRegex(ValueError,'Destination writes are delegated'):call()
 
  def test_cross_client_call_is_held_instead_of_honoring_another_clients_handoff(self):

@@ -69,9 +69,9 @@
       "enabled": true
     },
     {
-      "kind": "padel_maintenance",
+      "kind": "racket_maintenance",
       "id": "a2ce286f-6ced-4787-bd3c-293684629fc8",
-      "title": "Check Padel Africa catalog",
+      "title": "Check Racket Land catalog",
       "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
       "trigger_id": "02c89cef-cadf-4b34-88c8-86588cf3da36",
       "cron": "10 9 * * *",
@@ -79,9 +79,9 @@
       "enabled": true
     },
     {
-      "kind": "padel_intake",
+      "kind": "racket_intake",
       "id": "dee5fc7f-60fe-4615-b082-f7e1e643a73e",
-      "title": "Submit a Padel Africa source",
+      "title": "Submit a Racket Land source",
       "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
       "manual_only": true,
       "enabled": true
@@ -127,9 +127,9 @@
       "enabled": true
     },
     {
-      "kind": "padel_discovery",
+      "kind": "racket_discovery",
       "id": "a5f55164-2951-4536-ae71-eea0908229f3",
-      "title": "Discover Padel Africa sources",
+      "title": "Discover Racket Land sources",
       "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
       "trigger_id": "6a09e133-cbd0-4eb2-859a-1f8d71926f64",
       "cron": "5 10,16 * * *",
@@ -149,7 +149,7 @@
     {
       "kind": "engine_maintenance",
       "id": "0f662159-0f58-437a-baa8-9fcb41ec05cf",
-      "title": "Maintain Padel Africa engine listings",
+      "title": "Maintain Racket Land engine listings",
       "project_id": "a2de1092-316c-4f53-8c41-9b8ca0d512b8",
       "trigger_id": "14870da2-eb38-4d42-8272-3ab07757f25b",
       "cron": "5 */6 * * *",

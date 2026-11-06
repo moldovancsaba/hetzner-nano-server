@@ -1,21 +1,23 @@
-"""Racket Land machine catalog and evidence intake. The PADEL_SSO_* credentials, padel_packets table and padel_* workflow
-names are legacy identities kept on purpose: renaming them would strand receipts and break title matching."""
+"""Racket Land machine catalog and evidence intake. Credentials are RACKET_SSO_*; the stored packets are in racket_packets."""
 import hashlib,json,os,re,threading,time,urllib.request,urllib.parse
 import catalog,publishing,quality_gate
 from net import canonical_url
 ORIGIN='https://racket.land'
+# Protocol client id of the Racket Land engine, kept under its legacy value because the writer authority and the exchange
+# are configured against it; every other module reads it from here.
+CLIENT='padel-africa'
 LOCK=threading.Lock();TOKEN=None
 class Client:
  def token(self):
   global TOKEN
   with LOCK:
    if TOKEN and TOKEN[1]>time.time()+300:return TOKEN[0]
-   issuer=os.environ.get('PADEL_SSO_ISSUER','')
-   if issuer!='https://sso.doneisbetter.com':raise ValueError('Padel machine issuer is not configured')
-   body={'grant_type':'client_credentials','client_id':os.environ['PADEL_SSO_CLIENT_ID'],'client_secret':os.environ['PADEL_SSO_CLIENT_SECRET'],'scope':'management:ingest.write management:catalog.read'}
+   issuer=os.environ.get('RACKET_SSO_ISSUER','')
+   if issuer!='https://sso.doneisbetter.com':raise ValueError('Racket Land machine issuer is not configured')
+   body={'grant_type':'client_credentials','client_id':os.environ['RACKET_SSO_CLIENT_ID'],'client_secret':os.environ['RACKET_SSO_CLIENT_SECRET'],'scope':'management:ingest.write management:catalog.read'}
    req=urllib.request.Request(issuer+'/api/oauth/token',data=json.dumps(body).encode(),headers={'Content-Type':'application/json'})
    with urllib.request.build_opener(catalog.NoRedirect).open(req,timeout=30) as r:value=json.load(r)
-   if not isinstance(value.get('access_token'),str):raise ValueError('Padel machine token unavailable')
+   if not isinstance(value.get('access_token'),str):raise ValueError('Racket Land machine token unavailable')
    TOKEN=(value['access_token'],time.time()+int(value.get('expires_in',3600)));return TOKEN[0]
  def call(self,path,body=None):
   if path not in {'/api/machine/catalog','/api/ingest'}:raise ValueError('Unsupported Racket Land machine operation')
@@ -33,19 +35,19 @@ class Client:
   return value
 
 def initialize(database):
- with database() as db:db.execute('CREATE TABLE IF NOT EXISTS padel_packets(packet_hash TEXT PRIMARY KEY,issue_id TEXT,status TEXT,body_json TEXT,proof_json TEXT,receipt_json TEXT,created_at REAL)')
+ with database() as db:db.execute('CREATE TABLE IF NOT EXISTS racket_packets(packet_hash TEXT PRIMARY KEY,issue_id TEXT,status TEXT,body_json TEXT,proof_json TEXT,receipt_json TEXT,created_at REAL)')
 # Evidence intake only; this connector never force-publishes (engine_ops.Client is the one that can). Like the engine and
 # program-update writes, this path has no human-approval mode: it records a gate decision and uses the daily cap, and the
 # reservation refuses while automatic_quality_gate.enabled is not true, so the switch stops it too.
 def run(issue,board,config,web,database,execution,client=None):
  import destination_handoff
- destination_handoff.require_native_destination_writer(config,issue,'management','padel-africa')
+ destination_handoff.require_native_destination_writer(config,issue,'management',CLIENT)
  initialize(database);client=client or Client();value=client.catalog();kind=catalog.field(issue,'Factory workflow');vertical=value['vertical'];current=value['catalog']
- if kind=='padel_maintenance':
+ if kind=='racket_maintenance':
   report={'brand':'Racket Land','origin':ORIGIN,'tenant_verified':True,'catalog_total':current['total'],'rows_available':len(current['listings']),'truncated':current.get('truncated',False),'triage':value.get('triage',{}),'localities':vertical.get('discovery',{}).get('localities',[]),'checked_at':publishing.stamp(),'writes':0}
   catalog.save_report(database,issue,kind,report)
-  return {'stage':'padel_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land connection\n\nAuthenticated Racket Land tenant and worldwide policy verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the racket-sport source intake form; the receiving engine owns extraction and publication.','report':report}
- if kind!='padel_intake':raise ValueError('Unsupported Racket Land workflow')
+  return {'stage':'racket_connected','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land connection\n\nAuthenticated Racket Land tenant and worldwide policy verified. Canonical machine catalog: '+str(current['total'])+' eligible catalog records; bounded slice: '+str(len(current['listings']))+'. Engine lifecycle counts are recorded for the dashboard. No catalog record changed. New evidence can be submitted through the racket-sport source intake form; the receiving engine owns extraction and publication.','report':report}
+ if kind!='racket_intake':raise ValueError('Unsupported Racket Land workflow')
  url=canonical_url(catalog.field(issue,'Official source URL'));name=catalog.field(issue,'Provider name');city=catalog.field(issue,'City');address=catalog.field(issue,'Street address')
  if not url.startswith('https://') or not all(3<=len(x)<=180 for x in [name,city,address]) or not re.search(r'\d',address):raise ValueError('Provide a focused HTTPS official source and exact provider, city and street address')
  import racket_policy
@@ -59,24 +61,24 @@ def run(issue,board,config,web,database,execution,client=None):
   excerpts='\n'.join(line for line in source_text.splitlines() if any(publishing.norm(x) in publishing.norm(line) for x in [name,city,address]))[:6000]
   source_text=excerpts+'\n'+source_text[:40000]
  if not all(publishing.norm(x) in publishing.norm(source_text) for x in [name,city,address]):raise ValueError('Bounded source evidence does not retain all identity fields')
- body={'id':'paperclip-padel-'+publishing.sha({'url':url,'address':address})[:24],'sourceText':source_text,'sourceUrl':page['url'],'sourcePool':'ingest'};proof={'source_url':page['url'],'sha256':page['sha256'],'name':name,'city':city,'address':address};ph=publishing.sha({'body':body,'proof':proof})
+ body={'id':'paperclip-racket-land-'+publishing.sha({'url':url,'address':address})[:24],'sourceText':source_text,'sourceUrl':page['url'],'sourcePool':'ingest'};proof={'source_url':page['url'],'sha256':page['sha256'],'name':name,'city':city,'address':address};ph=publishing.sha({'body':body,'proof':proof})
  with database() as db:
-  old=db.execute('SELECT status,receipt_json FROM padel_packets WHERE packet_hash=?',(ph,)).fetchone()
-  pending=db.execute("SELECT 1 FROM padel_packets WHERE json_extract(body_json,'$.id')=? AND status IN ('submitting','uncertain')",(body['id'],)).fetchone()
+  old=db.execute('SELECT status,receipt_json FROM racket_packets WHERE packet_hash=?',(ph,)).fetchone()
+  pending=db.execute("SELECT 1 FROM racket_packets WHERE json_extract(body_json,'$.id')=? AND status IN ('submitting','uncertain')",(body['id'],)).fetchone()
  if pending:raise ValueError('Racket Land source identity has an unresolved submission; it will not be replayed')
  if old:
-  if old['status']=='accepted':return {'stage':'padel_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'Source evidence was already accepted by the Racket Land engine. No second submission was sent; publication remains a separate engine outcome.'}
+  if old['status']=='accepted':return {'stage':'racket_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'Source evidence was already accepted by the Racket Land engine. No second submission was sent; publication remains a separate engine outcome.'}
   raise ValueError('Racket Land evidence has an unresolved submission; reconcile it before another write')
  if issue['title'].startswith('[Factory test]'):raise ValueError('Synthetic factory tests cannot submit real Racket Land evidence')
  ih=publishing.sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']});publishing.ensure_execution(issue,board,config,execution,ih)
- quality_gate.record(database,ph,'padel_source_intake',{'tenant_scope':True,'literal_source_identity':True,'no_known_match_in_bounded_catalog':True,'engine_deduplication_required':True})
+ quality_gate.record(database,ph,'racket_source_intake',{'tenant_scope':True,'literal_source_identity':True,'no_known_match_in_bounded_catalog':True,'engine_deduplication_required':True})
  with database() as db:
-  db.execute('BEGIN IMMEDIATE');quality_gate.reserve(db,ph,config);db.execute('INSERT INTO padel_packets VALUES(?,?,?,?,?,?,?)',(ph,issue['id'],'submitting',json.dumps(body),json.dumps(proof),None,time.time()))
+  db.execute('BEGIN IMMEDIATE');quality_gate.reserve(db,ph,config);db.execute('INSERT INTO racket_packets VALUES(?,?,?,?,?,?,?)',(ph,issue['id'],'submitting',json.dumps(body),json.dumps(proof),None,time.time()))
  try:
   receipt=client.call('/api/ingest',body)
   if receipt.get('cardId')!=body['id'] or not isinstance(receipt.get('created'),bool):raise ValueError('No definitive Racket Land intake receipt')
  except Exception:
-  with database() as db:db.execute("UPDATE padel_packets SET status='uncertain' WHERE packet_hash=?",(ph,))
+  with database() as db:db.execute("UPDATE racket_packets SET status='uncertain' WHERE packet_hash=?",(ph,))
   raise ValueError('Racket Land submission outcome is uncertain; it will not be resent automatically') from None
- with database() as db:db.execute("UPDATE padel_packets SET status='accepted',receipt_json=? WHERE packet_hash=?",(json.dumps(receipt),ph))
- return {'stage':'padel_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land source receipt\n\nEvidence '+('accepted for engine processing' if receipt['created'] else 'already exists in the engine; no reprocessing was requested')+'. Card: '+body['id']+'. Engine state: '+str(receipt.get('state','unknown'))+'. This receipt does not claim public publication.'}
+ with database() as db:db.execute("UPDATE racket_packets SET status='accepted',receipt_json=? WHERE packet_hash=?",(json.dumps(receipt),ph))
+ return {'stage':'racket_evidence_accepted','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Racket Land source receipt\n\nEvidence '+('accepted for engine processing' if receipt['created'] else 'already exists in the engine; no reprocessing was requested')+'. Card: '+body['id']+'. Engine state: '+str(receipt.get('state','unknown'))+'. This receipt does not claim public publication.'}

@@ -24,8 +24,8 @@ fi
 if [ -f /etc/paperclip-segmind.env ]; then
   set -- "$@" etc/paperclip-segmind.env
 fi
-if [ -f /etc/paperclip-padel.env ]; then
-  set -- "$@" etc/paperclip-padel.env
+if [ -f /etc/paperclip-racket.env ]; then
+  set -- "$@" etc/paperclip-racket.env
 fi
 if [ -f /etc/paperclip-slg.env ]; then
   set -- "$@" etc/paperclip-slg.env

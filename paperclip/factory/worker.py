@@ -1,5 +1,5 @@
 """Factory worker behind Paperclip's process adapter (POST /run on loopback) and the company dashboard feed.
-Research, quality and support runs produce drafts for review only. The publication, refresh, program, engine and Padel
+Research, quality and support runs produce drafts for review only. The publication, refresh, program, engine and Racket Land
 workflows it routes to (operational.py) can write to ClassScout or a Management engine, under the gates in quality_gate.py.
 It sends no customer messages and has no outreach tool."""
 import contextlib,datetime,hashlib,hmac,json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.parse,urllib.request,uuid
@@ -272,7 +272,7 @@ def execute(body):
  task_hint=locate_task(board,run,agent_id,company)
  if task_hint is None:return {'status':'idle','summary':'No assigned actionable task'}
  import operational
- pure_operation=operational.workflow(task_hint) in {'verify_catalog','audit_site','operations_digest','support_answer','source_quality','recover_evidence','padel_maintenance','padel_intake','reliability_round','freshness_round','knowledge_round','padel_candidate','engine_maintenance','engine_candidate','management_overview','program_queue','sales_connection','sales_pipeline','sales_briefing','autonomous_coordination'}
+ pure_operation=operational.workflow(task_hint) in {'verify_catalog','audit_site','operations_digest','support_answer','source_quality','recover_evidence','racket_maintenance','racket_intake','reliability_round','freshness_round','knowledge_round','racket_candidate','engine_maintenance','engine_candidate','management_overview','program_queue','sales_connection','sales_pipeline','sales_briefing','autonomous_coordination'}
  lock=PUBLICATION_LOCK if config['agents'][agent_id]['role']=='publication' else SEARCH_LOCK if config['agents'][agent_id]['role']=='search' else OPERATION_LOCK if pure_operation else LOCK
  if not lock.acquire(timeout=300):raise ValueError('Factory worker is occupied; retry this task later')
  issue=None
@@ -292,7 +292,7 @@ def execute(body):
   role=config['agents'][agent_id]['role']
   import source_projects
   source_project=source_projects.require_search_issue(config,issue,role)
-  if not source_project and role in {'publication','search'} and brand!='ClassScout' and not (role=='search' and (brand=='Padel Africa' and config.get('padel_discovery_enabled') or brand=='Sportolok' and config.get('engine_clients',{}).get('sportolok'))):raise ValueError('Publishing is enabled only for the ClassScout pilot')
+  if not source_project and role in {'publication','search'} and brand!='ClassScout' and not (role=='search' and (brand=='Racket Land' and config.get('racket_discovery_enabled') or brand=='Sportolok' and config.get('engine_clients',{}).get('sportolok'))):raise ValueError('Publishing is enabled only for the ClassScout pilot')
   board.call('/issues/'+issue['id']+'/checkout',{'agentId':agent_id,'expectedStatuses':['todo','backlog','in_progress','in_review'] if role in {'publication','search'} or retry_due else ['todo','backlog','in_progress']})
   with database() as db:db.execute('INSERT INTO runs VALUES(?,?,?,?,?,?,?,?,?)',(run_id,issue['id'],agent_id,role,'running',None,None,now(),None))
   purpose='test' if issue['title'].startswith('[Factory test]') else 'production'

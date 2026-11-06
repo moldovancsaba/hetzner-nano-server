@@ -7,8 +7,8 @@ from search_budget import Budget,BudgetWait
 from brave import Brave,SearchError,CONTRACT,locale,validate
 
 # Only the keys are used (the purpose check in parse). The real priority order is the SQL CASE in queued_issue and in run:
-# publishing first, then discovery (and padel/sportolok once an hour old), then everything else. The numbers are unused.
-RANK={'publishing':0,'discovery':1,'support':2,'padel':3,'sportolok':3}
+# publishing first, then discovery (and racket/sportolok once an hour old), then everything else. The numbers are unused.
+RANK={'publishing':0,'discovery':1,'support':2,'racket':3,'sportolok':3}
 TERMINAL={'done','cancelled'}
 def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def fingerprint(query,kind='discovery'):return hashlib.sha256((' '.join(query.casefold().split())+'|'+ '|'.join(locale(kind))+'|strict|web|20').encode()).hexdigest()
@@ -30,7 +30,7 @@ def parse(issue):
  def field(name,default=''):
   m=re.search(r'^'+re.escape(name)+r':\s*(.+?)\s*$',text,re.M);return m[1].strip() if m else default
  kind=field('Search purpose','discovery').lower()
- if kind not in RANK:raise ValueError('Search purpose must be publishing, discovery, support, padel or sportolok')
+ if kind not in RANK:raise ValueError('Search purpose must be publishing, discovery, support, racket or sportolok')
  host=field('Source host').lower().removeprefix('www.')
  if host:
   safe=canonical_url('https://'+host+'/')
@@ -58,7 +58,7 @@ def enqueue(issue,database,source_project=None):
 
 def queued_issue(board,config,agent,database):
  initialize(database)
- with database() as db:rows=[dict(r) for r in db.execute("SELECT * FROM search_jobs WHERE status IN ('queued','running','delivery_pending') ORDER BY CASE WHEN kind='publishing' THEN 0 WHEN kind='discovery' OR (kind IN ('padel','sportolok') AND created_at<=?) THEN 1 ELSE 2 END,created_at",(time.time()-3600,))]
+ with database() as db:rows=[dict(r) for r in db.execute("SELECT * FROM search_jobs WHERE status IN ('queued','running','delivery_pending') ORDER BY CASE WHEN kind='publishing' THEN 0 WHEN kind='discovery' OR (kind IN ('racket','sportolok') AND created_at<=?) THEN 1 ELSE 2 END,created_at",(time.time()-3600,))]
  if not rows:return None
  paused=research_backlog(board,config,database)>=10
  for row in rows:
@@ -112,7 +112,7 @@ def verified_pages(rows,job,web,database,maximum):
   try:
    url=canonical_url(row.get('url',''));host=urllib.parse.urlsplit(url).hostname.removeprefix('www.');path=urllib.parse.urlsplit(url).path
    if row.get('family_friendly') is False or host in blocked or any(host.endswith('.'+h) for h in blocked):continue
-   if job['kind'] in {'padel','sportolok'}:
+   if job['kind'] in {'racket','sportolok'}:
     import venue_identity
     if not venue_identity.provider_host(host):continue
    if job['source_host'] and host!=job['source_host']:continue
@@ -120,7 +120,7 @@ def verified_pages(rows,job,web,database,maximum):
    key=url.replace('://www.','://').rstrip('/')
    if key in seen or (job['kind']=='discovery' and key in known):continue
    seen.add(key);attempted+=1;page=web.page(url);final_host=urllib.parse.urlsplit(page['url']).hostname.removeprefix('www.')
-   if job['kind'] in {'padel','sportolok'}:
+   if job['kind'] in {'racket','sportolok'}:
     if not venue_identity.provider_host(final_host):continue
    if job['kind']=='discovery':
     initialize(database)
@@ -128,7 +128,7 @@ def verified_pages(rows,job,web,database,maximum):
     if prior:continue
    if job['source_host'] and final_host!=job['source_host']:continue
    if job['kind']=='sportolok':pass
-   elif job['kind']=='padel':
+   elif job['kind']=='racket':
     import racket_policy
     if not racket_policy.matches(page['text'],job.get('_racket_vertical',{})):continue
    elif job.get('_source_only_scope',{}).get('application')!='salesleadgenerator' and not re.search(r'kids?|children|famil(?:y|ies)|ages?|tuition|classes',page['text'],re.I):continue
@@ -149,8 +149,8 @@ def deliver(issue,board,config,job,outcome,database,execution):
  for page in ([] if job.get('kind')=='publishing' and job.get('parent_publication') else outcome.get('source_pages',[])):
   if page.get('research_id'):continue
   active(issue,board,config,execution)
-  if job['kind'] in {'padel','sportolok'}:
-   if not config.get('engine_clients'):raise ValueError('Engine clients are not configured; Padel and Sportolok sources cannot be handed on')
+  if job['kind'] in {'racket','sportolok'}:
+   if not config.get('engine_clients'):raise ValueError('Engine clients are not configured; Racket Land and Sportolok sources cannot be handed on')
    from portfolio import queue_engine_candidate
    child=queue_engine_candidate(issue,page,board,config)
    page['research_id']=child['id'];page['research_identifier']=child['identifier'];outcome['research_tasks'].append(child['identifier']);persist_outcome(database,job,outcome);continue
@@ -196,20 +196,20 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
   budget=budget or Budget(database);job=enqueue(issue,database);outcome=json.loads(job['outcome_json']);search_locale=locale(job['kind']);client=client or Brave(budget,country=search_locale[0],language=search_locale[1])
  if source_project:job['_source_only_scope']=source_project['scope']
  brand=config.get('projects',{}).get(issue.get('projectId'))
- if not source_project and ((job['kind']=='padel' and (brand!='Padel Africa' or not config.get('padel_discovery_enabled'))) or (job['kind']=='sportolok' and (brand!='Sportolok' or not config.get('engine_clients',{}).get('sportolok'))) or (job['kind'] not in {'padel','sportolok'} and brand!='ClassScout')):raise ValueError('Search purpose does not match the configured brand')
+ if not source_project and ((job['kind']=='racket' and (brand!='Racket Land' or not config.get('racket_discovery_enabled'))) or (job['kind']=='sportolok' and (brand!='Sportolok' or not config.get('engine_clients',{}).get('sportolok'))) or (job['kind'] not in {'racket','sportolok'} and brand!='ClassScout')):raise ValueError('Search purpose does not match the configured brand')
  if job['status']=='deduplicated':return {'stage':'search_completed','markdown':'This query was already queued or processed within seven days. No additional Brave request was made. Related search task IDs: '+', '.join(outcome['duplicate_tasks'])+'\n\n'+budget_markdown(budget),'entities':[]}
  if job['status']=='completed':return {'stage':'search_completed','markdown':None,'entities':[]}
  if job['status']=='delivery_pending' and time.time()<job['next_delivery_at']:
   return {'stage':'search_waiting','markdown':None,'entities':[],'wake_at':job['next_delivery_at']}
  if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')
- if job['kind']=='padel':
+ if job['kind']=='racket':
   import engine_ops
-  job['_racket_vertical']=engine_ops.Client('padel-africa').catalog()['vertical']
+  job['_racket_vertical']=engine_ops.Client(engine_ops.racket_land.CLIENT).catalog()['vertical']
  backlog=research_backlog(board,config,database) if 'ClassScout' in config.get('projects',{}).values() else 0
  source_projects_roster=list(config.get('source_exchange',{}).get('source_only_projects',{}))
  if len(source_projects_roster)>5:raise ValueError('Bounded source-only project roster required')
  source_clause=' OR project_id IN ('+','.join('?' for _ in source_projects_roster)+')' if source_projects_roster else ''
- with database() as db:head=db.execute("SELECT issue_id FROM search_jobs WHERE status IN ('queued','running','delivery_pending') AND (status<>'delivery_pending' OR next_delivery_at<=?) AND (?<10 OR kind<>'discovery'"+source_clause+") ORDER BY CASE WHEN kind='publishing' THEN 0 WHEN kind='discovery' OR (kind IN ('padel','sportolok') AND created_at<=?) THEN 1 ELSE 2 END,created_at LIMIT 1",(time.time(),backlog,*source_projects_roster,time.time()-3600)).fetchone()
+ with database() as db:head=db.execute("SELECT issue_id FROM search_jobs WHERE status IN ('queued','running','delivery_pending') AND (status<>'delivery_pending' OR next_delivery_at<=?) AND (?<10 OR kind<>'discovery'"+source_clause+") ORDER BY CASE WHEN kind='publishing' THEN 0 WHEN kind='discovery' OR (kind IN ('racket','sportolok') AND created_at<=?) THEN 1 ELSE 2 END,created_at LIMIT 1",(time.time(),backlog,*source_projects_roster,time.time()-3600)).fetchone()
  if head and head[0]!=issue['id']:
   text='Waiting behind a higher-priority or older search task.\n\n'+budget_markdown(budget);return {'stage':'search_waiting','markdown':notice(database,job,text),'entities':[]}
  capacity=10 if source_project else max(0,10-backlog) if job['kind']=='discovery' else 5

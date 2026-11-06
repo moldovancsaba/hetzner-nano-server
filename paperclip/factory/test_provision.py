@@ -30,9 +30,9 @@ class ProvisionTests(unittest.TestCase):
   import test_factory_config
   self.assertEqual(test_factory_config.unread_keys(self.run_provision()),[])
  def test_rerun_keeps_remote_llm_and_every_operator_setting(self):
-  previous={'company_id':'old','projects':{'stale':'ClassScout'},'agents':{'stale':{'name':'x','role':'research'}},'search_enabled':False,'search_candidate_limit':5,'publishing_enabled':False,'operational_workflows_enabled':False,'catalog_batch_size':1,'audit_page_limit':2,'reviewer_user_id':'someone','remote_llm':{'enabled':True,'model':'m','monthly_cost':10.0},'automatic_quality_gate':{'enabled':True,'daily_write_limit':20},'growth_mode':{'enabled':True},'padel_enabled':True,'reliability_enabled':True,'padel_discovery_enabled':True,'engine_clients':{'padel-africa':True},'program_updates_enabled':True,'sales':{'brands':['b'],'crm_writes_enabled':False},'future_setting':{'a':1}}
+  previous={'company_id':'old','projects':{'stale':'ClassScout'},'agents':{'stale':{'name':'x','role':'research'}},'search_enabled':False,'search_candidate_limit':5,'publishing_enabled':False,'operational_workflows_enabled':False,'catalog_batch_size':1,'audit_page_limit':2,'reviewer_user_id':'someone','remote_llm':{'enabled':True,'model':'m','monthly_cost':10.0},'automatic_quality_gate':{'enabled':True,'daily_write_limit':20},'growth_mode':{'enabled':True},'racket_enabled':True,'reliability_enabled':True,'racket_discovery_enabled':True,'engine_clients':{'padel-africa':True},'program_updates_enabled':True,'sales':{'brands':['b'],'crm_writes_enabled':False},'future_setting':{'a':1}}
   config=self.run_provision(previous)
-  for key in ['remote_llm','automatic_quality_gate','growth_mode','padel_enabled','reliability_enabled','padel_discovery_enabled','engine_clients','program_updates_enabled','sales','future_setting','search_candidate_limit','publishing_enabled','operational_workflows_enabled','catalog_batch_size','audit_page_limit','reviewer_user_id']:self.assertEqual(config[key],previous[key],key)
+  for key in ['remote_llm','automatic_quality_gate','growth_mode','racket_enabled','reliability_enabled','racket_discovery_enabled','engine_clients','program_updates_enabled','sales','future_setting','search_candidate_limit','publishing_enabled','operational_workflows_enabled','catalog_batch_size','audit_page_limit','reviewer_user_id']:self.assertEqual(config[key],previous[key],key)
  def test_rerun_rederives_ids_maps_and_the_brave_switch(self):
   config=self.run_provision({'company_id':'old','projects':{'stale':'ClassScout'},'agents':{'stale':{'name':'x','role':'research'}},'search_enabled':True},brave=False)
   self.assertEqual(config['company_id'],'company-1');self.assertNotIn('stale',config['projects']);self.assertNotIn('stale',config['agents']);self.assertFalse(config['search_enabled'])
@@ -43,5 +43,5 @@ class ProvisionTests(unittest.TestCase):
  def test_carry_over_does_not_alias_the_earlier_nested_values(self):
   previous={'remote_llm':{'enabled':True}};config=provision.carry_over({},previous);config['remote_llm']['enabled']=False;self.assertTrue(previous['remote_llm']['enabled'])
 def provision_brands():
- return ['Sales Lead Generator','ClassScout','Sportolok','Management','Padel Africa','Factory Operations']
+ return ['Sales Lead Generator','ClassScout','Sportolok','Management','Racket Land','Factory Operations']
 if __name__=='__main__':unittest.main()

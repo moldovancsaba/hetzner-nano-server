@@ -1,9 +1,9 @@
 """Tests across the delivery pipeline: evidence address and branch matching with a bounded crawl, price and
-age-range parsing (formats), source checks in publishing, Racket Land source intake (padel.py, legacy name) and its
+age-range parsing (formats), source checks in publishing, Racket Land source intake (racket_land.py, legacy name) and its
 no-replay rules, business metrics, and the automatic gate price-unit check."""
 import copy,json,time,unittest
 from unittest.mock import Mock,MagicMock,patch
-import worker,evidence,formats,publishing,quality_gate,padel,business_metrics
+import worker,evidence,formats,publishing,quality_gate,racket_land,business_metrics
 import test_operations,test_publishing
 # Padel intake has no human-approval mode, so it writes only while the automatic gate switch is on.
 PADEL_ON={'company_id':'company','automatic_quality_gate':{'enabled':True}}
@@ -80,45 +80,45 @@ class DeliveryTests(unittest.TestCase):
  def test_month_and_camp_normalization_passes_through_real_pipeline(self):
   helper=test_publishing.PublishingTests();brief=helper.brief();page=helper.page();page['text']='Keylab Music classes at 94 Luquer St in Carroll Gardens, Brooklyn. Ages 6-18 months - Tuesdays 10:00 am, 45 minutes. $150 per month.';n,proof=publishing.normalize_sources(brief,[page],[{'field':'address','value':'94 Luquer St','quote':'94 Luquer St'}]);self.assertEqual(proof['price']['unit'],'month');self.assertEqual(formats.bounds(proof['ages'][0]),(6,18));self.assertEqual(proof['price']['amount'],150);self.assertNotIn('$150',' '.join(n['descriptionFacts']))
  def test_padel_wrong_tenant_is_refused(self):
-  client=padel.Client()
+  client=racket_land.Client()
   with patch.object(client,'call',return_value={'vertical':{'slug':'sportolok'}}):
    with self.assertRaises(ValueError):client.catalog()
  def test_padel_forced_publish_and_raw_patch_are_not_available(self):
   for body in [{'id':'x','patch':{'name':'Fake'}},{'id':'x','forcePublish':True}]:
-   with self.assertRaises(ValueError):padel.Client().call('/api/ingest',body)
+   with self.assertRaises(ValueError):racket_land.Client().call('/api/ingest',body)
  def test_padel_maintenance_is_a_read_and_reports_actual_scope(self):
   client=Mock();client.catalog.return_value={'vertical':{'slug':'padel-africa','discovery':{'localities':['Cape Town']}},'catalog':{'total':944,'listings':[],'truncated':True},'triage':{}}
-  result=padel.run({'id':'padel','description':'Factory workflow: padel_maintenance'},Mock(),{},Mock(),worker.database,{},client);self.assertEqual(result['report']['catalog_total'],944);self.assertEqual(result['report']['writes'],0);client.call.assert_not_called()
+  result=racket_land.run({'id':'racket','description':'Factory workflow: racket_maintenance'},Mock(),{},Mock(),worker.database,{},client);self.assertEqual(result['report']['catalog_total'],944);self.assertEqual(result['report']['writes'],0);client.call.assert_not_called()
  def test_business_dashboard_distinguishes_checked_from_published(self):
   helper=test_publishing.PublishingTests();publishing.initialize.__name__;worker.initialize()
   with worker.database() as db:publishing.initialize(db)
   result=business_metrics.snapshot(worker.database,{'company_id':'company','automatic_quality_gate':{'daily_write_limit':20}},tasks=[]);self.assertEqual(result['funnel']['published'],0);self.assertIn('does not establish',result['definitions']['source_checked']);self.assertNotIn('sourceText',json.dumps(result));self.assertEqual(result['daily_write_limit'],20)
 
- def padel_scenario(self):
-  issue={'id':'padel-new','companyId':'company','projectId':'padel','title':'Submit a Padel source','description':'Factory workflow: padel_intake\nOfficial source URL: https://example.org/\nProvider name: Example Padel\nCity: Cape Town\nStreet address: 12 Main Street','status':'in_progress','assigneeAgentId':'support'};page=self.page(text='Example Padel at 12 Main Street in Cape Town offers padel courts.');web=Mock();web.page.return_value=page;client=Mock();client.catalog.return_value={'vertical':{'slug':'racket-land','territoryScope':{'kind':'unrestricted'},'taxonomy':{'racket-club':'Racket clubs'},'discovery':{'localities':['Cape Town'],'vocabulary':{'requiredTopicWords':['tennis','padel','badminton']}}},'catalog':{'listings':[]}};client.call.side_effect=lambda path,body:{'cardId':body['id'],'created':True,'state':'DISCOVERED'};board=Mock();board.call.side_effect=lambda p:issue if p.startswith('/issues/') else {'status':'running','agentId':'support','companyId':'company'}
+ def racket_scenario(self):
+  issue={'id':'racket-new','companyId':'company','projectId':'racket','title':'Submit a Racket Land source','description':'Factory workflow: racket_intake\nOfficial source URL: https://example.org/\nProvider name: Example Padel\nCity: Cape Town\nStreet address: 12 Main Street','status':'in_progress','assigneeAgentId':'support'};page=self.page(text='Example Padel at 12 Main Street in Cape Town offers padel courts.');web=Mock();web.page.return_value=page;client=Mock();client.catalog.return_value={'vertical':{'slug':'racket-land','territoryScope':{'kind':'unrestricted'},'taxonomy':{'racket-club':'Racket clubs'},'discovery':{'localities':['Cape Town'],'vocabulary':{'requiredTopicWords':['tennis','padel','badminton']}}},'catalog':{'listings':[]}};client.call.side_effect=lambda path,body:{'cardId':body['id'],'created':True,'state':'DISCOVERED'};board=Mock();board.call.side_effect=lambda p:issue if p.startswith('/issues/') else {'status':'running','agentId':'support','companyId':'company'}
   return issue,board,web,client
  def test_padel_intake_uses_engine_receipt_and_does_not_claim_publication(self):
-  i,b,w,c=self.padel_scenario();r=padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(r['stage'],'padel_evidence_accepted');self.assertIn('does not claim',r['markdown']);padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(c.call.call_count,1)
+  i,b,w,c=self.racket_scenario();r=racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(r['stage'],'racket_evidence_accepted');self.assertIn('does not claim',r['markdown']);racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(c.call.call_count,1)
  def test_padel_unknown_write_is_not_replayed(self):
-  i,b,w,c=self.padel_scenario();c.call.side_effect=TimeoutError()
+  i,b,w,c=self.racket_scenario();c.call.side_effect=TimeoutError()
   for _ in range(2):
-   with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
+   with self.assertRaises(ValueError):racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   self.assertEqual(c.call.call_count,1)
  def test_padel_city_the_page_does_not_state_cannot_be_submitted(self):
-  i,b,w,c=self.padel_scenario();i['description']=i['description'].replace('Cape Town','New York')
-  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  i,b,w,c=self.racket_scenario();i['description']=i['description'].replace('Cape Town','New York')
+  with self.assertRaises(ValueError):racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   c.call.assert_not_called()
  def test_padel_city_outside_the_declared_localities_is_accepted_when_the_page_states_it(self):
-  i,b,w,c=self.padel_scenario();i['description']=i['description'].replace('Cape Town','New York');w.page.return_value=self.page(text='Example Padel at 12 Main Street in New York offers padel courts.')
-  r=padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(r['stage'],'padel_evidence_accepted');self.assertEqual(c.call.call_count,1)
+  i,b,w,c=self.racket_scenario();i['description']=i['description'].replace('Cape Town','New York');w.page.return_value=self.page(text='Example Padel at 12 Main Street in New York offers padel courts.')
+  r=racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c);self.assertEqual(r['stage'],'racket_evidence_accepted');self.assertEqual(c.call.call_count,1)
  def test_padel_duplicate_listing_is_held(self):
-  i,b,w,c=self.padel_scenario();c.catalog.return_value['catalog']['listings']=[{'name':'Example Padel'}]
-  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  i,b,w,c=self.racket_scenario();c.catalog.return_value['catalog']['listings']=[{'name':'Example Padel'}]
+  with self.assertRaises(ValueError):racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   c.call.assert_not_called()
  def test_fake_padel_receipt_keeps_submission_uncertain(self):
-  i,b,w,c=self.padel_scenario();c.call.side_effect=lambda p,body:{'cardId':'wrong-id','created':True}
-  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
-  with worker.database() as db:self.assertEqual(db.execute('SELECT status FROM padel_packets').fetchone()[0],'uncertain')
+  i,b,w,c=self.racket_scenario();c.call.side_effect=lambda p,body:{'cardId':'wrong-id','created':True}
+  with self.assertRaises(ValueError):racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  with worker.database() as db:self.assertEqual(db.execute('SELECT status FROM racket_packets').fetchone()[0],'uncertain')
  def test_recovery_does_not_bridge_address_lines(self):
   found=[m.group(0) for m in evidence.STREET.finditer('Call 2125550100\n99 Other Road')];self.assertEqual(found,['99 Other Road'])
 
@@ -128,10 +128,10 @@ class DeliveryTests(unittest.TestCase):
   with self.assertRaises(ValueError):quality_gate.check_publication(worker.database,'monthly-fail',scenario[0],body,p,[page])
 
  def test_padel_changed_source_cannot_replay_uncertain_card(self):
-  i,b,w,c=self.padel_scenario();c.call.side_effect=TimeoutError()
-  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  i,b,w,c=self.racket_scenario();c.call.side_effect=TimeoutError()
+  with self.assertRaises(ValueError):racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   w.page.return_value['text']+=' Changed program information.';w.page.return_value['sha256']='changed'
-  with self.assertRaises(ValueError):padel.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
+  with self.assertRaises(ValueError):racket_land.run(i,b,PADEL_ON,w,worker.database,{'run_id':'run','agent_id':'support'},c)
   self.assertEqual(c.call.call_count,1)
 
  def test_saint_street_name_is_not_truncated_to_st(self):

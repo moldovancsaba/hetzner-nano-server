@@ -51,7 +51,7 @@ Run tests with `python3 -m unittest discover -s paperclip/factory -p 'test_*.py'
 
 Use the parent `snapshot.sh` for a restricted recovery bundle including a consistent SQLite backup. An isolated PostgreSQL backup restore passed on 28 October; a full replacement-host recovery remains untested.
 
-Racket Land status (2026-11-06): the worldwide source rules, the link patterns, the displayed dashboard copy and the country-neutral Brave locale of the `padel` kind are deployed to the Paperclip host (09:34-09:37 UTC); `workflows_setup.py`, `provision.py` and the React dashboard are not, and the delivery code of 2026-11-01 to 11-05 is committed (2026-11-06) and equals the host except `worker.py`, which is ahead of it; see [the alignment note](../integration/RACKET-LAND-ALIGNMENT.md#status-2026-11-06-deployed-to-the-paperclip-host).
+Racket Land status (2026-11-06): the worldwide source rules, the link patterns, the displayed dashboard copy and the country-neutral Brave locale of the `racket` kind are deployed to the Paperclip host (09:34-09:37 UTC); the identity rename (code `racket_land.py`, workflow kinds `racket_*`, search purpose `racket`, table `racket_packets`, credentials `RACKET_SSO_*` in `/etc/paperclip-racket.env`, the Paperclip project and routine titles) followed in one release at 19:33 UTC, and the protocol client id stays `padel-africa` until the exchange scope is re-approved. The repository equals the host except `worker.py`, which is ahead of it (exchange dashboard work), and the React dashboard, which is not deployed; see [the alignment note](../integration/RACKET-LAND-ALIGNMENT.md#status-2026-11-06-deployed-to-the-paperclip-host).
 
 Live pilot evidence and measured limits: [ACCEPTANCE.md](ACCEPTANCE.md).
 

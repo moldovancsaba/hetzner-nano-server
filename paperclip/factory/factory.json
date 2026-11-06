@@ -5,7 +5,7 @@
     "b41d2192-853d-481f-937d-bc5491db2b0f": "ClassScout",
     "0383cd85-ca7b-41b6-ae57-8eca9cb9b8dc": "Sportolok",
     "6c4d96a1-bcc6-470f-913e-cab3f18711e4": "Management",
-    "a2de1092-316c-4f53-8c41-9b8ca0d512b8": "Padel Africa",
+    "a2de1092-316c-4f53-8c41-9b8ca0d512b8": "Racket Land",
     "31389722-c7ef-405c-b0ba-4a2322c633e5": "Factory Operations",
     "178bcea1-5d18-417b-b96a-023765f1d3e8": "Sales Lead Generator"
   },
@@ -50,9 +50,9 @@
   "growth_mode": {
     "enabled": true
   },
-  "padel_enabled": true,
+  "racket_enabled": true,
   "reliability_enabled": true,
-  "padel_discovery_enabled": true,
+  "racket_discovery_enabled": true,
   "engine_clients": {
     "padel-africa": true,
     "sportolok": true

@@ -26,7 +26,7 @@ def snapshot(issue):return publishing.sha({'description':issue.get('description'
 def eligible(issue,config):
  kind=catalog.field(issue,'Factory workflow');brand=config.get('projects',{}).get(issue.get('projectId'))
  return (issue.get('companyId')==config['company_id'] and issue.get('status')=='blocked' and not issue.get('title','').startswith('[Factory test]')
-  and ((brand=='ClassScout' and kind in {'source_research','source_quality','verify_catalog'}) or (brand in {'Padel Africa','Sportolok'} and kind=='engine_candidate')))
+  and ((brand=='ClassScout' and kind in {'source_research','source_quality','verify_catalog'}) or (brand in {'Racket Land','Sportolok'} and kind=='engine_candidate')))
 
 def stopped(issue,board,database):
  """A reported blocker alone never proves the provider is stopped."""
