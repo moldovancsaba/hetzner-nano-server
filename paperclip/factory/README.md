@@ -1,6 +1,6 @@
 # Narimato factory — ClassScout pilot
 
-> **Company dashboard:** https://paperclip.haho.ai/factory. Nineteen native routines (17 scheduled, 2 on-demand forms; see `workflows.json` and the [schedule tables](WORKFLOWS.md#schedules)) cover ClassScout catalog work, recovery, source freshness, support knowledge, the Padel Africa and Sportolok engine clients and company coordination.
+> **Company dashboard:** https://paperclip.haho.ai/factory. Nineteen native routines (17 scheduled, 2 on-demand forms; see `workflows.json` and the [schedule tables](WORKFLOWS.md#schedules)) cover ClassScout catalog work, recovery, source freshness, support knowledge, the Racket Land and Sportolok engine clients (Racket Land replaced Padel Africa on 2026-11-05; its Paperclip project and routine titles keep the old name) and company coordination.
 
 > **Current policy: `classscout-auto-v6`.** Eligible ClassScout new Classes and Camps listings and scoped content/contact updates use an automatic quality gate. The per-record human-approval flow described below is the mode used when the gate is switched off (`automatic_quality_gate.enabled`). See [the checks of the current gate](WORKFLOWS.md#current-automatic-quality-gate-classscout-auto-v6); open limitations are in [../README.md](../README.md#known-limitations).
 
@@ -9,7 +9,7 @@ Paperclip: https://paperclip.haho.ai. Enter the same password as Pandora and ope
 
 ## Operating workflows
 
-[The five original ClassScout workflows](WORKFLOWS.md) are live: bounded catalog verification and contact/content refresh, automatic research/quality/publication handoffs, public-page audits, operating summaries and verified support drafts. They are part of the 19 routines above; the support routine presents a provider/question form on demand, as does the Padel source form. [Delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36).
+[The five original ClassScout workflows](WORKFLOWS.md) are live: bounded catalog verification and contact/content refresh, automatic research/quality/publication handoffs, public-page audits, operating summaries and verified support drafts. They are part of the 19 routines above; the support routine presents a provider/question form on demand, as does the racket-sport source form. [Delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36).
 
 ## Use the factory
 
@@ -24,7 +24,7 @@ Suggested research description:
 
 > Research https://ymcanyc.org/locations/dodge-ymca for a ClassScout listing proposal. Capture supported name, address, phone, email, opening hours, price and activities. Keep absent facts unknown. Prepare a draft for owner review.
 
-Padel Africa and Sportolok are served through the shared Management engine's authenticated client contracts (discovery, evidence intake and maintenance; see the v6 section of [WORKFLOWS.md](WORKFLOWS.md)). Management itself is engine oversight, not a catalog. Sales Lead Generator is read-only and needs a configured workspace and scoped key ([SLG.md](SLG.md)). Factory Operations holds the charter, the coordination routines and the integration backlog.
+Racket Land (worldwide, every racket sport) and Sportolok are served through the shared Management engine's authenticated client contracts (discovery, evidence intake and maintenance; see the v6 section of [WORKFLOWS.md](WORKFLOWS.md)). Management itself is engine oversight, not a catalog. Sales Lead Generator is read-only and needs a configured workspace and scoped key ([SLG.md](SLG.md)). Factory Operations holds the charter, the coordination routines and the integration backlog.
 
 ## Publication
 
@@ -50,6 +50,8 @@ Run tests with `python3 -m unittest discover -s paperclip/factory -p 'test_*.py'
 `provision.py` is an owner-side, idempotent scaffolding command run on the Paperclip host. It preserves known project/agent IDs and every existing `factory.json` setting it does not derive from the live company (including `remote_llm`), enables a thirty-minute recovery heartbeat only for the Search Coordinator and requires board approval for hiring. `pilot.py` is an operator test helper, not a module to import.
 
 Use the parent `snapshot.sh` for a restricted recovery bundle including a consistent SQLite backup. An isolated PostgreSQL backup restore passed on 28 October; a full replacement-host recovery remains untested.
+
+Racket Land status (2026-11-06): the worldwide source rules, the link patterns and the displayed copy are changed in the repository only. Nothing is deployed to the Paperclip host and the repository does not match it; see [the alignment note](../integration/RACKET-LAND-ALIGNMENT.md#status-2026-11-06-repository-only).
 
 Live pilot evidence and measured limits: [ACCEPTANCE.md](ACCEPTANCE.md).
 

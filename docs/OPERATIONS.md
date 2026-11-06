@@ -88,6 +88,16 @@ A second Paperclip deployment followed at 09:09 UTC from commit [b9cac4b](https:
 
 **Not done:** the cleaner's report pruning and the collector's redirect check run on their next timer runs and have not yet been seen working; the restore drill, the new `snapshot.sh` bundle and `configure-slg.py` were copied but not run; `provision.py` was copied but not run, so the eight unused keys are still in the live `factory.json` (the code ignores them); the files that changed only in comments in [b8be171](https://github.com/moldovancsaba/hetzner-nano-server/commit/b8be171) were not copied, except where a file above also carries them.
 
+## Racket Land: repository only (2026-11-06)
+
+Racket Land replaced Padel Africa on 2026-11-05. The worldwide plain-page rules, the link patterns, the refused racket directories and the new wording are in the repository (branch `racket-land-worldwide`) and **are not deployed to the Paperclip host**. The repository does not match the host: the host runs the 2026-11-01 delivery code, which exists only as uncommitted changes in the owner's original checkout. Steps that remain, in order:
+
+1. Commit the earlier session's uncommitted delivery code (`brave.py`, `search_workflow.py`, `worker.py` and the other modified and untracked files) so that the repository matches the host, then bring this branch onto it.
+2. Rebuild the `search_workflow.py` rows (and, if those files differ, the others) of `paperclip/integration/ops/racket_runtime_patches.json` against that committed code. The rows for `engine_ops.py`, `padel.py` and `venue_identity.py` assume the host files equal the parent of 3c42953.
+3. Operator, on the host: write the private digest file for `ops/deploy_factory.py --racket-land-runtime`, read the plan, then apply under the idle, backup and health protocol described in [the alignment note](../paperclip/integration/RACKET-LAND-ALIGNMENT.md#release-and-recovery).
+4. Implement the Brave locale policy described in the same note (the `padel` purpose still searches as South Africa and English).
+5. Release the files outside that mode on their own: `dashboard.html`, `workflows_setup.py` (the form label reaches Paperclip when its `--activate` command is next run) and the React dashboard build.
+
 ## Known limitations
 
 Behaviour of the current code, scripts and configuration that is recorded here and not changed. The review's remaining open decisions are listed in the [gap analysis](GAP-ANALYSIS-2026-10-30.md#defects-found-while-checking); the Paperclip-host ones are in [../paperclip/README.md](../paperclip/README.md#known-limitations).

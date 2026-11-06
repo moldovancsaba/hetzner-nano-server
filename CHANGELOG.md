@@ -6,6 +6,23 @@ Covers history up to `b8be171`. `python3 scripts/check_changelog.py` lists any l
 
 Sections used: **Added** (new capability), **Changed** (behaviour, policy or defaults), **Fixed** (a defect corrected), **Security**, **Operations** (deployment, hosts, retention), **Documentation**.
 
+## 2026-11-06
+
+Racket Land (https://racket.land) replaced Padel Africa on 2026-11-05: every racket sport, the whole world, territory `unrestricted`. **None of the changes below is deployed to the Paperclip host, and the repository does not match the host** (the 2026-11-01 delivery code there is uncommitted in the owner's original checkout).
+
+### Changed
+- **Racket Land source qualification ([3c42953](https://github.com/moldovancsaba/hetzner-nano-server/commit/3c42953)).** The factory validates the authenticated vertical `racket-land` with `territoryScope: unrestricted`, requires a sport word that the application declares (instead of the word "padel"), sends engine and evidence-intake requests to `https://racket.land`, and accepts a country that is in the bundled registry (`racket_countries.json`, 249 ISO codes, 291 names). `ops/deploy_factory.py --racket-land-runtime` with `ops/racket_runtime_patches.json` patches the host files.
+- **Plain official pages resolve in any country ([01dee2e](https://github.com/moldovancsaba/hetzner-nano-server/commit/01dee2e)).** A page without structured data used to resolve only for nine African and eight European countries and only when exactly one declared discovery locality was written on it. For the worldwide scope the country now comes from the full registry (longest name wins; names such as Georgia or Jordan count only as the last part of a line) and the city from the address line of the one street. A city that cannot be read still needs exactly one declared locality, otherwise the page stays held. The continent and countries scopes, and so the legacy `padel-africa` slug and Sportolok, behave as before. "USA", "UK" and "UAE" are not in the registry; a page that uses only those stays held.
+- **More racket directories are refused ([01dee2e](https://github.com/moldovancsaba/hetzner-nano-server/commit/01dee2e)).** `matchi.se`, `playbypoint.com`, `courtreserve.com`, `clubspark.lta.org.uk`, `tennis.com`, `squashlevels.com` and `pickleheads.com` cannot establish a venue identity. They match as a domain or subdomain, not as a substring.
+- **Link patterns follow the vertical ([01dee2e](https://github.com/moldovancsaba/hetzner-nano-server/commit/01dee2e)).** For `racket-land` the host, venue-page and branch-page patterns use the vertical's sport words, generic venue words and declared localities instead of `padel|club|sport` and the Cape Town, Johannesburg and City Rock names. Other verticals keep the fixed patterns. `branch_links` takes the vertical as an optional third argument.
+- **Racket Land wording ([01dee2e](https://github.com/moldovancsaba/hetzner-nano-server/commit/01dee2e), [8756562](https://github.com/moldovancsaba/hetzner-nano-server/commit/8756562)).** Task comments and errors from `padel.py`, both company dashboards, the intake form's city label and the provisioning text say Racket Land and "worldwide scope verified". The Paperclip project name "Padel Africa", the routine titles, the `padel_*` workflow names, the `PADEL_SSO_*` variables and the `padel_packets` table are unchanged because the host matches or stores them by name.
+
+### Operations
+- Not deployed. The rows of `ops/racket_runtime_patches.json` for `engine_ops.py`, `padel.py` and `venue_identity.py` were rebuilt; they assume the host files equal the parent of 3c42953. The Brave locale of the `padel` purpose is still South Africa and English; the planned change is described in [paperclip/integration/RACKET-LAND-ALIGNMENT.md](paperclip/integration/RACKET-LAND-ALIGNMENT.md#native-search-lane-what-must-change-once-the-delivery-code-is-committed). The remaining steps are in [docs/OPERATIONS.md](docs/OPERATIONS.md#racket-land-repository-only-2026-11-06).
+
+### Documentation
+- Added the status, plain-page, directory and Brave-locale sections to the Racket Land alignment note; updated the factory README, WORKFLOWS (dated notes, the historical text is kept), BRAVE, the Paperclip README (known limitation) and ARCHITECTURE.
+
 ## 2026-10-31
 
 ### Added

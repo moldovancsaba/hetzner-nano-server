@@ -1,6 +1,6 @@
 # ClassScout operating workflows
 
-Nineteen native routines are configured in [Paperclip](https://paperclip.haho.ai): 17 run on cron schedules and 2 are on-demand forms (the support reply and the Padel source form). Schedules are defined in `workflows.json`; this page describes the five original ClassScout workflows first and later sections add the rest. All of them use the five existing employees. Open [the delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36) for results and task links.
+Nineteen native routines are configured in [Paperclip](https://paperclip.haho.ai): 17 run on cron schedules and 2 are on-demand forms (the support reply and the racket-sport source form, `padel_intake`). Schedules are defined in `workflows.json`; this page describes the five original ClassScout workflows first and later sections add the rest. All of them use the five existing employees. Open [the delivery record](https://paperclip.haho.ai/NAR/issues/NAR-36) for results and task links.
 
 ## Schedules
 
@@ -26,9 +26,9 @@ The other fourteen routines, all from `workflows.json` (role per `operational.py
 | `knowledge_round` | :50 every 6 hours | Support Drafter |
 | `program_queue` | 09:40 daily | Support Drafter |
 | `padel_maintenance` | 09:10 daily | Support Drafter |
-| `padel_intake` (Padel source form) | on demand | Support Drafter |
+| `padel_intake` (racket-sport source form) | on demand | Support Drafter |
 | `padel_discovery` | 10:05 and 16:05 daily | Search Coordinator |
-| `engine_maintenance` (Padel Africa) | :05 every 6 hours | Support Drafter |
+| `engine_maintenance` (Racket Land; project and routine title still say Padel Africa) | :05 every 6 hours | Support Drafter |
 | `engine_maintenance` (Sportolok) | :15 every 6 hours | Support Drafter |
 | `engine_discovery` (Sportolok) | 11:35 and 17:35 daily | Search Coordinator |
 | `management_overview` | 09:20 daily | Support Drafter |
@@ -261,6 +261,8 @@ Seven live access checks passed (unauthenticated, authenticated, tampered and ex
 
 ### 5. Next brand: Padel Africa
 
+> **Update 2026-11-06 (repository only, not deployed).** Racket Land (https://racket.land) replaced Padel Africa on 2026-11-05: every racket sport, the whole world, `territoryScope: unrestricted`. The text below is the dated record of 28 October and is not rewritten. The Paperclip project name `Padel Africa`, the routine titles and the `padel_*` workflow names are kept on purpose because the host matches them by exact name; only displayed copy and the intake form's city label (now "City of the venue") changed. The factory validates the worldwide policy and reads a plain page's country from the full registry and its city from the page's address line; see [RACKET-LAND-ALIGNMENT.md](../integration/RACKET-LAND-ALIGNMENT.md). The repository does not match the host.
+
 Padel Africa was selected from the validated local client registry. Its existing instance is `https://padel-africa.doneisbetter.com`, with a separate client database and canonical machine/feed contracts. The authenticated machine catalog confirmed vertical `padel-africa`, continent `Africa`, 944 eligible catalog records and a capped 500-row slice. The slice is not a complete catalog dump; the receiving engine remains responsible for canonical deduplication and publication.
 
 Paperclip now has a daily **Check Padel Africa catalog** routine (09:10 Budapest) and an on-demand **Submit a Padel Africa source** form. Intake requires a focused official HTTPS page, literal provider/city/street evidence and a city in the vertical's own discovery scope. The `padel_intake` form (`padel.py`) uses only the source-evidence ingestion contract; forced publication, raw listing patches and reprocessing are unavailable in that connector. (Since v6, `engine_ops.py` also serves Padel Africa through the shared engine client, and that client can send a governed soft `forcePublish` for a freshly verified soft-incomplete card; see the v6 section.) Accepted source cards remain distinct from public publication. Submission receipts persist, and uncertain submissions cannot be replayed even if the source changes.
@@ -300,6 +302,8 @@ Publication holds carry Paperclip's required `unblockDescriptor`, naming the exe
 The hourly **Recover stalled company work** routine runs at :25 Budapest. It classifies source access, branch identity, program price, schedule/age, official image and uncertain-write blockers; posts a concrete action once per changed brief/category; records next checks; and checks up to two official source sets per round. Source baselines must change before an automatic continuation is requested. Recheck intervals are one day, two days and seven days, with at most three changed-evidence recovery attempts per held task. Unresolved packets and claimed/ambiguous branches keep their existing protections. Coordinated follow-ups may wait until this routine's next slot.
 
 ### Discovery and Padel Africa
+
+> **Update 2026-11-06 (repository only, not deployed).** The routine below keeps the title `Discover Padel Africa sources` and the `padel` search purpose. In the committed code its Brave locale is still South Africa and English; the worldwide locale policy is described, not implemented, in [RACKET-LAND-ALIGNMENT.md](../integration/RACKET-LAND-ALIGNMENT.md#native-search-lane-what-must-change-once-the-delivery-code-is-committed). The text below is the record of 28 October.
 
 ClassScout searches now emphasize official program registration, timetable, ages and tuition, and prefer program/class/pricing/schedule URL paths before generic homepages. These are discovery priorities, not claims that every result is publishable. All publication requirements still need literal current evidence.
 

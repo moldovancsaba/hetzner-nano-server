@@ -31,7 +31,7 @@ flowchart LR
     CSAPI[ClassScout API]
     BRAVE[Brave Search]
     SEG[Segmind]
-    ENG[Management engines<br/>Padel, Sportolok, SLG]
+    ENG[Management engines<br/>Racket Land, Sportolok, SLG]
   end
   CS -->|bearer key| CADDY
   CAM -->|bearer key| CADDY
@@ -205,7 +205,7 @@ The factory has no scheduler of its own. Timing comes from 19 native Paperclip r
 | Support and audit | `support.py`, `site_audit.py`, `company_ops.py`, `portfolio.py` |
 | Autonomy and recovery | `autonomy.py`, `company_ops.py` |
 | Reporting | `business_metrics.py`, `operations_digest.py`, `dashboard.html` |
-| Engines | `padel.py`, `engine_ops.py`, `slg.py` |
+| Engines | `padel.py` (Racket Land), `engine_ops.py`, `racket_policy.py` with `racket_countries.json`, `slg.py` |
 | Setup and one-off helpers | `provision.py`, `workflows_setup.py`, `pilot.py`, `run_batch.py`, `rework_bmf.py`, `export_batch.py`, `classscout_handoff.py` |
 
 The five roles are Research Analyst (`research`), Content Quality Reviewer (`quality`), Support Drafter (`support`), Publication Coordinator (`publication`) and Search Coordinator (`search`). A task names its workflow on a `Factory workflow:` line; `operational.ROLES` fixes which role may run each workflow, and a mismatch is refused. Model access is serialized by locks per role group.
@@ -271,7 +271,7 @@ Every integration has a fixed origin and a bound in code.
 | Brave Search | source discovery | daily and window quotas, cooldown after failures, 2 s spacing, fixed locales, strict safe search |
 | Segmind | optional paid extraction and brief choices | $10 a month, $0.40 a day, call caps, a 120% account-spend guard; a failure pauses the lane and the local result stands |
 | ClassScout API | prepare-review, publish-reviewed, provider reads | fixed paths; the ingest path accepts only the operations the factory needs |
-| Management engines | Padel and Sportolok catalog and intake | fixed origins and allowed paths |
+| Management engines | Racket Land (the `padel` files and names are legacy identifiers) and Sportolok catalog and intake | fixed origins and allowed paths |
 | SLG | read-only sales preparation | six allowed tools; writes need explicit configuration |
 | Public web | page reads | public addresses only, pinned DNS, at most 5 redirects, robots checked, ports 80 and 443 |
 
@@ -300,6 +300,7 @@ The Mac pulls a recovery bundle (Paperclip database dump, an online copy of the 
 | Whether a listing may be written | `quality_gate.py` (gate version `classscout-auto-v6`) and the daily limit in `factory.json` |
 | What the factory may spend | `factory.json` (`remote_llm`, search budgets) |
 | Which tasks run when | `paperclip/factory/workflows.json` and `workflows_setup.py` |
+| Which venues Racket Land admits | the authenticated application catalog (territory `unrestricted`, sport words) validated by `racket_policy.py`; country names in `racket_countries.json`; plain-page identity in `venue_identity.py` ([note](../paperclip/integration/RACKET-LAND-ALIGNMENT.md)) |
 | What happened and why | [HISTORY.md](HISTORY.md), then [../CHANGELOG.md](../CHANGELOG.md) |
 | What is planned | the repository's project board (`{hetzner-nano-server} - From IDEA to LIVE`); [../BACKLOG.md](../BACKLOG.md) holds the research and data-management detail |
 
