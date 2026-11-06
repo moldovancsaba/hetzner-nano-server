@@ -12,12 +12,32 @@ class DeploymentTests(unittest.TestCase):
     def test_racket_upgrade_preserves_current_work_and_original_receipt_paths(self):
         patches=json.loads((Path(__file__).parent/'ops/racket_runtime_patches.json').read_text())
         for name,rows in patches.items():
+            if name=='brave.py':continue  # the committed copy lacks the host's locale contract; see the dedicated test below
             current=(Path(__file__).parents[1]/'factory'/name).read_text();original=current
             for row in reversed(rows):original=original.replace(row['after'],row['before'],1)
             self.assertEqual(deployment.patch_racket_runtime(name,original,patches),current)
             self.assertEqual(deployment.patch_racket_runtime(name,current,patches),current)
         with self.assertRaises(ValueError):deployment.patch_racket_runtime('worker.py','',patches)
         with self.assertRaises(ValueError):deployment.patch_racket_runtime('padel.py','changed unknown source',patches)
+
+    def test_racket_land_search_has_no_country_bias_and_still_refuses_unreviewed_locales(self):
+        patches=json.loads((Path(__file__).parent/'ops/racket_runtime_patches.json').read_text())
+        # The host's own lines (web-locale-v2 contract), which the committed brave.py does not carry.
+        host=("class SearchError(ValueError):\n pass\nCONTRACT='web-locale-v2'\n"
+              "LOCALES={'sportolok':('ALL','hu'),'padel':('ZA','en')}\n"
+              "def locale(kind):return LOCALES.get(kind,('US','en'))\n"
+              "def validate(query,country,language):\n"
+              " if (country,language) not in {('US','en'),('ZA','en'),('ALL','hu')}:raise SearchError('Invalid configured Brave country/language')\n")
+        patched=deployment.patch_racket_runtime('brave.py',host,patches)
+        self.assertEqual(deployment.patch_racket_runtime('brave.py',patched,patches),patched)
+        scope={};exec(compile(patched,'brave.py','exec'),scope)
+        self.assertEqual(scope['locale']('padel'),('ALL','en'))
+        self.assertEqual(scope['locale']('sportolok'),('ALL','hu'))
+        self.assertEqual(scope['locale']('classscout'),('US','en'))
+        for pair in [('ALL','en'),('ALL','hu'),('ZA','en'),('US','en')]:scope['validate']('padel club',*pair)
+        for pair in [('ALL','xx'),('FR','en'),('ZA','hu'),('','en')]:
+            with self.assertRaises(scope['SearchError']):scope['validate']('padel club',*pair)
+        with self.assertRaises(ValueError):deployment.patch_racket_runtime('brave.py','changed unknown source',patches)
 
     def test_patch_preserves_current_native_work_and_is_idempotent(self):
         for name in ['worker.py','autonomy.py','search_workflow.py']:

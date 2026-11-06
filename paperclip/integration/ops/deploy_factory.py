@@ -72,7 +72,7 @@ def patch_source_runtime(name,source,patches):
 
 
 def patch_racket_runtime(name,source,patches):
-    expected={'engine_ops.py','padel.py','venue_identity.py','search_workflow.py'}
+    expected={'engine_ops.py','padel.py','venue_identity.py','search_workflow.py','brave.py'}
     if set(patches)!=expected or name not in expected:raise ValueError('Exact racket runtime modules required')
     rows=patches[name]
     if not isinstance(rows,list) or not 1<=len(rows)<=24 or any(set(row)!={'before','after'} or not all(isinstance(row[key],str) and 1<=len(row[key])<=16000 for key in ['before','after']) for row in rows):raise ValueError('Bounded explicit racket runtime patches required')
@@ -135,7 +135,7 @@ for name,expected in payload['expected'].items():
 scope={};exec(payload['patcher'],scope)
 allowed={'source_exchange.py','publishing.py','refresh.py','program_updates.py'} if writer_handoff else {'source_exchange.py'} if module_only else {'worker.py','autonomy.py','search_workflow.py'}
 if source_runtime:allowed|={'source_exchange.py'}
-if racket_runtime:allowed={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py'}
+if racket_runtime:allowed={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py','brave.py'}
 if application_writers:allowed|={'engine_ops.py','padel.py','slg.py'}
 if set(payload['expected'])-allowed or (preserve_active and set(payload['expected'])!=allowed):raise RuntimeError('Unexpected native deployment file')
 files={} if racket_runtime else {name:scope['patch_source_runtime'](name,(root/name).read_text(),payload['source_project_patches']).encode() for name in allowed-{'source_exchange.py'}} if source_runtime else {name:scope['patch_writer_handoff'](name,(root/name).read_text()).encode() for name in allowed-{'source_exchange.py'}} if writer_handoff else {} if module_only else {name:scope['patch_hooks'](name,(root/name).read_text()).encode() for name in payload['expected']}
@@ -248,7 +248,7 @@ def main():
     if args.racket_land_runtime:
         if not args.runtime_digests or any([args.exchange_module_only,args.writer_handoff_hooks,args.source_project_runtime,args.application_writers]):parser.error('Racket runtime requires its explicit digest manifest and no other release mode')
         expected=json.loads(Path(args.runtime_digests).read_text())
-        if set(expected)!={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py','racket_policy.py','racket_countries.json'}:parser.error('Exact racket runtime digests required')
+        if set(expected)!={'source_exchange.py','engine_ops.py','padel.py','venue_identity.py','search_workflow.py','brave.py','racket_policy.py','racket_countries.json'}:parser.error('Exact racket runtime digests required')
         payload={'apply':args.apply,'racket_runtime':True,'expected':{key:value for key,value in expected.items() if key not in {'racket_policy.py','racket_countries.json'}},'module':base64.b64encode(module.read_bytes()).decode(),'patcher':inspect.getsource(patch_racket_runtime),'racket_patches':json.loads(Path(__file__).with_name('racket_runtime_patches.json').read_text()),'expected_racket_files':{key:expected[key] for key in ['racket_policy.py','racket_countries.json']},'racket_files':{key:base64.b64encode(module.with_name(key).read_bytes()).decode() for key in ['racket_policy.py','racket_countries.json']}}
         result=subprocess.run(['ssh','-i',args.ssh_key,'-o','BatchMode=yes','-o','ConnectTimeout=10',args.host,'python3 -c '+shlex.quote(REMOTE)],input=json.dumps(payload).encode(),capture_output=True,timeout=70)
         if result.returncode:raise SystemExit('Racket runtime release refused or needs recovery; inspect private service and backup state.')

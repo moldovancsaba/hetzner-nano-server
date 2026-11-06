@@ -74,5 +74,15 @@
       "before": " if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')\n",
       "after": " if job['status']=='needs_attention':raise ValueError('Search exhausted its two conservative attempts; inspect the connection or change the query before creating a fresh intent')\n if job['kind']=='padel':\n  import engine_ops\n  job['_racket_vertical']=engine_ops.Client('padel-africa').catalog()['vertical']\n"
     }
+  ],
+  "brave.py": [
+    {
+      "before": "LOCALES={'sportolok':('ALL','hu'),'padel':('ZA','en')}\n",
+      "after": "# Racket Land is worldwide: the padel kind carries no country bias, the queued locality names the place.\nLOCALES={'sportolok':('ALL','hu'),'padel':('ALL','en')}\n"
+    },
+    {
+      "before": "if (country,language) not in {('US','en'),('ZA','en'),('ALL','hu')}:raise SearchError",
+      "after": "if (country,language) not in {('US','en'),('ZA','en'),('ALL','en'),('ALL','hu')}:raise SearchError"
+    }
   ]
 }
