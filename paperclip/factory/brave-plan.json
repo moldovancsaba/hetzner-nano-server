@@ -51,7 +51,7 @@
     "production_capacity_excludes_synthetic_factory_tasks": true
   },
   "retention": {
-    "brave_response_bodies": "RAM only by default; no persistent payload/snippet cache until plan storage rights are confirmed",
+    "brave_response_bodies": "RAM only today; storing results is permitted under Brave's fair-usage confirmation to the owner (reported 2026-11-06) while the budgets in this plan hold; no persistent result store is built yet",
     "operational_metadata": "durable query fingerprints, timestamps, quota headers/counters, status and task references",
     "source_facts": "retain independently fetched source evidence under the existing factory policy",
     "customer_private_details_in_queries": false

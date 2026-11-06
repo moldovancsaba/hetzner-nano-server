@@ -22,6 +22,7 @@ Racket Land (https://racket.land) replaced Padel Africa on 2026-11-05: every rac
 
 ### Documentation
 - Added the status, plain-page, directory and Brave-locale sections to the Racket Land alignment note; updated the factory README, WORKFLOWS (dated notes, the historical text is kept), BRAVE, the Paperclip README (known limitation) and ARCHITECTURE.
+- **Brave storage policy.** The retention text in `paperclip/factory/BRAVE.md` and `brave-plan.json` now says that storing Brave results is permitted under fair usage, as Brave told the owner in writing (reported 2026-11-06), while the existing budgets hold. The code is unchanged: it still keeps results in RAM and stores no new data, and a persistent result store is not built yet.
 
 ## 2026-11-01 — Proposed OpenClaw integration
 
