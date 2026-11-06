@@ -35,6 +35,16 @@ class ProductionFileTests(unittest.TestCase):
  def test_watched_files_are_the_production_configuration(self):
   self.assertIn('/etc/paperclip-access.env',drill.WATCHED);self.assertNotIn('/var/lib/narimato-factory/factory.sqlite3',drill.WATCHED)
 class ReportTests(unittest.TestCase):
+ def test_isolated_memory_budget_leaves_room_for_database_and_has_host_admission(self):
+  self.assertGreaterEqual(drill.DRILL_MEMORY_MIB-drill.DRILL_NODE_HEAP_MIB,384)
+  self.assertLessEqual(drill.DRILL_MEMORY_MIB,1800)
+  self.assertIn('Insufficient host headroom',module_path.read_text())
+
+ def test_restore_budget_covers_a_large_database_without_becoming_unbounded(self):
+  self.assertEqual(drill.database_restore_budget(1024),180)
+  self.assertGreater(drill.database_restore_budget(653896196),600)
+  self.assertEqual(drill.database_restore_budget(20*1024**3),900)
+
  def test_report_statements_are_not_constants(self):
   source=module_path.read_text()
   for constant in ["'network_egress':False","'production_files_changed':False","proof['image_matches_production']=True"]:self.assertNotIn(constant,source)

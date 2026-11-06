@@ -5,6 +5,8 @@ out, the production configuration files are compared before and after, and the i
 runs after the drill container has started. The drill fails when a measurement contradicts the statement."""
 import gzip,hashlib,json,os,pathlib,re,shutil,signal,sqlite3,subprocess,sys,tarfile,tempfile,time
 NAME='paperclip-recovery-drill';PROCESSES=[];CURRENT_ROOT=None
+DRILL_MEMORY_MIB=1800
+DRILL_NODE_HEAP_MIB=1280
 # Production configuration and secrets that change only by a deliberate edit. The live factory database is left out because
 # the running worker writes it all the time. The drill must leave every file here as it found it.
 WATCHED=['/opt/narimato-factory/factory.json','/opt/narimato-factory/workflows.json','/opt/narimato-paperclip/.env','/opt/narimato-paperclip/compose.yaml','/opt/narimato-paperclip/local-ai.json','/etc/paperclip-access.env','/etc/caddy/Caddyfile','/etc/systemd/system/narimato-factory.service']
@@ -52,6 +54,10 @@ def wait_file(path,timeout=120):
   time.sleep(1)
  raise TimeoutError('Restore bootstrap did not finish')
 
+def database_restore_budget(sql_bytes):
+ # Allow one MiB/second plus startup at the drill's half-CPU limit, bounded to fifteen minutes.
+ return min(900,max(180,(sql_bytes+1048575)//1048576+120))
+
 def main(archive):
  global CURRENT_ROOT
  root=pathlib.Path(tempfile.mkdtemp(prefix='paperclip-restore-',dir='/root'));CURRENT_ROOT=root;os.chmod(root,0o700);tree=root/'archive';tree.mkdir()
@@ -60,6 +66,9 @@ def main(archive):
  # network_egress, production_files_changed and image_matches_production are measured below; --network none and the scratch
  # copy of the archive are how the drill tries to make them hold, and the measurements are what is reported.
  proof={'started_at':time.time()};production_before=fingerprint(WATCHED)
+ available=int(re.search(r'^MemAvailable:\s+(\d+)',pathlib.Path('/proc/meminfo').read_text(),re.M)[1])*1024
+ if available<(DRILL_NODE_HEAP_MIB+256)*1024*1024:raise RuntimeError('Insufficient host headroom for the isolated application restore')
+ proof['host_memory_available_before_bytes']=available
  try:
   with tarfile.open(archive) as tar:
    for m in tar.getmembers():
@@ -83,8 +92,10 @@ def main(archive):
     if not p.is_symlink():os.chown(p,1000,1000)
   # The drill starts from the image id the production container runs now; image_matches_production is compared again once the drill container is up.
   image=command(['docker','inspect','narimato-paperclip','--format','{{.Image}}']).strip()
-  args=['docker','run','-d','--name',NAME,'--network','none','--memory','900m','--cpus','0.5','--pids-limit','384','--user','1000:1000','--entrypoint','sleep','-v',str(data)+':/paperclip','-w','/app',image,'infinity']
+  args=['docker','run','-d','--name',NAME,'--network','none','--memory',str(DRILL_MEMORY_MIB)+'m','--cpus','0.5','--pids-limit','384','--user','1000:1000','--entrypoint','sleep','-v',str(data)+':/paperclip','-w','/app',image,'infinity']
   command(args);proof['image_matches_production']=command(['docker','inspect',NAME,'--format','{{.Image}}']).strip()==command(['docker','inspect','narimato-paperclip','--format','{{.Image}}']).strip()
+  proof['container_memory_limit_bytes']=int(command(['docker','inspect',NAME,'--format','{{.HostConfig.Memory}}']).strip())
+  proof['configured_node_heap_mib']=DRILL_NODE_HEAP_MIB
   if not proof['image_matches_production']:raise ValueError('The drill container does not run the production image')
   bootstrap=root/'restore.mjs';bootstrap.write_text('''import { createRequire } from 'node:module';import fs from 'node:fs';
 const require=createRequire('/app/server/package.json');const {default:EmbeddedPostgres}=await import(require.resolve('embedded-postgres'));
@@ -98,11 +109,12 @@ await db.end();fs.writeFileSync('/paperclip/restore-db-proof.json',JSON.stringif
 ''');os.chmod(bootstrap,0o644);command(['docker','cp',str(bootstrap),NAME+':/tmp/restore.mjs'])
   backup_in_container='/paperclip/'+str(sql.relative_to(data))
   spawn(['docker','exec','-u','node',NAME,'node','--import','./server/node_modules/tsx/dist/loader.mjs','/tmp/restore.mjs',backup_in_container],root/'database.log')
-  proof['native_database']=wait_file(data/'restore-db-proof.json',180);assert proof['native_database']['companies']>=1 and proof['native_database']['agents']>=5
-  env={**os.environ,'DATABASE_URL':'postgres://paperclip:paperclip@127.0.0.1:54329/paperclip','PAPERCLIP_HOME':'/paperclip','HOST':'127.0.0.1','PORT':'3100','PAPERCLIP_DEPLOYMENT_MODE':'local_trusted','PAPERCLIP_DEPLOYMENT_EXPOSURE':'private','PAPERCLIP_PUBLIC_URL':'https://paperclip.haho.ai','PAPERCLIP_ALLOWED_HOSTNAMES':'paperclip.haho.ai,localhost,127.0.0.1','NODE_OPTIONS':'--max-old-space-size=512'}
+  proof['database_restore_budget_seconds']=database_restore_budget(sql.stat().st_size)
+  proof['native_database']=wait_file(data/'restore-db-proof.json',proof['database_restore_budget_seconds']);assert proof['native_database']['companies']>=1 and proof['native_database']['agents']>=5
+  env={**os.environ,'DATABASE_URL':'postgres://paperclip:paperclip@127.0.0.1:54329/paperclip','PAPERCLIP_HOME':'/paperclip','HOST':'127.0.0.1','PORT':'3100','PAPERCLIP_DEPLOYMENT_MODE':'local_trusted','PAPERCLIP_DEPLOYMENT_EXPOSURE':'private','PAPERCLIP_PUBLIC_URL':'https://paperclip.haho.ai','PAPERCLIP_ALLOWED_HOSTNAMES':'paperclip.haho.ai,localhost,127.0.0.1','PAPERCLIP_DB_BACKUP_ENABLED':'false','NODE_OPTIONS':'--max-old-space-size='+str(DRILL_NODE_HEAP_MIB)}
   for key in ['PAPERCLIP_AGENT_JWT_SECRET','BETTER_AUTH_SECRET','PAPERCLIP_TOOL_ACTION_SIGNING_SECRET']:env[key]=secrets[key]
   app=['docker','exec','-u','node']
-  for key in ['DATABASE_URL','PAPERCLIP_HOME','HOST','PORT','PAPERCLIP_DEPLOYMENT_MODE','PAPERCLIP_DEPLOYMENT_EXPOSURE','PAPERCLIP_PUBLIC_URL','PAPERCLIP_ALLOWED_HOSTNAMES','NODE_OPTIONS','PAPERCLIP_AGENT_JWT_SECRET','BETTER_AUTH_SECRET','PAPERCLIP_TOOL_ACTION_SIGNING_SECRET']:app+=['-e',key]
+  for key in ['DATABASE_URL','PAPERCLIP_HOME','HOST','PORT','PAPERCLIP_DEPLOYMENT_MODE','PAPERCLIP_DEPLOYMENT_EXPOSURE','PAPERCLIP_PUBLIC_URL','PAPERCLIP_ALLOWED_HOSTNAMES','PAPERCLIP_DB_BACKUP_ENABLED','NODE_OPTIONS','PAPERCLIP_AGENT_JWT_SECRET','BETTER_AUTH_SECRET','PAPERCLIP_TOOL_ACTION_SIGNING_SECRET']:app+=['-e',key]
   spawn(app+[NAME,'node','--import','./server/node_modules/tsx/dist/loader.mjs','server/dist/index.js'],root/'app.log',env)
   pid=command(['docker','inspect',NAME,'--format','{{.State.Pid}}']).strip();ns=['nsenter','--target',pid,'--net']
   factory_env={**os.environ,'FACTORY_STATE':str(state),'FACTORY_CONFIG':str(factory/'factory.json')}
@@ -120,10 +132,10 @@ for line in pathlib.Path(__import__('sys').argv[1]).read_text().splitlines():
  if line.strip() and not line.startswith('#'):
   k,v=line.split('=',1);values[k]=v.strip().strip(chr(34)+chr(39))
 payload=str(int(time.time()+120))+'.'+secrets.token_hex(16);token=payload+'.'+hmac.new(values['ACCESS_SIGNING_KEY'].encode(),payload.encode(),hashlib.sha256).hexdigest()
-def get(path,auth=True):
+def get(path,auth=True,timeout=20):
  req=urllib.request.Request('http://127.0.0.1:8080'+path,headers={'X-Request-Purpose':'test',**({'Cookie':'__Host-paperclip_access='+token} if auth else {})})
  try:
-  with op.open(req,timeout=20) as r:return r.status,r.read()
+  with op.open(req,timeout=timeout) as r:return r.status,r.read()
  except urllib.error.HTTPError as e:return e.code,e.read()
 end=time.time()+150
 while time.time()<end:
@@ -133,10 +145,10 @@ while time.time()<end:
  time.sleep(2)
 assert get('/factory',False)[0]==303
 status,body=get('/factory');assert status==200 and b'Company dashboard' in body
-status,body=get('/factory/metrics');assert status==200;metrics=json.loads(body)
+metrics_started=time.monotonic();status,body=get('/factory/metrics',timeout=90);assert status==200;metrics=json.loads(body);metrics_seconds=time.monotonic()-metrics_started
 status,body=get('/api/companies');assert status==200;companies=json.loads(body);assert any(c['name']=='Narimato' for c in companies)
 status,body=get('/');assert status==200 and b'<html' in body.lower()
-print(json.dumps({'password_gate_restored':True,'locked_dashboard_refused':True,'native_ui':True,'company_api':True,'factory_dashboard':True,'factory_metrics':True,'published_receipts_restored':metrics['funnel']['published'],'active_agents_in_clone':sum(a['status']!='paused' for a in metrics['operations']['team'])}))
+print(json.dumps({'password_gate_restored':True,'locked_dashboard_refused':True,'native_ui':True,'company_api':True,'factory_dashboard':True,'factory_metrics':True,'factory_metrics_latency_seconds':round(metrics_seconds,3),'factory_metrics_response_budget_seconds':90,'published_receipts_restored':metrics['funnel']['published'],'active_agents_in_clone':sum(a['status']!='paused' for a in metrics['operations']['team'])}))
 ''')
   result=json.loads(command(ns+['python3',str(checker),str(tree/'etc/paperclip-access.env')],timeout=180));assert result['active_agents_in_clone']==0;proof.update(result)
   # Measured with every drill process still running, so anything they opened would show.
