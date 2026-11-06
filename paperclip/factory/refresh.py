@@ -63,10 +63,17 @@ def run(issue,board,config,web,database,execution,client=None,writer=None):
  with database() as db:
   row=db.execute('SELECT * FROM refresh_packets WHERE issue_id=? ORDER BY created_at DESC LIMIT 1',(issue['id'],)).fetchone();packet=dict(row) if row else None
   other=db.execute("SELECT issue_id,status FROM refresh_packets WHERE provider_id=? AND issue_id<>? AND status IN ('prepared','awaiting_approval','applying','uncertain','partial')",(id,issue['id'])).fetchone()
+ if packet and packet['status']=='superseded':raise ValueError('This unsubmitted packet was superseded by fresh preparation; follow its renewal receipt')
  if other:raise ValueError('Another unresolved correction already exists for this listing; inspect task '+other['issue_id'])
  if packet and packet['status'] in {'applying','uncertain','partial'}:raise ValueError('A previous correction has an unresolved outcome. Inspect the catalog and receipt; it will not be sent again.')
  if packet and packet['status']=='applied':return {'stage':'refresh_applied','entities':[],'markdown':'The contact/content update was already applied and verified. It was not sent again.','final_status':'done','automatic_write':automatic}
  if packet and packet['input_hash']!=ih:raise ValueError('The correction brief changed. Reject or reconcile the existing packet before preparing a fresh correction.')
+ renewal_of=None
+ if packet and packet['status'] in {'prepared','awaiting_approval'}:
+  import packet_renewal
+  if packet_renewal.expired(packet,'refresh_packets') and packet_renewal.allowed(packet,'refresh_packets',issue,board,config):
+   publishing.ensure_execution(issue,board,config,execution,ih)
+   packet_renewal.supersede(packet,'refresh_packets',database);renewal_of=packet['packet_hash'];packet=None
  if packet and packet['status']=='prepared':return offer_review(packet,board,config,database,issue,web,execution,client,writer)
  if packet:
   if packet['status']!='awaiting_approval':raise ValueError('This correction needs a new review after its previous disposition')
@@ -107,6 +114,7 @@ def run(issue,board,config,web,database,execution,client=None,writer=None):
   return {'stage':'refresh_applied' if state=='applied' else 'refresh_partial','entities':[],'markdown':('Automatically qualified update ' if automatic else 'Approved correction ')+('saved and verified in both the private and public catalog.' if state=='applied' else 'needs verification; it will not be submitted again.')+'\n\nProvider: '+id+'\nFields: '+', '.join(body['patch']),'final_status':'done' if state=='applied' else 'in_review','automatic_write':automatic}
  baseline,patch,proof=source_proof(id,draft,database,client,web,content=automatic)
  if not patch:return {'stage':'refresh_no_change','entities':[],'final_status':'done','automatic_write':automatic,'markdown':'Catalog contacts already agree with the verified source. No write or new approval was needed.'}
+ if renewal_of:proof['renewal_of']=renewal_of
  body={'resource':'provider','action':'patch','id':id,'patch':patch};ph=packet_hash(issue['id'],ih,body,proof,baseline)
  with database() as db:db.execute('INSERT INTO refresh_packets VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',(ph,issue['id'],id,ih,'prepared',json.dumps(body),json.dumps(proof),json.dumps(baseline),None,None,time.time(),None))
  with database() as db:packet=dict(db.execute('SELECT * FROM refresh_packets WHERE packet_hash=?',(ph,)).fetchone())

@@ -101,6 +101,8 @@ def third_party_listing(url):
  return any(host==h or host.endswith('.'+h) for h in LISTING_HOSTS)
 
 def normalize_sources(brief,pages,facts):
+ import evidence
+ facts=[f for f in facts if f['field']!='address' or evidence.street(f['value'])]
  if any(third_party_listing(page['url']) for page in pages):raise ValueError('The source is a third-party list or directory, not the provider; a first-party provider page is required')
  text='\n'.join(p['text'] for p in pages)
  for field in ['Publication name','Borough','Neighborhood','Activity']:
@@ -158,7 +160,7 @@ def collect_for_publication(brief,web,facts):
     except Exception:continue
     path=urllib.parse.urlsplit(link).path.lower()
     if urllib.parse.urlsplit(link).hostname.removeprefix('www.')!=host or re.search(r'adult|privacy|terms|login|account|billing',path):continue
-    if re.search(r'kids|children|class|schedule|pricing|tuition|contact',path) and link not in tried and link not in pending:pending.append(link)
+    if re.search(r'kids|children|class|program|camp|register|schedule|pricing|tuition|contact|location',path) and link not in tried and link not in pending:pending.append(link)
  raise ValueError(last_error+'; checked '+str(len(tried))+' source pages. Add a focused official program/pricing/schedule page and correct the brief.')
 
 def media_candidates(pages):
@@ -232,6 +234,7 @@ def run(issue,board,config,web,database,client=None,execution=None):
  client=client or ClassScout();brief=parse_brief(issue);input_hash=sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']});reviewer=config.get('reviewer_user_id','local-board')
  with database() as db:
   initialize(db);row=db.execute('SELECT * FROM publication_packets WHERE issue_id=? ORDER BY created_at DESC LIMIT 1',(issue['id'],)).fetchone();packet=dict(row) if row else None
+ if packet and packet['status']=='superseded':raise ValueError('This unsubmitted packet was superseded by fresh preparation; follow its renewal receipt')
  # 'saved_hidden' is a legacy status that no current code assigns; it stays here so old rows can still be reconciled.
  if packet and packet['status'] in {'publishing','uncertain','partial','published','saved_hidden'}:
   if packet['status'] in {'partial','saved_hidden'}:
@@ -241,6 +244,12 @@ def run(issue,board,config,web,database,client=None,execution=None):
     packet['status']='published';packet['receipt_json']=json.dumps(receipt)
   if packet['status']=='published':return {'stage':'published','markdown':receipt_markdown(json.loads(packet['body_json']),json.loads(packet['receipt_json']),'published'),'entities':[],'final_status':'done','automatic_write':quality_gate.enabled(config,issue)}
   raise ValueError('Publication receipt needs reconciliation ('+packet['status']+'). Do not submit another catalog write; inspect the existing entity and receipt first.')
+ renewal_of=None
+ if packet and packet['status'] in {'prepared','awaiting_approval'}:
+  import packet_renewal
+  if packet_renewal.expired(packet,'publication_packets') and packet_renewal.allowed(packet,'publication_packets',issue,board,config):
+   ensure_execution(issue,board,config,execution,input_hash)
+   packet_renewal.supersede(packet,'publication_packets',database);renewal_of=packet['packet_hash'];packet=None
  if packet and packet['input_hash']==input_hash and packet['status']=='prepared':
   return request_review(issue,board,config,database,json.loads(packet['body_json']),json.loads(packet['proof_json']),packet['packet_hash'],web,client,execution)
  if packet and packet['input_hash']==input_hash and packet['status']=='awaiting_approval':
@@ -249,8 +258,7 @@ def run(issue,board,config,web,database,client=None,execution=None):
   if interaction and interaction['status'] in {'rejected','withdrawn','cancelled','expired','skipped'}:return {'stage':'rejected','markdown':'Publication was declined. No catalog write was sent. Correct the brief and prepare a fresh packet.','entities':[]}
   if not automatic and not approval_valid(interaction,packet,config['company_id'],reviewer):return {'stage':'awaiting_approval','markdown':None,'entities':[]}
   age=datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(packet['created_at'])
-  # Applies in automatic mode too. A packet left in awaiting_approval longer than 48 hours fails here on every rerun
-  # until the brief text changes (that produces a new input_hash and a fresh packet).
+  # Automatic packets were freshly prepared above; a human approval still expires after 48 hours.
   if age.total_seconds()>48*3600:raise ValueError('Publication approval expired; prepare a fresh source-checked packet')
   if issue['title'].startswith('[Factory test]'):raise ValueError('Synthetic factory tests cannot publish real catalog records')
   proof=json.loads(packet['proof_json']);body=json.loads(packet['body_json'])
@@ -297,6 +305,7 @@ def run(issue,board,config,web,database,client=None,execution=None):
  if category_banner(prepared.get('mediaResult')):proof['image_placeholder']=True
  body=completed_body(prepared,proof,issue['id'])
  if client.existing_provider(body['draftPayload']['id']) is not None:raise ValueError('This provider already exists; route it to existing-listing review, not new publication')
+ if renewal_of:proof['renewal_of']=renewal_of
  packet_hash=sha({'body':body,'proof':proof});markdown=review_markdown(body,proof,packet_hash)
  with database() as db:db.execute('INSERT INTO publication_packets VALUES(?,?,?,?,?,?,?,?,?,?,?)',(packet_hash,issue['id'],input_hash,'prepared',json.dumps(body),json.dumps(proof),None,None,None,stamp(),stamp()))
  return request_review(issue,board,config,database,body,proof,packet_hash,web,client,execution)

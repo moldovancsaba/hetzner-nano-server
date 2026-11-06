@@ -8,6 +8,9 @@ def initialize(database):
  catalog.initialize(database);search_workflow.initialize(database)
  with database() as db:db.executescript('''
  CREATE TABLE IF NOT EXISTS company_blockers(issue_id TEXT PRIMARY KEY,category TEXT,action TEXT,signature TEXT,attempts INTEGER,next_at REAL,last_progress REAL,continuation_id TEXT);
+ CREATE TABLE IF NOT EXISTS handoff_receipt_checks(request_key TEXT PRIMARY KEY,target_issue TEXT,expected_hash TEXT,actual_hash TEXT,outcome TEXT,checked_at REAL);
+ CREATE TABLE IF NOT EXISTS handoff_receipt_history(request_key TEXT,target_issue TEXT,expected_hash TEXT,actual_hash TEXT,outcome TEXT,checked_at REAL,PRIMARY KEY(request_key,target_issue,actual_hash));
+ INSERT OR IGNORE INTO handoff_receipt_history SELECT * FROM handoff_receipt_checks;
  CREATE TABLE IF NOT EXISTS company_dispatch(request_key TEXT PRIMARY KEY,source_issue TEXT,input_hash TEXT,payload_json TEXT,status TEXT,target_issue TEXT,attempts INTEGER,next_at REAL);
  CREATE TABLE IF NOT EXISTS blocker_sources(issue_id TEXT PRIMARY KEY,source_hash TEXT,checked_at REAL);
  CREATE TABLE IF NOT EXISTS freshness_checks(provider_id TEXT PRIMARY KEY,checked_at REAL,source_hash TEXT,result_json TEXT);
@@ -199,6 +202,7 @@ def queue_dispatch(database,key,source,body):
  return key
 
 def dispatch_pending(board,config,database,limit=3):
+ reconcile_focused_receipts(board,config,database)
  results=[]
  with database() as db:requests=[dict(r) for r in db.execute("SELECT * FROM company_dispatch WHERE status='queued' AND next_at<=? ORDER BY next_at,rowid LIMIT ?",(time.time(),min(10,max(1,int(limit)))))]
  for request in requests:
@@ -207,7 +211,8 @@ def dispatch_pending(board,config,database,limit=3):
    if current!=request['input_hash'] or source.get('companyId')!=config['company_id'] or config['projects'].get(source.get('projectId')) not in {'ClassScout','Padel Africa','Sportolok'} or source.get('status')=='cancelled' or unresolved(database,source):
     with database() as db:db.execute("UPDATE company_dispatch SET status='cancelled' WHERE request_key=?",(request['request_key'],))
     continue
-   if body.get('assigneeAgentId') not in {k for k,v in config['agents'].items() if v['role'] in {'publication','search','quality','support'}} or body.get('projectId')!=source['projectId'] or body.get('status')!='todo' or 'parentId' in body:raise ValueError('Invalid company dispatch request')
+   if body.get('assigneeAgentId') not in {k for k,v in config['agents'].items() if v['role'] in {'publication','search','quality','support','research'}} or body.get('projectId')!=source['projectId'] or body.get('status')!='todo' or 'parentId' in body:raise ValueError('Invalid company dispatch request')
+   if config['agents'].get(body.get('assigneeAgentId'),{}).get('role')=='research' and (catalog.field(body,'Factory workflow')!='source_research' or config['projects'].get(source['projectId'])!='ClassScout'):raise ValueError('Unsupported focused research request')
    if config['agents'].get(body.get('assigneeAgentId'),{}).get('role')=='support' and (catalog.field(body,'Factory workflow')!='engine_candidate' or config['projects'].get(source['projectId']) not in {'Padel Africa','Sportolok'}):raise ValueError('Unsupported engine coordination request')
    body.setdefault('idempotencyKey',request['request_key'])
    child=board.call('/companies/'+config['company_id']+'/issues',body)
@@ -223,3 +228,31 @@ def dispatch_pending(board,config,database,limit=3):
    attempts=request['attempts']+1
    with database() as db:db.execute('UPDATE company_dispatch SET attempts=?,next_at=?,status=? WHERE request_key=?',(attempts,time.time()+[60,300,900][min(attempts-1,2)],'needs_attention' if attempts>=3 else 'queued',request['request_key']))
  return results
+
+
+def reconcile_focused_receipts(board,config,database):
+ """Repair old title-dedup collisions only for read-only focused research; retain the incorrect receipt as evidence."""
+ initialize(database)
+ with database() as db:rows=[dict(r) for r in db.execute("SELECT * FROM company_dispatch WHERE request_key LIKE 'focused-evidence-%' AND status='delivered' AND next_at<=? ORDER BY next_at,rowid LIMIT 4",(time.time(),))]
+ for row in rows:
+  try:
+   body=json.loads(row['payload_json']);target=board.call('/issues/'+row['target_issue']);expected=publishing.sha({'project':body['projectId'],'description':body['description']});actual=publishing.sha({'project':target.get('projectId'),'description':target.get('description')})
+   outcome='matched' if expected==actual and target.get('companyId')==config['company_id'] else 'mismatch'
+   with database() as db:
+    values=(row['request_key'],row['target_issue'],expected,actual,outcome,time.time())
+    db.execute('INSERT OR IGNORE INTO handoff_receipt_history VALUES(?,?,?,?,?,?)',values)
+    db.execute('INSERT OR REPLACE INTO handoff_receipt_checks VALUES(?,?,?,?,?,?)',values)
+   if outcome=='matched':
+    with database() as db:db.execute('UPDATE company_dispatch SET next_at=? WHERE request_key=?',(time.time()+86400,row['request_key']))
+    continue
+   source=board.call('/issues/'+row['source_issue']);signature=publishing.sha({'description':source.get('description'),'title':source['title'],'project':source['projectId']})
+   # A different root identifies the native title collision; an owner edit inside the correct task stays held.
+   safe=(source.get('companyId')==config['company_id'] and source.get('projectId')==body['projectId'] and source.get('status')!='cancelled' and signature==row['input_hash'] and not unresolved(database,source) and target.get('companyId')==config['company_id'] and catalog.field(target,'Evidence followup root')!=catalog.field(body,'Evidence followup root') and catalog.field(body,'Factory workflow')=='source_research' and not body['idempotencyKey'].endswith('-intent-v2'))
+   if safe:
+    body['idempotencyKey']=row['request_key']+'-intent-v2';body['allowDuplicate']=True
+    with database() as db:db.execute("UPDATE company_dispatch SET payload_json=?,status='queued',target_issue=NULL,attempts=0,next_at=0 WHERE request_key=?",(json.dumps(body),row['request_key']))
+   else:
+    with database() as db:db.execute("UPDATE company_dispatch SET status='needs_attention' WHERE request_key=?",(row['request_key'],))
+  except Exception:
+   attempts=row['attempts']+1
+   with database() as db:db.execute('UPDATE company_dispatch SET attempts=?,next_at=?,status=? WHERE request_key=?',(attempts,time.time()+300,'needs_attention' if attempts>=3 else 'delivered',row['request_key']))

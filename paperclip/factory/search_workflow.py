@@ -4,21 +4,22 @@ from zoneinfo import ZoneInfo
 from net import canonical_url
 import issue_pages
 from search_budget import Budget,BudgetWait
-from brave import Brave,SearchError
+from brave import Brave,SearchError,CONTRACT,locale,validate
 
 # Only the keys are used (the purpose check in parse). The real priority order is the SQL CASE in queued_issue and in run:
 # publishing first, then discovery (and padel/sportolok once an hour old), then everything else. The numbers are unused.
 RANK={'publishing':0,'discovery':1,'support':2,'padel':3,'sportolok':3}
 TERMINAL={'done','cancelled'}
 def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()
-def fingerprint(query):return hashlib.sha256((' '.join(query.casefold().split())+'|US|en|strict|web|20').encode()).hexdigest()
+def fingerprint(query,kind='discovery'):return hashlib.sha256((' '.join(query.casefold().split())+'|'+ '|'.join(locale(kind))+'|strict|web|20').encode()).hexdigest()
 def local_time(epoch):return datetime.datetime.fromtimestamp(epoch,ZoneInfo('Europe/Budapest')).strftime('%Y-%m-%d %H:%M %Z')
 def initialize(database):
  with database() as db:
   db.execute('''CREATE TABLE IF NOT EXISTS search_jobs(issue_id TEXT PRIMARY KEY,project_id TEXT,kind TEXT,queries_json TEXT,status TEXT,source_host TEXT,parent_publication TEXT,parent_input_hash TEXT,attempts INTEGER,run_id TEXT,outcome_json TEXT,error TEXT,notice_hash TEXT,created_at REAL,updated_at REAL)''')
+  db.execute('CREATE TABLE IF NOT EXISTS search_contract_recovery(issue_id TEXT PRIMARY KEY,attempts INTEGER,next_at REAL,status TEXT,error_category TEXT)')
   db.execute('CREATE TABLE IF NOT EXISTS source_attempts(project_id TEXT,url TEXT,source_hash TEXT,target_issue TEXT,created_at REAL,PRIMARY KEY(project_id,url,source_hash))')
   cols={r[1] for r in db.execute('PRAGMA table_info(search_jobs)')}
-  for name,typ in [('delivery_attempts','INTEGER NOT NULL DEFAULT 0'),('next_delivery_at','REAL NOT NULL DEFAULT 0')]:
+  for name,typ in [('delivery_attempts','INTEGER NOT NULL DEFAULT 0'),('next_delivery_at','REAL NOT NULL DEFAULT 0'),('request_contract',"TEXT NOT NULL DEFAULT 'legacy'")]:
    if name not in cols:db.execute('ALTER TABLE search_jobs ADD COLUMN '+name+' '+typ)
 
 def parse(issue):
@@ -46,12 +47,13 @@ def enqueue(issue,database,source_project=None):
   if old:
    if json.loads(old['outcome_json']).get('requested_queries',json.loads(old['queries_json']))!=spec['queries'] or old['kind']!=spec['kind'] or old['source_host']!=spec['host'] or old['parent_publication']!=spec['parent'] or old['parent_input_hash']!=spec['parent_hash']:raise ValueError('This search task already has a durable intent. Create a new task for a changed query.')
    return dict(old)
-  recent=db.execute("SELECT issue_id,project_id,queries_json FROM search_jobs WHERE created_at>? AND status<>'cancelled'",(now-7*86400,)).fetchall();seen={fingerprint(q):r['issue_id'] for r in recent if source_project is None or r['project_id']==issue['projectId'] for q in json.loads(r['queries_json'])};queries=[]
+  recent=db.execute("SELECT issue_id,project_id,kind,queries_json FROM search_jobs WHERE created_at>? AND status<>'cancelled' AND NOT(kind='sportolok' AND status='needs_attention' AND error='Brave returned HTTP 422' AND request_contract='legacy')",(now-7*86400,)).fetchall();seen={fingerprint(q,r['kind']):r['issue_id'] for r in recent if source_project is None or r['project_id']==issue['projectId'] for q in json.loads(r['queries_json'])};queries=[]
   for q in spec['queries']:
-   if fingerprint(q) in seen:duplicates.append(seen[fingerprint(q)])
+   if fingerprint(q,spec['kind']) in seen:duplicates.append(seen[fingerprint(q,spec['kind'])])
    else:queries.append(q)
   status='queued' if queries else 'deduplicated';outcome={'requested_queries':spec['queries'],'duplicate_tasks':list(dict.fromkeys(duplicates)),'source_pages':[],'research_tasks':[]}
   db.execute('INSERT INTO search_jobs(issue_id,project_id,kind,queries_json,status,source_host,parent_publication,parent_input_hash,attempts,run_id,outcome_json,error,notice_hash,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(issue['id'],issue['projectId'],spec['kind'],json.dumps(queries),'queued' if queries else 'deduplicated',spec['host'],spec['parent'],spec['parent_hash'],0,None,json.dumps(outcome),None,None,now,now))
+  db.execute('UPDATE search_jobs SET request_contract=? WHERE issue_id=?',(CONTRACT,issue['id']))
   return dict(db.execute('SELECT * FROM search_jobs WHERE issue_id=?',(issue['id'],)).fetchone())
 
 def queued_issue(board,config,agent,database):
@@ -191,7 +193,7 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
  if source_project:
   budget=budget or Budget(database);job=enqueue(issue,database,source_project);outcome=json.loads(job['outcome_json']);search_locale=(source_project['country'],source_project['language']);client=client or Brave(budget,country=search_locale[0],language=search_locale[1])
  else:
-  budget=budget or Budget(database);job=enqueue(issue,database);outcome=json.loads(job['outcome_json']);locale=('HU','hu') if job['kind']=='sportolok' else ('ZA','en') if job['kind']=='padel' else ('US','en');client=client or Brave(budget,country=locale[0],language=locale[1])
+  budget=budget or Budget(database);job=enqueue(issue,database);outcome=json.loads(job['outcome_json']);search_locale=locale(job['kind']);client=client or Brave(budget,country=search_locale[0],language=search_locale[1])
  if source_project:job['_source_only_scope']=source_project['scope']
  brand=config.get('projects',{}).get(issue.get('projectId'))
  if not source_project and ((job['kind']=='padel' and (brand!='Padel Africa' or not config.get('padel_discovery_enabled'))) or (job['kind']=='sportolok' and (brand!='Sportolok' or not config.get('engine_clients',{}).get('sportolok'))) or (job['kind'] not in {'padel','sportolok'} and brand!='ClassScout')):raise ValueError('Search purpose does not match the configured brand')
@@ -215,6 +217,7 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
   text='New discovery is paused: ten research drafts/tasks already await work or review. Publishing blockers can still be searched.\n\n'+budget_markdown(budget);return {'stage':'search_waiting','markdown':notice(database,job,text),'entities':[]}
  if not outcome.get('source_pages'):
   queries=json.loads(job['queries_json'])
+  for query in queries:validate(query,*search_locale)
   try:tokens=budget.reserve(issue['id'],len(queries))
   except BudgetWait as error:
    text=error.reason+'. Next eligible check: '+local_time(error.until)+'. No Brave request was sent.\n\n'+budget_markdown(budget);return {'stage':'search_waiting','markdown':notice(database,job,text),'entities':[],'wake_at':error.until+2}
@@ -246,12 +249,14 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
 def request_gap_search(issue,board,config,message,database=None):
  # Matches the wording of the ValueErrors raised by formats.py and publishing.py. 'Missing official source image' is no
  # longer raised (a missing image does not block publication); that alternative is harmless and unused.
- if not config.get('search_enabled') or not re.search(r'Missing explicit|Missing or ambiguous|Missing official source image',message,re.I):return None
+ if not config.get('search_enabled') or not re.search(r'Missing explicit|Missing or ambiguous|Missing official source image|uniquely confirmed.*identity|unambiguous_contacts|borough.*conflicts|Missing literal.*address',message,re.I):return None
  import publishing
  try:brief=publishing.parse_brief(issue)
  except ValueError:return None
  if len(brief['urls'])>=4:return None
- host=urllib.parse.urlsplit(brief['urls'][0]).hostname.removeprefix('www.');query='site:'+host+' "'+brief['Publication name'].replace('"','')+'" kids classes schedule tuition ages';query=query[:240]
+ import evidence
+ host=urllib.parse.urlsplit(brief['urls'][0]).hostname.removeprefix('www.');kind=evidence.gap_kind(message);terms={'identity':'location address contact','location_conflict':'location address contact','contact':'location phone email','price':'program pricing tuition fees','program':'kids classes schedule ages registration'}.get(kind,'kids classes schedule tuition ages')
+ query=('site:'+host+' "'+brief['Publication name'].replace('"','')+'" '+terms)[:240]
  input_hash=publishing.sha({'description':issue.get('description'),'title':issue['title'],'project':issue['projectId']});agent=next((k for k,v in config['agents'].items() if v['role']=='search'),None)
  if not agent:return None
  body={'idempotencyKey':'brave-gap-'+issue['id']+'-'+input_hash,'title':'Find missing source pages for '+brief['Publication name'],'projectId':issue['projectId'],'parentId':issue['id'],'status':'todo','assigneeAgentId':agent,'reviewPolicy':'human_only','description':'Search purpose: publishing\nSearch query: '+query+'\nSource host: '+host+'\nPublication task: '+issue['id']+'\nPublication input hash: '+input_hash+'\n\nFind official source pages for the missing program requirements. Do not infer facts from snippets or publish a listing.'}
@@ -265,3 +270,32 @@ def quality_for_search_source(issue,result,board,config,run_id):
  if not config.get('search_enabled') or not re.search(r'^Search origin: [a-f0-9-]{36}$',issue.get('description') or '',re.M):return
  agent=next(k for k,v in config['agents'].items() if v['role']=='quality')
  for entity in result.get('entities',[]):board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':'source-quality-'+run_id+'-'+entity,'title':'Verify evidence: '+issue['title'][:140],'projectId':issue['projectId'],'parentId':issue['id'],'status':'todo','assigneeAgentId':agent,'reviewPolicy':'human_only','description':'Draft reference: '+entity+'. Re-fetch the source and verify every stored quote and required identity fields. A search result is not publication evidence. Return to human review.'})
+
+
+def recover_contract(board,config,database):
+ """One idempotent successor per failed legacy HU request, using the ordinary budgeted queue."""
+ initialize(database)
+ from autonomy import stopped
+ with database() as db:
+  rows=[dict(r) for r in db.execute("SELECT j.* FROM search_jobs j LEFT JOIN search_contract_recovery r ON r.issue_id=j.issue_id WHERE kind='sportolok' AND j.status='needs_attention' AND error='Brave returned HTTP 422' AND request_contract='legacy' AND (r.issue_id IS NULL OR (r.status='retry' AND r.next_at<=?)) ORDER BY created_at",(time.time(),))]
+ for job in rows:
+  outcome=json.loads(job['outcome_json'])
+  if outcome.get('contract_recovery'):continue
+  try:
+   source=board.call('/issues/'+job['issue_id'])
+   if source.get('companyId')!=config['company_id'] or config['projects'].get(source.get('projectId'))!='Sportolok' or source.get('status') not in {'blocked','in_review'} or source.get('title','').startswith('[Factory test]'):continue
+   spec=parse(source)
+   if spec['kind']!='sportolok' or spec['queries']!=outcome.get('requested_queries',json.loads(job['queries_json'])) or not stopped(source,board,database):continue
+   key='search-contract-'+CONTRACT+'-'+job['issue_id'];agent=next(k for k,v in config['agents'].items() if v['role']=='search')
+   child=board.call('/companies/'+config['company_id']+'/issues',{'idempotencyKey':key,'title':'Resume corrected search: '+source['title'][:110],'description':source['description']+'\nSearch contract recovery: '+CONTRACT+'\nRecovery of: '+source['id'],'projectId':source['projectId'],'status':'todo','assigneeAgentId':agent,'reviewPolicy':'anyone'})
+   if child.get('companyId')!=config['company_id'] or child.get('projectId')!=source['projectId'] or not child.get('id'):raise ValueError('Invalid search recovery receipt')
+   outcome['contract_recovery']={'contract':CONTRACT,'issue_id':child['id'],'identifier':child['identifier']}
+   with database() as db:
+    db.execute('UPDATE search_jobs SET outcome_json=?,updated_at=? WHERE issue_id=?',(json.dumps(outcome),time.time(),job['issue_id']))
+    db.execute("INSERT INTO search_contract_recovery VALUES(?,0,0,'delivered',NULL) ON CONFLICT(issue_id) DO UPDATE SET status='delivered',error_category=NULL",(job['issue_id'],))
+   return [child['identifier']]
+  except Exception as error:
+   with database() as db:
+    old=db.execute('SELECT attempts FROM search_contract_recovery WHERE issue_id=?',(job['issue_id'],)).fetchone();attempts=(old[0] if old else 0)+1
+    db.execute('INSERT INTO search_contract_recovery VALUES(?,?,?,?,?) ON CONFLICT(issue_id) DO UPDATE SET attempts=excluded.attempts,next_at=excluded.next_at,status=excluded.status,error_category=excluded.error_category',(job['issue_id'],attempts,time.time()+[60,300,900][min(attempts-1,2)],'needs_attention' if attempts>=3 else 'retry',type(error).__name__))
+ return []

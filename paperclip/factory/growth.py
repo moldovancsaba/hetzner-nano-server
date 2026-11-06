@@ -27,8 +27,8 @@ def run(issue,board,config,web,database,execution,budget=None):
   choices=intents()
   with database() as db:
    position=db.execute('SELECT position FROM growth_cursor WHERE id=1').fetchone()[0]
-   recent=[dict(r) for r in db.execute("SELECT issue_id,queries_json FROM search_jobs WHERE created_at>? AND status<>'cancelled'",(time.time()-7*86400,))]
-   seen={search_workflow.fingerprint(q) for r in recent for q in json.loads(r['queries_json'])}
+   recent=[dict(r) for r in db.execute("SELECT issue_id,kind,queries_json FROM search_jobs WHERE created_at>? AND status<>'cancelled'",(time.time()-7*86400,))]
+   seen={search_workflow.fingerprint(q,r['kind']) for r in recent for q in json.loads(r['queries_json'])}
   selected=next(((position+n,choices[(position+n)%len(choices)]) for n in range(len(choices)) if search_workflow.fingerprint(choices[(position+n)%len(choices)]['query']) not in seen),None)
   if selected:
    index,item=selected;agent=next(k for k,v in config['agents'].items() if v['role']=='search');week=int(time.time()//(7*86400))
@@ -153,7 +153,7 @@ def infer(issue,row,database,web,config=None,role=None):
  with database() as db:
   previous=db.execute('SELECT checked_at,result_json FROM commissioning_checks WHERE entity_id=?',(row['id'],)).fetchone()
   facts=[dict(r) for r in db.execute('SELECT f.field,f.value,f.quote,s.url FROM facts f JOIN sources s ON s.id=f.source_id WHERE entity_id=?',(row['id'],))]
- input_hash=publishing.sha({'policy':'verified-existing-branch-v5','facts':facts,'updated_at':row.get('updated_at'),'hints':issue.get('description')})
+ input_hash=publishing.sha({'policy':'verified-existing-branch-v6','facts':facts,'updated_at':row.get('updated_at'),'hints':issue.get('description')})
  if previous and time.time()-previous['checked_at']<3600 and json.loads(previous['result_json']).get('input_hash')==input_hash:
   return json.loads(previous['result_json']).get('brief',{})
  page=web.page(row['source_url']);source_pages={row['source_url']:page}
@@ -162,11 +162,18 @@ def infer(issue,row,database,web,config=None,role=None):
  catalog.initialize(database)
  with database() as db:known=[json.loads(r[0])['provider'] for r in db.execute('SELECT result_json FROM catalog_checks') if 'provider' in json.loads(r[0])]
  brief,gaps=evaluate(issue,row,facts,source_pages,known,locations);remote=None
+ initial_urls=list(source_pages)
+ if gaps and len(source_pages)<4 and not publishing.third_party_listing(row['source_url']):
+  import evidence
+  purpose='identity' if any(f in {'name','address','borough','neighborhood'} for f,_ in gaps) else 'program'
+  focused=evidence.crawl(row['source_url'],web,maximum=4,purpose=purpose,seed=list(source_pages.values()))
+  source_pages.update({p['url']:p for p in focused})
+  brief,gaps=evaluate(issue,row,facts,source_pages,known,locations)
  if gaps and config and role:
   # Optional paid help, only to choose between values the pages already name; every choice is rechecked here.
   brief,remote=refine(issue,row,facts,source_pages,gaps,locations,database,config,role,json.loads(previous['result_json']) if previous else None)
  reason=('%s %s.'%(gaps[0][0].capitalize(),gaps[0][1])) if gaps and not brief else None
- result={'input_hash':input_hash,'brief':brief,'reason':reason,'gaps':[{'field':f,'detail':d} for f,d in gaps],'source_url':page['url'],'source_sha256':page['sha256']}
+ result={'input_hash':input_hash,'brief':brief,'reason':reason,'gaps':[{'field':f,'detail':d} for f,d in gaps],'source_url':page['url'],'source_sha256':page['sha256'],'initial_urls':initial_urls,'focused_pages':[{'url':p['url'],'sha256':p['sha256'],'title':p.get('title','')} for p in source_pages.values()]}
  if remote:result['remote']=remote
  with database() as db:db.execute('INSERT INTO commissioning_checks VALUES(?,?,?) ON CONFLICT(entity_id) DO UPDATE SET checked_at=excluded.checked_at,result_json=excluded.result_json',(row['id'],time.time(),json.dumps(result)))
  return brief

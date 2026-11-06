@@ -5,6 +5,15 @@ import catalog,evidence,formats,publishing,quality_gate,refresh
 def initialize(database):
  with database() as db:db.execute('CREATE TABLE IF NOT EXISTS program_packets(packet_hash TEXT PRIMARY KEY,provider_id TEXT,issue_id TEXT,status TEXT,body_json TEXT,proof_json TEXT,baseline_hash TEXT,receipt_json TEXT,created_at REAL)')
 
+def source_urls(row):
+ """Existing program provenance before the homepage; all URLs remain on the official host."""
+ urls=[]
+ for program in row.get('recurringPrograms') or []:
+  urls += [program.get('registrationUrl'),(program.get('price') or {}).get('sourceUrl')]
+ urls += [v.get('sourceUrl') for v in row.get('fieldVerifications') or [] if v.get('field') in {'schedule','price','recurringPrograms'}]
+ urls.append(row.get('website'))
+ return list(dict.fromkeys(u for u in urls if isinstance(u,str) and u.startswith('https://') and evidence.host(u)==evidence.host(row.get('website',''))))[:4]
+
 def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')
 
 def proposed(row,pages):
@@ -18,6 +27,8 @@ def proposed(row,pages):
   except ValueError:fee=None
   try:slots=formats.schedules(page['text'],kind,True,allow_expired=True)
   except ValueError:slots=[]
+  # A single page fee cannot be assigned across distinct age/program groups without a scoped fee parser.
+  if len(slots)>1:fee=None
   for slot in slots:
    bounds=formats.bounds(slot,True)
    matches=[p for p in programs if p.get('ageMinMonths')==bounds[0] and p.get('ageMaxMonths') in ({bounds[1],bounds[1]+11} if bounds[1]%12==0 else {bounds[1]})]
@@ -72,14 +83,21 @@ class Writer:
 def run(issue,board,config,web,database,execution,client=None,writer=None):
  import source_exchange
  source_exchange.require_native_catalog_writer(config,issue)
+ if not config.get('program_updates_enabled',True):raise ValueError('Structured program updates are switched off')
  initialize(database);client=client or publishing.ClassScout();writer=writer or Writer();id=catalog.clean_id(catalog.field(issue,'Catalog provider'));row=client.existing_provider(id)
  if not row or row.get('ownerSub') or row.get('ownerManaged') or row.get('ownerManagedAt') or row.get('claimStatus') in {'claimed','claim_pending'}:raise ValueError('Program listing is absent or owner-managed')
  with database() as db:
   pending=db.execute("SELECT status FROM program_packets WHERE provider_id=? AND status IN ('submitting','uncertain','partial')",(id,)).fetchone()
  if pending:raise ValueError('An unresolved program write requires reconciliation; never replay it')
  urls=re.findall(r'^Program source:\s*(https://\S+)',issue.get('description') or '',re.M)
- if not urls:urls=[row.get('website','')]
- pages=evidence.crawl(urls[0],web,extra=urls[1:],maximum=4);patch,proof=proposed(row,pages)
+ if not urls:urls=source_urls(row)
+ if not urls:raise ValueError('Program source requires an official HTTPS URL')
+ pages=evidence.crawl(urls[0],web,extra=urls[1:],maximum=4,purpose='program')
+ if not pages:
+  catalog.save_report(database,issue,'program_update',{'provider_id':id,'pages_checked':[],'existing_programs':len(row.get('recurringPrograms') or []),'changed_programs':[],'outcome':'source_unavailable'})
+  return {'stage':'program_source_unavailable','entities':[],'final_status':'done','automatic_progress':True,'markdown':'No readable official program source was available. No change was verified or sent. The bounded program queue can check this provider again after its daily cooldown.'}
+ patch,proof=proposed(row,pages)
+ catalog.save_report(database,issue,'program_update',{'provider_id':id,'pages_checked':[p['url'] for p in pages],'existing_programs':len(row.get('recurringPrograms') or []),'changed_programs':[p['program_id'] for p in proof],'outcome':'change_proposed' if patch else 'no_supported_change'})
  if not patch:return {'stage':'program_no_change','entities':[],'final_status':'done','automatic_progress':True,'markdown':'Program source checked. No unambiguous, supported change was found. Existing programs and unknown values were preserved.'}
  body={'resource':'provider','action':'patch','id':id,'patch':patch};ph=publishing.sha({'body':body,'proof':proof,'baseline':row});baseline=publishing.sha(row)
  # No human-approval mode exists for this path: it records a gate decision and takes a slot from the shared daily cap

@@ -7,7 +7,7 @@ def initialize(database):
 def prefix(issue):return '[Factory test] ' if issue['title'].startswith('[Factory test]') else ''
 def metadata(issue):
  lines=[]
- for name in ['Catalog provider','Publication name','Borough','Neighborhood','Format','Activity','Discovery borough','Discovery activity','Discovery campaign','Discovery format']:
+ for name in ['Catalog provider','Publication name','Borough','Neighborhood','Format','Activity','Discovery borough','Discovery activity','Discovery campaign','Discovery format','Evidence followup root']:
   value=catalog.field(issue,name)
   if value:lines.append(name+': '+value)
  return '\n'.join(lines)
@@ -49,10 +49,16 @@ def advance(issue,entity,board,config,database,web=None,role='publication'):
  if provider:catalog.clean_id(provider)
  import growth
  note=None if provider else growth.brief_note(database,entity)
- description=('Factory workflow: refresh_provider\n' if provider else '')+'Draft reference: '+entity+'\n'+editorial+'\n\n'+row['source_url']+('\n\n'+note if note else '')
+ sources=[row['source_url']]
  if not provider:
-  # Reuse unresolved packets rather than creating competing approvals for the same target. A reused packet older than
-  # 48 hours still fails in publishing.run until its brief changes.
+  with database() as db:report=db.execute('SELECT result_json FROM commissioning_checks WHERE entity_id=?',(entity,)).fetchone() if db.execute("SELECT 1 FROM sqlite_master WHERE name='commissioning_checks'").fetchone() else None
+  if report:
+   import evidence
+   checked=json.loads(report[0])
+   if checked.get('brief'):sources += [p['url'] for p in checked.get('focused_pages',[]) if evidence.host(p['url'])==evidence.host(row['source_url'])]
+ description=('Factory workflow: refresh_provider\n' if provider else '')+'Draft reference: '+entity+'\n'+editorial+'\n\n'+'\n'.join(list(dict.fromkeys(sources))[:4])+('\n\n'+note if note else '')
+ if not provider:
+  # Reuse unresolved packets; expired unsubmitted packets are renewed by the scheduled coordinator.
   with database() as db:
    table=db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='publication_packets'").fetchone()
    packets=db.execute("SELECT issue_id,proof_json FROM publication_packets WHERE status IN ('prepared','awaiting_approval','publishing','uncertain','partial')").fetchall() if table else []
@@ -91,9 +97,17 @@ def run_queue(issue,board,config,web,database,execution):
   source=board.call('/issues/'+row['issue_id'])
   if '[Factory test]' in source.get('title','') and '[Factory test]' not in issue.get('title',''):continue
   if source['companyId']!=config['company_id'] or source.get('projectId')!=issue['projectId']:continue
-  target=advance(source,row['id'],board,config,database,web)
-  if target:advanced.append(target['identifier'])
-  else:gaps.append({'draft':row['id'],'name':row['name'],'missing':growth.gap_reason(database,row['id']) or 'Source-backed publication name, borough, neighborhood, format and activity; or an exact existing catalog provider ID.'})
+  try:
+   target=advance(source,row['id'],board,config,database,web)
+   if target:advanced.append(target['identifier'])
+   else:
+    import evidence
+    followup=evidence.queue_focused_research(source,row['id'],board,config,database) if config.get('reliability_enabled') else None
+    reason=growth.gap_reason(database,row['id']) or 'Source-backed publication name, borough, neighborhood, format and activity; or an exact existing catalog provider ID.'
+    gaps.append({'draft':row['id'],'name':row['name'],'category':evidence.gap_kind(reason),'missing':reason,'focused_research_request':followup})
+  except Exception as error:
+   # One contradictory brief must not starve all later candidates in this bounded batch.
+   gaps.append({'draft':row['id'],'name':row['name'],'category':'preparation_hold','missing':str(error)[:300]})
  catalog.save_report(database,issue,'publication_queue',{'advanced':advanced,'editorial_gaps':gaps})
  from worker import safe
  lines=['## Publication preparation queue','','Ready source drafts checked: '+str(min(5,len(entities)))+'.','Next review tasks: '+(', '.join(dict.fromkeys(advanced)) or 'none')+'.','']

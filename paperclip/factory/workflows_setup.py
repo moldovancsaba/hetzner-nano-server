@@ -22,7 +22,7 @@ def setup(activate=False,run_digest=False):
  if config.get('padel_discovery_enabled'):
   specs.append(('padel_discovery','Discover Padel Africa sources','search',next(k for k,v in config['projects'].items() if v=='Padel Africa'),'5 10,16 * * *'))
  if config.get('program_updates_enabled'):
-  specs.append(('program_queue','Refresh ClassScout structured programs','support',classscout,'40 9 * * *'))
+  specs.append(('program_queue','Refresh ClassScout structured programs','support',classscout,'10,40 * * * *'))
  if config.get('engine_clients',{}).get('padel-africa'):
   specs.append(('engine_maintenance','Maintain Padel Africa engine listings','support',next(k for k,v in config['projects'].items() if v=='Padel Africa'),'5 */6 * * *'))
  if config.get('engine_clients',{}).get('sportolok'):

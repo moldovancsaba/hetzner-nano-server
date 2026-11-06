@@ -142,7 +142,7 @@
       "title": "Refresh ClassScout structured programs",
       "project_id": "b41d2192-853d-481f-937d-bc5491db2b0f",
       "trigger_id": "ebc8f097-e3e8-41b5-ad18-147019568250",
-      "cron": "40 9 * * *",
+      "cron": "10,40 * * * *",
       "timezone": "Europe/Budapest",
       "enabled": true
     },

@@ -13,8 +13,15 @@ def address_matches(expected,text):
  anchor=street(expected)
  return bool(anchor and any(address_key(anchor)==address_key(m.group(0)) for m in STREET.finditer(text)))
 def host(url):return (urllib.parse.urlsplit(url).hostname or '').removeprefix('www.').lower()
-def crawl(url,web,extra=(),maximum=4):
- origin=canonical_url(url);allowed=host(origin);pending=[origin]+list(extra);root=urllib.parse.urlunsplit((*urllib.parse.urlsplit(origin)[:2],'/','',''));seen=set();pages=[]
+def crawl(url,web,extra=(),maximum=4,purpose='identity',seed=()):
+ origin=canonical_url(url);allowed=host(origin);pending=[origin]+list(extra);root=urllib.parse.urlunsplit((*urllib.parse.urlsplit(origin)[:2],'/','',''));seen={p['url'] for p in seed};pages=list(seed)[:maximum]
+ # Seed pages were fetched in this run and count toward the same total bound.
+ for page in pages:
+  for raw in page.get('links',[]):
+   try:link=canonical_url(urllib.parse.urljoin(page['url'],raw))
+   except Exception:continue
+   pattern=r'program|class|schedule|pricing|tuition|register|camp|kids|children' if purpose=='program' else r'contact|location|studio|about|find-us'
+   if host(link)==allowed and re.search(pattern,urllib.parse.urlsplit(link).path,re.I) and not re.search(r'login|account|privacy|terms|billing|adult|\.pdf$',urllib.parse.urlsplit(link).path,re.I):pending.append(link)
  while pending and len(seen)<maximum:
   current=pending.pop(0)
   try:
@@ -28,7 +35,8 @@ def crawl(url,web,extra=(),maximum=4):
     try:link=canonical_url(urllib.parse.urljoin(page['url'],raw))
     except Exception:continue
     if host(link)!=allowed or re.search(r'login|account|privacy|terms|billing|\.pdf$',urllib.parse.urlsplit(link).path,re.I):continue
-    if re.search(r'contact|location|studio|about|find-us',urllib.parse.urlsplit(link).path,re.I):links.append(link)
+    pattern=r'program|class|schedule|pricing|tuition|register|camp|kids|children' if purpose=='program' else r'contact|location|studio|about|find-us'
+    if re.search(pattern,urllib.parse.urlsplit(link).path,re.I):links.append(link)
    pending.extend(x for x in links+[root] if x not in seen and x not in pending)
   except Exception:continue
  return pages
@@ -63,7 +71,7 @@ def recover(entity,database,web,baseline=None):
  signature=publishing.sha({'source':entity['source_url'],'facts':rows,'baseline':baseline})
  if previous and previous['input_hash']==signature and time.time()-previous['attempted_at']<3600:return json.loads(previous['result_json'])
  pages=crawl(entity['source_url'],web,[r['url'] for r in rows]);found=[]
- existing={r['field'] for r in rows}
+ existing={r['field'] for r in rows if r['field']!='address' or street(r['value'])}
  if 'name' not in existing:
   candidates=[(n,p) for p in pages for n in names(p,baseline.get('name') if baseline else None)]
   unique={publishing.norm(n) for n,p in candidates}
@@ -77,7 +85,11 @@ def recover(entity,database,web,baseline=None):
   for field,value,page in found:
    sid=__import__('hashlib').sha256((page['url']+'|'+page['sha256']).encode()).hexdigest()
    db.execute('INSERT OR IGNORE INTO sources VALUES(?,?,?,?,?)',(sid,page['url'],page['title'],page['sha256'],publishing.stamp()))
-   db.execute('INSERT OR IGNORE INTO facts VALUES(?,?,?,?,?)',(entity['id'],field,value,value,sid))
+   inserted=db.execute('INSERT OR IGNORE INTO facts VALUES(?,?,?,?,?)',(entity['id'],field,value,value,sid)).rowcount
+   if not inserted and field=='address':
+    # A literal correction can share the source hash with the rejected model value. Replace only that invalid active fact.
+    prior=db.execute('SELECT value,quote FROM facts WHERE entity_id=? AND field=? AND source_id=?',(entity['id'],field,sid)).fetchone()
+    if prior and not street(prior['value']):db.execute('UPDATE facts SET value=?,quote=? WHERE entity_id=? AND field=? AND source_id=? AND value=? AND quote=?',(value,value,entity['id'],field,sid,prior['value'],prior['quote']))
    if field=='name':db.execute('UPDATE entities SET name=? WHERE id=?',(value,entity['id']))
   report={'added_fields':[x[0] for x in found],'recovered_fields':sorted(set([x[0] for x in found]+(json.loads(previous['result_json']).get('recovered_fields',[]) if previous else []))),'pages_checked':[p['url'] for p in pages],'ambiguous_address':len({address_key(m.group(0)) for p in pages for m in STREET.finditer(p['text'])})>1,'method':'literal same-host source pages; unique street or exact known branch'}
   db.execute('INSERT INTO evidence_recovery VALUES(?,?,?,?) ON CONFLICT(entity_id) DO UPDATE SET attempted_at=excluded.attempted_at,input_hash=excluded.input_hash,result_json=excluded.result_json',(entity['id'],time.time(),signature,json.dumps(report)))
@@ -111,7 +123,7 @@ def branch_page(baseline,url,facts,web):
     best=min(d[0] for d in distances);nearest={key for distance,key in distances if distance==best}
     if best<=180 and nearest=={address_key(target.group(0))}:return True
    return False
-  valid=[f for f in facts if publishing.norm(f.get('value')) in publishing.norm(f.get('quote')) and publishing.norm(f.get('quote')) in publishing.norm(page['text']) and (f['field'] not in {'phone','email'} or local_quote(f['quote']))]
+  valid=[f for f in facts if (f['field']!='address' or street(f.get('value',''))) and publishing.norm(f.get('value')) in publishing.norm(f.get('quote')) and publishing.norm(f.get('quote')) in publishing.norm(page['text']) and (f['field'] not in {'phone','email'} or local_quote(f['quote']))]
   # Recover literal contacts only inside the selected branch's own text block.
   for field,pattern in [('email',r'\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b'),('phone',r'(?:\+?1[ .-]?)?\(?\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}')]:
    values={v for v in re.findall(pattern,page['text']) if local_quote(v)}
@@ -135,3 +147,35 @@ def run_queue(issue,board,config,web,database,execution):
   with database() as db:db.execute('INSERT INTO evidence_rechecks VALUES(?,?,?) ON CONFLICT(entity_id) DO UPDATE SET queued_at=excluded.queued_at,task_id=excluded.task_id',(entity['id'],time.time(),child['id']))
   children.append(child['identifier'])
  return {'stage':'evidence_rechecks_queued','entities':[],'final_status':'done','automatic_progress':True,'markdown':'## Evidence recovery queue\n\nIndependent quality rechecks: '+(', '.join(children) or 'none due')+'. Each recheck can read four official same-host pages. Ambiguous branches remain held; no model or Brave request was made by this coordinator.'}
+
+
+def gap_kind(message):
+ text=message.casefold()
+ for pattern,kind in [(r'borough.*conflict|wrong borough','location_conflict'),(r'unambiguous_contacts|contact.*ambig','contact'),(r'\b(?:ages?|schedule|timetable|duration)\b','program'),(r'price|fee|tuition','price'),(r'\b(?:identity|street|address(?:es)?|name|neighborhood|borough)\b','identity'),(r'\b(?:activity|format)\b','editorial'),(r'fetch|robots|403|could not be read','access')]:
+  if re.search(pattern,text):return kind
+ return 'other'
+
+def queue_focused_research(issue,entity,board,config,database):
+ """New official pages can earn independent extraction; unchanged pages never buy another attempt."""
+ import catalog,company_ops
+ initialize(database)
+ with database() as db:
+  db.execute('CREATE TABLE IF NOT EXISTS evidence_followups(request_key TEXT PRIMARY KEY,root_issue TEXT,entity_id TEXT,source_url TEXT,source_hash TEXT,category TEXT,created_at REAL)')
+  report=db.execute('SELECT result_json FROM commissioning_checks WHERE entity_id=?',(entity,)).fetchone()
+ if not report:return None
+ result=json.loads(report[0]);gaps=result.get('gaps',[])
+ if not gaps:return None
+ root=catalog.field(issue,'Evidence followup root') or issue['id'];category=gap_kind(result.get('reason') or '')
+ candidates=[p for p in result.get('focused_pages',[]) if p['url'] not in result.get('initial_urls',[])]
+ with database() as db:
+  prior=db.execute('SELECT count(*) FROM evidence_followups WHERE root_issue=?',(root,)).fetchone()[0]
+  known={(r[0],r[1]) for r in db.execute('SELECT source_url,source_hash FROM evidence_followups WHERE root_issue=?',(root,))}
+ if prior>=3:return None
+ target=next((p for p in candidates if (p['url'],p['sha256']) not in known),None)
+ if not target:return None
+ key='focused-evidence-'+publishing.sha({'root':root,'url':target['url'],'hash':target['sha256']})
+ metadata='\n'.join(k+': '+catalog.field(issue,k) for k in ['Catalog provider','Discovery borough','Discovery activity','Discovery campaign','Discovery format'] if catalog.field(issue,k))
+ body={'idempotencyKey':key,'title':'Research focused official evidence: '+target['title'][:100],'projectId':issue['projectId'],'status':'todo','assigneeAgentId':company_ops.role(config,'research'),'reviewPolicy':'anyone','description':'Factory workflow: source_research\nEvidence followup root: '+root+'\n'+metadata+'\n\n'+target['url']+'\n\nMissing evidence: '+result['reason']+' Only exact source-backed facts are acceptable. Independent quality review remains required; do not infer a branch from query terms.'}
+ company_ops.queue_dispatch(database,key,issue,body)
+ with database() as db:db.execute('INSERT OR IGNORE INTO evidence_followups VALUES(?,?,?,?,?,?,?)',(key,root,entity,target['url'],target['sha256'],category,time.time()))
+ return key
