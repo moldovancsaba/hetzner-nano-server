@@ -107,3 +107,9 @@ Disable the lane (`enabled: false`) if any private or customer text is found in 
 ## Not part of this change
 
 LLM query planning for the Search Coordinator, Brave LLM Context/Places tests, Exa/Tavily comparison and any use of Gemini web-search grounding for discovery (Google's terms restrict using grounded results to choose pages to crawl). See the research note.
+
+## JEV reviewed evidence
+
+The JEV source-review broker uses the existing metered provider, external key and durable shared spend ledger. It receives only permitted public source claims and quotes; predictions, Paperclip comments, client decisions and private support/chat payloads are excluded. The broker adds no spending allowance and preserves the factory reserve. Source-review labels enter the common reviewed ledger at full weight. A failing reviewer probe prevents automatic review enablement.
+
+Operational contract and exact coverage: `/Users/Shared/Projects/jev/docs/WORKFLOW_OPERATIONS.md`. The private broker is loopback-only at `/jev-review`; it has its own scoped credential and no publishing authority.

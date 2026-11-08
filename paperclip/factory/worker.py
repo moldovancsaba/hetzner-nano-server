@@ -444,6 +444,9 @@ class Handler(BaseHTTPRequestHandler):
   if self.path=='/health':return self.respond(200,{'status':'ok','mode':'source research with budgeted Brave discovery' if json.loads(CONFIG_PATH.read_text()).get('search_enabled') else 'source-page research','search_enabled':json.loads(CONFIG_PATH.read_text()).get('search_enabled',False),'publishing':('automatic quality gate' if json.loads(CONFIG_PATH.read_text()).get('automatic_quality_gate',{}).get('enabled') else 'human approval required') if json.loads(CONFIG_PATH.read_text()).get('publishing_enabled') else False,'outreach':False})
   return self.respond(404,{'error':'Not found'})
  def do_POST(self):
+  if self.path=='/jev-review':
+   import jev_review
+   return jev_review.handle(self,database,json.loads(CONFIG_PATH.read_text()))
   if self.path!='/run':return self.respond(404,{'error':'Not found'})
   try:
    size=int(self.headers.get('Content-Length','0'))

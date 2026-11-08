@@ -290,6 +290,9 @@ def run(issue,board,config,web,database,client=None,execution=None):
   if not verified and receipt.get('status')=='partial':verified=reconcile_catalog(client,body,receipt)
   state='published' if verified else 'blocked' if receipt.get('status')=='blocked' else 'partial'
   with database() as db:db.execute('UPDATE publication_packets SET status=?,receipt_json=?,updated_at=? WHERE packet_hash=?',(state,json.dumps(receipt),stamp(),packet['packet_hash']))
+  import jev_workflow
+  try:jev_workflow.outcome(database,packet['packet_hash'],state)
+  except Exception:pass
   return {'stage':state,'markdown':receipt_markdown(body,receipt,state),'entities':[],'final_status':'done' if state=='published' else 'in_review','automatic_write':automatic}
  if packet and packet['input_hash']==input_hash and packet['status']=='blocked':raise ValueError('The unchanged publication brief is still blocked; correct its evidence before retrying')
  # New or corrected briefs must prove identity and completeness before any review request.

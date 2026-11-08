@@ -108,6 +108,9 @@ def run(issue,board,config,web,database,execution,client=None,writer=None):
    public=client.public_get(id,packet['packet_hash']);public_ok=all(equal(k,public.get(k),v) for k,v in body['patch'].items())
    state='applied' if private_ok and public_ok else 'partial';verified={'private_verified':private_ok,'public_verified':public_ok,'fields':list(body['patch']),'provider_id':id}
    with database() as db:db.execute('UPDATE refresh_packets SET status=?,receipt_json=? WHERE packet_hash=?',(state,json.dumps(verified),packet['packet_hash']))
+   import jev_workflow
+   try:jev_workflow.outcome(database,packet['packet_hash'],state)
+   except Exception:pass
   except Exception:
    with database() as db:db.execute("UPDATE refresh_packets SET status='uncertain',error='Response or verification unavailable; inspect before any retry' WHERE packet_hash=?",(packet['packet_hash'],))
    raise ValueError('Contact correction outcome is uncertain; do not repeat the write before reconciliation') from None

@@ -4,7 +4,7 @@ Optional help for two steps. The research role calls it when the local 1B model 
 empty (TARGETS); it may then add any of the seven research fields that are still empty. Every value still has to quote the
 fetched page verbatim (worker.validate_facts), so a stronger model cannot add an invented fact. The
 editorial-brief step (publication and quality roles) only chooses between values that the page already names; growth.py checks each
-choice against a verbatim quote. Support drafts, customer text, Paperclip comments and every other role never reach this module."""
+choice against a verbatim quote. Support drafts, customer text and Paperclip comments never reach this module. The private JEV reviewer uses this same metered client for blind permitted public quotes, with an additional daily cap and factory reserve."""
 import datetime,json,math,os,re,time,urllib.error,urllib.request,uuid
 from zoneinfo import ZoneInfo
 from brave import NoRedirect
