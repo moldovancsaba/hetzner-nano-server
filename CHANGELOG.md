@@ -10,10 +10,16 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 
 ### Added
 
+- `scripts/check_paperclip_drift.py` compares the Paperclip host with this repository by hash (read-only over SSH, no secret printed) and fails on any difference that `paperclip/drift-baseline.json` does not record. Unit tests: `tests/test_paperclip_drift.py`.
 - Perplexity as the Paperclip fallback search: when Brave's shared allowance is resting, one request an hour (24 a day, 744 a month) serves a task's first query. Off until `perplexity_enabled` is set and `/etc/paperclip-perplexity.env` holds the key. See `paperclip/factory/PERPLEXITY.md`.
+
+### Changed
+
+- `paperclip/factory/factory.json` is brought back in line with the live configuration (exchange scopes, `perplexity_enabled`, search switches) and still leaves out six settings the host carries that no code reads. `paperclip/Caddyfile` follows the live file again (`/jev/` routes, exchange routes), with secret header values replaced by `<redacted>`, and `paperclip/source-exchange-dashboard.caddy.example` documents the include it needs.
 
 ### Operations
 
+- Paperclip drift review (read-only, nothing deployed): code on the host is older than the repository and holds nothing the repository lacks; the open differences, which side is authoritative and what a release of `worker.py` and `snapshot.sh` would change are in `paperclip/README.md`, "Drift check".
 - Released to the Paperclip host on 2026-11-11 in one idle-stopped window (no running work): `perplexity.py` and `search_workflow.py` installed, `/etc/paperclip-perplexity.env` written (root, mode 600), the unit reads it, `perplexity_enabled` set, factory restarted and checked. The previous files are kept on the host in `/root/perplexity-deploy-backup-20261111`.
 
 ## 2026-11-08

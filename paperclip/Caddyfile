@@ -1,4 +1,15 @@
 paperclip.haho.ai {
+	@jev_workflow path /jev/v1/*
+	handle @jev_workflow {
+		uri strip_prefix /jev
+		reverse_proxy 127.0.0.1:8781
+	}
+
+	@source_exchange path /integrations/v1/source-offers /integrations/v1/deliveries/claim /integrations/v1/deliveries/*/receipt /integrations/v1/events /integrations/v1/events/claim /integrations/v1/events/*/receipt /integrations/v1/operations/* /integrations/v1/status /integrations/v1/snapshot
+	handle @source_exchange {
+		reverse_proxy 127.0.0.1:9091
+	}
+
 	encode zstd gzip
 	header {
 		X-Content-Type-Options nosniff
@@ -7,11 +18,6 @@ paperclip.haho.ai {
 		Strict-Transport-Security "max-age=31536000"
 		X-Robots-Tag "noindex, nofollow"
 	}
-	@source_exchange path /integrations/v1/source-offers /integrations/v1/deliveries/claim /integrations/v1/deliveries/*/receipt /integrations/v1/events /integrations/v1/events/claim /integrations/v1/events/*/receipt /integrations/v1/operations/* /integrations/v1/status /integrations/v1/snapshot
-	handle @source_exchange {
-		reverse_proxy 127.0.0.1:9091
-	}
-
 	handle /_access/* {
 		reverse_proxy 127.0.0.1:8088 {
 			header_up X-Real-IP {remote_host}
@@ -21,6 +27,13 @@ paperclip.haho.ai {
 		route {
 			forward_auth 127.0.0.1:8088 {
 				uri /_access/check
+			}
+			redir /jev /jev/ 308
+			@jev_hitl path /jev/*
+			handle @jev_hitl {
+				reverse_proxy 127.0.0.1:8780 {
+					header_up X-Jev-Ingress <redacted>
+				}
 			}
 			@exchange_snapshot path /factory/exchange-snapshot
 			handle @exchange_snapshot {

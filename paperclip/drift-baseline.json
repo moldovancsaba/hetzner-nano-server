@@ -1,0 +1,74 @@
+{
+ "accepted": {
+  "operations/alerts.py": {
+   "reason": "comment only (debounce note); verified by syntax-tree comparison with the host copy",
+   "repo": "ce247ded7cc351da1c9db75f53e1e58d73074739ba66cf3fda6f5674e10e9b7e",
+   "server": "d8a9ac8d82ffb7c85c3f372210a6b3a621b6b8cde6ee9ab6824548449cfa86f4"
+  },
+  "paperclip/factory/brave-plan.json": {
+   "reason": "wording of one note about storing Brave results; no setting changes",
+   "repo": "ec763034c824ff98dcc36c30e6a142e6e5cd4a3df396c7a78c6d3b5da92bf563",
+   "server": "ed5700d9e3c4e32c0480086b85eda2356b97fb52aaf75ad09f0908562ab40ae4"
+  },
+  "paperclip/factory/bridge.py": {
+   "reason": "not in /opt/narimato-factory; where the live Paperclip process adapter keeps its shim was not verified",
+   "repo": "62ef4ffc97bb08475792837d2c9b700eb5c15da1c75daa787cf6acbdad5a294e",
+   "server": null
+  },
+  "paperclip/factory/catalog.py": {
+   "reason": "comment only; verified by syntax-tree comparison with the host copy",
+   "repo": "c3cbb598c2e50e4334036638d08515fe1c0c8713850fa07017ef1a79365483c0",
+   "server": "41fced7cc829ffb5d6672c5b1f16251046c5298f21eeb5ad3d50bec1dd1bf6bf"
+  },
+  "paperclip/factory/publishing-canonical-gate.json": {
+   "reason": "evidence record; never deployed to the factory host",
+   "repo": "ecb6b1d09b65713ff7f7fda40f146f13689431eef646fbb19c50af550ceac6a7",
+   "server": null
+  },
+  "paperclip/factory/segmind.py": {
+   "reason": "docstring and comment only; verified by syntax-tree comparison with the host copy",
+   "repo": "7ee34e605c30610f6fbe1109b363a452b319e086555d1ac823db32c7788a3a38",
+   "server": "ebe42d4d122c2614072229ac3a05ca61e860feabc2180c85bc4ece476c10bc18"
+  },
+  "paperclip/factory/slg.py": {
+   "reason": "comment only; verified by syntax-tree comparison with the host copy",
+   "repo": "4d5656499dba3e2674a2737c0162ae0b0713124d6508b7cc9432802e2c5793be",
+   "server": "9c9073b7b4562ef20265c964f88023043f765fb7fbb32247559a4a32a3d726cc"
+  },
+  "paperclip/factory/worker.py": {
+   "reason": "repository ahead: sqlite PRAGMA synchronous=FULL, plus /factory static serving and /factory/exchange-snapshot routes that the live Caddy answers first; release needs a factory restart",
+   "repo": "7c8cc4646baf09a49713fdd439a9704308649659836fe0ffa513954f8a31c0e1",
+   "server": "87fe2981e84cfec11a8af24fb919aa902060b752cbef4fd73ff0b383a5275fc3"
+  },
+  "paperclip/gate.py": {
+   "reason": "comment only; verified by syntax-tree comparison with the host copy",
+   "repo": "c7986d8c3964ad68decc07a4610d9b2ec9635fc4a530c0d0b9fd9428b1a33efe",
+   "server": "bcf658b39d1647a2dfbb6601a41a1ae5141329ef82cca49ab3c9aaa23824b37f"
+  },
+  "paperclip/local-ai.json": {
+   "reason": "status wording of agent_status only",
+   "repo": "8c86b50d05561dbc6f7421d3ba569d9c62b7bfa653c72aa1912c828138901338",
+   "server": "6b21b92d5337ad7485d87483a4db02ec92cb5d39bab5064a51f62d52861d8678"
+  },
+  "paperclip/snapshot.sh": {
+   "reason": "repository ahead: also snapshots /etc/paperclip-perplexity.env; the host backup omits that file today",
+   "repo": "6d6bb11d9f479dcb4dfd31ddc630c1edd654ef063c594b8d50f85d94eaaa9036",
+   "server": "9cb017bd1be6e1f2e941d59c2f15f45c5d30191a9f4fb511af6a1a49c7b3d97b"
+  }
+ },
+ "ignored_json_keys": {
+  "paperclip/factory/factory.json": [
+   "growth_mode.active_research_limit",
+   "growth_mode.campaign",
+   "max_source_pages_per_task",
+   "outreach_enabled",
+   "pilot_brand",
+   "sales.delivery_enabled"
+  ]
+ },
+ "server_only_ok": [
+  "/opt/narimato-factory/learn_engines.py",
+  "/opt/narimato-factory/live_inspect.py",
+  "/opt/source-exchange/source-exchange.service"
+ ]
+}
