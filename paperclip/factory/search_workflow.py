@@ -185,6 +185,17 @@ def prefix_title(issue):return '[Factory test] ' if issue['title'].startswith('[
 def budget_markdown(budget):
  s=budget.status();return 'Search budget: '+str(s['used_this_window'])+'/'+str(s['automatic_limit'])+' this allowance period; '+str(s['used_today'])+'/'+str(s['daily_limit'])+' today. Next shared search slot: '+local_time(s['next_search_at'])+'.'
 
+def perplexity_slot(config,database,job_id,environ=None):
+ """One reserved Perplexity request, or None when it is off, unconfigured or inside its own hourly allowance."""
+ import os
+ env=os.environ if environ is None else environ
+ if not config.get('perplexity_enabled') or not env.get('PERPLEXITY_SEARCH_API_KEY'):return None
+ from perplexity import Perplexity,PerplexityBudget
+ spend=PerplexityBudget(database)
+ try:tokens=spend.reserve(job_id,1)
+ except BudgetWait:return None
+ return Perplexity(spend,environ=env),tokens
+
 def run(issue,board,config,web,database,execution,client=None,budget=None):
  if not config.get('search_enabled'):raise ValueError('Brave Search is disabled')
  if not os.environ.get('BRAVE_SEARCH_API_KEY') and client is None:raise ValueError('Brave connection is not configured')
@@ -220,7 +231,11 @@ def run(issue,board,config,web,database,execution,client=None,budget=None):
   for query in queries:validate(query,*search_locale)
   try:tokens=budget.reserve(issue['id'],len(queries))
   except BudgetWait as error:
-   text=error.reason+'. Next eligible check: '+local_time(error.until)+'. No Brave request was sent.\n\n'+budget_markdown(budget);return {'stage':'search_waiting','markdown':notice(database,job,text),'entities':[],'wake_at':error.until+2}
+   slot=None if source_project else perplexity_slot(config,database,issue['id'])
+   if slot is None:
+    text=error.reason+'. Next eligible check: '+local_time(error.until)+'. No Brave request was sent.\n\n'+budget_markdown(budget);return {'stage':'search_waiting','markdown':notice(database,job,text),'entities':[],'wake_at':error.until+2}
+   # Brave is resting: the hourly Perplexity slot serves the job's first query, so a waiting job still advances.
+   client,tokens=slot;queries=queries[:1]
   with database() as db:db.execute("UPDATE search_jobs SET status='running',run_id=?,attempts=attempts+1,updated_at=? WHERE issue_id=?",(execution['run_id'],time.time(),issue['id']))
   rows=[];errors=[];retryable=False
   for q,token in zip(queries,tokens):

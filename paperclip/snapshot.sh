@@ -21,6 +21,9 @@ fi
 if [ -f /etc/paperclip-brave.env ]; then
   set -- "$@" etc/paperclip-brave.env
 fi
+if [ -f /etc/paperclip-perplexity.env ]; then
+  set -- "$@" etc/paperclip-perplexity.env
+fi
 if [ -f /etc/paperclip-segmind.env ]; then
   set -- "$@" etc/paperclip-segmind.env
 fi
