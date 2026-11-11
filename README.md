@@ -37,7 +37,7 @@ Latest model evaluation: [InternVL full continuation](benchmarks/round6/INTERNVL
 | Candidate models and discovery | [research/SHORTLIST.md](research/SHORTLIST.md), [research/CANDIDATES-20261029.md](research/CANDIDATES-20261029.md) |
 | Paperclip host: deployment, backups, restore | [paperclip/README.md](paperclip/README.md), [paperclip/MODEL-SELECTION.md](paperclip/MODEL-SELECTION.md) |
 | Research factory: workflows and acceptance | [paperclip/factory/README.md](paperclip/factory/README.md), [WORKFLOWS.md](paperclip/factory/WORKFLOWS.md), [ACCEPTANCE.md](paperclip/factory/ACCEPTANCE.md) |
-| Factory subsystems | [PUBLISHING.md](paperclip/factory/PUBLISHING.md), [SEGMIND.md](paperclip/factory/SEGMIND.md), [BRAVE.md](paperclip/factory/BRAVE.md), [SLG.md](paperclip/factory/SLG.md), [CLASS-SCOUT-HANDOFF.md](paperclip/factory/CLASS-SCOUT-HANDOFF.md), [INDUSTRY-RESEARCH-20261028.md](paperclip/factory/INDUSTRY-RESEARCH-20261028.md) |
+| Factory subsystems | [PUBLISHING.md](paperclip/factory/PUBLISHING.md), [SEGMIND.md](paperclip/factory/SEGMIND.md), [BRAVE.md](paperclip/factory/BRAVE.md), [PERPLEXITY.md](paperclip/factory/PERPLEXITY.md), [SLG.md](paperclip/factory/SLG.md), [CLASS-SCOUT-HANDOFF.md](paperclip/factory/CLASS-SCOUT-HANDOFF.md), [INDUSTRY-RESEARCH-20261028.md](paperclip/factory/INDUSTRY-RESEARCH-20261028.md) |
 | Code conventions and comment rules | [docs/CODE-CONVENTIONS.md](docs/CODE-CONVENTIONS.md) |
 | Documentation and code review of 2026-10-30 | [docs/GAP-ANALYSIS-2026-10-30.md](docs/GAP-ANALYSIS-2026-10-30.md) |
 

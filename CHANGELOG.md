@@ -2,7 +2,7 @@
 
 Everything that reached `main` of [hetzner-nano-server](https://github.com/moldovancsaba/hetzner-nano-server), newest first. The repository has no version numbers or tags, so a release is the state of `main` at the end of a day (dates are commit dates); every commit is listed under its day with a link. Each entry says what changed for operators and clients, not just which files moved. For the reasoning behind a change read [docs/HISTORY.md](docs/HISTORY.md); for the system as it stands read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-Covers history up to `b8be171`. `python3 scripts/check_changelog.py` lists any later commit that is not yet in these notes; run it before a release and add the entry in the same change set as the work it describes. A commit that changes this file carries its own notes (it cannot link its own hash), so the check does not list it; it gets its link when the marker next moves past it.
+Covers history up to `67a9f91`. `python3 scripts/check_changelog.py` lists any later commit that is not yet in these notes; run it before a release and add the entry in the same change set as the work it describes. A commit that changes this file carries its own notes (it cannot link its own hash), so the check does not list it; it gets its link when the marker next moves past it.
 
 Sections used: **Added** (new capability), **Changed** (behaviour, policy or defaults), **Fixed** (a defect corrected), **Security**, **Operations** (deployment, hosts, retention), **Documentation**.
 
@@ -15,6 +15,11 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 ### Operations
 
 - Released to the Paperclip host on 2026-11-11 in one idle-stopped window (no running work): `perplexity.py` and `search_workflow.py` installed, `/etc/paperclip-perplexity.env` written (root, mode 600), the unit reads it, `perplexity_enabled` set, factory restarted and checked. The previous files are kept on the host in `/root/perplexity-deploy-backup-20261111`.
+
+## 2026-11-08
+
+### Added
+- Field probabilities from the JEV workflow and metered evidence reviews are integrated ([67a9f91](https://github.com/moldovancsaba/hetzner-nano-server/commit/67a9f91)).
 
 ## 2026-11-06
 
@@ -37,6 +42,40 @@ Racket Land (https://racket.land) replaced Padel Africa on 2026-11-05: every rac
 ### Documentation
 - Added the status, plain-page, directory and Brave-locale sections to the Racket Land alignment note; updated the factory README, WORKFLOWS (dated notes, the historical text is kept), BRAVE, the Paperclip README (known limitation) and ARCHITECTURE.
 - **Brave storage policy.** The retention text in `paperclip/factory/BRAVE.md` and `brave-plan.json` now says that storing Brave results is permitted under fair usage, as Brave told the owner in writing (reported 2026-11-06), while the existing budgets hold. The code is unchanged: it still keeps results in RAM and stores no new data, and a persistent result store is not built yet.
+
+### Also on 2026-11-06
+- **References for entries above:** the Paperclip identity rename to Racket Land ([b3359d3](https://github.com/moldovancsaba/hetzner-nano-server/commit/b3359d3)), the retry of a transient 5xx on a Paperclip issue update ([cc6efc2](https://github.com/moldovancsaba/hetzner-nano-server/commit/cc6efc2)), the merge of the worldwide rules branch as released to the host ([94a3b8e](https://github.com/moldovancsaba/hetzner-nano-server/commit/94a3b8e)), the repository-only record of the worldwide rules and the Brave locale change ([988937d](https://github.com/moldovancsaba/hetzner-nano-server/commit/988937d)), the record that the runtime, dashboard page and country-neutral Brave locale are deployed ([3bcba4d](https://github.com/moldovancsaba/hetzner-nano-server/commit/3bcba4d)), the documentation and evidence records of the 2026-11-01 delivery ([e2049d7](https://github.com/moldovancsaba/hetzner-nano-server/commit/e2049d7)), and the Brave storage policy text ([4bdc748](https://github.com/moldovancsaba/hetzner-nano-server/commit/4bdc748)).
+- **Backups and restore:** seven daily recovery points are kept and duplicated SQL history is excluded ([a42ce81](https://github.com/moldovancsaba/hetzner-nano-server/commit/a42ce81)); the daily backup calendar points are capped and pending captures preserved ([c703874](https://github.com/moldovancsaba/hetzner-nano-server/commit/c703874)); restore resources are provisioned for the current database size ([278dc59](https://github.com/moldovancsaba/hetzner-nano-server/commit/278dc59)); the completed cleanup and the verified full-stack recovery are recorded ([ff17d0c](https://github.com/moldovancsaba/hetzner-nano-server/commit/ff17d0c)).
+- **Racket runtime release:** the release patch rows are built from the deployed source ([2e24dff](https://github.com/moldovancsaba/hetzner-nano-server/commit/2e24dff)); the release can patch `brave.py` so Racket Land searches carry no country bias ([7340c28](https://github.com/moldovancsaba/hetzner-nano-server/commit/7340c28)); the `padel` kind is searched without a country bias, as on the host ([365101e](https://github.com/moldovancsaba/hetzner-nano-server/commit/365101e)); the dated Racket Land notes in WORKFLOWS and the Brave routine note are updated to the deployed locale ([fdd428c](https://github.com/moldovancsaba/hetzner-nano-server/commit/fdd428c), [b0de1e6](https://github.com/moldovancsaba/hetzner-nano-server/commit/b0de1e6)).
+- **Repository caught up with the host:** the delivery code of 2026-11-01 to 11-05 is committed exactly as it runs on the host ([c5f1ab1](https://github.com/moldovancsaba/hetzner-nano-server/commit/c5f1ab1)); `brave.py` is committed with the `web-locale-v2` contract as it ran before the Racket Land locale release ([aa7f400](https://github.com/moldovancsaba/hetzner-nano-server/commit/aa7f400)); `worker.py` is ahead of the host with idempotent issue creation and the ClassScout street filter and is not deployed ([7afc21e](https://github.com/moldovancsaba/hetzner-nano-server/commit/7afc21e)).
+
+## 2026-11-02 to 2026-11-05: Paperclip source exchange
+
+Work on the scoped exchange between the Paperclip factory and OpenClaw; the design, commissioning steps and acceptance records are in `paperclip/integration/`. One line per commit, as the commit subject states it.
+
+### Added
+- 2026-11-02: the durable scoped Paperclip source exchange ([fb7fa56](https://github.com/moldovancsaba/hetzner-nano-server/commit/fb7fa56)), guarded factory exchange hooks with accessible combined results ([a91dbe0](https://github.com/moldovancsaba/hetzner-nano-server/commit/a91dbe0)), fair source allocation with causal GDS company delivery views ([9660c65](https://github.com/moldovancsaba/hetzner-nano-server/commit/9660c65)), and a distinction between verified operations with deduplicated candidate qualification ([cf334b5](https://github.com/moldovancsaba/hetzner-nano-server/commit/cf334b5)).
+- 2026-11-05: a reviewed source-only project runtime through the shared search lane ([6aa029d](https://github.com/moldovancsaba/hetzner-nano-server/commit/6aa029d)), recorded healthy and default-off ([bd3309c](https://github.com/moldovancsaba/hetzner-nano-server/commit/bd3309c)); native Management and SLG mutations are fenced during a reviewed writer handoff ([eae0d9e](https://github.com/moldovancsaba/hetzner-nano-server/commit/eae0d9e)), recorded healthy ([5fed020](https://github.com/moldovancsaba/hetzner-nano-server/commit/5fed020)); native source delivery credentials are isolated by client scope ([b322053](https://github.com/moldovancsaba/hetzner-nano-server/commit/b322053)), recorded verified ([22d428d](https://github.com/moldovancsaba/hetzner-nano-server/commit/22d428d)); literal provider identity and locality are retained in source exchange offers ([aa671d4](https://github.com/moldovancsaba/hetzner-nano-server/commit/aa671d4)), recorded verified ([2504ceb](https://github.com/moldovancsaba/hetzner-nano-server/commit/2504ceb)).
+- 2026-11-04: protected systemd credentials are supported in the native source transport ([fc063ba](https://github.com/moldovancsaba/hetzner-nano-server/commit/fc063ba)); project-scoped native catalog writer handoff controls are prepared ([9da1dc6](https://github.com/moldovancsaba/hetzner-nano-server/commit/9da1dc6)).
+- 2026-11-03: RC5 description gaps are published for existing-record source enrichment ([6993392](https://github.com/moldovancsaba/hetzner-nano-server/commit/6993392)).
+- 2026-11-02: public evidence is bounded and independently verified native pages are handed off ([dc0c260](https://github.com/moldovancsaba/hetzner-nano-server/commit/dc0c260)); scoped feedback is batched within the existing coordinator budget ([f4925b3](https://github.com/moldovancsaba/hetzner-nano-server/commit/f4925b3)); the canonical exchange delivery plan is published with implementation status ([e7fdc77](https://github.com/moldovancsaba/hetzner-nano-server/commit/e7fdc77)); combined results browser checks require zero WCAG findings ([82a1aec](https://github.com/moldovancsaba/hetzner-nano-server/commit/82a1aec)).
+
+### Changed
+- 2026-11-05: additional client projects require an explicit source-policy review ([2f52c42](https://github.com/moldovancsaba/hetzner-nano-server/commit/2f52c42)); native release stop control uses verified process pausing ([59cfd9f](https://github.com/moldovancsaba/hetzner-nano-server/commit/59cfd9f)).
+- 2026-11-04: ClassScout source capacity is reserved for complete identity evidence ([510b6b1](https://github.com/moldovancsaba/hetzner-nano-server/commit/510b6b1)).
+- 2026-11-02: shadow feedback is kept distinct from measured catalogue yield ([201ebc7](https://github.com/moldovancsaba/hetzner-nano-server/commit/201ebc7)); publication is projected from the latest exact listing readback ([d768bfd](https://github.com/moldovancsaba/hetzner-nano-server/commit/d768bfd)).
+
+### Fixed
+- 2026-11-04: non-regular exchange credentials are refused before opening ([7f8ff89](https://github.com/moldovancsaba/hetzner-nano-server/commit/7f8ff89)).
+- 2026-11-02: exchange recovery and stale source observations are fenced in RC3 ([75f707b](https://github.com/moldovancsaba/hetzner-nano-server/commit/75f707b)); replacement-inbox receipts are recovered and native hooks deployed only while idle ([3ee7607](https://github.com/moldovancsaba/hetzner-nano-server/commit/3ee7607)); the repair allowance is enforced per field across changing gap combinations ([5ac6939](https://github.com/moldovancsaba/hetzner-nano-server/commit/5ac6939)).
+
+### Operations
+- 2026-11-02: protected metadata dashboard commissioning ([4cd3a8b](https://github.com/moldovancsaba/hetzner-nano-server/commit/4cd3a8b)), the latest verified metadata service revision ([1b0ae82](https://github.com/moldovancsaba/hetzner-nano-server/commit/1b0ae82)), the RC3 metadata deployment with business admission off ([ab45f8b](https://github.com/moldovancsaba/hetzner-nano-server/commit/ab45f8b)), and the disabled native hook deployment with hard-crash recovery evidence ([c28a20f](https://github.com/moldovancsaba/hetzner-nano-server/commit/c28a20f)) are recorded.
+
+## 2026-11-01: benchmarks
+
+### Added
+- InternVL image suites and Marqo screening are completed and the verified ranked defaults published ([a5670a7](https://github.com/moldovancsaba/hetzner-nano-server/commit/a5670a7)); benchmark resume inventory is fixed so incomplete InternVL suites continue ([0b00362](https://github.com/moldovancsaba/hetzner-nano-server/commit/0b00362)); Hungarian round 4 measured Phi-4 Mini and rejected it ([0a9c9be](https://github.com/moldovancsaba/hetzner-nano-server/commit/0a9c9be)).
 
 ## 2026-11-01 — Proposed OpenClaw integration
 
@@ -84,6 +123,9 @@ Eighteen of the 22 defects found by the documentation review are fixed in the re
 - Corrected statements that no longer matched the code across the operating, access, job-router, model-policy, retention, backlog and Paperclip documents, and added a Known limitations section to the operations and Paperclip pages.
 - Added module docstrings to every Python file that lacked one, fixed misleading comments, and documented the non-obvious invariants (storage lease epoch, circuit breaker, request-header trust, error-text routing, write reservation order). No executable code changed.
 - Added `scripts/check_changelog.py`.
+
+### Commit references
+- 18 of the 22 defects found by the documentation review are fixed ([1863be3](https://github.com/moldovancsaba/hetzner-nano-server/commit/1863be3)); candidates are worked oldest-touched first so none can hold a queue slot in a loop ([8735529](https://github.com/moldovancsaba/hetzner-nano-server/commit/8735529)); the deployment of the defect fixes and the candidate order is recorded ([b8f8dbc](https://github.com/moldovancsaba/hetzner-nano-server/commit/b8f8dbc)); the gate switch stops every automatic write and the older Padel path is removed ([b9cac4b](https://github.com/moldovancsaba/hetzner-nano-server/commit/b9cac4b)); the 09:09 UTC deployment of the gate-switch and Padel changes is recorded ([6c1e6fb](https://github.com/moldovancsaba/hetzner-nano-server/commit/6c1e6fb)).
 
 ## 2026-10-30
 

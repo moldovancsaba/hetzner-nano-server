@@ -13,3 +13,7 @@ handed on.
 - Not served: source-only exchange projects, which keep Brave's country and language rules.
 - Not a Brave replacement: Brave stays first. The Search API has no safe-search setting, so the factory's own page checks
   and the publication gates are the only filter on what a Perplexity lead leads to.
+- Where to look: the table `perplexity_attempts` in the factory database holds one row per reserved request (job, time, status, HTTP status);
+  the limits are `GAP`, `DAILY` and `MONTHLY` in `perplexity.py`.
+- Turn it off: set `"perplexity_enabled": false` in `factory.json` and restart `narimato-factory`, or remove `/etc/paperclip-perplexity.env`.
+  OpenClaw's own Perplexity engine is separate (`perplexity_search.py` in the OpenClaw workspace, limited the same way).

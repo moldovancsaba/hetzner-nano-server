@@ -30,6 +30,7 @@ flowchart LR
   subgraph external [External services]
     CSAPI[ClassScout API]
     BRAVE[Brave Search]
+    PPLX[Perplexity Search]
     SEG[Segmind]
     ENG[Management engines<br/>Racket Land, Sportolok, SLG]
   end
@@ -47,6 +48,7 @@ flowchart LR
   FAC -->|paperclip key| CADDY
   FAC --> CSAPI
   FAC --> BRAVE
+  FAC -.->|only while Brave rests| PPLX
   FAC --> SEG
   FAC --> ENG
 ```
@@ -200,7 +202,7 @@ The factory has no scheduler of its own. Timing comes from 19 native Paperclip r
 | Layer | Modules |
 | --- | --- |
 | Runtime | `worker.py` (HTTP, run execution, research, quality), `operational.py` (workflow router), `net.py` (bounded public web reads), `issue_pages.py`, `catalog.py` |
-| Discovery and search | `growth.py`, `search_workflow.py`, `search_budget.py`, `brave.py`, `evidence.py`, `venue_identity.py` |
+| Discovery and search | `growth.py`, `search_workflow.py`, `search_budget.py`, `brave.py`, `perplexity.py`, `evidence.py`, `venue_identity.py` |
 | Research to publication | `pipeline.py`, `publishing.py`, `formats.py`, `quality_gate.py`, `refresh.py`, `program_updates.py`, `segmind.py` |
 | Support and audit | `support.py`, `site_audit.py`, `company_ops.py`, `portfolio.py` |
 | Autonomy and recovery | `autonomy.py`, `company_ops.py` |
@@ -214,7 +216,7 @@ The five roles are Research Analyst (`research`), Content Quality Reviewer (`qua
 
 ```mermaid
 flowchart TD
-  G[growth.run<br/>discovery task] --> S[search_workflow<br/>Brave query, verified pages]
+  G[growth.run<br/>discovery task] --> S[search_workflow<br/>Brave query, or Perplexity while Brave rests, verified pages]
   S --> R[worker.research<br/>local model, quotes validated,<br/>optional Segmind facts]
   R --> D[(entities: draft)]
   D --> Q[worker.quality<br/>re-fetch, recover name and address]
@@ -274,6 +276,7 @@ Every integration has a fixed origin and a bound in code.
 | --- | --- | --- |
 | Inference host | all model calls, asynchronous jobs with `model: auto` | 8K context, 1024 output tokens, 600 s deadline, test or production purpose marker |
 | Brave Search | source discovery | daily and window quotas, cooldown after failures, 2 s spacing, fixed locales, strict safe search |
+| Perplexity Search | fallback source discovery, only while Brave's allowance rests; off unless `perplexity_enabled` and its key are present | one request an hour, 24 a day, 744 a month, counted before the call; first query of a task only; no safe-search setting, so the factory's own page checks are the filter; not used for source-only exchange projects ([PERPLEXITY.md](../paperclip/factory/PERPLEXITY.md)) |
 | Segmind | optional paid extraction and brief choices | $10 a month, $0.40 a day, call caps, a 120% account-spend guard; a failure pauses the lane and the local result stands |
 | ClassScout API | prepare-review, publish-reviewed, provider reads | fixed paths; the ingest path accepts only the operations the factory needs |
 | Management engines | Racket Land (the `padel` files and names are legacy identifiers) and Sportolok catalog and intake | fixed origins and allowed paths |

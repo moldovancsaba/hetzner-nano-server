@@ -11,6 +11,10 @@ The initial connection used trust on first use (`StrictHostKeyChecking=accept-ne
 
 A locked key caused the first authentication attempt to fail despite the server accepting its public key. The owner unlocked it using `ssh-add --apple-use-keychain ~/.ssh/hetzner_ai`. If an agent cannot use the key, ask the owner to unlock it locally; do not request the passphrase in chat.
 
+### Giving an agent session the key
+
+The key is passphrase-locked and an agent must never see the passphrase. In the Claude Code desktop app the session can open a Terminal tab with `ssh-add --apple-use-keychain /Users/chappie/.ssh/hetzner_ai` typed in; the owner types the passphrase in that tab. The key then sits in the Mac's SSH agent and Keychain and every session on the Mac can use it. `ssh-add -l` showing no identities, or `Permission denied (publickey)` from a host that accepts the key, means it is not loaded.
+
 ### Key-only SSH and fail2ban (owner decision 2026-10-30)
 
 Both hosts (the AI host above and the Paperclip host `2.29.113.132`) accept only the recorded client key above for `root`. Password and keyboard-interactive login are off, `MaxAuthTries` is 3 and `LoginGraceTime` 30 s: [config/sshd-narimato-hardening.conf](../config/sshd-narimato-hardening.conf), installed as `/etc/ssh/sshd_config.d/10-narimato-hardening.conf` (sshd reads the drop-in directory first and the first value wins). fail2ban runs on both with an `sshd` jail in aggressive mode: five failures in ten minutes ban the address for an hour, and the two hosts never ban each other ([config/fail2ban-narimato.local](../config/fail2ban-narimato.local) as `/etc/fail2ban/jail.d/narimato.local`). The operator's current address is also added to `ignoreip` on the hosts only, so a mistake cannot lock the operator out; the file in Git does not carry it.
