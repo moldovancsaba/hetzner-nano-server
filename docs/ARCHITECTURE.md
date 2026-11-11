@@ -181,7 +181,7 @@ Request bodies, prompts, images and outputs are never written to disk. See [DATA
 
 ### Deploy and verify
 
-Deploy scripts run on the server, are hash-guarded and mostly single-use; the verify scripts run from the Mac against the public API and send test-purpose requests. `scripts/deploy_dashboard.py` is the one re-runnable deploy. The per-script purposes are in [OPERATIONS.md](OPERATIONS.md); retired or single-use scripts say so in their docstrings. `scripts/deploy_gateway_update.py` is retired: it refuses to run without an explicit flag.
+`scripts/install_inference_host.py` is the re-runnable way to install or update this host from the repository: it plans first, installs only what changed (comment-only edits without a restart), restarts only on request and rolls back an unhealthy restart ([OPERATIONS.md](OPERATIONS.md#install-or-update-the-inference-host-from-the-repository)). The older `deploy_*.py` helpers run on the server, are hash-guarded and single-use; the verify scripts run from the Mac against the public API and send test-purpose requests. `scripts/deploy_dashboard.py` is the re-runnable dashboard deploy. The per-script purposes are in [OPERATIONS.md](OPERATIONS.md); retired or single-use scripts say so in their docstrings. `scripts/deploy_gateway_update.py` is retired: it refuses to run without an explicit flag.
 
 ## Paperclip host
 

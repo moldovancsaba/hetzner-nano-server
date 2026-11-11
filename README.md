@@ -53,7 +53,7 @@ Latest model evaluation: [InternVL full continuation](benchmarks/round6/INTERNVL
 | `research/` | The daily metadata collector for new model candidates, and the dated shortlists |
 | `dashboard/` | The generated public benchmark dashboard (`index.html`, `results.json`) |
 | `config/` | Deployed runtime snapshots: compose file, sanitized Caddyfile, systemd units, ranking sources, the generated model policy and the storage policy |
-| `scripts/` | Health check, benchmark client, deploy and verify scripts, policy generation, dashboard build |
+| `scripts/` | Health check, benchmark client, the re-runnable inference-host installer (`install_inference_host.py`), the Paperclip drift check (`check_paperclip_drift.py`), older single-use deploy and verify scripts, policy generation, dashboard build |
 | `tests/` | Unit tests for the gateway, chat, policy, metrics, discovery and Hungarian route |
 | `benchmarks/` | Round-by-round runners, fixtures, reports and rankings (see [docs/BENCHMARKS.md](docs/BENCHMARKS.md)) |
 | `results/` | Measured results and dated verification snapshots |
@@ -77,6 +77,8 @@ Latest model evaluation: [InternVL full continuation](benchmarks/round6/INTERNVL
 python3 scripts/healthcheck.py --project classscout        # key rejection and authentication (read-only)
 python3 scripts/verify_model_policy.py                      # defaults, discovery and overrides through the public API
 python3 scripts/promote_rankings.py --check                 # generated policy matches the evidence
+python3 scripts/install_inference_host.py                   # inference host against the repository (read-only plan)
+python3 scripts/check_paperclip_drift.py                    # Paperclip host against the repository (read-only)
 python3 -m unittest discover -s tests                       # gateway, chat, policy and metrics unit tests
 cd paperclip/factory && python3 -m unittest discover -p 'test_*.py'   # factory tests
 ```

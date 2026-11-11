@@ -10,6 +10,7 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 
 ### Added
 
+- `scripts/install_inference_host.py`, a re-runnable installer for the inference host: a read-only plan by default, then `--apply` installs changed files atomically with backups and validation, restarts only on `--restart` (the gateway under the maintenance lease), rolls back an unhealthy restart, and records what it installed on the host. It manages the gateway, chat, monitor, cleaner, collector, units, timers, Compose file and Caddyfile, and verifies the Granite tokenizer by hash. Unit tests: `tests/test_install_inference_host.py`.
 - `scripts/check_paperclip_drift.py` compares the Paperclip host with this repository by hash (read-only over SSH, no secret printed) and fails on any difference that `paperclip/drift-baseline.json` does not record. Unit tests: `tests/test_paperclip_drift.py`.
 - Perplexity as the Paperclip fallback search: when Brave's shared allowance is resting, one request an hour (24 a day, 744 a month) serves a task's first query. Off until `perplexity_enabled` is set and `/etc/paperclip-perplexity.env` holds the key. See `paperclip/factory/PERPLEXITY.md`.
 
@@ -19,6 +20,7 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 
 ### Operations
 
+- Inference host brought in line with the repository on 2026-11-11 with the new installer: 9 files that differed only in comments (`gateway/catalog.py`, `long_context.py`, `usage.py`, `moderation/policy.py`, `server.py`, `operations/alerts.py`, `chat/context.py`, `config/compose.yaml`, the Caddyfile) were installed with no restart; before it, 23 of 32 managed files already matched byte for byte, and the second run reported all 32 OK. Backup on the host: `/root/narimato-install-backup-20261111T201448Z`.
 - Paperclip drift review (read-only, nothing deployed): code on the host is older than the repository and holds nothing the repository lacks; the open differences, which side is authoritative and what a release of `worker.py` and `snapshot.sh` would change are in `paperclip/README.md`, "Drift check".
 - Released to the Paperclip host on 2026-11-11 in one idle-stopped window (no running work): `perplexity.py` and `search_workflow.py` installed, `/etc/paperclip-perplexity.env` written (root, mode 600), the unit reads it, `perplexity_enabled` set, factory restarted and checked. The previous files are kept on the host in `/root/perplexity-deploy-backup-20261111`.
 

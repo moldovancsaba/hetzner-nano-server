@@ -97,11 +97,32 @@ Racket Land replaced Padel Africa on 2026-11-05. On 2026-11-06 the worldwide pla
 3. Add `('ALL','en')` to `source_projects.py` if a Racket Land source project is ever planned.
 4. Check the first scheduled `padel` discovery after 09:37 UTC on 2026-11-06 (`search_attempts` status and the places the results come from). No manual paid search was run.
 
+## Install or update the inference host from the repository
+
+`python3 scripts/install_inference_host.py` is the one re-runnable way to bring the inference host (`narimato-chatbot`) in line with this repository. It replaces the single-use `scripts/deploy_*.py` helpers, which stay for history. Load the SSH key as in [ACCESS.md](ACCESS.md) first.
+
+```sh
+python3 scripts/install_inference_host.py                 # read-only plan; exit 1 when anything is pending
+python3 scripts/install_inference_host.py --apply         # install changed files, no restart
+python3 scripts/install_inference_host.py --apply --restart   # also restart what a real change needs
+```
+
+It manages 32 files: the gateway and moderation helpers and `config/job-routes.json` and `model-policy.json` in `/opt/narimato-gateway`, Pandora in `/opt/narimato-chat`, the monitor, `storage/cleaner.py` and `research/collect.py` with their JSON, the model-storage policy and Compose file in `/opt/narimato-ai`, the five service units and two timers in `/etc/systemd/system`, and the Caddyfile (from `config/Caddyfile.example`). It also checks the Granite tokenizer against its pinned SHA-256 (and downloads it only when absent) and that the four `/etc/narimato-*.env` credential files exist; it never creates or prints a credential.
+
+- **Plan.** Each file is `OK`, `UPDATE` (the repository is newer), `MISSING`, or `BLOCKED`. A file is blocked when the host copy was edited by hand since the script last installed it, or, on the first run, when it differs by more than comments; review the host copy, then use `--force`.
+- **Apply.** Every changed file is staged next to its target, validated (Python compiles, JSON parses, `caddy validate`), copied to `/root/narimato-install-backup-<time>/` and replaced atomically with the old owner and mode. If any step fails the set is undone. The record of what was installed is `/var/lib/narimato-install/manifest.json`.
+- **Restarts.** A file that differs only in comments (checked with a syntax-tree comparison, equal JSON, or equal text without comments) is installed with no restart. A change to code, a unit or `job-routes.json` names the service to restart and waits for `--restart`. The gateway is restarted only while it holds the maintenance lease (no active job, empty queue); a restart that fails the health check is rolled back from the backup. Compose changes are installed but never applied: read the diff, then run `docker compose up -d` by hand, because it reloads the model. A Caddyfile change that is more than comments needs `--restart` for the reload.
+- **Health after apply.** Gateway, chat and monitor active, both timers active, the gateway and the public `/v1` answering 401 without a key, and Ollama answering 200.
+
+First run, 2026-11-11: 23 files already matched; 9 differed only in comments (`gateway/catalog.py`, `long_context.py`, `usage.py`, `moderation/policy.py`, `server.py`, `operations/alerts.py`, `chat/context.py`, `config/compose.yaml`, `config/Caddyfile.example`) and were installed with no restart. The second run reported all 32 files OK. The Paperclip host has its own check, [../paperclip/README.md](../paperclip/README.md#drift-check-host-against-repository).
+
+Left on the host on purpose and not managed: the retired moderation service and its directory, the older copies of `chat/` and `moderation/` inside `/opt/narimato-gateway`, `server.next.py` and `job-routes.next.json` from the 2026-10-27 deployments, the `*-stage` and `*-update` directories, and `/opt/narimato-ai/benchmark*`. Nothing reads them; clean them up only deliberately.
+
 ## Known limitations
 
 Behaviour of the current code, scripts and configuration that is recorded here and not changed. The review's remaining open decisions are listed in the [gap analysis](GAP-ANALYSIS-2026-10-30.md#defects-found-while-checking); the Paperclip-host ones are in [../paperclip/README.md](../paperclip/README.md#known-limitations).
 
-- **Deploy helpers are single use, and nothing installs several units.** `scripts/deploy_gateway_update.py` is retired and refuses to run without an explicit flag. The other `deploy_*.py` helpers check the hash or baseline of the live source from when they were written (line 9 of each of `scripts/deploy_context_update.py`, `scripts/deploy_chatbot_context.py` and `scripts/deploy_observability.py`) and cannot be re-run unchanged. No tracked script installs `storage/cleaner.py`, `research/collect.py`, `operations/*` or their units and timers.
+- **The old deploy helpers are single use.** `scripts/deploy_gateway_update.py` is retired and refuses to run without an explicit flag; `scripts/deploy_context_update.py`, `scripts/deploy_chatbot_context.py` and `scripts/deploy_observability.py` check the hash of the live source from when they were written (line 9 of each) and cannot be re-run unchanged. Use [the install script](#install-or-update-the-inference-host-from-the-repository), which installs the cleaner, the collector, the monitor, the units and the timers too. `scripts/deploy_dashboard.py` stays the way to publish the benchmark dashboard.
 - **A long conversation can be refused before trimming.** Caddy limits `/chat` bodies to 128KB (`config/Caddyfile.example`) and the chat server applies the same limit. The page allows 30 earlier messages of up to 24,000 characters each, so a very long conversation can be refused with a 413 before the server's token-budget trimming runs.
 
 
