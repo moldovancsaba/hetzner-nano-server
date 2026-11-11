@@ -24,6 +24,10 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 - Paperclip drift review (read-only, nothing deployed): code on the host is older than the repository and holds nothing the repository lacks; the open differences, which side is authoritative and what a release of `worker.py` and `snapshot.sh` would change are in `paperclip/README.md`, "Drift check".
 - Released to the Paperclip host on 2026-11-11 in one idle-stopped window (no running work): `perplexity.py` and `search_workflow.py` installed, `/etc/paperclip-perplexity.env` written (root, mode 600), the unit reads it, `perplexity_enabled` set, factory restarted and checked. The previous files are kept on the host in `/root/perplexity-deploy-backup-20261111`.
 
+### Documentation
+
+- BACKLOG.md brought up to date (OP-06 and OP-07 delivered; OP-08 to OP-13 added: the pending Paperclip release, queue priority for visitor calls, the shared Management token, the `bridge.py` location, leftover host files, and the JEV header rotation). `docs/HISTORY.md` records the 2026-11-11 review of both hosts. Hungarian rows are untouched.
+
 ## 2026-11-08
 
 ### Added
