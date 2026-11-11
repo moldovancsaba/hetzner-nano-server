@@ -12,6 +12,10 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 
 - Perplexity as the Paperclip fallback search: when Brave's shared allowance is resting, one request an hour (24 a day, 744 a month) serves a task's first query. Off until `perplexity_enabled` is set and `/etc/paperclip-perplexity.env` holds the key. See `paperclip/factory/PERPLEXITY.md`.
 
+### Operations
+
+- Released to the Paperclip host on 2026-11-11 in one idle-stopped window (no running work): `perplexity.py` and `search_workflow.py` installed, `/etc/paperclip-perplexity.env` written (root, mode 600), the unit reads it, `perplexity_enabled` set, factory restarted and checked. The previous files are kept on the host in `/root/perplexity-deploy-backup-20261111`.
+
 ## 2026-11-06
 
 Racket Land (https://racket.land) replaced Padel Africa on 2026-11-05: every racket sport, the whole world, territory `unrestricted`. **The runtime changes below were released to the Paperclip host on 2026-11-06 (09:34-09:37 UTC, verified); the delivery code of 2026-11-01 to 11-05, which had existed only as uncommitted changes, was committed in the merge of the same day and now equals the host, except `worker.py`, `workflows_setup.py` and `provision.py`, which are ahead of it.**
