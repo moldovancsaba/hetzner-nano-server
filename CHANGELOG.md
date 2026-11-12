@@ -19,6 +19,7 @@ Sections used: **Added** (new capability), **Changed** (behaviour, policy or def
 ### Operations
 
 - Released the repository's `worker.py` and `snapshot.sh` to the Paperclip host with the owner's approval (factory idle, backups kept, journal clean); the drift check reports 91 SAME, 9 KNOWN, 0 DRIFT.
+- The management and Sportolok engines now call the core queue (`AI_BACKEND=chatbot_api`, one key each, kept in git-ignored env files); the Mac daemons were restarted and real extraction jobs completed through the gateway. The owner accepted the lower model quality for now.
 - Installed the tenant change on the inference host with a gateway restart under the maintenance lease; both new tenants authenticated and completed a test chat. Planned work for this repository now lives only on its project board (issues 7 to 13).
 
 ## 2026-11-11
