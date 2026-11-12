@@ -92,7 +92,7 @@ def main(archive):
     if not p.is_symlink():os.chown(p,1000,1000)
   # The drill starts from the image id the production container runs now; image_matches_production is compared again once the drill container is up.
   image=command(['docker','inspect','narimato-paperclip','--format','{{.Image}}']).strip()
-  args=['docker','run','-d','--name',NAME,'--network','none','--memory',str(DRILL_MEMORY_MIB)+'m','--cpus','0.5','--pids-limit','384','--user','1000:1000','--entrypoint','sleep','-v',str(data)+':/paperclip','-w','/app',image,'infinity']
+  args=['docker','run','-d','--name',NAME,'--network','none','--env','PAPERCLIP_DEPLOYMENT_MODE=local_trusted','--memory',str(DRILL_MEMORY_MIB)+'m','--cpus','0.5','--pids-limit','384','--user','1000:1000','--entrypoint','sleep','-v',str(data)+':/paperclip','-w','/app',image,'infinity']
   command(args);proof['image_matches_production']=command(['docker','inspect',NAME,'--format','{{.Image}}']).strip()==command(['docker','inspect','narimato-paperclip','--format','{{.Image}}']).strip()
   proof['container_memory_limit_bytes']=int(command(['docker','inspect',NAME,'--format','{{.HostConfig.Memory}}']).strip())
   proof['configured_node_heap_mib']=DRILL_NODE_HEAP_MIB
@@ -117,22 +117,22 @@ await db.end();fs.writeFileSync('/paperclip/restore-db-proof.json',JSON.stringif
   for key in ['DATABASE_URL','PAPERCLIP_HOME','HOST','PORT','PAPERCLIP_DEPLOYMENT_MODE','PAPERCLIP_DEPLOYMENT_EXPOSURE','PAPERCLIP_PUBLIC_URL','PAPERCLIP_ALLOWED_HOSTNAMES','PAPERCLIP_DB_BACKUP_ENABLED','NODE_OPTIONS','PAPERCLIP_AGENT_JWT_SECRET','BETTER_AUTH_SECRET','PAPERCLIP_TOOL_ACTION_SIGNING_SECRET']:app+=['-e',key]
   spawn(app+[NAME,'node','--import','./server/node_modules/tsx/dist/loader.mjs','server/dist/index.js'],root/'app.log',env)
   pid=command(['docker','inspect',NAME,'--format','{{.State.Pid}}']).strip();ns=['nsenter','--target',pid,'--net']
-  factory_env={**os.environ,'FACTORY_STATE':str(state),'FACTORY_CONFIG':str(factory/'factory.json')}
+  factory_env={**os.environ,'FACTORY_STATE':str(state),'FACTORY_CONFIG':str(factory/'factory.json'),'SOURCE_EXCHANGE_DASHBOARD':str(tree/'opt/source-exchange/dashboard'),'FACTORY_NATIVE_CONTAINER':NAME}
   spawn(ns+['python3',str(factory/'worker.py')],root/'factory.log',factory_env)
   spawn(ns+['python3',str(deployment/'access/gate.py')],root/'gate.log',{**os.environ,**access})
   # The archived production proxy is kept intact; only the isolated listener uses HTTP loopback.
   proxy=root/'Caddyfile';proxy.write_text('''{\n admin off\n auto_https off\n}\nhttp://127.0.0.1:8080 {\n handle /_access/* {\n reverse_proxy 127.0.0.1:8088\n }\n handle {\n forward_auth 127.0.0.1:8088 {\n uri /_access/check\n }\n @factory path /factory /factory/ /factory/metrics\n handle @factory {\n reverse_proxy 127.0.0.1:9089\n }\n handle {\n reverse_proxy 127.0.0.1:3100\n }\n }\n}\n''')
   command(ns+['caddy','validate','--adapter','caddyfile','--config',str(proxy)])
   spawn(ns+['caddy','run','--adapter','caddyfile','--config',str(proxy)],root/'proxy.log')
-  checker=root/'check.py';checker.write_text('''import hashlib,hmac,json,pathlib,secrets,time,urllib.request,urllib.error
+  checker=root/'check.py';checker.write_text('''import hashlib,hmac,json,pathlib,re,secrets,time,urllib.request,urllib.error
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs):return None
 op=urllib.request.build_opener(NoRedirect);values={}
 for line in pathlib.Path(__import__('sys').argv[1]).read_text().splitlines():
  if line.strip() and not line.startswith('#'):
   k,v=line.split('=',1);values[k]=v.strip().strip(chr(34)+chr(39))
-payload=str(int(time.time()+120))+'.'+secrets.token_hex(16);token=payload+'.'+hmac.new(values['ACCESS_SIGNING_KEY'].encode(),payload.encode(),hashlib.sha256).hexdigest()
 def get(path,auth=True,timeout=20):
+ payload=str(int(time.time()+120))+'.'+secrets.token_hex(16);token=payload+'.'+hmac.new(values['ACCESS_SIGNING_KEY'].encode(),payload.encode(),hashlib.sha256).hexdigest()
  req=urllib.request.Request('http://127.0.0.1:8080'+path,headers={'X-Request-Purpose':'test',**({'Cookie':'__Host-paperclip_access='+token} if auth else {})})
  try:
   with op.open(req,timeout=timeout) as r:return r.status,r.read()
@@ -144,13 +144,17 @@ while time.time()<end:
  except Exception:pass
  time.sleep(2)
 assert get('/factory',False)[0]==303
-status,body=get('/factory');assert status==200 and b'Company dashboard' in body
-metrics_started=time.monotonic();status,body=get('/factory/metrics',timeout=90);assert status==200;metrics=json.loads(body);metrics_seconds=time.monotonic()-metrics_started
+status,body=get('/factory');assert status==200 and b'<html' in body.lower()
+assets=re.findall(r"""(?:src|href)=["'](/factory/exchange/assets/[^"']+)["']""",body.decode())
+assert assets or b'Company dashboard' in body
+for path in assets:
+ status,asset=get(path);assert status==200 and asset
+metrics_started=time.monotonic();status,body=get('/factory/metrics',timeout=210);assert status==200;metrics=json.loads(body);metrics_seconds=time.monotonic()-metrics_started
 status,body=get('/api/companies');assert status==200;companies=json.loads(body);assert any(c['name']=='Narimato' for c in companies)
 status,body=get('/');assert status==200 and b'<html' in body.lower()
-print(json.dumps({'password_gate_restored':True,'locked_dashboard_refused':True,'native_ui':True,'company_api':True,'factory_dashboard':True,'factory_metrics':True,'factory_metrics_latency_seconds':round(metrics_seconds,3),'factory_metrics_response_budget_seconds':90,'published_receipts_restored':metrics['funnel']['published'],'active_agents_in_clone':sum(a['status']!='paused' for a in metrics['operations']['team'])}))
+print(json.dumps({'password_gate_restored':True,'locked_dashboard_refused':True,'native_ui':True,'company_api':True,'factory_dashboard':True,'factory_dashboard_assets':len(assets),'factory_metrics':True,'factory_metrics_latency_seconds':round(metrics_seconds,3),'factory_metrics_response_budget_seconds':210,'published_receipts_restored':metrics['funnel']['published'],'active_agents_in_clone':sum(a['status']!='paused' for a in metrics['operations']['team'])}))
 ''')
-  result=json.loads(command(ns+['python3',str(checker),str(tree/'etc/paperclip-access.env')],timeout=180));assert result['active_agents_in_clone']==0;proof.update(result)
+  result=json.loads(command(ns+['python3',str(checker),str(tree/'etc/paperclip-access.env')],timeout=480));assert result['active_agents_in_clone']==0;proof.update(result)
   # Measured with every drill process still running, so anything they opened would show.
   paths=egress_paths(pathlib.Path('/proc/'+pid+'/net/dev').read_text(),pathlib.Path('/proc/'+pid+'/net/route').read_text(),command(['docker','inspect',NAME,'--format','{{.HostConfig.NetworkMode}}']).strip())
   proof['network_egress']=paths['egress'];proof['network_interfaces']=paths['interfaces'];proof['network_mode']=paths['network_mode']

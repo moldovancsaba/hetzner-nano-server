@@ -1,0 +1,16 @@
+[Unit]
+Description=Private native company reporting socket
+After=narimato-factory.service
+
+[Socket]
+ListenStream=/run/narimato-reporting/read.sock
+DirectoryMode=0755
+SocketUser=root
+SocketGroup=narimato-reporting
+SocketMode=0660
+Accept=yes
+MaxConnections=2
+RemoveOnStop=yes
+
+[Install]
+WantedBy=multi-user.target

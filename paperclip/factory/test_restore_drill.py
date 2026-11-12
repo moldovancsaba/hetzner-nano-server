@@ -1,6 +1,6 @@
 """Tests for restore-drill.py: the report's network, production-file and image statements come from measurements. The helpers
 that turn /proc network tables and file contents into those statements are checked here; the drill itself needs Docker."""
-import importlib.util,pathlib,tempfile,unittest
+import ast,importlib.util,pathlib,tempfile,unittest
 HERE=pathlib.Path(__file__).resolve().parent
 module_path=HERE.parent/'restore-drill.py'
 if not module_path.exists():module_path=pathlib.Path('/opt/narimato-paperclip/restore-drill.py')
@@ -35,6 +35,11 @@ class ProductionFileTests(unittest.TestCase):
  def test_watched_files_are_the_production_configuration(self):
   self.assertIn('/etc/paperclip-access.env',drill.WATCHED);self.assertNotIn('/var/lib/narimato-factory/factory.sqlite3',drill.WATCHED)
 class ReportTests(unittest.TestCase):
+ def test_embedded_http_verifier_is_valid_python(self):
+  scripts=[node.args[0].value for node in ast.walk(ast.parse(module_path.read_text())) if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and isinstance(node.func.value,ast.Name) and node.func.value.id=='checker' and node.func.attr=='write_text']
+  self.assertEqual(len(scripts),1)
+  compile(scripts[0],'isolated-http-verifier','exec')
+
  def test_isolated_memory_budget_leaves_room_for_database_and_has_host_admission(self):
   self.assertGreaterEqual(drill.DRILL_MEMORY_MIB-drill.DRILL_NODE_HEAP_MIB,384)
   self.assertLessEqual(drill.DRILL_MEMORY_MIB,1800)

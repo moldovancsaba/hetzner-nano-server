@@ -43,6 +43,7 @@ def initialize():
  with database() as db:
   db.executescript('''PRAGMA journal_mode=WAL;
   CREATE TABLE IF NOT EXISTS runs(id TEXT PRIMARY KEY,issue_id TEXT,agent_id TEXT,role TEXT,status TEXT,result TEXT,error TEXT,started_at TEXT,finished_at TEXT);
+  CREATE INDEX IF NOT EXISTS runs_issue_started_idx ON runs(issue_id,started_at DESC);
   CREATE TABLE IF NOT EXISTS sources(id TEXT PRIMARY KEY,url TEXT,title TEXT,sha256 TEXT,fetched_at TEXT);
   CREATE TABLE IF NOT EXISTS entities(id TEXT PRIMARY KEY,brand TEXT,source_url TEXT,name TEXT,status TEXT,issue_id TEXT,updated_at TEXT,UNIQUE(brand,source_url));
   CREATE TABLE IF NOT EXISTS facts(entity_id TEXT,field TEXT,value TEXT,quote TEXT,source_id TEXT,PRIMARY KEY(entity_id,field,source_id),FOREIGN KEY(entity_id) REFERENCES entities(id),FOREIGN KEY(source_id) REFERENCES sources(id));

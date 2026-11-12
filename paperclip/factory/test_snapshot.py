@@ -13,6 +13,9 @@ class SnapshotTests(unittest.TestCase):
  def test_optional_environment_files_are_added_only_when_present(self):
   text=script.read_text()
   for name in ['classscout','brave','segmind','racket','slg']:self.assertRegex(text,r'if \[ -f /etc/paperclip-'+name+r'\.env \]; then\n  set -- "\$@" etc/paperclip-'+name+r'\.env\nfi')
+ def test_dashboard_and_proxy_dependencies_are_preserved(self):
+  text=script.read_text()
+  for path in ['opt/source-exchange/dashboard','etc/caddy/source-exchange-dashboard.caddy','etc/systemd/system/narimato-factory.service.d']:self.assertIn(path,text)
  def test_bundle_is_written_after_the_factory_snapshot(self):
   text=script.read_text();self.assertLess(text.index('worker.py backup'),text.index('archive_snapshot.py --output'))
 if __name__=='__main__':unittest.main()

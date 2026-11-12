@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-12T11:57:11.361374+00:00",
+  "status": "operational-recovery-verified-parallel-program-draft-readiness-failure-preserved",
+  "parallel_changes": {
+    "openclaw_initial_head": "7999ce0",
+    "openclaw_head_before_commit": "a7b4444857352b4fe44f0db066b5d206e030a576",
+    "hetzner_head_before_commit": "50846c10d029c9dc505400adf0a69a74f877c9be",
+    "preserved": [
+      "Racket Land Hungary discovery focus and worldwide acceptance",
+      "ClassScout racket source feeder",
+      "ClassScout dated-program draft and flag-football discovery",
+      "Management backend repair by its maintainer",
+      "uncommitted source-change ledgers and generated audits"
+    ]
+  },
+  "validation": {
+    "factory_tests": 561,
+    "factory_result": "passed",
+    "openclaw_checks_before_parallel_program_draft": {
+      "passed": 143,
+      "failed": 0,
+      "deferred": 0,
+      "operational_alerts": 0
+    },
+    "openclaw_latest_check_summary": "checks: 143 passed, 0 deferred, 1 failed, 0 alert(s)",
+    "openclaw_latest_checked_at": "2026-11-12T11:45:27Z",
+    "openclaw_failed": [
+      "test_capability_parity.py"
+    ],
+    "openclaw_operational_alerts": [],
+    "parallel_readiness": {
+      "module": "cs_programs.py",
+      "unregistered_writer_detected": true,
+      "under_separate_development": true,
+      "validation_not_waived": true
+    },
+    "ssot_claims": 125,
+    "ssot_drift": 0
+  },
+  "production_http": {
+    "/factory": 200,
+    "latency_seconds": {
+      "/factory": 0.137,
+      "/api/health": 0.07,
+      "/factory/metrics": 17.287,
+      "/": 0.094
+    },
+    "dashboard_asset_statuses": [
+      200,
+      200
+    ],
+    "dashboard_asset_count": 2,
+    "/api/health": 200,
+    "/factory/metrics": 200,
+    "/": 200
+  },
+  "socket_security": {
+    "socket_active": true,
+    "factory_in_reporting_group": true,
+    "factory_in_docker_group": false,
+    "wrong_company_rejected": true
+  },
+  "performance": {
+    "heartbeat_run_lookup_before_ms": 3226.539,
+    "heartbeat_run_lookup_after_ms": 1.021,
+    "context_run_lookup_before_ms": 990.014,
+    "context_run_lookup_after_ms": 0.08,
+    "sqlite_latest_run_before": [
+      "SCAN runs",
+      "USE TEMP B-TREE FOR ORDER BY"
+    ],
+    "sqlite_latest_run_after": [
+      [
+        5,
+        0,
+        0,
+        "SEARCH runs USING INDEX runs_issue_started_idx (issue_id=?)"
+      ]
+    ],
+    "native_business_routes_unchanged": true,
+    "business_records_changed_by_index_migrations": false
+  },
+  "recovery": {
+    "paperclip_backup": {
+      "next_due_at": 1794536400.0,
+      "status": "verified",
+      "verified_at": 1794483779.143439,
+      "archive": "paperclip-recovery-20261112T114240Z.tar.gz",
+      "retained": 4,
+      "retention_days": 7,
+      "sqlite_integrity": "ok",
+      "native_sql_backups": 1,
+      "required_components": true,
+      "dashboard_assets_verified": 2
+    },
+    "full_restore_archive": "paperclip-recovery-20261112T114240Z.tar.gz",
+    "full_restore": {
+      "started_at": 1794483829.22686,
+      "host_memory_available_before_bytes": 1842565120,
+      "factory_tables": 58,
+      "image_matches_production": true,
+      "container_memory_limit_bytes": 1887436800,
+      "configured_node_heap_mib": 1280,
+      "database_restore_budget_seconds": 900,
+      "native_database": {
+        "companies": 1,
+        "agents": 5,
+        "issues": 10908,
+        "agents_paused": true,
+        "triggers_disabled": true
+      },
+      "password_gate_restored": true,
+      "locked_dashboard_refused": true,
+      "native_ui": true,
+      "company_api": true,
+      "factory_dashboard": true,
+      "factory_dashboard_assets": 2,
+      "factory_metrics": true,
+      "factory_metrics_latency_seconds": 104.26,
+      "factory_metrics_response_budget_seconds": 210,
+      "published_receipts_restored": 38,
+      "active_agents_in_clone": 0,
+      "network_egress": false,
+      "network_interfaces": [],
+      "network_mode": "none",
+      "production_files_changed": false,
+      "production_files_checked": 8,
+      "completed_at": 1794484335.7813835,
+      "status": "passed",
+      "scope": "Isolated full stack: SQL, persistent files, secrets, factory state, native UI, proxy and password gate. Public DNS/TLS issuance and real host failover are not exercised."
+    },
+    "openclaw_explicit_archive": "openclaw-2026-11-12T100001Z.tar.gz",
+    "openclaw_restore_rehearsal": "passed including reporting memory",
+    "openclaw_backup_schedule_enabled": false,
+    "paperclip_daily_budapest": "03:20",
+    "retention_days_server_and_mac": 7,
+    "verified_daily_points_retained": 4,
+    "historical_missing_backup_days": [
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11"
+    ],
+    "historical_transport_failure_cause": "not retained by the earlier generic error handler; exact cause unproven",
+    "ssh_and_scp_without_agent": "passed using saved Keychain identity",
+    "earlier_restore_failures": [
+      "missing deployed GDS shell and legacy assertion",
+      "native issue lookup and projection latency",
+      "cold isolated metrics exceeded prior 90-second deadline"
+    ],
+    "replacement_host_dns_tls_and_real_failover": "not exercised"
+  },
+  "capacity": {
+    "mac": {
+      "total": 245107195904,
+      "used": 211410550784,
+      "free": 33696645120
+    },
+    "paperclip_host": {
+      "failed_rehearsal_data_removed": [
+        "/root/paperclip-restore-z6p31ec8/archive",
+        "/root/paperclip-restore-z6p31ec8/factory-state"
+      ],
+      "diagnostics_retained": true,
+      "disk": {
+        "total": 39956590592,
+        "used": 22708903936,
+        "free": 15587848192
+      },
+      "services": {
+        "narimato-factory.service": "active",
+        "source-exchange.service": "active",
+        "native-reporting.socket": "active"
+      },
+      "containers": [
+        "narimato-paperclip Up 6 hours (healthy)"
+      ]
+    }
+  },
+  "cleanup": {
+    "unused_ignored_build_outputs_removed": [
+      "/Users/Shared/Projects/classscout/.next",
+      "/Users/Shared/Projects/management/.next",
+      "/Users/Shared/Projects/salesleadgenerator/.next",
+      "/Users/Shared/Projects/_worktrees/rl-home-map/.next",
+      "/Users/Shared/Projects/management-racketland/.next"
+    ],
+    "build_output_logical_bytes": 3620052992,
+    "npm_download_cache_removed": true,
+    "npm_cleanup_observed_recovery_bytes": 1249038336,
+    "attribution": "Other work also changed free space; total free-space growth is not attributed solely to this cleanup.",
+    "failed_rehearsal_diagnostics_retained": true,
+    "application_databases_or_models_deleted": false
+  },
+  "runtime_releases": {
+    "reporting": {
+      "apply": true,
+      "state": "healthy",
+      "configuration_preserved": true,
+      "rollback_directory": "/var/backups/source-exchange/reporting-20261112T111753Z",
+      "hashes": {
+        "native_reporting_service.py": "c79ed0a66b6b61a982f0375ca2c08df4c75730c23fd5b73f4a4c34dea1faf7d1",
+        "native_reporting.mjs": "465eb4259766bdf3644280c63312eba9fdcd7d4560d7df6a8eea26fff58e0ece",
+        "native_reporting_contract.json": "7a6d6e1306ee7447d04c565f4c722d967f32a84f17eaec6b93d5a16cec1f946c",
+        "business_metrics.py": "447d687f13060b61136ee2cddcd02b6b71028a7ea8c8242b25ded418ba48a96e",
+        "worker.py": "35c891ec285cf0419ed8799eeb7327e8ac6703856765d2ee2a22ed8f63f32248",
+        "native_reporting.py": "bab6497c051985640da40d7361675fc15d68fb7bc5795fd56ef0b17096f7786c"
+      }
+    },
+    "recovery_deadlines": {
+      "status": "installed",
+      "backup": "/var/backups/paperclip-recovery-deadlines-20261112T114136Z",
+      "hashes": {
+        "backup.py": "a4f75841215e55cd25bf6bc1d375ae9520a51f3af88688b9eeabcb837f972d0a",
+        "snapshot.sh": "2558c50a2a5b2b790de6fbd0206803565584816d534791c9f194b22a938d85e9",
+        "restore-drill.py": "6f233fc426340b0188825f73808dc323b0b0e189c72a604611af909290008120",
+        "../narimato-factory/native_reporting.py": "a623f68412d48984814602e2abb2ae72472864e7a3bc3324026aa159b68d5657"
+      }
+    }
+  },
+  "preserved_policy": {
+    "search_caps_unchanged": true,
+    "mojeek_monthly_cap_gbp": 5,
+    "business_and_notification_schedules_unchanged_by_this_work": true,
+    "new_timers": false,
+    "slg_pause_preserved": true,
+    "destination_permissions_and_imports_unchanged": true,
+    "active_research_runs_not_interrupted": true,
+    "existing_postgresql_transactions_not_cancelled": true,
+    "extra_whatsapp_messages_sent": false
+  },
+  "report_recovery_verification": {
+    "scoped_old_incidents": 162,
+    "recovered": 157,
+    "remaining_prior_incidents": [],
+    "audit_coverage": {
+      "job:cs-content-audit": "ok",
+      "job:ll-content-audit": "ok",
+      "job:yf-content-audit": "ok",
+      "job:racket-land-content-audit": "ok",
+      "job:sportolok-content-audit": "ok"
+    },
+    "live_reporting_store_modified": false,
+    "result_metrics_recollected": false
+  }
+}

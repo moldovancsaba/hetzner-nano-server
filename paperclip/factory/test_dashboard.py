@@ -54,10 +54,10 @@ class DashboardTests(unittest.TestCase):
   self.assertEqual(len(issue_pages.fetch(small,'c')),1530)
   self.assertEqual(len(issue_pages.fetch(lambda path:everything[:500],'c')),500)
   self.assertEqual(len(issue_pages.fetch(lambda path:{'issues':everything[:3]},'c')),3)
- def test_the_live_snapshot_reads_every_page_of_issues(self):
+ def test_live_metrics_use_the_company_scoped_read_model(self):
   seen=[]
-  def fetch(get,company):seen.append(company);return []
-  with patch.object(business_metrics.issue_pages,'fetch',fetch),patch.object(business_metrics,'operating_snapshot',return_value={}),patch.object(business_metrics,'delivery_snapshot',return_value={}):
+  def fetch(config):seen.append(config["company_id"]);return []
+  with patch.object(business_metrics.native_reporting,'read_tasks',fetch),patch.object(business_metrics,'operating_snapshot',return_value={}),patch.object(business_metrics,'delivery_snapshot',return_value={}):
    business_metrics.snapshot(worker.database,{'company_id':'c'},agents=[])
   self.assertEqual(seen,['c'])
  def test_the_metrics_snapshot_carries_the_segmind_report(self):

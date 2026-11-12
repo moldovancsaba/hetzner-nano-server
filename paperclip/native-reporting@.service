@@ -1,0 +1,23 @@
+[Unit]
+Description=Authenticated native company reporting request
+After=docker.service
+
+[Service]
+Type=exec
+User=root
+WorkingDirectory=/opt/narimato-factory
+ExecStart=/usr/bin/python3 /opt/narimato-factory/native_reporting_service.py
+StandardInput=socket
+StandardOutput=socket
+StandardError=journal
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=256M
+CPUQuota=50%
+TasksMax=32
+TimeoutStartSec=35
+RuntimeMaxSec=35
+Environment=DOCKER_CONFIG=/run/narimato-reporting
+Environment=DOCKER_HOST=unix:///run/docker.sock

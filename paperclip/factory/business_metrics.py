@@ -2,16 +2,14 @@
 import collections,datetime,json,time,urllib.request,statistics
 from pathlib import Path
 from zoneinfo import ZoneInfo
-import publishing,catalog,issue_pages,racket_land
+import publishing,catalog,racket_land,native_reporting
 from search_budget import Budget
 
 def snapshot(database,config,tasks=None,agents=None):
  live=tasks is None
  catalog.initialize(database)
  if tasks is None:
-  def get(path):
-   with urllib.request.urlopen('http://127.0.0.1:3100/api'+path,timeout=30) as r:return json.load(r)
-  tasks=issue_pages.fetch(get,config['company_id'])
+  tasks=native_reporting.read_tasks(config)
  tasks={r['id']:r for r in tasks if r.get('companyId')==config['company_id'] and '[Factory test]' not in r.get('title','')}
  def count(db,table,column='status'):
   if not db.execute('SELECT 1 FROM sqlite_master WHERE name=?',(table,)).fetchone():return {}

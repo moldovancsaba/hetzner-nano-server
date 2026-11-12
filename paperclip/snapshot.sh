@@ -33,6 +33,20 @@ fi
 if [ -f /etc/paperclip-slg.env ]; then
   set -- "$@" etc/paperclip-slg.env
 fi
+if [ -d /opt/source-exchange/dashboard ]; then
+  set -- "$@" opt/source-exchange/dashboard
+fi
+if [ -f /etc/caddy/source-exchange-dashboard.caddy ]; then
+  set -- "$@" etc/caddy/source-exchange-dashboard.caddy
+fi
+if [ -d /etc/systemd/system/narimato-factory.service.d ]; then
+  set -- "$@" etc/systemd/system/narimato-factory.service.d
+fi
+for unit in native-reporting.socket native-reporting@.service; do
+  if [ -f "/etc/systemd/system/$unit" ]; then
+    set -- "$@" "etc/systemd/system/$unit"
+  fi
+done
 for helper in snapshot.sh archive_snapshot.py backup_retention.py backup.py scheduled-backup.py restore-drill.py configure-slg.py; do
   if [ -f "/opt/narimato-paperclip/$helper" ]; then
     set -- "$@" "opt/narimato-paperclip/$helper"

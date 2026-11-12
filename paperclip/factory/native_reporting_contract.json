@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "files": {
+    "/app/server/src/services/issues.ts": "b5b3066bd585870c219e50f8fd760a16486fa06c246a4605fcbb9b9185553afe",
+    "/app/server/src/services/issue-visibility.ts": "c5d7261dc111cdafc19eb0f47d6478d393bbdd98c98599dbbcba79b4d8f482d5",
+    "/app/server/src/services/slack-conversation-state.ts": "c75186fbe6bf2300e268d40f6bef6db5664b01d28dbe1b928e1d45c45dfc4cdf",
+    "/app/packages/db/src/schema/issues.ts": "3742670c09bb202d3c691f7f15800ed31a36c48747bdaac54d6961cd7bd83ec7",
+    "/app/server/src/index.ts": "b2f3b57eb0b97fd098425d560f593ccb1898aa408b6e541f2f3aed2ee7e52d33"
+  },
+  "image": "sha256:40f46940c4612ead131aebe6079cd4651f8cd1434af49f7c621887f4a452a62e"
+}

@@ -11,7 +11,7 @@ class BackupTests(unittest.TestCase):
   with sqlite3.connect(db) as c:c.execute('CREATE TABLE proof(id TEXT)')
   path=pathlib.Path(root)/'backup.tar.gz'
   with tarfile.open(path,'w:gz') as t:
-   names=['opt/narimato-factory/factory.json','opt/narimato-factory/workflows.json','opt/narimato-paperclip/.env','etc/paperclip-access.env','etc/caddy/Caddyfile','opt/narimato-paperclip/data/backups/native.sql']
+   names=['opt/narimato-factory/worker.py','opt/narimato-factory/factory.json','opt/narimato-factory/workflows.json','opt/narimato-paperclip/.env','etc/paperclip-access.env','etc/caddy/Caddyfile','opt/narimato-paperclip/data/backups/native.sql']
    if missing:names.remove('etc/caddy/Caddyfile')
    for name in names:
     data=b'x'*1200 if name.endswith('.sql') else b'{}'
@@ -34,3 +34,42 @@ class BackupTests(unittest.TestCase):
  def test_native_compressed_sql_backup_is_verified(self):
   with tempfile.TemporaryDirectory() as tmp:
    path,h=self.archive(tmp,compressed=True);self.assertEqual(backup.verify(path,h)['native_sql_backups'],1)
+
+ def test_modern_factory_cannot_acknowledge_or_prune_without_complete_dashboard(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   path,h=self.archive(tmp)
+   import io
+   for missing in [True,False]:
+    modern=pathlib.Path(tmp)/('modern-'+str(missing)+'.tar.gz')
+    with tarfile.open(path) as original,tarfile.open(modern,'w:gz') as archive:
+     for member in original.getmembers():
+      if member.name!='opt/narimato-factory/worker.py':archive.addfile(member,original.extractfile(member) if member.isfile() else None)
+     files={'opt/narimato-factory/worker.py':b'SOURCE_EXCHANGE_DASHBOARD',
+            'opt/source-exchange/dashboard/index.html':b'<html><script src="/factory/exchange/assets/main.js"></script><link href="/factory/exchange/assets/main.css"></html>',
+            'opt/source-exchange/dashboard/assets/main.css':b'body{}'}
+     if not missing:files['opt/source-exchange/dashboard/assets/main.js']=b'console.log(1)'
+     for name,data in files.items():
+      info=tarfile.TarInfo(name);info.size=len(data);archive.addfile(info,io.BytesIO(data))
+    digest=hashlib.sha256(modern.read_bytes()).hexdigest()
+    if missing:
+     with self.assertRaisesRegex(ValueError,'Dashboard recovery assets missing'):backup.verify(modern,digest)
+    else:self.assertEqual(backup.verify(modern,digest)['dashboard_assets_verified'],2)
+
+ def test_proxy_import_cannot_be_acknowledged_without_its_private_configuration(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   source,_=self.archive(tmp);target=pathlib.Path(tmp)/'proxy.tar.gz'
+   with tarfile.open(source) as original,tarfile.open(target,'w:gz') as archive:
+    for member in original.getmembers():
+     if member.name=='etc/caddy/Caddyfile':
+      body=b'import /etc/caddy/source-exchange-dashboard.caddy';member.size=len(body);archive.addfile(member,io.BytesIO(body))
+     else:archive.addfile(member,original.extractfile(member) if member.isfile() else None)
+   with self.assertRaisesRegex(ValueError,'proxy recovery configuration missing'):
+    backup.verify(target,hashlib.sha256(target.read_bytes()).hexdigest())
+
+ def test_native_reader_dependencies_must_survive_recovery_capture(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   source,_=self.archive(tmp);target=pathlib.Path(tmp)/'reader.tar.gz'
+   with tarfile.open(source) as original,tarfile.open(target,'w:gz') as archive:
+    for member in original.getmembers():archive.addfile(member,original.extractfile(member) if member.isfile() else None)
+    body=b'native_reporting.read_tasks(config)';member=tarfile.TarInfo('opt/narimato-factory/business_metrics.py');member.size=len(body);archive.addfile(member,io.BytesIO(body))
+   with self.assertRaisesRegex(ValueError,'Native reporting recovery component missing'):backup.verify(target,hashlib.sha256(target.read_bytes()).hexdigest())
