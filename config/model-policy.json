@@ -78,7 +78,7 @@
     },
     {
       "path": "config/runtime-context-profiles.json",
-      "sha256": "7bf84daf42ab369071e5a68faf0d6b5fa22affc2aa8f9618b88d70cdc67134bc"
+      "sha256": "1799165756c3241c5b6855cb6d722500d4a03e6fde63e4262aa4cd8bda65d1ec"
     },
     {
       "path": "benchmarks/paperclip-context/results-8k-bounded-cache.json",
@@ -172,13 +172,33 @@
               "timeout_seconds": 900,
               "prompt_cache_mib": 128,
               "context_checkpoints": 2
+            },
+            "management": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
+            },
+            "sportolok": {
+              "max_image_edge": 640,
+              "num_ctx": 8192,
+              "num_batch": 128,
+              "max_output_tokens": 1024,
+              "timeout_seconds": 900,
+              "prompt_cache_mib": 128,
+              "context_checkpoints": 2
             }
           },
           "tenant_profile_evidence": {
             "paperclip": "config/runtime-context-profiles.json",
             "classscout": "config/runtime-context-profiles.json",
             "habigoal": "config/runtime-context-profiles.json",
-            "pandora": "config/runtime-context-profiles.json"
+            "pandora": "config/runtime-context-profiles.json",
+            "management": "config/runtime-context-profiles.json",
+            "sportolok": "config/runtime-context-profiles.json"
           }
         }
       }
@@ -3139,7 +3159,13 @@
     },
     "pandora": {
       "text_chat": 8192
+    },
+    "management": {
+      "text_chat": 8192
+    },
+    "sportolok": {
+      "text_chat": 8192
     }
   },
-  "policy_id": "24b3b522ce9c3f0e7f137ae31069dc70b360061fd8d7eaf926efc24f40a264c4"
+  "policy_id": "76e6658170c6630b2565bb190ff0d921c10a27d0ba7d505a367c56ba64b3a193"
 }

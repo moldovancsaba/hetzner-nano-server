@@ -6,6 +6,21 @@ Covers history up to `67a9f91`. `python3 scripts/check_changelog.py` lists any l
 
 Sections used: **Added** (new capability), **Changed** (behaviour, policy or defaults), **Fixed** (a defect corrected), **Security**, **Operations** (deployment, hosts, retention), **Documentation**.
 
+## 2026-11-12
+
+### Added
+
+- Gateway tenants `management` and `sportolok` for the Racket Land engines: one key each, text chat only, the verified 8192-token profile (generated into `config/model-policy.json` from `config/runtime-context-profiles.json`). Every product that uses a Chatbot API model now goes through the one core queue. Unit tests: `tests/test_tenant_config.py`.
+
+### Changed
+
+- The gateway starts optional tenants (`paperclip`, `management`, `sportolok`) only when their key is set, so a code release cannot fail on a missing key.
+
+### Operations
+
+- Released the repository's `worker.py` and `snapshot.sh` to the Paperclip host with the owner's approval (factory idle, backups kept, journal clean); the drift check reports 91 SAME, 9 KNOWN, 0 DRIFT.
+- Installed the tenant change on the inference host with a gateway restart under the maintenance lease; both new tenants authenticated and completed a test chat. Planned work for this repository now lives only on its project board (issues 7 to 13).
+
 ## 2026-11-11
 
 ### Added

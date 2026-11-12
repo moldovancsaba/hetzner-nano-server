@@ -79,6 +79,36 @@
       }
     },
     {
+      "tenant": "management",
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "status": "passed",
+      "profile": {
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    },
+    {
+      "tenant": "sportolok",
+      "task": "text_chat",
+      "model": "granite4:1b-h",
+      "digest": "7761ae79cab940d37672a871bf6473282ddd0ebbc3b039227eb8ccd90532699f",
+      "status": "passed",
+      "profile": {
+        "num_ctx": 8192,
+        "num_batch": 128,
+        "max_output_tokens": 1024,
+        "timeout_seconds": 900,
+        "prompt_cache_mib": 128,
+        "context_checkpoints": 2
+      }
+    },
+    {
       "model": "qwen3.5:0.8b",
       "task": "image_recognition",
       "digest": "de63045f29755d4721c09d54c9b45c2dadb644f4fd7d604d4cac90d96049971c",
@@ -99,6 +129,12 @@
       "text_chat": 8192
     },
     "pandora": {
+      "text_chat": 8192
+    },
+    "management": {
+      "text_chat": 8192
+    },
+    "sportolok": {
       "text_chat": 8192
     }
   }

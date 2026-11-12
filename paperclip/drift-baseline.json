@@ -35,11 +35,6 @@
    "repo": "4d5656499dba3e2674a2737c0162ae0b0713124d6508b7cc9432802e2c5793be",
    "server": "9c9073b7b4562ef20265c964f88023043f765fb7fbb32247559a4a32a3d726cc"
   },
-  "paperclip/factory/worker.py": {
-   "reason": "repository ahead: sqlite PRAGMA synchronous=FULL, plus /factory static serving and /factory/exchange-snapshot routes that the live Caddy answers first; release needs a factory restart",
-   "repo": "7c8cc4646baf09a49713fdd439a9704308649659836fe0ffa513954f8a31c0e1",
-   "server": "87fe2981e84cfec11a8af24fb919aa902060b752cbef4fd73ff0b383a5275fc3"
-  },
   "paperclip/gate.py": {
    "reason": "comment only; verified by syntax-tree comparison with the host copy",
    "repo": "c7986d8c3964ad68decc07a4610d9b2ec9635fc4a530c0d0b9fd9428b1a33efe",
@@ -49,11 +44,6 @@
    "reason": "status wording of agent_status only",
    "repo": "8c86b50d05561dbc6f7421d3ba569d9c62b7bfa653c72aa1912c828138901338",
    "server": "6b21b92d5337ad7485d87483a4db02ec92cb5d39bab5064a51f62d52861d8678"
-  },
-  "paperclip/snapshot.sh": {
-   "reason": "repository ahead: also snapshots /etc/paperclip-perplexity.env; the host backup omits that file today",
-   "repo": "6d6bb11d9f479dcb4dfd31ddc630c1edd654ef063c594b8d50f85d94eaaa9036",
-   "server": "9cb017bd1be6e1f2e941d59c2f15f45c5d30191a9f4fb511af6a1a49c7b3d97b"
   }
  },
  "ignored_json_keys": {

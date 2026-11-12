@@ -766,8 +766,9 @@ class Server(ThreadingHTTPServer):
 
 if __name__ == '__main__':
     tenants = ['classscout', 'habigoal', 'camera', 'pandora']
-    if os.environ.get('GATEWAY_PAPERCLIP_KEY'):
-        tenants.append('paperclip')
+    for optional in ('paperclip', 'management', 'sportolok'):
+        if os.environ.get('GATEWAY_' + optional.upper() + '_KEY'):
+            tenants.append(optional)
     keys = {tenant: os.environ['GATEWAY_' + tenant.upper() + '_KEY'] for tenant in tenants}
     if len(set(keys.values())) != len(keys) or any(len(key) < 32 for key in keys.values()):
         raise RuntimeError('Distinct strong service keys are required')

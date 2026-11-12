@@ -126,7 +126,7 @@ Public routes (Caddy): `/benchmarks/*` static and public; `/v1/{usage,models,cha
 | `POST /internal/model-storage` | loopback and the maintenance key | acquire, renew or release the storage lease |
 | `/chat/`, `/chat/login`, `/chat/api` | Pandora password cookie plus `Origin` check | one in-flight request; the backend then calls the gateway as the `pandora` tenant |
 
-Tenants are `classscout`, `habigoal`, `camera`, `pandora` and, when its key is set, `paperclip`. Each has its own key from the gateway environment (at least 32 characters, all distinct, compared in constant time). Which tenant may run which task is in `config/job-routes.json` (`job-router.v2`).
+Tenants are `classscout`, `habigoal`, `camera`, `pandora` and, when its key is set, `paperclip`, `management` and `sportolok`. Every product that calls a Chatbot API model goes through this one queue; the Racket Land management and Sportolok engines joined on 2026-11-12 (text chat only, the same verified 8192-token profile as ClassScout, no image or Hungarian route). Each has its own key from the gateway environment (at least 32 characters, all distinct, compared in constant time). Which tenant may run which task is in `config/job-routes.json` (`job-router.v2`).
 
 ### Scheduler and limits
 
